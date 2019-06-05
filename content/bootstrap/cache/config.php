@@ -154,10 +154,6 @@
       'name' => 'readme.index',
     ),
   ),
-  '*::debug-server' => 
-  array (
-    'host' => 'tcp://127.0.0.1:9912',
-  ),
   'alidayu::config' => 
   array (
     'app_key' => NULL,
@@ -217,6 +213,10 @@
       'action' => 'Royalcms\\Component\\Readme\\Controllers\\ReadmeController@index',
       'name' => 'readme.index',
     ),
+  ),
+  '*::debug-server' => 
+  array (
+    'host' => 'tcp://127.0.0.1:9912',
   ),
   'app-promotion::package' => 
   array (
@@ -1080,143 +1080,8 @@
   'sentry::config' => 
   array (
     'dsn' => 'https://fc7073447dd44ca2992d59ff400976d3:6b37c9ef5688473a9d02cd02ff91a6f8@exception.ecjia.com/2',
-    'release' => '5.11.0',
+    'release' => '5.12.0',
     'breadcrumbs.sql_bindings' => true,
     'user_context' => false,
-  ),
-  'system::jslang' => 
-  array (
-    'application_page' => 
-    array (
-      'no_message' => '未找到搜索内容!',
-      'start_installation' => '开始安装',
-      'retreat' => '后退',
-      'home' => '首页',
-      'last_page' => '尾页',
-      'previous' => '上一页',
-      'next_page' => '下一页',
-      'no_record' => '没有找到任何记录',
-      'count_num' => '共_TOTAL_条记录 第_START_ 到 第_END_条',
-      'total' => '共0条记录',
-      'retrieval' => '（从_MAX_条数据中检索）',
-      'installing' => '安装中...',
-      'start_install' => '开始安装',
-    ),
-    'logs_page' => 
-    array (
-      'choose_delet_time' => '请先选择删除日志的时间！',
-      'delet_ok_1' => '确定删除',
-      'delet_ok_2' => '的日志吗？',
-      'ok' => '确定',
-      'cancel' => '取消',
-    ),
-    'plugin_page' => 
-    array (
-      'error_intasll' => '参数错误，无法安装！',
-      'error_unintasll' => '参数错误，无法卸载！',
-      'confirm_unintall' => '您确定要卸载这个插件吗？',
-      'ok' => '确定',
-      'cancel' => '取消',
-      'delete_unintall' => '您确定要删除这个插件吗？',
-      'no_delete' => '此插件暂时不能删除。',
-      'home' => '首页',
-      'last_page' => '尾页',
-      'previous' => '上一页',
-      'next_page' => '下一页',
-      'no_record' => '没有找到任何记录',
-      'count_num' => '共_TOTAL_条记录 第_START_ 到 第_END_条',
-      'total' => '共0条记录',
-      'retrieval' => '（从_MAX_条数据中检索）',
-    ),
-    'role_page' => 
-    array (
-      'pls_name' => '请输入用户名！',
-    ),
-    'cache_page' => 
-    array (
-      'start' => '开始',
-      'retreat' => '后退',
-      'pls_type_check' => '请选择要清除的缓存类型！',
-      'clear' => '清除：',
-    ),
-    'license_page' => 
-    array (
-      'start' => '开始',
-      'retreat' => '后退',
-      'pls_type_check' => '请选择要清除的缓存类型！',
-      'clear' => '清除：',
-    ),
-    'privilege_page' => 
-    array (
-      'no_edit' => '此管理员不可以编辑！',
-      'pls_name' => '请输入用户名！',
-      'name_length_check' => '用户名长度不能小于2！',
-      'pls_email' => '请输入邮箱地址！',
-      'email_check' => '请输入正确的邮箱格式！',
-      'pls_password' => '请输入密码！',
-      'password_length_check' => '密码长度不能小于6！',
-      'check_password' => '两次密码不一致！',
-    ),
-    'admin_default_page' => 
-    array (
-      'display_sidebar' => '显示侧边栏',
-      'hide_sidebar' => '隐藏侧边栏',
-      'search_check' => '请先输入搜索信息',
-      'search_no_message' => '未搜索到导航信息',
-      'success' => '操作成功',
-      'fail' => '操作失败',
-      'confirm_jump' => '是否确认跳转？',
-      'ok' => '确定',
-      'cancel' => '取消',
-      'request_failed' => '请求失败，错误编号：',
-      'error_msg' => '，错误信息：',
-    ),
-    'loader_page' => 
-    array (
-      'ok' => '确定',
-      'cancel' => '取消',
-      'confirm_del' => '您确定要删除这条记录吗？',
-      'error' => '参数错误，无法删除！',
-      'confirm' => '您确定要操作所有选中项吗？',
-      'please_select' => '请先选中操作项！',
-      'batch_error' => '批量操作缺少参数！',
-      'parameter_error' => '参数错误，无法选择！',
-      'status_success' => '状态修改成功！',
-      'clone' => 'clone-obj方法未设置data-parent参数。',
-      'missing_parameters' => '缺少参数',
-      'confirm_delete_file' => '您确定要删除此文件吗？',
-    ),
-  ),
-  '*::defaultroutes' => 
-  array (
-  ),
-  'system::public_route' => 
-  array (
-    0 => 'system/privilege/login',
-    1 => 'system/privilege/signin',
-    2 => 'system/get_password/forget_pwd',
-    3 => 'system/get_password/reset_pwd_mail',
-    4 => 'system/get_password/reset_pwd_form',
-    5 => 'system/get_password/reset_pwd',
-  ),
-  'app-maintain::jslang' => 
-  array (
-    'maintain_page' => 
-    array (
-      'running' => '正在运行',
-      'start_operation' => '开始运行',
-    ),
-  ),
-  'cron::config' => 
-  array (
-    'runInterval' => 1,
-    'royalcmsLogging' => true,
-    'databaseLogging' => true,
-    'logOnlyErrorJobsToDatabase' => false,
-    'deleteDatabaseEntriesAfter' => 240,
-    'preventOverlapping' => true,
-    'inTimeCheck' => true,
-    'cronKey' => '',
-    'configlogOnlyErrorJobsToDatabase' => true,
   ),
 );

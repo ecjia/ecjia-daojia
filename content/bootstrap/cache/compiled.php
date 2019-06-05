@@ -5097,6 +5097,660 @@ class Command
 }
 }
 
+namespace League\Flysystem {
+interface AdapterInterface extends ReadInterface
+{
+    const VISIBILITY_PUBLIC = 'public';
+    const VISIBILITY_PRIVATE = 'private';
+    public function write($path, $contents, Config $config);
+    public function writeStream($path, $resource, Config $config);
+    public function update($path, $contents, Config $config);
+    public function updateStream($path, $resource, Config $config);
+    public function rename($path, $newpath);
+    public function copy($path, $newpath);
+    public function delete($path);
+    public function deleteDir($dirname);
+    public function createDir($dirname, Config $config);
+    public function setVisibility($path, $visibility);
+}
+}
+
+namespace League\Flysystem {
+interface ReadInterface
+{
+    public function has($path);
+    public function read($path);
+    public function readStream($path);
+    public function listContents($directory = '', $recursive = false);
+    public function getMetadata($path);
+    public function getSize($path);
+    public function getMimetype($path);
+    public function getTimestamp($path);
+    public function getVisibility($path);
+}
+}
+
+namespace League\Flysystem {
+interface FilesystemInterface
+{
+    public function has($path);
+    public function read($path);
+    public function readStream($path);
+    public function listContents($directory = '', $recursive = false);
+    public function getMetadata($path);
+    public function getSize($path);
+    public function getMimetype($path);
+    public function getTimestamp($path);
+    public function getVisibility($path);
+    public function write($path, $contents, array $config = []);
+    public function writeStream($path, $resource, array $config = []);
+    public function update($path, $contents, array $config = []);
+    public function updateStream($path, $resource, array $config = []);
+    public function rename($path, $newpath);
+    public function copy($path, $newpath);
+    public function delete($path);
+    public function deleteDir($dirname);
+    public function createDir($dirname, array $config = []);
+    public function setVisibility($path, $visibility);
+    public function put($path, $contents, array $config = []);
+    public function putStream($path, $resource, array $config = []);
+    public function readAndDelete($path);
+    public function get($path, Handler $handler = null);
+    public function addPlugin(PluginInterface $plugin);
+}
+}
+
+namespace League\Flysystem\Plugin {
+use BadMethodCallException;
+use League\Flysystem\FilesystemInterface;
+use League\Flysystem\PluginInterface;
+use LogicException;
+trait PluggableTrait
+{
+    protected $plugins = [];
+    public function addPlugin(PluginInterface $plugin)
+    {
+        if (!method_exists($plugin, 'handle')) {
+            throw new LogicException(get_class($plugin) . ' does not have a handle method.');
+        }
+        $this->plugins[$plugin->getMethod()] = $plugin;
+        return $this;
+    }
+    protected function findPlugin($method)
+    {
+        if (!isset($this->plugins[$method])) {
+            throw new PluginNotFoundException('Plugin not found for method: ' . $method);
+        }
+        return $this->plugins[$method];
+    }
+    protected function invokePlugin($method, array $arguments, FilesystemInterface $filesystem)
+    {
+        $plugin = $this->findPlugin($method);
+        $plugin->setFilesystem($filesystem);
+        $callback = [$plugin, 'handle'];
+        return call_user_func_array($callback, $arguments);
+    }
+    public function __call($method, array $arguments)
+    {
+        try {
+            return $this->invokePlugin($method, $arguments, $this);
+        } catch (PluginNotFoundException $e) {
+            throw new BadMethodCallException('Call to undefined method ' . get_class($this) . '::' . $method);
+        }
+    }
+}
+}
+
+namespace League\Flysystem\Adapter {
+use League\Flysystem\AdapterInterface;
+abstract class AbstractAdapter implements AdapterInterface
+{
+    protected $pathPrefix;
+    protected $pathSeparator = '/';
+    public function setPathPrefix($prefix)
+    {
+        $prefix = (string) $prefix;
+        if ($prefix === '') {
+            $this->pathPrefix = null;
+            return;
+        }
+        $this->pathPrefix = rtrim($prefix, '\\/') . $this->pathSeparator;
+    }
+    public function getPathPrefix()
+    {
+        return $this->pathPrefix;
+    }
+    public function applyPathPrefix($path)
+    {
+        return $this->getPathPrefix() . ltrim($path, '\\/');
+    }
+    public function removePathPrefix($path)
+    {
+        return substr($path, strlen($this->getPathPrefix()));
+    }
+}
+}
+
+namespace League\Flysystem\Adapter {
+use DirectoryIterator;
+use FilesystemIterator;
+use finfo as Finfo;
+use League\Flysystem\AdapterInterface;
+use League\Flysystem\Config;
+use League\Flysystem\Exception;
+use League\Flysystem\NotSupportedException;
+use League\Flysystem\UnreadableFileException;
+use League\Flysystem\Util;
+use LogicException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
+class Local extends AbstractAdapter
+{
+    const SKIP_LINKS = 01;
+    const DISALLOW_LINKS = 02;
+    protected static $permissions = ['file' => ['public' => 0644, 'private' => 0600], 'dir' => ['public' => 0755, 'private' => 0700]];
+    protected $pathSeparator = DIRECTORY_SEPARATOR;
+    protected $permissionMap;
+    protected $writeFlags;
+    private $linkHandling;
+    public function __construct($root, $writeFlags = LOCK_EX, $linkHandling = self::DISALLOW_LINKS, array $permissions = [])
+    {
+        $root = is_link($root) ? realpath($root) : $root;
+        $this->permissionMap = array_replace_recursive(static::$permissions, $permissions);
+        $this->ensureDirectory($root);
+        if (!is_dir($root) || !is_readable($root)) {
+            throw new LogicException('The root path ' . $root . ' is not readable.');
+        }
+        $this->setPathPrefix($root);
+        $this->writeFlags = $writeFlags;
+        $this->linkHandling = $linkHandling;
+    }
+    protected function ensureDirectory($root)
+    {
+        if (!is_dir($root)) {
+            $umask = umask(0);
+            @mkdir($root, $this->permissionMap['dir']['public'], true);
+            umask($umask);
+            if (!is_dir($root)) {
+                throw new Exception(sprintf('Impossible to create the root directory "%s".', $root));
+            }
+        }
+    }
+    public function has($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        return file_exists($location);
+    }
+    public function write($path, $contents, Config $config)
+    {
+        $location = $this->applyPathPrefix($path);
+        $this->ensureDirectory(dirname($location));
+        if (($size = file_put_contents($location, $contents, $this->writeFlags)) === false) {
+            return false;
+        }
+        $type = 'file';
+        $result = compact('contents', 'type', 'size', 'path');
+        if ($visibility = $config->get('visibility')) {
+            $result['visibility'] = $visibility;
+            $this->setVisibility($path, $visibility);
+        }
+        return $result;
+    }
+    public function writeStream($path, $resource, Config $config)
+    {
+        $location = $this->applyPathPrefix($path);
+        $this->ensureDirectory(dirname($location));
+        $stream = fopen($location, 'w+b');
+        if (!$stream) {
+            return false;
+        }
+        stream_copy_to_stream($resource, $stream);
+        if (!fclose($stream)) {
+            return false;
+        }
+        if ($visibility = $config->get('visibility')) {
+            $this->setVisibility($path, $visibility);
+        }
+        $type = 'file';
+        return compact('type', 'path', 'visibility');
+    }
+    public function readStream($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        $stream = fopen($location, 'rb');
+        return ['type' => 'file', 'path' => $path, 'stream' => $stream];
+    }
+    public function updateStream($path, $resource, Config $config)
+    {
+        return $this->writeStream($path, $resource, $config);
+    }
+    public function update($path, $contents, Config $config)
+    {
+        $location = $this->applyPathPrefix($path);
+        $mimetype = Util::guessMimeType($path, $contents);
+        $size = file_put_contents($location, $contents, $this->writeFlags);
+        if ($size === false) {
+            return false;
+        }
+        $type = 'file';
+        return compact('type', 'path', 'size', 'contents', 'mimetype');
+    }
+    public function read($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        $contents = file_get_contents($location);
+        if ($contents === false) {
+            return false;
+        }
+        return ['type' => 'file', 'path' => $path, 'contents' => $contents];
+    }
+    public function rename($path, $newpath)
+    {
+        $location = $this->applyPathPrefix($path);
+        $destination = $this->applyPathPrefix($newpath);
+        $parentDirectory = $this->applyPathPrefix(Util::dirname($newpath));
+        $this->ensureDirectory($parentDirectory);
+        return rename($location, $destination);
+    }
+    public function copy($path, $newpath)
+    {
+        $location = $this->applyPathPrefix($path);
+        $destination = $this->applyPathPrefix($newpath);
+        $this->ensureDirectory(dirname($destination));
+        return copy($location, $destination);
+    }
+    public function delete($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        return unlink($location);
+    }
+    public function listContents($directory = '', $recursive = false)
+    {
+        $result = [];
+        $location = $this->applyPathPrefix($directory);
+        if (!is_dir($location)) {
+            return [];
+        }
+        $iterator = $recursive ? $this->getRecursiveDirectoryIterator($location) : $this->getDirectoryIterator($location);
+        foreach ($iterator as $file) {
+            $path = $this->getFilePath($file);
+            if (preg_match('#(^|/|\\\\)\\.{1,2}$#', $path)) {
+                continue;
+            }
+            $result[] = $this->normalizeFileInfo($file);
+        }
+        return array_filter($result);
+    }
+    public function getMetadata($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        $info = new SplFileInfo($location);
+        return $this->normalizeFileInfo($info);
+    }
+    public function getSize($path)
+    {
+        return $this->getMetadata($path);
+    }
+    public function getMimetype($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        $finfo = new Finfo(FILEINFO_MIME_TYPE);
+        $mimetype = $finfo->file($location);
+        if (in_array($mimetype, ['application/octet-stream', 'inode/x-empty'])) {
+            $mimetype = Util\MimeType::detectByFilename($location);
+        }
+        return ['path' => $path, 'type' => 'file', 'mimetype' => $mimetype];
+    }
+    public function getTimestamp($path)
+    {
+        return $this->getMetadata($path);
+    }
+    public function getVisibility($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        clearstatcache(false, $location);
+        $permissions = octdec(substr(sprintf('%o', fileperms($location)), -4));
+        $visibility = $permissions & 044 ? AdapterInterface::VISIBILITY_PUBLIC : AdapterInterface::VISIBILITY_PRIVATE;
+        return compact('path', 'visibility');
+    }
+    public function setVisibility($path, $visibility)
+    {
+        $location = $this->applyPathPrefix($path);
+        $type = is_dir($location) ? 'dir' : 'file';
+        $success = chmod($location, $this->permissionMap[$type][$visibility]);
+        if ($success === false) {
+            return false;
+        }
+        return compact('path', 'visibility');
+    }
+    public function createDir($dirname, Config $config)
+    {
+        $location = $this->applyPathPrefix($dirname);
+        $umask = umask(0);
+        $visibility = $config->get('visibility', 'public');
+        if (!is_dir($location) && !mkdir($location, $this->permissionMap['dir'][$visibility], true)) {
+            $return = false;
+        } else {
+            $return = ['path' => $dirname, 'type' => 'dir'];
+        }
+        umask($umask);
+        return $return;
+    }
+    public function deleteDir($dirname)
+    {
+        $location = $this->applyPathPrefix($dirname);
+        if (!is_dir($location)) {
+            return false;
+        }
+        $contents = $this->getRecursiveDirectoryIterator($location, RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($contents as $file) {
+            $this->guardAgainstUnreadableFileInfo($file);
+            $this->deleteFileInfoObject($file);
+        }
+        return rmdir($location);
+    }
+    protected function deleteFileInfoObject(SplFileInfo $file)
+    {
+        switch ($file->getType()) {
+            case 'dir':
+                rmdir($file->getRealPath());
+                break;
+            case 'link':
+                unlink($file->getPathname());
+                break;
+            default:
+                unlink($file->getRealPath());
+        }
+    }
+    protected function normalizeFileInfo(SplFileInfo $file)
+    {
+        if (!$file->isLink()) {
+            return $this->mapFileInfo($file);
+        }
+        if ($this->linkHandling & self::DISALLOW_LINKS) {
+            throw NotSupportedException::forLink($file);
+        }
+    }
+    protected function getFilePath(SplFileInfo $file)
+    {
+        $location = $file->getPathname();
+        $path = $this->removePathPrefix($location);
+        return trim(str_replace('\\', '/', $path), '/');
+    }
+    protected function getRecursiveDirectoryIterator($path, $mode = RecursiveIteratorIterator::SELF_FIRST)
+    {
+        return new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS), $mode);
+    }
+    protected function getDirectoryIterator($path)
+    {
+        $iterator = new DirectoryIterator($path);
+        return $iterator;
+    }
+    protected function mapFileInfo(SplFileInfo $file)
+    {
+        $normalized = ['type' => $file->getType(), 'path' => $this->getFilePath($file)];
+        $normalized['timestamp'] = $file->getMTime();
+        if ($normalized['type'] === 'file') {
+            $normalized['size'] = $file->getSize();
+        }
+        return $normalized;
+    }
+    protected function guardAgainstUnreadableFileInfo(SplFileInfo $file)
+    {
+        if (!$file->isReadable()) {
+            throw UnreadableFileException::forFileInfo($file);
+        }
+    }
+}
+}
+
+namespace League\Flysystem {
+use InvalidArgumentException;
+use League\Flysystem\Adapter\CanOverwriteFiles;
+use League\Flysystem\Plugin\PluggableTrait;
+use League\Flysystem\Util\ContentListingFormatter;
+class Filesystem implements FilesystemInterface
+{
+    use PluggableTrait;
+    use ConfigAwareTrait;
+    protected $adapter;
+    public function __construct(AdapterInterface $adapter, $config = null)
+    {
+        $this->adapter = $adapter;
+        $this->setConfig($config);
+    }
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+    public function has($path)
+    {
+        $path = Util::normalizePath($path);
+        return strlen($path) === 0 ? false : (bool) $this->getAdapter()->has($path);
+    }
+    public function write($path, $contents, array $config = [])
+    {
+        $path = Util::normalizePath($path);
+        $this->assertAbsent($path);
+        $config = $this->prepareConfig($config);
+        return (bool) $this->getAdapter()->write($path, $contents, $config);
+    }
+    public function writeStream($path, $resource, array $config = [])
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
+        }
+        $path = Util::normalizePath($path);
+        $this->assertAbsent($path);
+        $config = $this->prepareConfig($config);
+        Util::rewindStream($resource);
+        return (bool) $this->getAdapter()->writeStream($path, $resource, $config);
+    }
+    public function put($path, $contents, array $config = [])
+    {
+        $path = Util::normalizePath($path);
+        $config = $this->prepareConfig($config);
+        if (!$this->adapter instanceof CanOverwriteFiles && $this->has($path)) {
+            return (bool) $this->getAdapter()->update($path, $contents, $config);
+        }
+        return (bool) $this->getAdapter()->write($path, $contents, $config);
+    }
+    public function putStream($path, $resource, array $config = [])
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
+        }
+        $path = Util::normalizePath($path);
+        $config = $this->prepareConfig($config);
+        Util::rewindStream($resource);
+        if (!$this->adapter instanceof CanOverwriteFiles && $this->has($path)) {
+            return (bool) $this->getAdapter()->updateStream($path, $resource, $config);
+        }
+        return (bool) $this->getAdapter()->writeStream($path, $resource, $config);
+    }
+    public function readAndDelete($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        $contents = $this->read($path);
+        if ($contents === false) {
+            return false;
+        }
+        $this->delete($path);
+        return $contents;
+    }
+    public function update($path, $contents, array $config = [])
+    {
+        $path = Util::normalizePath($path);
+        $config = $this->prepareConfig($config);
+        $this->assertPresent($path);
+        return (bool) $this->getAdapter()->update($path, $contents, $config);
+    }
+    public function updateStream($path, $resource, array $config = [])
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
+        }
+        $path = Util::normalizePath($path);
+        $config = $this->prepareConfig($config);
+        $this->assertPresent($path);
+        Util::rewindStream($resource);
+        return (bool) $this->getAdapter()->updateStream($path, $resource, $config);
+    }
+    public function read($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->read($path))) {
+            return false;
+        }
+        return $object['contents'];
+    }
+    public function readStream($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->readStream($path))) {
+            return false;
+        }
+        return $object['stream'];
+    }
+    public function rename($path, $newpath)
+    {
+        $path = Util::normalizePath($path);
+        $newpath = Util::normalizePath($newpath);
+        $this->assertPresent($path);
+        $this->assertAbsent($newpath);
+        return (bool) $this->getAdapter()->rename($path, $newpath);
+    }
+    public function copy($path, $newpath)
+    {
+        $path = Util::normalizePath($path);
+        $newpath = Util::normalizePath($newpath);
+        $this->assertPresent($path);
+        $this->assertAbsent($newpath);
+        return $this->getAdapter()->copy($path, $newpath);
+    }
+    public function delete($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        return $this->getAdapter()->delete($path);
+    }
+    public function deleteDir($dirname)
+    {
+        $dirname = Util::normalizePath($dirname);
+        if ($dirname === '') {
+            throw new RootViolationException('Root directories can not be deleted.');
+        }
+        return (bool) $this->getAdapter()->deleteDir($dirname);
+    }
+    public function createDir($dirname, array $config = [])
+    {
+        $dirname = Util::normalizePath($dirname);
+        $config = $this->prepareConfig($config);
+        return (bool) $this->getAdapter()->createDir($dirname, $config);
+    }
+    public function listContents($directory = '', $recursive = false)
+    {
+        $directory = Util::normalizePath($directory);
+        $contents = $this->getAdapter()->listContents($directory, $recursive);
+        return (new ContentListingFormatter($directory, $recursive))->formatListing($contents);
+    }
+    public function getMimetype($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->getMimetype($path)) || !array_key_exists('mimetype', $object)) {
+            return false;
+        }
+        return $object['mimetype'];
+    }
+    public function getTimestamp($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->getTimestamp($path)) || !array_key_exists('timestamp', $object)) {
+            return false;
+        }
+        return $object['timestamp'];
+    }
+    public function getVisibility($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->getVisibility($path)) || !array_key_exists('visibility', $object)) {
+            return false;
+        }
+        return $object['visibility'];
+    }
+    public function getSize($path)
+    {
+        $path = Util::normalizePath($path);
+        if (!($object = $this->getAdapter()->getSize($path)) || !array_key_exists('size', $object)) {
+            return false;
+        }
+        return (int) $object['size'];
+    }
+    public function setVisibility($path, $visibility)
+    {
+        $path = Util::normalizePath($path);
+        return (bool) $this->getAdapter()->setVisibility($path, $visibility);
+    }
+    public function getMetadata($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+        return $this->getAdapter()->getMetadata($path);
+    }
+    public function get($path, Handler $handler = null)
+    {
+        $path = Util::normalizePath($path);
+        if (!$handler) {
+            $metadata = $this->getMetadata($path);
+            $handler = $metadata['type'] === 'file' ? new File($this, $path) : new Directory($this, $path);
+        }
+        $handler->setPath($path);
+        $handler->setFilesystem($this);
+        return $handler;
+    }
+    public function assertPresent($path)
+    {
+        if ($this->config->get('disable_asserts', false) === false && !$this->has($path)) {
+            throw new FileNotFoundException($path);
+        }
+    }
+    public function assertAbsent($path)
+    {
+        if ($this->config->get('disable_asserts', false) === false && $this->has($path)) {
+            throw new FileExistsException($path);
+        }
+    }
+}
+}
+
+namespace League\Flysystem {
+trait ConfigAwareTrait
+{
+    protected $config;
+    protected function setConfig($config)
+    {
+        $this->config = $config ? Util::ensureConfig($config) : new Config();
+    }
+    public function getConfig()
+    {
+        return $this->config;
+    }
+    protected function prepareConfig(array $config)
+    {
+        $config = new Config($config);
+        $config->setFallback($this->getConfig());
+        return $config;
+    }
+}
+}
+
 namespace Royalcms\Component\Container {
 use Closure;
 use ArrayAccess;
@@ -6095,6 +6749,52 @@ interface Repository
     public function sear($key, Closure $callback);
     public function rememberForever($key, Closure $callback);
     public function forget($key);
+}
+}
+
+namespace Royalcms\Component\Contracts\Filesystem {
+interface Cloud extends Filesystem
+{
+}
+}
+
+namespace Royalcms\Component\Contracts\Filesystem {
+interface Factory
+{
+    public function disk($name = null);
+}
+}
+
+namespace Royalcms\Component\Contracts\Filesystem {
+interface Filesystem
+{
+    const VISIBILITY_PUBLIC = 'public';
+    const VISIBILITY_PRIVATE = 'private';
+    public function exists($path);
+    public function get($path);
+    public function put($path, $contents, $visibility = null);
+    public function getVisibility($path);
+    public function setVisibility($path, $visibility);
+    public function prepend($path, $data);
+    public function append($path, $data);
+    public function delete($paths);
+    public function copy($from, $to);
+    public function move($from, $to);
+    public function size($path);
+    public function lastModified($path);
+    public function files($directory = null, $recursive = false);
+    public function allFiles($directory = null);
+    public function directories($directory = null, $recursive = false);
+    public function allDirectories($directory = null);
+    public function makeDirectory($path);
+    public function deleteDirectory($directory);
+}
+}
+
+namespace Royalcms\Component\Contracts\Filesystem {
+use Exception;
+class FileNotFoundException extends Exception
+{
 }
 }
 
@@ -12145,6 +12845,19 @@ class File extends Facade
 }
 }
 
+namespace Royalcms\Component\Support\Facades {
+class Logger extends Facade
+{
+    const LOG_ERROR = 'error';
+    const LOG_SQL = 'sql';
+    const LOG_WARNING = 'warning';
+    protected static function getFacadeAccessor()
+    {
+        return 'log.store';
+    }
+}
+}
+
 namespace Royalcms\Component\Validation {
 use Royalcms\Component\Support\ServiceProvider;
 use Royalcms\Component\Contracts\Validation\ValidatesWhenResolved;
@@ -13354,6 +14067,214 @@ trait FileHelperTrait
 }
 
 namespace Royalcms\Component\Filesystem {
+use RuntimeException;
+use InvalidArgumentException;
+use Royalcms\Component\Support\Collection;
+use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FileNotFoundException;
+use League\Flysystem\Adapter\Local as LocalAdapter;
+use Royalcms\Component\Contracts\Filesystem\Filesystem as FilesystemContract;
+use Royalcms\Component\Contracts\Filesystem\Cloud as CloudFilesystemContract;
+use Royalcms\Component\Contracts\Filesystem\FileNotFoundException as ContractFileNotFoundException;
+use Royalcms\Component\Support\Str;
+class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
+{
+    protected $driver;
+    public function __construct(FilesystemInterface $driver)
+    {
+        $this->driver = $driver;
+    }
+    public function exists($path)
+    {
+        return $this->driver->has($path);
+    }
+    public function path($path)
+    {
+        return $this->driver->getAdapter()->getPathPrefix() . $path;
+    }
+    public function get($path)
+    {
+        try {
+            return $this->driver->read($path);
+        } catch (FileNotFoundException $e) {
+            throw new ContractFileNotFoundException($path, $e->getCode(), $e);
+        }
+    }
+    public function put($path, $contents, $visibility = null)
+    {
+        if ($visibility = $this->parseVisibility($visibility)) {
+            $config = ['visibility' => $visibility];
+        } else {
+            $config = [];
+        }
+        if (is_resource($contents)) {
+            return $this->driver->putStream($path, $contents, $config);
+        } else {
+            return $this->driver->put($path, $contents, $config);
+        }
+    }
+    public function putFile($path, $file, $options = [])
+    {
+        return $this->putFileAs($path, $file, $file->hashName(), $options);
+    }
+    public function putFileAs($path, $file, $name, $options = [])
+    {
+        $stream = fopen($file->getRealPath(), 'r+');
+        $result = $this->put($path = trim($path . '/' . $name, '/'), $stream, $options);
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
+        return $result ? $path : false;
+    }
+    public function getVisibility($path)
+    {
+        if ($this->driver->getVisibility($path) == AdapterInterface::VISIBILITY_PUBLIC) {
+            return FilesystemContract::VISIBILITY_PUBLIC;
+        }
+        return FilesystemContract::VISIBILITY_PRIVATE;
+    }
+    public function setVisibility($path, $visibility)
+    {
+        return $this->driver->setVisibility($path, $this->parseVisibility($visibility));
+    }
+    public function prepend($path, $data, $separator = PHP_EOL)
+    {
+        if ($this->exists($path)) {
+            return $this->put($path, $data . $separator . $this->get($path));
+        }
+        return $this->put($path, $data);
+    }
+    public function append($path, $data, $separator = PHP_EOL)
+    {
+        if ($this->exists($path)) {
+            return $this->put($path, $this->get($path) . $separator . $data);
+        }
+        return $this->put($path, $data);
+    }
+    public function delete($paths)
+    {
+        $paths = is_array($paths) ? $paths : func_get_args();
+        $success = true;
+        foreach ($paths as $path) {
+            try {
+                if (!$this->driver->delete($path)) {
+                    $success = false;
+                }
+            } catch (FileNotFoundException $e) {
+                $success = false;
+            }
+        }
+        return $success;
+    }
+    public function copy($from, $to)
+    {
+        return $this->driver->copy($from, $to);
+    }
+    public function move($from, $to)
+    {
+        return $this->driver->rename($from, $to);
+    }
+    public function size($path)
+    {
+        return $this->driver->getSize($path);
+    }
+    public function mimeType($path)
+    {
+        return $this->driver->getMimetype($path);
+    }
+    public function lastModified($path)
+    {
+        return $this->driver->getTimestamp($path);
+    }
+    public function url($path)
+    {
+        $adapter = $this->driver->getAdapter();
+        if (method_exists($adapter, 'getUrl')) {
+            return $adapter->getUrl($path);
+        } elseif ($adapter instanceof LocalAdapter) {
+            return $this->getLocalUrl($path);
+        } else {
+            throw new RuntimeException('This driver does not support retrieving URLs.');
+        }
+    }
+    protected function getLocalUrl($path)
+    {
+        $config = $this->driver->getConfig();
+        if ($config->has('url')) {
+            return rtrim($config->get('url'), '/') . '/' . ltrim($path, '/');
+        }
+        $path = SITE_UPLOAD_URL . '/' . $path;
+        if (Str::contains($path, '/content/uploads/public/')) {
+            return Str::replaceFirst('/public/', '/', $path);
+        } else {
+            return $path;
+        }
+    }
+    public function temporaryUrl($path, $expiration, array $options = [])
+    {
+        $adapter = $this->driver->getAdapter();
+        if (method_exists($adapter, 'getTemporaryUrl')) {
+            return $adapter->getTemporaryUrl($path, $expiration, $options);
+        } else {
+            throw new RuntimeException('This driver does not support creating temporary URLs.');
+        }
+    }
+    public function files($directory = null, $recursive = false)
+    {
+        $contents = $this->driver->listContents($directory, $recursive);
+        return $this->filterContentsByType($contents, 'file');
+    }
+    public function allFiles($directory = null)
+    {
+        return $this->files($directory, true);
+    }
+    public function directories($directory = null, $recursive = false)
+    {
+        $contents = $this->driver->listContents($directory, $recursive);
+        return $this->filterContentsByType($contents, 'dir');
+    }
+    public function allDirectories($directory = null)
+    {
+        return $this->directories($directory, true);
+    }
+    public function makeDirectory($path)
+    {
+        return $this->driver->createDir($path);
+    }
+    public function deleteDirectory($directory)
+    {
+        return $this->driver->deleteDir($directory);
+    }
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+    protected function filterContentsByType($contents, $type)
+    {
+        return Collection::make($contents)->where('type', $type)->pluck('path')->values()->all();
+    }
+    protected function parseVisibility($visibility)
+    {
+        if (is_null($visibility)) {
+            return null;
+        }
+        switch ($visibility) {
+            case FilesystemContract::VISIBILITY_PUBLIC:
+                return AdapterInterface::VISIBILITY_PUBLIC;
+            case FilesystemContract::VISIBILITY_PRIVATE:
+                return AdapterInterface::VISIBILITY_PRIVATE;
+        }
+        throw new InvalidArgumentException('Unknown visibility: ' . $visibility);
+    }
+    public function __call($method, array $parameters)
+    {
+        return call_user_func_array([$this->driver, $method], $parameters);
+    }
+}
+}
+
+namespace Royalcms\Component\Filesystem {
 use ErrorException;
 use FilesystemIterator;
 use Symfony\Component\Finder\Finder;
@@ -13537,6 +14458,99 @@ class Filesystem
     public function cleanDirectory($directory)
     {
         return $this->deleteDirectory($directory, true);
+    }
+}
+}
+
+namespace Royalcms\Component\Filesystem {
+use Closure;
+use Royalcms\Component\Support\Arr;
+use InvalidArgumentException;
+use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Filesystem as Flysystem;
+use League\Flysystem\Adapter\Ftp as FtpAdapter;
+use League\Flysystem\Adapter\Local as LocalAdapter;
+use Royalcms\Component\Contracts\Filesystem\Factory as FactoryContract;
+class FilesystemManager implements FactoryContract
+{
+    protected $royalcms;
+    protected $disks = [];
+    protected $customCreators = [];
+    public function __construct($royalcms)
+    {
+        $this->royalcms = $royalcms;
+    }
+    public function drive($name = null)
+    {
+        return $this->disk($name);
+    }
+    public function disk($name = null)
+    {
+        $name = $name ?: $this->getDefaultDriver();
+        return $this->disks[$name] = $this->get($name);
+    }
+    protected function get($name)
+    {
+        return isset($this->disks[$name]) ? $this->disks[$name] : $this->resolve($name);
+    }
+    protected function resolve($name)
+    {
+        $config = $this->getConfig($name);
+        if (isset($this->customCreators[$config['driver']])) {
+            return $this->callCustomCreator($config);
+        }
+        $driverMethod = 'create' . ucfirst($config['driver']) . 'Driver';
+        if (method_exists($this, $driverMethod)) {
+            return $this->{$driverMethod}($config);
+        } else {
+            throw new InvalidArgumentException("Driver [{$config['driver']}] not supported.");
+        }
+    }
+    protected function callCustomCreator(array $config)
+    {
+        $driver = $this->customCreators[$config['driver']]($this->royalcms, $config);
+        if ($driver instanceof FilesystemInterface) {
+            return $this->adapt($driver);
+        }
+        return $driver;
+    }
+    public function createLocalDriver(array $config)
+    {
+        $permissions = isset($config['permissions']) ? $config['permissions'] : [];
+        $links = Arr::get($config, 'links') === 'skip' ? LocalAdapter::SKIP_LINKS : LocalAdapter::DISALLOW_LINKS;
+        return $this->adapt($this->createFlysystem(new LocalAdapter($config['root'], LOCK_EX, $links, $permissions), $config));
+    }
+    public function createFtpDriver(array $config)
+    {
+        $ftpConfig = Arr::only($config, ['host', 'username', 'password', 'port', 'root', 'passive', 'ssl', 'timeout']);
+        return $this->adapt($this->createFlysystem(new FtpAdapter($ftpConfig), $config));
+    }
+    protected function createFlysystem(AdapterInterface $adapter, array $config)
+    {
+        $config = Arr::only($config, ['visibility', 'disable_asserts']);
+        return new Flysystem($adapter, count($config) > 0 ? $config : null);
+    }
+    protected function adapt(FilesystemInterface $filesystem)
+    {
+        return new FilesystemAdapter($filesystem);
+    }
+    protected function getConfig($name)
+    {
+        return $this->royalcms['config']["filesystems.disks.{$name}"];
+    }
+    public function getDefaultDriver()
+    {
+        return $this->royalcms['config']['filesystems.default'];
+    }
+    public function extend($driver, Closure $callback)
+    {
+        $this->customCreators[$driver] = $callback;
+        return $this;
+    }
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->disk(), $method], $parameters);
     }
 }
 }
@@ -15638,6 +16652,1322 @@ class UriValidator implements ValidatorInterface
     {
         $path = $request->path() == '/' ? '/' : '/' . $request->path();
         return preg_match($route->getCompiled()->getRegex(), rawurldecode($path));
+    }
+}
+}
+
+namespace Royalcms\Component\Database\Query {
+use Closure;
+use BadMethodCallException;
+use Royalcms\Component\Support\Arr;
+use Royalcms\Component\Support\Str;
+use InvalidArgumentException;
+use Royalcms\Component\Pagination\Paginator;
+use Royalcms\Component\Support\Traits\Macroable;
+use Royalcms\Component\Contracts\Support\Arrayable;
+use Royalcms\Component\Database\ConnectionInterface;
+use Royalcms\Component\Database\Query\Grammars\Grammar;
+use Royalcms\Component\Pagination\LengthAwarePaginator;
+use Royalcms\Component\Database\Query\Processors\Processor;
+class Builder
+{
+    use Macroable {
+        __call as macroCall;
+    }
+    protected $connection;
+    protected $grammar;
+    protected $processor;
+    protected $bindings = ['select' => [], 'join' => [], 'where' => [], 'having' => [], 'order' => [], 'union' => []];
+    public $aggregate;
+    public $columns;
+    public $distinct = false;
+    public $from;
+    public $joins;
+    public $wheres;
+    public $groups;
+    public $havings;
+    public $orders;
+    public $limit;
+    public $offset;
+    public $unions;
+    public $unionLimit;
+    public $unionOffset;
+    public $unionOrders;
+    public $lock;
+    protected $backups = [];
+    protected $bindingBackups = [];
+    protected $operators = ['=', '<', '>', '<=', '>=', '<>', '!=', 'like', 'like binary', 'not like', 'between', 'ilike', '&', '|', '^', '<<', '>>', 'rlike', 'regexp', 'not regexp', '~', '~*', '!~', '!~*', 'similar to', 'not similar to'];
+    protected $useWritePdo = false;
+    public function __construct(ConnectionInterface $connection, Grammar $grammar, Processor $processor)
+    {
+        $this->grammar = $grammar;
+        $this->processor = $processor;
+        $this->connection = $connection;
+    }
+    public function select($columns = ['*'])
+    {
+        $this->columns = is_array($columns) ? $columns : func_get_args();
+        return $this;
+    }
+    public function selectRaw($expression, array $bindings = [])
+    {
+        $this->addSelect(new Expression($expression));
+        if ($bindings) {
+            $this->addBinding($bindings, 'select');
+        }
+        return $this;
+    }
+    public function selectSub($query, $as)
+    {
+        if ($query instanceof Closure) {
+            $callback = $query;
+            $callback($query = $this->newQuery());
+        }
+        if ($query instanceof self) {
+            $bindings = $query->getBindings();
+            $query = $query->toSql();
+        } elseif (is_string($query)) {
+            $bindings = [];
+        } else {
+            throw new InvalidArgumentException();
+        }
+        return $this->selectRaw('(' . $query . ') as ' . $this->grammar->wrap($as), $bindings);
+    }
+    public function addSelect($column)
+    {
+        $column = is_array($column) ? $column : func_get_args();
+        $this->columns = array_merge((array) $this->columns, $column);
+        return $this;
+    }
+    public function distinct()
+    {
+        $this->distinct = true;
+        return $this;
+    }
+    public function from($table)
+    {
+        $this->from = $table;
+        return $this;
+    }
+    public function join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
+    {
+        if ($one instanceof Closure) {
+            $join = new JoinClause($type, $table);
+            call_user_func($one, $join);
+            $this->joins[] = $join;
+            $this->addBinding($join->bindings, 'join');
+        } else {
+            $join = new JoinClause($type, $table);
+            $this->joins[] = $join->on($one, $operator, $two, 'and', $where);
+            $this->addBinding($join->bindings, 'join');
+        }
+        return $this;
+    }
+    public function joinWhere($table, $one, $operator, $two, $type = 'inner')
+    {
+        return $this->join($table, $one, $operator, $two, $type, true);
+    }
+    public function leftJoin($table, $first, $operator = null, $second = null)
+    {
+        return $this->join($table, $first, $operator, $second, 'left');
+    }
+    public function leftJoinWhere($table, $one, $operator, $two)
+    {
+        return $this->joinWhere($table, $one, $operator, $two, 'left');
+    }
+    public function rightJoin($table, $first, $operator = null, $second = null)
+    {
+        return $this->join($table, $first, $operator, $second, 'right');
+    }
+    public function rightJoinWhere($table, $one, $operator, $two)
+    {
+        return $this->joinWhere($table, $one, $operator, $two, 'right');
+    }
+    public function where($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        if (is_array($column)) {
+            return $this->whereNested(function ($query) use($column) {
+                foreach ($column as $key => $value) {
+                    $query->where($key, '=', $value);
+                }
+            }, $boolean);
+        }
+        if (func_num_args() == 2) {
+            list($value, $operator) = [$operator, '='];
+        } elseif ($this->invalidOperatorAndValue($operator, $value)) {
+            throw new InvalidArgumentException('Illegal operator and value combination.');
+        }
+        if ($column instanceof Closure) {
+            return $this->whereNested($column, $boolean);
+        }
+        if (!in_array(strtolower($operator), $this->operators, true)) {
+            list($value, $operator) = [$operator, '='];
+        }
+        if ($value instanceof Closure) {
+            return $this->whereSub($column, $operator, $value, $boolean);
+        }
+        if (is_null($value)) {
+            return $this->whereNull($column, $boolean, $operator != '=');
+        }
+        $type = 'Basic';
+        $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
+        if (!$value instanceof Expression) {
+            $this->addBinding($value, 'where');
+        }
+        return $this;
+    }
+    public function orWhere($column, $operator = null, $value = null)
+    {
+        return $this->where($column, $operator, $value, 'or');
+    }
+    protected function invalidOperatorAndValue($operator, $value)
+    {
+        $isOperator = in_array($operator, $this->operators);
+        return $isOperator && $operator != '=' && is_null($value);
+    }
+    public function whereRaw($sql, array $bindings = [], $boolean = 'and')
+    {
+        $type = 'raw';
+        $this->wheres[] = compact('type', 'sql', 'boolean');
+        $this->addBinding($bindings, 'where');
+        return $this;
+    }
+    public function orWhereRaw($sql, array $bindings = [])
+    {
+        return $this->whereRaw($sql, $bindings, 'or');
+    }
+    public function whereBetween($column, array $values, $boolean = 'and', $not = false)
+    {
+        $type = 'between';
+        $this->wheres[] = compact('column', 'type', 'boolean', 'not');
+        $this->addBinding($values, 'where');
+        return $this;
+    }
+    public function orWhereBetween($column, array $values)
+    {
+        return $this->whereBetween($column, $values, 'or');
+    }
+    public function whereNotBetween($column, array $values, $boolean = 'and')
+    {
+        return $this->whereBetween($column, $values, $boolean, true);
+    }
+    public function orWhereNotBetween($column, array $values)
+    {
+        return $this->whereNotBetween($column, $values, 'or');
+    }
+    public function whereNested(Closure $callback, $boolean = 'and')
+    {
+        $query = $this->newQuery();
+        $query->from($this->from);
+        call_user_func($callback, $query);
+        return $this->addNestedWhereQuery($query, $boolean);
+    }
+    public function addNestedWhereQuery($query, $boolean = 'and')
+    {
+        if (count($query->wheres)) {
+            $type = 'Nested';
+            $this->wheres[] = compact('type', 'query', 'boolean');
+            $this->addBinding($query->getBindings(), 'where');
+        }
+        return $this;
+    }
+    protected function whereSub($column, $operator, Closure $callback, $boolean)
+    {
+        $type = 'Sub';
+        $query = $this->newQuery();
+        call_user_func($callback, $query);
+        $this->wheres[] = compact('type', 'column', 'operator', 'query', 'boolean');
+        $this->addBinding($query->getBindings(), 'where');
+        return $this;
+    }
+    public function whereExists(Closure $callback, $boolean = 'and', $not = false)
+    {
+        $type = $not ? 'NotExists' : 'Exists';
+        $query = $this->newQuery();
+        call_user_func($callback, $query);
+        $this->wheres[] = compact('type', 'operator', 'query', 'boolean');
+        $this->addBinding($query->getBindings(), 'where');
+        return $this;
+    }
+    public function orWhereExists(Closure $callback, $not = false)
+    {
+        return $this->whereExists($callback, 'or', $not);
+    }
+    public function whereNotExists(Closure $callback, $boolean = 'and')
+    {
+        return $this->whereExists($callback, $boolean, true);
+    }
+    public function orWhereNotExists(Closure $callback)
+    {
+        return $this->orWhereExists($callback, true);
+    }
+    public function whereIn($column, $values, $boolean = 'and', $not = false)
+    {
+        $type = $not ? 'NotIn' : 'In';
+        if ($values instanceof static) {
+            return $this->whereInExistingQuery($column, $values, $boolean, $not);
+        }
+        if ($values instanceof Closure) {
+            return $this->whereInSub($column, $values, $boolean, $not);
+        }
+        if ($values instanceof Arrayable) {
+            $values = $values->toArray();
+        }
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean');
+        $this->addBinding($values, 'where');
+        return $this;
+    }
+    public function orWhereIn($column, $values)
+    {
+        return $this->whereIn($column, $values, 'or');
+    }
+    public function whereNotIn($column, $values, $boolean = 'and')
+    {
+        return $this->whereIn($column, $values, $boolean, true);
+    }
+    public function orWhereNotIn($column, $values)
+    {
+        return $this->whereNotIn($column, $values, 'or');
+    }
+    protected function whereInSub($column, Closure $callback, $boolean, $not)
+    {
+        $type = $not ? 'NotInSub' : 'InSub';
+        call_user_func($callback, $query = $this->newQuery());
+        $this->wheres[] = compact('type', 'column', 'query', 'boolean');
+        $this->addBinding($query->getBindings(), 'where');
+        return $this;
+    }
+    protected function whereInExistingQuery($column, $query, $boolean, $not)
+    {
+        $type = $not ? 'NotInSub' : 'InSub';
+        $this->wheres[] = compact('type', 'column', 'query', 'boolean');
+        $this->addBinding($query->getBindings(), 'where');
+        return $this;
+    }
+    public function whereNull($column, $boolean = 'and', $not = false)
+    {
+        $type = $not ? 'NotNull' : 'Null';
+        $this->wheres[] = compact('type', 'column', 'boolean');
+        return $this;
+    }
+    public function orWhereNull($column)
+    {
+        return $this->whereNull($column, 'or');
+    }
+    public function whereNotNull($column, $boolean = 'and')
+    {
+        return $this->whereNull($column, $boolean, true);
+    }
+    public function orWhereNotNull($column)
+    {
+        return $this->whereNotNull($column, 'or');
+    }
+    public function whereDate($column, $operator, $value, $boolean = 'and')
+    {
+        return $this->addDateBasedWhere('Date', $column, $operator, $value, $boolean);
+    }
+    public function whereDay($column, $operator, $value, $boolean = 'and')
+    {
+        return $this->addDateBasedWhere('Day', $column, $operator, $value, $boolean);
+    }
+    public function whereMonth($column, $operator, $value, $boolean = 'and')
+    {
+        return $this->addDateBasedWhere('Month', $column, $operator, $value, $boolean);
+    }
+    public function whereYear($column, $operator, $value, $boolean = 'and')
+    {
+        return $this->addDateBasedWhere('Year', $column, $operator, $value, $boolean);
+    }
+    protected function addDateBasedWhere($type, $column, $operator, $value, $boolean = 'and')
+    {
+        $this->wheres[] = compact('column', 'type', 'boolean', 'operator', 'value');
+        $this->addBinding($value, 'where');
+        return $this;
+    }
+    public function dynamicWhere($method, $parameters)
+    {
+        $finder = substr($method, 5);
+        $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $connector = 'and';
+        $index = 0;
+        foreach ($segments as $segment) {
+            if ($segment != 'And' && $segment != 'Or') {
+                $this->addDynamic($segment, $connector, $parameters, $index);
+                $index++;
+            } else {
+                $connector = $segment;
+            }
+        }
+        return $this;
+    }
+    protected function addDynamic($segment, $connector, $parameters, $index)
+    {
+        $bool = strtolower($connector);
+        $this->where(Str::snake($segment), '=', $parameters[$index], $bool);
+    }
+    public function groupBy()
+    {
+        foreach (func_get_args() as $arg) {
+            $this->groups = array_merge((array) $this->groups, is_array($arg) ? $arg : [$arg]);
+        }
+        return $this;
+    }
+    public function having($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        $type = 'basic';
+        $this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
+        if (!$value instanceof Expression) {
+            $this->addBinding($value, 'having');
+        }
+        return $this;
+    }
+    public function orHaving($column, $operator = null, $value = null)
+    {
+        return $this->having($column, $operator, $value, 'or');
+    }
+    public function havingRaw($sql, array $bindings = [], $boolean = 'and')
+    {
+        $type = 'raw';
+        $this->havings[] = compact('type', 'sql', 'boolean');
+        $this->addBinding($bindings, 'having');
+        return $this;
+    }
+    public function orHavingRaw($sql, array $bindings = [])
+    {
+        return $this->havingRaw($sql, $bindings, 'or');
+    }
+    public function orderBy($column, $direction = 'asc')
+    {
+        $property = $this->unions ? 'unionOrders' : 'orders';
+        $direction = strtolower($direction) == 'asc' ? 'asc' : 'desc';
+        $this->{$property}[] = compact('column', 'direction');
+        return $this;
+    }
+    public function latest($column = 'created_at')
+    {
+        return $this->orderBy($column, 'desc');
+    }
+    public function oldest($column = 'created_at')
+    {
+        return $this->orderBy($column, 'asc');
+    }
+    public function orderByRaw($sql, $bindings = [])
+    {
+        $property = $this->unions ? 'unionOrders' : 'orders';
+        $type = 'raw';
+        $this->{$property}[] = compact('type', 'sql');
+        $this->addBinding($bindings, 'order');
+        return $this;
+    }
+    public function offset($value)
+    {
+        $property = $this->unions ? 'unionOffset' : 'offset';
+        $this->{$property} = max(0, $value);
+        return $this;
+    }
+    public function skip($value)
+    {
+        return $this->offset($value);
+    }
+    public function limit($value)
+    {
+        $property = $this->unions ? 'unionLimit' : 'limit';
+        if ($value >= 0) {
+            $this->{$property} = $value;
+        }
+        return $this;
+    }
+    public function take($value)
+    {
+        return $this->limit($value);
+    }
+    public function forPage($page, $perPage = 15)
+    {
+        return $this->skip(($page - 1) * $perPage)->take($perPage);
+    }
+    public function union($query, $all = false)
+    {
+        if ($query instanceof Closure) {
+            call_user_func($query, $query = $this->newQuery());
+        }
+        $this->unions[] = compact('query', 'all');
+        $this->addBinding($query->getBindings(), 'union');
+        return $this;
+    }
+    public function unionAll($query)
+    {
+        return $this->union($query, true);
+    }
+    public function lock($value = true)
+    {
+        $this->lock = $value;
+        if ($this->lock) {
+            $this->useWritePdo();
+        }
+        return $this;
+    }
+    public function lockForUpdate()
+    {
+        return $this->lock(true);
+    }
+    public function sharedLock()
+    {
+        return $this->lock(false);
+    }
+    public function toSql()
+    {
+        return $this->grammar->compileSelect($this);
+    }
+    public function find($id, $columns = ['*'])
+    {
+        return $this->where('id', '=', $id)->first($columns);
+    }
+    public function value($column)
+    {
+        $result = (array) $this->first([$column]);
+        return count($result) > 0 ? reset($result) : null;
+    }
+    public function pluck($column)
+    {
+        return $this->value($column);
+    }
+    public function first($columns = ['*'])
+    {
+        $results = $this->take(1)->get($columns);
+        return count($results) > 0 ? reset($results) : null;
+    }
+    public function get($columns = ['*'])
+    {
+        if (is_null($this->columns)) {
+            $this->columns = $columns;
+        }
+        return $this->processor->processSelect($this, $this->runSelect());
+    }
+    public function getFresh($columns = ['*'])
+    {
+        return $this->get($columns);
+    }
+    protected function runSelect()
+    {
+        return $this->connection->select($this->toSql(), $this->getBindings(), !$this->useWritePdo);
+    }
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        $total = $this->getCountForPagination($columns);
+        $results = $this->forPage($page, $perPage)->get($columns);
+        return new LengthAwarePaginator($results, $total, $perPage, $page, ['path' => Paginator::resolveCurrentPath(), 'pageName' => $pageName]);
+    }
+    public function simplePaginate($perPage = 15, $columns = ['*'], $pageName = 'page')
+    {
+        $page = Paginator::resolveCurrentPage($pageName);
+        $this->skip(($page - 1) * $perPage)->take($perPage + 1);
+        return new Paginator($this->get($columns), $perPage, $page, ['path' => Paginator::resolveCurrentPath(), 'pageName' => $pageName]);
+    }
+    public function getCountForPagination($columns = ['*'])
+    {
+        $this->backupFieldsForCount();
+        $this->aggregate = ['function' => 'count', 'columns' => $this->clearSelectAliases($columns)];
+        $results = $this->get();
+        $this->aggregate = null;
+        $this->restoreFieldsForCount();
+        if (isset($this->groups)) {
+            return count($results);
+        }
+        return isset($results[0]) ? (int) array_change_key_case((array) $results[0])['aggregate'] : 0;
+    }
+    protected function backupFieldsForCount()
+    {
+        foreach (['orders', 'limit', 'offset', 'columns'] as $field) {
+            $this->backups[$field] = $this->{$field};
+            $this->{$field} = null;
+        }
+        foreach (['order', 'select'] as $key) {
+            $this->bindingBackups[$key] = $this->bindings[$key];
+            $this->bindings[$key] = [];
+        }
+    }
+    protected function clearSelectAliases(array $columns)
+    {
+        return array_map(function ($column) {
+            return is_string($column) && ($aliasPosition = strpos(strtolower($column), ' as ')) !== false ? substr($column, 0, $aliasPosition) : $column;
+        }, $columns);
+    }
+    protected function restoreFieldsForCount()
+    {
+        foreach (['orders', 'limit', 'offset', 'columns'] as $field) {
+            $this->{$field} = $this->backups[$field];
+        }
+        foreach (['order', 'select'] as $key) {
+            $this->bindings[$key] = $this->bindingBackups[$key];
+        }
+        $this->backups = [];
+        $this->bindingBackups = [];
+    }
+    public function chunk($count, callable $callback)
+    {
+        $results = $this->forPage($page = 1, $count)->get();
+        while (count($results) > 0) {
+            if (call_user_func($callback, $results) === false) {
+                return false;
+            }
+            $page++;
+            $results = $this->forPage($page, $count)->get();
+        }
+        return true;
+    }
+    public function lists($column, $key = null)
+    {
+        $results = $this->get(is_null($key) ? [$column] : [$column, $key]);
+        return Arr::pluck($results, $this->stripTableForPluck($column), $this->stripTableForPluck($key));
+    }
+    protected function stripTableForPluck($column)
+    {
+        return is_null($column) ? $column : last(preg_split('~\\.| ~', $column));
+    }
+    public function implode($column, $glue = '')
+    {
+        return implode($glue, $this->lists($column));
+    }
+    public function exists()
+    {
+        $sql = $this->grammar->compileExists($this);
+        $results = $this->connection->select($sql, $this->getBindings(), !$this->useWritePdo);
+        if (isset($results[0])) {
+            $results = (array) $results[0];
+            return (bool) $results['exists'];
+        }
+        return false;
+    }
+    public function count($columns = '*')
+    {
+        if (!is_array($columns)) {
+            $columns = [$columns];
+        }
+        return (int) $this->aggregate(__FUNCTION__, $columns);
+    }
+    public function min($column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+    public function max($column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+    public function sum($column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+    public function avg($column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+    public function average($column)
+    {
+        return $this->avg($column);
+    }
+    public function aggregate($function, $columns = ['*'])
+    {
+        $this->aggregate = compact('function', 'columns');
+        $previousColumns = $this->columns;
+        $previousSelectBindings = $this->bindings['select'];
+        $this->bindings['select'] = [];
+        $results = $this->get($columns);
+        $this->aggregate = null;
+        $this->columns = $previousColumns;
+        $this->bindings['select'] = $previousSelectBindings;
+        if (isset($results[0])) {
+            return array_change_key_case((array) $results[0])['aggregate'];
+        }
+    }
+    public function numericAggregate($function, $columns = ['*'])
+    {
+        $result = $this->aggregate($function, $columns);
+        if (!$result) {
+            return 0;
+        }
+        if (is_int($result) || is_float($result)) {
+            return $result;
+        }
+        if (strpos((string) $result, '.') === false) {
+            return (int) $result;
+        }
+        return (double) $result;
+    }
+    public function insert(array $values)
+    {
+        if (empty($values)) {
+            return true;
+        }
+        if (!is_array(reset($values))) {
+            $values = [$values];
+        } else {
+            foreach ($values as $key => $value) {
+                ksort($value);
+                $values[$key] = $value;
+            }
+        }
+        $bindings = [];
+        foreach ($values as $record) {
+            foreach ($record as $value) {
+                $bindings[] = $value;
+            }
+        }
+        $sql = $this->grammar->compileInsert($this, $values);
+        $bindings = $this->cleanBindings($bindings);
+        return $this->connection->insert($sql, $bindings);
+    }
+    public function insertGetId(array $values, $sequence = null)
+    {
+        $sql = $this->grammar->compileInsertGetId($this, $values, $sequence);
+        $values = $this->cleanBindings($values);
+        return $this->processor->processInsertGetId($this, $sql, $values, $sequence);
+    }
+    public function update(array $values)
+    {
+        $bindings = array_values(array_merge($values, $this->getBindings()));
+        $sql = $this->grammar->compileUpdate($this, $values);
+        return $this->connection->update($sql, $this->cleanBindings($bindings));
+    }
+    public function increment($column, $amount = 1, array $extra = [])
+    {
+        if (!is_numeric($amount)) {
+            throw new InvalidArgumentException('Non-numeric value passed to increment method.');
+        }
+        $wrapped = $this->grammar->wrap($column);
+        $columns = array_merge([$column => $this->raw("{$wrapped} + {$amount}")], $extra);
+        return $this->update($columns);
+    }
+    public function decrement($column, $amount = 1, array $extra = [])
+    {
+        if (!is_numeric($amount)) {
+            throw new InvalidArgumentException('Non-numeric value passed to decrement method.');
+        }
+        $wrapped = $this->grammar->wrap($column);
+        $columns = array_merge([$column => $this->raw("{$wrapped} - {$amount}")], $extra);
+        return $this->update($columns);
+    }
+    public function delete($id = null)
+    {
+        if (!is_null($id)) {
+            $this->where('id', '=', $id);
+        }
+        $sql = $this->grammar->compileDelete($this);
+        return $this->connection->delete($sql, $this->getBindings());
+    }
+    public function truncate()
+    {
+        foreach ($this->grammar->compileTruncate($this) as $sql => $bindings) {
+            $this->connection->statement($sql, $bindings);
+        }
+    }
+    public function newQuery()
+    {
+        return new static($this->connection, $this->grammar, $this->processor);
+    }
+    public function mergeWheres($wheres, $bindings)
+    {
+        $this->wheres = array_merge((array) $this->wheres, (array) $wheres);
+        $this->bindings['where'] = array_values(array_merge($this->bindings['where'], (array) $bindings));
+    }
+    protected function cleanBindings(array $bindings)
+    {
+        return array_values(array_filter($bindings, function ($binding) {
+            return !$binding instanceof Expression;
+        }));
+    }
+    public function raw($value)
+    {
+        return $this->connection->raw($value);
+    }
+    public function getBindings()
+    {
+        return Arr::flatten($this->bindings);
+    }
+    public function getRawBindings()
+    {
+        return $this->bindings;
+    }
+    public function setBindings(array $bindings, $type = 'where')
+    {
+        if (!array_key_exists($type, $this->bindings)) {
+            throw new InvalidArgumentException("Invalid binding type: {$type}.");
+        }
+        $this->bindings[$type] = $bindings;
+        return $this;
+    }
+    public function addBinding($value, $type = 'where')
+    {
+        if (!array_key_exists($type, $this->bindings)) {
+            throw new InvalidArgumentException("Invalid binding type: {$type}.");
+        }
+        if (is_array($value)) {
+            $this->bindings[$type] = array_values(array_merge($this->bindings[$type], $value));
+        } else {
+            $this->bindings[$type][] = $value;
+        }
+        return $this;
+    }
+    public function mergeBindings(Builder $query)
+    {
+        $this->bindings = array_merge_recursive($this->bindings, $query->bindings);
+        return $this;
+    }
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+    public function getProcessor()
+    {
+        return $this->processor;
+    }
+    public function getGrammar()
+    {
+        return $this->grammar;
+    }
+    public function useWritePdo()
+    {
+        $this->useWritePdo = true;
+        return $this;
+    }
+    public function __call($method, $parameters)
+    {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+        if (Str::startsWith($method, 'where')) {
+            return $this->dynamicWhere($method, $parameters);
+        }
+        $className = get_class($this);
+        throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
+    }
+}
+}
+
+namespace Royalcms\Component\Database\Eloquent {
+use Closure;
+use Royalcms\Component\Support\Arr;
+use Royalcms\Component\Support\Str;
+use Royalcms\Component\Pagination\Paginator;
+use Royalcms\Component\Database\Query\Expression;
+use Royalcms\Component\Pagination\LengthAwarePaginator;
+use Royalcms\Component\Database\Eloquent\Relations\Relation;
+use Royalcms\Component\Database\Query\Builder as QueryBuilder;
+class Builder
+{
+    protected $query;
+    protected $model;
+    protected $eagerLoad = [];
+    protected $macros = [];
+    protected $onDelete;
+    protected $passthru = ['insert', 'insertGetId', 'getBindings', 'toSql', 'exists', 'count', 'min', 'max', 'avg', 'sum'];
+    public function __construct(QueryBuilder $query)
+    {
+        $this->query = $query;
+    }
+    public function find($id, $columns = ['*'])
+    {
+        if (is_array($id)) {
+            return $this->findMany($id, $columns);
+        }
+        $this->query->where($this->model->getQualifiedKeyName(), '=', $id);
+        return $this->first($columns);
+    }
+    public function findMany($ids, $columns = ['*'])
+    {
+        if (empty($ids)) {
+            return $this->model->newCollection();
+        }
+        $this->query->whereIn($this->model->getQualifiedKeyName(), $ids);
+        return $this->get($columns);
+    }
+    public function findOrFail($id, $columns = ['*'])
+    {
+        $result = $this->find($id, $columns);
+        if (is_array($id)) {
+            if (count($result) == count(array_unique($id))) {
+                return $result;
+            }
+        } elseif (!is_null($result)) {
+            return $result;
+        }
+        throw (new ModelNotFoundException())->setModel(get_class($this->model));
+    }
+    public function findOrNew($id, $columns = ['*'])
+    {
+        if (!is_null($model = $this->find($id, $columns))) {
+            return $model;
+        }
+        return $this->model->newInstance();
+    }
+    public function firstOrNew(array $attributes)
+    {
+        if (!is_null($instance = $this->where($attributes)->first())) {
+            return $instance;
+        }
+        return $this->model->newInstance($attributes);
+    }
+    public function firstOrCreate(array $attributes)
+    {
+        if (!is_null($instance = $this->where($attributes)->first())) {
+            return $instance;
+        }
+        $instance = $this->model->newInstance($attributes);
+        $instance->save();
+        return $instance;
+    }
+    public function updateOrCreate(array $attributes, array $values = [])
+    {
+        $instance = $this->firstOrNew($attributes);
+        $instance->fill($values)->save();
+        return $instance;
+    }
+    public function first($columns = ['*'])
+    {
+        return $this->take(1)->get($columns)->first();
+    }
+    public function firstOrFail($columns = ['*'])
+    {
+        if (!is_null($model = $this->first($columns))) {
+            return $model;
+        }
+        throw (new ModelNotFoundException())->setModel(get_class($this->model));
+    }
+    public function get($columns = ['*'])
+    {
+        $models = $this->getModels($columns);
+        if (count($models) > 0) {
+            $models = $this->eagerLoadRelations($models);
+        }
+        return $this->model->newCollection($models);
+    }
+    public function value($column)
+    {
+        $result = $this->first([$column]);
+        if ($result) {
+            return $result->{$column};
+        }
+    }
+    public function pluck($column)
+    {
+        return $this->value($column);
+    }
+    public function chunk($count, callable $callback)
+    {
+        $results = $this->forPage($page = 1, $count)->get();
+        while (count($results) > 0) {
+            if (call_user_func($callback, $results) === false) {
+                return false;
+            }
+            $page++;
+            $results = $this->forPage($page, $count)->get();
+        }
+        return true;
+    }
+    public function lists($column, $key = null)
+    {
+        $results = $this->query->lists($column, $key);
+        if ($this->model->hasGetMutator($column)) {
+            foreach ($results as $key => &$value) {
+                $fill = [$column => $value];
+                $value = $this->model->newFromBuilder($fill)->{$column};
+            }
+        }
+        return collect($results);
+    }
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $total = $this->query->getCountForPagination();
+        $this->query->forPage($page = $page ?: Paginator::resolveCurrentPage($pageName), $perPage = $perPage ?: $this->model->getPerPage());
+        return new LengthAwarePaginator($this->get($columns), $total, $perPage, $page, ['path' => Paginator::resolveCurrentPath(), 'pageName' => $pageName]);
+    }
+    public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page')
+    {
+        $page = Paginator::resolveCurrentPage($pageName);
+        $perPage = $perPage ?: $this->model->getPerPage();
+        $this->skip(($page - 1) * $perPage)->take($perPage + 1);
+        return new Paginator($this->get($columns), $perPage, $page, ['path' => Paginator::resolveCurrentPath(), 'pageName' => $pageName]);
+    }
+    public function update(array $values)
+    {
+        return $this->query->update($this->addUpdatedAtColumn($values));
+    }
+    public function increment($column, $amount = 1, array $extra = [])
+    {
+        $extra = $this->addUpdatedAtColumn($extra);
+        return $this->query->increment($column, $amount, $extra);
+    }
+    public function decrement($column, $amount = 1, array $extra = [])
+    {
+        $extra = $this->addUpdatedAtColumn($extra);
+        return $this->query->decrement($column, $amount, $extra);
+    }
+    protected function addUpdatedAtColumn(array $values)
+    {
+        if (!$this->model->usesTimestamps()) {
+            return $values;
+        }
+        $column = $this->model->getUpdatedAtColumn();
+        return Arr::add($values, $column, $this->model->freshTimestampString());
+    }
+    public function delete()
+    {
+        if (isset($this->onDelete)) {
+            return call_user_func($this->onDelete, $this);
+        }
+        return $this->query->delete();
+    }
+    public function forceDelete()
+    {
+        return $this->query->delete();
+    }
+    public function onDelete(Closure $callback)
+    {
+        $this->onDelete = $callback;
+    }
+    public function getModels($columns = ['*'])
+    {
+        $results = $this->query->get($columns);
+        $connection = $this->model->getConnectionName();
+        return $this->model->hydrate($results, $connection)->all();
+    }
+    public function eagerLoadRelations(array $models)
+    {
+        foreach ($this->eagerLoad as $name => $constraints) {
+            if (strpos($name, '.') === false) {
+                $models = $this->loadRelation($models, $name, $constraints);
+            }
+        }
+        return $models;
+    }
+    protected function loadRelation(array $models, $name, Closure $constraints)
+    {
+        $relation = $this->getRelation($name);
+        $relation->addEagerConstraints($models);
+        call_user_func($constraints, $relation);
+        $models = $relation->initRelation($models, $name);
+        $results = $relation->getEager();
+        return $relation->match($models, $results, $name);
+    }
+    public function getRelation($name)
+    {
+        $relation = Relation::noConstraints(function () use($name) {
+            return $this->getModel()->{$name}();
+        });
+        $nested = $this->nestedRelations($name);
+        if (count($nested) > 0) {
+            $relation->getQuery()->with($nested);
+        }
+        return $relation;
+    }
+    protected function nestedRelations($relation)
+    {
+        $nested = [];
+        foreach ($this->eagerLoad as $name => $constraints) {
+            if ($this->isNested($name, $relation)) {
+                $nested[substr($name, strlen($relation . '.'))] = $constraints;
+            }
+        }
+        return $nested;
+    }
+    protected function isNested($name, $relation)
+    {
+        $dots = Str::contains($name, '.');
+        return $dots && Str::startsWith($name, $relation . '.');
+    }
+    public function where($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        if ($column instanceof Closure) {
+            $query = $this->model->newQueryWithoutScopes();
+            call_user_func($column, $query);
+            $this->query->addNestedWhereQuery($query->getQuery(), $boolean);
+        } else {
+            call_user_func_array([$this->query, 'where'], func_get_args());
+        }
+        return $this;
+    }
+    public function orWhere($column, $operator = null, $value = null)
+    {
+        return $this->where($column, $operator, $value, 'or');
+    }
+    public function has($relation, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
+    {
+        if (strpos($relation, '.') !== false) {
+            return $this->hasNested($relation, $operator, $count, $boolean, $callback);
+        }
+        $relation = $this->getHasRelationQuery($relation);
+        $query = $relation->getRelationCountQuery($relation->getRelated()->newQuery(), $this);
+        if ($callback) {
+            call_user_func($callback, $query);
+        }
+        return $this->addHasWhere($query, $relation, $operator, $count, $boolean);
+    }
+    protected function hasNested($relations, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
+    {
+        $relations = explode('.', $relations);
+        $closure = function ($q) use(&$closure, &$relations, $operator, $count, $boolean, $callback) {
+            if (count($relations) > 1) {
+                $q->whereHas(array_shift($relations), $closure);
+            } else {
+                $q->has(array_shift($relations), $operator, $count, 'and', $callback);
+            }
+        };
+        return $this->has(array_shift($relations), '>=', 1, $boolean, $closure);
+    }
+    public function doesntHave($relation, $boolean = 'and', Closure $callback = null)
+    {
+        return $this->has($relation, '<', 1, $boolean, $callback);
+    }
+    public function whereHas($relation, Closure $callback, $operator = '>=', $count = 1)
+    {
+        return $this->has($relation, $operator, $count, 'and', $callback);
+    }
+    public function whereDoesntHave($relation, Closure $callback = null)
+    {
+        return $this->doesntHave($relation, 'and', $callback);
+    }
+    public function orHas($relation, $operator = '>=', $count = 1)
+    {
+        return $this->has($relation, $operator, $count, 'or');
+    }
+    public function orWhereHas($relation, Closure $callback, $operator = '>=', $count = 1)
+    {
+        return $this->has($relation, $operator, $count, 'or', $callback);
+    }
+    protected function addHasWhere(Builder $hasQuery, Relation $relation, $operator, $count, $boolean)
+    {
+        $this->mergeWheresToHas($hasQuery, $relation);
+        if (is_numeric($count)) {
+            $count = new Expression($count);
+        }
+        return $this->where(new Expression('(' . $hasQuery->toSql() . ')'), $operator, $count, $boolean);
+    }
+    protected function mergeWheresToHas(Builder $hasQuery, Relation $relation)
+    {
+        $relationQuery = $relation->getBaseQuery();
+        $hasQuery = $hasQuery->getModel()->removeGlobalScopes($hasQuery);
+        $hasQuery->mergeWheres($relationQuery->wheres, $relationQuery->getBindings());
+        $this->query->addBinding($hasQuery->getQuery()->getBindings(), 'where');
+    }
+    protected function getHasRelationQuery($relation)
+    {
+        return Relation::noConstraints(function () use($relation) {
+            return $this->getModel()->{$relation}();
+        });
+    }
+    public function with($relations)
+    {
+        if (is_string($relations)) {
+            $relations = func_get_args();
+        }
+        $eagers = $this->parseRelations($relations);
+        $this->eagerLoad = array_merge($this->eagerLoad, $eagers);
+        return $this;
+    }
+    protected function parseRelations(array $relations)
+    {
+        $results = [];
+        foreach ($relations as $name => $constraints) {
+            if (is_numeric($name)) {
+                $f = function () {
+                };
+                list($name, $constraints) = [$constraints, $f];
+            }
+            $results = $this->parseNested($name, $results);
+            $results[$name] = $constraints;
+        }
+        return $results;
+    }
+    protected function parseNested($name, $results)
+    {
+        $progress = [];
+        foreach (explode('.', $name) as $segment) {
+            $progress[] = $segment;
+            if (!isset($results[$last = implode('.', $progress)])) {
+                $results[$last] = function () {
+                };
+            }
+        }
+        return $results;
+    }
+    protected function callScope($scope, $parameters)
+    {
+        array_unshift($parameters, $this);
+        return call_user_func_array([$this->model, $scope], $parameters) ?: $this;
+    }
+    public function getQuery()
+    {
+        return $this->query;
+    }
+    public function setQuery($query)
+    {
+        $this->query = $query;
+        return $this;
+    }
+    public function getEagerLoads()
+    {
+        return $this->eagerLoad;
+    }
+    public function setEagerLoads(array $eagerLoad)
+    {
+        $this->eagerLoad = $eagerLoad;
+        return $this;
+    }
+    public function getModel()
+    {
+        return $this->model;
+    }
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+        $this->query->from($model->getTable());
+        return $this;
+    }
+    public function macro($name, Closure $callback)
+    {
+        $this->macros[$name] = $callback;
+    }
+    public function getMacro($name)
+    {
+        return Arr::get($this->macros, $name);
+    }
+    public function __call($method, $parameters)
+    {
+        if (isset($this->macros[$method])) {
+            array_unshift($parameters, $this);
+            return call_user_func_array($this->macros[$method], $parameters);
+        } elseif (method_exists($this->model, $scope = 'scope' . ucfirst($method))) {
+            return $this->callScope($scope, $parameters);
+        }
+        $result = call_user_func_array([$this->query, $method], $parameters);
+        return in_array($method, $this->passthru) ? $result : $this;
+    }
+    public function __clone()
+    {
+        $this->query = clone $this->query;
+    }
+}
+}
+
+namespace Royalcms\Component\Database\Eloquent {
+use Royalcms\Component\Support\Arr;
+use Royalcms\Component\Support\Collection as BaseCollection;
+class Collection extends BaseCollection
+{
+    public function find($key, $default = null)
+    {
+        if ($key instanceof Model) {
+            $key = $key->getKey();
+        }
+        return Arr::first($this->items, function ($itemKey, $model) use($key) {
+            return $model->getKey() == $key;
+        }, $default);
+    }
+    public function load($relations)
+    {
+        if (count($this->items) > 0) {
+            if (is_string($relations)) {
+                $relations = func_get_args();
+            }
+            $query = $this->first()->newQuery()->with($relations);
+            $this->items = $query->eagerLoadRelations($this->items);
+        }
+        return $this;
+    }
+    public function add($item)
+    {
+        $this->items[] = $item;
+        return $this;
+    }
+    public function contains($key, $operator = null, $value = null)
+    {
+        if (func_num_args() == 2) {
+            return parent::contains($key, $value);
+        }
+        if ($this->useAsCallable($key)) {
+            return parent::contains($key);
+        }
+        $key = $key instanceof Model ? $key->getKey() : $key;
+        return parent::contains(function ($model) use($key) {
+            return $model->getKey() == $key;
+        });
+    }
+    public function fetch($key)
+    {
+        return new static(Arr::fetch($this->toArray(), $key));
+    }
+    public function modelKeys()
+    {
+        return array_map(function ($model) {
+            return $model->getKey();
+        }, $this->items);
+    }
+    public function merge($items)
+    {
+        $dictionary = $this->getDictionary();
+        foreach ($items as $item) {
+            $dictionary[$item->getKey()] = $item;
+        }
+        return new static(array_values($dictionary));
+    }
+    public function diff($items)
+    {
+        $diff = new static();
+        $dictionary = $this->getDictionary($items);
+        foreach ($this->items as $item) {
+            if (!isset($dictionary[$item->getKey()])) {
+                $diff->add($item);
+            }
+        }
+        return $diff;
+    }
+    public function intersect($items)
+    {
+        $intersect = new static();
+        $dictionary = $this->getDictionary($items);
+        foreach ($this->items as $item) {
+            if (isset($dictionary[$item->getKey()])) {
+                $intersect->add($item);
+            }
+        }
+        return $intersect;
+    }
+    public function unique($key = null, $strict = false)
+    {
+        if (!is_null($key)) {
+            return parent::unique($key);
+        }
+        return new static(array_values($this->getDictionary()));
+    }
+    public function only($keys)
+    {
+        $dictionary = Arr::only($this->getDictionary(), $keys);
+        return new static(array_values($dictionary));
+    }
+    public function except($keys)
+    {
+        $dictionary = Arr::except($this->getDictionary(), $keys);
+        return new static(array_values($dictionary));
+    }
+    public function withHidden($attributes)
+    {
+        $this->each(function ($model) use($attributes) {
+            $model->withHidden($attributes);
+        });
+        return $this;
+    }
+    public function getDictionary($items = null)
+    {
+        $items = is_null($items) ? $this->items : $items;
+        $dictionary = [];
+        foreach ($items as $value) {
+            $dictionary[$value->getKey()] = $value;
+        }
+        return $dictionary;
+    }
+    public function toBase()
+    {
+        return new BaseCollection($this->items);
     }
 }
 }
@@ -20215,24 +22545,6 @@ trait CompatibleTrait
 }
 }
 
-namespace Royalcms\Component\Redis {
-use Royalcms\Component\Support\ServiceProvider;
-class RedisServiceProvider extends ServiceProvider
-{
-    protected $defer = true;
-    public function register()
-    {
-        $this->royalcms->singleton('redis', function ($royalcms) {
-            return new Database($royalcms['config']['database.redis']);
-        });
-    }
-    public function provides()
-    {
-        return ['redis'];
-    }
-}
-}
-
 namespace Royalcms\Component\DateTime {
 use Closure;
 use DateTime;
@@ -21086,6 +23398,184 @@ class Carbon extends DateTime
     public function isBirthday(Carbon $dt)
     {
         return $this->format('md') === $dt->format('md');
+    }
+}
+}
+
+namespace Royalcms\Component\Console {
+use Royalcms\Component\Contracts\Support\Arrayable;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Royalcms\Component\Contracts\Foundation\Royalcms as FoundationRoyalcms;
+class Command extends SymfonyCommand
+{
+    protected $royalcms;
+    protected $input;
+    protected $output;
+    protected $signature;
+    protected $name;
+    protected $description;
+    public function __construct()
+    {
+        if (isset($this->signature)) {
+            $this->configureUsingFluentDefinition();
+        } else {
+            parent::__construct($this->name);
+        }
+        $this->setDescription($this->description);
+        if (!isset($this->signature)) {
+            $this->specifyParameters();
+        }
+    }
+    protected function configureUsingFluentDefinition()
+    {
+        list($name, $arguments, $options) = Parser::parse($this->signature);
+        parent::__construct($name);
+        foreach ($arguments as $argument) {
+            $this->getDefinition()->addArgument($argument);
+        }
+        foreach ($options as $option) {
+            $this->getDefinition()->addOption($option);
+        }
+    }
+    protected function specifyParameters()
+    {
+        foreach ($this->getArguments() as $arguments) {
+            call_user_func_array([$this, 'addArgument'], $arguments);
+        }
+        foreach ($this->getOptions() as $options) {
+            call_user_func_array([$this, 'addOption'], $options);
+        }
+    }
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        $this->input = $input;
+        $this->output = new OutputStyle($input, $output);
+        return parent::run($input, $output);
+    }
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $method = method_exists($this, 'handle') ? 'handle' : 'fire';
+        return $this->royalcms->call([$this, $method]);
+    }
+    public function call($command, array $arguments = [])
+    {
+        $instance = $this->getApplication()->find($command);
+        $arguments['command'] = $command;
+        return $instance->run(new ArrayInput($arguments), $this->output);
+    }
+    public function callSilent($command, array $arguments = [])
+    {
+        $instance = $this->getApplication()->find($command);
+        $arguments['command'] = $command;
+        return $instance->run(new ArrayInput($arguments), new NullOutput());
+    }
+    public function argument($key = null)
+    {
+        if (is_null($key)) {
+            return $this->input->getArguments();
+        }
+        return $this->input->getArgument($key);
+    }
+    public function option($key = null)
+    {
+        if (is_null($key)) {
+            return $this->input->getOptions();
+        }
+        return $this->input->getOption($key);
+    }
+    public function confirm($question, $default = false)
+    {
+        return $this->output->confirm($question, $default);
+    }
+    public function ask($question, $default = null)
+    {
+        return $this->output->ask($question, $default);
+    }
+    public function anticipate($question, array $choices, $default = null)
+    {
+        return $this->askWithCompletion($question, $choices, $default);
+    }
+    public function askWithCompletion($question, array $choices, $default = null)
+    {
+        $question = new Question($question, $default);
+        $question->setAutocompleterValues($choices);
+        return $this->output->askQuestion($question);
+    }
+    public function secret($question, $fallback = true)
+    {
+        $question = new Question($question);
+        $question->setHidden(true)->setHiddenFallback($fallback);
+        return $this->output->askQuestion($question);
+    }
+    public function choice($question, array $choices, $default = null, $attempts = null, $multiple = null)
+    {
+        $question = new ChoiceQuestion($question, $choices, $default);
+        $question->setMaxAttempts($attempts)->setMultiselect($multiple);
+        return $this->output->askQuestion($question);
+    }
+    public function table(array $headers, $rows, $style = 'default')
+    {
+        $table = new Table($this->output);
+        if ($rows instanceof Arrayable) {
+            $rows = $rows->toArray();
+        }
+        $table->setHeaders($headers)->setRows($rows)->setStyle($style)->render();
+    }
+    public function info($string)
+    {
+        $this->output->writeln("<info>{$string}</info>");
+    }
+    public function line($string)
+    {
+        $this->output->writeln($string);
+    }
+    public function comment($string)
+    {
+        $this->output->writeln("<comment>{$string}</comment>");
+    }
+    public function question($string)
+    {
+        $this->output->writeln("<question>{$string}</question>");
+    }
+    public function error($string)
+    {
+        $this->output->writeln("<error>{$string}</error>");
+    }
+    public function warn($string)
+    {
+        if (!$this->output->getFormatter()->hasStyle('warning')) {
+            $style = new OutputFormatterStyle('yellow');
+            $this->output->getFormatter()->setStyle('warning', $style);
+        }
+        $this->output->writeln("<warning>{$string}</warning>");
+    }
+    protected function getArguments()
+    {
+        return [];
+    }
+    protected function getOptions()
+    {
+        return [];
+    }
+    public function getOutput()
+    {
+        return $this->output;
+    }
+    public function getRoyalcms()
+    {
+        return $this->royalcms;
+    }
+    public function setRoyalcms(FoundationRoyalcms $royalcms)
+    {
+        $this->royalcms = $royalcms;
     }
 }
 }
@@ -23273,63 +25763,6 @@ class StoreServiceProvider extends AppParentServiceProvider
 }
 }
 
-namespace Ecjia\App\Theme {
-use Ecjia\App\Theme\ThemeOption\ThemeOption;
-use Ecjia\App\Theme\ThemeOption\ThemeSetting;
-use Ecjia\App\Theme\ThemeOption\ThemeTransient;
-use Ecjia\App\Theme\ThemeFramework\ThemeFramework;
-use Royalcms\Component\App\AppParentServiceProvider;
-class ThemeServiceProvider extends AppParentServiceProvider
-{
-    public function boot()
-    {
-        $this->package('ecjia/app-theme');
-    }
-    public function register()
-    {
-        $this->registerThemeOption();
-        $this->registerThemeSetting();
-        $this->registerThemeTransient();
-        $this->registerThemeFramework();
-        $this->loadAlias();
-    }
-    public function registerThemeOption()
-    {
-        $this->royalcms->bindShared('ecjia.theme.option', function ($royalcms) {
-            return new ThemeOption();
-        });
-    }
-    public function registerThemeSetting()
-    {
-        $this->royalcms->bindShared('ecjia.theme.setting', function ($royalcms) {
-            return new ThemeSetting();
-        });
-    }
-    public function registerThemeTransient()
-    {
-        $this->royalcms->bindShared('ecjia.theme.transient', function ($royalcms) {
-            return new ThemeTransient();
-        });
-    }
-    public function registerThemeFramework()
-    {
-        $this->royalcms->bindShared('ecjia.theme.framework', function ($royalcms) {
-            return new ThemeFramework();
-        });
-    }
-    protected function loadAlias()
-    {
-        $this->royalcms->booting(function () {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_theme_option', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeOption');
-            $loader->alias('ecjia_theme_setting', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeSetting');
-            $loader->alias('ecjia_theme_transient', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeTransient');
-            $loader->alias('ecjia_theme_framework', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeFramework');
-        });
-    }
-}
-}
-
 namespace Ecjia\App\Touch {
 use Royalcms\Component\App\AppParentServiceProvider;
 class TouchServiceProvider extends AppParentServiceProvider
@@ -23417,6 +25850,467 @@ class WechatServiceProvider extends AppParentServiceProvider
     public function register()
     {
     }
+}
+}
+
+namespace Royalcms\Component\Exception {
+use Exception;
+interface ExceptionDisplayerInterface
+{
+    public function display($exception);
+}
+}
+
+namespace Royalcms\Component\Exception {
+use Exception;
+use Symfony\Component\Debug\ExceptionHandler;
+class SymfonyDisplayer implements ExceptionDisplayerInterface
+{
+    protected $symfony;
+    public function __construct(ExceptionHandler $symfony)
+    {
+        $this->symfony = $symfony;
+    }
+    public function display($exception)
+    {
+        $this->symfony->handle($exception);
+    }
+}
+}
+
+namespace Royalcms\Component\Exception {
+use Exception;
+use Royalcms\Component\Whoops\Run;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+class WhoopsDisplayer implements ExceptionDisplayerInterface
+{
+    protected $whoops;
+    protected $runningInConsole;
+    public function __construct(Run $whoops, $runningInConsole)
+    {
+        $this->whoops = $whoops;
+        $this->runningInConsole = $runningInConsole;
+    }
+    public function display($exception)
+    {
+        $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
+        $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : array();
+        return new Response($this->whoops->handleException($exception), $status, $headers);
+    }
+}
+}
+
+namespace Royalcms\Component\Exception {
+use Exception;
+use Psr\Log\LoggerInterface;
+use Royalcms\Component\Http\Response;
+use Royalcms\Component\Auth\Access\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Royalcms\Component\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use ReflectionFunction;
+use Closure;
+class Handler implements ExceptionHandlerContract
+{
+    protected $log;
+    protected $dontReport = [];
+    protected $handlers = [];
+    public function __construct(LoggerInterface $log)
+    {
+        $this->log = $log;
+    }
+    public function report(Exception $e)
+    {
+        if ($this->shouldReport($e)) {
+            $this->log->error($e);
+        }
+    }
+    public function shouldReport(Exception $e)
+    {
+        return !$this->shouldntReport($e);
+    }
+    protected function shouldntReport(Exception $e)
+    {
+        foreach ($this->dontReport as $type) {
+            if ($e instanceof $type) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public function render($request, Exception $e)
+    {
+        if ($this->isUnauthorizedException($e)) {
+            $e = new HttpException(403, $e->getMessage());
+        }
+        if ($this->isHttpException($e)) {
+            return $this->toRoyalcmsResponse($this->renderHttpException($e), $e);
+        } else {
+            return $this->toRoyalcmsResponse($this->convertExceptionToResponse($e), $e);
+        }
+    }
+    protected function toRoyalcmsResponse($response, Exception $e)
+    {
+        $response = new Response($response->getContent(), $response->getStatusCode(), $response->headers->all());
+        $response->exception = $e;
+        return $response;
+    }
+    public function renderForConsole($output, Exception $e)
+    {
+        (new ConsoleApplication())->renderException($e, $output);
+    }
+    protected function renderHttpException(HttpException $e)
+    {
+        $status = $e->getStatusCode();
+        if (view()->exists("errors.{$status}")) {
+            return response()->view("errors.{$status}", ['exception' => $e], $status);
+        } else {
+            return $this->convertExceptionToResponse($e);
+        }
+    }
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        $royalcms = royalcms();
+        $response = $this->callCustomHandlers($e);
+        if (!is_null($response)) {
+            return $response;
+        }
+        if (isset($royalcms['exception.display'])) {
+            return $royalcms['exception.display']->displayException($e);
+        } else {
+            return (new SymfonyExceptionHandler(config('system.debug')))->createResponse($e);
+        }
+    }
+    protected function isUnauthorizedException(Exception $e)
+    {
+        return $e instanceof UnauthorizedException;
+    }
+    protected function isHttpException(Exception $e)
+    {
+        return $e instanceof HttpException;
+    }
+    public function error(Closure $callback)
+    {
+        array_unshift($this->handlers, $callback);
+    }
+    public function pushError(Closure $callback)
+    {
+        $this->handlers[] = $callback;
+    }
+    protected function callCustomHandlers($exception, $fromConsole = false)
+    {
+        foreach ($this->handlers as $handler) {
+            if (!$this->handlesException($handler, $exception)) {
+                continue;
+            } elseif ($exception instanceof HttpExceptionInterface) {
+                $code = $exception->getStatusCode();
+            } else {
+                $code = 500;
+            }
+            try {
+                $response = $handler($exception, $code, $fromConsole);
+            } catch (\Exception $e) {
+                $response = $this->formatException($e);
+            }
+            if (isset($response) && !is_null($response)) {
+                return $response;
+            }
+        }
+    }
+    protected function handlesException(Closure $handler, $exception)
+    {
+        $reflection = new ReflectionFunction($handler);
+        return $reflection->getNumberOfParameters() == 0 || $this->hints($reflection, $exception);
+    }
+    protected function hints(ReflectionFunction $reflection, $exception)
+    {
+        $parameters = $reflection->getParameters();
+        $expected = $parameters[0];
+        return !$expected->getClass() || $expected->getClass()->isInstance($exception);
+    }
+    protected function formatException(\Exception $e)
+    {
+        if (config('system.debug')) {
+            $location = $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+            return 'Error in exception handler: ' . $location;
+        }
+        return 'Error in exception handler.';
+    }
+    public function handleConsole($exception)
+    {
+        return $this->callCustomHandlers($exception, true);
+    }
+}
+}
+
+namespace Royalcms\Component\Exception {
+class HandleDisplayExceptions
+{
+    protected $plainDisplayer;
+    protected $debugDisplayer;
+    protected $debug;
+    public function __construct(ExceptionDisplayerInterface $plainDisplayer, ExceptionDisplayerInterface $debugDisplayer, $debug = false)
+    {
+        $this->debug = $debug;
+        $this->plainDisplayer = $plainDisplayer;
+        $this->debugDisplayer = $debugDisplayer;
+    }
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
+    }
+    public function displayException($exception)
+    {
+        $displayer = $this->debug ? $this->debugDisplayer : $this->plainDisplayer;
+        return $displayer->display($exception);
+    }
+}
+}
+
+namespace Royalcms\Component\Exception {
+use Exception;
+use ErrorException;
+use RC_Hook;
+use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Royalcms\Component\Contracts\Foundation\Royalcms;
+use Royalcms\Component\Exception\Exceptions\CompileErrorException;
+use Royalcms\Component\Exception\Exceptions\CompileWarningException;
+use Royalcms\Component\Exception\Exceptions\CoreErrorException;
+use Royalcms\Component\Exception\Exceptions\CoreWarningException;
+use Royalcms\Component\Exception\Exceptions\DeprecatedException;
+use Royalcms\Component\Exception\Exceptions\NoticeException;
+use Royalcms\Component\Exception\Exceptions\ParseException;
+use Royalcms\Component\Exception\Exceptions\RecoverableErrorException;
+use Royalcms\Component\Exception\Exceptions\StrictException;
+use Royalcms\Component\Exception\Exceptions\UnknownException;
+use Royalcms\Component\Exception\Exceptions\UserDeprecatedException;
+use Royalcms\Component\Exception\Exceptions\UserErrorException;
+use Royalcms\Component\Exception\Exceptions\UserNoticeException;
+use Royalcms\Component\Exception\Exceptions\UserWarningException;
+use Royalcms\Component\Exception\Exceptions\WarningException;
+class HandlerExceptions
+{
+    protected $royalcms;
+    public function __construct(Royalcms $royalcms)
+    {
+        $this->royalcms = $royalcms;
+    }
+    public function register($environment)
+    {
+        $this->registerErrorHandler();
+        $this->registerExceptionHandler();
+        if ($environment != 'testing') {
+            ini_set('display_errors', 'Off');
+            $this->registerShutdownHandler();
+        }
+    }
+    protected function registerErrorHandler()
+    {
+        set_error_handler(array($this, 'handleError'));
+    }
+    protected function registerExceptionHandler()
+    {
+        set_exception_handler(array($this, 'handleUncaughtException'));
+    }
+    protected function registerShutdownHandler()
+    {
+        register_shutdown_function(array($this, 'handleShutdown'));
+    }
+    public function handleError($level, $message, $file = '', $line = 0, $context = [])
+    {
+        if (error_reporting() & $level) {
+            $exception = null;
+            switch ($level) {
+                case E_ERROR:
+                    throw new ErrorException($message, 0, $level, $file, $line);
+                    break;
+                case E_USER_ERROR:
+                    throw new UserErrorException($message, 0, $level, $file, $line);
+                    break;
+                case E_PARSE:
+                    throw new ParseException($message, 0, $level, $file, $line);
+                    break;
+                case E_CORE_ERROR:
+                    throw new CoreErrorException($message, 0, $level, $file, $line);
+                    break;
+                case E_CORE_WARNING:
+                    throw new CoreWarningException($message, 0, $level, $file, $line);
+                    break;
+                case E_COMPILE_ERROR:
+                    throw new CompileErrorException($message, 0, $level, $file, $line);
+                    break;
+                case E_COMPILE_WARNING:
+                    throw new CompileWarningException($message, 0, $level, $file, $line);
+                    break;
+                case E_STRICT:
+                    throw new StrictException($message, 0, $level, $file, $line);
+                    break;
+                case E_RECOVERABLE_ERROR:
+                    throw new RecoverableErrorException($message, 0, $level, $file, $line);
+                    break;
+                case E_WARNING:
+                    $exception = new WarningException($message, 0, $level, $file, $line);
+                    break;
+                case E_USER_WARNING:
+                    $exception = new UserWarningException($message, 0, $level, $file, $line);
+                    break;
+                case E_NOTICE:
+                    $exception = new NoticeException($message, 0, $level, $file, $line);
+                    break;
+                case E_USER_NOTICE:
+                    $exception = new UserNoticeException($message, 0, $level, $file, $line);
+                    break;
+                case E_DEPRECATED:
+                    $exception = new DeprecatedException($message, 0, $level, $file, $line);
+                    break;
+                case E_USER_DEPRECATED:
+                    $exception = new UserDeprecatedException($message, 0, $level, $file, $line);
+                    break;
+                default:
+                    $exception = new UnknownException($message, 0, $level, $file, $line);
+                    break;
+            }
+            if ($exception instanceof ErrorException) {
+                royalcms('events')->fire('royalcms.warning.exception', array($exception));
+            }
+        }
+    }
+    public function handleException($exception)
+    {
+        if (!$exception instanceof Exception) {
+            $exception = new FatalThrowableError($exception);
+        }
+        $this->getExceptionHandler()->report($exception);
+        if ($this->royalcms->runningInConsole()) {
+            $this->renderForConsole($exception);
+        } else {
+            $this->renderHttpResponse($exception);
+        }
+    }
+    public function handleUncaughtException($exception)
+    {
+        $this->handleException($exception)->send();
+    }
+    public function handleShutdown()
+    {
+        $error = error_get_last();
+        if (!is_null($error)) {
+            if (!$this->isFatal($error['type'])) {
+                return;
+            }
+            $this->handleException($this->fatalExceptionFromError($error, 0));
+        }
+        RC_Hook::do_action('shutdown');
+    }
+    protected function fatalExceptionFromError(array $error, $traceOffset = null)
+    {
+        return new FatalErrorException($error['message'], $error['type'], 0, $error['file'], $error['line'], $traceOffset);
+    }
+    protected function isFatal($type)
+    {
+        return in_array($type, array(E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE));
+    }
+    public function renderForConsole($e)
+    {
+        $this->getExceptionHandler()->renderForConsole(new ConsoleOutput(), $e);
+    }
+    protected function renderHttpResponse($e)
+    {
+        $this->getExceptionHandler()->render($this->royalcms['request'], $e)->send();
+    }
+    protected function getExceptionHandler()
+    {
+        return $this->royalcms->make('Royalcms\\Component\\Contracts\\Debug\\ExceptionHandler');
+    }
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class CompileErrorException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class CompileWarningException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class CoreErrorException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class CoreWarningException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class DeprecatedException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class NoticeException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class ParseException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class RecoverableErrorException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class StrictException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class UnknownException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class UserDeprecatedException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class UserErrorException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class UserNoticeException extends \ErrorException
+{
+}
+}
+
+namespace Royalcms\Component\Exception\Exceptions {
+class WarningException extends \ErrorException
+{
 }
 }
 
@@ -23707,64 +26601,10 @@ class AppManager extends Manager
 }
 }
 
-namespace Royalcms\Component\App\Bundles {
-use Royalcms\Component\App\Contracts\BundlePackage;
-use Royalcms\Component\App\BundleAbstract;
-class AppBundle extends BundleAbstract implements BundlePackage
-{
-    public function __construct($app_floder, $app_alias = null)
-    {
-        $this->directory = $app_floder;
-        if (is_null($app_alias)) {
-            $this->alias = $app_floder;
-        } else {
-            $this->alias = $app_alias;
-        }
-        $this->package = $this->appPackage();
-        if (!empty($this->package)) {
-            $this->identifier = $this->package['identifier'];
-            $this->namespace = $this->package['namespace'];
-            $this->provider = $this->namespace . '\\' . $this->package['provider'];
-        }
-        $this->site = defined('RC_SITE') ? RC_SITE : 'default';
-        $this->makeControllerPath();
-    }
-    protected function makeControllerPath()
-    {
-        $this->controllerPath = $this->getAbsolutePath();
-    }
-    public function getAbsolutePath()
-    {
-        if ($this->site == 'default') {
-            $path = RC_APP_PATH . $this->directory . DIRECTORY_SEPARATOR;
-        } else {
-            $path = SITE_APP_PATH . $this->directory . DIRECTORY_SEPARATOR;
-            if (!file_exists($path)) {
-                $path = RC_APP_PATH . $this->directory . DIRECTORY_SEPARATOR;
-            }
-        }
-        return $path;
-    }
-    public function getNamespace()
-    {
-        return 'app-' . $this->directory;
-    }
-    public function getInstaller()
-    {
-        $className = $this->getNamespaceClassName('Installer');
-        if (class_exists($className)) {
-            return new $className();
-        } else {
-            return null;
-        }
-    }
-}
-}
-
 namespace Royalcms\Component\App {
-use Royalcms\Component\Support\Facades\Lang as RC_Lang;
 use Royalcms\Component\Error\Facades\Error as RC_Error;
-abstract class BundleAbstract
+use JsonSerializable;
+abstract class BundleAbstract implements JsonSerializable
 {
     protected $identifier;
     protected $directory;
@@ -23824,8 +26664,8 @@ abstract class BundleAbstract
     {
         $package = $this->getPackageData();
         if ($package && $translate) {
-            $package['format_name'] = __($package['name'], $this->getNamespace());
-            $package['format_description'] = __($package['description'], $this->getNamespace());
+            $package['format_name'] = __($package['name'], $this->getContainerName());
+            $package['format_description'] = __($package['description'], $this->getContainerName());
         } else {
             $package['format_name'] = $package['name'];
             $package['format_description'] = $package['description'];
@@ -23841,7 +26681,27 @@ abstract class BundleAbstract
     }
     public function getPackageData()
     {
-        return config($this->getNamespace() . '::' . 'package');
+        return config($this->getContainerName() . '::' . 'package');
+    }
+    public function getInstaller()
+    {
+        $namespace_class = $this->getNamespaceClassName('Installer');
+        if (class_exists($namespace_class)) {
+            return new $namespace_class();
+        }
+        $install_class = $this->directory . '_installer';
+        if (class_exists($install_class)) {
+            return new $install_class();
+        }
+        return RC_Error::make('class_not_found', sprintf(__("Class '%s' not found"), $install_class));
+    }
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+    public function toArray()
+    {
+        return ['identifier' => $this->identifier, 'directory' => $this->directory, 'alias' => $this->alias, 'site' => $this->site, 'package' => $this->package, 'namespace' => $this->namespace, 'provider' => $this->provider, 'controllerPath' => $this->controllerPath];
     }
     protected function normalizeName($name)
     {
@@ -23853,6 +26713,52 @@ abstract class BundleAbstract
     protected function getNamespaceClassName($class)
     {
         return $this->getNameSpace() . '\\' . $class;
+    }
+    public abstract function getContainerName();
+}
+}
+
+namespace Royalcms\Component\App\Bundles {
+use Royalcms\Component\App\Contracts\BundlePackage;
+use Royalcms\Component\App\BundleAbstract;
+class AppBundle extends BundleAbstract implements BundlePackage
+{
+    public function __construct($app_floder, $app_alias = null)
+    {
+        $this->directory = $app_floder;
+        if (is_null($app_alias)) {
+            $this->alias = $app_floder;
+        } else {
+            $this->alias = $app_alias;
+        }
+        $this->package = $this->appPackage();
+        if (!empty($this->package)) {
+            $this->identifier = $this->package['identifier'];
+            $this->namespace = $this->package['namespace'];
+            $this->provider = $this->namespace . '\\' . $this->package['provider'];
+        }
+        $this->site = defined('RC_SITE') ? RC_SITE : 'default';
+        $this->makeControllerPath();
+    }
+    protected function makeControllerPath()
+    {
+        $this->controllerPath = $this->getAbsolutePath();
+    }
+    public function getAbsolutePath()
+    {
+        if ($this->site == 'default') {
+            $path = RC_APP_PATH . $this->directory . DIRECTORY_SEPARATOR;
+        } else {
+            $path = SITE_APP_PATH . $this->directory . DIRECTORY_SEPARATOR;
+            if (!file_exists($path)) {
+                $path = RC_APP_PATH . $this->directory . DIRECTORY_SEPARATOR;
+            }
+        }
+        return $path;
+    }
+    public function getContainerName()
+    {
+        return 'app-' . $this->directory;
     }
 }
 }
@@ -23970,7 +26876,7 @@ class AppServiceProvider extends ServiceProvider
     public static function compiles()
     {
         $dir = static::guessPackageClassPath('royalcms/app');
-        return [$dir . "/Facades/App.php", $dir . "/AppManager.php", $dir . "/Bundles/AppBundle.php", $dir . "/BundleAbstract.php", $dir . "/Contracts/BundlePackage.php", $dir . "/AppControllerDispatcher.php", $dir . "/AppServiceProvider.php", $dir . "/AppParentServiceProvider.php"];
+        return [$dir . "/Facades/App.php", $dir . "/AppManager.php", $dir . "/BundleAbstract.php", $dir . "/Bundles/AppBundle.php", $dir . "/Contracts/BundlePackage.php", $dir . "/AppControllerDispatcher.php", $dir . "/AppServiceProvider.php", $dir . "/AppParentServiceProvider.php"];
     }
 }
 }
@@ -26368,15 +29274,23 @@ class MySqlConnector extends Connector implements ConnectorInterface
     protected function setModes(\PDO $connection, array $config)
     {
         if (isset($config['modes'])) {
-            $modes = implode(',', $config['modes']);
-            $connection->prepare("set session sql_mode='{$modes}'")->execute();
+            $this->setCustomModes($connection, $config);
         } elseif (isset($config['strict'])) {
             if ($config['strict']) {
-                $connection->prepare("set session sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'")->execute();
+                $connection->prepare($this->strictMode())->execute();
             } else {
                 $connection->prepare("set session sql_mode='NO_ENGINE_SUBSTITUTION'")->execute();
             }
         }
+    }
+    protected function setCustomModes(\PDO $connection, array $config)
+    {
+        $modes = implode(',', $config['modes']);
+        $connection->prepare("set session sql_mode='{$modes}'")->execute();
+    }
+    protected function strictMode()
+    {
+        return "set session sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'";
     }
 }
 }
@@ -27896,6 +30810,1313 @@ class Package extends Facade
 }
 }
 
+namespace Predis\Command {
+interface CommandInterface
+{
+    public function getId();
+    public function setSlot($slot);
+    public function getSlot();
+    public function setArguments(array $arguments);
+    public function setRawArguments(array $arguments);
+    public function getArguments();
+    public function getArgument($index);
+    public function parseResponse($data);
+}
+}
+
+namespace Predis\Command {
+abstract class Command implements CommandInterface
+{
+    private $slot;
+    private $arguments = array();
+    protected function filterArguments(array $arguments)
+    {
+        return $arguments;
+    }
+    public function setArguments(array $arguments)
+    {
+        $this->arguments = $this->filterArguments($arguments);
+        unset($this->slot);
+    }
+    public function setRawArguments(array $arguments)
+    {
+        $this->arguments = $arguments;
+        unset($this->slot);
+    }
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+    public function getArgument($index)
+    {
+        if (isset($this->arguments[$index])) {
+            return $this->arguments[$index];
+        }
+    }
+    public function setSlot($slot)
+    {
+        $this->slot = $slot;
+    }
+    public function getSlot()
+    {
+        if (isset($this->slot)) {
+            return $this->slot;
+        }
+    }
+    public function parseResponse($data)
+    {
+        return $data;
+    }
+    public static function normalizeArguments(array $arguments)
+    {
+        if (count($arguments) === 1 && is_array($arguments[0])) {
+            return $arguments[0];
+        }
+        return $arguments;
+    }
+    public static function normalizeVariadic(array $arguments)
+    {
+        if (count($arguments) === 2 && is_array($arguments[1])) {
+            return array_merge(array($arguments[0]), $arguments[1]);
+        }
+        return $arguments;
+    }
+}
+}
+
+namespace Predis\Command {
+class StringGet extends Command
+{
+    public function getId()
+    {
+        return 'GET';
+    }
+}
+}
+
+namespace Predis\Command {
+class RawCommand implements CommandInterface
+{
+    private $slot;
+    private $commandID;
+    private $arguments;
+    public function __construct(array $arguments)
+    {
+        if (!$arguments) {
+            throw new \InvalidArgumentException('The arguments array must contain at least the command ID.');
+        }
+        $this->commandID = strtoupper(array_shift($arguments));
+        $this->arguments = $arguments;
+    }
+    public static function create($commandID)
+    {
+        $arguments = func_get_args();
+        $command = new self($arguments);
+        return $command;
+    }
+    public function getId()
+    {
+        return $this->commandID;
+    }
+    public function setArguments(array $arguments)
+    {
+        $this->arguments = $arguments;
+        unset($this->slot);
+    }
+    public function setRawArguments(array $arguments)
+    {
+        $this->setArguments($arguments);
+    }
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+    public function getArgument($index)
+    {
+        if (isset($this->arguments[$index])) {
+            return $this->arguments[$index];
+        }
+    }
+    public function setSlot($slot)
+    {
+        $this->slot = $slot;
+    }
+    public function getSlot()
+    {
+        if (isset($this->slot)) {
+            return $this->slot;
+        }
+    }
+    public function parseResponse($data)
+    {
+        return $data;
+    }
+}
+}
+
+namespace Predis\Configuration {
+use Predis\Profile\Factory;
+use Predis\Profile\ProfileInterface;
+use Predis\Profile\RedisProfile;
+class ProfileOption implements OptionInterface
+{
+    protected function setProcessors(OptionsInterface $options, ProfileInterface $profile)
+    {
+        if (isset($options->prefix) && $profile instanceof RedisProfile) {
+            $profile->setProcessor($options->__get('prefix'));
+        }
+    }
+    public function filter(OptionsInterface $options, $value)
+    {
+        if (is_string($value)) {
+            $value = Factory::get($value);
+            $this->setProcessors($options, $value);
+        } elseif (!$value instanceof ProfileInterface) {
+            throw new \InvalidArgumentException('Invalid value for the profile option.');
+        }
+        return $value;
+    }
+    public function getDefault(OptionsInterface $options)
+    {
+        $profile = Factory::getDefault();
+        $this->setProcessors($options, $profile);
+        return $profile;
+    }
+}
+}
+
+namespace Predis\Response {
+class Status implements ResponseInterface
+{
+    private static $OK;
+    private static $QUEUED;
+    private $payload;
+    public function __construct($payload)
+    {
+        $this->payload = $payload;
+    }
+    public function __toString()
+    {
+        return $this->payload;
+    }
+    public function getPayload()
+    {
+        return $this->payload;
+    }
+    public static function get($payload)
+    {
+        switch ($payload) {
+            case 'OK':
+            case 'QUEUED':
+                if (isset(self::${$payload})) {
+                    return self::${$payload};
+                }
+                return self::${$payload} = new self($payload);
+            default:
+                return new self($payload);
+        }
+    }
+}
+}
+
+namespace Predis\Profile {
+use Predis\Command\CommandInterface;
+interface ProfileInterface
+{
+    public function getVersion();
+    public function supportsCommand($commandID);
+    public function supportsCommands(array $commandIDs);
+    public function createCommand($commandID, array $arguments = array());
+}
+}
+
+namespace Predis\Profile {
+use Predis\ClientException;
+use Predis\Command\Processor\ProcessorInterface;
+abstract class RedisProfile implements ProfileInterface
+{
+    private $commands;
+    private $processor;
+    public function __construct()
+    {
+        $this->commands = $this->getSupportedCommands();
+    }
+    protected abstract function getSupportedCommands();
+    public function supportsCommand($commandID)
+    {
+        return isset($this->commands[strtoupper($commandID)]);
+    }
+    public function supportsCommands(array $commandIDs)
+    {
+        foreach ($commandIDs as $commandID) {
+            if (!$this->supportsCommand($commandID)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public function getCommandClass($commandID)
+    {
+        if (isset($this->commands[$commandID = strtoupper($commandID)])) {
+            return $this->commands[$commandID];
+        }
+    }
+    public function createCommand($commandID, array $arguments = array())
+    {
+        $commandID = strtoupper($commandID);
+        if (!isset($this->commands[$commandID])) {
+            throw new ClientException("Command '{$commandID}' is not a registered Redis command.");
+        }
+        $commandClass = $this->commands[$commandID];
+        $command = new $commandClass();
+        $command->setArguments($arguments);
+        if (isset($this->processor)) {
+            $this->processor->process($command);
+        }
+        return $command;
+    }
+    public function defineCommand($commandID, $class)
+    {
+        $reflection = new \ReflectionClass($class);
+        if (!$reflection->isSubclassOf('Predis\\Command\\CommandInterface')) {
+            throw new \InvalidArgumentException("The class '{$class}' is not a valid command class.");
+        }
+        $this->commands[strtoupper($commandID)] = $class;
+    }
+    public function setProcessor(ProcessorInterface $processor = null)
+    {
+        $this->processor = $processor;
+    }
+    public function getProcessor()
+    {
+        return $this->processor;
+    }
+    public function __toString()
+    {
+        return $this->getVersion();
+    }
+}
+}
+
+namespace Predis\Profile {
+class RedisVersion300 extends RedisProfile
+{
+    public function getVersion()
+    {
+        return '3.0';
+    }
+    public function getSupportedCommands()
+    {
+        return array('EXISTS' => 'Predis\\Command\\KeyExists', 'DEL' => 'Predis\\Command\\KeyDelete', 'TYPE' => 'Predis\\Command\\KeyType', 'KEYS' => 'Predis\\Command\\KeyKeys', 'RANDOMKEY' => 'Predis\\Command\\KeyRandom', 'RENAME' => 'Predis\\Command\\KeyRename', 'RENAMENX' => 'Predis\\Command\\KeyRenamePreserve', 'EXPIRE' => 'Predis\\Command\\KeyExpire', 'EXPIREAT' => 'Predis\\Command\\KeyExpireAt', 'TTL' => 'Predis\\Command\\KeyTimeToLive', 'MOVE' => 'Predis\\Command\\KeyMove', 'SORT' => 'Predis\\Command\\KeySort', 'DUMP' => 'Predis\\Command\\KeyDump', 'RESTORE' => 'Predis\\Command\\KeyRestore', 'SET' => 'Predis\\Command\\StringSet', 'SETNX' => 'Predis\\Command\\StringSetPreserve', 'MSET' => 'Predis\\Command\\StringSetMultiple', 'MSETNX' => 'Predis\\Command\\StringSetMultiplePreserve', 'GET' => 'Predis\\Command\\StringGet', 'MGET' => 'Predis\\Command\\StringGetMultiple', 'GETSET' => 'Predis\\Command\\StringGetSet', 'INCR' => 'Predis\\Command\\StringIncrement', 'INCRBY' => 'Predis\\Command\\StringIncrementBy', 'DECR' => 'Predis\\Command\\StringDecrement', 'DECRBY' => 'Predis\\Command\\StringDecrementBy', 'RPUSH' => 'Predis\\Command\\ListPushTail', 'LPUSH' => 'Predis\\Command\\ListPushHead', 'LLEN' => 'Predis\\Command\\ListLength', 'LRANGE' => 'Predis\\Command\\ListRange', 'LTRIM' => 'Predis\\Command\\ListTrim', 'LINDEX' => 'Predis\\Command\\ListIndex', 'LSET' => 'Predis\\Command\\ListSet', 'LREM' => 'Predis\\Command\\ListRemove', 'LPOP' => 'Predis\\Command\\ListPopFirst', 'RPOP' => 'Predis\\Command\\ListPopLast', 'RPOPLPUSH' => 'Predis\\Command\\ListPopLastPushHead', 'SADD' => 'Predis\\Command\\SetAdd', 'SREM' => 'Predis\\Command\\SetRemove', 'SPOP' => 'Predis\\Command\\SetPop', 'SMOVE' => 'Predis\\Command\\SetMove', 'SCARD' => 'Predis\\Command\\SetCardinality', 'SISMEMBER' => 'Predis\\Command\\SetIsMember', 'SINTER' => 'Predis\\Command\\SetIntersection', 'SINTERSTORE' => 'Predis\\Command\\SetIntersectionStore', 'SUNION' => 'Predis\\Command\\SetUnion', 'SUNIONSTORE' => 'Predis\\Command\\SetUnionStore', 'SDIFF' => 'Predis\\Command\\SetDifference', 'SDIFFSTORE' => 'Predis\\Command\\SetDifferenceStore', 'SMEMBERS' => 'Predis\\Command\\SetMembers', 'SRANDMEMBER' => 'Predis\\Command\\SetRandomMember', 'ZADD' => 'Predis\\Command\\ZSetAdd', 'ZINCRBY' => 'Predis\\Command\\ZSetIncrementBy', 'ZREM' => 'Predis\\Command\\ZSetRemove', 'ZRANGE' => 'Predis\\Command\\ZSetRange', 'ZREVRANGE' => 'Predis\\Command\\ZSetReverseRange', 'ZRANGEBYSCORE' => 'Predis\\Command\\ZSetRangeByScore', 'ZCARD' => 'Predis\\Command\\ZSetCardinality', 'ZSCORE' => 'Predis\\Command\\ZSetScore', 'ZREMRANGEBYSCORE' => 'Predis\\Command\\ZSetRemoveRangeByScore', 'PING' => 'Predis\\Command\\ConnectionPing', 'AUTH' => 'Predis\\Command\\ConnectionAuth', 'SELECT' => 'Predis\\Command\\ConnectionSelect', 'ECHO' => 'Predis\\Command\\ConnectionEcho', 'QUIT' => 'Predis\\Command\\ConnectionQuit', 'INFO' => 'Predis\\Command\\ServerInfoV26x', 'SLAVEOF' => 'Predis\\Command\\ServerSlaveOf', 'MONITOR' => 'Predis\\Command\\ServerMonitor', 'DBSIZE' => 'Predis\\Command\\ServerDatabaseSize', 'FLUSHDB' => 'Predis\\Command\\ServerFlushDatabase', 'FLUSHALL' => 'Predis\\Command\\ServerFlushAll', 'SAVE' => 'Predis\\Command\\ServerSave', 'BGSAVE' => 'Predis\\Command\\ServerBackgroundSave', 'LASTSAVE' => 'Predis\\Command\\ServerLastSave', 'SHUTDOWN' => 'Predis\\Command\\ServerShutdown', 'BGREWRITEAOF' => 'Predis\\Command\\ServerBackgroundRewriteAOF', 'SETEX' => 'Predis\\Command\\StringSetExpire', 'APPEND' => 'Predis\\Command\\StringAppend', 'SUBSTR' => 'Predis\\Command\\StringSubstr', 'BLPOP' => 'Predis\\Command\\ListPopFirstBlocking', 'BRPOP' => 'Predis\\Command\\ListPopLastBlocking', 'ZUNIONSTORE' => 'Predis\\Command\\ZSetUnionStore', 'ZINTERSTORE' => 'Predis\\Command\\ZSetIntersectionStore', 'ZCOUNT' => 'Predis\\Command\\ZSetCount', 'ZRANK' => 'Predis\\Command\\ZSetRank', 'ZREVRANK' => 'Predis\\Command\\ZSetReverseRank', 'ZREMRANGEBYRANK' => 'Predis\\Command\\ZSetRemoveRangeByRank', 'HSET' => 'Predis\\Command\\HashSet', 'HSETNX' => 'Predis\\Command\\HashSetPreserve', 'HMSET' => 'Predis\\Command\\HashSetMultiple', 'HINCRBY' => 'Predis\\Command\\HashIncrementBy', 'HGET' => 'Predis\\Command\\HashGet', 'HMGET' => 'Predis\\Command\\HashGetMultiple', 'HDEL' => 'Predis\\Command\\HashDelete', 'HEXISTS' => 'Predis\\Command\\HashExists', 'HLEN' => 'Predis\\Command\\HashLength', 'HKEYS' => 'Predis\\Command\\HashKeys', 'HVALS' => 'Predis\\Command\\HashValues', 'HGETALL' => 'Predis\\Command\\HashGetAll', 'MULTI' => 'Predis\\Command\\TransactionMulti', 'EXEC' => 'Predis\\Command\\TransactionExec', 'DISCARD' => 'Predis\\Command\\TransactionDiscard', 'SUBSCRIBE' => 'Predis\\Command\\PubSubSubscribe', 'UNSUBSCRIBE' => 'Predis\\Command\\PubSubUnsubscribe', 'PSUBSCRIBE' => 'Predis\\Command\\PubSubSubscribeByPattern', 'PUNSUBSCRIBE' => 'Predis\\Command\\PubSubUnsubscribeByPattern', 'PUBLISH' => 'Predis\\Command\\PubSubPublish', 'CONFIG' => 'Predis\\Command\\ServerConfig', 'PERSIST' => 'Predis\\Command\\KeyPersist', 'STRLEN' => 'Predis\\Command\\StringStrlen', 'SETRANGE' => 'Predis\\Command\\StringSetRange', 'GETRANGE' => 'Predis\\Command\\StringGetRange', 'SETBIT' => 'Predis\\Command\\StringSetBit', 'GETBIT' => 'Predis\\Command\\StringGetBit', 'RPUSHX' => 'Predis\\Command\\ListPushTailX', 'LPUSHX' => 'Predis\\Command\\ListPushHeadX', 'LINSERT' => 'Predis\\Command\\ListInsert', 'BRPOPLPUSH' => 'Predis\\Command\\ListPopLastPushHeadBlocking', 'ZREVRANGEBYSCORE' => 'Predis\\Command\\ZSetReverseRangeByScore', 'WATCH' => 'Predis\\Command\\TransactionWatch', 'UNWATCH' => 'Predis\\Command\\TransactionUnwatch', 'OBJECT' => 'Predis\\Command\\ServerObject', 'SLOWLOG' => 'Predis\\Command\\ServerSlowlog', 'CLIENT' => 'Predis\\Command\\ServerClient', 'PTTL' => 'Predis\\Command\\KeyPreciseTimeToLive', 'PEXPIRE' => 'Predis\\Command\\KeyPreciseExpire', 'PEXPIREAT' => 'Predis\\Command\\KeyPreciseExpireAt', 'MIGRATE' => 'Predis\\Command\\KeyMigrate', 'PSETEX' => 'Predis\\Command\\StringPreciseSetExpire', 'INCRBYFLOAT' => 'Predis\\Command\\StringIncrementByFloat', 'BITOP' => 'Predis\\Command\\StringBitOp', 'BITCOUNT' => 'Predis\\Command\\StringBitCount', 'HINCRBYFLOAT' => 'Predis\\Command\\HashIncrementByFloat', 'EVAL' => 'Predis\\Command\\ServerEval', 'EVALSHA' => 'Predis\\Command\\ServerEvalSHA', 'SCRIPT' => 'Predis\\Command\\ServerScript', 'TIME' => 'Predis\\Command\\ServerTime', 'SENTINEL' => 'Predis\\Command\\ServerSentinel', 'SCAN' => 'Predis\\Command\\KeyScan', 'BITPOS' => 'Predis\\Command\\StringBitPos', 'SSCAN' => 'Predis\\Command\\SetScan', 'ZSCAN' => 'Predis\\Command\\ZSetScan', 'ZLEXCOUNT' => 'Predis\\Command\\ZSetLexCount', 'ZRANGEBYLEX' => 'Predis\\Command\\ZSetRangeByLex', 'ZREMRANGEBYLEX' => 'Predis\\Command\\ZSetRemoveRangeByLex', 'ZREVRANGEBYLEX' => 'Predis\\Command\\ZSetReverseRangeByLex', 'HSCAN' => 'Predis\\Command\\HashScan', 'PUBSUB' => 'Predis\\Command\\PubSubPubsub', 'PFADD' => 'Predis\\Command\\HyperLogLogAdd', 'PFCOUNT' => 'Predis\\Command\\HyperLogLogCount', 'PFMERGE' => 'Predis\\Command\\HyperLogLogMerge', 'COMMAND' => 'Predis\\Command\\ServerCommand');
+    }
+}
+}
+
+namespace Predis\Profile {
+use Predis\ClientException;
+final class Factory
+{
+    private static $profiles = array('2.0' => 'Predis\\Profile\\RedisVersion200', '2.2' => 'Predis\\Profile\\RedisVersion220', '2.4' => 'Predis\\Profile\\RedisVersion240', '2.6' => 'Predis\\Profile\\RedisVersion260', '2.8' => 'Predis\\Profile\\RedisVersion280', '3.0' => 'Predis\\Profile\\RedisVersion300', '3.2' => 'Predis\\Profile\\RedisVersion320', 'dev' => 'Predis\\Profile\\RedisUnstable', 'default' => 'Predis\\Profile\\RedisVersion300');
+    private function __construct()
+    {
+    }
+    public static function getDefault()
+    {
+        return self::get('default');
+    }
+    public static function getDevelopment()
+    {
+        return self::get('dev');
+    }
+    public static function define($alias, $class)
+    {
+        $reflection = new \ReflectionClass($class);
+        if (!$reflection->isSubclassOf('Predis\\Profile\\ProfileInterface')) {
+            throw new \InvalidArgumentException("The class '{$class}' is not a valid profile class.");
+        }
+        self::$profiles[$alias] = $class;
+    }
+    public static function get($version)
+    {
+        if (!isset(self::$profiles[$version])) {
+            throw new ClientException("Unknown server profile: '{$version}'.");
+        }
+        $profile = self::$profiles[$version];
+        return new $profile();
+    }
+}
+}
+
+namespace Predis\Connection {
+interface FactoryInterface
+{
+    public function define($scheme, $initializer);
+    public function undefine($scheme);
+    public function create($parameters);
+    public function aggregate(AggregateConnectionInterface $aggregate, array $parameters);
+}
+}
+
+namespace Predis\Connection {
+use Predis\Command\RawCommand;
+class Factory implements FactoryInterface
+{
+    protected $schemes = array('tcp' => 'Predis\\Connection\\StreamConnection', 'unix' => 'Predis\\Connection\\StreamConnection', 'redis' => 'Predis\\Connection\\StreamConnection', 'http' => 'Predis\\Connection\\WebdisConnection');
+    protected function checkInitializer($initializer)
+    {
+        if (is_callable($initializer)) {
+            return $initializer;
+        }
+        $class = new \ReflectionClass($initializer);
+        if (!$class->isSubclassOf('Predis\\Connection\\NodeConnectionInterface')) {
+            throw new \InvalidArgumentException('A connection initializer must be a valid connection class or a callable object.');
+        }
+        return $initializer;
+    }
+    public function define($scheme, $initializer)
+    {
+        $this->schemes[$scheme] = $this->checkInitializer($initializer);
+    }
+    public function undefine($scheme)
+    {
+        unset($this->schemes[$scheme]);
+    }
+    public function create($parameters)
+    {
+        if (!$parameters instanceof ParametersInterface) {
+            $parameters = $this->createParameters($parameters);
+        }
+        $scheme = $parameters->scheme;
+        if (!isset($this->schemes[$scheme])) {
+            throw new \InvalidArgumentException("Unknown connection scheme: '{$scheme}'.");
+        }
+        $initializer = $this->schemes[$scheme];
+        if (is_callable($initializer)) {
+            $connection = call_user_func($initializer, $parameters, $this);
+        } else {
+            $connection = new $initializer($parameters);
+            $this->prepareConnection($connection);
+        }
+        if (!$connection instanceof NodeConnectionInterface) {
+            throw new \UnexpectedValueException('Objects returned by connection initializers must implement ' . "'Predis\\Connection\\NodeConnectionInterface'.");
+        }
+        return $connection;
+    }
+    public function aggregate(AggregateConnectionInterface $connection, array $parameters)
+    {
+        foreach ($parameters as $node) {
+            $connection->add($node instanceof NodeConnectionInterface ? $node : $this->create($node));
+        }
+    }
+    protected function createParameters($parameters)
+    {
+        return Parameters::create($parameters);
+    }
+    protected function prepareConnection(NodeConnectionInterface $connection)
+    {
+        $parameters = $connection->getParameters();
+        if (isset($parameters->password)) {
+            $connection->addConnectCommand(new RawCommand(array('AUTH', $parameters->password)));
+        }
+        if (isset($parameters->database)) {
+            $connection->addConnectCommand(new RawCommand(array('SELECT', $parameters->database)));
+        }
+    }
+}
+}
+
+namespace Predis\Connection {
+interface ParametersInterface
+{
+    public function __isset($parameter);
+    public function __get($parameter);
+    public function toArray();
+}
+}
+
+namespace Predis\Connection {
+use Predis\Command\CommandInterface;
+interface NodeConnectionInterface extends ConnectionInterface
+{
+    public function __toString();
+    public function getResource();
+    public function getParameters();
+    public function addConnectCommand(CommandInterface $command);
+    public function read();
+}
+}
+
+namespace Predis\Connection {
+use Predis\Command\CommandInterface;
+interface ConnectionInterface
+{
+    public function connect();
+    public function disconnect();
+    public function isConnected();
+    public function writeRequest(CommandInterface $command);
+    public function readResponse(CommandInterface $command);
+    public function executeCommand(CommandInterface $command);
+}
+}
+
+namespace Predis\Connection {
+use Predis\Command\CommandInterface;
+use Predis\CommunicationException;
+use Predis\Protocol\ProtocolException;
+abstract class AbstractConnection implements NodeConnectionInterface
+{
+    private $resource;
+    private $cachedId;
+    protected $parameters;
+    protected $initCommands = array();
+    public function __construct(ParametersInterface $parameters)
+    {
+        $this->parameters = $this->assertParameters($parameters);
+    }
+    public function __destruct()
+    {
+        $this->disconnect();
+    }
+    protected function assertParameters(ParametersInterface $parameters)
+    {
+        switch ($parameters->scheme) {
+            case 'tcp':
+            case 'redis':
+            case 'unix':
+                break;
+            default:
+                throw new \InvalidArgumentException("Invalid scheme: '{$parameters->scheme}'.");
+        }
+        return $parameters;
+    }
+    protected abstract function createResource();
+    public function isConnected()
+    {
+        return isset($this->resource);
+    }
+    public function connect()
+    {
+        if (!$this->isConnected()) {
+            $this->resource = $this->createResource();
+            return true;
+        }
+        return false;
+    }
+    public function disconnect()
+    {
+        unset($this->resource);
+    }
+    public function addConnectCommand(CommandInterface $command)
+    {
+        $this->initCommands[] = $command;
+    }
+    public function executeCommand(CommandInterface $command)
+    {
+        $this->writeRequest($command);
+        return $this->readResponse($command);
+    }
+    public function readResponse(CommandInterface $command)
+    {
+        return $this->read();
+    }
+    private function createExceptionMessage($message)
+    {
+        $parameters = $this->parameters;
+        if ($parameters->scheme === 'unix') {
+            return "{$message} [{$parameters->scheme}:{$parameters->path}]";
+        }
+        if (filter_var($parameters->host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            return "{$message} [{$parameters->scheme}://[{$parameters->host}]:{$parameters->port}]";
+        }
+        return "{$message} [{$parameters->scheme}://{$parameters->host}:{$parameters->port}]";
+    }
+    protected function onConnectionError($message, $code = null)
+    {
+        CommunicationException::handle(new ConnectionException($this, static::createExceptionMessage($message), $code));
+    }
+    protected function onProtocolError($message)
+    {
+        CommunicationException::handle(new ProtocolException($this, static::createExceptionMessage($message)));
+    }
+    public function getResource()
+    {
+        if (isset($this->resource)) {
+            return $this->resource;
+        }
+        $this->connect();
+        return $this->resource;
+    }
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+    protected function getIdentifier()
+    {
+        if ($this->parameters->scheme === 'unix') {
+            return $this->parameters->path;
+        }
+        return "{$this->parameters->host}:{$this->parameters->port}";
+    }
+    public function __toString()
+    {
+        if (!isset($this->cachedId)) {
+            $this->cachedId = $this->getIdentifier();
+        }
+        return $this->cachedId;
+    }
+    public function __sleep()
+    {
+        return array('parameters', 'initCommands');
+    }
+}
+}
+
+namespace Predis\Connection {
+class Parameters implements ParametersInterface
+{
+    private $parameters;
+    private static $defaults = array('scheme' => 'tcp', 'host' => '127.0.0.1', 'port' => 6379, 'timeout' => 5.0);
+    public function __construct(array $parameters = array())
+    {
+        $this->parameters = $this->filter($parameters) + $this->getDefaults();
+    }
+    protected function getDefaults()
+    {
+        return self::$defaults;
+    }
+    public static function create($parameters)
+    {
+        if (is_string($parameters)) {
+            $parameters = static::parse($parameters);
+        }
+        return new static($parameters ?: array());
+    }
+    public static function parse($uri)
+    {
+        if (stripos($uri, 'unix') === 0) {
+            $uri = str_ireplace('unix:///', 'unix://localhost/', $uri);
+        }
+        if (!($parsed = parse_url($uri))) {
+            throw new \InvalidArgumentException("Invalid parameters URI: {$uri}");
+        }
+        if (isset($parsed['host']) && false !== strpos($parsed['host'], '[') && false !== strpos($parsed['host'], ']')) {
+            $parsed['host'] = substr($parsed['host'], 1, -1);
+        }
+        if (isset($parsed['query'])) {
+            parse_str($parsed['query'], $queryarray);
+            unset($parsed['query']);
+            $parsed = array_merge($parsed, $queryarray);
+        }
+        if (stripos($uri, 'redis') === 0) {
+            if (isset($parsed['pass'])) {
+                $parsed['password'] = $parsed['pass'];
+                unset($parsed['pass']);
+            }
+            if (isset($parsed['path']) && preg_match('/^\\/(\\d+)(\\/.*)?/', $parsed['path'], $path)) {
+                $parsed['database'] = $path[1];
+                if (isset($path[2])) {
+                    $parsed['path'] = $path[2];
+                } else {
+                    unset($parsed['path']);
+                }
+            }
+        }
+        return $parsed;
+    }
+    protected function filter(array $parameters)
+    {
+        return $parameters ?: array();
+    }
+    public function __get($parameter)
+    {
+        if (isset($this->parameters[$parameter])) {
+            return $this->parameters[$parameter];
+        }
+    }
+    public function __isset($parameter)
+    {
+        return isset($this->parameters[$parameter]);
+    }
+    public function toArray()
+    {
+        return $this->parameters;
+    }
+    public function __sleep()
+    {
+        return array('parameters');
+    }
+}
+}
+
+namespace Predis\Connection {
+use Predis\Command\CommandInterface;
+use Predis\Response\Error as ErrorResponse;
+use Predis\Response\Status as StatusResponse;
+class StreamConnection extends AbstractConnection
+{
+    public function __destruct()
+    {
+        if (isset($this->parameters->persistent) && $this->parameters->persistent) {
+            return;
+        }
+        $this->disconnect();
+    }
+    protected function createResource()
+    {
+        switch ($this->parameters->scheme) {
+            case 'tcp':
+            case 'redis':
+                return $this->tcpStreamInitializer($this->parameters);
+            case 'unix':
+                return $this->unixStreamInitializer($this->parameters);
+            default:
+                throw new \InvalidArgumentException("Invalid scheme: '{$this->parameters->scheme}'.");
+        }
+    }
+    protected function tcpStreamInitializer(ParametersInterface $parameters)
+    {
+        if (!filter_var($parameters->host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            $uri = "tcp://{$parameters->host}:{$parameters->port}";
+        } else {
+            $uri = "tcp://[{$parameters->host}]:{$parameters->port}";
+        }
+        $flags = STREAM_CLIENT_CONNECT;
+        if (isset($parameters->async_connect) && (bool) $parameters->async_connect) {
+            $flags |= STREAM_CLIENT_ASYNC_CONNECT;
+        }
+        if (isset($parameters->persistent) && (bool) $parameters->persistent) {
+            $flags |= STREAM_CLIENT_PERSISTENT;
+            $uri .= strpos($path = $parameters->path, '/') === 0 ? $path : "/{$path}";
+        }
+        $resource = @stream_socket_client($uri, $errno, $errstr, (double) $parameters->timeout, $flags);
+        if (!$resource) {
+            $this->onConnectionError(trim($errstr), $errno);
+        }
+        if (isset($parameters->read_write_timeout)) {
+            $rwtimeout = (double) $parameters->read_write_timeout;
+            $rwtimeout = $rwtimeout > 0 ? $rwtimeout : -1;
+            $timeoutSeconds = floor($rwtimeout);
+            $timeoutUSeconds = ($rwtimeout - $timeoutSeconds) * 1000000;
+            stream_set_timeout($resource, $timeoutSeconds, $timeoutUSeconds);
+        }
+        if (isset($parameters->tcp_nodelay) && function_exists('socket_import_stream')) {
+            $socket = socket_import_stream($resource);
+            socket_set_option($socket, SOL_TCP, TCP_NODELAY, (int) $parameters->tcp_nodelay);
+        }
+        return $resource;
+    }
+    protected function unixStreamInitializer(ParametersInterface $parameters)
+    {
+        if (!isset($parameters->path)) {
+            throw new \InvalidArgumentException('Missing UNIX domain socket path.');
+        }
+        $uri = "unix://{$parameters->path}";
+        $flags = STREAM_CLIENT_CONNECT;
+        if ((bool) $parameters->persistent) {
+            $flags |= STREAM_CLIENT_PERSISTENT;
+        }
+        $resource = @stream_socket_client($uri, $errno, $errstr, (double) $parameters->timeout, $flags);
+        if (!$resource) {
+            $this->onConnectionError(trim($errstr), $errno);
+        }
+        if (isset($parameters->read_write_timeout)) {
+            $rwtimeout = (double) $parameters->read_write_timeout;
+            $rwtimeout = $rwtimeout > 0 ? $rwtimeout : -1;
+            $timeoutSeconds = floor($rwtimeout);
+            $timeoutUSeconds = ($rwtimeout - $timeoutSeconds) * 1000000;
+            stream_set_timeout($resource, $timeoutSeconds, $timeoutUSeconds);
+        }
+        return $resource;
+    }
+    public function connect()
+    {
+        if (parent::connect() && $this->initCommands) {
+            foreach ($this->initCommands as $command) {
+                $this->executeCommand($command);
+            }
+        }
+    }
+    public function disconnect()
+    {
+        if ($this->isConnected()) {
+            fclose($this->getResource());
+            parent::disconnect();
+        }
+    }
+    protected function write($buffer)
+    {
+        $socket = $this->getResource();
+        while (($length = strlen($buffer)) > 0) {
+            $written = @fwrite($socket, $buffer);
+            if ($length === $written) {
+                return;
+            }
+            if ($written === false || $written === 0) {
+                $this->onConnectionError('Error while writing bytes to the server.');
+            }
+            $buffer = substr($buffer, $written);
+        }
+    }
+    public function read()
+    {
+        $socket = $this->getResource();
+        $chunk = fgets($socket);
+        if ($chunk === false || $chunk === '') {
+            $this->onConnectionError('Error while reading line from the server.');
+        }
+        $prefix = $chunk[0];
+        $payload = substr($chunk, 1, -2);
+        switch ($prefix) {
+            case '+':
+                return StatusResponse::get($payload);
+            case '$':
+                $size = (int) $payload;
+                if ($size === -1) {
+                    return;
+                }
+                $bulkData = '';
+                $bytesLeft = $size += 2;
+                do {
+                    $chunk = fread($socket, min($bytesLeft, 4096));
+                    if ($chunk === false || $chunk === '') {
+                        $this->onConnectionError('Error while reading bytes from the server.');
+                    }
+                    $bulkData .= $chunk;
+                    $bytesLeft = $size - strlen($bulkData);
+                } while ($bytesLeft > 0);
+                return substr($bulkData, 0, -2);
+            case '*':
+                $count = (int) $payload;
+                if ($count === -1) {
+                    return;
+                }
+                $multibulk = array();
+                for ($i = 0; $i < $count; ++$i) {
+                    $multibulk[$i] = $this->read();
+                }
+                return $multibulk;
+            case ':':
+                return (int) $payload;
+            case '-':
+                return new ErrorResponse($payload);
+            default:
+                $this->onProtocolError("Unknown response prefix: '{$prefix}'.");
+                return;
+        }
+    }
+    public function writeRequest(CommandInterface $command)
+    {
+        $commandID = $command->getId();
+        $arguments = $command->getArguments();
+        $cmdlen = strlen($commandID);
+        $reqlen = count($arguments) + 1;
+        $buffer = "*{$reqlen}\r\n\${$cmdlen}\r\n{$commandID}\r\n";
+        foreach ($arguments as $argument) {
+            $arglen = strlen($argument);
+            $buffer .= "\${$arglen}\r\n{$argument}\r\n";
+        }
+        $this->write($buffer);
+    }
+}
+}
+
+namespace Predis\Response {
+interface ResponseInterface
+{
+}
+}
+
+namespace Predis\Configuration {
+interface OptionsInterface
+{
+    public function getDefault($option);
+    public function defined($option);
+    public function __isset($option);
+    public function __get($option);
+}
+}
+
+namespace Predis\Configuration {
+interface OptionInterface
+{
+    public function filter(OptionsInterface $options, $value);
+    public function getDefault(OptionsInterface $options);
+}
+}
+
+namespace Predis {
+use Predis\Command\CommandInterface;
+use Predis\Configuration\OptionsInterface;
+use Predis\Connection\ConnectionInterface;
+use Predis\Profile\ProfileInterface;
+interface ClientInterface
+{
+    public function getProfile();
+    public function getOptions();
+    public function connect();
+    public function disconnect();
+    public function getConnection();
+    public function createCommand($method, $arguments = array());
+    public function executeCommand(CommandInterface $command);
+    public function __call($method, $arguments);
+}
+}
+
+namespace Predis {
+use Predis\Command\CommandInterface;
+use Predis\Command\RawCommand;
+use Predis\Command\ScriptCommand;
+use Predis\Configuration\Options;
+use Predis\Configuration\OptionsInterface;
+use Predis\Connection\AggregateConnectionInterface;
+use Predis\Connection\ConnectionInterface;
+use Predis\Connection\ParametersInterface;
+use Predis\Monitor\Consumer as MonitorConsumer;
+use Predis\Pipeline\Pipeline;
+use Predis\PubSub\Consumer as PubSubConsumer;
+use Predis\Response\ErrorInterface as ErrorResponseInterface;
+use Predis\Response\ResponseInterface;
+use Predis\Response\ServerException;
+use Predis\Transaction\MultiExec as MultiExecTransaction;
+class Client implements ClientInterface
+{
+    const VERSION = '1.0.4';
+    protected $connection;
+    protected $options;
+    private $profile;
+    public function __construct($parameters = null, $options = null)
+    {
+        $this->options = $this->createOptions($options ?: array());
+        $this->connection = $this->createConnection($parameters ?: array());
+        $this->profile = $this->options->profile;
+    }
+    protected function createOptions($options)
+    {
+        if (is_array($options)) {
+            return new Options($options);
+        }
+        if ($options instanceof OptionsInterface) {
+            return $options;
+        }
+        throw new \InvalidArgumentException('Invalid type for client options.');
+    }
+    protected function createConnection($parameters)
+    {
+        if ($parameters instanceof ConnectionInterface) {
+            return $parameters;
+        }
+        if ($parameters instanceof ParametersInterface || is_string($parameters)) {
+            return $this->options->connections->create($parameters);
+        }
+        if (is_array($parameters)) {
+            if (!isset($parameters[0])) {
+                return $this->options->connections->create($parameters);
+            }
+            $options = $this->options;
+            if ($options->defined('aggregate')) {
+                $initializer = $this->getConnectionInitializerWrapper($options->aggregate);
+                $connection = $initializer($parameters, $options);
+            } else {
+                if ($options->defined('replication') && ($replication = $options->replication)) {
+                    $connection = $replication;
+                } else {
+                    $connection = $options->cluster;
+                }
+                $options->connections->aggregate($connection, $parameters);
+            }
+            return $connection;
+        }
+        if (is_callable($parameters)) {
+            $initializer = $this->getConnectionInitializerWrapper($parameters);
+            $connection = $initializer($this->options);
+            return $connection;
+        }
+        throw new \InvalidArgumentException('Invalid type for connection parameters.');
+    }
+    protected function getConnectionInitializerWrapper($callable)
+    {
+        return function () use($callable) {
+            $connection = call_user_func_array($callable, func_get_args());
+            if (!$connection instanceof ConnectionInterface) {
+                throw new \UnexpectedValueException('The callable connection initializer returned an invalid type.');
+            }
+            return $connection;
+        };
+    }
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    public function getClientFor($connectionID)
+    {
+        if (!($connection = $this->getConnectionById($connectionID))) {
+            throw new \InvalidArgumentException("Invalid connection ID: {$connectionID}.");
+        }
+        return new static($connection, $this->options);
+    }
+    public function connect()
+    {
+        $this->connection->connect();
+    }
+    public function disconnect()
+    {
+        $this->connection->disconnect();
+    }
+    public function quit()
+    {
+        $this->disconnect();
+    }
+    public function isConnected()
+    {
+        return $this->connection->isConnected();
+    }
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+    public function getConnectionById($connectionID)
+    {
+        if (!$this->connection instanceof AggregateConnectionInterface) {
+            throw new NotSupportedException('Retrieving connections by ID is supported only by aggregate connections.');
+        }
+        return $this->connection->getConnectionById($connectionID);
+    }
+    public function executeRaw(array $arguments, &$error = null)
+    {
+        $error = false;
+        $response = $this->connection->executeCommand(new RawCommand($arguments));
+        if ($response instanceof ResponseInterface) {
+            if ($response instanceof ErrorResponseInterface) {
+                $error = true;
+            }
+            return (string) $response;
+        }
+        return $response;
+    }
+    public function __call($commandID, $arguments)
+    {
+        return $this->executeCommand($this->createCommand($commandID, $arguments));
+    }
+    public function createCommand($commandID, $arguments = array())
+    {
+        return $this->profile->createCommand($commandID, $arguments);
+    }
+    public function executeCommand(CommandInterface $command)
+    {
+        $response = $this->connection->executeCommand($command);
+        if ($response instanceof ResponseInterface) {
+            if ($response instanceof ErrorResponseInterface) {
+                $response = $this->onErrorResponse($command, $response);
+            }
+            return $response;
+        }
+        return $command->parseResponse($response);
+    }
+    protected function onErrorResponse(CommandInterface $command, ErrorResponseInterface $response)
+    {
+        if ($command instanceof ScriptCommand && $response->getErrorType() === 'NOSCRIPT') {
+            $eval = $this->createCommand('EVAL');
+            $eval->setRawArguments($command->getEvalArguments());
+            $response = $this->executeCommand($eval);
+            if (!$response instanceof ResponseInterface) {
+                $response = $command->parseResponse($response);
+            }
+            return $response;
+        }
+        if ($this->options->exceptions) {
+            throw new ServerException($response->getMessage());
+        }
+        return $response;
+    }
+    private function sharedContextFactory($initializer, $argv = null)
+    {
+        switch (count($argv)) {
+            case 0:
+                return $this->{$initializer}();
+            case 1:
+                return is_array($argv[0]) ? $this->{$initializer}($argv[0]) : $this->{$initializer}(null, $argv[0]);
+            case 2:
+                list($arg0, $arg1) = $argv;
+                return $this->{$initializer}($arg0, $arg1);
+            default:
+                return $this->{$initializer}($this, $argv);
+        }
+    }
+    public function pipeline()
+    {
+        return $this->sharedContextFactory('createPipeline', func_get_args());
+    }
+    protected function createPipeline(array $options = null, $callable = null)
+    {
+        if (isset($options['atomic']) && $options['atomic']) {
+            $class = 'Predis\\Pipeline\\Atomic';
+        } elseif (isset($options['fire-and-forget']) && $options['fire-and-forget']) {
+            $class = 'Predis\\Pipeline\\FireAndForget';
+        } else {
+            $class = 'Predis\\Pipeline\\Pipeline';
+        }
+        $pipeline = new $class($this);
+        if (isset($callable)) {
+            return $pipeline->execute($callable);
+        }
+        return $pipeline;
+    }
+    public function transaction()
+    {
+        return $this->sharedContextFactory('createTransaction', func_get_args());
+    }
+    protected function createTransaction(array $options = null, $callable = null)
+    {
+        $transaction = new MultiExecTransaction($this, $options);
+        if (isset($callable)) {
+            return $transaction->execute($callable);
+        }
+        return $transaction;
+    }
+    public function pubSubLoop()
+    {
+        return $this->sharedContextFactory('createPubSub', func_get_args());
+    }
+    protected function createPubSub(array $options = null, $callable = null)
+    {
+        $pubsub = new PubSubConsumer($this, $options);
+        if (!isset($callable)) {
+            return $pubsub;
+        }
+        foreach ($pubsub as $message) {
+            if (call_user_func($callable, $pubsub, $message) === false) {
+                $pubsub->stop();
+            }
+        }
+    }
+    public function monitor()
+    {
+        return new MonitorConsumer($this);
+    }
+}
+}
+
+namespace Predis\Configuration {
+use Predis\Connection\Factory;
+use Predis\Connection\FactoryInterface;
+class ConnectionFactoryOption implements OptionInterface
+{
+    public function filter(OptionsInterface $options, $value)
+    {
+        if ($value instanceof FactoryInterface) {
+            return $value;
+        } elseif (is_array($value)) {
+            $factory = $this->getDefault($options);
+            foreach ($value as $scheme => $initializer) {
+                $factory->define($scheme, $initializer);
+            }
+            return $factory;
+        } else {
+            throw new \InvalidArgumentException('Invalid value provided for the connections option.');
+        }
+    }
+    public function getDefault(OptionsInterface $options)
+    {
+        return new Factory();
+    }
+}
+}
+
+namespace Predis\Configuration {
+class Options implements OptionsInterface
+{
+    protected $input;
+    protected $options;
+    protected $handlers;
+    public function __construct(array $options = array())
+    {
+        $this->input = $options;
+        $this->options = array();
+        $this->handlers = $this->getHandlers();
+    }
+    protected function getHandlers()
+    {
+        return array('cluster' => 'Predis\\Configuration\\ClusterOption', 'connections' => 'Predis\\Configuration\\ConnectionFactoryOption', 'exceptions' => 'Predis\\Configuration\\ExceptionsOption', 'prefix' => 'Predis\\Configuration\\PrefixOption', 'profile' => 'Predis\\Configuration\\ProfileOption', 'replication' => 'Predis\\Configuration\\ReplicationOption');
+    }
+    public function getDefault($option)
+    {
+        if (isset($this->handlers[$option])) {
+            $handler = $this->handlers[$option];
+            $handler = new $handler();
+            return $handler->getDefault($this);
+        }
+    }
+    public function defined($option)
+    {
+        return array_key_exists($option, $this->options) || array_key_exists($option, $this->input);
+    }
+    public function __isset($option)
+    {
+        return (array_key_exists($option, $this->options) || array_key_exists($option, $this->input)) && $this->__get($option) !== null;
+    }
+    public function __get($option)
+    {
+        if (isset($this->options[$option]) || array_key_exists($option, $this->options)) {
+            return $this->options[$option];
+        }
+        if (isset($this->input[$option]) || array_key_exists($option, $this->input)) {
+            $value = $this->input[$option];
+            unset($this->input[$option]);
+            if (is_object($value) && method_exists($value, '__invoke')) {
+                $value = $value($this, $option);
+            }
+            if (isset($this->handlers[$option])) {
+                $handler = $this->handlers[$option];
+                $handler = new $handler();
+                $value = $handler->filter($this, $value);
+            }
+            return $this->options[$option] = $value;
+        }
+        if (isset($this->handlers[$option])) {
+            return $this->options[$option] = $this->getDefault($option);
+        }
+        return;
+    }
+}
+}
+
+namespace Royalcms\Component\Redis\Connections {
+use Closure;
+abstract class Connection
+{
+    protected $client;
+    public abstract function createSubscription($channels, Closure $callback, $method = 'subscribe');
+    public function client()
+    {
+        return $this->client;
+    }
+    public function subscribe($channels, Closure $callback)
+    {
+        return $this->createSubscription($channels, $callback, __FUNCTION__);
+    }
+    public function psubscribe($channels, Closure $callback)
+    {
+        return $this->createSubscription($channels, $callback, __FUNCTION__);
+    }
+    public function command($method, array $parameters = [])
+    {
+        return call_user_func_array([$this->client, $method], $parameters);
+    }
+    public function __call($method, $parameters)
+    {
+        return $this->command($method, $parameters);
+    }
+}
+}
+
+namespace Royalcms\Component\Redis\Connections {
+use Closure;
+class PredisConnection extends Connection
+{
+    public function __construct($client)
+    {
+        $this->client = $client;
+    }
+    public function createSubscription($channels, Closure $callback, $method = 'subscribe')
+    {
+        $loop = $this->pubSubLoop();
+        call_user_func_array([$loop, $method], (array) $channels);
+        foreach ($loop as $message) {
+            if ($message->kind === 'message' || $message->kind === 'pmessage') {
+                call_user_func($callback, $message->payload, $message->channel);
+            }
+        }
+        unset($loop);
+    }
+}
+}
+
+namespace Royalcms\Component\Redis\Connectors {
+use Predis\Client;
+use Royalcms\Component\Support\Arr;
+use Royalcms\Component\Redis\Connections\PredisConnection;
+use Royalcms\Component\Redis\Connections\PredisClusterConnection;
+class PredisConnector
+{
+    public function connect(array $config, array $options)
+    {
+        $formattedOptions = array_merge(['timeout' => 10.0], $options, Arr::pull($config, 'options', []));
+        return new PredisConnection(new Client($config, $formattedOptions));
+    }
+    public function connectToCluster(array $config, array $clusterOptions, array $options)
+    {
+        $clusterSpecificOptions = Arr::pull($config, 'options', []);
+        return new PredisClusterConnection(new Client(array_values($config), array_merge($options, $clusterOptions, $clusterSpecificOptions)));
+    }
+}
+}
+
+namespace Royalcms\Component\Redis\Contracts {
+interface Factory
+{
+    public function connection($name = null);
+}
+}
+
+namespace Royalcms\Component\Redis {
+use Royalcms\Component\Support\Arr;
+use InvalidArgumentException;
+use Royalcms\Component\Redis\Contracts\Factory;
+class RedisManager implements Factory
+{
+    protected $driver;
+    protected $config;
+    protected $connections;
+    public function __construct($driver, array $config)
+    {
+        $this->driver = $driver;
+        $this->config = $config;
+    }
+    public function connection($name = null)
+    {
+        $name = $name ?: 'default';
+        if (isset($this->connections[$name])) {
+            return $this->connections[$name];
+        }
+        return $this->connections[$name] = $this->resolve($name);
+    }
+    public function resolve($name = null)
+    {
+        $name = $name ?: 'default';
+        $options = Arr::get($this->config, 'options', []);
+        if (isset($this->config[$name])) {
+            return $this->connector()->connect($this->config[$name], $options);
+        }
+        if (isset($this->config['clusters'][$name])) {
+            return $this->resolveCluster($name);
+        }
+        throw new InvalidArgumentException("Redis connection [{$name}] not configured.");
+    }
+    protected function resolveCluster($name)
+    {
+        $clusterOptions = Arr::get($this->config, 'clusters.options', []);
+        return $this->connector()->connectToCluster($this->config['clusters'][$name], $clusterOptions, Arr::get($this->config, 'options', []));
+    }
+    protected function connector()
+    {
+        switch ($this->driver) {
+            case 'predis':
+                return new Connectors\PredisConnector();
+            case 'phpredis':
+                return new Connectors\PhpRedisConnector();
+        }
+    }
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->connection(), $method], $parameters);
+    }
+}
+}
+
 namespace Royalcms\Component\Gettext\Facades {
 use Royalcms\Component\Support\Facades\Facade;
 class Gettext extends Facade
@@ -28411,567 +32632,6 @@ trait MemoryCache
     {
         return self::$memory_object_cache->reset();
     }
-}
-}
-
-namespace Royalcms\Component\Exception {
-use Royalcms\Component\Whoops\Run;
-use Royalcms\Component\Whoops\Handler\JsonResponseHandler;
-use Royalcms\Component\Support\ServiceProvider;
-class ExceptionServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        $this->registerDisplayers();
-        $this->registerHandler();
-    }
-    protected function registerDisplayers()
-    {
-        $this->registerPlainDisplayer();
-        $this->registerDebugDisplayer();
-    }
-    protected function registerHandler()
-    {
-        $this->royalcms['exception'] = $this->royalcms->share(function ($royalcms) {
-            return new HandlerExceptions($royalcms);
-        });
-        $this->royalcms['exception.display'] = $this->royalcms->share(function ($royalcms) {
-            return new HandleDisplayExceptions($royalcms['exception.plain'], $royalcms['exception.debug']);
-        });
-        $this->royalcms->alias('Royalcms\\Component\\Contracts\\Debug\\ExceptionHandler', 'exception.handler');
-    }
-    protected function registerPlainDisplayer()
-    {
-        $this->royalcms['exception.plain'] = $this->royalcms->share(function ($royalcms) {
-            if ($royalcms->runningInConsole()) {
-                return $royalcms['exception.debug'];
-            } else {
-                return new PlainDisplayer();
-            }
-        });
-    }
-    protected function registerDebugDisplayer()
-    {
-        $this->registerWhoops();
-        $this->royalcms['exception.debug'] = $this->royalcms->share(function ($royalcms) {
-            return new WhoopsDisplayer($royalcms['whoops'], $royalcms->runningInConsole());
-        });
-    }
-    protected function registerWhoops()
-    {
-        $this->registerWhoopsHandler();
-        $this->royalcms['whoops'] = $this->royalcms->share(function ($royalcms) {
-            with($whoops = new Run())->allowQuit(false);
-            $whoops->writeToOutput(false);
-            return $whoops->pushHandler($royalcms['whoops.handler']);
-        });
-    }
-    protected function registerWhoopsHandler()
-    {
-        if ($this->shouldReturnJson()) {
-            $this->royalcms['whoops.handler'] = $this->royalcms->share(function () {
-                return new JsonResponseHandler();
-            });
-        } else {
-            $this->registerPrettyWhoopsHandler();
-        }
-    }
-    protected function shouldReturnJson()
-    {
-        return $this->royalcms->runningInConsole() || $this->requestWantsJson();
-    }
-    protected function requestWantsJson()
-    {
-        return $this->royalcms['request']->ajax() || $this->royalcms['request']->wantsJson();
-    }
-    protected function registerPrettyWhoopsHandler()
-    {
-        $me = $this;
-        $this->royalcms['whoops.handler'] = $this->royalcms->share(function () use($me) {
-            with($handler = new PrettyPageHandler())->setEditor('sublime');
-            if (!is_null($path = $me->resourcePath())) {
-                $handler->setResourcesPath($path);
-            }
-            return $handler;
-        });
-    }
-    public function resourcePath()
-    {
-        if (is_dir($path = $this->getResourcePath())) {
-            return $path;
-        }
-    }
-    protected function getResourcePath()
-    {
-        $dir = static::guessPackageClassPath('royalcms/exception');
-        return $dir . '/resources';
-    }
-    public static function compiles()
-    {
-        $dir = static::guessPackageClassPath('royalcms/exception');
-        return [$dir . '/ExceptionServiceProvider.php', $dir . '/PrettyPageHandler.php', $dir . '/ExceptionDisplayerInterface.php', $dir . '/SymfonyDisplayer.php', $dir . '/WhoopsDisplayer.php', $dir . '/PlainDisplayer.php', $dir . '/PrettyPageHandler.php', $dir . '/Handler.php', $dir . '/HandleDisplayExceptions.php', $dir . '/HandlerExceptions.php', $dir . '/Exceptions/CompileErrorException.php', $dir . '/Exceptions/CompileWarningException.php', $dir . '/Exceptions/CoreErrorException.php', $dir . '/Exceptions/CoreWarningException.php', $dir . '/Exceptions/DeprecatedException.php', $dir . '/Exceptions/NoticeException.php', $dir . '/Exceptions/ParseException.php', $dir . '/Exceptions/RecoverableErrorException.php', $dir . '/Exceptions/StrictException.php', $dir . '/Exceptions/UnknownException.php', $dir . '/Exceptions/UserDeprecatedException.php', $dir . '/Exceptions/UserErrorException.php', $dir . '/Exceptions/UserNoticeException.php', $dir . '/Exceptions/WarningException.php'];
-    }
-}
-}
-
-namespace Royalcms\Component\Exception {
-use Exception;
-interface ExceptionDisplayerInterface
-{
-    public function display($exception);
-}
-}
-
-namespace Royalcms\Component\Exception {
-use Exception;
-use Symfony\Component\Debug\ExceptionHandler;
-class SymfonyDisplayer implements ExceptionDisplayerInterface
-{
-    protected $symfony;
-    public function __construct(ExceptionHandler $symfony)
-    {
-        $this->symfony = $symfony;
-    }
-    public function display($exception)
-    {
-        $this->symfony->handle($exception);
-    }
-}
-}
-
-namespace Royalcms\Component\Exception {
-use Exception;
-use Royalcms\Component\Whoops\Run;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-class WhoopsDisplayer implements ExceptionDisplayerInterface
-{
-    protected $whoops;
-    protected $runningInConsole;
-    public function __construct(Run $whoops, $runningInConsole)
-    {
-        $this->whoops = $whoops;
-        $this->runningInConsole = $runningInConsole;
-    }
-    public function display($exception)
-    {
-        $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
-        $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : array();
-        return new Response($this->whoops->handleException($exception), $status, $headers);
-    }
-}
-}
-
-namespace Royalcms\Component\Exception {
-use Exception;
-use Psr\Log\LoggerInterface;
-use Royalcms\Component\Http\Response;
-use Royalcms\Component\Auth\Access\UnauthorizedException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Console\Application as ConsoleApplication;
-use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
-use Royalcms\Component\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use ReflectionFunction;
-use Closure;
-class Handler implements ExceptionHandlerContract
-{
-    protected $log;
-    protected $dontReport = [];
-    protected $handlers = [];
-    public function __construct(LoggerInterface $log)
-    {
-        $this->log = $log;
-    }
-    public function report(Exception $e)
-    {
-        if ($this->shouldReport($e)) {
-            $this->log->error($e);
-        }
-    }
-    public function shouldReport(Exception $e)
-    {
-        return !$this->shouldntReport($e);
-    }
-    protected function shouldntReport(Exception $e)
-    {
-        foreach ($this->dontReport as $type) {
-            if ($e instanceof $type) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public function render($request, Exception $e)
-    {
-        if ($this->isUnauthorizedException($e)) {
-            $e = new HttpException(403, $e->getMessage());
-        }
-        if ($this->isHttpException($e)) {
-            return $this->toRoyalcmsResponse($this->renderHttpException($e), $e);
-        } else {
-            return $this->toRoyalcmsResponse($this->convertExceptionToResponse($e), $e);
-        }
-    }
-    protected function toRoyalcmsResponse($response, Exception $e)
-    {
-        $response = new Response($response->getContent(), $response->getStatusCode(), $response->headers->all());
-        $response->exception = $e;
-        return $response;
-    }
-    public function renderForConsole($output, Exception $e)
-    {
-        (new ConsoleApplication())->renderException($e, $output);
-    }
-    protected function renderHttpException(HttpException $e)
-    {
-        $status = $e->getStatusCode();
-        if (view()->exists("errors.{$status}")) {
-            return response()->view("errors.{$status}", ['exception' => $e], $status);
-        } else {
-            return $this->convertExceptionToResponse($e);
-        }
-    }
-    protected function convertExceptionToResponse(Exception $e)
-    {
-        $royalcms = royalcms();
-        $response = $this->callCustomHandlers($e);
-        if (!is_null($response)) {
-            return $response;
-        }
-        if (isset($royalcms['exception.display'])) {
-            return $royalcms['exception.display']->displayException($e);
-        } else {
-            return (new SymfonyExceptionHandler(config('system.debug')))->createResponse($e);
-        }
-    }
-    protected function isUnauthorizedException(Exception $e)
-    {
-        return $e instanceof UnauthorizedException;
-    }
-    protected function isHttpException(Exception $e)
-    {
-        return $e instanceof HttpException;
-    }
-    public function error(Closure $callback)
-    {
-        array_unshift($this->handlers, $callback);
-    }
-    public function pushError(Closure $callback)
-    {
-        $this->handlers[] = $callback;
-    }
-    protected function callCustomHandlers($exception, $fromConsole = false)
-    {
-        foreach ($this->handlers as $handler) {
-            if (!$this->handlesException($handler, $exception)) {
-                continue;
-            } elseif ($exception instanceof HttpExceptionInterface) {
-                $code = $exception->getStatusCode();
-            } else {
-                $code = 500;
-            }
-            try {
-                $response = $handler($exception, $code, $fromConsole);
-            } catch (\Exception $e) {
-                $response = $this->formatException($e);
-            }
-            if (isset($response) && !is_null($response)) {
-                return $response;
-            }
-        }
-    }
-    protected function handlesException(Closure $handler, $exception)
-    {
-        $reflection = new ReflectionFunction($handler);
-        return $reflection->getNumberOfParameters() == 0 || $this->hints($reflection, $exception);
-    }
-    protected function hints(ReflectionFunction $reflection, $exception)
-    {
-        $parameters = $reflection->getParameters();
-        $expected = $parameters[0];
-        return !$expected->getClass() || $expected->getClass()->isInstance($exception);
-    }
-    protected function formatException(\Exception $e)
-    {
-        if (config('system.debug')) {
-            $location = $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
-            return 'Error in exception handler: ' . $location;
-        }
-        return 'Error in exception handler.';
-    }
-    public function handleConsole($exception)
-    {
-        return $this->callCustomHandlers($exception, true);
-    }
-}
-}
-
-namespace Royalcms\Component\Exception {
-class HandleDisplayExceptions
-{
-    protected $plainDisplayer;
-    protected $debugDisplayer;
-    protected $debug;
-    public function __construct(ExceptionDisplayerInterface $plainDisplayer, ExceptionDisplayerInterface $debugDisplayer, $debug = false)
-    {
-        $this->debug = $debug;
-        $this->plainDisplayer = $plainDisplayer;
-        $this->debugDisplayer = $debugDisplayer;
-    }
-    public function setDebug($debug)
-    {
-        $this->debug = $debug;
-    }
-    public function displayException($exception)
-    {
-        $displayer = $this->debug ? $this->debugDisplayer : $this->plainDisplayer;
-        return $displayer->display($exception);
-    }
-}
-}
-
-namespace Royalcms\Component\Exception {
-use Exception;
-use ErrorException;
-use RC_Hook;
-use Symfony\Component\Debug\Exception\FatalErrorException;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Royalcms\Component\Contracts\Foundation\Royalcms;
-use Royalcms\Component\Exception\Exceptions\CompileErrorException;
-use Royalcms\Component\Exception\Exceptions\CompileWarningException;
-use Royalcms\Component\Exception\Exceptions\CoreErrorException;
-use Royalcms\Component\Exception\Exceptions\CoreWarningException;
-use Royalcms\Component\Exception\Exceptions\DeprecatedException;
-use Royalcms\Component\Exception\Exceptions\NoticeException;
-use Royalcms\Component\Exception\Exceptions\ParseException;
-use Royalcms\Component\Exception\Exceptions\RecoverableErrorException;
-use Royalcms\Component\Exception\Exceptions\StrictException;
-use Royalcms\Component\Exception\Exceptions\UnknownException;
-use Royalcms\Component\Exception\Exceptions\UserDeprecatedException;
-use Royalcms\Component\Exception\Exceptions\UserErrorException;
-use Royalcms\Component\Exception\Exceptions\UserNoticeException;
-use Royalcms\Component\Exception\Exceptions\UserWarningException;
-use Royalcms\Component\Exception\Exceptions\WarningException;
-class HandlerExceptions
-{
-    protected $royalcms;
-    public function __construct(Royalcms $royalcms)
-    {
-        $this->royalcms = $royalcms;
-    }
-    public function register($environment)
-    {
-        $this->registerErrorHandler();
-        $this->registerExceptionHandler();
-        if ($environment != 'testing') {
-            ini_set('display_errors', 'Off');
-            $this->registerShutdownHandler();
-        }
-    }
-    protected function registerErrorHandler()
-    {
-        set_error_handler(array($this, 'handleError'));
-    }
-    protected function registerExceptionHandler()
-    {
-        set_exception_handler(array($this, 'handleUncaughtException'));
-    }
-    protected function registerShutdownHandler()
-    {
-        register_shutdown_function(array($this, 'handleShutdown'));
-    }
-    public function handleError($level, $message, $file = '', $line = 0, $context = [])
-    {
-        if (error_reporting() & $level) {
-            $exception = null;
-            switch ($level) {
-                case E_ERROR:
-                    throw new ErrorException($message, 0, $level, $file, $line);
-                    break;
-                case E_USER_ERROR:
-                    throw new UserErrorException($message, 0, $level, $file, $line);
-                    break;
-                case E_PARSE:
-                    throw new ParseException($message, 0, $level, $file, $line);
-                    break;
-                case E_CORE_ERROR:
-                    throw new CoreErrorException($message, 0, $level, $file, $line);
-                    break;
-                case E_CORE_WARNING:
-                    throw new CoreWarningException($message, 0, $level, $file, $line);
-                    break;
-                case E_COMPILE_ERROR:
-                    throw new CompileErrorException($message, 0, $level, $file, $line);
-                    break;
-                case E_COMPILE_WARNING:
-                    throw new CompileWarningException($message, 0, $level, $file, $line);
-                    break;
-                case E_STRICT:
-                    throw new StrictException($message, 0, $level, $file, $line);
-                    break;
-                case E_RECOVERABLE_ERROR:
-                    throw new RecoverableErrorException($message, 0, $level, $file, $line);
-                    break;
-                case E_WARNING:
-                    $exception = new WarningException($message, 0, $level, $file, $line);
-                    break;
-                case E_USER_WARNING:
-                    $exception = new UserWarningException($message, 0, $level, $file, $line);
-                    break;
-                case E_NOTICE:
-                    $exception = new NoticeException($message, 0, $level, $file, $line);
-                    break;
-                case E_USER_NOTICE:
-                    $exception = new UserNoticeException($message, 0, $level, $file, $line);
-                    break;
-                case E_DEPRECATED:
-                    $exception = new DeprecatedException($message, 0, $level, $file, $line);
-                    break;
-                case E_USER_DEPRECATED:
-                    $exception = new UserDeprecatedException($message, 0, $level, $file, $line);
-                    break;
-                default:
-                    $exception = new UnknownException($message, 0, $level, $file, $line);
-                    break;
-            }
-            if ($exception instanceof ErrorException) {
-                royalcms('events')->fire('royalcms.warning.exception', array($exception));
-            }
-        }
-    }
-    public function handleException($exception)
-    {
-        if (!$exception instanceof Exception) {
-            $exception = new FatalThrowableError($exception);
-        }
-        $this->getExceptionHandler()->report($exception);
-        if ($this->royalcms->runningInConsole()) {
-            $this->renderForConsole($exception);
-        } else {
-            $this->renderHttpResponse($exception);
-        }
-    }
-    public function handleUncaughtException($exception)
-    {
-        $this->handleException($exception)->send();
-    }
-    public function handleShutdown()
-    {
-        $error = error_get_last();
-        if (!is_null($error)) {
-            if (!$this->isFatal($error['type'])) {
-                return;
-            }
-            $this->handleException($this->fatalExceptionFromError($error, 0));
-        }
-        RC_Hook::do_action('shutdown');
-    }
-    protected function fatalExceptionFromError(array $error, $traceOffset = null)
-    {
-        return new FatalErrorException($error['message'], $error['type'], 0, $error['file'], $error['line'], $traceOffset);
-    }
-    protected function isFatal($type)
-    {
-        return in_array($type, array(E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE));
-    }
-    public function renderForConsole($e)
-    {
-        $this->getExceptionHandler()->renderForConsole(new ConsoleOutput(), $e);
-    }
-    protected function renderHttpResponse($e)
-    {
-        $this->getExceptionHandler()->render($this->royalcms['request'], $e)->send();
-    }
-    protected function getExceptionHandler()
-    {
-        return $this->royalcms->make('Royalcms\\Component\\Contracts\\Debug\\ExceptionHandler');
-    }
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class CompileErrorException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class CompileWarningException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class CoreErrorException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class CoreWarningException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class DeprecatedException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class NoticeException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class ParseException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class RecoverableErrorException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class StrictException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class UnknownException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class UserDeprecatedException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class UserErrorException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class UserNoticeException extends \ErrorException
-{
-}
-}
-
-namespace Royalcms\Component\Exception\Exceptions {
-class WarningException extends \ErrorException
-{
 }
 }
 
@@ -35574,6 +39234,158 @@ class VersionManager extends Facade
 }
 }
 
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class AdminLog extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.admin.log';
+    }
+}
+}
+
+namespace Ecjia\System\Admins\AdminLog {
+class AdminLog
+{
+    use CompatibleTrait;
+    protected $log_action;
+    protected $log_object;
+    public function __construct(AdminLogAction $log_action, AdminLogObject $log_object)
+    {
+        $this->log_action = $log_action;
+        $this->log_object = $log_object;
+    }
+    public function getLogAction()
+    {
+        return $this->log_action;
+    }
+    public function getLogObject()
+    {
+        return $this->log_object;
+    }
+    public function getMessage($sn, $action, $object, $callback = null)
+    {
+        if (is_callable($callback)) {
+            $callback($this);
+        } elseif (is_array($callback)) {
+            $this->log_action->addActions(array_get($callback, 'action', []));
+            $this->log_object->addObjects(array_get($callback, 'object', []));
+        }
+        if ($this->log_action->hasAction($action) && $this->log_object->hasObject($object)) {
+            $log_info = $this->log_action->getAction($action) . ' ' . $this->log_object->getObject($object) . ': ' . addslashes($sn);
+        } else {
+            $log_info = addslashes($sn);
+        }
+        return $log_info;
+    }
+    public static function instance()
+    {
+        static $instance;
+        if (is_null($instance)) {
+            $instance = new static(new AdminLogAction(), new AdminLogObject());
+        }
+        return $instance;
+    }
+}
+}
+
+namespace Ecjia\System\Admins\AdminLog {
+trait CompatibleTrait
+{
+    public static function instance()
+    {
+        return royalcms('ecjia.admin.log');
+    }
+    public function add_action($code, $name)
+    {
+        return $this->log_action->addAction($code, $name);
+    }
+    public function has_action($code)
+    {
+        return $this->log_action->hasAction($code);
+    }
+    public function add_object($code, $name)
+    {
+        return $this->log_object->addObject($code, $name);
+    }
+    public function has_object($code)
+    {
+        return $this->log_object->hasObject($code);
+    }
+    public function get_message($sn, $action, $content)
+    {
+        return $this->getMessage($sn, $action, $content);
+    }
+}
+}
+
+namespace Ecjia\System\Admins\AdminLog {
+class AdminLogAction
+{
+    protected $items;
+    public function __construct()
+    {
+        $this->items = ['add' => __('添加'), 'edit' => __('编辑'), 'use' => __('启用'), 'stop' => __('停用'), 'remove' => __('删除'), 'install' => __('安装'), 'uninstall' => __('卸载'), 'setup' => __('设置'), 'trash' => __('回收'), 'restore' => __('还原'), 'merge' => __('合并'), 'batch_remove' => __('批量删除'), 'batch_trash' => __('批量回收'), 'batch_restore' => __('批量还原'), 'batch_upload' => __('批量上传'), 'batch_edit' => __('批量编辑'), 'batch_stop' => __('批量停用')];
+    }
+    public function addAction($code, $name)
+    {
+        if ($code && $name) {
+            $this->items[$code] = $name;
+        }
+        return $this;
+    }
+    public function addActions(array $actions)
+    {
+        foreach ($actions as $code => $name) {
+            $this->items[$code] = $name;
+        }
+        return $this;
+    }
+    public function hasAction($code)
+    {
+        return array_has($this->items, $code);
+    }
+    public function getAction($code, $default = null)
+    {
+        return array_get($this->items, $code, $default);
+    }
+}
+}
+
+namespace Ecjia\System\Admins\AdminLog {
+class AdminLogObject
+{
+    protected $items;
+    public function __construct()
+    {
+        $this->items = array('privilege' => __('权限管理'), 'adminlog' => __('操作日志'), 'admin_message' => __('管理员留言'), 'area' => __('地区'), 'shop_config' => __('商店设置'), 'users' => __('会员账号'), 'shipping' => __('配送方式'), 'shipping_area' => __('配送区域'), 'area_region' => __('配送区域中的地区'), 'goods' => __('商品'), 'brand' => __('品牌管理'), 'category' => __('商品分类'), 'pack' => __('商品包装'), 'card' => __('商品贺卡'), 'attribute' => __('属性'), 'goods_type' => __('商品类型'), 'articlecat' => __('文章分类'), 'article' => __('文章'), 'shophelp' => __('网店帮助文章'), 'shophelpcat' => __('网店帮助分类'), 'shopinfo' => __('网店信息文章'), 'user_rank' => __('会员等级'), 'snatch' => __('夺宝奇兵'), 'bonustype' => __('红包类型'), 'userbonus' => __('用户红包'), 'vote' => __('在线调查'), 'friendlink' => __('友情链接'), 'payment' => __('支付方式'), 'order' => __('订单'), 'agency' => __('办事处'), 'auction' => __('拍卖活动'), 'favourable' => __('优惠活动'), 'wholesale' => __('批发活动'), 'feedback' => __('留言反馈'), 'users_comment' => __('用户评论'), 'ads_position' => __('广告位置'), 'ads' => __('广告'), 'group_buy' => __('团购商品'), 'booking' => __('缺货登记管理'), 'tag_manage' => __('标签管理'), 'languages' => __('前台语言项'), 'user_surplus' => __('会员余额'), 'message' => __('会员留言'), 'fckfile' => __('FCK文件'), 'db_backup' => __('数据库备份'), 'package' => __('超值礼包'), 'exchange_goods' => __('积分可兑换的商品'), 'suppliers' => __('供货商管理'), 'reg_fields' => __('会员注册项'), 'license' => __('授权证书'), 'issuer' => __('信任机构'), 'app' => __('应用'), 'plugin' => __('插件'));
+    }
+    public function addObject($code, $name)
+    {
+        if ($code && $name) {
+            $this->items[$code] = $name;
+        }
+        return $this;
+    }
+    public function addObjects(array $objects)
+    {
+        foreach ($objects as $code => $name) {
+            $this->items[$code] = $name;
+        }
+        return $this;
+    }
+    public function hasObject($code)
+    {
+        return array_has($this->items, $code);
+    }
+    public function getObject($code, $default = null)
+    {
+        return array_get($this->items, $code, $default);
+    }
+}
+}
+
 namespace Ecjia\System\Frameworks\Contracts {
 interface EcjiaSessionInterface
 {
@@ -35647,6 +39459,571 @@ interface ShopInterface
 {
     public function getStoreName();
     public function getSotreId();
+}
+}
+
+namespace Ecjia\System\Frameworks\ScriptLoader {
+use Ecjia\System\Frameworks\Contracts\ScriptLoaderInterface;
+use Royalcms\Component\Script\HandleScripts;
+use RC_Uri;
+use RC_Hook;
+class ScriptLoader implements ScriptLoaderInterface
+{
+    protected $scripts;
+    protected $concatenate_scripts;
+    protected $compress_scripts;
+    public function __construct(HandleScripts $scripts)
+    {
+        $this->scripts = $scripts;
+        $this->scripts->base_url = RC_Uri::system_static_url();
+        $this->scripts->content_url = RC_Uri::system_static_url();
+        $this->scripts->default_version = \ecjia::VERSION;
+        $this->scripts->default_dirs = array('/');
+        $this->default_scripts();
+        $this->script_concat_settings();
+    }
+    protected function default_scripts()
+    {
+        $develop_src = false !== strpos(\ecjia::VERSION, '-src');
+        if (!config('system.script_debug')) {
+            $suffix = '.min';
+        } else {
+            $suffix = '';
+        }
+        $dev_suffix = $develop_src ? '' : '.min';
+        $this->scripts->add('ecjia', "/lib/ecjia_js/ecjia{$suffix}.js", array('jquery'));
+        $this->scripts->add('ecjia-ui', "/lib/ecjia_js/ecjia.ui{$suffix}.js", array('ecjia'));
+        $this->scripts->add('ecjia-collect', "/lib/ecjia_js/ecjia.collect.js", array('ecjia'), false, 1);
+        $this->scripts->add('ecjia-hook', "/lib/ecjia_js/ecjia.hook{$suffix}.js", array('ecjia'), false, 1);
+        $this->scripts->add('ecjia-utils', "/lib/ecjia_js/ecjia.utils{$suffix}.js", array('ecjia'), false, 1);
+        $this->scripts->add('ecjia-region', "/lib/ecjia_js/ecjia.region{$suffix}.js", array('ecjia'), false, 1);
+        $this->scripts->add('jquery', "/js/jquery{$suffix}.js", array(), '2.1.0');
+        $this->scripts->add('jquery-pjax', "/js/jquery-pjax.js", array('jquery'));
+        $this->scripts->add('jquery-peity', "/js/jquery-peity{$suffix}.js", array('jquery'), '0.6.0', 1);
+        $this->scripts->add('jquery-mockjax', "/js/jquery-mockjax{$suffix}.js", array('jquery'), '1.5.1', 1);
+        $this->scripts->add('jquery-wookmark', "/js/jquery-wookmark{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-migrate', "/js/jquery-migrate{$suffix}.js", array('jquery'), '1.0.0', 1);
+        $this->scripts->add('jquery-cookie', "/js/jquery-cookie{$suffix}.js", array('jquery'), true, 1);
+        $this->scripts->add('jquery-actual', "/js/jquery-actual{$suffix}.js", array('jquery'), '1.0.6', 1);
+        $this->scripts->add('jquery-debouncedresize', "/js/jquery-debouncedresize{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-easing', "/js/jquery-easing{$suffix}.js", array('jquery'), '1.3', 1);
+        $this->scripts->add('jquery-mediaTable', "/js/jquery-mediaTable{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-imagesloaded', "/js/jquery-imagesloaded{$suffix}.js", array('jquery'), '2.0.1', 1);
+        $this->scripts->add('jquery-gmap3', "/js/jquery-gmap3{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-autosize', "/js/jquery-autosize{$suffix}.js", array('jquery'), '1.7', 1);
+        $this->scripts->add('jquery-counter', "/js/jquery-counter{$suffix}.js", array('jquery'), '2.1', 1);
+        $this->scripts->add('jquery-inputmask', "/js/jquery-inputmask{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-progressbar', "/js/jquery-anim_progressbar{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('js-json', "/js/json2.js", array(), false, 1);
+        $this->scripts->add('js-sprintf', "/lib/sprintf_js/sprintf{$suffix}.js", array(), '1.1.2', 1);
+        $this->scripts->add('jquery-ui-touchpunch', "/js/ui/jquery-ui-touchpunch{$suffix}.js", array('jquery-ui'), false, 1);
+        $this->scripts->add('jquery-ui-totop', "/js/ui/jquery-ui-totop{$suffix}.js", array(), false, 1);
+        $this->scripts->add('ecjia-admin', '/ecjia/ecjia-admin.js', array('ecjia', 'jquery-pjax', 'jquery-cookie', 'jquery-quicksearch', 'jquery-mousewheel', 'jquery-ui-totop'));
+        $this->scripts->add('ecjia-front', '/ecjia/ecjia-front.js', array('ecjia'));
+        $this->scripts->add('ecjia-admin_cache', '/ecjia/ecjia-admin_cache.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_logs', '/ecjia/ecjia-admin_logs.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_message_list', '/ecjia/ecjia-admin_message_list.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_region', '/ecjia/ecjia-admin_region.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_role', '/ecjia/ecjia-admin_role.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_upgrade', '/ecjia/ecjia-admin_upgrade.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_application', '/ecjia/ecjia-application.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_dashboard', '/ecjia/ecjia-dashboard.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_team', '/ecjia/ecjia-about_team.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_plugin', '/ecjia/ecjia-plugin_list.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_privilege', '/ecjia/ecjia-privilege.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_shop_config', '/ecjia/ecjia-shop_config.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('ecjia-admin_license', '/ecjia/ecjia-admin_license.js', array('ecjia-admin'), false, 1);
+        $this->scripts->add('jquery-chosen', "/js/ecjia.chosen.js", array('ecjia-jquery-chosen'), false, 1);
+        $this->scripts->add('ecjia-jquery-chosen', "/lib/chosen/chosen.jquery{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('bootstrap', "/lib/bootstrap/js/bootstrap{$suffix}.js");
+        $this->scripts->add('jquery-ui', "/lib/jquery-ui/jquery-ui{$suffix}.js", array('jquery'));
+        $this->scripts->add('jquery-validate', "/lib/validation/jquery.validate{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-uniform', "/lib/uniform/jquery.uniform{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('smoke', "/lib/smoke/smoke{$suffix}.js", array(), false, 1);
+        $this->scripts->add('bootstrap-placeholder', "/lib/jasny-bootstrap/js/bootstrap-placeholder{$suffix}.js", array('bootstrap'), false, 1);
+        $this->scripts->add('bootstrap-colorpicker', "/lib/colorpicker/bootstrap-colorpicker{$suffix}.js", array(), false, 1);
+        $this->scripts->add('jquery-flot', "/lib/flot/jquery.flot{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-flot-curvedLines', "/lib/flot/jquery.flot.curvedLines{$suffix}.js", array('jquery-flot'), false, 1);
+        $this->scripts->add('jquery-flot-multihighlight', "/lib/flot/jquery.flot.multihighlight{$suffix}.js", array('jquery-flot'), false, 1);
+        $this->scripts->add('jquery-flot-orderBars', "/lib/flot/jquery.flot.orderBars{$suffix}.js", array('jquery-flot'), false, 1);
+        $this->scripts->add('jquery-flot-pie', "/lib/flot/jquery.flot.pie{$suffix}.js", array('jquery-flot'), false, 1);
+        $this->scripts->add('jquery-flot-pyramid', "/lib/flot/jquery.flot.pyramid{$suffix}.js", array('jquery-flot'), false, 1);
+        $this->scripts->add('jquery-flot-resize', "/lib/flot/jquery.flot.resize{$suffix}.js", array('jquery-flot'), false, 1);
+        $this->scripts->add('antiscroll', "/lib/antiscroll/antiscroll{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-mousewheel', "/lib/antiscroll/jquery-mousewheel.js", array('jquery', 'antiscroll'), false, 1);
+        $this->scripts->add('nicescroll', "/lib/nicescroll/jquery.nicescroll{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-colorbox', "/lib/colorbox/jquery.colorbox{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-qtip', "/lib/qtip2/jquery.qtip{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-sticky', "/lib/sticky/sticky{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-jBreadCrumb', "/lib/jBreadcrumbs/js/jquery.jBreadCrumb{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-form', "/lib/jquery-form/jquery.form{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('ios-orientationchange', "/lib/ios-fix/ios-orientationchange-fix{$suffix}.js", array(), false, 1);
+        $this->scripts->add('google-code-prettify', "/lib/google-code-prettify/prettify{$suffix}.js", array(), false, 1);
+        $this->scripts->add('selectnav', "/lib/selectnav/selectnav{$suffix}.js", array(), false, 1);
+        $this->scripts->add('jquery-dataTables', "/lib/datatables/jquery.dataTables{$suffix}.js", array('jquery'), false, 1);
+        $this->scripts->add('jquery-dataTables-sorting', "/lib/datatables/jquery.dataTables.sorting{$suffix}.js", array('jquery-dataTables'), false, 1);
+        $this->scripts->add('jquery-dataTables-bootstrap', "/lib/datatables/jquery.dataTables.bootstrap{$suffix}.js", array('jquery-dataTables'), false, 1);
+        $this->scripts->add('jquery-stepy', "/lib/stepy/js/jquery.stepy{$suffix}.js", array(), false, 1);
+        $this->scripts->add('jquery-quicksearch', "/lib/multi-select/js/jquery.quicksearch.js", array(), false, 1);
+        $this->scripts->add('bootstrap-datepicker', "/lib/datepicker/bootstrap-datepicker.min.js", array(), false, 1);
+        $this->scripts->add('tinymce', RC_Uri::vendor_url('tinymce/tinymce/tinymce') . "{$suffix}.js", array(), false, 1);
+        $this->scripts->localize('ecjia.ui', 'admin_lang', config('system::jslang.loader_page'));
+    }
+    protected function script_concat_settings()
+    {
+        $compressed_output = ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler');
+        if (is_null($this->concatenate_scripts)) {
+            $this->concatenate_scripts = config('system.concatenate_scripts', true);
+            if (config('system.script_debug')) {
+                $this->concatenate_scripts = false;
+            }
+        }
+        if (is_null($this->compress_scripts)) {
+            $this->compress_scripts = config('system.compress_scripts', true);
+            if ($this->compress_scripts && (!config('system.can_compress_scripts') || $compressed_output)) {
+                $this->compress_scripts = false;
+            }
+        }
+    }
+    public function print_head_scripts()
+    {
+        if (!RC_Hook::did_action('rc_print_scripts')) {
+            RC_Hook::do_action('rc_print_scripts');
+        }
+        $this->scripts->do_concat = $this->concatenate_scripts;
+        $this->scripts->do_head_items();
+        if (RC_Hook::apply_filters('print_head_scripts', true)) {
+            $this->_print_scripts();
+        }
+        $this->scripts->reset();
+        return $this->scripts->done;
+    }
+    public function print_footer_scripts()
+    {
+        $this->scripts->do_concat = $this->concatenate_scripts;
+        $this->scripts->do_footer_items();
+        if (RC_Hook::apply_filters('print_footer_scripts', true)) {
+            $this->_print_scripts();
+        }
+        $this->scripts->reset();
+        return $this->scripts->done;
+    }
+    protected function _print_scripts()
+    {
+        $zip = $this->compress_scripts ? 1 : 0;
+        if ($zip && config('system.enforce_gzip')) {
+            $zip = 'gzip';
+        }
+        if ($concat = trim($this->scripts->concat, ', ')) {
+            if (!empty($this->scripts->print_code)) {
+                echo "\n<script type='text/javascript'>\n";
+                echo "/* <![CDATA[ */\n";
+                echo $this->scripts->print_code;
+                echo "/* ]]> */\n";
+                echo "</script>\n";
+            }
+            $concat = str_split($concat, 128);
+            $concat = 'load%5B%5D=' . implode('&load%5B%5D=', $concat);
+            $args = "compress={$zip}&" . $concat . '&ver=' . $this->scripts->default_version;
+            $src = RC_Uri::url('@load_scripts/init', $args);
+            echo "<script type='text/javascript' src='" . \RC_Format::esc_attr($src) . "'></script>\n";
+        }
+        if (!empty($this->scripts->print_html)) {
+            echo $this->scripts->print_html;
+        }
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\ScriptLoader {
+use Ecjia\System\Frameworks\Contracts\StyleLoaderInterface;
+use Royalcms\Component\Script\HandleStyles;
+use RC_Uri;
+use RC_Hook;
+class StyleLoader implements StyleLoaderInterface
+{
+    protected $styles;
+    protected $concatenate_styles;
+    protected $compress_css;
+    public function __construct($styles)
+    {
+        $this->styles = $styles;
+        $this->styles->base_url = RC_Uri::system_static_url();
+        $this->styles->content_url = RC_Uri::system_static_url();
+        $this->styles->default_version = \ecjia::VERSION;
+        $this->styles->text_direction = function_exists('is_rtl') && is_rtl() ? 'rtl' : 'ltr';
+        $this->styles->default_dirs = array('/');
+        $this->default_styles();
+        $this->style_concat_settings();
+    }
+    protected function default_styles()
+    {
+        $develop_src = false !== strpos(\ecjia::VERSION, '-src');
+        if (!config('system.script_debug')) {
+            $suffix = '.min';
+        } else {
+            $suffix = '';
+        }
+        $dev_suffix = $develop_src ? '' : '.min';
+        $this->styles->add('ecjia', "/styles/ecjia.css");
+        $this->styles->add('ecjia-ui', "/styles/ecjia.ui.css");
+        $this->styles->add('ecjia-function', "/styles/ecjia.function.css");
+        $this->styles->add('ecjia-skin-blue', "/styles/ecjia.skin.blue.css", array('ecjia'));
+        $this->styles->add('bootstrap', "/lib/bootstrap/css/bootstrap{$suffix}.css");
+        $this->styles->add('bootstrap-responsive', "/lib/bootstrap/css/bootstrap-responsive{$suffix}.css", array('bootstrap'));
+        $this->styles->add('bootstrap-responsive-nodeps', "/lib/bootstrap/css/bootstrap-responsive{$suffix}.css");
+        $this->styles->add('jquery-ui-aristo', "/lib/jquery-ui/css/Aristo/Aristo.css");
+        $this->styles->add('jquery-qtip', "/lib/qtip2/jquery.qtip{$suffix}.css");
+        $this->styles->add('jquery-jBreadCrumb', "/lib/jBreadcrumbs/css/BreadCrumb.css");
+        $this->styles->add('jquery-colorbox', "/lib/colorbox/colorbox.css");
+        $this->styles->add('jquery-sticky', "/lib/sticky/sticky.css");
+        $this->styles->add('google-code-prettify', "/lib/google-code-prettify/prettify.css");
+        $this->styles->add('splashy', "/images/splashy/splashy.css");
+        $this->styles->add('flags', "/images/flags/flags.css");
+        $this->styles->add('datatables-TableTools', "/lib/datatables/extras/TableTools/media/css/TableTools.css");
+        $this->styles->add('fontello', "/lib/fontello/css/fontello.css");
+        $this->styles->add('chosen', "/lib/chosen/chosen.css");
+        $this->styles->add('uniform-aristo', "/lib/uniform/Aristo/uniform.aristo.css");
+        $this->styles->add('jquery-stepy', "/lib/stepy/css/jquery.stepy.css");
+        $this->styles->add('bootstrap-datepicker', "/lib/datepicker/datepicker.css");
+    }
+    protected function style_concat_settings()
+    {
+        $compressed_output = ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler');
+        if (is_null($this->concatenate_styles)) {
+            $this->concatenate_styles = config('system.concatenate_scripts', true);
+            if (config('system.script_debug')) {
+                $this->concatenate_styles = false;
+            }
+        }
+        if (is_null($this->compress_css)) {
+            $this->compress_css = config('system.compress_css', true);
+            if ($this->compress_css && (!config('system.can_compress_scripts') || $compressed_output)) {
+                $this->compress_css = false;
+            }
+        }
+    }
+    public function print_head_styles()
+    {
+        $this->styles->do_concat = $this->concatenate_styles;
+        $this->styles->do_items(false);
+        if (RC_Hook::apply_filters('print_admin_styles', true)) {
+            $this->_print_styles();
+        }
+        $this->styles->reset();
+        return $this->styles->done;
+    }
+    public function print_late_styles()
+    {
+        $this->styles->do_concat = $this->concatenate_styles;
+        $this->styles->do_footer_items();
+        if (RC_Hook::apply_filters('print_late_styles', true)) {
+            $this->_print_styles();
+        }
+        $this->styles->reset();
+        return $this->styles->done;
+    }
+    protected function _print_styles()
+    {
+        $zip = $this->compress_css ? 1 : 0;
+        if ($zip && config('system.enforce_gzip')) {
+            $zip = 'gzip';
+        }
+        if ($concat = trim($this->styles->concat, ', ')) {
+            $dir = $this->styles->text_direction;
+            $ver = $this->styles->default_version;
+            $concat = str_split($concat, 128);
+            $concat = 'load%5B%5D=' . implode('&load%5B%5D=', $concat);
+            $args = "compress={$zip}&dir={$dir}&" . $concat . '&ver=' . $ver;
+            $href = RC_Uri::url('@load_styles/init', $args);
+            echo "<link rel=\"stylesheet\" href=\"" . \RC_Format::esc_attr($href) . "\" type=\"text/css\" media=\"all\" />\n";
+            if (!empty($this->styles->print_code)) {
+                echo "<style type='text/css'>\n";
+                echo $this->styles->print_code;
+                echo "\n</style>\n";
+            }
+        }
+        if (!empty($this->styles->print_html)) {
+            echo $this->styles->print_html;
+        }
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\Screens {
+use RC_Hook;
+use RC_Loader;
+use RC_Theme;
+use ecjia_controller;
+use ecjia_license;
+use ecjia_app;
+use ecjia;
+class NotInstallScreen extends AllScreen
+{
+    public function loading()
+    {
+        parent::loading();
+        if (defined('RC_SITE') && RC_SITE == 'api') {
+            RC_Loader::load_app_func('functions', 'api');
+        }
+        RC_Hook::add_action('init', [__CLASS__, 'load_theme_function']);
+        RC_Hook::add_filter('app_scan_bundles', [__CLASS__, 'app_scan_bundles']);
+        RC_Hook::add_action('royalcms_default_controller', [__CLASS__, 'royalcms_default_controller']);
+        RC_Hook::add_action('ecjia_shop_closed', [__CLASS__, 'custom_shop_closed']);
+        RC_Hook::add_action('ecjia_general_info_filter', [__CLASS__, 'ecjia_general_info_filter']);
+        RC_Hook::add_action('page_title_suffix', [__CLASS__, 'page_title_suffix']);
+        ecjia::loadGlobalPlugins();
+    }
+    public static function royalcms_default_controller($arg)
+    {
+        return new ecjia_controller();
+    }
+    public static function load_theme_function()
+    {
+        if (config('system.tpl_force_specify')) {
+            self::_load_default_style();
+        } else {
+            $app = config('site.main_app');
+            if ($app) {
+                RC_Loader::load_app_func('functions', $app);
+                self::_load_custom_handle_style();
+            } else {
+                $request = royalcms('request');
+                if ($request->getBasePath() != '') {
+                    self::_load_default_style();
+                } else {
+                    self::_load_custom_handle_style();
+                }
+            }
+        }
+        $dir = RC_Theme::get_template_directory();
+        if (file_exists($dir . DS . 'functions.php')) {
+            include_once $dir . DS . 'functions.php';
+        }
+    }
+    protected static function _load_custom_handle_style()
+    {
+        RC_Hook::add_filter('template', function () {
+            $template_code = RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
+            return ecjia::config($template_code);
+        });
+    }
+    protected static function _load_default_style()
+    {
+        RC_Hook::add_filter('template', function () {
+            return config('system.tpl_style');
+        });
+    }
+    public static function app_scan_bundles()
+    {
+        $builtin_bundles = ecjia_app::builtin_bundles();
+        if (defined('ROUTE_M') && ROUTE_M != 'installer') {
+            $extend_bundles = ecjia_app::extend_bundles();
+            return array_merge($builtin_bundles, $extend_bundles);
+        }
+        return $builtin_bundles;
+    }
+    public static function custom_shop_closed()
+    {
+        header('Content-type: text/html; charset=' . RC_CHARSET);
+        die('<div style="margin: 150px; text-align: center; font-size: 14px"><p>' . __('本店盘点中，请您稍后再来...') . '</p><p>' . ecjia::config('close_comment') . '</p></div>');
+    }
+    public static function ecjia_general_info_filter($data)
+    {
+        if (!ecjia_license::instance()->license_check()) {
+            $data['powered'] = ecjia::powerByLink();
+        } else {
+            $data['powered'] = '';
+        }
+        return $data;
+    }
+    public static function page_title_suffix($title)
+    {
+        if (defined('ROUTE_M') && ROUTE_M != 'installer') {
+            if (ecjia_license::instance()->license_check()) {
+                return '';
+            }
+        }
+        $suffix = ' - ' . ecjia::powerByText();
+        return $suffix;
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\Screens {
+use RC_Hook;
+class AllScreen
+{
+    public function __construct()
+    {
+    }
+    public function loading()
+    {
+        RC_Hook::add_filter('pretty_page_table_data', [__CLASS__, 'remove_env_pretty_page_table_data']);
+        RC_Hook::add_action('reset_mail_config', ['Ecjia\\System\\Frameworks\\Component\\Mailer', 'ecjia_mail_config']);
+    }
+    public static function remove_env_pretty_page_table_data($tables)
+    {
+        $env = collect($tables['Environment Variables']);
+        $server = collect($tables['Server/Request Data']);
+        $col = collect(['AUTH_KEY', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD', 'DB_PREFIX']);
+        $col->map(function ($item) use($env, $server) {
+            $env->pull($item);
+            $server->pull($item);
+        });
+        $tables['Environment Variables'] = $env->all();
+        $tables['Server/Request Data'] = $server->all();
+        return $tables;
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\Model {
+use Royalcms\Component\Rememberable\Rememberable;
+use Royalcms\Component\Database\Eloquent\Model as Eloquent;
+abstract class Model extends Eloquent
+{
+    use Rememberable;
+    use InsertOnDuplicateKey;
+}
+}
+
+namespace Ecjia\System\Frameworks\Model {
+trait InsertOnDuplicateKey
+{
+    public static function insertOnDuplicateKey(array $data, array $updateColumns = null)
+    {
+        if (empty($data)) {
+            return false;
+        }
+        if (!isset($data[0])) {
+            $data = [$data];
+        }
+        $sql = static::buildInsertOnDuplicateSql($data, $updateColumns);
+        $data = static::inLineArray($data);
+        return self::getModelConnectionName()->affectingStatement($sql, $data);
+    }
+    public static function insertIgnore(array $data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+        if (!isset($data[0])) {
+            $data = [$data];
+        }
+        $sql = static::buildInsertIgnoreSql($data);
+        $data = static::inLineArray($data);
+        return self::getModelConnectionName()->affectingStatement($sql, $data);
+    }
+    public static function replace(array $data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+        if (!isset($data[0])) {
+            $data = [$data];
+        }
+        $sql = static::buildReplaceSql($data);
+        $data = static::inLineArray($data);
+        return self::getModelConnectionName()->affectingStatement($sql, $data);
+    }
+    public static function getTableName()
+    {
+        $class = get_called_class();
+        return (new $class())->getTable();
+    }
+    public static function getModelConnectionName()
+    {
+        $class = get_called_class();
+        return (new $class())->getConnection();
+    }
+    public static function getTablePrefix()
+    {
+        return self::getModelConnectionName()->getTablePrefix();
+    }
+    public static function getPrimaryKey()
+    {
+        $class = get_called_class();
+        return (new $class())->getKeyName();
+    }
+    protected static function buildQuestionMarks($data)
+    {
+        $lines = [];
+        foreach ($data as $row) {
+            $count = count($row);
+            $questions = [];
+            for ($i = 0; $i < $count; ++$i) {
+                $questions[] = '?';
+            }
+            $lines[] = '(' . implode(',', $questions) . ')';
+        }
+        return implode(', ', $lines);
+    }
+    protected static function getFirstRow(array $data)
+    {
+        if (empty($data)) {
+            throw new \InvalidArgumentException('Empty data.');
+        }
+        list($first) = $data;
+        if (!is_array($first)) {
+            throw new \InvalidArgumentException('$data is not an array of array.');
+        }
+        return $first;
+    }
+    protected static function getColumnList(array $first)
+    {
+        if (empty($first)) {
+            throw new \InvalidArgumentException('Empty array.');
+        }
+        return '`' . implode('`,`', array_keys($first)) . '`';
+    }
+    protected static function buildValuesList(array $updatedColumns)
+    {
+        $out = [];
+        foreach ($updatedColumns as $key => $value) {
+            if (is_numeric($key)) {
+                $out[] = sprintf('`%s` = VALUES(`%s`)', $value, $value);
+            } else {
+                if (is_string($value)) {
+                    $out[] = sprintf("`%s` = '%s'", $key, $value);
+                } else {
+                    $out[] = sprintf("`%s` = %s", $key, $value);
+                }
+            }
+        }
+        return implode(', ', $out);
+    }
+    protected static function inLineArray(array $data)
+    {
+        return call_user_func_array('array_merge', array_map('array_values', $data));
+    }
+    protected static function buildInsertOnDuplicateSql(array $data, array $updateColumns = null)
+    {
+        $first = static::getFirstRow($data);
+        $sql = 'INSERT INTO `' . static::getTablePrefix() . static::getTableName() . '`(' . static::getColumnList($first) . ') VALUES' . PHP_EOL;
+        $sql .= static::buildQuestionMarks($data) . PHP_EOL;
+        $sql .= 'ON DUPLICATE KEY UPDATE ';
+        if (empty($updateColumns)) {
+            $sql .= static::buildValuesList(array_keys($first));
+        } else {
+            $sql .= static::buildValuesList($updateColumns);
+        }
+        return $sql;
+    }
+    protected static function buildInsertIgnoreSql(array $data)
+    {
+        $first = static::getFirstRow($data);
+        $sql = 'INSERT IGNORE INTO `' . static::getTablePrefix() . static::getTableName() . '`(' . static::getColumnList($first) . ') VALUES' . PHP_EOL;
+        $sql .= static::buildQuestionMarks($data);
+        return $sql;
+    }
+    protected static function buildReplaceSql(array $data)
+    {
+        $first = static::getFirstRow($data);
+        $sql = 'REPLACE INTO `' . static::getTablePrefix() . static::getTableName() . '`(' . static::getColumnList($first) . ') VALUES' . PHP_EOL;
+        $sql .= static::buildQuestionMarks($data);
+        return $sql;
+    }
 }
 }
 
@@ -35839,6 +40216,61 @@ class MysqlSessionHandler implements \SessionHandlerInterface, EcjiaSessionInter
     protected function getConnection()
     {
         return $this->pdo;
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\Sessions\Handler {
+use Ecjia\System\Frameworks\Contracts\EcjiaSessionInterface;
+use Ecjia\System\Frameworks\Sessions\Traits\EcjiaSessionSpecTrait;
+class RedisSessionHandler implements \SessionHandlerInterface, EcjiaSessionInterface
+{
+    use EcjiaSessionSpecTrait;
+    private $redis;
+    private $ttl;
+    private $prefix;
+    public function __construct($redis, array $options = array())
+    {
+        $diff = array_diff(array_keys($options), array('prefix', 'expiretime'));
+        if ($diff) {
+            throw new \InvalidArgumentException(sprintf('The following options are not supported "%s"', implode(', ', $diff)));
+        }
+        $this->redis = $redis;
+        $this->ttl = isset($options['expiretime']) ? (int) $options['expiretime'] : 86400;
+        $this->prefix = isset($options['prefix']) ? $options['prefix'] : 'sf2s';
+    }
+    public function open($savePath, $sessionName)
+    {
+        return true;
+    }
+    public function close()
+    {
+        return true;
+    }
+    public function read($sessionId)
+    {
+        return $this->redis->get($this->sessionId($sessionId)) ?: '';
+    }
+    public function write($sessionId, $data)
+    {
+        $result = $this->redis->setex($this->sessionId($sessionId), $this->ttl, $data);
+        return $result ? 0 : 1;
+    }
+    public function destroy($sessionId)
+    {
+        return $this->redis->del($this->sessionId($sessionId));
+    }
+    public function gc($maxlifetime)
+    {
+        return true;
+    }
+    public function getDriver()
+    {
+        return $this->redis;
+    }
+    protected function sessionId($sessionId)
+    {
+        return $this->prefix . 'session:' . $sessionId;
     }
 }
 }
@@ -37936,6 +42368,662 @@ class ecjia_screen
             $column_headers[$screen->id] = RC_Hook::apply_filters('manage_' . $screen->id . '_columns', array());
         }
         return $column_headers[$screen->id];
+    }
+}
+}
+
+namespace Ecjia\App\Theme\ThemeOption\Models {
+use Ecjia\System\Frameworks\Model\Model;
+class TemplateOptionsModel extends Model
+{
+    protected $table = 'template_options';
+    protected $primaryKey = 'option_id';
+    protected $fillable = ['option_name', 'option_value', 'site', 'template'];
+    public $timestamps = false;
+}
+}
+
+namespace Ecjia\App\Theme\ThemeOption\Repositories {
+use Royalcms\Component\Repository\Repositories\AbstractRepository;
+class TemplateOptionsRepository extends AbstractRepository
+{
+    protected $model = 'Ecjia\\App\\Theme\\ThemeOption\\Models\\TemplateOptionsModel';
+    protected $site = null;
+    protected $template = null;
+    protected $orderBy = ['option_id' => 'asc'];
+    public function __construct()
+    {
+        parent::__construct();
+        if (defined('RC_SITE') && constant('RC_SITE')) {
+            $this->site = RC_SITE;
+        } else {
+            $this->site = '';
+        }
+        $this->template = \RC_Theme::get_template();
+    }
+    public function getOption($name)
+    {
+        $where = ['site' => $this->site, 'template' => $this->template, 'option_name' => $this->template];
+        $option = $this->findWhereByFirst($where, ['option_name', 'option_value']);
+        return $option;
+    }
+    public function updateOption($name, $value)
+    {
+        $result = $this->getModel()->where('site', $this->site)->where('template', $this->template)->where('option_name', $name)->update(['option_value' => $value]);
+        return $result;
+    }
+    public function addOption($name, $value)
+    {
+        $result = $this->getModel()->insertOnDuplicateKey(['site' => $this->site, 'template' => $this->template, 'option_name' => $name, 'option_value' => $value], ['option_name' => $name, 'option_value' => $value]);
+        return $result;
+    }
+    public function deleteOption($name)
+    {
+        $result = $this->getModel()->where('site', $this->site)->where('template', $this->template)->where('option_name', $name)->delete();
+        return $result;
+    }
+    public function getAllOptions()
+    {
+        $options = $this->getModel()->where('site', $this->site)->where('template', $this->template)->select('option_name', 'option_value')->orderBy('option_id', 'asc')->get();
+        return $options;
+    }
+    public function findWhereByFirst(array $where, $columns = ['*'])
+    {
+        $this->newQuery();
+        foreach ($where as $field => $value) {
+            if (is_array($value)) {
+                list($field, $condition, $val) = $value;
+                $this->query->where($field, $condition, $val);
+            } else {
+                $this->query->where($field, '=', $value);
+            }
+        }
+        return $this->query->first($columns);
+    }
+    public function wherePaginate(array $where, $limit = null, $columns = ['*'])
+    {
+        $this->newQuery();
+        foreach ($where as $field => $value) {
+            if (is_array($value)) {
+                list($field, $condition, $val) = $value;
+                $this->query->where($field, $condition, $val);
+            } else {
+                $this->query->where($field, '=', $value);
+            }
+        }
+        return $this->query->paginate($limit, $columns);
+    }
+}
+}
+
+namespace Ecjia\App\Theme\ThemeOption {
+use Ecjia\App\Theme\ThemeOption\Repositories\TemplateOptionsRepository;
+use RC_Hook;
+use RC_Format;
+class ThemeOption
+{
+    protected $repository;
+    const APPCACHE_KEY = 'theme-option';
+    public function __construct($repository = null)
+    {
+        if (is_null($repository)) {
+            $this->repository = new TemplateOptionsRepository();
+        } else {
+            $this->repository = $repository;
+        }
+    }
+    public function load_alloptions()
+    {
+        $alloptions = ecjia_cache(self::APPCACHE_KEY)->get('alloptions');
+        if (!$alloptions) {
+            $alloptions_db = $this->repository->getAllOptions();
+            $alloptions = array();
+            foreach ($alloptions_db as $o) {
+                $alloptions[$o->option_name] = $o->option_value;
+            }
+            $alloptions = RC_Hook::apply_filters('ecjia_theme_pre_cache_alloptions', $alloptions);
+            ecjia_cache(self::APPCACHE_KEY)->add('alloptions', $alloptions);
+        }
+        return RC_Hook::apply_filters('ecjia_theme_alloptions', $alloptions);
+    }
+    public function sanitize_option($option, $value)
+    {
+        $original_value = $value;
+        return RC_Hook::apply_filters("ecjia_theme_sanitize_option_{$option}", $value, $option, $original_value);
+    }
+    public function get_option($option, $default = false)
+    {
+        $option = trim($option);
+        if (empty($option)) {
+            return false;
+        }
+        $pre = RC_Hook::apply_filters("ecjia_theme_pre_option_{$option}", false, $option, $default);
+        if (false !== $pre) {
+            return $pre;
+        }
+        $passed_default = func_num_args() > 1;
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get('notoptions');
+        if (isset($notoptions[$option])) {
+            return RC_Hook::apply_filters("ecjia_theme_default_option_{$option}", $default, $option, $passed_default);
+        }
+        $alloptions = $this->load_alloptions();
+        if (isset($alloptions[$option])) {
+            $value = $alloptions[$option];
+        } else {
+            $value = ecjia_cache(self::APPCACHE_KEY)->get($option);
+            if (is_null($value)) {
+                $row = $this->repository->getOption($option);
+                if (is_object($row)) {
+                    $value = $row->option_value;
+                    ecjia_cache(self::APPCACHE_KEY)->add($option, $value, 'options');
+                } else {
+                    if (!is_array($notoptions)) {
+                        $notoptions = array();
+                    }
+                    $notoptions[$option] = true;
+                    ecjia_cache(self::APPCACHE_KEY)->set('notoptions', $notoptions);
+                    return RC_Hook::apply_filters("ecjia_theme_default_option_{$option}", $default, $option, $passed_default);
+                }
+            }
+        }
+        return RC_Hook::apply_filters("ecjia_theme_option_{$option}", RC_Format::maybe_unserialize($value), $option);
+    }
+    public function protect_special_option($option)
+    {
+        if ('alloptions' === $option || 'notoptions' === $option) {
+            rc_die(sprintf(__('%s is a protected ECJia Theme option and may not be modified'), RC_Format::esc_html($option)));
+        }
+    }
+    public function form_option($option)
+    {
+        echo RC_Format::esc_attr($this->get_option($option));
+    }
+    public function update_option($option, $value, $autoload = null)
+    {
+        $option = trim($option);
+        if (empty($option)) {
+            return false;
+        }
+        $this->protect_special_option($option);
+        if (is_object($value)) {
+            $value = clone $value;
+        }
+        $value = $this->sanitize_option($option, $value);
+        $old_value = $this->get_option($option);
+        $value = RC_Hook::apply_filters("ecjia_theme_pre_update_option_{$option}", $value, $old_value, $option);
+        $value = RC_Hook::apply_filters('ecjia_theme_pre_update_option', $value, $option, $old_value);
+        if ($value === $old_value || RC_Format::maybe_serialize($value) === RC_Format::maybe_serialize($old_value)) {
+            return false;
+        }
+        if (RC_Hook::apply_filters("ecjia_theme_default_option_{$option}", false, $option, false) === $old_value) {
+            return $this->add_option($option, $value);
+        }
+        $serialized_value = RC_Format::maybe_serialize($value);
+        RC_Hook::do_action('ecjia_theme_update_option', $option, $old_value, $value);
+        $result = $this->repository->updateOption($option, $serialized_value);
+        if (!$result) {
+            return false;
+        }
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get('notoptions');
+        if (is_array($notoptions) && isset($notoptions[$option])) {
+            unset($notoptions[$option]);
+            ecjia_cache(self::APPCACHE_KEY)->set('notoptions', $notoptions);
+        }
+        $alloptions = $this->load_alloptions();
+        if (isset($alloptions[$option])) {
+            $alloptions[$option] = $serialized_value;
+            ecjia_cache(self::APPCACHE_KEY)->set('alloptions', $alloptions);
+        } else {
+            ecjia_cache(self::APPCACHE_KEY)->set($option, $serialized_value);
+        }
+        RC_Hook::do_action("ecjia_theme_update_option_{$option}", $old_value, $value, $option);
+        RC_Hook::do_action('ecjia_theme_updated_option', $option, $old_value, $value);
+        return true;
+    }
+    public function add_option($option, $value = '', $deprecated = '', $autoload = 'yes')
+    {
+        if (!empty($deprecated)) {
+            _deprecated_argument(__FUNCTION__, '2.3.0');
+        }
+        $option = trim($option);
+        if (empty($option)) {
+            return false;
+        }
+        $this->protect_special_option($option);
+        if (is_object($value)) {
+            $value = clone $value;
+        }
+        $value = $this->sanitize_option($option, $value);
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get('notoptions');
+        if (!is_array($notoptions) || !isset($notoptions[$option])) {
+            if (RC_Hook::apply_filters("ecjia_theme_default_option_{$option}", false, $option, false) !== $this->get_option($option)) {
+                return false;
+            }
+        }
+        $serialized_value = RC_Format::maybe_serialize($value);
+        RC_Hook::do_action('ecjia_theme_add_option', $option, $value);
+        $result = $this->repository->addOption($option, $serialized_value);
+        if (!$result) {
+            return false;
+        }
+        $alloptions = $this->load_alloptions();
+        $alloptions[$option] = $serialized_value;
+        ecjia_cache(self::APPCACHE_KEY)->set('alloptions', $alloptions);
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get('notoptions');
+        if (is_array($notoptions) && isset($notoptions[$option])) {
+            unset($notoptions[$option]);
+            ecjia_cache(self::APPCACHE_KEY)->set('notoptions', $notoptions);
+        }
+        RC_Hook::do_action("ecjia_theme_add_option_{$option}", $option, $value);
+        RC_Hook::do_action('ecjia_theme_added_option', $option, $value);
+        return true;
+    }
+    public function delete_option($option)
+    {
+        $option = trim($option);
+        if (empty($option)) {
+            return false;
+        }
+        $this->protect_special_option($option);
+        $row = $this->repository->getOption($option);
+        if (is_null($row)) {
+            return false;
+        }
+        RC_Hook::do_action('ecjia_theme_delete_option', $option);
+        $result = $this->repository->deleteOption($option);
+        $alloptions = $this->load_alloptions();
+        if (is_array($alloptions) && isset($alloptions[$option])) {
+            unset($alloptions[$option]);
+            ecjia_cache(self::APPCACHE_KEY)->set('alloptions', $alloptions);
+        }
+        if ($result) {
+            RC_Hook::do_action("ecjia_theme_delete_option_{$option}", $option);
+            RC_Hook::do_action('ecjia_theme_deleted_option', $option);
+            return true;
+        }
+        return false;
+    }
+}
+}
+
+namespace Ecjia\App\Theme\ThemeFramework {
+use RC_Hook;
+abstract class ThemeFrameworkAbstract
+{
+    protected $framework;
+    public function __construct()
+    {
+        $this->framework = new ThemeFramework();
+    }
+    public function setFramework($framework)
+    {
+        $this->framework = $framework;
+        return $this;
+    }
+    public function getFramework()
+    {
+        return $this->framework;
+    }
+    public function addAction($hook, $function_to_add, $priority = 30, $accepted_args = 1)
+    {
+        RC_Hook::add_action($hook, array(&$this, $function_to_add), $priority, $accepted_args);
+    }
+    public function addFilter($tag, $function_to_add, $priority = 30, $accepted_args = 1)
+    {
+        RC_Hook::add_action($tag, array(&$this, $function_to_add), $priority, $accepted_args);
+    }
+}
+}
+
+namespace Ecjia\App\Theme\ThemeFramework\Foundation {
+use Ecjia\App\Theme\ThemeFramework\Support\Helpers;
+use Ecjia\App\Theme\ThemeFramework\ThemeConstant;
+use Ecjia\App\Theme\ThemeFramework\ThemeFrameworkAbstract;
+use RC_Hook;
+use RC_Uri;
+use RC_Style;
+use RC_Script;
+use ecjia_theme_option;
+use ecjia_theme_setting;
+use ecjia_theme_transient;
+class AdminPanel extends ThemeFrameworkAbstract
+{
+    public $unique = ThemeConstant::CS_OPTION;
+    public $settings = array();
+    public $options = array();
+    public $sections = array();
+    public $theme_options = array();
+    private static $instance = null;
+    public static function instance($settings = array(), $options = array())
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self($settings, $options);
+        }
+        return self::$instance;
+    }
+    public function __construct($settings, $options)
+    {
+        parent::__construct();
+        $this->settings = RC_Hook::apply_filters('cs_framework_settings', $settings);
+        $this->options = RC_Hook::apply_filters('cs_framework_options', $options);
+        if (!empty($this->options)) {
+            $this->sections = $this->getSections();
+            $this->theme_options = ecjia_theme_option::load_alloptions();
+            $this->addAction('admin_theme_option_nav', 'display_setting_menus');
+            $this->addAction('admin_theme_option_page', 'display_theme_option_page');
+            $this->addAction('admin_enqueue_scripts', 'admin_enqueue_scripts');
+            $this->addFilter('template_option_default_section', 'template_option_default_section');
+        }
+        $this->admin_enqueue_scripts();
+    }
+    public function template_option_default_section()
+    {
+        return collect($this->sections)->keys()->first();
+    }
+    public function getSections()
+    {
+        $sections = array();
+        foreach ($this->options as $key => $value) {
+            if (isset($value['sections'])) {
+                foreach ($value['sections'] as $section) {
+                    if (isset($section['fields'])) {
+                        $sections[$section['name']] = $section;
+                    }
+                }
+            } else {
+                if (isset($value['fields'])) {
+                    $sections[$value['name']] = $value;
+                }
+            }
+        }
+        return $sections;
+    }
+    public function getSection($name)
+    {
+        return array_get($this->sections, $name, []);
+    }
+    public function display_setting_menus($name)
+    {
+        echo '<div class="setting-group">' . PHP_EOL;
+        echo '<span class="setting-group-title"><i class="fontello-icon-cog"></i>' . $this->settings['menu_title'] . '</span>' . PHP_EOL;
+        echo '<ul class="nav nav-list m_t10">' . PHP_EOL;
+        foreach ($this->sections as $section) {
+            echo '<li><a class="data-pjax setting-group-item';
+            if ($name == $section['name']) {
+                echo ' llv-active';
+            }
+            $url = RC_Uri::url('theme/admin_option/init', ['section' => $section['name']]);
+            echo '" href="' . $url . '">' . $section['title'] . '</a></li>' . PHP_EOL;
+        }
+        echo '</ul>' . PHP_EOL;
+        echo '</div>' . PHP_EOL;
+    }
+    public function display_theme_option_page($name)
+    {
+        $section = $this->getSection($name);
+        $this->setSettingsFields($section);
+        $form_action = RC_Uri::url('theme/admin_option/update', ['section' => $name]);
+        echo '<form method="post" class="form-horizontal" action="' . $form_action . '" name="theForm" >' . PHP_EOL;
+        echo '<fieldset>' . PHP_EOL;
+        echo '<div>' . PHP_EOL;
+        echo '<h3 class="heading">';
+        echo $section['title'];
+        echo '</h3>' . PHP_EOL;
+        echo '</div>' . PHP_EOL;
+        $this->displaySettingsPageSection($section);
+        echo '<div class="control-group">' . PHP_EOL;
+        echo '<div class="controls">' . PHP_EOL;
+        echo '<input type="submit" value="确定" class="btn btn-gebo" />' . PHP_EOL;
+        echo '</div>' . PHP_EOL;
+        echo '</div>' . PHP_EOL;
+        echo '</fieldset>' . PHP_EOL;
+        echo '</form>' . PHP_EOL;
+    }
+    protected function staticsPath($path)
+    {
+        return $this->getFramework()->getStaticsUrl() . $path;
+    }
+    public function admin_enqueue_scripts()
+    {
+        $route = royalcms('default-router');
+        if (!$route->justCurrentRoute('theme/admin_option/init')) {
+            return;
+        }
+        RC_Style::enqueue_style('cs-framework', $this->staticsPath('/theme-framework/css/cs-framework.css'), array(), '1.0.0', 'all');
+        RC_Style::enqueue_style('font-awesome', $this->staticsPath('/theme-framework/css/font-awesome.css'), array(), '4.2.0', 'all');
+        if (is_rtl()) {
+            RC_Style::enqueue_style('cs-framework-rtl', $this->staticsPath('/theme-framework/css/cs-framework-rtl.css'), array(), '1.0.0', 'all');
+        }
+        RC_Script::enqueue_script('cs-plugins', $this->staticsPath('/theme-framework/js/cs-plugins.js'), array(), '1.0.0', true);
+        RC_Script::enqueue_script('cs-framework', $this->staticsPath('/theme-framework/js/cs-framework.js'), array('cs-plugins'), '1.0.0', true);
+        RC_Script::enqueue_script('bootstrap-colorpicker');
+        RC_Script::enqueue_script('jquery-ui-dialog');
+        RC_Script::enqueue_script('jquery-ui-sortable');
+        RC_Script::enqueue_script('jquery-ui-accordion');
+    }
+    protected function displaySettingsPageSection(array $section)
+    {
+        $page = $section['name'] . '_section_group';
+        echo '<div class="cs-content">';
+        echo '<div class="cs-sections">';
+        if (isset($section['fields'])) {
+            echo '<div id="cs-tab-' . $section['name'] . '" class="cs-section">';
+            echo isset($section['title']) && empty($has_nav) ? '<div class="cs-section-title"><h3>' . $section['title'] . '</h3></div>' : '';
+            $this->do_settings_section($page, $section);
+            echo '</div>';
+        }
+        echo '</div>';
+        echo '<div class="clear"></div>';
+        echo '</div>';
+    }
+    protected function setSettingsFields(array $section)
+    {
+        $defaults = array();
+        ecjia_theme_setting::register_setting($this->unique . '_group', $this->unique, array(&$this, 'validate_save'));
+        if (isset($section['fields'])) {
+            ecjia_theme_setting::add_settings_section($section['name'] . '_section', $section['title'], '', $section['name'] . '_section_group');
+            foreach ($section['fields'] as $field_key => $field) {
+                ecjia_theme_setting::add_settings_field($field_key . '_field', '', array(&$this, 'fieldCallback'), $section['name'] . '_section_group', $section['name'] . '_section', $field);
+                if (isset($field['default'])) {
+                    $defaults[$field['id']] = $field['default'];
+                    if (!empty($this->theme_options) && !isset($this->theme_options[$field['id']])) {
+                        $this->theme_options[$field['id']] = $field['default'];
+                    }
+                }
+            }
+        }
+        if (empty($this->theme_options) && !empty($defaults)) {
+            $this->theme_options = $defaults;
+        }
+    }
+    public function validate_save($request)
+    {
+        $add_errors = array();
+        $section_id = Helpers::cs_get_var('cs_section_id');
+        if (isset($request['_nonce'])) {
+            unset($request['_nonce']);
+        }
+        if (isset($request['import']) && !empty($request['import'])) {
+            $decode_string = Helpers::cs_decode_string($request['import']);
+            if (is_array($decode_string)) {
+                return $decode_string;
+            }
+            $add_errors[] = $this->add_settings_error(__('Success. Imported backup options.', 'cs-framework'), 'updated');
+        }
+        if (isset($request['resetall'])) {
+            $add_errors[] = $this->add_settings_error(__('Default options restored.', 'cs-framework'), 'updated');
+            return null;
+        }
+        if (isset($request['reset']) && !empty($section_id)) {
+            foreach ($this->sections as $value) {
+                if ($value['name'] == $section_id) {
+                    foreach ($value['fields'] as $field) {
+                        if (isset($field['id'])) {
+                            if (isset($field['default'])) {
+                                $request[$field['id']] = $field['default'];
+                            } else {
+                                unset($request[$field['id']]);
+                            }
+                        }
+                    }
+                }
+            }
+            $add_errors[] = $this->add_settings_error(__('Default options restored for only this section.', 'cs-framework'), 'updated');
+        }
+        foreach ($this->sections as $section) {
+            if (isset($section['fields'])) {
+                foreach ($section['fields'] as $field) {
+                    if (isset($field['type']) && !isset($field['multilang']) && isset($field['id'])) {
+                        $request_value = isset($request[$field['id']]) ? $request[$field['id']] : '';
+                        $sanitize_type = $field['type'];
+                        if (isset($field['sanitize'])) {
+                            $sanitize_type = $field['sanitize'] !== false ? $field['sanitize'] : false;
+                        }
+                        if ($sanitize_type !== false && RC_Hook::has_filter('cs_sanitize_' . $sanitize_type)) {
+                            $request[$field['id']] = RC_Hook::apply_filters('cs_sanitize_' . $sanitize_type, $request_value, $field, $section['fields']);
+                        }
+                        if (isset($field['validate']) && RC_Hook::has_filter('cs_validate_' . $field['validate'])) {
+                            $validate = RC_Hook::apply_filters('cs_validate_' . $field['validate'], $request_value, $field, $section['fields']);
+                            if (!empty($validate)) {
+                                $add_errors[] = $this->add_settings_error($validate, 'error', $field['id']);
+                                $request[$field['id']] = isset($this->theme_options[$field['id']]) ? $this->theme_options[$field['id']] : '';
+                            }
+                        }
+                    }
+                    if (!isset($field['id']) || empty($request[$field['id']])) {
+                        continue;
+                    }
+                }
+            }
+        }
+        $request = RC_Hook::apply_filters('cs_validate_save', $request);
+        RC_Hook::do_action('cs_validate_save', $request);
+        ecjia_theme_transient::set_transient('cs-framework-transient', array('errors' => $add_errors, 'section_id' => $section_id), 30);
+        return $request;
+    }
+    public function do_settings_sections($page)
+    {
+        $theme_settings_sections = ecjia_theme_setting::get_settings_sections($page);
+        if (empty($theme_settings_sections)) {
+            return;
+        }
+        foreach ($theme_settings_sections as $section) {
+            $this->do_settings_section($page, $section);
+        }
+    }
+    public function do_settings_section($page, $section)
+    {
+        if ($section['callback']) {
+            call_user_func($section['callback'], $section);
+        }
+        $this->do_settings_fields($page, $section);
+    }
+    public function do_settings_fields($page, $section)
+    {
+        $section_id = $section['name'] . '_section';
+        $theme_settings_fields = ecjia_theme_setting::get_settings_fields($page, $section_id);
+        if (empty($theme_settings_fields)) {
+            return;
+        }
+        foreach ($theme_settings_fields as $field) {
+            call_user_func($field['callback'], $field['args']);
+        }
+    }
+    public function fieldCallback($field)
+    {
+        $value = isset($field['id']) && isset($this->theme_options[$field['id']]) ? $this->theme_options[$field['id']] : '';
+        echo $this->getFramework()->getOptionField()->addElement($field, $value, $this->unique);
+    }
+    public function add_settings_error($message, $type = 'error', $id = 'global')
+    {
+        return array('setting' => 'cs-errors', 'code' => $id, 'message' => $message, 'type' => $type);
+    }
+}
+}
+
+namespace Ecjia\App\Theme\ThemeFramework {
+class OptionField
+{
+    protected $framework;
+    protected $fields = [];
+    protected $current;
+    public function __construct($framework)
+    {
+        $this->framework = $framework;
+        $this->fields = config('app-theme::fields');
+    }
+    public function getFeildClass($type)
+    {
+        return array_get($this->fields, $type);
+    }
+    public function addElement($field = array(), $value = '', $unique = '')
+    {
+        $output = '';
+        $depend = '';
+        $sub = isset($field['sub']) ? 'sub-' : '';
+        $unique = isset($unique) ? $unique : '';
+        $languages = $this->framework->language_defaults();
+        $class = $this->getFeildClass($field['type']);
+        $wrap_class = isset($field['wrap_class']) ? ' ' . $field['wrap_class'] : '';
+        $hidden = isset($field['show_only_language']) && $field['show_only_language'] != $languages['current'] ? ' hidden' : '';
+        $is_pseudo = isset($field['pseudo']) ? ' cs-pseudo-field' : '';
+        if (isset($field['dependency'])) {
+            $hidden = ' hidden';
+            $depend .= ' data-' . $sub . 'controller="' . $field['dependency'][0] . '"';
+            $depend .= ' data-' . $sub . 'condition="' . $field['dependency'][1] . '"';
+            $depend .= ' data-' . $sub . 'value="' . $field['dependency'][2] . '"';
+        }
+        $output .= '<div class="cs-element cs-field-' . $field['type'] . $is_pseudo . $wrap_class . $hidden . '"' . $depend . '>';
+        if (isset($field['title'])) {
+            $field_desc = isset($field['desc']) ? '<p class="cs-text-desc">' . $field['desc'] . '</p>' : '';
+            $output .= '<div class="cs-title"><h4>' . $field['title'] . '</h4>' . $field_desc . '</div>';
+        }
+        $output .= isset($field['title']) ? '<div class="cs-fieldset">' : '';
+        $value = !isset($value) && isset($field['default']) ? $field['default'] : $value;
+        $value = isset($field['value']) ? $field['value'] : $value;
+        if (class_exists($class)) {
+            ob_start();
+            $element = new $class($field, $value, $unique);
+            $element->output();
+            $output .= ob_get_clean();
+        } else {
+            $output .= '<p>' . __('This field class is not available!', 'theme-framework') . '</p>';
+        }
+        $output .= isset($field['title']) ? '</div>' : '';
+        $output .= '<div class="clear"></div>';
+        $output .= '</div>';
+        return $output;
+    }
+}
+}
+
+namespace Ecjia\App\Theme\ThemeFramework {
+class ThemeConstant
+{
+    const CS_VERSION = '1.0.1';
+    const CS_OPTION = '_cs_options';
+    const CS_CUSTOMIZE = '_cs_customize_options';
+}
+}
+
+namespace Ecjia\App\Theme\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class EcjiaThemeOption extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.theme.option';
+    }
+}
+}
+
+namespace Ecjia\App\Theme\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class EcjiaThemeFramework extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.theme.framework';
     }
 }
 }
