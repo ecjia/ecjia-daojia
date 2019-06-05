@@ -115,7 +115,7 @@ class admin_plugin extends ecjia_admin {
 		}
 		$this->assign('modules', $modules);
 		
-		$this->display('payment_channel.dwt');
+		return $this->display('payment_channel.dwt');
 	}
 
 	/**
@@ -205,7 +205,7 @@ class admin_plugin extends ecjia_admin {
 		$this->assign('pay', $pay);
 		$this->assign('form_action', RC_Uri::url('payment/admin_plugin/save'));
 		
-		$this->display('payment_edit.dwt');
+		return $this->display('payment_edit.dwt');
 	}
 	
 	/**

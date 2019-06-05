@@ -101,7 +101,7 @@ class admin_payment_record extends ecjia_admin {
 	    $this->assign('search_action', RC_Uri::url('payment/admin_payment_record/init'));
 		$this->assign('ur_here', __('交易流水', 'payment'));
 		
-		$this->display('payment_record_list.dwt');
+		return $this->display('payment_record_list.dwt');
 	}
 
 	/**
@@ -243,7 +243,7 @@ class admin_payment_record extends ecjia_admin {
 		$this->assign('action_link', array('text' => __('交易流水', 'payment'), 'href' => RC_Uri::url('payment/admin_payment_record/init')));
 		$this->assign('modules', $db_payment_record);
 
-		$this->display('payment_record_info.dwt');
+		return $this->display('payment_record_info.dwt');
 	}
 	
 	/**

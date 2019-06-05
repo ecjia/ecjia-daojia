@@ -88,7 +88,7 @@ class admin_payment_refund extends ecjia_admin {
 		$this->assign('payment_refund', $payment_refund);
 		$this->assign('filter', $payment_refund['filter']);
 		
-		$this->display('payment_refund_list.dwt');
+		return $this->display('payment_refund_list.dwt');
 	}
 
 	
@@ -131,7 +131,7 @@ class admin_payment_refund extends ecjia_admin {
 		$this->assign('refund_order', $refund_order);
 		$this->assign('refund_payrecord', $refund_payrecord);
 	
-		$this->display('payment_refund_info.dwt');
+		return $this->display('payment_refund_info.dwt');
 	}
 
     //对账查询
