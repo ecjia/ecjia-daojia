@@ -209,13 +209,11 @@ class ExceptionServiceProvider extends ServiceProvider
         $dir = static::guessPackageClassPath('royalcms/exception');
 
         return [
-            $dir . '/ExceptionServiceProvider.php',
             $dir . '/PrettyPageHandler.php',
+            $dir . '/PlainDisplayer.php',
             $dir . '/ExceptionDisplayerInterface.php',
             $dir . '/SymfonyDisplayer.php',
             $dir . '/WhoopsDisplayer.php',
-            $dir . '/PlainDisplayer.php',
-            $dir . '/PrettyPageHandler.php',
             $dir . '/Handler.php',
             $dir . '/HandleDisplayExceptions.php',
             $dir . '/HandlerExceptions.php',
