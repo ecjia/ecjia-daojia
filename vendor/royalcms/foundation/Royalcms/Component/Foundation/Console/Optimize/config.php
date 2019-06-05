@@ -55,8 +55,18 @@ return [
     $basePath.'/vendor/symfony/translation/TranslatorInterface.php',
     $basePath.'/vendor/symfony/console/Command/Command.php',
 
+    $basePath.'/vendor/league/flysystem/src/AdapterInterface.php',
+    $basePath.'/vendor/league/flysystem/src/ReadInterface.php',
+    $basePath.'/vendor/league/flysystem/src/FilesystemInterface.php',
+    $basePath.'/vendor/league/flysystem/src/Plugin/PluggableTrait.php',
+    $basePath.'/vendor/league/flysystem/src/Adapter/AbstractAdapter.php',
+    $basePath.'/vendor/league/flysystem/src/Adapter/Local.php',
+    $basePath.'/vendor/league/flysystem/src/Filesystem.php',
+    $basePath.'/vendor/league/flysystem/src/ConfigAwareTrait.php',
+
     $basePath.'/vendor/royalcms/container/Royalcms/Component/Container/Container.php',
 
+    //contracts
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Container/Container.php',
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Container/ContextualBindingBuilder.php',
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Foundation/Royalcms.php',
@@ -102,13 +112,18 @@ return [
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Cache/Factory.php',
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Cache/Store.php',
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Cache/Repository.php',
+    $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Filesystem/Cloud.php',
+    $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Filesystem/Factory.php',
+    $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Filesystem/Filesystem.php',
+    $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Filesystem/FileNotFoundException.php',
 
+    //http
     $basePath.'/vendor/royalcms/http/Royalcms/Component/Http/Request.php',
     $basePath.'/vendor/royalcms/http/Royalcms/Component/Http/Middleware/FrameGuard.php',
     $basePath.'/vendor/royalcms/http/Royalcms/Component/Http/ResponseTrait.php',
     $basePath.'/vendor/royalcms/http/Royalcms/Component/Http/Response.php',
 
-
+    //foundation
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/Royalcms.php',
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/EnvironmentDetector.php',
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/Bootstrap/ConfigureLogging.php',
@@ -142,7 +157,7 @@ return [
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/Uri.php',
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/Theme.php',
 
-
+    //support
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/ServiceProvider.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/AggregateServiceProvider.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Traits/Macroable.php',
@@ -171,6 +186,7 @@ return [
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Cache.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Event.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/File.php',
+    $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Logger.php',
 
     $basePath.'/vendor/royalcms/validation/Royalcms/Component/Validation/ValidationServiceProvider.php',
     $basePath.'/vendor/royalcms/validation/Royalcms/Component/Validation/ValidatesWhenResolvedTrait.php',
@@ -179,13 +195,14 @@ return [
     $basePath.'/vendor/royalcms/hashing/Royalcms/Component/Hashing/HashServiceProvider.php',
     $basePath.'/vendor/royalcms/hashing/Royalcms/Component/Hashing/BcryptHasher.php',
 
+    //pagination
     $basePath.'/vendor/royalcms/pagination/Royalcms/Component/Pagination/AbstractPaginator.php',
     $basePath.'/vendor/royalcms/pagination/Royalcms/Component/Pagination/Paginator.php',
     $basePath.'/vendor/royalcms/pagination/Royalcms/Component/Pagination/PaginationServiceProvider.php',
 
-
-    $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/Repository.php',
+    //config
     $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/FileLoader.php',
+    $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/Repository.php',
     $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/LoaderInterface.php',
     $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/EnvironmentVariablesLoaderInterface.php',
     $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/FileEnvironmentVariablesLoader.php',
@@ -193,11 +210,14 @@ return [
     $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/Dotenv.php',
     $basePath.'/vendor/royalcms/config/Royalcms/Component/Config/CompatibleTrait.php',
 
+    //filesystem
     $basePath.'/vendor/royalcms/filesystem/Royalcms/Component/Filesystem/FileHelperTrait.php',
+    $basePath.'/vendor/royalcms/filesystem/Royalcms/Component/Filesystem/FilesystemAdapter.php',
     $basePath.'/vendor/royalcms/filesystem/Royalcms/Component/Filesystem/Filesystem.php',
+    $basePath.'/vendor/royalcms/filesystem/Royalcms/Component/Filesystem/FilesystemManager.php',
     $basePath.'/vendor/royalcms/filesystem/Royalcms/Component/Filesystem/FilesystemServiceProvider.php',
 
-
+    //routing
     $basePath.'/vendor/royalcms/routing/Royalcms/Component/Routing/RoutingServiceProvider.php',
     $basePath.'/vendor/royalcms/routing/Royalcms/Component/Routing/ControllerServiceProvider.php',
     $basePath.'/vendor/royalcms/routing/Royalcms/Component/Routing/RouteDependencyResolverTrait.php',
@@ -216,15 +236,22 @@ return [
     $basePath.'/vendor/royalcms/routing/Royalcms/Component/Routing/Matching/SchemeValidator.php',
     $basePath.'/vendor/royalcms/routing/Royalcms/Component/Routing/Matching/UriValidator.php',
 
+    //database
+    $basePath.'/vendor/royalcms/database/Royalcms/Component/Database/Query/Builder.php',
+    $basePath.'/vendor/royalcms/database/Royalcms/Component/Database/Eloquent/Builder.php',
+    $basePath.'/vendor/royalcms/database/Royalcms/Component/Database/Eloquent/Collection.php',
 
+    //bus
     $basePath.'/vendor/royalcms/bus/Royalcms/Component/Bus/BusServiceProvider.php',
     $basePath.'/vendor/royalcms/bus/Royalcms/Component/Bus/Dispatcher.php',
 
     $basePath.'/vendor/royalcms/pipeline/Royalcms/Component/Pipeline/Pipeline.php',
 
+    //events
     $basePath.'/vendor/royalcms/events/Royalcms/Component/Events/Dispatcher.php',
     $basePath.'/vendor/royalcms/events/Royalcms/Component/Events/EventServiceProvider.php',
 
+    //session
     $basePath.'/vendor/royalcms/session/Royalcms/Component/Session/SessionInterface.php',
     $basePath.'/vendor/royalcms/session/Royalcms/Component/Session/StoreInterface.php',
     $basePath.'/vendor/royalcms/session/Royalcms/Component/Session/Middleware/StartSession.php',
@@ -232,11 +259,13 @@ return [
     $basePath.'/vendor/royalcms/session/Royalcms/Component/Session/SessionManager.php',
     $basePath.'/vendor/royalcms/session/Royalcms/Component/Session/SessionServiceProvider.php',
 
+    //cookie
     $basePath.'/vendor/royalcms/cookie/Royalcms/Component/Cookie/CookieJar.php',
     $basePath.'/vendor/royalcms/cookie/Royalcms/Component/Cookie/Middleware/EncryptCookies.php',
     $basePath.'/vendor/royalcms/cookie/Royalcms/Component/Cookie/Middleware/AddQueuedCookiesToResponse.php',
     $basePath.'/vendor/royalcms/cookie/Royalcms/Component/Cookie/CookieServiceProvider.php',
 
+    //cache
     $basePath.'/vendor/royalcms/cache/Royalcms/Component/Cache/CacheServiceProvider.php',
     $basePath.'/vendor/royalcms/cache/Royalcms/Component/Cache/CacheManager.php',
     $basePath.'/vendor/royalcms/cache/Royalcms/Component/Cache/FileStore.php',
@@ -246,11 +275,12 @@ return [
     $basePath.'/vendor/royalcms/encryption/Royalcms/Component/Encryption/Encrypter.php',
     $basePath.'/vendor/royalcms/encryption/Royalcms/Component/Encryption/EncryptionServiceProvider.php',
 
-
+    //log
     $basePath.'/vendor/royalcms/log/Royalcms/Component/Log/Writer.php',
     $basePath.'/vendor/royalcms/log/Royalcms/Component/Log/LogServiceProvider.php',
     $basePath.'/vendor/royalcms/log/Royalcms/Component/Log/FileStore.php',
 
+    //view
     $basePath.'/vendor/royalcms/view/Royalcms/Component/View/Middleware/ShareErrorsFromSession.php',
     $basePath.'/vendor/royalcms/view/Royalcms/Component/View/Engines/EngineResolver.php',
     $basePath.'/vendor/royalcms/view/Royalcms/Component/View/Engines/Engine.php',
@@ -287,6 +317,7 @@ return [
     $basePath.'/vendor/royalcms/view/Royalcms/Component/View/ViewName.php',
     $basePath.'/vendor/royalcms/view/Royalcms/Component/View/ViewServiceProvider.php',
 
+    //whoops
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Run.php',
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/RunInterface.php',
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Handler/HandlerInterface.php',
@@ -294,15 +325,19 @@ return [
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Handler/JsonResponseHandler.php',
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Util/SystemFacade.php',
 
+    //translation
     $basePath.'/vendor/royalcms/translation/Royalcms/Component/Translation/TranslationServiceProvider.php',
     $basePath.'/vendor/royalcms/translation/Royalcms/Component/Translation/FileLoader.php',
     $basePath.'/vendor/royalcms/translation/Royalcms/Component/Translation/LoaderInterface.php',
     $basePath.'/vendor/royalcms/translation/Royalcms/Component/Translation/Translator.php',
     $basePath.'/vendor/royalcms/translation/Royalcms/Component/Translation/CompatibleTrait.php',
 
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Redis/RedisServiceProvider.php',
+//    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Redis/RedisServiceProvider.php',
 
     $basePath.'/vendor/royalcms/datetime/Royalcms/Component/DateTime/Carbon.php',
+
+    //console
+    $basePath.'/vendor/royalcms/console/Royalcms/Component/Console/Command.php',
 
 
     $basePath.'/vendor/psr/log/Psr/Log/LoggerInterface.php',
