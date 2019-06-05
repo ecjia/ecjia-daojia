@@ -86,7 +86,7 @@ class admin extends ecjia_admin {
 		$data = $this->maintain_list();
 		$this->assign('data', $data);
 	
-		$this->display('maintain_list.dwt');
+		return $this->display('maintain_list.dwt');
 	}
 
 	/**
@@ -108,7 +108,7 @@ class admin extends ecjia_admin {
 			$this->assign('config', $config);
 		}
 
-		$this->display('maintain_run.dwt');
+        return $this->display('maintain_run.dwt');
 	}
 	
 	/**
