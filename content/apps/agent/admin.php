@@ -101,7 +101,7 @@ class admin extends ecjia_admin
         $list = $this->get_agent_list();
         $this->assign('list', $list);
 
-        $this->display('agent_list.dwt');
+        return $this->display('agent_list.dwt');
     }
 
     public function add()
@@ -127,7 +127,7 @@ class admin extends ecjia_admin
         }
         $this->assign('rank_list', $agent_rank_list);
 
-        $this->display('agent_edit.dwt');
+        return $this->display('agent_edit.dwt');
     }
 
     public function insert()
@@ -250,7 +250,7 @@ class admin extends ecjia_admin
 
         $this->assign('rank_list', $agent_rank_list);
 
-        $this->display('agent_edit.dwt');
+        return $this->display('agent_edit.dwt');
     }
 
     public function update()
@@ -363,7 +363,7 @@ class admin extends ecjia_admin
         $store_list = $this->get_store_list($id);
         $this->assign('list', $store_list);
 
-        $this->display('agent_detail.dwt');
+        return $this->display('agent_detail.dwt');
     }
 
     public function delete()

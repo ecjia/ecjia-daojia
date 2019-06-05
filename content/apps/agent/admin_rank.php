@@ -106,7 +106,7 @@ class admin_rank extends ecjia_admin
 
         $this->assign('agent_rank', $agent_rank);
 
-        $this->display('agent_rank_list.dwt');
+        return $this->display('agent_rank_list.dwt');
     }
 
     public function edit()
@@ -137,7 +137,7 @@ class admin_rank extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('agent/admin_rank/init'), 'text' => __('代理商列表', 'agent')));
         $this->assign('form_action', RC_Uri::url('agent/admin_rank/update'));
 
-        $this->display('agent_rank_edit.dwt');
+        return $this->display('agent_rank_edit.dwt');
     }
 
     public function update()
