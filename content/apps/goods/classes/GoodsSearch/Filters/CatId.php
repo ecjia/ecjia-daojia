@@ -45,7 +45,7 @@ class CatId implements FilterInterface
     				});
     				return $subQuery;
     			}else {
-    				$builder->whereIn('goods.goods_id', $extension_goods_id);
+    				$builder->whereIn('goods.cat_id', $children);
     			}
     		}
     	}	

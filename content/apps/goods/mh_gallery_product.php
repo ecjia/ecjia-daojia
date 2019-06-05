@@ -188,7 +188,7 @@ class mh_gallery_product extends ecjia_merchant {
         $product = product_list($goods_id, '');
         $this->assign('product_list', $product['product']);
         
-        $this->display('product_photo.dwt');
+        return $this->display('product_photo.dwt');
     }
     
     /**

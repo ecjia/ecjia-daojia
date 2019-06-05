@@ -302,7 +302,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('action', 'sale');
 		$this->assign('preview_type', 'selling');//预览跳转type
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 	
 	/**
@@ -385,7 +385,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('action', 'finish');
 		$this->assign('preview_type', 'finished');//预览跳转type
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 	
 	/**
@@ -465,7 +465,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('action', 'obtained');
 		$this->assign('preview_type', 'obtained');//预览跳转type
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 	
 	/**
@@ -590,7 +590,7 @@ class merchant extends ecjia_merchant {
 
 		$this->assign('action', 'check');
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 
 	/**
@@ -701,7 +701,7 @@ class merchant extends ecjia_merchant {
 
 		$this->assign('goods', $goods);
 		
-		$this->display('preview.dwt');
+		return $this->display('preview.dwt');
 	}
 	
 	/**
@@ -797,7 +797,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('product', $product);
 		$this->assign('goods', $goods);
 		
-		$this->display('product_preview.dwt');
+		return $this->display('product_preview.dwt');
 	}
 	
 	/**
@@ -840,7 +840,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('filter', $goods_list['filter']);
 		$this->assign('count', $goods_list['count']);
 
-		$this->display('goods_trash.dwt');
+		return $this->display('goods_trash.dwt');
 	}
 	
 	/**
@@ -929,9 +929,9 @@ class merchant extends ecjia_merchant {
 		$this->assign('form_action', RC_Uri::url('goods/merchant/insert', array('cat_id' => $cat_id)));
 	
 		if (!empty($cat_id)) {
-			$this->display('goods_info.dwt');
+			return $this->display('goods_info.dwt');
 		} else {
-			$this->display('goods_cat_select.dwt');
+			return $this->display('goods_cat_select.dwt');
 		}
 	}
 	
@@ -1356,7 +1356,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('form_action', RC_Uri::url('goods/merchant/update'));
 		$this->assign('admin_url', RC_Uri::admin_url());
 		
-		$this->display('goods_info.dwt');
+		return $this->display('goods_info.dwt');
 	}
 
 	/**
@@ -1637,7 +1637,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('goods_id', $goods_id);
 		$this->assign('form_url', RC_Uri::url('goods/merchant/update_cat', array('goods_id' => $goods_id)));
 		
-		$this->display('goods_cat_select.dwt');
+		return $this->display('goods_cat_select.dwt');
 	}
 	
 	//更新商品平台分类
@@ -2277,7 +2277,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('form_action', 		RC_Uri::url('goods/merchant/product_add_execute'));
 		$this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/init'), 'text' => __('商品列表', 'goods')));
 		
-		$this->display('product_info.dwt');
+		return $this->display('product_info.dwt');
 	}
 
     /**
@@ -2324,7 +2324,7 @@ class merchant extends ecjia_merchant {
         $product = product_list($goods_id, '');
         $this->assign('product_list', $product['product']);
 
-        $this->display('product_edit.dwt');
+        return $this->display('product_edit.dwt');
     }
 
     public function product_update()
@@ -2503,7 +2503,7 @@ class merchant extends ecjia_merchant {
         $product = product_list($goods_id, '');
         $this->assign('product_list', $product['product']);
 
-        $this->display('product_desc.dwt');
+        return $this->display('product_desc.dwt');
     }
     /**
      * 货品描述更新
@@ -2874,7 +2874,7 @@ class merchant extends ecjia_merchant {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
 		$this->assign('ur_here', $ur_here);
 		
-		$this->display('goods_desc.dwt');
+		return $this->display('goods_desc.dwt');
 	}
 
 	/**
@@ -2975,7 +2975,7 @@ class merchant extends ecjia_merchant {
 
 		$this->assign('form_action', RC_Uri::url('goods/merchant/update_goods_parameter', array('goods_id' => $goods_id)));
 	
-		$this->display('goods_parameter.dwt');
+		return $this->display('goods_parameter.dwt');
 	}
 	
 	/**
@@ -3133,7 +3133,7 @@ class merchant extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('goods/merchant/update_goods_specification', array('goods_id' => $goods_id)));
 		
-		$this->display('goods_specification.dwt');
+		return $this->display('goods_specification.dwt');
 		
 	}
 	
@@ -3517,7 +3517,7 @@ class merchant extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('goods/merchant/update_goods_attr', 'goods_id='.$goods_id));
 
-		$this->display('goods_attr.dwt');
+		return $this->display('goods_attr.dwt');
 	}
 
 	/**
@@ -3681,7 +3681,7 @@ class merchant extends ecjia_merchant {
 		
 
 
-		$this->display('link_goods.dwt');
+		return $this->display('link_goods.dwt');
 	}
 
 	/**
@@ -3723,7 +3723,7 @@ class merchant extends ecjia_merchant {
 // 		$this->assign('ur_here', $ur_here);
 // 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
 		
-// 		$this->display('link_parts.dwt');
+// 		return $this->display('link_parts.dwt');
 // 	}
 
 	/**
@@ -3754,7 +3754,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('goods_article_list',	$goods_article_list);
 
 		
-		$this->display('link_article.dwt');
+		return $this->display('link_article.dwt');
 	}
 
 	/**

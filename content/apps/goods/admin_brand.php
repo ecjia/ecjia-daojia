@@ -94,7 +94,7 @@ class admin_brand extends ecjia_admin {
 		$brand_list = $this->get_brand_list();
 		$this->assign('brand_list', $brand_list);
 		
-		$this->display('brand_list.dwt');
+		return $this->display('brand_list.dwt');
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class admin_brand extends ecjia_admin {
 		$this->assign('brand', array('sort_order' => 50, 'is_show' => 1));
 		$this->assign('form_action', RC_Uri::url('goods/admin_brand/insert'));
 		
-		$this->display('brand_info.dwt');
+		return $this->display('brand_info.dwt');
 	}
 	
 	/**
@@ -220,7 +220,7 @@ class admin_brand extends ecjia_admin {
 		$this->assign('brand', $brand);
 		$this->assign('form_action', RC_Uri::url('goods/admin_brand/update'));
 		
-		$this->display('brand_info.dwt');
+		return $this->display('brand_info.dwt');
 	}
 	
 	/**

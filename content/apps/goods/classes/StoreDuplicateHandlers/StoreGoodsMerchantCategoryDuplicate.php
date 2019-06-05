@@ -112,6 +112,10 @@ HTML;
             return true;
         }
 
+        if ($this->isCheckStarting()){
+            return new ecjia_error('duplicate_started_error', sprintf(__('%s复制已开始，请耐心等待！', 'store'), $this->getName()));
+        }
+
         //如果当前对象复制前仍存在依赖，则需要先复制依赖对象才能继续复制
         if (!empty($this->dependents)) { //如果设有依赖对象
             //检测依赖
@@ -121,8 +125,14 @@ HTML;
             }
         }
 
+        //标记复制正在进行中
+        $this->markStartingDuplicate();
+
         //执行具体任务
-        $this->startDuplicateProcedure();
+        $result = $this->startDuplicateProcedure();
+        if (is_ecjia_error($result)) {
+            return $result;
+        }
 
         //标记处理完成
         $this->markDuplicateFinished();

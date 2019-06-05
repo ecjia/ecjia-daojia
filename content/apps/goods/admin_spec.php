@@ -93,7 +93,7 @@ class admin_spec extends ecjia_admin {
 
 		$this->assign('form_search',  RC_Uri::url('goods/admin_spec/init'));
 		
-		$this->display('spec_template_list.dwt');
+		return $this->display('spec_template_list.dwt');
 	}
 	
 	/**
@@ -112,7 +112,7 @@ class admin_spec extends ecjia_admin {
 		
 		$this->assign('form_action',  RC_Uri::url('goods/admin_spec/insert'));
 
-		$this->display('spec_template_info.dwt');
+		return $this->display('spec_template_info.dwt');
 	}
 		
 	/**
@@ -154,7 +154,7 @@ class admin_spec extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('goods/admin_spec/update'));
 		
-		$this->display('spec_template_info.dwt');
+		return $this->display('spec_template_info.dwt');
 	}
 	
 	/**

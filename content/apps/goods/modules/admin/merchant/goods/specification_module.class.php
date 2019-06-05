@@ -46,64 +46,75 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- * 商品相信信息
- * @author chenzhejun@ecmoban.com
+ * 商品规格列表
+ * @author zrl
  *
  */
-class admin_goods_merchant_category_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_specification_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
 		if ($_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
-    	$result = $this->admin_priv('cat_manage');
-        if (is_ecjia_error($result)) {
-			return $result;
+		$type	= trim($this->requestData('type', 'merchant'));
+		
+		if (!in_array($type, ['merchant', 'platform'])) {
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
-    	
-    	$cat_id = $this->requestData('category_id');
-    	if (empty($cat_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
-    	}
-    	
-    	$category_info = Ecjia\App\Goods\Models\MerchantCategoryModel::where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->first();
-    	
-    	if (empty($category_info)) {
-    		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
-    	}
-    	
-    	RC_Loader::load_app_func('admin_category', 'goods');
-		$goods_count = Ecjia\App\Goods\Models\GoodsModel::where('merchant_cat_id', $cat_id)->where('is_delete', 0)->where('store_id', $_SESSION['store_id'])->count();
-    	//绑定的规格模板信息
-    	$specification_info = [];
-    	if ($category_info->goods_type_specification_model) {
-    		$specification_info = [
-    			'specification_id' 		=> $category_info->goods_type_specification_model->cat_id,
-    			'specification_name'	=> $category_info->goods_type_specification_model->cat_name,
-    		];
-    	}
-    	//绑定的参数模板信息
-    	$parameter_info = [];
-    	if ($category_info->goods_type_parameter_model) {
-    		$parameter_info = [
-    			'parameter_id' 		=> $category_info->goods_type_parameter_model->cat_id,
-    			'parameter_name'	=> $category_info->goods_type_parameter_model->cat_name,
-    		];
-    	}
-
-    	$category_detail = array(
-			'category_id'			=> $category_info['cat_id'],
-			'category_name'			=> $category_info['cat_name'],
-			'category_image'		=> !empty($category_info['style']) ? RC_Upload::upload_url($category_info['style']) : '',
-    	    'category' 				=> get_parent_cats($category_info['cat_id'], 1, $_SESSION['store_id']),
-			'is_show'				=> $category_info['is_show'],
-			'goods_count'			=> $goods_count,
-    		'specification_info'	=> $specification_info,
-    		'parameter_info'		=> $parameter_info
-    	);
-    	 
-    	return $category_detail;
-    	
+		$store_id = $_SESSION['store_id'];
+		
+		$size = $this->requestData('pagination.count', '15');
+		$page = $this->requestData('pagination.page', '1');
+		
+		$db = RC_DB::table('goods_type');
+		
+		if ($type == 'merchant') {
+			$db->where('store_id', $store_id);
+		} else {
+			$db->where('store_id', 0)->where('enabled', 1);
+		}
+		
+		$db->where(function ($query) {
+			$query->where('cat_type', 'specification')->orWhere(function ($query) {
+				$query->whereNull('cat_type');
+			});
+		});
+		
+		$count = $db->select('cat_id')->count();
+		$page_row = new ecjia_page($count, $size, 6, '', $page);
+		
+		$data = $db->take($size)
+					   ->skip($page_row->start_id - 1)
+						->select('cat_id', 'cat_name', 'store_id', 'enabled')
+						->orderBy('cat_id', 'asc')
+						->get();
+		
+		$pager = array(
+				'total' => $page_row->total_records,
+				'count' => $page_row->total_records,
+				'more'	=> $page_row->total_pages <= $page ? 0 : 1,
+		);
+		
+	    $result = [];
+		if (!empty($data)) {
+			  $data = collect($data);
+		      $result = $data->map(function($item){
+		          if ($item['store_id'] > 0) {
+		              $title = '[商家]';
+		          } else {
+		              $title = '[平台]';
+		          }
+		          return [
+		              'specification_id'      => intval($item['cat_id']),
+		              'specification_name'    => $item['cat_name'].$title,
+		              'store_id'              => intval($item['store_id']),
+		              'enabled'				  => intval($item['enabled'])
+		          ];
+		      });
+		     $result = $result->toArray();
+	    }
+	    
+		return ['data' => $result, 'pager' => $pager];
     }
 }

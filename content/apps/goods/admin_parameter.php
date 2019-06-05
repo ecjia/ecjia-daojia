@@ -88,7 +88,7 @@ class admin_parameter extends ecjia_admin {
 
 		$this->assign('form_search',  		RC_Uri::url('goods/admin_parameter/init'));
 		
-		$this->display('parameter_template_list.dwt');
+		return $this->display('parameter_template_list.dwt');
 	}
 	
 	/**
@@ -107,7 +107,7 @@ class admin_parameter extends ecjia_admin {
 		
 		$this->assign('form_action',  RC_Uri::url('goods/admin_parameter/insert'));
 
-		$this->display('parameter_template_info.dwt');
+		return $this->display('parameter_template_info.dwt');
 	}
 		
 	/**
@@ -150,7 +150,7 @@ class admin_parameter extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('goods/admin_parameter/update'));
 		
-		$this->display('parameter_template_info.dwt');
+		return $this->display('parameter_template_info.dwt');
 	}
 	
 	/**

@@ -103,7 +103,7 @@ class admin_parameter_attribute extends ecjia_admin {
 	
 		$this->assign('form_action', RC_Uri::url('goods/admin_parameter_attribute/batch'));
 		
-		$this->display('parameter_attribute_list.dwt');
+		return $this->display('parameter_attribute_list.dwt');
 	}
 	
 	
@@ -129,7 +129,7 @@ class admin_parameter_attribute extends ecjia_admin {
 
 		$this->assign('form_action', RC_Uri::url('goods/admin_parameter_attribute/insert'));
 	
-		$this->display('parameter_attribute_info.dwt');
+		return $this->display('parameter_attribute_info.dwt');
 	}
 
 	/**
@@ -202,7 +202,7 @@ class admin_parameter_attribute extends ecjia_admin {
 		$this->assign('attr_types', Ecjia\App\Goods\GoodsAttr::getAttrType());
 		$this->assign('attr_input_types', Ecjia\App\Goods\GoodsAttr::getAttrInputType());
 		
-		$this->display('parameter_attribute_info.dwt');
+		return $this->display('parameter_attribute_info.dwt');
 	}
 	
 	/**

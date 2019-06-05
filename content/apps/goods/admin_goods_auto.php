@@ -95,7 +95,7 @@ class admin_goods_auto extends ecjia_admin {
 		$crons_enable = RC_Api::api('cron', 'cron_info', array('cron_code' => 'cron_auto_manage'));
 		$this->assign('crons_enable', $crons_enable['enable']);
 		
-		$this->display('goods_auto.dwt');
+		return $this->display('goods_auto.dwt');
 	}
 	
 	/**

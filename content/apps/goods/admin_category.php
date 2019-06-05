@@ -106,7 +106,7 @@ class admin_category extends ecjia_admin {
 		$this->assign('cat_id', $cat_id);
 
         $cat_list = (new \Ecjia\App\Goods\Category\CategoryCollection($cat_id))->getCategories();
-		$cat_list = $cat_list->all();
+		$cat_list = collect($cat_list)->all();
 
 		$this->assign('cat_list', $cat_list);
 		
@@ -133,7 +133,7 @@ class admin_category extends ecjia_admin {
 		}
 		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_category/add', $add_arr), 'text' => __('添加商品分类', 'goods')));
 		
-		$this->display('category_list.dwt');
+		return $this->display('category_list.dwt');
 	}
 
 	/**
@@ -172,7 +172,7 @@ class admin_category extends ecjia_admin {
 		$this->assign('specification_template_list', $specification_template_list);
 		$this->assign('parameter_template_list', $parameter_template_list);
 
-		$this->display('category_info.dwt');
+		return $this->display('category_info.dwt');
 	}
 
 	/**
@@ -360,7 +360,7 @@ class admin_category extends ecjia_admin {
 		$this->assign('parameter_template_list', $parameter_template_list);
 		
 		
-		$this->display('category_info.dwt');
+		return $this->display('category_info.dwt');
 	}
 	
 	public function choose_goods_type() {
@@ -556,7 +556,7 @@ class admin_category extends ecjia_admin {
 		$this->assign('cat_select', cat_list(0, $cat_id, true));
 		$this->assign('form_action', RC_Uri::url('goods/admin_category/move_cat'));
 
-		$this->display('category_move.dwt');
+		return $this->display('category_move.dwt');
 	}
 
 	/**

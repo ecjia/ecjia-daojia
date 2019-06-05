@@ -114,7 +114,7 @@ class mh_category extends ecjia_merchant
         	$this->assign('action_link1', array('href' => RC_Uri::url('goods/mh_category/move'), 'text' => __('转移商品', 'goods')));
         }
 
-        $this->display('category_list.dwt');
+        return $this->display('category_list.dwt');
     }
 
     /**
@@ -139,7 +139,7 @@ class mh_category extends ecjia_merchant
         $this->assign('specification_template_list', $specification_template_list);
         $this->assign('parameter_template_list', $parameter_template_list);
 
-        $this->display('category_info.dwt');
+        return $this->display('category_info.dwt');
     }
 
     /**
@@ -218,7 +218,7 @@ class mh_category extends ecjia_merchant
         $this->assign('specification_template_list', $specification_template_list);
         $this->assign('parameter_template_list', $parameter_template_list);
 
-        $this->display('category_info.dwt');
+        return $this->display('category_info.dwt');
     }
 
     public function add_category()
@@ -334,7 +334,7 @@ class mh_category extends ecjia_merchant
         $this->assign('cat_select', merchant_cat_list(0, $cat_id, false));
         $this->assign('form_action', RC_Uri::url('goods/mh_category/move_cat'));
 
-        $this->display('category_move.dwt');
+        return $this->display('category_move.dwt');
     }
 
     /**

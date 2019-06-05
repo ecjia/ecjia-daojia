@@ -62,37 +62,52 @@ class admin_goods_merchant_category_update_module extends api_admin implements a
 			return $result;
 		}
 		
-    	$cat_id			= $this->requestData('category_id');
-    	$parent_id		= $this->requestData('parent_id', 0);
-    	$category_name	= $this->requestData('category_name');
-    	$is_show		= $this->requestData('is_show', 1);
+    	$cat_id				= $this->requestData('category_id');
+    	$parent_id			= $this->requestData('parent_id', 0);
+    	$category_name		= $this->requestData('category_name');
+    	$is_show			= $this->requestData('is_show', 1);
+    	$specification_id 	= $this->requestData('specification_id', 0); //分类要绑定的规格模板id
+    	$parameter_id		= $this->requestData('parameter_id', 0);  	 //分类要绑定的参数模板id
     	
     	if (empty($cat_id)) {
     		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
-    	$category	= RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id, 'store_id' => $_SESSION['store_id']))->find();
+    	$category	= Ecjia\App\Goods\Models\MerchantCategoryModel::where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->first();
+    	
     	if (empty($category)) {
-    	    return new ecjia_error('priv_error', __('您无权对此分类进行操作！', 'goods'));
+    	    return new ecjia_error('category_error', __('分类信息不存在！', 'goods'));
     	}
 
+    	$count = Ecjia\App\Goods\Models\MerchantCategoryModel::where('cat_id', '!=', $cat_id)->where('cat_name', $category_name)->where('store_id', $_SESSION['store_id'])->count();
+    	if ($count) {
+    		return new ecjia_error('already exists', __('此分类名称已存在，请修改！', 'goods'));
+    	}
+    	
     	$cat = array(
     			'cat_name'	=> $category_name,
     			'parent_id'	=> $parent_id,
-    			'is_show'	=> $is_show,priv_error
+    			'is_show'	=> $is_show,
     	);
-    	$count = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => array('neq' => $cat_id), 'cat_name' => $category_name, 'store_id' => $_SESSION['store_id']))->count();
-    	if ($count) {
-    	    return new ecjia_error('already exists', __('此分类名称已存在，请修改！', 'goods'));
+    	//绑定规格模板id
+    	if (!empty($specification_id)) {
+    		$cat['specification_id'] = $specification_id;
     	}
+    	//绑定参数模板id
+    	if (!empty($parameter_id)) {
+    		$cat['parameter_id'] = $parameter_id;
+    	}
+    	
     	//判断上级分类是否正确
     	if ($parent_id) {
     	    if ($parent_id == $cat_id) {
     	        return new ecjia_error('category_error', __('上级分类不能为自己', 'goods'));
     	    }
-    	    $data = RC_Api::api('goods', 'seller_goods_category', array('cat_id' => $cat_id, 'type' => 'seller_goods_cat', 'store_id' => $_SESSION['store_id']));
-    	    if ($data) {
-    	        $children = array_keys($data);
+    	    //$data = RC_Api::api('goods', 'seller_goods_category', array('cat_id' => $cat_id, 'type' => 'seller_goods_cat', 'store_id' => $_SESSION['store_id']));
+    	    $MerchantCategoryCollection = new Ecjia\App\Goods\Category\MerchantCategoryCollection($_SESSION['store_id'], $cat_id);
+
+    	    $children = $MerchantCategoryCollection->getChildrenCategoryIds();
+    	    if ($children) {
     	        if (in_array($parent_id, $children)) {
     	            return new ecjia_error('category_error', __('上级分类不能为自己的子类', 'goods'));
     	        }
@@ -104,43 +119,53 @@ class admin_goods_merchant_category_update_module extends api_admin implements a
     	if (isset($_FILES['category_image']) && $upload->check_upload_file($_FILES['category_image'])) {
     		$image_info = $upload->upload($_FILES['category_image']);
     		if (!empty($image_info)) {
-    			$file_name = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->get_field('style');
+    			$file_name = $category->cat_image;
     			$upload->remove($file_name);
-    			$cat['style'] = $upload->get_position($image_info);
+    			$cat['cat_image'] = $upload->get_position($image_info);
     		}
     	}
-    	 
-    	if (!RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->update($cat)) {
-    	    return new ecjia_error('category_error', __('更新失败！', 'goods'));
-    	}
+    	
+    	Ecjia\App\Goods\Models\MerchantCategoryModel::where('cat_id', $cat_id)->update($cat);
     	 
     	if ($_SESSION['store_id'] > 0) {
     	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'category'));
     	} 
     	RC_Cache::app_cache_delete('cat_list', 'goods');
-    	 
-    	$category_info = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->find();
 
+    	$category_info = Ecjia\App\Goods\Models\MerchantCategoryModel::where('cat_id', $cat_id)->first();
     	if (empty($category_info)) {
     		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
         }
+    	//当前分类下的商品数量
+    	$goods_count = Ecjia\App\Goods\Models\GoodsModel::where('merchant_cat_id', $cat_id)->where('is_delete', 0)->where('store_id', $_SESSION['store_id'])->count();
     	
-    	$where_goods_count = array(
-    	    'merchant_cat_id' => $cat_id,
-    	    'is_delete' => 0,
-    	    'store_id' => $_SESSION['store_id']
-    	);
-    	 
+    	//绑定的规格模板信息
+    	$specification_info = [];
+    	if ($category_info->goods_type_specification_model) {
+    		$specification_info = [
+    			'specification_id' 		=> $category_info->goods_type_specification_model->cat_id,
+    			'specification_name'	=> $category_info->goods_type_specification_model->cat_name,
+    		];
+    	}
+    	//绑定的参数模板信息
+    	$parameter_info = [];
+    	if ($category_info->goods_type_parameter_model) {
+    		$parameter_info = [
+    			'parameter_id' 		=> $category_info->goods_type_parameter_model->cat_id,
+    			'parameter_name'	=> $category_info->goods_type_parameter_model->cat_name,
+    		];
+    	}
+    	
     	$category_detail = array(
-    			'category_id'	=> $category_info['cat_id'],
-    			'category_name'	=> $category_info['cat_name'],
+    			'category_id'		=> $category_info['cat_id'],
+    			'category_name'		=> $category_info['cat_name'],
     			'category_image'	=> !empty($category_info['style']) ? RC_Upload::upload_url($category_info['style']) : '',
-    			'is_show'		=> $category_info['is_show'],
-    			'goods_count'	=> RC_Model::model('goods/goods_model')->where($where_goods_count)->count(),
+    			'is_show'			=> $category_info['is_show'],
+    			'goods_count'		=> $goods_count,
+    			'specification_info'=> $specification_info,
+    			'parameter_info'	=> $parameter_info
     	);
     	return $category_detail;
-    	
-    	
     }
     	 
     

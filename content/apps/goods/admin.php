@@ -287,7 +287,7 @@ class admin extends ecjia_admin {
 		
 		$this->assign('preview_type', 'selling');//预览跳转type
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 	
 	/**
@@ -371,7 +371,7 @@ class admin extends ecjia_admin {
 		$this->assign('action', 'finish');
 		$this->assign('preview_type', 'finished');//预览跳转type
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 	
 	/**
@@ -457,7 +457,7 @@ class admin extends ecjia_admin {
 		$this->assign('action', 'obtained');
 		$this->assign('preview_type', 'obtained');//预览跳转type
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 	
 	/**
@@ -589,7 +589,7 @@ class admin extends ecjia_admin {
 		$this->assign('action', 'check');
 		$this->assign('page', $page);
 		
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	}
 
 	
@@ -715,7 +715,7 @@ class admin extends ecjia_admin {
 	
 		$this->assign('action', 'bulk');
 	
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 		
 	}
 	
@@ -842,7 +842,7 @@ class admin extends ecjia_admin {
 
 		$this->assign('action', 'cashier');
 
-		$this->display('goods_list.dwt');
+		return $this->display('goods_list.dwt');
 	
 	}
 	
@@ -1068,7 +1068,7 @@ class admin extends ecjia_admin {
 		$this->assign('goods', $goods);
 		$this->assign('preview_type', $preview_type);//预览跳转type，控制页面可操作按钮
 		
-		$this->display('preview.dwt');
+		return $this->display('preview.dwt');
 	}
 
 	/**
@@ -1222,7 +1222,7 @@ class admin extends ecjia_admin {
 		$this->assign('product', $product);
 		$this->assign('goods', $goods);
 		
-		$this->display('product_preview.dwt');
+		return $this->display('product_preview.dwt');
 	}
 	
 	/**
@@ -1277,7 +1277,7 @@ class admin extends ecjia_admin {
 		$this->assign('filter', $goods_list['filter']);
 		$this->assign('count', $goods_list['count']);
 
-		$this->display("goods_trash.dwt");
+		return $this->display("goods_trash.dwt");
 	}
 
 	/**
@@ -1434,7 +1434,7 @@ class admin extends ecjia_admin {
 		/* 显示商品信息页面 */
 		$this->assign('form_action', RC_Uri::url('goods/admin/update'));
 		
-		$this->display('goods_info.dwt');
+		return $this->display('goods_info.dwt');
 	}
 
 	/**
@@ -2539,7 +2539,7 @@ class admin extends ecjia_admin {
 			$ur_here = __('编辑货品', 'goods');
 		}
 		$this->assign('ur_here', $ur_here);
-		$this->display('product_info.dwt');
+		return $this->display('product_info.dwt');
 	}
 
 	/**
@@ -2847,7 +2847,7 @@ class admin extends ecjia_admin {
 		$this->assign('goods_id', $goods_id);
 		$this->assign('form_action', RC_Uri::url('goods/admin/update_goods_desc','goods_id='.$goods_id));
 		
-		$this->display('goods_desc.dwt');
+		return $this->display('goods_desc.dwt');
 	}
 
 	/**
@@ -2994,7 +2994,7 @@ class admin extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('goods/admin/update_goods_attr','goods_id='.$goods_id));
 		
-		$this->display('goods_attr.dwt');
+		return $this->display('goods_attr.dwt');
 	}
 
 	/**
@@ -3156,7 +3156,7 @@ class admin extends ecjia_admin {
 		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin/init'), 'text' => __('商品列表', 'goods')));
 		$this->assign('ur_here', __('编辑关联商品', 'goods'));
 		
-		$this->display('link_goods.dwt');
+		return $this->display('link_goods.dwt');
 	}
 
 	/**
@@ -3192,7 +3192,7 @@ class admin extends ecjia_admin {
 // 		$this->assign('goods_id', $goods_id);
 // 		$this->assign('ur_here', RC_Lang::get('goods::goods.edit_link_parts'));
 		
-// 		$this->display('link_parts.dwt');
+// 		return $this->display('link_parts.dwt');
 // 	}
 
 	/**
@@ -3223,7 +3223,7 @@ class admin extends ecjia_admin {
 		$this->assign('goods_article_list',	$goods_article_list);
 		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin/init'), 'text' => __('商品列表', 'goods')));
 		
-		$this->display('link_article.dwt');
+		return $this->display('link_article.dwt');
 	}
 
 	/**

@@ -173,7 +173,7 @@ class mh_gallery extends ecjia_merchant {
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
         $this->assign('ur_here', $ur_here);
         
-        $this->display('goods_photo.dwt');
+        return $this->display('goods_photo.dwt');
     }
     
     /**

@@ -91,7 +91,7 @@ class mh_spec extends ecjia_merchant {
 		$this->assign('type_count', $spec_template_list['type_count']);
 		$this->assign('filter',	$spec_template_list['filter']);
 
-		$this->display('spec_template_list.dwt');
+		return $this->display('spec_template_list.dwt');
 	}
 	
 	/**
@@ -111,7 +111,7 @@ class mh_spec extends ecjia_merchant {
 		
 		$this->assign('form_action',  RC_Uri::url('goods/mh_spec/insert'));
 
-		$this->display('spec_template_info.dwt');
+		return $this->display('spec_template_info.dwt');
 	}
 	
 	/**
@@ -153,7 +153,7 @@ class mh_spec extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('goods/mh_spec/update'));
 		
-		$this->display('spec_template_info.dwt');
+		return $this->display('spec_template_info.dwt');
 	}
 	
 	/**

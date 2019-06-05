@@ -46,64 +46,50 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- * 商品相信信息
- * @author chenzhejun@ecmoban.com
+ * 添加商品规格
+ * @author zrl
  *
  */
-class admin_goods_merchant_category_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_specification_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
 		if ($_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
-    	$result = $this->admin_priv('cat_manage');
-        if (is_ecjia_error($result)) {
-			return $result;
-		}
-    	
-    	$cat_id = $this->requestData('category_id');
-    	if (empty($cat_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
-    	}
-    	
-    	$category_info = Ecjia\App\Goods\Models\MerchantCategoryModel::where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->first();
-    	
-    	if (empty($category_info)) {
-    		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
-    	}
-    	
-    	RC_Loader::load_app_func('admin_category', 'goods');
-		$goods_count = Ecjia\App\Goods\Models\GoodsModel::where('merchant_cat_id', $cat_id)->where('is_delete', 0)->where('store_id', $_SESSION['store_id'])->count();
-    	//绑定的规格模板信息
-    	$specification_info = [];
-    	if ($category_info->goods_type_specification_model) {
-    		$specification_info = [
-    			'specification_id' 		=> $category_info->goods_type_specification_model->cat_id,
-    			'specification_name'	=> $category_info->goods_type_specification_model->cat_name,
-    		];
-    	}
-    	//绑定的参数模板信息
-    	$parameter_info = [];
-    	if ($category_info->goods_type_parameter_model) {
-    		$parameter_info = [
-    			'parameter_id' 		=> $category_info->goods_type_parameter_model->cat_id,
-    			'parameter_name'	=> $category_info->goods_type_parameter_model->cat_name,
-    		];
-    	}
+		
+		$specification_name	= trim($this->requestData('specification_name', ''));
+		$enabled			= intval($this->requestData('enabled', 1));
+		$store_id 			= $_SESSION['store_id'];
 
-    	$category_detail = array(
-			'category_id'			=> $category_info['cat_id'],
-			'category_name'			=> $category_info['cat_name'],
-			'category_image'		=> !empty($category_info['style']) ? RC_Upload::upload_url($category_info['style']) : '',
-    	    'category' 				=> get_parent_cats($category_info['cat_id'], 1, $_SESSION['store_id']),
-			'is_show'				=> $category_info['is_show'],
-			'goods_count'			=> $goods_count,
-    		'specification_info'	=> $specification_info,
-    		'parameter_info'		=> $parameter_info
-    	);
-    	 
-    	return $category_detail;
-    	
+
+		if (empty($specification_name)) {
+			return new ecjia_error('specification_name_error', __('请填写规格模板名称！', 'goods'));
+		}
+
+		//规格模板名称是否重复
+		$count = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_name', $specification_name)->where('store_id', $store_id)->count();
+		if($count > 0) {
+			return new ecjia_error('specification_name_exist', __('规格模板名称已存在！', 'goods'));
+		}
+
+		$data = [
+			'store_id' => $store_id,
+			'cat_name' => $specification_name,
+			'cat_type' => 'specification',
+			'enabled'  => $enabled
+		];
+
+		$cat_id = Ecjia\App\Goods\Models\GoodsTypeModel::insertGetId($data);
+
+		if ($cat_id) {
+			return [
+				'specification_id' 		=> $cat_id,
+				'specification_name'	=> $specification_name,
+				'enabled'				=> $enabled
+			];
+		} else {
+			return new ecjia_error('add_specification_falil', __('添加商品规格失败！', 'goods'));
+		}
     }
 }

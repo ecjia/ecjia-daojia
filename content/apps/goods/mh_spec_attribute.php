@@ -114,7 +114,7 @@ class mh_spec_attribute extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('goods/mh_spec_attribute/batch'));
 		
-		$this->display('spec_attribute_list.dwt');		
+		return $this->display('spec_attribute_list.dwt');
 	}
 	
 	/**
@@ -134,7 +134,7 @@ class mh_spec_attribute extends ecjia_merchant {
 			
 		$this->assign('form_action', RC_Uri::url('goods/mh_spec_attribute/insert'));
 	
-		$this->display('spec_attribute_info.dwt');
+		return $this->display('spec_attribute_info.dwt');
 	}
 
 	/**
@@ -195,7 +195,7 @@ class mh_spec_attribute extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('goods/mh_spec_attribute/update'));
 	
-		$this->display('spec_attribute_info.dwt');
+		return $this->display('spec_attribute_info.dwt');
 	}
 	
 	/**
