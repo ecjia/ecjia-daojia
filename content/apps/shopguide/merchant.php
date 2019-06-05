@@ -173,7 +173,7 @@ class merchant extends ecjia_merchant
         $this->assign('type', $type);
         $this->assign('app_url', RC_App::apps_url('statics/images', __FILE__));
 
-        $this->display('shop_guide.dwt');
+        return $this->display('shop_guide.dwt');
     }
 
     public function step_post()

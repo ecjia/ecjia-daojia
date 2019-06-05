@@ -155,7 +155,7 @@ class admin extends ecjia_admin
         $this->assign('app_url', RC_App::apps_url('statics/images', __FILE__));
 
         $this->assign('ur_here', __('开店向导', 'shopguide'));
-        $this->display('shop_guide.dwt');
+        return $this->display('shop_guide.dwt');
     }
 
     public function step_post()
