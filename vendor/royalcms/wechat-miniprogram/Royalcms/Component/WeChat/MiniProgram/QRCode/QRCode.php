@@ -12,7 +12,7 @@ use Royalcms\Component\WeChat\MiniProgram\Core\AbstractMiniProgram;
 class QRCode extends AbstractMiniProgram
 {
     const API_GET_WXACODE = 'https://api.weixin.qq.com/wxa/getwxacode';
-    const API_GET_WXACODE_UNLIMIT = 'http://api.weixin.qq.com/wxa/getwxacodeunlimit';
+    const API_GET_WXACODE_UNLIMIT = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit';
     const API_CREATE_QRCODE = 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode';
 
     /**

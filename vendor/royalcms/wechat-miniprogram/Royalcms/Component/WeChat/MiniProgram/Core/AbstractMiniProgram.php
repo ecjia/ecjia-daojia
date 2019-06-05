@@ -21,7 +21,7 @@ class AbstractMiniProgram extends AbstractAPI
     /**
      * AbstractMiniProgram constructor.
      *
-     * @param \Royalcms\Component\WeChat\MiniProgram\AccessToken $accessToken
+     * @param \Royalcms\Component\WeChat\MiniProgram\Core\AccessToken $accessToken
      * @param array                               $config
      */
     public function __construct($accessToken, $config)
