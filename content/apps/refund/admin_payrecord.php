@@ -119,7 +119,7 @@ class admin_payrecord extends ecjia_admin
 
         $this->assign('search_action', RC_Uri::url('refund/admin_payrecord/init'));
 
-        $this->display('payrecord_list.dwt');
+        return $this->display('payrecord_list.dwt');
     }
 
     /**
@@ -222,7 +222,7 @@ class admin_payrecord extends ecjia_admin
         $this->assign('selected_img', RC_App::apps_url('statics/images/selected.png', __FILE__));
         $this->assign('pay_wxpay_img', RC_App::apps_url('statics/images/pay_wxpay_img.png', __FILE__));
 
-        $this->display('payrecord_detail.dwt');
+        return $this->display('payrecord_detail.dwt');
     }
 
 

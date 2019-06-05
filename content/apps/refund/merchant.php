@@ -103,8 +103,8 @@ class merchant extends ecjia_merchant {
 		$this->assign('filter', $refund_list['filter']);
 		
 		$this->assign('search_action', RC_Uri::url('refund/merchant/init'));
-		
-		$this->display('refund_list.dwt');
+
+        return $this->display('refund_list.dwt');
 	}
 	
 	/**
@@ -185,8 +185,8 @@ class merchant extends ecjia_merchant {
 		$payrecord_info['back_insure_fee_type']  = price_format($payrecord_info['back_insure_fee']);
 		$payrecord_info['back_inv_tax_type']  = price_format($payrecord_info['back_inv_tax']);
 		$this->assign('payrecord_info', $payrecord_info);
-		
-		$this->display('refund_detail.dwt');
+
+        return $this->display('refund_detail.dwt');
 	}
 	
 	/**
@@ -428,8 +428,8 @@ class merchant extends ecjia_merchant {
 		$return_shipping_content['address']	= ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
 		$return_shipping_content['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
 		$this->assign('return_shipping_content', $return_shipping_content);
-		
-		$this->display('return_detail.dwt');
+
+        return $this->display('return_detail.dwt');
 	}
 	
 	/**

@@ -109,8 +109,8 @@ class admin extends ecjia_admin {
 		$this->assign('filter', $data['filter']);
 		
 		$this->assign('search_action', RC_Uri::url('refund/admin/init'));
-		
-		$this->display('refund_list.dwt');
+
+        return $this->display('refund_list.dwt');
 	}
 	
 	/**
@@ -206,8 +206,8 @@ class admin extends ecjia_admin {
 		$payrecord_info['back_insure_fee_type']  = price_format($payrecord_info['back_insure_fee']);
 		$payrecord_info['back_inv_tax_type']  = price_format($payrecord_info['back_inv_tax']);
 		$this->assign('payrecord_info', $payrecord_info);
-	
-		$this->display('refund_detail.dwt');
+
+        return $this->display('refund_detail.dwt');
 	}
 	
 	/**
@@ -345,8 +345,8 @@ class admin extends ecjia_admin {
 		$payrecord_info['back_insure_fee_type']  = price_format($payrecord_info['back_insure_fee']);
 		$payrecord_info['back_inv_tax_type']  = price_format($payrecord_info['back_inv_tax']);
 		$this->assign('payrecord_info', $payrecord_info);
-					
-		$this->display('return_detail.dwt');
+
+        return $this->display('return_detail.dwt');
 	}
 	
 	/**
