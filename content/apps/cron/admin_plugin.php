@@ -127,8 +127,8 @@ class admin_plugin extends ecjia_admin {
 			$modules[$_key]['install'] = '0';
 		}
 		$this->assign('modules', $modules);
-		
-		$this->display('cron_list.dwt');
+
+        return $this->display('cron_list.dwt');
 	}
 	
 	
@@ -166,8 +166,8 @@ class admin_plugin extends ecjia_admin {
 		$this->assign('config_list', $config_list);
 		
 		$this->assign('cron', $cron);
-		
-		$this->display('cron_edit.dwt');
+
+        return $this->display('cron_edit.dwt');
 	}
 	
 	//时间设置返回相对应的公式

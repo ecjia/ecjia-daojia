@@ -88,7 +88,7 @@ class admin_config extends ecjia_admin {
 		$this->assign('cron_url', RC_Uri::home_url().'/index.php/cron.php?key='.ecjia::config('cron_secret_key'));
 		
 		$this->assign('current_code', 'cron');
-		$this->display('cron_config.dwt');
+        return $this->display('cron_config.dwt');
 	}
 		
 	/**
