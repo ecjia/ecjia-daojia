@@ -181,7 +181,7 @@ class platform_subscribe extends ecjia_platform
             $this->assign('customer_list', $customer_list);
         }
 
-        $this->display('wechat_subscribe_list.dwt');
+        return $this->display('wechat_subscribe_list.dwt');
     }
 
     public function edit_tag()
@@ -641,7 +641,7 @@ class platform_subscribe extends ecjia_platform
                 $this->assign('disabled', '1');
             }
         }
-        $this->display('wechat_subscribe_message.dwt');
+        return $this->display('wechat_subscribe_message.dwt');
     }
 
     //获取信息
@@ -1034,7 +1034,7 @@ class platform_subscribe extends ecjia_platform
             $this->assign('type_error', sprintf(__('抱歉！您的公众号属于%s类型，该模块目前只支持“认证”和“测试”类型的公众号。', 'wechat'), $wechat_type[$types]));
         }
 
-        $this->display('wechat_subscribe_tag.dwt');
+        return $this->display('wechat_subscribe_tag.dwt');
     }
 
     //已取消关注列表
@@ -1092,7 +1092,7 @@ class platform_subscribe extends ecjia_platform
         $arr = array('item' => $list, 'page' => $page->show(5), 'desc' => $page->page_desc());
         $this->assign('list', $arr);
 
-        $this->display('wechat_unsubscribe_list.dwt');
+        return $this->display('wechat_unsubscribe_list.dwt');
     }
 
     public function back_list()
@@ -1148,7 +1148,7 @@ class platform_subscribe extends ecjia_platform
         $arr = array('item' => $list, 'page' => $page->show(5), 'desc' => $page->page_desc());
         $this->assign('list', $arr);
 
-        $this->display('wechat_black_list.dwt');
+        return $this->display('wechat_black_list.dwt');
     }
 
     //获取用户标签

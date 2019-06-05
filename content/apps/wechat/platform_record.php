@@ -111,7 +111,7 @@ class platform_record extends ecjia_platform
         $time['end_time']   = date('Y-m-d H:i', $end_time);
         $this->assign('time', $time);
 
-        $this->display('wechat_record_list.dwt');
+        return $this->display('wechat_record_list.dwt');
     }
 
     //查看用户客服消息记录
@@ -170,7 +170,7 @@ class platform_record extends ecjia_platform
         if ($time - $last_send_time > 48 * 3600) {
             $this->assign('disabled', '1');
         }
-        $this->display('wechat_record_message.dwt');
+        return $this->display('wechat_record_message.dwt');
     }
 
     //获取消息列表

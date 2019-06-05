@@ -104,7 +104,7 @@ class platform_customer extends ecjia_platform
             $this->assign('list', $list);
         }
 
-        $this->display('wechat_customer_list.dwt');
+        return $this->display('wechat_customer_list.dwt');
     }
 
     public function add()
@@ -132,7 +132,7 @@ class platform_customer extends ecjia_platform
             $this->assign('form_action', RC_Uri::url('wechat/platform_customer/insert'));
         }
 
-        $this->display('wechat_customer_edit.dwt');
+        return $this->display('wechat_customer_edit.dwt');
     }
 
     public function insert()
@@ -224,7 +224,7 @@ class platform_customer extends ecjia_platform
         $this->assign('list', $list);
         $this->assign('form_action', RC_Uri::url('wechat/platform_customer/update'));
 
-        $this->display('wechat_customer_edit.dwt');
+        return $this->display('wechat_customer_edit.dwt');
     }
 
     /**
@@ -495,7 +495,7 @@ class platform_customer extends ecjia_platform
         $this->assign('type', $type);
         $this->assign('type_error', sprintf(__('抱歉！您的公众号属于%s类型，该模块目前只支持“认证服务号”类型的公众号。', 'wechat'), $wechat_type[$type]));
 
-        $this->display('wechat_customer_message.dwt');
+        return $this->display('wechat_customer_message.dwt');
     }
 
     //绑定微信号
@@ -560,7 +560,7 @@ class platform_customer extends ecjia_platform
         $list = $this->get_session_list();
         $this->assign('list', $list);
 
-        $this->display('wechat_customer_session.dwt');
+        return $this->display('wechat_customer_session.dwt');
     }
 
     //获取未接入的客服会话

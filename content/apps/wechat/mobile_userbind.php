@@ -77,7 +77,7 @@ class mobile_userbind extends EcjiaWechatUserController
         $this->assign('openid', $openid);
         $this->assign('uuid', $uuid);
 
-        $this->display(
+        return $this->display(
             RC_Package::package('app::wechat')->loadTemplate('front/bind_mobile_register.dwt', true)
         );
     }
@@ -140,7 +140,7 @@ class mobile_userbind extends EcjiaWechatUserController
         $this->assign('url', RC_Uri::url('wechat/mobile_userbind/bind_user', array('openid' => $openid, 'uuid' => $uuid, 'mobile' => $mobile)));
         $this->assign('resend_url', RC_Uri::url('wechat/mobile_userbind/get_code', array('type' => 'resend', 'openid' => $openid, 'uuid' => $uuid, 'mobile' => $mobile)));
 
-        $this->display(
+        return $this->display(
             RC_Package::package('app::wechat')->loadTemplate('front/bind_enter_code.dwt', true)
         );
     }

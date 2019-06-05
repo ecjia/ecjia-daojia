@@ -97,7 +97,7 @@ class platform_prize extends ecjia_platform
         $wechat_type = array(__('未认证的公众号', 'wechat'), __('订阅号', 'wechat'), __('服务号', 'wechat'), __('测试账号', 'wechat'), __('企业号', 'wechat'));
 
         $this->assign('type_error', sprintf(__('抱歉！您当前公众号属于%s类型，该模块目前只支持“认证订阅号”和“认证服务号”类型的公众号。', 'wechat'), $wechat_type[$types]));
-        $this->display('wechat_prize_list.dwt');
+        return $this->display('wechat_prize_list.dwt');
     }
 
     /**

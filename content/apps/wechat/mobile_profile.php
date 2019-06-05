@@ -83,7 +83,7 @@ class mobile_profile extends EcjiaWechatUserController
         $this->assign('user_info', $user_info);
 
         $this->assign('icon_wechat_user', RC_App::apps_url('statics/front/images/icon_wechat_user.png', __FILE__));
-        $this->display(
+        return $this->display(
             RC_Package::package('app::wechat')->loadTemplate('front/bind_user_profile.dwt', true)
         );
     }
@@ -94,7 +94,7 @@ class mobile_profile extends EcjiaWechatUserController
         $mobile = $_GET['mobile'];
         $this->assign('mobile', $mobile);
 
-        $this->display(
+        return $this->display(
             RC_Package::package('app::wechat')->loadTemplate('front/reset_get_code.dwt', true)
         );
     }
@@ -138,7 +138,7 @@ class mobile_profile extends EcjiaWechatUserController
     //加载重置密码模板
     public function reset_pwd()
     {
-        $this->display(
+        return $this->display(
             RC_Package::package('app::wechat')->loadTemplate('front/reset_pwd.dwt', true)
         );
     }
@@ -169,7 +169,7 @@ class mobile_profile extends EcjiaWechatUserController
     //用户中心绑定手机号模板加载
     public function bind_mobile()
     {
-        $this->display(
+        return $this->display(
             RC_Package::package('app::wechat')->loadTemplate('front/bind_mobile.dwt', true)
         );
     }

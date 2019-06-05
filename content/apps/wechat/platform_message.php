@@ -96,7 +96,7 @@ class platform_message extends ecjia_platform
             $this->assign('type_error', sprintf(__('抱歉！您的公众号属于%s类型，该模块目前只支持“认证”和“测试”类型的公众号。', 'wechat'), $wechat_type[$types]));
         }
 
-        $this->display('wechat_message_list.dwt');
+        return $this->display('wechat_message_list.dwt');
     }
 
     //获取消息列表

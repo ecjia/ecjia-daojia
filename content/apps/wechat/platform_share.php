@@ -98,7 +98,7 @@ class platform_share extends ecjia_platform
             $this->assign('listdb', $listdb);
         }
 
-        $this->display('wechat_share_list.dwt');
+        return $this->display('wechat_share_list.dwt');
     }
 
     /**

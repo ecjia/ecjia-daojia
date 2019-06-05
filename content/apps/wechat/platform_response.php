@@ -128,7 +128,7 @@ class platform_response extends ecjia_platform
             $this->assign('subscribe', $subscribe);
         }
 
-        $this->display('wechat_reply_subscribe.dwt');
+        return $this->display('wechat_reply_subscribe.dwt');
     }
 
     public function reply_subscribe_insert()
@@ -257,7 +257,7 @@ class platform_response extends ecjia_platform
             $this->assign('subscribe', $subscribe);
         }
 
-        $this->display('wechat_reply_msg.dwt');
+        return $this->display('wechat_reply_msg.dwt');
     }
 
     public function reply_msg_insert()
@@ -357,7 +357,7 @@ class platform_response extends ecjia_platform
             $this->assign('list', $list);
         }
 
-        $this->display('wechat_reply_keywords.dwt');
+        return $this->display('wechat_reply_keywords.dwt');
     }
 
     public function reply_keywords_add()
@@ -390,7 +390,7 @@ class platform_response extends ecjia_platform
             $data['reply_type'] = 'text';
             $this->assign('data', $data);
         }
-        $this->display('wechat_reply_keywords_edit.dwt');
+        return $this->display('wechat_reply_keywords_edit.dwt');
     }
 
     public function reply_keywords_insert()

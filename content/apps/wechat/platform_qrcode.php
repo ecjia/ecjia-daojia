@@ -100,7 +100,7 @@ class platform_qrcode extends ecjia_platform
             $this->assign('search_action', RC_Uri::url('wechat/platform_qrcode/init'));
         }
 
-        $this->display('wechat_qrcode_list.dwt');
+        return $this->display('wechat_qrcode_list.dwt');
     }
 
     /**
@@ -149,7 +149,7 @@ class platform_qrcode extends ecjia_platform
         $default_type = isset($_GET['type']) ? intval($_GET['type']) : 1;
         $this->assign('default_type', $default_type);
 
-        $this->display('wechat_qrcode_edit.dwt');
+        return $this->display('wechat_qrcode_edit.dwt');
     }
 
     /**

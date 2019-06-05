@@ -113,7 +113,7 @@ class platform_request extends ecjia_platform
             $this->assign('list', $limits);
         }
 
-        $this->display('wechat_request_list.dwt');
+        return $this->display('wechat_request_list.dwt');
     }
 
     private function get_list()

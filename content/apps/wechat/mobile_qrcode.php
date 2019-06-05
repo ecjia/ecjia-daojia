@@ -103,7 +103,7 @@ class mobile_qrcode extends EcjiaWechatUserController
         $this->assign('count', $count);
         $this->assign('user_list', $user_list);
 
-        $this->display(
+        return $this->display(
             RC_Package::package('app::wechat')->loadTemplate('front/qrcode.dwt', true)
         );
     }
