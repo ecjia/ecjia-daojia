@@ -138,8 +138,8 @@ class shop_config extends ecjia_admin {
 		$this->assign('group', array('code' => $group_handler->getCode(), 'name' => $group_handler->getName()));
 		
 		$this->assign('form_action', RC_Uri::url('setting/shop_config/update'));
-		
-		$this->display('setting.dwt');
+
+        return $this->display('setting.dwt');
 	}
 
 	/**

@@ -150,7 +150,7 @@ class admin_region extends ecjia_admin {
 			$this->assign('action_link', array('href'=>RC_Uri::url('setting/admin_region/init', 'id='.$p_info['parent_id']), 'text' => __('返回上级', 'setting')));
 		}
 
-		$this->display('region_list.dwt');
+        return $this->display('region_list.dwt');
 	}
 
 
