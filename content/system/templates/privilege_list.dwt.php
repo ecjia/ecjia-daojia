@@ -17,7 +17,7 @@
 
 <div class="row-fluid">
 	<div class="control-group form-horizontal choose_list span12">
-		<form class="f_r" name="searchForm" method="post" action="{url path='@privilege/init'}">
+		<form class="f_r" name="searchForm" method="post" action="{url path='@admin_user/init'}">
 			<select class="w100" name="key_type">
 				<option value="1" {if $key_type == 1}selected{/if}>{t}用户名{/t}</option>
 				<option value="2" {if $key_type == 2}selected{/if}>{t}用户ID{/t}</option>
@@ -31,7 +31,7 @@
 
 <table class="table table-striped" id="smpl_tbl">
 	<thead>
-		<tr data-sorthref="{url path='@privilege/init'}">
+		<tr data-sorthref="{url path='@admin_user/init'}">
 			<th class="w50" data-toggle="sortby" data-sortby="user_id">{t}编号{/t}</th>
 			<th class="w150" data-toggle="sortby" data-sortby="user_name">{t}用户名{/t}</th>
 			<th>{t}Email地址{/t}</th>
@@ -49,10 +49,10 @@
 			<td align="center">{$list.add_time}</td>
 			<td align="center">{$list.last_login}</td>
 			<td align="center">
-				<a {if $list.action_list != 'all'}class="data-pjax no-underline" href='{url path="@privilege/allot" args="id={$list.user_id}"}'{else}class="nodel stop_color no-underline" href="javascript:;"{/if}  title="{t}分派权限{/t}"><i class="fontello-icon-cog"></i></a>&nbsp;&nbsp;
+				<a {if $list.action_list != 'all'}class="data-pjax no-underline" href='{url path="@admin_user/allot" args="id={$list.user_id}"}'{else}class="nodel stop_color no-underline" href="javascript:;"{/if}  title="{t}分派权限{/t}"><i class="fontello-icon-cog"></i></a>&nbsp;&nbsp;
 				<a class="no-underline" href='{url path="@admin_logs/init" args="user_id={$list.user_id}"}' title="{t}查看日志{/t}"><i class="fontello-icon-doc-text"></i></a>&nbsp;&nbsp;
-				<a {if $list.action_list != 'all'}class="data-pjax no-underline" href='{url path="@privilege/edit" args="id={$list.user_id}"}'{else}class="nodel stop_color no-underline" href="javascript:;"{/if} title="{t}编辑{/t}"><i class="fontello-icon-edit"></i></a>&nbsp;&nbsp;
-				<a {if $list.action_list != 'all'}class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t}您确定要删除用户该用户吗？{/t}" href='{url path="@privilege/remove" args="id={$list.user_id}"}'{else}class="nodel stop_color no-underline" href="javascript:;"{/if} title="{t}移除{/t}"><i class="fontello-icon-trash"></i></a>
+				<a {if $list.action_list != 'all'}class="data-pjax no-underline" href='{url path="@admin_user/edit" args="id={$list.user_id}"}'{else}class="nodel stop_color no-underline" href="javascript:;"{/if} title="{t}编辑{/t}"><i class="fontello-icon-edit"></i></a>&nbsp;&nbsp;
+				<a {if $list.action_list != 'all'}class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t}您确定要删除用户该用户吗？{/t}" href='{url path="@admin_user/remove" args="id={$list.user_id}"}'{else}class="nodel stop_color no-underline" href="javascript:;"{/if} title="{t}移除{/t}"><i class="fontello-icon-trash"></i></a>
 			</td>
 		</tr>
 		<!-- {foreachelse} -->

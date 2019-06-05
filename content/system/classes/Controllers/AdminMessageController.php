@@ -119,7 +119,7 @@ class AdminMessageController extends ecjia_admin
         $refresh_url = RC_Uri::url('admin_message/init', empty($chat_id) ? [] : ['chat_id' => $chat_id]);
         $this->assign('refresh_url', $refresh_url);
         $this->assign('filter', $chat_list['filter']);
-        $this->display('message_list.dwt');
+        return $this->display('message_list.dwt');
     }
 
     /**

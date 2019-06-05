@@ -97,8 +97,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 
 		        RC_Cookie::set('admin_login_referer', RC_Uri::current_url());
                 $this->redirect(RC_Uri::url('@privilege/login'));
-                royalcms('response')->send();
-                exit();
+                $this->exited();
 		    }
 		}
         
@@ -310,14 +309,14 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	            'time' => $time
 	        ));
 	        $tpl = SITE_SYSTEM_PATH . 'templates' . DIRECTORY_SEPARATOR . $tpl;
-	        $this->display($tpl);
+	        return $this->display($tpl);
 	    } elseif (file_exists($system_tpl)) {
 	        $this->assign(array(
 	            'msg' => $msg,
 	            'url' => $revise_url,
 	            'time' => $time
 	        ));
-	        $this->display($system_tpl);
+            return $this->display($system_tpl);
 	    } else {
 	        return parent::message($msg, $url, $time, $tpl);
 	    }

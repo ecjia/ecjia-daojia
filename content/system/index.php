@@ -90,7 +90,7 @@ class index extends ecjia_admin {
 
         $this->assign('ecjia_version', VERSION);
 
-        $this->display('index.dwt');
+        return $this->display('index.dwt');
     }
 
     /**
@@ -116,8 +116,8 @@ class index extends ecjia_admin {
     	);
     	
     	RC_Hook::add_action('admin_about_welcome', array('ecjia_admin', 'display_admin_about_welcome'));
-    	
-        $this->display('about_us.dwt');
+
+        return $this->display('about_us.dwt');
     }
     
     /**
@@ -143,8 +143,8 @@ class index extends ecjia_admin {
     	);
     	
     	RC_Hook::add_action('admin_about_welcome', array('ecjia_admin', 'display_admin_about_welcome'));
-    	
-    	$this->display('about_team.dwt');
+
+        return $this->display('about_team.dwt');
     }
     
     /**
@@ -215,9 +215,9 @@ class index extends ecjia_admin {
     	$this->assign('ecjia_release', RELEASE);
     	$this->assign('sys_info',      $sys_info);
     	$this->assign('install_date',  date(ecjia::config('date_format'), ecjia::config('install_date')));
-    	
-    
-    	$this->display('about_system.dwt');
+
+
+        return $this->display('about_system.dwt');
     }
 
     /**
@@ -275,7 +275,7 @@ class index extends ecjia_admin {
         RC_Script::enqueue_script('ecjia-admin_license');
         $this->assign('is_download', $is_download);
 
-        $this->display('license.dwt');
+        return $this->display('license.dwt');
     }
 
 

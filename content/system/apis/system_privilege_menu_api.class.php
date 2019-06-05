@@ -55,7 +55,7 @@ class system_privilege_menu_api extends Component_Event_Api {
 	public function call(&$options) {
 	    $user_id = royalcms('request')->query('id');
 	    
-	    $admin_privilege_menu 	 = ecjia_admin::make_admin_menu('admin_privilege_menu', __('平台后台权限'), RC_Uri::url('@privilege/allot', array('id' => $user_id)), 1)->add_purview('admin_privilege_menu');
+	    $admin_privilege_menu 	 = ecjia_admin::make_admin_menu('admin_privilege_menu', __('平台后台权限'), RC_Uri::url('@admin_user/allot', array('id' => $user_id)), 1)->add_purview('admin_privilege_menu');
 	    
 	    return $admin_privilege_menu;
 	}

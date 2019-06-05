@@ -117,7 +117,7 @@ class AdminFilePermissionController extends ecjia_admin
         $this->assign('tpl_msg',	$tpl_msg);
         $this->assign('nav_tabs',	$this->nav_tabs);
 
-        $this->display('check_file_priv.dwt');
+        return $this->display('check_file_priv.dwt');
     }
 
 

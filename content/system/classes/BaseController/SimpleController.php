@@ -247,14 +247,14 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
                 'time' => $time
             ));
             $tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . $tpl;
-            $this->display($tpl);
+            return $this->display($tpl);
         } elseif (file_exists($front_tpl)) {
             $this->assign(array(
                 'msg' => $msg,
                 'url' => $revise_url,
                 'time' => $time
             ));
-            $this->display($front_tpl);
+            return $this->display($front_tpl);
         } else {
             return parent::message($msg, $url, $time, $tpl);
         }

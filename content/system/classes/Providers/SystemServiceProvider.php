@@ -105,10 +105,6 @@ class SystemServiceProvider extends AppParentServiceProvider
 
         if ($this->royalcms->environment() == 'local') {
             $this->royalcms->register('Royalcms\Component\Readme\ReadmeServiceProvider');
-
-            if (PHP_VERSION_ID > 70100) {
-                $this->royalcms->register('Royalcms\Component\DumpServer\DumpServerServiceProvider');
-            }
         }
 	}
 	
@@ -248,6 +244,11 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Facades/PluginManager.php",
             $dir . "/Facades/SiteManager.php",
             $dir . "/Facades/VersionManager.php",
+            $dir . "/Facades/AdminLog.php",
+            $dir . "/Admins/AdminLog/AdminLog.php",
+            $dir . "/Admins/AdminLog/CompatibleTrait.php",
+            $dir . "/Admins/AdminLog/AdminLogAction.php",
+            $dir . "/Admins/AdminLog/AdminLogObject.php",
 
             $dir . "/Frameworks/Contracts/EcjiaSessionInterface.php",
             $dir . "/Frameworks/Contracts/EcjiaTemplateFileLoader.php",
@@ -257,9 +258,17 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Frameworks/Contracts/UserAllotPurview.php",
             $dir . "/Frameworks/Contracts/UserInterface.php",
             $dir . "/Frameworks/Contracts/ShopInterface.php",
+            $dir . "/Frameworks/ScriptLoader/ScriptLoader.php",
+            $dir . "/Frameworks/ScriptLoader/StyleLoader.php",
+            $dir . "/Frameworks/Screens/NotInstallScreen.php",
+            $dir . "/Frameworks/Screens/AllScreen.php",
+
+            $dir . "/Frameworks/Model/Model.php",
+            $dir . "/Frameworks/Model/InsertOnDuplicateKey.php",
 
             $dir . "/Frameworks/Sessions/Traits/EcjiaSessionSpecTrait.php",
             $dir . "/Frameworks/Sessions/Handler/MysqlSessionHandler.php",
+            $dir . "/Frameworks/Sessions/Handler/RedisSessionHandler.php",
 
             $dir . "/Config/DatabaseConfigRepository.php",
             $dir . "/Config/ConfigRepositoryInterface.php",

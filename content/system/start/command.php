@@ -70,3 +70,7 @@ RC_Hook::add_action('console_init', function () {
  * register service provider
  */
 royalcms()->register('Royalcms\Component\Tail\TailServiceProvider');
+
+if (PHP_VERSION_ID > 70100) {
+    royalcms()->register('Royalcms\Component\DumpServer\DumpServerServiceProvider');
+}

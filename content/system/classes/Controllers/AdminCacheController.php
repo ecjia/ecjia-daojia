@@ -107,7 +107,7 @@ class AdminCacheController extends ecjia_admin
 
         $this->assign('form_action', RC_Uri::url('@admin_cache/update_cache'));
         $this->assign('cache_list', $res);
-        $this->display('admin_cache.dwt');
+        return $this->display('admin_cache.dwt');
 	}
 
     /**

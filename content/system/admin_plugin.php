@@ -129,8 +129,8 @@ class admin_plugin extends ecjia_admin {
 		$this->assign('use_plugins_num', $use_plugins_num);
 		$this->assign('unuse_plugins_num', $unuse_plugins_num);
 		$this->assign('plugins', $plugins);
-		
-		$this->display('plugin_list.dwt');
+
+        return $this->display('plugin_list.dwt');
 	}
 
 	/**
@@ -203,7 +203,7 @@ class admin_plugin extends ecjia_admin {
 		    }
 		}
 
-		$this->display('plugin_config.dwt');
+        return $this->display('plugin_config.dwt');
 	}
 	
 }

@@ -120,7 +120,7 @@ class AdminFilehashController extends ecjia_admin
 		$this->assign('ur_here', __('文件校验'));
         $this->assign('action_link', array('text' => __('返回重新校验'), 'href' => RC_Uri::url('@admin_filehash/check', ['group' => $group])));
 
-		$this->display('check_file_hash.dwt');
+		return $this->display('check_file_hash.dwt');
 	}
 
     /**

@@ -153,7 +153,7 @@ class admin_application extends ecjia_admin {
 		$this->assign('application_core_num',		$application_core_num);
 		$this->assign('applications',	$applications);
 		
-		$this->display('application_list.dwt');
+		return $this->display('application_list.dwt');
 	}
 	
 	
@@ -183,8 +183,8 @@ class admin_application extends ecjia_admin {
 			$this->assign('action_link',	array('href' => RC_Uri::url('@admin_application/init'), 'text' => __('返回应用列表')));
 		}
 		$this->assign('application', $package);
-		
-		$this->display('application_detail.dwt');
+
+        return $this->display('application_detail.dwt');
 	}
 	
 	/**

@@ -59,7 +59,7 @@ class system_system_menu_api extends Component_Event_Api {
             ecjia_admin::make_admin_menu('divider', '', '', 3)->add_purview(array('shop_authorized', 'admin_cache', 'shop_config', 'admin_manage', 'area_manage', 'role_manage', 'logs_manage')),
             ecjia_admin::make_admin_menu('privilege', __('权限管理'), '', 4)->add_submenu(array(
 				ecjia_admin::make_admin_menu('nav-header', 'Purview', '', 0)->add_purview(array('admin_manage', 'admin_drop', 'allot_priv', 'logs_manage', 'logs_drop', 'role_manage')), 
-				ecjia_admin::make_admin_menu('privilege', __('管理员列表'), RC_Uri::url('@privilege/init'), 1)->add_purview(array('admin_manage', 'admin_drop', 'allot_priv')), 
+				ecjia_admin::make_admin_menu('privilege', __('管理员列表'), RC_Uri::url('@admin_user/init'), 1)->add_purview(array('admin_manage', 'admin_drop', 'allot_priv')),
 				ecjia_admin::make_admin_menu('role_list', __('角色管理'), RC_Uri::url('@admin_role/init'), 2)->add_purview('role_manage'),
                 ecjia_admin::make_admin_menu('nav-header', 'Log', '', 10)->add_purview(array('logs_manage')),
                 ecjia_admin::make_admin_menu('admin_logs', __('管理员日志'), RC_Uri::url('@admin_logs/init'), 11)->add_purview(array('logs_manage', 'logs_drop')),

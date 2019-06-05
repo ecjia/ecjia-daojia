@@ -133,7 +133,7 @@ class AdminLogsController extends ecjia_admin
         $this->assign('log_date', $log_date);
         $this->assign('logs', $logs);
 
-        $this->display('admin_logs.dwt');
+        return $this->display('admin_logs.dwt');
     }
 
     /**

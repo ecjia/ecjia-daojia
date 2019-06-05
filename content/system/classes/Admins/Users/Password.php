@@ -48,11 +48,7 @@ class Password
     {
         $generate_hash = self::generateResetPasswordHash($user_id, $password, $hash_code);
 
-        if ($hash === $generate_hash) {
-            return true;
-        }
-
-        return false;
+        return $hash === $generate_hash;
     }
 
 

@@ -119,7 +119,7 @@ class UpgradeController extends ecjia_admin
         $this->assign('action_link', array('text' => __('再次检查'), 'href' => RC_Uri::url('@upgrade/check_update')));
 		$this->assign('check_upgrade_time', $last_check_upgrade_time);
 
-		$this->display('admin_upgrade.dwt');
+		return $this->display('admin_upgrade.dwt');
 	}
 
 

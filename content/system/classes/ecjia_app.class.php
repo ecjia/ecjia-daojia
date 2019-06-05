@@ -278,13 +278,19 @@ class ecjia_app {
        
         if ( !in_array($app_id, $current) ) {
             ob_start();
-            $install_class = $app_dir . '_installer';
-            $stat = RC_Loader::load_app_class($install_class, $app_dir, false);
-            if (!$stat) {
-                return new ecjia_error('class_not_found', sprintf(__("Class '%s' not found"), $install_class));
+//            $install_class = $app_dir . '_installer';
+//            $stat = RC_Loader::load_app_class($install_class, $app_dir, false);
+//            if (!$stat) {
+//                return new ecjia_error('class_not_found', sprintf(__("Class '%s' not found"), $install_class));
+//            }
+//
+//            $handle = new $install_class();
+
+            $bundle = RC_App::driver($app_dir);
+            $handle = $bundle->getInstaller();
+            if (is_ecjia_error($handle)) {
+                return $handle;
             }
-            
-            $handle = new $install_class();
            
             if ( ! $silent ) {
                 /**
@@ -366,13 +372,19 @@ class ecjia_app {
             new ecjia_error('application_not_installed', __('应用未安装！'));
         }
 
-        $install_class = $app_dir . '_installer';
-        $stat = RC_Loader::load_app_class($install_class, $app_dir, false);
-        if (!$stat) {
-            return new ecjia_error('class_not_found', sprintf(__("Class '%s' not found"), $install_class));
+//        $install_class = $app_dir . '_installer';
+//        $stat = RC_Loader::load_app_class($install_class, $app_dir, false);
+//        if (!$stat) {
+//            return new ecjia_error('class_not_found', sprintf(__("Class '%s' not found"), $install_class));
+//        }
+//
+//        $handle = new $install_class();
+
+        $bundle = RC_App::driver($app_dir);
+        $handle = $bundle->getInstaller();
+        if (is_ecjia_error($handle)) {
+            return $handle;
         }
-        
-        $handle = new $install_class();
 
         if ( ! $silent ) {
             /**
