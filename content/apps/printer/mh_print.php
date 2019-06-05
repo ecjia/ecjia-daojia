@@ -100,7 +100,7 @@ class mh_print extends ecjia_merchant
         $this->assign('statics_url', $statics_url);
         $this->assign('type', 'printer_manage');
 
-        $this->display('printer_list.dwt');
+        return $this->display('printer_list.dwt');
     }
 
     //查看
@@ -132,7 +132,7 @@ class mh_print extends ecjia_merchant
         $count = $this->get_print_count($info['machine_code']);
         $this->assign('count', $count);
 
-        $this->display('printer_view.dwt');
+        return $this->display('printer_view.dwt');
     }
 
     //取消所有未打印
@@ -483,7 +483,7 @@ class mh_print extends ecjia_merchant
         $statics_url = RC_App::apps_url('statics/', __FILE__);
         $this->assign('statics_url', $statics_url);
 
-        $this->display('printer_order_ticket.dwt');
+        return $this->display('printer_order_ticket.dwt');
     }
 
     //小票模板打印
@@ -565,7 +565,7 @@ class mh_print extends ecjia_merchant
         $this->assign('record_list', $record_list);
         $this->assign('type', 'printer_record');
 
-        $this->display('printer_record_list.dwt');
+        return $this->display('printer_record_list.dwt');
     }
 
     //再次打印

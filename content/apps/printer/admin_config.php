@@ -97,7 +97,7 @@ class admin_config extends ecjia_admin
         $this->assign('printer_order_push', ecjia::config('printer_order_push'));
 
         $this->assign('current_code', 'printer_setting');
-        $this->display('printer_setting.dwt');
+        return $this->display('printer_setting.dwt');
     }
 
     public function update()

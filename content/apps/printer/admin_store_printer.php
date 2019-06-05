@@ -123,7 +123,7 @@ class admin_store_printer extends ecjia_admin
         $statics_url = RC_App::apps_url('statics/', __FILE__);
         $this->assign('statics_url', $statics_url);
 
-        $this->display('printer_list.dwt');
+        return $this->display('printer_list.dwt');
     }
 
     /**
@@ -149,7 +149,7 @@ class admin_store_printer extends ecjia_admin
 
         $this->assign('machine_name', sprintf(__('%s - 小票机', 'printer'), $store['merchants_name']));
         $this->assign('add_url', RC_Uri::url('printer/admin_store_printer/add', array('store_id' => $store_id)));
-        $this->display('printer_edit.dwt');
+        return $this->display('printer_edit.dwt');
     }
 
     /**
@@ -274,7 +274,7 @@ class admin_store_printer extends ecjia_admin
         $count = $this->get_print_count($store_id, $info['machine_code']);
         $this->assign('count', $count);
 
-        $this->display('printer_view.dwt');
+        return $this->display('printer_view.dwt');
     }
 
     //取消所有未打印
@@ -613,7 +613,7 @@ class admin_store_printer extends ecjia_admin
         $record_list = $this->get_record_list($store_id);
         $this->assign('record_list', $record_list);
 
-        $this->display('printer_record_list.dwt');
+        return $this->display('printer_record_list.dwt');
     }
 
     //再次打印
