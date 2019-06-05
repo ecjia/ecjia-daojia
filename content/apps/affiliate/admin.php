@@ -92,8 +92,8 @@ class admin extends ecjia_admin {
 		
 		$this->assign('config', $config);
 		$this->assign('form_action', RC_Uri::url('affiliate/admin/update'));
-		
-		$this->display('affiliate_list.dwt');
+
+        return $this->display('affiliate_list.dwt');
 	}
 	
 	public function add() {
@@ -113,7 +113,7 @@ class admin extends ecjia_admin {
 		$this->assign('level', count($config['item'])+1);
 		
 		$this->assign('form_action', RC_Uri::url('affiliate/admin/insert'));
-		$this->display('affiliate_info.dwt');
+        return $this->display('affiliate_info.dwt');
 	}
 	
 	/**
@@ -202,7 +202,7 @@ class admin extends ecjia_admin {
 		$this->assign('affiliate_percent', $config['item'][$id-1]);
 		
 		$this->assign('form_action', RC_Uri::url('affiliate/admin/update'));
-		$this->display('affiliate_info.dwt');
+        return $this->display('affiliate_info.dwt');
 	}
 	
 	

@@ -47,17 +47,21 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 class mobile extends ecjia_front {
-	public function __construct() {	
-		parent::__construct();	
+
+	public function __construct()
+    {
+		parent::__construct();
+
 		$front_url = RC_App::apps_url('statics/front', __FILE__);
 		$front_url = str_replace('sites/api/', '', $front_url);
+
   		/* js与css加载路径*/
   		$this->assign('front_url', $front_url);
   		$this->assign('title', ecjia::config('shop_name'). __('邀请好友注册得奖励', 'affiliate'));
 	}
 	
-	public function init() {
-		
+	public function init()
+    {
 		$invite_code = isset($_GET['invite_code']) ? trim($_GET['invite_code']) : '';
 		$urlscheme = ecjia::config('mobile_shop_urlscheme');
 		if (preg_match('/ECJiaBrowse/', $_SERVER['HTTP_USER_AGENT'])) {
@@ -118,12 +122,13 @@ class mobile extends ecjia_front {
 		$this->assign('affiliate_note', $affiliate_note);
 		
 		//$this->display('affiliate.dwt');
-		$this->display(
+		return $this->display(
 				RC_Package::package('app::affiliate')->loadTemplate('front/affiliate.dwt', true)
 		);
 	}
 	
-	public function invite() {
+	public function invite()
+    {
 		/* 推荐处理 */
 		$affiliate = unserialize(ecjia::config('affiliate'));
 		if (isset($affiliate['on']) && $affiliate['on'] == 1) {
@@ -211,11 +216,12 @@ class mobile extends ecjia_front {
 	    
 	    $this->header('Content-Type', 'image/png');
 	    
-	    $this->displayContent($img);
+	    return $this->displayContent($img);
 	}
 	
 	
-	public static function is_weixin(){
+	public static function is_weixin()
+    {
 		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
 			return true;
 		}

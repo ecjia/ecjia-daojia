@@ -104,8 +104,8 @@ class admin_config extends ecjia_admin {
 
 		$this->assign('current_code', 'affiliate');
 		$this->assign('form_action', RC_Uri::url('affiliate/admin_config/update'));
-		
-		$this->display('affiliate_config.dwt');
+
+        return $this->display('affiliate_config.dwt');
 	}
 	
 	/**

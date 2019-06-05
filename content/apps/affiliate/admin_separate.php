@@ -117,8 +117,8 @@ class admin_separate extends ecjia_admin {
         );
 		$this->assign('separate_by', $separate_by);
 		$this->assign('search_action', RC_Uri::url('affiliate/admin_separate/init'));
-		
-		$this->display('affiliate_ck_list.dwt');
+
+        return $this->display('affiliate_ck_list.dwt');
 	}
 	
 	/**
