@@ -117,7 +117,7 @@ class admin_mobile_manage extends ecjia_admin {
         $group_list = array_sort($group_list, 'sort');
 		$this->assign('pruduct_data', $group_list);
 
-		$this->display('mobile_manage_list.dwt');
+		return $this->display('mobile_manage_list.dwt');
 	}
 	
 	/**
@@ -175,7 +175,7 @@ class admin_mobile_manage extends ecjia_admin {
 		$this->assign('h5', $h5);
 		$this->assign('local', $local);
 	
-		$this->display('mobile_client_list.dwt');
+		return $this->display('mobile_client_list.dwt');
 	}
 	
 	//激活
@@ -211,7 +211,7 @@ class admin_mobile_manage extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('mobile/admin_mobile_manage/open_insert'));
 		
-		$this->display('mobile_manage_activation.dwt');
+		return $this->display('mobile_manage_activation.dwt');
 	}
 	
 	public function open_insert() {
@@ -291,7 +291,7 @@ class admin_mobile_manage extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('mobile/admin_mobile_manage/update'));
 		
-		$this->display('mobile_manage_info.dwt');
+		return $this->display('mobile_manage_info.dwt');
 	}
 	
 	/**

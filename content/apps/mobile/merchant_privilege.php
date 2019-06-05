@@ -111,7 +111,7 @@ class merchant_privilege extends ecjia_merchant
         /* 显示页面 */
         $this->assign('form_action', RC_Uri::url('mobile/merchant_privilege/update_allot'));
 
-        $this->display(
+        return $this->display(
             RC_Package::package('app::staff')->loadTemplate('merchant/staff_allot.dwt', true)
         );
     }

@@ -163,7 +163,7 @@ class admin_device extends ecjia_admin {
 		$this->assign('current_client', $current_client['device_client']);
 		$this->assign('search_action', RC_Uri::url('mobile/admin_device/init', ['code' => $code, 'app_id' => $app_id]));
 				
-		$this->display('device_list.dwt');
+		return $this->display('device_list.dwt');
 	}
 	
 	/**
@@ -193,7 +193,7 @@ class admin_device extends ecjia_admin {
 		}
 		$this->assign('device', $device);
 	
-		$this->display('preview.dwt');
+		return $this->display('preview.dwt');
 	}
 
 	/**

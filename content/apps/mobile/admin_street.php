@@ -99,7 +99,7 @@ class admin_street extends ecjia_admin
         $this->assign('app_url', $app_url);
         $this->assign('refresh_action', RC_Uri::url('mobile/admin_street/refresh'));
         
-        $this->display('mobile_street.dwt');
+        return $this->display('mobile_street.dwt');
     }
     
     

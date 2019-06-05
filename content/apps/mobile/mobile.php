@@ -48,14 +48,16 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 class mobile extends ecjia_front {
 
-	public function __construct() {	
+	public function __construct()
+    {
 		parent::__construct();	
 		
   		/* js与css加载路径*/
   		$this->assign('front_url', RC_App::apps_url('templates/front', __FILE__));
 	}
 	
-	public function download() {
+	public function download()
+    {
         $this->assign('page_title', ecjia::config('shop_name') . __(' - 手机APP下载', 'mobile'));
 
         $this->assign('shop_url', RC_Uri::url('touch/index/init'));
@@ -66,9 +68,8 @@ class mobile extends ecjia_front {
         $this->assign('shop_ipad_download', ecjia::config('mobile_ipad_download'));
         
         $this->assign_lang();
-        
-        
-        $this->display(
+
+        return $this->display(
         	RC_Package::package('app::mobile')->loadTemplate('front/download.dwt', true)
         );
 

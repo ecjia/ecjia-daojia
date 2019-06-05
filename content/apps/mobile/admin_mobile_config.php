@@ -105,7 +105,7 @@ class admin_mobile_config extends ecjia_admin {
 		$data['option_value'] = unserialize($data['option_value']);
 		$this->assign('data', $data);
 				
-		$this->display('mobile_config_push.dwt');
+		return $this->display('mobile_config_push.dwt');
 	}
 	
 	/**
@@ -170,7 +170,7 @@ class admin_mobile_config extends ecjia_admin {
 		$pay_list  = RC_Api::api('payment', 'batch_payment_info', array('code' => $getPayments));
 		$this->assign('pay_list', $pay_list);
 		
-		$this->display('mobile_config_pay.dwt');
+		return $this->display('mobile_config_pay.dwt');
 	}
 	
 	

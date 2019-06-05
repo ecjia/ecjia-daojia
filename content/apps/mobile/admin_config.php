@@ -163,7 +163,7 @@ class admin_config extends ecjia_admin {
 
 		$this->assign('form_action', RC_Uri::url('mobile/admin_config/update_basic_info'));
 		$this->assign('current_code', trim($_GET['code']));
-		$this->display('mobile_config.dwt');
+		return $this->display('mobile_config.dwt');
 	}
 	
 	
@@ -199,7 +199,7 @@ class admin_config extends ecjia_admin {
 		$this->assign('mobile_shop_urlscheme', ecjia::config('mobile_shop_urlscheme'));
 		$this->assign('current_code', trim($_GET['code']));
 
-		$this->display('mobile_config.dwt');
+		return $this->display('mobile_config.dwt');
 	}
 	
 	
@@ -238,7 +238,7 @@ class admin_config extends ecjia_admin {
 		}
 		$this->assign('img_list', $img_list);
 		$this->assign('current_code', trim($_GET['code']));
-		$this->display('mobile_config.dwt');
+		return $this->display('mobile_config.dwt');
 	}
 	
 	
@@ -276,7 +276,7 @@ class admin_config extends ecjia_admin {
 		}
 		$this->assign('mobile_home_adsense_group', $mobile_home_adsense_group);
 		$this->assign('current_code', trim($_GET['code']));
-		$this->display('mobile_config.dwt');
+		return $this->display('mobile_config.dwt');
 	}
 	
     /**
