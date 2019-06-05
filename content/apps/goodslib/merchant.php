@@ -129,7 +129,7 @@ class merchant extends ecjia_merchant {
 	    
 	    $this->assign('cfg', ecjia::config());
 	    
-        $this->display('goods_cat_select.dwt');
+        return $this->display('goods_cat_select.dwt');
 	}
 	
 	
@@ -160,7 +160,7 @@ class merchant extends ecjia_merchant {
 	    
 	    $this->assign('form_action', RC_Uri::url('goodslib/merchant/insert', array('cat_id' => $cat_id)));
 	    
-        $this->display('goods_list.dwt');
+        return $this->display('goods_list.dwt');
 	}
 	
 	/**
@@ -415,7 +415,7 @@ class merchant extends ecjia_merchant {
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('一键导入', 'goodslib'), RC_Uri::url('goodslib/merchant/init')));
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
 	    
-	    $this->display('success.dwt');
+	    return $this->display('success.dwt');
 	}
 	
 	
@@ -512,7 +512,7 @@ class merchant extends ecjia_merchant {
 	    $this->assign('goods', $goods);
 	    
 	    $this->assign('form_action', RC_Uri::url('goodslib/merchant/insert'));
-	    $this->display('preview.dwt');
+	    return $this->display('preview.dwt');
 	}
 	
 	/**

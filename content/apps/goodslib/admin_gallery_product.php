@@ -173,7 +173,7 @@ class admin_gallery_product extends ecjia_admin {
         $this->assign('product_id', $product_id);
         $this->assign('info', $info);
         
-        $this->display('product_photo.dwt');
+        return $this->display('product_photo.dwt');
     }
     
     /**

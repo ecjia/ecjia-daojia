@@ -156,7 +156,7 @@ class admin_gallery extends ecjia_admin {
         $this->assign('img_list', $img_list);
         $this->assign('form_action', RC_Uri::url('goodslib/admin_gallery/insert', "goods_id=$goods_id"));
         
-        $this->display('goods_photo.dwt');
+        return $this->display('goods_photo.dwt');
     }
     
     /**
