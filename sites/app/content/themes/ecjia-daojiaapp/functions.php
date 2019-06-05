@@ -51,7 +51,7 @@ RC_Hook::add_action('intro/index/init', function () {
 	
     //判断是否手机访问，如果手机访问，自动跳到H5页面
     if (RC_Agent::isPhone()) {
-        ecjia_front::$controller->redirect(RC_Uri::home_url() . '/sites/m/');
+        return ecjia_front::$controller->redirect(RC_Uri::home_url() . '/sites/m/');
     }
     
     $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
@@ -137,7 +137,7 @@ RC_Hook::add_action('intro/index/init', function () {
         ecjia_front::$controller->assign('shop_wechat_qrcode', 	$shop_wechat_qrcode);
         ecjia_front::$controller->assign('commoninfo', 	        $data);
     }
-    
-    ecjia_front::$controller->display('index.dwt', $cache_id);
+
+    return ecjia_front::$controller->display('index.dwt', $cache_id);
     
 });//首页
