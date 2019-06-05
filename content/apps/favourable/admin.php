@@ -110,7 +110,7 @@ class admin extends ecjia_admin {
 		
 		$this->assign('search_action', RC_Uri::url('favourable/admin/init'));
 
-		$this->display('favourable_list.dwt');
+        return $this->display('favourable_list.dwt');
 	}
 	
 	/**

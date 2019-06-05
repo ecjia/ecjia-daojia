@@ -94,7 +94,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('favourable_list', $list);
 		$this->assign('search_action', RC_Uri::url('favourable/merchant/init'));
 
-		$this->display('favourable_list.dwt');
+        return $this->display('favourable_list.dwt');
 	}
 
 	/**
@@ -164,7 +164,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('act_range_ext', $act_range_ext);
 		$this->assign('form_action', RC_Uri::url('favourable/merchant/insert'));
 
-		$this->display('favourable_info.dwt');
+        return $this->display('favourable_info.dwt');
 	}
 
 	/**
@@ -265,7 +265,7 @@ class merchant extends ecjia_merchant {
 
 		$this->assign('form_action', RC_Uri::url('favourable/merchant/update'));
 
-		$this->display('favourable_info.dwt');
+        return $this->display('favourable_info.dwt');
 	}
 
 	/**
