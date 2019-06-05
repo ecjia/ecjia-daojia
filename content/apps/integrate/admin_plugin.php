@@ -109,7 +109,7 @@ class admin_plugin extends ecjia_admin
 		}
 		$this->assign('integrate_list', $integrate_list);
 
-		$this->display('integrates_list.dwt');
+		return $this->display('integrates_list.dwt');
 	}
 	
 	/**
@@ -151,7 +151,7 @@ class admin_plugin extends ecjia_admin
 	    $this->assign('code',         $code);
 	    $this->assign('form_action',  RC_Uri::url('integrate/admin_plugin/save_config'));
         $this->assign('plugin_lang', $plugin_lang);
-	    $this->display('integrates_setup.dwt');
+	    return $this->display('integrates_setup.dwt');
 	}
 	
 	/**
