@@ -103,7 +103,7 @@ class mh_cashier_goods extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('cashier/mh_cashier_goods/batch'));
 
-		$this->display('cashier_goods_list.dwt');
+        return $this->display('cashier_goods_list.dwt');
 	}
 	
 	/**
@@ -344,8 +344,8 @@ class mh_cashier_goods extends ecjia_merchant {
 		}
 		$this->assign('volume_price_list', $volume_price_list);
 		$this->assign('form_action', RC_Uri::url('cashier/mh_cashier_goods/insert'));
-	
-		$this->display('cashier_goods_info.dwt');
+
+        return $this->display('cashier_goods_info.dwt');
 	}
 	
 	/**
@@ -580,8 +580,8 @@ class mh_cashier_goods extends ecjia_merchant {
 		$this->assign('volume_price_list', $volume_price_list);
 	
 		/* 显示商品信息页面 */
-		$this->assign('form_action', RC_Uri::url('cashier/mh_cashier_goods/update'));	
-		$this->display('cashier_goods_info.dwt');
+		$this->assign('form_action', RC_Uri::url('cashier/mh_cashier_goods/update'));
+        return $this->display('cashier_goods_info.dwt');
 	}
 	
 	/**

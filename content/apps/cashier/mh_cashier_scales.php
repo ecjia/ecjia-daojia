@@ -85,7 +85,7 @@ class mh_cashier_scales extends ecjia_merchant {
       	
 		$this->assign('scales_list', $scales_list);
 
-		$this->display('cashdesk_scales_list.dwt');
+        return $this->display('cashdesk_scales_list.dwt');
 	}
 	
 	/**
@@ -101,8 +101,8 @@ class mh_cashier_scales extends ecjia_merchant {
 		$this->assign('ur_here', __('添加条码秤', 'cashier'));
 	
 		$this->assign('form_action', RC_Uri::url('cashier/mh_cashier_scales/insert'));
-	
-		$this->display('cashdesk_scales_info.dwt');
+
+        return $this->display('cashdesk_scales_info.dwt');
 	}
 	
 	/**
@@ -170,7 +170,7 @@ class mh_cashier_scales extends ecjia_merchant {
 		
 		/* 显示商品信息页面 */
 		$this->assign('form_action', RC_Uri::url('cashier/mh_cashier_scales/update'));
-		$this->display('cashdesk_scales_info.dwt');
+        return $this->display('cashdesk_scales_info.dwt');
 	}
 	
 	/**
