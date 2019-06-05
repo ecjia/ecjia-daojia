@@ -136,7 +136,7 @@ class admin extends ecjia_admin
         $this->assign('files', $files);
         $this->assign('groups', $groups);
 
-        $this->display('logviewer_list.dwt');
+        return $this->display('logviewer_list.dwt');
     }
 }
 
