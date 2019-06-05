@@ -156,8 +156,8 @@ class admin extends ecjia_admin {
 		
 		$bill_list = $this->db_store_bill->get_bill_list($store_id, $_GET['page'], 20, $filter);
 		$this->assign('bill_list', $bill_list);
-		
-		$this->display('bill_list.dwt');
+
+        return $this->display('bill_list.dwt');
 	}
 	
 	public function bill_update() {
@@ -170,8 +170,8 @@ class admin extends ecjia_admin {
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账单生成', 'commission')));
 	     
 	    $this->assign('form_action', RC_Uri::url('commission/admin/bill_updata_month'));
-	     
-	    $this->display('bill_list_month_update.dwt');
+
+        return $this->display('bill_list_month_update.dwt');
 	}
 	
 	public function bill_updata_month() {
@@ -267,8 +267,8 @@ class admin extends ecjia_admin {
 	
 	    $bill_list = $this->db_store_bill_day->get_billday_list($store_id, $_GET['page'], 20, $filter);
 	    $this->assign('bill_list', $bill_list);
-	
-	    $this->display('bill_list_day.dwt');
+
+        return $this->display('bill_list_day.dwt');
 	}
 	
 	public function day_update() {
@@ -281,8 +281,8 @@ class admin extends ecjia_admin {
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账单生成', 'commission')));
 	    
 	    $this->assign('form_action', RC_Uri::url('commission/admin/bill_updata_day'));
-	    
-	    $this->display('bill_list_day_update.dwt');
+
+        return $this->display('bill_list_day_update.dwt');
 	}
 	
 	public function bill_updata_day() {
@@ -365,7 +365,7 @@ class admin extends ecjia_admin {
 	    $record_list = $this->db_store_bill_detail->get_bill_record($bill_info['store_id'], $_GET['page'], 30, $filter, 1);
 	    
 	    $this->assign('record_list', $record_list);
-	    $this->display('bill_detail.dwt');
+        return $this->display('bill_detail.dwt');
 	}
 	
 	
@@ -448,7 +448,7 @@ class admin extends ecjia_admin {
 	    $record_list = $this->db_store_bill_detail->get_bill_record($store_id, $_GET['page'], 20, $filter, 1);
 	    $this->assign('record_list', $record_list);
 
-	    $this->display('order_list.dwt');
+        return $this->display('order_list.dwt');
 	}
 	
 	public function order_commission() {
@@ -474,8 +474,8 @@ class admin extends ecjia_admin {
 	    $info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $info['store_id'])->pluck('merchants_name');
 	    $info['bill_time'] = $info['bill_time'] ? RC_Time::local_date('Y-m-d H:i:s', $info['bill_time']) : 0;
 	    $this->assign('info', $info);
-	    
-	    $this->display('order_commission.dwt');
+
+        return $this->display('order_commission.dwt');
 	}
 	
 	public function order_update() {
@@ -550,8 +550,8 @@ class admin extends ecjia_admin {
 			$url_parames .= '&end_time='.$_GET['end_time'];
 		}
 		$this->assign('url_parames', $url_parames);
-		
-		$this->display('withdraw_list.dwt');
+
+        return $this->display('withdraw_list.dwt');
 	}
 	
 	public function withdraw_detail() {
@@ -574,8 +574,8 @@ class admin extends ecjia_admin {
 		}
 		$this->assign('data', $data);
 		$this->assign('status', $data['status']);
-		
-		$this->display('withdraw_detail.dwt');
+
+        return $this->display('withdraw_detail.dwt');
 	}
 	
 	public function withdraw_update() {

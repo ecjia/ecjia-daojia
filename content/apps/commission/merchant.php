@@ -110,8 +110,8 @@ class merchant extends ecjia_merchant {
 		    }
 		}
 		$this->assign('bill_list', $bill_list);
-		
-		$this->display('bill_list.dwt');
+
+        return $this->display('bill_list.dwt');
 	}
 	
 	
@@ -139,8 +139,8 @@ class merchant extends ecjia_merchant {
 	    
 	    $bill_list = $this->db_store_bill_day->get_billday_list($store_id, $_GET['page'], 20, $filter);
 	    $this->assign('bill_list', $bill_list);
-	    
-	    $this->display('bill_list_day.dwt');
+
+        return $this->display('bill_list_day.dwt');
 	}
 	
 	public function detail() {
@@ -174,8 +174,8 @@ class merchant extends ecjia_merchant {
 	    
 	    $record_list = $this->db_store_bill_detail->get_bill_record($_SESSION['store_id'], $_GET['page'], 30, $filter);
 	    $this->assign('record_list', $record_list);
-	    
-	    $this->display('bill_detail.dwt');
+
+        return $this->display('bill_detail.dwt');
 	    //模板顶部表格，月账单情况
 	    //底部详单列表，可翻页，30条一页
 	}
@@ -199,8 +199,8 @@ class merchant extends ecjia_merchant {
 	    $record_list = $this->db_store_bill_detail->get_bill_record($_SESSION['store_id'], $_GET['page'], 15, $filter);
 	    
 	    $this->assign('record_list', $record_list);
-	    
-	    $this->display('bill_record.dwt');
+
+        return $this->display('bill_record.dwt');
 	}
 	
 	//资金管理
@@ -220,8 +220,8 @@ class merchant extends ecjia_merchant {
 		
 		$data = $this->get_account_log();
 		$this->assign('data', $data);
-		
-		$this->display('fund_list.dwt');
+
+        return $this->display('fund_list.dwt');
 	}
 	
 	//申请提现
@@ -254,8 +254,8 @@ class merchant extends ecjia_merchant {
 		}
 		$this->assign('bank_info', $bank_info);
 		$this->assign('form_action', RC_Uri::url('commission/merchant/add_reply'));
-		
-		$this->display('reply_fund.dwt');
+
+        return $this->display('reply_fund.dwt');
 	}
 	
 	//添加申请
@@ -336,8 +336,8 @@ class merchant extends ecjia_merchant {
 		$this->assign('data', $data);
 		$this->assign('type_count', $data['count']);
 		$this->assign('filter', $data['filter']);
-		
-		$this->display('fund_record_list.dwt');
+
+        return $this->display('fund_record_list.dwt');
 	}
 	
 	public function fund_detail() {
@@ -362,8 +362,8 @@ class merchant extends ecjia_merchant {
 		}
 		$this->assign('data', $data);
 		$this->assign('status', $data['status']);
-		
-		$this->display('fund_detail.dwt');
+
+        return $this->display('fund_detail.dwt');
 	}
 	
 	//获取店铺账户信息
