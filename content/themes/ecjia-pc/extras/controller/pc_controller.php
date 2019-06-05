@@ -58,7 +58,7 @@ class pc_controller
     {
         //判断是否手机访问，如果手机访问，自动跳到H5页面
         if (RC_Agent::isPhone()) {
-            ecjia_front::$controller->redirect(RC_Uri::home_url() . '/sites/m/');
+            return ecjia_front::$controller->redirect(RC_Uri::home_url() . '/sites/m/');
         }
 
         $general_info = pc_function::get_general_info();
@@ -138,7 +138,7 @@ class pc_controller
             ecjia_front::$controller->assign('pc_keywords', ecjia::config('shop_keywords'));
             ecjia_front::$controller->assign('pc_description', ecjia::config('shop_desc'));
         }
-        ecjia_front::$controller->display('index.dwt', $cache_id);
+        return ecjia_front::$controller->display('index.dwt', $cache_id);
     }
 
     public static function search()

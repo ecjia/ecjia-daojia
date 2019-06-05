@@ -175,7 +175,7 @@ class goods_controller
                 ecjia_front::$controller->assign_title(__('商品列表', 'ecjia-pc'));
             }
         }
-        ecjia_front::$controller->display('goods_list.dwt', $cache_id);
+        return ecjia_front::$controller->display('goods_list.dwt', $cache_id);
     }
 
     public static function show()
@@ -295,7 +295,7 @@ class goods_controller
                 ecjia_front::$controller->assign_title($goods_info['goods_name']);
             }
         }
-        ecjia_front::$controller->display('goods_show.dwt', $cache_id);
+        return ecjia_front::$controller->display('goods_show.dwt', $cache_id);
     }
 }
 // end

@@ -167,7 +167,7 @@ class merchant_controller
                 }
             }
         }
-        ecjia_front::$controller->display('merchant_goods.dwt', $cache_id);
+        return ecjia_front::$controller->display('merchant_goods.dwt', $cache_id);
     }
 
     /*
@@ -301,7 +301,7 @@ class merchant_controller
                 ecjia_front::$controller->assign('pc_description', $shop_info['shop_description']);
             }
         }
-        ecjia_front::$controller->display('merchant_comment.dwt', $cache_id);
+        return ecjia_front::$controller->display('merchant_comment.dwt', $cache_id);
     }
 
     public static function detail()
@@ -342,7 +342,7 @@ class merchant_controller
             $map_qq_url = ecjia_location_mapjs();
             ecjia_front::$controller->assign('map_qq_url', $map_qq_url);
         }
-        ecjia_front::$controller->display('merchant_detail.dwt', $cache_id);
+        return ecjia_front::$controller->display('merchant_detail.dwt', $cache_id);
     }
 
     public static function category()
@@ -390,7 +390,7 @@ class merchant_controller
                 ecjia_front::$controller->assign('pc_description', $cat_info['cat_desc']);
             }
         }
-        ecjia_front::$controller->display('category_list.dwt', $cache_id);
+        return ecjia_front::$controller->display('category_list.dwt', $cache_id);
     }
 
     /*
