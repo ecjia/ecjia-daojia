@@ -99,7 +99,7 @@ class merchant extends ecjia_merchant
         $this->assign('search_action', RC_Uri::url('groupbuy/merchant/init'));
         $this->assign_lang();
 
-        $this->display('group_buy_list.dwt');
+        return $this->display('group_buy_list.dwt');
     }
 
     /**
@@ -128,7 +128,7 @@ class merchant extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('groupbuy/merchant/insert'));
         $this->assign_lang();
 
-        $this->display('group_buy_info.dwt');
+        return $this->display('group_buy_info.dwt');
     }
 
     /**
@@ -264,7 +264,7 @@ class merchant extends ecjia_merchant
             ->get();
         $this->assign('count_res', count($res));
 
-        $this->display('group_buy_info.dwt');
+        return $this->display('group_buy_info.dwt');
     }
 
     /**

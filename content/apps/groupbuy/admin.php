@@ -114,7 +114,7 @@ class admin extends ecjia_admin
         $this->assign('search_action', RC_Uri::url('groupbuy/admin/init'));
         $this->assign_lang();
 
-        $this->display('group_buy_list.dwt');
+        return $this->display('group_buy_list.dwt');
     }
 
     /**
@@ -154,7 +154,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('groupbuy/admin/insert'));
         $this->assign_lang();
 
-        $this->display('group_buy_info.dwt');
+        return $this->display('group_buy_info.dwt');
     }
 
     /**
@@ -282,7 +282,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', $url);
         $this->assign_lang();
 
-        $this->display('group_buy_info.dwt');
+        return $this->display('group_buy_info.dwt');
     }
 
     /**
@@ -310,7 +310,7 @@ class admin extends ecjia_admin
         $shop_price = RC_DB::table('goods')->where('goods_id', $group_buy['goods_id'])->pluck('shop_price');
         $this->assign('shop_price', $shop_price);
 
-        $this->display('group_buy_info.dwt');
+        return $this->display('group_buy_info.dwt');
     }
 
     /**
@@ -362,7 +362,7 @@ class admin extends ecjia_admin
         );
         $this->assign('ss', $ss);
 
-        $this->display('group_buy_order.dwt');
+        return $this->display('group_buy_order.dwt');
     }
 
     /**
