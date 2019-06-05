@@ -143,8 +143,8 @@ class admin_ecjia_express extends ecjia_admin
 	        	->where('shipping_code', 'ship_ecjia_express')
 	        	->first();
         $this->assign('shipping_data', $shipping_data);
-        
-        $this->display('shipping_ecjia_express.dwt');
+
+        return $this->display('shipping_ecjia_express.dwt');
     }
     
     public function update() {

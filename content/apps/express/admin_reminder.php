@@ -145,7 +145,7 @@ class admin_reminder extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('express/admin_reminder/remove&type=batch'));
         $this->assign('search_action', RC_Uri::url('express/admin_reminder/init'));
 
-        $this->display('express_reminder_list.dwt');
+        return $this->display('express_reminder_list.dwt');
     }
 
     /**

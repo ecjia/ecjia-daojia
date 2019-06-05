@@ -89,8 +89,8 @@ class admin_match extends ecjia_admin {
 		$this->assign('data', $data);
 		
 		$this->assign('search_action', RC_Uri::url('express/admin_match/init'));
-	
-		$this->display('express_match_list.dwt');
+
+        return $this->display('express_match_list.dwt');
 	}
 	
 	/**
@@ -159,8 +159,8 @@ class admin_match extends ecjia_admin {
 		}
 		$order_list = array('list' => $list,'page' => $page->show(5), 'desc' => $page->page_desc());
 		$this->assign('order_list', $order_list);
-		
-		$this->display('express_match_detail.dwt');
+
+        return $this->display('express_match_detail.dwt');
 	}
 	
 	private function get_account_list() {

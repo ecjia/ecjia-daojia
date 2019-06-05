@@ -96,7 +96,7 @@ class admin_express extends ecjia_admin {
 		$this->assign('filter', $data['filter']);
 		$this->assign('search_action', RC_Uri::url('express/admin_express/init'));
 
-		$this->display('express_list.dwt');
+        return $this->display('express_list.dwt');
 	}
 	
 	/**
@@ -113,8 +113,8 @@ class admin_express extends ecjia_admin {
         $this->assign('province', $provinces);
 		
 		$this->assign('form_action', RC_Uri::url('express/admin_express/insert'));
-		
-		$this->display('express_edit.dwt');
+
+        return $this->display('express_edit.dwt');
 	}
 	
 	/**
@@ -224,8 +224,8 @@ class admin_express extends ecjia_admin {
 		$this->assign('data', $data);
 		
 		$this->assign('form_action', RC_Uri::url('express/admin_express/update'));
-	
-		$this->display('express_edit.dwt');
+
+        return $this->display('express_edit.dwt');
 	}
 	
 	/**
@@ -376,8 +376,8 @@ class admin_express extends ecjia_admin {
 		
 		$order_list =  array('list' => $list,'page' => $page->show(5), 'desc' => $page->page_desc());
 		$this->assign('order_list', $order_list);
-		
-		$this->display('express_detail.dwt');
+
+        return $this->display('express_detail.dwt');
 	}
 	
 	/**
@@ -429,8 +429,8 @@ class admin_express extends ecjia_admin {
 		
 		$log_list =  array('list' => $list,'page' => $page->show(5), 'desc' => $page->page_desc());
 		$this->assign('log_list', $log_list);
-	
-		$this->display('express_account_list.dwt');
+
+        return $this->display('express_account_list.dwt');
 	}
 	
 	private function get_express_list($type = '') {

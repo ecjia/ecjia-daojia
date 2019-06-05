@@ -105,7 +105,7 @@ class admin_merchant extends ecjia_admin {
 		
 		$this->assign('search_action', RC_Uri::url('express/admin_merchant/init'));
 
-		$this->display('merchant_list.dwt');
+        return $this->display('merchant_list.dwt');
 	}
 	
 
@@ -179,8 +179,8 @@ class admin_merchant extends ecjia_admin {
 		}
 		$order_list =  array('list' => $list, 'page' => $page->show(5), 'desc' => $page->page_desc(),  'count' => $express_count);
 		$this->assign('order_list', $order_list);
-		
-		$this->display('merchant_detail.dwt');
+
+        return $this->display('merchant_detail.dwt');
 	}
 	
 

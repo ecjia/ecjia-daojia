@@ -91,8 +91,8 @@ class mh_match extends ecjia_merchant {
 		$this->assign('data', $data);
 		
 		$this->assign('search_action', RC_Uri::url('express/mh_match/init'));
-	
-		$this->display('express_match_list.dwt');
+
+        return $this->display('express_match_list.dwt');
 	}
 	
 	/**
@@ -158,8 +158,8 @@ class mh_match extends ecjia_merchant {
 		}
 		$order_list = array('list' => $list,'page' => $page->show(5), 'desc' => $page->page_desc());
 		$this->assign('order_list', $order_list);
-		
-		$this->display('express_match_detail.dwt');
+
+        return $this->display('express_match_detail.dwt');
 	}
 	
 	private function get_account_list() {

@@ -95,7 +95,7 @@ class mh_history extends ecjia_merchant {
 		
 		$this->assign('search_action', RC_Uri::url('express/mh_history/init'));
 
-		$this->display('express_history_list.dwt');
+        return $this->display('express_history_list.dwt');
 	}
 	
 	

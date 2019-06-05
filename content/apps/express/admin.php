@@ -165,7 +165,7 @@ class admin extends ecjia_admin {
 		$this->assign('wait_grab_list', $wait_grab_list);
 		$this->assign('express_count', $express_user_list['express_count']);
 		$this->assign('express_user_list', $express_user_list);
-		$this->display('express_task_list.dwt');
+        return $this->display('express_task_list.dwt');
 	}
 	
 	/**
@@ -446,7 +446,7 @@ class admin extends ecjia_admin {
 		$this->assign('filter', $wait_pickup_list['filter']);
 		
 		$this->assign('wait_pickup_list', $wait_pickup_list);
-		$this->display('express_order_wait_pickup.dwt');
+        return $this->display('express_order_wait_pickup.dwt');
 	}
 	
 	/**

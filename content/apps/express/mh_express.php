@@ -96,7 +96,7 @@ class mh_express extends ecjia_merchant {
 		
 		$this->assign('search_action', RC_Uri::url('express/mh_express/init'));
 
-		$this->display('express_list.dwt');
+        return $this->display('express_list.dwt');
 	}
 	
 	/**
@@ -108,8 +108,8 @@ class mh_express extends ecjia_merchant {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加配送员', 'express')));
 		$this->assign('ur_here', '添加配送员');
 		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/mh_express/init')));
-		
-		$this->display('express_edit.dwt');
+
+        return $this->display('express_edit.dwt');
 	}
 
 	/**
@@ -189,8 +189,8 @@ class mh_express extends ecjia_merchant {
 		
 		$order_list =  array('list' => $list,'page' => $page->show(5), 'desc' => $page->page_desc());
 		$this->assign('order_list', $order_list);
-		
-		$this->display('express_detail.dwt');
+
+        return $this->display('express_detail.dwt');
 	}
 	
 	/**
@@ -244,8 +244,8 @@ class mh_express extends ecjia_merchant {
 		$this->assign('log_list', $log_list);
 
 		$this->assign('form_action',	RC_Uri::url('express/mh_express/account_list'));
-		
-		$this->display('express_account_list.dwt');
+
+        return $this->display('express_account_list.dwt');
 	}
 	
 	private function get_express_list($type = '') {

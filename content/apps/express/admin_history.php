@@ -92,7 +92,7 @@ class admin_history extends ecjia_admin {
 		$this->assign('express_detail', RC_Uri::url('express/admin_history/detail'));
 		$this->assign('search_action', RC_Uri::url('express/admin_history/init'));
 
-		$this->display('express_history_list.dwt');
+        return $this->display('express_history_list.dwt');
 	}
 	
 	
