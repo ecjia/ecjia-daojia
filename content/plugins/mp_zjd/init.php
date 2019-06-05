@@ -72,7 +72,7 @@ class mp_zjd_init extends PluginPageController implements PluginPageInterface
         if (!ecjia_is_weixin()) {
             $uuid = trim($_GET['uuid']);
             $url = with(new Ecjia\App\Wechat\Authorize\WechatAuthorize($uuid))->getAuthorizeUrl(RC_Uri::current_url());
-            $this->redirect($url);
+            return $this->redirect($url);
         }
     }
 
@@ -127,7 +127,7 @@ class mp_zjd_init extends PluginPageController implements PluginPageInterface
         ecjia_front::$controller->assign('list', $list);
 
         ecjia_front::$controller->assign('js_lang_award', __('撒花，恭喜您获得', 'mp_zjd'));
-        ecjia_front::$controller->display($this->getPluginFilePath('templates/zjd_index.dwt.php'));
+        return ecjia_front::$controller->display($this->getPluginFilePath('templates/zjd_index.dwt.php'));
     }
 }
 
