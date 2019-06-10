@@ -194,9 +194,10 @@
 				data: params,
 				async: false,
 				success: function(result) {
-					if (result.state == 'error') {
+					if (result.state != 'success') {
 						smoke.alert(result.message, {ok: js_lang.ok,});
 						status = false;
+						return false;
 					}
 				},
 			});
