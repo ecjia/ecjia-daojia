@@ -80,8 +80,6 @@ class IndexController extends SimpleController
 
         $this->assign('version', RC_Config::get('release.version'));
         $this->assign('build', RC_Config::get('release.build'));
-
-
     }
 
     protected function load_default_script_style()
@@ -108,7 +106,6 @@ class IndexController extends SimpleController
        
         RC_Script::enqueue_script('ecjia-installer', RC_App::apps_url('statics/front/js/install.js', $this->__FILE__), array('ecjia-front'), false, true);
         RC_Script::localize_script('ecjia-installer', 'js_lang', config('app-installer::jslang.installer_page'));
-
     }
 
     /**
@@ -123,7 +120,7 @@ class IndexController extends SimpleController
 
         $this->assign('ecjia_step', 1);
 
-        $this->displayAppTemplate('installer', 'front/welcome.dwt');
+        return $this->displayAppTemplate('installer', 'front/welcome.dwt');
     }
 
     /*
@@ -299,7 +296,7 @@ class IndexController extends SimpleController
 
         $this->assign('ecjia_step', 2);
 
-        $this->displayAppTemplate('installer', 'front/detect.dwt');
+        return $this->displayAppTemplate('installer', 'front/detect.dwt');
     }
 
     /**
@@ -324,7 +321,7 @@ class IndexController extends SimpleController
 
         $this->assign('ecjia_step', 3);
 
-        $this->displayAppTemplate('installer', 'front/deploy.dwt');
+        return $this->displayAppTemplate('installer', 'front/deploy.dwt');
     }
 
     /**
@@ -363,7 +360,7 @@ class IndexController extends SimpleController
 
             $this->assign('ecjia_step', 5);
 
-            $this->displayAppTemplate('installer', 'front/finish.dwt');
+            return $this->displayAppTemplate('installer', 'front/finish.dwt');
         } else {
             //@todo else没有判断
         }
@@ -397,7 +394,7 @@ class IndexController extends SimpleController
 
         $this->assign('ecjia_step', 5);
 
-        $this->displayAppTemplate('installer', 'front/finish.dwt');
+        return $this->displayAppTemplate('installer', 'front/finish.dwt');
     }
 
     /**
