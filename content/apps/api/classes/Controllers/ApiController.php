@@ -83,7 +83,7 @@ class ApiController extends ecjia_front
         $handle = new $action_class();
         
         if ($handle && is_a($handle, $action_class)) {
-            $handle->run($this);
+            return $handle->run($this);
         }
     }
 }
