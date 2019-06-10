@@ -92,7 +92,7 @@ class setting_admin_hooks {
             }
         }
 
-        ecjia_admin::$controller->display(
+        echo ecjia_admin::$controller->fetch(
             RC_Package::package('app::setting')->loadTemplate('admin/library/widget_config_region_select.lbi', true)
         );
     }
@@ -105,7 +105,7 @@ class setting_admin_hooks {
         ecjia_admin::$controller->assign('lang_list', Ecjia\App\Setting\ShopConfigAdminSetting::singleton()->get_lang_list());
         ecjia_admin::$controller->assign('var', $item);
         
-        ecjia_admin::$controller->display(
+        echo ecjia_admin::$controller->fetch(
             RC_Package::package('app::setting')->loadTemplate('admin/library/widget_config_lang_select.lbi', true)
         );
     }
@@ -115,8 +115,8 @@ class setting_admin_hooks {
         ecjia_admin::$controller->assign('invoice_type', ecjia::config('invoice_type'));
         ecjia_admin::$controller->assign('var', $item);
         
-        ecjia_admin::$controller->display(
-        RC_Package::package('app::setting')->loadTemplate('admin/library/widget_config_invoice_type.lbi', true)
+        echo ecjia_admin::$controller->fetch(
+            RC_Package::package('app::setting')->loadTemplate('admin/library/widget_config_invoice_type.lbi', true)
         );
     }
     
