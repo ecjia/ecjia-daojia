@@ -48,6 +48,9 @@
 namespace Ecjia\System\BaseController;
 
 use ecjia;
+use Ecjia\System\Frameworks\Component\ShowMessage\Options\JsonShowMessageOption;
+use Ecjia\System\Frameworks\Component\ShowMessage\Options\PjaxShowMessageOption;
+use Ecjia\System\Frameworks\Component\ShowMessage\ShowMessage;
 use ecjia_utility;
 use RC_DB;
 use RC_Redirect;
@@ -410,9 +413,9 @@ abstract class EcjiaController extends RoyalcmsController
      * @param		array		$options		消息可选参数
      * @return      string | \Royalcms\Component\HttpKernel\Response
      */
-    public function showmessage($message, $type = ecjia::MSGTYPE_HTML, $options = array()) {
-        $state = $type & 0x0F;
-        $type = $type & 0xF0;
+    public function showmessage($message, $msgtype = ecjia::MSGTYPE_HTML, $options = array()) {
+        $state = $msgtype & 0x0F;
+        $type = $msgtype & 0xF0;
          
         if ($type === ecjia::MSGTYPE_JSON && !is_ajax()) {
             $type = ecjia::MSGTYPE_ALERT;
@@ -459,20 +462,30 @@ abstract class EcjiaController extends RoyalcmsController
  
         // JSON消息提醒
         elseif ($type === ecjia::MSGTYPE_JSON) {
-            $res = array('message' => $message);
-            if ($state === 0) {
-                $res['state'] = 'error';
-            } elseif ($state === 1) {
-                $res['state'] = 'success';
-            }
-        
-            if (!empty($options)) {
-                foreach ($options AS $key => $val) {
-                    $res[$key] = $val;
-                }
+
+            if ($options instanceof PjaxShowMessageOption) {
+                $options->setMessage($message);
+                $options->setState($state);
+                return (new ShowMessage($message, $msgtype, $options))->getResponse();
             }
 
-            return $this->ajax($res);
+//            $res = array('message' => $message);
+//            if ($state === 0) {
+//                $res['state'] = 'error';
+//            } elseif ($state === 1) {
+//                $res['state'] = 'success';
+//            }
+//
+//            if (!empty($options)) {
+//                foreach ($options AS $key => $val) {
+//                    $res[$key] = $val;
+//                }
+//            }
+//
+//            return $this->ajax($res);
+
+            $jsonOption = (new JsonShowMessageOption())->setMessage($message)->setState($state)->setOptions($options);
+            return (new ShowMessage($message, $msgtype, $jsonOption))->getResponse();
         }
  
         // XML消息提醒

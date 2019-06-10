@@ -64,7 +64,7 @@ class system_system_menu_api extends Component_Event_Api {
                 ecjia_admin::make_admin_menu('nav-header', 'Log', '', 10)->add_purview(array('logs_manage')),
                 ecjia_admin::make_admin_menu('admin_logs', __('管理员日志'), RC_Uri::url('@admin_logs/init'), 11)->add_purview(array('logs_manage', 'logs_drop')),
             )),
-            ecjia_admin::make_admin_menu('shop_authorized', __('授权证书'), RC_Uri::url('@index/license'), 6)->add_purview('shop_authorized'),
+            ecjia_admin::make_admin_menu('shop_authorized', __('授权证书'), RC_Uri::url('@license/license'), 6)->add_purview('shop_authorized'),
             ecjia_admin::make_admin_menu('admin_cache', __('更新缓存'), RC_Uri::url('@admin_cache/init'), 7)->add_purview('admin_cache'),
             ecjia_admin::make_admin_menu('divider', '', '', 11)->add_purview(array('application_manage', 'plugin_manage')),
 		    ecjia_admin::make_admin_menu('application_manage', __('应用管理'), RC_Uri::url('@admin_application/init'), 12)->add_purview('application_manage'),
@@ -83,7 +83,7 @@ class system_system_menu_api extends Component_Event_Api {
 		
 		if (RC_Hook::apply_filters('ecjia_admin_about_show', true)) {
 		    $menus[] = ecjia_admin::make_admin_menu('divider', '', '', 31);
-		    $menus[] = ecjia_admin::make_admin_menu('about_us', __('关于'), RC_Uri::url('@index/about_us'), 32);
+		    $menus[] = ecjia_admin::make_admin_menu('about_us', __('关于'), RC_Uri::url('@about/about_us'), 32);
 		}
 
 		return $menus;

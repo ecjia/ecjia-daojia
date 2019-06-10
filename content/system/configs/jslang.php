@@ -114,10 +114,10 @@ return array(
 		
 	//授权证书
 	'license_page' => array(
-		'start'				=> __('开始'),
-		'retreat'			=> __('后退'),
-		'pls_type_check'	=> __('请选择要清除的缓存类型！'),
-		'clear'				=> __('清除：'),
+		'upload_msg'		=> __('将证书文件拖动至此处上传'),
+        'delete_check'		=> __('您确定要删除这个证书吗？'),
+        'ok'				=> __('确定'),
+        'cancel'			=> __('取消'),
 	),
 		
 	//管理员

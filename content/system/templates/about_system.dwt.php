@@ -5,8 +5,8 @@
 	<div class="span12">
 		<!-- {ecjia:hook id=admin_about_welcome} -->
 		<ul class="nav nav-tabs">
-			<li><a class="data-pjax" href="{url path='admincp/index/about_us'}">{t}关于ECJia{/t}</a></li>
-			<li><a class="data-pjax"href="{url path='admincp/index/about_team'}">{t}ECJia团队{/t}</a></li>
+			<li><a class="data-pjax" href="{url path='@about/about_us'}">{t}关于ECJia{/t}</a></li>
+			<li><a class="data-pjax"href="{url path='@about/about_team'}">{t}ECJia团队{/t}</a></li>
 			<li class="active"><a href="javascript:;">{t}系统信息{/t}</a></li>
 		</ul>
 		<div class="vcard">
@@ -34,6 +34,10 @@
 					<span class="item-key">{t}MySQL 版本:{/t}</span>
 					<div class="vcard-item">{$sys_info.mysql_ver}</div>
 				</li>
+                <li>
+                    <span class="item-key">{t}GD 版本:{/t}</span>
+                    <div class="vcard-item">{$sys_info.gd}</div>
+                </li>
 				<li>
 					<span class="item-key">{t}安全模式:{/t}</span>
 					<div class="vcard-item">{$sys_info.safe_mode}</div>

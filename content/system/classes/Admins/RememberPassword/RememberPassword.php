@@ -18,11 +18,11 @@ class RememberPassword
 
     const COOKIE_ADMIN_USER_HASH = 'ADMIN_USER_HASH';
 
-    protected $lifetime = 3600 * 24 * 7;
+    protected $lifetime;
 
     public function __construct()
     {
-
+        $this->lifetime = 3600 * 24 * 7;
     }
 
     /**

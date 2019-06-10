@@ -20,7 +20,7 @@ ecjia.admin.admin_license.init();
 </div>
 <div class="row-fluid">
 	<div class="span12">
-		<div class="fileupload {if $is_download eq 1}hide{/if}" data-action="{url path='@index/license_upload'}"></div>
+		<div class="fileupload {if $is_download eq 1}hide{/if}" data-action="{url path='@license/license_upload'}"></div>
 		<div class="license-info {if $is_download eq 0}hide{/if}">
 			<div class="certificate">
 				<div class="license-detail">
@@ -35,8 +35,8 @@ ecjia.admin.admin_license.init();
 				</div>
 			</div>
 			<div class="t_c">
-				<a class="btn btn-info m_r10" href="{url path='@index/license_download'}">{t}备份证书{/t}</a>
-				<a class="btn btn-danger license-del" href="{url path='@index/license_delete'}">{t}删除证书{/t}</a>
+				<a class="btn btn-info m_r10" href="{url path='@license/license_download'}">{t}备份证书{/t}</a>
+				<a class="btn btn-danger license-del" href="{url path='@license/license_delete'}">{t}删除证书{/t}</a>
 			</div>
 		</div>
 	</div>

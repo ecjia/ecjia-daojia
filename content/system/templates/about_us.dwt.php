@@ -6,8 +6,8 @@
 		<!-- {ecjia:hook id=admin_about_welcome} -->
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="javascript:;">{t}关于ECJia{/t}</a></li>
-			<li><a class="data-pjax" href="{url path='admincp/index/about_team'}">{t}ECJia团队{/t}</a></li>
-			<li><a class="data-pjax" href="{url path='admincp/index/about_system'}">{t}系统信息{/t}</a></li>
+			<li><a class="data-pjax" href="{url path='@about/about_team'}">{t}ECJia团队{/t}</a></li>
+			<li><a class="data-pjax" href="{url path='@about/about_system'}">{t}系统信息{/t}</a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="aboutus">

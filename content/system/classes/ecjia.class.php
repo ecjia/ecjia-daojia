@@ -341,7 +341,7 @@ class ecjia {
     	echo '<hr />' . rc_user_crlf();
     	echo "{$query_info}{$gzip_enabled}{$memory_info} <br />";
     	
-    	if (config('system.debug_display_query') === true) {
+    	if (config('system.debug_display_query') === true && count($queries) > 0) {
         	echo "<br />";
         	echo "SQL查询清单 <br />";
         	

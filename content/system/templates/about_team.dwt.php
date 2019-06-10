@@ -12,9 +12,9 @@
 	<div class="span12">
 		<!-- {ecjia:hook id=admin_about_welcome} -->
 		<ul class="nav nav-tabs">
-			<li><a class="data-pjax" href="{url path='admincp/index/about_us'}">{t}关于ECJia{/t}</a></li>
+			<li><a class="data-pjax" href="{url path='@about/about_us'}">{t}关于ECJia{/t}</a></li>
 			<li class="active"><a href="javascript:;">{t}ECJia团队{/t}</a></li>
-			<li><a class="data-pjax" href="{url path='admincp/index/about_system'}">{t}系统信息{/t}</a></li>
+			<li><a class="data-pjax" href="{url path='@about/about_system'}">{t}系统信息{/t}</a></li>
 		</ul>
 		<div class="vcard">
 			<ul style="margin-left: 0px;">

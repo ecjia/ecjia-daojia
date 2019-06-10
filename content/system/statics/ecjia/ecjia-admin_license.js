@@ -22,24 +22,32 @@
 					ecjia.admin.showmessage(data);
 				}
 			});
-			admin.admin_license.license_del();
+
+			// bind events
+			$('.license-del').on('click', admin.admin_license.events('license_del'));
 		},
-		license_del : function() {
-			$('.license-del').on('click', function(event) {
-				event.preventDefault();
-				var href = $(this).attr('href');
-				smoke.confirm(admin_license_lang.delete_check,function(e){
-					if (e) {
-						$.get(href, '', function(data) {
-							if(data.state == 'success') {
-								$('.license-info').addClass('hide');
-								$('.fileupload').removeClass('hide');
-							}
-							ecjia.admin.showmessage(data);
-						});
-					}	
-				}, {ok:admin_license_lang.ok, cancel:admin_license_lang.cancel});
-			});
+
+		events: function(name) {
+
+			var events = new Map();
+			events.set('license_del', function(event) {
+					event.preventDefault();
+					var href = $(this).attr('href');
+					smoke.confirm(admin_license_lang.delete_check,function(e){
+						if (e) {
+							$.get(href, '', function(data) {
+								if(data.state === 'success') {
+									$('.license-info').addClass('hide');
+									$('.fileupload').removeClass('hide');
+								}
+								ecjia.admin.showmessage(data);
+							});
+						}
+					}, {ok:admin_license_lang.ok, cancel:admin_license_lang.cancel});
+				});
+
+			return events.get(name);
 		}
+
 	}
-})(ecjia.admin, $);
+})(ecjia.admin, jQuery);

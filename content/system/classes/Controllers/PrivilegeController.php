@@ -53,6 +53,7 @@ namespace Ecjia\System\Controllers;
 
 use admin_nav_here;
 use ecjia;
+use Ecjia\System\Frameworks\Component\ShowMessage\Options\PjaxShowMessageOption;
 use Ecjia\System\Admins\Users\AdminUserModel;
 use Ecjia\System\Admins\Users\Password;
 use ecjia_admin;
@@ -418,6 +419,10 @@ class PrivilegeController extends ecjia_admin
         /* 清除用户缓存 */
         RC_Cache::userdata_cache_delete('admin_navlist', $admin_id, true);
 
-        return $this->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, ['pjaxurl' => RC_Uri::url('@privilege/modif')]);
+//        return $this->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, ['pjaxurl' => RC_Uri::url('@privilege/modif')]);
+
+        return $this->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
+            (new PjaxShowMessageOption())->setPjaxurl(RC_Uri::url('@privilege/modif'))
+        );
     }
 }
