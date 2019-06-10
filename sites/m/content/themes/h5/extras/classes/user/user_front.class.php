@@ -134,37 +134,6 @@ class user_front
     private function check_login()
     {
         /*不需要登录的操作或自己验证是否登录（如ajax处理）的方法*/
-        $without = array(
-// 			'login',
-// 			'register',
-// 			'get_password_phone',
-// 			'get_password_email',
-// 			'pwd_question_name',
-// 			'send_pwd_email',
-// 			'update_password',
-            'check_answer',
-            'logout',
-            'add_collection',
-            'third_login',
-            'signin',
-            'signup',
-            'history',
-            'clear_history',
-            'get_user_info',
-            'dump_user_info',
-            'region',
-            'send_captcha',
-            'act_register',
-            'set_password',
-            'reset_password',
-            'bind_signin',
-            'bind_signup',
-            'bind_login',
-            'mobile_register',
-            'validate_code',
-            'reset_password'
-        );
-
         //验证公开路由
         $route_controller = ROUTE_M . '/' . ROUTE_C . '/' . ROUTE_A;
         if (in_array($route_controller, $this->public_route)) {
