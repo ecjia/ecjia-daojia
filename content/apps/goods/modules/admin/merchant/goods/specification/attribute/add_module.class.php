@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- *  商品规格详情
+ * 添加普通规格属性
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_specification_attribute_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -59,24 +59,45 @@ class admin_merchant_goods_specification_detail_module extends api_admin impleme
 		}
 		
 		$specification_id	= intval($this->requestData('specification_id', 0));
-		$store_id			= $_SESSION['store_id'];
+		$attr_name			= trim($this->requestData('attr_name', ''));
+		$attr_values		= $this->requestData('attr_values', []);
+		
+		$store_id 			= $_SESSION['store_id'];
 
 		if (empty($specification_id)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('specification_error', __('请选择所属规格模板！', 'goods'));
 		}
-
-		//规格模板名称是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
-		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
+		if (empty($attr_name)) {
+			return new ecjia_error('attr_name_error', __('请填写属性名称！', 'goods'));
 		}
-
+		if (!is_array($attr_values) || empty($attr_values)) {
+			return new ecjia_error('attr_values_error', __('请填写属性可选值列表！', 'goods'));
+		}
+		
+		$format_attr_values = implode("\n", $attr_values);
+		
 		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name' 	=> trim($detail->cat_name),
-			'enabled'  				=> intval($detail->enabled)
+			'cat_id' 			=> $specification_id,
+			'attr_name'			=> $attr_name,
+			'attr_cat_type' 	=> 0, //普通（属性类型）
+			'attr_input_type'	=> 1, //下拉选择（参数可选值录入方式）
+			'attr_type'			=> 1, //参数可选值类型
+			'attr_values'		=> $format_attr_values
 		];
-
-		return $data;
+		
+		$attr_id = Ecjia\App\Goods\Models\AttributeModel::insertGetId($data);
+		
+		if ($attr_id) {
+			$detail = [
+				'specification_id' => $specification_id,
+				'attr_id'		   => $attr_id,
+				'attr_name'		   => $attr_name,
+				'attr_cat_type'	   => 'common',
+				'attr_values'	   => $attr_values
+			];
+			return $detail;
+		} else {
+			return new ecjia_error('add_attr_fail', __('添加普通规格属性失败！', 'goods'));
+		}
     }
 }

@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- *  商品规格详情
+ *  商品参数模板详情
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_parameter_detail_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,23 +58,24 @@ class admin_merchant_goods_specification_detail_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', 0));
+		$parameter_id		= intval($this->requestData('parameter_id', 0));
 		$store_id			= $_SESSION['store_id'];
 
-		if (empty($specification_id)) {
+		if (empty($parameter_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 
 		//规格模板名称是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
+		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'parameter')->where('cat_id', $parameter_id)->where('store_id', $store_id)->first();
 		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
+			return new ecjia_error('specification_not_exist', __('参数模板信息不存在！', 'goods'));
 		}
 
 		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name' 	=> trim($detail->cat_name),
-			'enabled'  				=> intval($detail->enabled)
+			'parameter_id' 		=> intval($detail->cat_id),
+			'parameter_name' 	=> trim($detail->cat_name),
+			'enabled'  			=> intval($detail->enabled),
+			'parameter_group'	=> empty($detail->attr_group) ? [] : explode(',', str_replace("\n", ",", $detail->attr_group)),
 		];
 
 		return $data;

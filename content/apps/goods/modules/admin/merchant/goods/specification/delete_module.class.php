@@ -58,7 +58,7 @@ class admin_merchant_goods_specification_delete_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', ''));
+		$specification_id	= intval($this->requestData('specification_id', 0));
 		if (empty($specification_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}

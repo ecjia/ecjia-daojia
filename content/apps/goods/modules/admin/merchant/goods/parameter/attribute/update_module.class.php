@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- *  商品规格详情
+ * 编辑参数属性
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_specification_attribute_update_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,25 +58,92 @@ class admin_merchant_goods_specification_detail_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', 0));
-		$store_id			= $_SESSION['store_id'];
+		$parameter_id 		= intval($attribute_info->goods_type_model->cat_id);
+		$attr_id			= intval($this->requestData('attr_id', 0));
+		$attr_name			= trim($this->requestData('attr_name', ''));
+		$attr_values		= $this->requestData('attr_values', []);
+		$group_name			= trim($this->requestData('group_name', ''));
+		
+		$store_id 			= $_SESSION['store_id'];
 
-		if (empty($specification_id)) {
+		if (empty($attr_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
-
-		//规格模板名称是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
-		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
+		
+		$attribute_info = Ecjia\App\Goods\Models\AttributeModel::where('attr_id', $attr_id)->first();
+		if (empty($parameter_id)) {
+			$parameter_id = $attribute_info->cat_id;
 		}
-
-		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name' 	=> trim($detail->cat_name),
-			'enabled'  				=> intval($detail->enabled)
+		
+		$data = [];
+		if (!empty($attr_name)) {
+			//判断当前规格下属性名称是否重复
+			$count = Ecjia\App\Goods\Models\AttributeModel::where('cat_id', $parameter_id)->where('attr_name', $attr_name)->where('attr_id', '!=', $attr_id)->count();
+			if ($count > 0) {
+				return new ecjia_error('attr_name_exist', __('参数属性名称在当前参数模板下已存在，请您换一个名称', 'goods'));
+			}
+			$data['attr_name'] = $attr_name;
+		}
+		if (!empty($attr_values)) {
+			$format_attr_values = implode("\n", $attr_values);
+			$data['attr_values'] = $format_attr_values;
+		}
+		if (!empty($parameter_id)) {
+			$data['cat_id'] = $parameter_id;
+		}
+		
+		if (!empty($group_name)) {
+			$parameter_info = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_id', $parameter_id)->where('cat_type', 'parameter')->where('store_id',$store_id)->first();
+			$parameter_group_arr = [];
+			if (!empty($parameter_info->attr_group)) {
+				$parameter_group_arr = explode("\n", $parameter_info->attr_group);
+			}
+			if (!in_array($group_name, $parameter_group_arr)) {
+				$group_name = '';
+			} else {
+				$data['attr_group'] = $group_name;
+			}
+		}
+		
+		if (!empty($data)) {
+			$update = Ecjia\App\Goods\Models\AttributeModel::where('attr_id', $attr_id)->update($data);
+			if ($update) {
+				$attribute_info = Ecjia\App\Goods\Models\AttributeModel::where('attr_id', $attr_id)->first();
+			}
+		}
+		
+		$parameter_group = [];
+		if (!empty($attribute_info->goods_type_model->attr_group)) {
+			$parameter_group = explode(',', str_replace("\n", ",", $attribute_info->goods_type_model->attr_group));
+		}
+		
+		if ($attribute_info->attr_type == '0') {
+			$label_attr_type = '唯一参数';
+		} elseif ($attribute_info->attr_type == '2') {
+			$label_attr_type = '复选参数';
+		}
+		if ($attribute_info->attr_input_type == '0') {
+			$label_attr_input_type = '手工录入';
+		} elseif ($attribute_info->attr_input_type == '1') {
+			$label_attr_input_type = '从列表中选择';
+		} else {
+			$label_attr_input_type = '多行文本框';
+		}
+		
+		$detail = [
+			'parameter_id' 			=> intval($attribute_info->cat_id),
+			'parameter_name'    	=> trim($attribute_info->goods_type_model->cat_name),
+			'parameter_group'   	=> $parameter_group,
+			'attr_id'		   		=> intval($attribute_info->attr_id),
+			'attr_name'		   		=> trim($attribute_info->attr_name),
+			'group_name'			=> trim($attribute_info->attr_group),
+			'attr_type'				=> intval($attribute_info->attr_type),
+			'label_attr_type'		=> $label_attr_type,
+			'attr_input_type'		=> intval($attribute_info->attr_input_type),
+			'label_attr_input_type'	=> $label_attr_input_type,
+			'attr_values'	   		=> empty($attribute_info->attr_values) ? [] : explode(',', str_replace("\n", ",", $attribute_info->attr_values))
 		];
-
-		return $data;
+		
+		return $detail;
     }
 }

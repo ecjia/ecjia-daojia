@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- * 商品规格编辑
+ * 添加参数模板的参数属性
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_update_module extends api_admin implements api_interface {
+class admin_merchant_goods_parameter_attribute_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,51 +58,91 @@ class admin_merchant_goods_specification_update_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', 0));
-		if (empty($specification_id)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
-		}
+		$parameter_id		= intval($this->requestData('parameter_id', 0));
+		$attr_name			= trim($this->requestData('attr_name', ''));
+		$group_name			= trim($this->requestData('group_name', '')); 			//参数属性分组名称
+		$attr_type			= intval($this->requestData('attr_type', 0));			//参数属性值类型（0唯一参数，2复选参数）
+		$attr_input_type	= intval($this->requestData('attr_input_type', 0));		//参数属性值录入方式（0手工录入，1从列表中选择，2多行文本框） //类型为复选2时，值的录入方式默认是选择输入1
+		$attr_values		= $this->requestData('attr_values', []);				//参数属性可选值列表
 		
-		$specification_name	= trim($this->requestData('specification_name', ''));
-		$enabled			= intval($this->requestData('enabled', 1));
 		$store_id 			= $_SESSION['store_id'];
-		
-		//规格模板是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
-		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
-		}
-		
-		$update_data = [];
 
-		if (!empty($specification_name)) {
-			//规格模板名称是否重复
-			$count = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', '!=', $specification_id)->where('cat_name', $specification_name)->where('store_id', $store_id)->count();
-			if($count > 0) {
-				return new ecjia_error('specification_name_exist', __('规格模板名称已存在！', 'goods'));
+		if (empty($parameter_id)) {
+			return new ecjia_error('parameter_error', __('请选择所属参数模板！', 'goods'));
+		}
+		if (empty($attr_name)) {
+			return new ecjia_error('attr_name_error', __('请填写参数属性名称！', 'goods'));
+		}
+		//参数属性值类型是唯一参数且参数值录入方式是从下拉表中选择，则必须填写可选值列表；参数属性值类型是复选参数时，可选值列表需必填
+		if (($attr_type === 0 && $attr_input_type === 1) || ($attr_type === 2)) {
+			if (!is_array($attr_values) || empty($attr_values)) {
+				return new ecjia_error('attr_values_error', __('请填写参数属性可选值列表！', 'goods'));
 			}
-			$update_data['cat_name'] = $specification_name;
+		}
+		//参数属性分组名称处理
+		$parameter_info = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_id', $parameter_id)->where('cat_type', 'parameter')->where('store_id', $_SESSION['store_id'])->first();
+		$parameter_group_arr = [];
+		if (!empty($parameter_info->attr_group)) {
+			$parameter_group_arr = explode("\n", $parameter_info->attr_group);
 		}
 		
-		
-
-		if (isset($enabled)) {
-			$update_data['enabled'] = $enabled;
+		if (!empty($group_name)) {
+			if (!in_array($group_name, $parameter_group_arr)) {
+				$group_name = '';
+			}
 		}
 		
-		if (!empty($update_data)) {
-			$update_result = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_id', $specification_id)->update($update_data);
-		} 
-		if ($update_result) {
-			$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
+		$format_attr_values = [];
+		if (!empty($attr_values) && is_array($attr_values)) {
+			$format_attr_values = implode("\n", $attr_values);
 		}
 		
 		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name'	=> trim($detail->cat_name),
-			'enabled'				=> intval($detail->enabled)
+			'cat_id' 			=> $parameter_id,
+			'attr_name'			=> $attr_name,
+			'attr_cat_type' 	=> 0, //属性类型，参数属性类型默认0
+			'attr_input_type'	=> $attr_input_type, //下拉选择（参数可选值录入方式）
+			'attr_type'			=> $attr_type, //参数可选值类型
 		];
+		if (!empty($format_attr_values)) {
+			$data['attr_values'] = $format_attr_values;
+		}
+		if (!empty($group_name)) {
+			$data['attr_group'] = $group_name;
+		}
 		
-		return $data;
+		$attr_id = Ecjia\App\Goods\Models\AttributeModel::insertGetId($data);
+		
+		if ($attr_id) {
+			if ($attr_input_type === 0) {
+				$label_attr_input_type = '手工录入';
+			} elseif ($attr_input_type === 1) {
+				$label_attr_input_type = '从列表中选择';
+			} else {
+				$label_attr_input_type = '多行文本框';
+			}
+			if ($attr_type === 0) {
+				$label_attr_type = '唯一参数';
+			} elseif ($attr_type === 2) {
+				$label_attr_type = '复选参数';
+			}
+			 
+			$detail = [
+				'parameter_id' 	   		=> $parameter_id,
+				'parameter_name'   		=> $parameter_info->cat_name,
+				'parameter_group'  		=> $parameter_group_arr,
+				'attr_id'		   		=> $attr_id,
+				'attr_name'		   		=> $attr_name,
+				'group_name'	   		=> $group_name,
+				'attr_type'		   		=> $attr_type,
+				'label_attr_type'  		=> $label_attr_type,
+				'attr_input_type'  		=> $attr_input_type,
+				'label_attr_input_type'	=> $label_attr_input_type,
+				'attr_values'	   		=> $format_attr_values
+			];
+			return $detail;
+		} else {
+			return new ecjia_error('add_attr_fail', __('添加参数属性失败！', 'goods'));
+		}
     }
 }

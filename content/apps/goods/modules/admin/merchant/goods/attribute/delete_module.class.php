@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- *  商品规格详情
+ * 删除规格或参数的属性（将会同时删除（attribute表和goods_attr表及goodslib_attr表相关的数据））
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_attribute_delete_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,25 +58,19 @@ class admin_merchant_goods_specification_detail_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', 0));
-		$store_id			= $_SESSION['store_id'];
-
-		if (empty($specification_id)) {
+		$attr_id	= intval($this->requestData('attr_id', 0));
+		if (empty($attr_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
-
-		//规格模板名称是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
-		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
+		
+		if (Ecjia\App\Goods\Models\AttributeModel::where('attr_id', $attr_id)->delete()){
+			//清除商品属性表goods_attr中使用该属性的数据
+			RC_DB::table('goods_attr')->where('attr_id', $attr_id)->delete();
+			//清除商品库属性表goodslib_attr中使用该属性的数据
+			RC_DB::table('goodslib_attr')->where('attr_id', $attr_id)->delete();
+			return [];
+		} else {
+			return new ecjia_error('delete_specification_fail', __('规格或参数的属性删除失败', 'goods'));
 		}
-
-		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name' 	=> trim($detail->cat_name),
-			'enabled'  				=> intval($detail->enabled)
-		];
-
-		return $data;
     }
 }

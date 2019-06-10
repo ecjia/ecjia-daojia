@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- *  商品规格详情
+ * 编辑参数模板
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_parameter_update_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,25 +58,57 @@ class admin_merchant_goods_specification_detail_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', 0));
-		$store_id			= $_SESSION['store_id'];
-
-		if (empty($specification_id)) {
+		$parameter_id	= intval($this->requestData('parameter_id', 0));
+		$parameter_name		= trim($this->requestData('parameter_name', ''));
+		$enabled			= intval($this->requestData('enabled', 1));
+		$parameter_group	= $this->requestData('parameter_group', []);
+		
+		if (empty($parameter_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
-
-		//规格模板名称是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
+		
+		$store_id 			= $_SESSION['store_id'];
+		
+		//规格模板是否存在
+		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'parameter')->where('cat_id', $parameter_id)->where('store_id', $store_id)->first();
 		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
+			return new ecjia_error('specification_not_exist', __('参数模板信息不存在！', 'goods'));
+		}
+		
+		$update_data = [];
+		
+		if (!empty($parameter_name)) {
+			//参数模板名称是否重复
+			$count = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'parameter')->where('cat_id', '!=', $parameter_id)->where('cat_name', $parameter_name)->where('store_id', $store_id)->count();
+			if($count > 0) {
+				return new ecjia_error('specification_name_exist', __('参数模板名称已存在！', 'goods'));
+			}
+			$update_data['cat_name'] = $parameter_name;
+		}
+		//参数分组
+		if (!empty($parameter_group)) {
+			$format_parameter_group = implode("\n", $parameter_group);
+			$update_data['attr_group'] = $format_parameter_group;
 		}
 
+		if (isset($enabled)) {
+			$update_data['enabled'] = $enabled;
+		}
+		
+		if (!empty($update_data)) {
+			$update_result = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_id', $parameter_id)->update($update_data);
+			if ($update_result) {
+				$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'parameter')->where('cat_id', $parameter_id)->where('store_id', $store_id)->first();
+			}
+		} 
+		
 		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name' 	=> trim($detail->cat_name),
-			'enabled'  				=> intval($detail->enabled)
+			'parameter_id' 		=> intval($detail->cat_id),
+			'parameter_name'	=> trim($detail->cat_name),
+			'enabled'			=> intval($detail->enabled),
+			'parameter_group'	=> empty($detail->attr_group) ? [] : explode(',', str_replace("\n", ",", $detail->attr_group))
 		];
-
+		
 		return $data;
     }
 }

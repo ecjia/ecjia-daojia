@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- *  商品规格详情
+ * 删除参数模板（将会同时删除该参数下的属性数据（attribute表和goods_attr表数据））
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_parameter_delete_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,25 +58,27 @@ class admin_merchant_goods_specification_detail_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', 0));
-		$store_id			= $_SESSION['store_id'];
-
-		if (empty($specification_id)) {
+		$parameter_id	= intval($this->requestData('parameter_id', 0));
+		if (empty($parameter_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
-
-		//规格模板名称是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
-		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
+		
+		$info = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'parameter')->where('cat_id', $parameter_id)->where('store_id', $_SESSION['store_id'])->first();
+		
+		if (empty($info)) {
+			return new ecjia_error('specification_not_exist', __('参数模板信息不存在', 'goods'));
 		}
-
-		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name' 	=> trim($detail->cat_name),
-			'enabled'  				=> intval($detail->enabled)
-		];
-
-		return $data;
+		
+		if (Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_id', $parameter_id)->delete()){
+			/* 清除该类型下的所有属性 */
+			$arr = RC_DB::table('attribute')->where('cat_id', $parameter_id)->lists('attr_id');
+			if (!empty($arr)) {
+				RC_DB::table('attribute')->whereIn('attr_id', $arr)->delete();
+				RC_DB::table('goods_attr')->whereIn('attr_id', $arr)->delete();
+			}
+			return [];
+		} else {
+			return new ecjia_error('delete_specification_fail', __('参数模板删除失败', 'goods'));
+		}
     }
 }

@@ -104,7 +104,7 @@ class goods_admin_hooks
         ecjia_admin::$controller->assign('title1', $title1);
         ecjia_admin::$controller->assign('title2', $title2);
         ecjia_admin::$controller->assign('goods', $goods);
-        ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_goodsstat.lbi', 'goods'));
+        echo ecjia_admin::$controller->fetch(ecjia_app::get_app_template('library/widget_admin_dashboard_goodsstat.lbi', 'goods'));
     }
 
     public static function append_admin_setting_group($menus)

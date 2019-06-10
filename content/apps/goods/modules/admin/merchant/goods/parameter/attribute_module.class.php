@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- *  商品规格详情
+ * 某一参数模板的参数列表
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_detail_module extends api_admin implements api_interface {
+class admin_merchant_goods_parameter_attribute_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,25 +58,71 @@ class admin_merchant_goods_specification_detail_module extends api_admin impleme
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$specification_id	= intval($this->requestData('specification_id', 0));
-		$store_id			= $_SESSION['store_id'];
-
-		if (empty($specification_id)) {
+		$parameter_id	= intval($this->requestData('parameter_id', 0));
+		
+		if (empty($parameter_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
-
-		//规格模板名称是否存在
-		$detail = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $store_id)->first();
-		if(empty($detail)) {
-			return new ecjia_error('specification_not_exist', __('规格模板信息不存在！', 'goods'));
+		$store_id = $_SESSION['store_id'];
+		
+		$size = $this->requestData('pagination.count', '15');
+		$page = $this->requestData('pagination.page', '1');
+		
+		$goods_type_ids = [];
+		$goods_type_ids = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'parameter')->whereIn('store_id', ['0', $store_id])->lists('cat_id');
+		if ($goods_type_ids) {
+			$goods_type_ids = $goods_type_ids->toArray();
 		}
-
-		$data = [
-			'specification_id' 		=> intval($detail->cat_id),
-			'specification_name' 	=> trim($detail->cat_name),
-			'enabled'  				=> intval($detail->enabled)
-		];
-
-		return $data;
+		if (in_array($parameter_id, $goods_type_ids)) {
+			$count = Ecjia\App\Goods\Models\AttributeModel::where('cat_id', $parameter_id)->count();
+			$page_row = new ecjia_page($count, $size, 6, '', $page);
+			
+			$data = Ecjia\App\Goods\Models\AttributeModel::where('cat_id', $parameter_id)
+			->take($size)
+			->skip($page_row->start_id - 1)
+			->orderBy('attr_id', 'desc')
+			->get();
+			$result = [];
+			if ($data) {
+				$result = $data->map(function ($item) {
+					$attr_values  = !empty($item->attr_values) ? str_replace("\n", ",", $item->attr_values) : '';
+					
+					if ($item->attr_input_type == '0') {
+						$label_attr_input_type = '手工录入';
+					} elseif ($item->attr_input_type == '1') {
+						$label_attr_input_type = '从列表中选择';
+					} else {
+						$label_attr_input_type = '多行文本框';
+					}
+					$arr = [
+						'parameter_id' 				=> intval($item->goods_type_model->cat_id),
+						'parameter_name'			=> trim($item->goods_type_model->cat_name),
+						'attr_id'					=> intval($item->attr_id),
+						'attr_name'					=> trim($item->attr_name),
+						'attr_input_type'			=> intval($item->attr_input_type),
+						'label_attr_input_type'		=> $label_attr_input_type,
+						'attr_values'				=> $attr_values,
+						'group_name'				=> empty($item->attr_group) ? '' : trim($item->attr_group),
+					];
+					return $arr;
+				});
+				if ($result) {
+					$result = $result->toArray();
+				}
+			}
+			$pager = array(
+					'total' => $page_row->total_records,
+					'count' => $page_row->total_records,
+					'more'	=> $page_row->total_pages <= $page ? 0 : 1,
+			);
+			return ['data' => $result, 'pager' => $pager];
+		} else {
+			$pager = array(
+					'total' => 0,
+					'count' => 0,
+					'more'	=> 0,
+			);
+			return ['data' => [], 'pager' => $pager];
+		}
     }
 }
