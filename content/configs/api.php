@@ -120,8 +120,8 @@ return array(
     'user/account/pay'              => 'user::user/account/pay',
     'user/account/raply'            => 'user::user/account/raply',
     'user/account/cancel'           => 'user::user/account/cancel',
-	'user/connect/signin'	        => 'user::user/connect/signin',
-	'user/connect/signup'	        => 'user::user/connect/signup',
+//	'user/connect/signin'	        => 'user::user/connect/signin',废弃
+//	'user/connect/signup'	        => 'user::user/connect/signup',废弃
     'user/collect/create'           => 'user::user/collect/create',
     'user/collect/delete'           => 'user::user/collect/delete',
     'user/collect/list'             => 'user::user/collect/list',
@@ -593,19 +593,36 @@ return array(
     'admin/cashier/goods/product/specification'       => 'goods::admin/cashier/goods/product/specification',    //收银台获取商品的货品和规格信息
 	
     //1.33掌柜商品管理
-    'admin/merchant/goods/specification/template'     => 'goods::admin/merchant/goods/specification/template', 	//商品规格模板列表（包含平台的，均为已启用的）
-	'admin/merchant/goods/parameter/template'         => 'goods::admin/merchant/goods/parameter/template', 		//商品参数模板列表（包含平台的，均为已启用的）
-	'admin/merchant/goods/specification'			  => 'goods::admin/merchant/goods/specification',			//商品规格列表
-	'admin/merchant/goods/specification/add'		  => 'goods::admin/merchant/goods/specification/add',		//商品规格添加
-	'admin/merchant/goods/specification/detail'       => 'goods::admin/merchant/goods/specification/detail',    //商品规格详情
-	'admin/merchant/goods/specification/update'       => 'goods::admin/merchant/goods/specification/update',    //商品规格编辑
-    'admin/merchant/goods/specification/delete'		  => 'goods::admin/merchant/goods/specification/delete',	//商品规格删除
-
-	'admin/merchant/goods/specification/attribute'	  => 'goods::admin/merchant/goods/specification/attribute',	//某一规格的属性列表
-	'admin/merchant/goods/specification/attribute/colorsetting'	=> 'goods::admin/merchant/goods/specification/attribute/colorsetting', //规格属性色值设置
-	
+    //规格管理
+    'admin/merchant/goods/specification/template'     			=> 'goods::admin/merchant/goods/specification/template', 				//商品规格模板列表（包含平台的，均为已启用的）
+	'admin/merchant/goods/parameter/template'         			=> 'goods::admin/merchant/goods/parameter/template', 					//商品参数模板列表（包含平台的，均为已启用的）
+	'admin/merchant/goods/specification'			  			=> 'goods::admin/merchant/goods/specification',							//商品规格列表
+	'admin/merchant/goods/specification/add'		  			=> 'goods::admin/merchant/goods/specification/add',						//商品规格添加
+	'admin/merchant/goods/specification/detail'       			=> 'goods::admin/merchant/goods/specification/detail',    				//商品规格详情
+	'admin/merchant/goods/specification/update'       			=> 'goods::admin/merchant/goods/specification/update',    				//商品规格编辑
+    'admin/merchant/goods/specification/delete'		  			=> 'goods::admin/merchant/goods/specification/delete',					//商品规格删除
+	//规格属性管理
+	'admin/merchant/goods/specification/attribute'	  			=> 'goods::admin/merchant/goods/specification/attribute',				//某一规格的属性列表
+	'admin/merchant/goods/specification/attribute/colorsetting'	=> 'goods::admin/merchant/goods/specification/attribute/colorsetting', 	//规格属性色值设置
+	'admin/merchant/goods/specification/attribute/add'			=> 'goods::admin/merchant/goods/specification/attribute/add', 			//添加普通规格属性
+	'admin/merchant/goods/specification/attribute/add/color'	=> 'goods::admin/merchant/goods/specification/attribute/add/color', 	//添加颜色规格属性
+	'admin/merchant/goods/specification/attribute/detail'		=> 'goods::admin/merchant/goods/specification/attribute/detail',		//获取规格属性详情	
+	'admin/merchant/goods/specification/attribute/update'		=> 'goods::admin/merchant/goods/specification/attribute/update',		//编辑规格属性
+	//参数模板管理
+	'admin/merchant/goods/parameter'							=> 'goods::admin/merchant/goods/parameter',								//商品参数列表	
+	'admin/merchant/goods/parameter/add'						=> 'goods::admin/merchant/goods/parameter/add',							//商品参数模板添加								
+	'admin/merchant/goods/parameter/detail'						=> 'goods::admin/merchant/goods/parameter/detail',						//商品参数模板详情
+	'admin/merchant/goods/parameter/update'						=> 'goods::admin/merchant/goods/parameter/update',						//编辑商品参数模板
+	'admin/merchant/goods/parameter/delete'						=> 'goods::admin/merchant/goods/parameter/delete',						//参数模板删除	
+	//参数属性管理
+	'admin/merchant/goods/parameter/attribute'					=> 'goods::admin/merchant/goods/parameter/attribute',					//某一参数模板的参数列表
+	'admin/merchant/goods/parameter/attribute/add'				=> 'goods::admin/merchant/goods/parameter/attribute/add',				//添加参数模板参数属性	
+	'admin/merchant/goods/parameter/attribute/detail'			=> 'goods::admin/merchant/goods/parameter/attribute/detail',			//获取参数模板参数属性详情	
+	'admin/merchant/goods/parameter/attribute/update'			=> 'goods::admin/merchant/goods/parameter/attribute/update',			//编辑参数模板参数属性
+	'admin/merchant/goods/attribute/delete'						=> 'goods::admin/merchant/goods/attribute/delete',						//删除规格或参数属性	
 		
-    	
+		
+		
     /**
      * 1.0 已经废弃
      *
