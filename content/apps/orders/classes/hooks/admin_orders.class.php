@@ -104,7 +104,7 @@ class orders_admin_hooks
         ecjia_admin::$controller->assign('lang_ss', $ss);
 
         ecjia_admin::$controller->assign_lang();
-        ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_orderslist.lbi', 'orders'));
+        echo ecjia_admin::$controller->fetch(ecjia_app::get_app_template('library/widget_admin_dashboard_orderslist.lbi', 'orders'));
     }
 
     public static function widget_admin_dashboard_shopstats()
@@ -125,7 +125,7 @@ class orders_admin_hooks
         $data['store_num']  = RC_DB::table('store_franchisee')->where('identity_status', 2)->where('apply_time', '>=', $start_date)->count();
 
         ecjia_admin::$controller->assign('data', $data);
-        ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_shopstats_top.lbi', 'orders'));
+        echo ecjia_admin::$controller->fetch(ecjia_app::get_app_template('library/widget_admin_dashboard_shopstats_top.lbi', 'orders'));
     }
 
     public static function widget_admin_dashboard_shopstats_left()
@@ -183,7 +183,7 @@ class orders_admin_hooks
         $data['merchant_withdraw_num'] = RC_DB::table('store_account_order')->where('process_type', 'withdraw')->where('status', 1)->count();
 
         ecjia_admin::$controller->assign('data', $data);
-        ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_shopstats_left.lbi', 'orders'));
+        echo ecjia_admin::$controller->fetch(ecjia_app::get_app_template('library/widget_admin_dashboard_shopstats_left.lbi', 'orders'));
     }
 
     public static function widget_admin_dashboard_shopstats_right()
@@ -242,7 +242,7 @@ class orders_admin_hooks
             ->count();
 
         ecjia_admin::$controller->assign('data', $data);
-        ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_shopstats_right.lbi', 'orders'));
+        echo ecjia_admin::$controller->fetch(ecjia_app::get_app_template('library/widget_admin_dashboard_shopstats_right.lbi', 'orders'));
     }
 
     public static function widget_admin_dashboard_ordersstat()
@@ -290,7 +290,7 @@ class orders_admin_hooks
         ecjia_admin::$controller->assign('new_repay', $order['new_repay_count']);
 
         ecjia_admin::$controller->assign_lang();
-        ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_ordersstat.lbi', 'orders'));
+        echo ecjia_admin::$controller->fetch(ecjia_app::get_app_template('library/widget_admin_dashboard_ordersstat.lbi', 'orders'));
     }
 
     public static function orders_stats_admin_menu_api($menus)

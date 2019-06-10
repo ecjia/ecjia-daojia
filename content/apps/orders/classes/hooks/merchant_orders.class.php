@@ -59,7 +59,7 @@ class orders_merchant_plugin
 
         ecjia_merchant::$controller->assign('count', $count);
 
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::orders')->loadTemplate('merchant/library/widget_merchant_dashboard_overview.lbi', true)
         );
     }
@@ -207,7 +207,7 @@ class orders_merchant_plugin
 
         ecjia_merchant::$controller->assign('data', $data);
 
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::orders')->loadTemplate('merchant/library/widget_merchant_dashboard_commission.lbi', true)
         );
     }
@@ -273,7 +273,7 @@ class orders_merchant_plugin
             }
         }
         ecjia_merchant::$controller->assign('order_arr', $count_list);
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::orders')->loadTemplate('merchant/library/widget_merchant_dashboard_bar_chart.lbi', true)
         );
     }
