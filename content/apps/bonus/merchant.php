@@ -135,7 +135,7 @@ class merchant extends ecjia_merchant {
 	public function insert() {
 		$this->admin_priv('bonus_type_update', ecjia::MSGTYPE_JSON);
 
-		$type_name 	= !empty($_POST['type_name']) 	? trim($_POST['type_name']) 	: '';
+		$type_name 	= !empty($_POST['type_name']) 	? remove_xss($_POST['type_name']) 	: '';
 		$type_id   	= !empty($_POST['type_id'])    	? intval($_POST['type_id'])    	: 0;
 		$min_amount	= !empty($_POST['min_amount']) 	? floatval($_POST['min_amount']): 0;
 		$send_type	= !empty($_POST['send_type'])	? intval($_POST['send_type'])	: 0;
@@ -147,10 +147,10 @@ class merchant extends ecjia_merchant {
             return $this->showmessage(__('此类型的名称已经存在！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$send_startdate = RC_Time::local_strtotime($_POST['send_start_date']);
-		$send_enddate   = RC_Time::local_strtotime($_POST['send_end_date']);
-		$use_startdate  = RC_Time::local_strtotime($_POST['use_start_date']);
-		$use_enddate    = RC_Time::local_strtotime($_POST['use_end_date']);
+		$send_startdate = RC_Time::local_strtotime(remove_xss($_POST['send_start_date']));
+		$send_enddate   = RC_Time::local_strtotime(remove_xss($_POST['send_end_date']));
+		$use_startdate  = RC_Time::local_strtotime(remove_xss($_POST['use_start_date']));
+		$use_enddate    = RC_Time::local_strtotime(remove_xss($_POST['use_end_date']));
 
 		if ($send_type != 0 && $send_type != 3) {
 			if (empty($send_startdate)) {
@@ -244,13 +244,13 @@ class merchant extends ecjia_merchant {
 	public function update() {
 		$this->admin_priv('bonus_type_update', ecjia::MSGTYPE_JSON);
 
-		$type_name 		= !empty($_POST['type_name']) 		? trim($_POST['type_name']) 	: '';
+		$type_name 		= !empty($_POST['type_name']) 		? remove_xss($_POST['type_name']) 	: '';
 		$store_id 		= !empty($_SESSION['store_id']) 	? $_SESSION['store_id'] 		: 0;
 		$type_id     	= !empty($_POST['type_id'])    		? intval($_POST['type_id'])    	: 0;
 		$min_amount  	= !empty($_POST['min_amount']) 		? intval($_POST['min_amount']) 	: 0;
 		
-		$use_startdate  = !empty($_POST['use_start_date']) 	? RC_Time::local_strtotime($_POST['use_start_date']) 	: '';
-		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date']) 		: '';
+		$use_startdate  = !empty($_POST['use_start_date']) 	? RC_Time::local_strtotime(remove_xss($_POST['use_start_date'])) 	: '';
+		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime(remove_xss($_POST['use_end_date'])) 		: '';
 		
 		$count = RC_DB::table('bonus_type')->where('type_name', $type_name)->where('store_id', $store_id)->where('type_id', '!=', $type_id)->count();
 		if ($count != 0) {
@@ -268,11 +268,11 @@ class merchant extends ecjia_merchant {
 		);
 		
 		if( isset($_POST['send_start_date']) && !empty($_POST['send_start_date'])) {
-			$send_startdate = RC_Time::local_strtotime($_POST['send_start_date']);
+			$send_startdate = RC_Time::local_strtotime(remove_xss($_POST['send_start_date']));
 			$data['send_start_date'] = $send_startdate;
 		}
 		if( isset($_POST['send_end_date']) && !empty($_POST['send_end_date'])) {
-			$send_enddate   = RC_Time::local_strtotime($_POST['send_end_date']);
+			$send_enddate   = RC_Time::local_strtotime(remove_xss($_POST['send_end_date']));
 			$data['send_end_date'] = $send_enddate;
 		}
 
@@ -342,7 +342,7 @@ class merchant extends ecjia_merchant {
 	public function edit_type_name() {
 	    $this->admin_priv('bonus_type_update', ecjia::MSGTYPE_JSON);
 	
-	    $typename 		= trim($_POST['value']);
+	    $typename 		= remove_xss($_POST['value']);
 	    $id				= intval($_POST['pk']);
 	    $store_id 		= !empty($_SESSION['store_id'])	? $_SESSION['store_id']	: 0;
 	    $bonus_type = RC_Api::api('bonus', 'bonus_type_info', array('type_id', $id));
@@ -645,7 +645,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('bonus_send', ecjia::MSGTYPE_JSON);
 
 		$user_list = array();
-		$user_ids = $_GET['linked_array'];
+		$user_ids = remove_xss($_GET['linked_array']);
 		if (empty($user_ids)) {
 			return $this->showmessage(__('您没有选择需要发放红包的会员，请返回！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -779,7 +779,7 @@ class merchant extends ecjia_merchant {
 	public function search_users() {
 		$this->admin_priv('bonus_send', ecjia::MSGTYPE_JSON);
 		
-		$json = $_POST['JSON'];
+		$json = remove_xss($_POST['JSON']);
 		$keywords = !empty($json) && isset($json['keyword']) ? trim($json['keyword']) : '';
 		if(!empty($keywords)){
 			$db_user = RC_DB::table('users');
@@ -841,7 +841,7 @@ class merchant extends ecjia_merchant {
 	 * 批量操作
 	 */
 	public function batch() {
-	    $sel_action = trim($_GET['sel_action']);
+	    $sel_action = remove_xss($_GET['sel_action']);
 		$action = !empty($sel_action) ? $sel_action : 'send';
 		if ($action == 'remove') {
 		    $this->admin_priv('bonus_delete', ecjia::MSGTYPE_JSON);
@@ -851,7 +851,7 @@ class merchant extends ecjia_merchant {
 		
 		$bonus_type_id = intval($_GET['bonus_type_id']);
 		
-		$ids = $_POST['checkboxes'];
+		$ids = remove_xss($_POST['checkboxes']);
 		$ids = explode(',', $ids);
 		if ( !empty($ids) ) {
 			switch ($action) {
@@ -1013,27 +1013,27 @@ class merchant extends ecjia_merchant {
 			}
 		}
 
-		$bonustype_id = empty($_GET['bonustype_id']) ? 0 : $_GET['bonustype_id'];
+		$bonustype_id = empty($_GET['bonustype_id']) ? 0 : intval($_GET['bonustype_id']);
 		$filter['send_type'] = '';
-		if(!empty($_GET['bonustype_id']) || (isset($_GET['bonustype_id']) && trim($_GET['bonustype_id'])==='0' )){
+		if(!empty($_GET['bonustype_id']) || (isset($_GET['bonustype_id']) && intval($_GET['bonustype_id'])==='0' )){
 			$filter['send_type']	= $bonustype_id;
 
 		}
 		/* 查询条件 */
-		$filter['sort_by']    = empty($_GET['sort_by']) ? 'type_id' : trim($_GET['sort_by']);
-		$filter['sort_order'] = empty($_GET['sort_order']) ? 'DESC' : trim($_GET['sort_order']);
+		$filter['sort_by']    = empty($_GET['sort_by']) ? 'type_id' : remove_xss($_GET['sort_by']);
+		$filter['sort_order'] = empty($_GET['sort_order']) ? 'DESC' : remove_xss($_GET['sort_order']);
 
 		/*初始化红包类型数量*/
 		$bonus_type_count = array(
 			'count' => 0,//全部
 		);
 
-		$bonus_type_count['count'] = RC_Api::api('bonus', 'bonus_type_count', array('bonustype_id' => $_GET['bonustype_id']));
+		$bonus_type_count['count'] = RC_Api::api('bonus', 'bonus_type_count', array('bonustype_id' => intval($_GET['bonustype_id'])));
 		$page = new ecjia_merchant_page($bonus_type_count['count'], 15, 5);
 
 		$filter['skip']		= $page->start_id-1;
 		$filter['limit']	= 15;
-		$res = RC_Api::api('bonus', 'merchant_bonus_type_list', array('skip' => $filter['skip'], 'limit' => $filter['limit'], 'bonustype_id' => $_GET['bonustype_id'], 'sort_by' => $filter['sort_by'], 'sort_order' => $filter['sort_order']));
+		$res = RC_Api::api('bonus', 'merchant_bonus_type_list', array('skip' => $filter['skip'], 'limit' => $filter['limit'], 'bonustype_id' => intval($_GET['bonustype_id']), 'sort_by' => $filter['sort_by'], 'sort_order' => $filter['sort_order']));
 		$arr = array();
 
         $send_by_arr = array(
