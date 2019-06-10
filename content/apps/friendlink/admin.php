@@ -44,7 +44,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('friendlink/admin/batch'));
         $this->assign('search_action', RC_Uri::url('friendlink/admin/init'));
 
-        $this->display('link_list.dwt');
+        return $this->display('link_list.dwt');
     }
 
     /**
@@ -59,7 +59,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('friendlink/admin/init'), 'text' =>  __('链接列表', 'friendlink')));
         $this->assign('form_action', RC_Uri::url('friendlink/admin/insert'));
 
-        $this->display('link_edit.dwt');
+        return $this->display('link_edit.dwt');
     }
 
     /**
@@ -147,7 +147,7 @@ class admin extends ecjia_admin
         $this->assign('link', $link_arr);
         $this->assign('form_action', RC_Uri::url('friendlink/admin/update'));
 
-        $this->display('link_edit.dwt');
+        return $this->display('link_edit.dwt');
     }
 
     /**
