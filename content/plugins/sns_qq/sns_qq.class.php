@@ -158,6 +158,9 @@ class sns_qq extends ConnectAbstract
         }
 
         $token = $this->access_token($callback, $_GET['code']);
+        if (is_ecjia_error($token)) {
+            return $token;
+        }
        
         $userinfo = $this->me();
         if (is_ecjia_error($userinfo)) {
