@@ -179,11 +179,11 @@ class merchant extends ecjia_merchant {
 	private function get_store_user_list($page_size=10) {
 	    
 	    $filter = array();
-	    $filter['keywords']   = empty($_GET['keywords'])      ? ''                : trim($_GET['keywords']);
+	    $filter['keywords']   = empty($_GET['keywords'])      ? ''                : remove_xss($_GET['keywords']);
 	    $filter['rank_id']     = empty($_GET['rank_id'])        ? 0                 : intval($_GET['rank_id']);
 	    
-	    $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : trim($_GET['sort_order']);
-	    $filter['type']   	  = empty($_GET['type'])      	  ? ''                : trim($_GET['type']);
+	    $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : remove_xss($_GET['sort_order']);
+	    $filter['type']   	  = empty($_GET['type'])      	  ? ''                : remove_xss($_GET['type']);
 	    $filter['sort_by'] 	  = 's.add_time';
 	    
 	    if (!empty($_GET['sort_by'])) {
@@ -270,10 +270,10 @@ class merchant extends ecjia_merchant {
 	    
 	    
 	    $filter = array();
-	    $filter['keywords']   = empty($_GET['keywords'])      ? ''                : trim($_GET['keywords']);
+	    $filter['keywords']   = empty($_GET['keywords'])      ? ''                : remove_xss($_GET['keywords']);
 	    
-	    $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : trim($_GET['sort_order']);
-	    $filter['type']   	  = empty($_GET['type'])      	  ? ''                : trim($_GET['type']);
+	    $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : remove_xss($_GET['sort_order']);
+	    $filter['type']   	  = empty($_GET['type'])      	  ? ''                : remove_xss($_GET['type']);
 	    $filter['sort_by'] 	  = 's.rec_id';
 	    
 	    if (!empty($_GET['sort_by'])) {
