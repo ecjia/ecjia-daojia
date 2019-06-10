@@ -173,15 +173,15 @@ class merchant extends ecjia_merchant {
 	public function insert() {
 		$this->admin_priv('favourable_update' ,ecjia::MSGTYPE_JSON);
 
-		$act_name = !empty($_POST['act_name']) 		? trim($_POST['act_name']) 		: '';
+		$act_name = !empty($_POST['act_name']) 		? remove_xss($_POST['act_name']) 		: '';
 		$store_id = !empty($_SESSION['store_id']) 	? intval($_SESSION['store_id']) : 0;
 		
 		if (RC_DB::table('favourable_activity')->where('act_name', $act_name)->where('store_id', $store_id)->count() > 0) {
 			return $this->showmessage(__('该优惠活动名称已存在，请您换一个', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
-		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime($_POST['start_time'])   : '';
-		$end_time   = !empty($_POST['end_time'])   ? RC_Time::local_strtotime($_POST['end_time'])     : '';
+		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime(remove_xss($_POST['start_time']))   : '';
+		$end_time   = !empty($_POST['end_time'])   ? RC_Time::local_strtotime(remove_xss($_POST['end_time']))     : '';
 
 		if ($start_time >= $end_time) {
 			return $this->showmessage(__('优惠开始时间不能大于或等于结束时间', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -210,9 +210,9 @@ class merchant extends ecjia_merchant {
 			'act_name'      => $act_name,
 			'start_time'    => $start_time,
 			'end_time'      => $end_time,
-			'user_rank'     => isset($_POST['user_rank']) ? join(',', $_POST['user_rank']) : '0',
+			'user_rank'     => isset($_POST['user_rank']) ? join(',', remove_xss($_POST['user_rank'])) : '0',
 			'act_range'     => intval($_POST['act_range']),
-			'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', $_POST['act_range_ext']),
+			'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', remove_xss($_POST['act_range_ext'])),
 			'min_amount'    => $min_amount,
 			'max_amount'    => $max_amount,
 			'act_type'      => intval($_POST['act_type']),
@@ -274,15 +274,15 @@ class merchant extends ecjia_merchant {
 	public function update() {
 		$this->admin_priv('favourable_update', ecjia::MSGTYPE_JSON);
 
-		$act_name 	= !empty($_POST['act_name']) 	? trim($_POST['act_name']) 		: '';
+		$act_name 	= !empty($_POST['act_name']) 	? remove_xss($_POST['act_name']) 		: '';
 		$act_id 	= !empty($_POST['act_id']) 		? intval($_POST['act_id']) 		: 0;
 		$store_id 	= !empty($_SESSION['store_id']) ? intval($_SESSION['store_id']) : 0;
 		
 		if (RC_DB::table('favourable_activity')->where('act_name', $act_name)->where('act_id', '!=', $act_id)->where('store_id', $store_id)->count() > 0) {
 			return $this->showmessage(__('该优惠活动名称已存在，请您换一个', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		$start_time = !empty($_POST['start_time'])	? RC_Time::local_strtotime($_POST['start_time']) 	: '';
-		$end_time 	= !empty($_POST['end_time']) 	? RC_Time::local_strtotime($_POST['end_time']) 		: '';
+		$start_time = !empty($_POST['start_time'])	? RC_Time::local_strtotime(remove_xss($_POST['start_time'])) 	: '';
+		$end_time 	= !empty($_POST['end_time']) 	? RC_Time::local_strtotime(remove_xss($_POST['end_time'])) 		: '';
 		/* 检查优惠活动时间 */
 		if ($start_time >= $end_time) {
 			return $this->showmessage(__('优惠开始时间不能大于或等于结束时间', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -319,9 +319,9 @@ class merchant extends ecjia_merchant {
 			'act_name'      => $act_name,
 			'start_time'    => $start_time,
 			'end_time'      => $end_time,
-			'user_rank'     => isset($_POST['user_rank']) ? join(',', $_POST['user_rank']) : '0',
+			'user_rank'     => isset($_POST['user_rank']) ? join(',', remove_xss($_POST['user_rank'])) : '0',
 			'act_range'     => intval($_POST['act_range']),
-			'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', $_POST['act_range_ext']),
+			'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', remove_xss($_POST['act_range_ext'])),
 			'min_amount'    => $min_amount,
 			'max_amount'    => $max_amount,
 			'act_type'      => intval($_POST['act_type']),
@@ -387,7 +387,7 @@ class merchant extends ecjia_merchant {
 	public function batch() {
 		$this->admin_priv('favourable_delete', ecjia::MSGTYPE_JSON);
 
-		$ids      = $_POST['act_id'];
+		$ids      = intval($_POST['act_id']);
 		$act_ids  = explode(',', $ids);
 		$info     = RC_DB::table('favourable_activity')->whereIn('act_id', $act_ids)->get();
 
@@ -419,7 +419,7 @@ class merchant extends ecjia_merchant {
 	public function edit_act_name() {
 		$this->admin_priv('favourable_update', ecjia::MSGTYPE_JSON);
 
-		$act_name 	= trim($_POST['value']);
+		$act_name 	= remove_xss($_POST['value']);
 		$id			= intval($_POST['pk']);
 		$store_id 	= !empty($_SESSION['store_id']) ? intval($_SESSION['store_id']) : 0;
 
@@ -469,8 +469,8 @@ class merchant extends ecjia_merchant {
 	public function search() {
 		$this->admin_priv('favourable_manage', ecjia::MSGTYPE_JSON);
 
-		$act_range = !empty($_POST['act_range']) ? $_POST['act_range']     : 0;
-		$keyword   = !empty($_POST['keyword'])   ? trim($_POST['keyword']) : '';
+		$act_range = !empty($_POST['act_range']) ? remove_xss($_POST['act_range'])     : 0;
+		$keyword   = !empty($_POST['keyword'])   ? remove_xss($_POST['keyword']) : '';
 		$where = array();
 		if ($act_range == FAR_ALL) {//全部商品
 			$arr[0] = array(
@@ -522,10 +522,10 @@ class merchant extends ecjia_merchant {
 	 * 取得优惠活动列表
 	*/
 	private function get_favourable_list() {
-		$filter['sort_by']    	= empty($_GET['sort_by']) 	? 'act_id' 				: trim($_GET['sort_by']);
-		$filter['sort_order'] 	= empty($_GET['sort_order'])? 'DESC' 				: trim($_GET['sort_order']);
-		$filter['keyword']		= empty($_GET['keyword']) 	? '' 					: mysql_like_quote(trim($_GET['keyword']));
-		$filter['type'] 	 	= isset($_GET['type']) 		? trim($_GET['type']) 	: '';
+		$filter['sort_by']    	= empty($_GET['sort_by']) 	? 'act_id' 				: remove_xss($_GET['sort_by']);
+		$filter['sort_order'] 	= empty($_GET['sort_order'])? 'DESC' 				: remove_xss($_GET['sort_order']);
+		$filter['keyword']		= empty($_GET['keyword']) 	? '' 					: mysql_like_quote(remove_xss($_GET['keyword']));
+		$filter['type'] 	 	= isset($_GET['type']) 		? remove_xss($_GET['type']) 	: '';
 
 		/* 连接导航*/
 		$uri = array();
