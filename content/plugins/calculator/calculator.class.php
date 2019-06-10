@@ -55,7 +55,7 @@ class calculator {
 	}
 	
 	public function display() {
-	    ecjia_admin::$controller->display(ecjia_plugin::get_plugin_template('calculator.lbi.php', 'calculator'));
+	    echo ecjia_admin::$controller->fetch(ecjia_plugin::get_plugin_template('calculator.lbi.php', 'calculator'));
 	}
 }
 
