@@ -15,7 +15,7 @@
 					<form method="post" name="check_form" id="js_ecjia_intro">
                         <div class="ecjia-install-body">
                             {t domain="installer" escape=no}<h5>
-                                欢迎使用ECJia到家O2O商城系统，之前正在运行的版本是<span style="text-decoration:underline;font-size:16px;">v{$version_current}</span>，现在您已经覆盖了最新的升级包程序，
+                                欢迎使用ECJia到家新零售商城系统，之前正在运行的版本是<span style="text-decoration:underline;font-size:16px;">v{$version_current}</span>，现在您已经覆盖了最新的升级包程序，
                                 请确保升级完成，以免造成意外的错误。
                             </h5>
                             <h4 class="btn-ghost">最新版本：v{$version_last}</h4>
