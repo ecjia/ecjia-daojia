@@ -88,7 +88,7 @@ class mh_comment extends ecjia_merchant {
 	    
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论列表', 'comment')));
 	    $this->assign('ur_here', __('评论列表', 'comment'));
-	    $goods_id = $_GET['goods_id'];
+	    $goods_id = intval($_GET['goods_id']);
 	    $data = $this->comment_list($goods_id);
 	    $this->assign('data', $data);
 	    
@@ -103,8 +103,8 @@ class mh_comment extends ecjia_merchant {
 	    	$this->assign('goods_id',  $goods_id);
 	    }
 
-	    $this->assign('select_rank', $_GET['select_rank']);
-	    $this->assign('select_img',  $_GET['select_img']);
+	    $this->assign('select_rank', remove_xss($_GET['select_rank']));
+	    $this->assign('select_img',  remove_xss($_GET['select_img']));
 
         return $this->display('mh_comment_list.dwt');
 	}
@@ -115,8 +115,8 @@ class mh_comment extends ecjia_merchant {
 	public function comment_reply() {
 	    $this->admin_priv('mh_comment_manage', ecjia::MSGTYPE_JSON);
 	    
-	    $comment_id 	= $_GET['comment_id'];
-	    $reply_content  = $_GET['reply_content'];
+	    $comment_id 	= intval($_GET['comment_id']);
+	    $reply_content  = remove_xss($_GET['reply_content']);
 	    if(empty($reply_content)){
 	    	$reply_content=__('感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。', 'comment');
 	    }
@@ -154,7 +154,7 @@ class mh_comment extends ecjia_merchant {
 	    
 	    $this->assign('action_link', array('text' => __('评论列表', 'comment'), 'href'=> RC_Uri::url('comment/mh_comment/init')));
 	    
-		$comment_id = $_GET['comment_id'];
+		$comment_id = intval($_GET['comment_id']);
 		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
 		$comment_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $comment_info['add_time']);
 		
@@ -201,8 +201,8 @@ class mh_comment extends ecjia_merchant {
 	public function comment_detail_reply() {
 		$this->admin_priv('mh_comment_manage', ecjia::MSGTYPE_JSON);
 		 
-		$comment_id 	= $_POST['comment_id'];
-		$reply_content  = $_POST['reply_content'];
+		$comment_id 	= intval($_POST['comment_id']);
+		$reply_content  = remove_xss($_POST['reply_content']);
 		if(empty($reply_content)){
 			 return $this->showmessage(__('请输入回复内容', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -213,9 +213,9 @@ class mh_comment extends ecjia_merchant {
 			'user_id'		=> $_SESSION['staff_id'],
 			'add_time'		=> RC_Time::gmtime(),
 		);
-		$email_status = $_POST['is_ok'];
+		$email_status = remove_xss($_POST['is_ok']);
 		if($email_status){
-			$reply_email = $_POST['reply_email'];
+			$reply_email = remove_xss($_POST['reply_email']);
 			$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->select('user_name', 'content')->first();
 			$user_name 			= $comment_info['user_name'];
 			$message_content 	= $comment_info['content'];
@@ -267,7 +267,7 @@ class mh_comment extends ecjia_merchant {
 			$db_comment->where(RC_DB::raw('id_value'), $goods_id);
 		}
 		
-		$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+		$filter['keywords'] = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
 		if ($filter['keywords']) {
 			$db_comment->where('user_name', 'like', '%'.mysql_like_quote($filter['keywords']).'%');
 		}
@@ -285,8 +285,8 @@ class mh_comment extends ecjia_merchant {
 		
 		//有无晒图
 		if (isset($_GET['has_img']) && (!empty($_GET['has_img']) || $_GET['has_img'] == '0')) {
-		    $db_comment->where(RC_DB::raw('has_image'), '=', $_GET['has_img']);
-		    $filter['has_img'] = $_GET['has_img'];
+		    $db_comment->where(RC_DB::raw('has_image'), '=', remove_xss($_GET['has_img']));
+		    $filter['has_img'] = remove_xss($_GET['has_img']);
 		}
 		
 		$count = $db_comment->count();

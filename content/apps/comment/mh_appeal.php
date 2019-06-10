@@ -97,7 +97,7 @@ class mh_appeal extends ecjia_merchant {
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('申诉', 'comment')));
 		$this->assign('ur_here', __('申诉', 'comment'));
 
-		$comment_id = $_GET['comment_id'];
+		$comment_id = intval($_GET['comment_id']);
 		$comment_pic_list = RC_DB::table('term_attachment')->where('object_id', $comment_id)->where('object_app', 'ecjia.comment')->where('object_group','comment')->select('file_path')->get();
 		
 		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
@@ -122,8 +122,8 @@ class mh_appeal extends ecjia_merchant {
 		$this->admin_priv('mh_appeal_update', ecjia::MSGTYPE_JSON);
 		
 		$store_id = $_SESSION['store_id'];
-		$comment_id= $_POST['comment_id'];
-		$appeal_content = trim($_POST['appeal_content']);
+		$comment_id= intval($_POST['comment_id']);
+		$appeal_content = remove_xss($_POST['appeal_content']);
 		$appeal_time = RC_Time::gmtime();
 		$appeal_sn_six = rand(100000, 999999);
 		$appeal_sn = RC_Time::local_date('Ymd', $appeal_time).$appeal_sn_six;
@@ -201,7 +201,7 @@ class mh_appeal extends ecjia_merchant {
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('申诉详情', 'comment')));
 		$this->assign('ur_here', __('申诉详情', 'comment'));
 		
-		$appeal_sn 		= $_GET['appeal_sn'];
+		$appeal_sn 		= remove_xss($_GET['appeal_sn']);
 		$appeal = RC_DB::table('comment_appeal')->where('appeal_sn', $appeal_sn)->first();
 		$appeal['appeal_time'] = RC_Time::local_date(ecjia::config('time_format'), $appeal['appeal_time']);
 		$appeal['process_time'] = RC_Time::local_date(ecjia::config('time_format'), $appeal['process_time']);
@@ -229,7 +229,7 @@ class mh_appeal extends ecjia_merchant {
 	public function revoke() {
 		$this->admin_priv('mh_appeal_remove', ecjia::MSGTYPE_JSON);
 	
-		$appeal_sn = $_GET['appeal_sn'];
+		$appeal_sn = remove_xss($_GET['appeal_sn']);
 		$appeal_id = RC_DB::table('comment_appeal')->where('appeal_sn', $appeal_sn)->pluck('id');
 		RC_DB::table('term_attachment')->where('object_id', $appeal_id)->where('object_group', 'appeal')->delete();
 		RC_DB::table('comment_appeal')->where('appeal_sn', $appeal_sn)->delete();
@@ -243,8 +243,8 @@ class mh_appeal extends ecjia_merchant {
 	 */
 	private function appeal_list($store_id) {
 		$db_comment_appeal = RC_DB::table('comment_appeal');
-		$type = $_GET['type'];
-		$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+		$type = remove_xss($_GET['type']);
+		$filter['keywords'] = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
 		if ($filter['keywords']) {
 			$db_comment_appeal->where('appeal_content', 'like', '%'.mysql_like_quote($filter['keywords']).'%');
 		}
