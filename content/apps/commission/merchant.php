@@ -99,10 +99,10 @@ class merchant extends ecjia_merchant {
 		$this->assign('search_action', RC_Uri::url('commission/merchant/init'));
 		
 		/* 时间参数 */
-		$filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime($_GET['start_date']));
-		$filter['end_date'] = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime($_GET['end_date']));
+		$filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime(remove_xss($_GET['start_date'])));
+		$filter['end_date'] = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime(remove_xss($_GET['end_date'])));
 		
-		$bill_list = $this->db_store_bill->get_bill_list_merchant($_SESSION['store_id'], $_GET['page'], 15, $filter);
+		$bill_list = $this->db_store_bill->get_bill_list_merchant($_SESSION['store_id'], intval($_GET['page']), 15, $filter);
 		
 		foreach ($bill_list['item'] as &$val) {
 		    if ($val['pay_status'] == 2) {
@@ -125,11 +125,11 @@ class merchant extends ecjia_merchant {
 	    $this->assign('search_action', RC_Uri::url('commission/merchant/day'));
 	    
 	    // 		/* 时间参数 */
-	    $filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_date('Y-m-d', RC_Time::local_strtotime($_GET['start_date']));
-	    $filter['end_date']   = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m-d', RC_Time::local_strtotime($_GET['end_date']));
-	    $filter['type']       = $_GET['type'];
-	    $filter['keywords'] 		 = empty ($_GET['keywords']) 		  ? '' : trim($_GET['keywords']);
-	    $filter['merchant_keywords'] = empty ($_GET['merchant_keywords']) ? '' : trim($_GET['merchant_keywords']);
+	    $filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_date('Y-m-d', RC_Time::local_strtotime(remove_xss($_GET['start_date'])));
+	    $filter['end_date']   = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m-d', RC_Time::local_strtotime(remove_xss($_GET['end_date'])));
+	    $filter['type']       = remove_xss($_GET['type']);
+	    $filter['keywords'] 		 = empty ($_GET['keywords']) 		  ? '' : remove_xss($_GET['keywords']);
+	    $filter['merchant_keywords'] = empty ($_GET['merchant_keywords']) ? '' : remove_xss($_GET['merchant_keywords']);
 	    
 	    $store_id = $_SESSION['store_id'];
 	    
@@ -137,7 +137,7 @@ class merchant extends ecjia_merchant {
 	        return $this->showmessage(__('开始时间不能大于结束时间', 'commission'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 	    }
 	    
-	    $bill_list = $this->db_store_bill_day->get_billday_list($store_id, $_GET['page'], 20, $filter);
+	    $bill_list = $this->db_store_bill_day->get_billday_list($store_id, intval($_GET['page']), 20, $filter);
 	    $this->assign('bill_list', $bill_list);
 
         return $this->display('bill_list_day.dwt');
@@ -172,7 +172,7 @@ class merchant extends ecjia_merchant {
 	    $filter['start_date'] = RC_Time::local_strtotime($bill_info['bill_month']);
 	    $filter['end_date'] = RC_Time::local_strtotime(RC_Time::local_date('Y-m',$filter['start_date'] + 86400*31).'-01')-1;
 	    
-	    $record_list = $this->db_store_bill_detail->get_bill_record($_SESSION['store_id'], $_GET['page'], 30, $filter);
+	    $record_list = $this->db_store_bill_detail->get_bill_record($_SESSION['store_id'], intval($_GET['page']), 30, $filter);
 	    $this->assign('record_list', $record_list);
 
         return $this->display('bill_detail.dwt');
@@ -193,10 +193,10 @@ class merchant extends ecjia_merchant {
 	    $this->assign('search_action', RC_Uri::url('commission/merchant/record'));
 	    
 	    /* 时间参数 */
-	    $filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_strtotime($_GET['start_date']);
-	    $filter['end_date'] = empty($_GET['end_date']) ? null : RC_Time::local_strtotime($_GET['end_date']) + 86399;
+	    $filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_strtotime(remove_xss($_GET['start_date']));
+	    $filter['end_date'] = empty($_GET['end_date']) ? null : RC_Time::local_strtotime(remove_xss($_GET['end_date'])) + 86399;
 	    
-	    $record_list = $this->db_store_bill_detail->get_bill_record($_SESSION['store_id'], $_GET['page'], 15, $filter);
+	    $record_list = $this->db_store_bill_detail->get_bill_record($_SESSION['store_id'], intval($_GET['page']), 15, $filter);
 	    
 	    $this->assign('record_list', $record_list);
 
@@ -268,7 +268,7 @@ class merchant extends ecjia_merchant {
 		}
 		
 		$amount = floatval($_POST['money']);
-		$staff_note = trim($_POST['desc']);
+		$staff_note = remove_xss($_POST['desc']);
 		
 		if ($amount <= 0) {
 			return $this->showmessage(__('请在提现金额栏输入大于0的数字', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -407,9 +407,9 @@ class merchant extends ecjia_merchant {
 	private function get_account_order() {
 		$db = RC_DB::table('store_account_order');
 	
-		$filter['keywords'] = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
-		$filter['start_time'] = !empty($_GET['start_time']) ? trim($_GET['start_time']) : '';
-		$filter['end_time'] = !empty($_GET['end_time']) ? trim($_GET['end_time']) : '';
+		$filter['keywords'] = !empty($_GET['keywords']) ? remove_xss($_GET['keywords']) : '';
+		$filter['start_time'] = !empty($_GET['start_time']) ? remove_xss($_GET['start_time']) : '';
+		$filter['end_time'] = !empty($_GET['end_time']) ? remove_xss($_GET['end_time']) : '';
 		
 		$db->where('store_id', $_SESSION['store_id'])->where('process_type', 'withdraw');
 		
@@ -439,7 +439,7 @@ class merchant extends ecjia_merchant {
 			$type_count['wait_check'] = 0;
 		}
 		
-		$type = trim($_GET['type']);
+		$type = remove_xss($_GET['type']);
 		if ($type == 'passed') {
 			$db->where('status', 2);
 		}
