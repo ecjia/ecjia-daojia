@@ -69,7 +69,7 @@ class respond extends ecjia_front
 	public function response()
     {
 		/* 支付方式代码 */
-		$pay_code = !empty($_GET['code']) ? trim($_GET['code']) : '';
+		$pay_code = remove_xss($this->request->input('code', ''));
 		unset($_GET['code']);
 
 		$order_type = '';
@@ -146,7 +146,7 @@ class respond extends ecjia_front
 	    RC_Logger::getLogger('pay')->debug('POST: ' . json_encode($_POST));
 	      
 	    /* 支付方式代码 */
-	    $pay_code = !empty($_GET['code']) ? trim($_GET['code']) : '';
+        $pay_code = remove_xss($this->request->input('code', ''));
 	    unset($_GET['code']);
 	    
 	    /* 参数是否为空 */
