@@ -195,7 +195,11 @@ class CartGoods
     	$attr_number = 1;
     	if (ecjia::config('use_storage') == 1) {
     		if($this->model->product_id) {
-    			$product_info = $this->model->products->toArray();
+    			if ($this->model->products) {
+    				$product_info = $this->model->products->toArray();
+    			} else {
+    				$product_info = [];
+    			}
     			if ($product_info &&  $this->model->goods_number > $product_info['product_number']) {
     				$attr_number = 0;
     			}
