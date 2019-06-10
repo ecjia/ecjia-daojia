@@ -260,7 +260,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$this->admin_priv('mh_cycleimage_update');
     	 
     	$position_id   = !empty($_POST['position_id']) ? intval($_POST['position_id']) : 0;
-    	$ad_name       = !empty($_POST['ad_name']) ? trim($_POST['ad_name']) : '';
+    	$ad_name       = !empty($_POST['ad_name']) ? remove_xss($_POST['ad_name']) : '';
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	 
     	if (!empty($_FILES['ad_code']['name'])) {
@@ -281,16 +281,16 @@ class mh_cycleimage extends ecjia_merchant {
     	if (empty($_POST['show_client'])) {
     		return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
-    		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
+    		$show_client = Ecjia\App\Adsense\Client::clientSelected(remove_xss($_POST['show_client']));
     	}
     	$data = array(
     		'store_id'		=> $_SESSION['store_id'],
     		'position_id' 	=> $position_id,
     		'ad_code' 		=> $ad_code,
-    		'ad_link' 		=> $_POST['ad_link'],
+    		'ad_link' 		=> remove_xss($_POST['ad_link']),
     		'ad_name' 		=> $ad_name,
     		'show_client'   => $show_client,
-    		'enabled' 		=> $_POST['enabled'],
+    		'enabled' 		=> remove_xss($_POST['enabled']),
     		'sort_order' 	=> $sort_order,
     	);
     	$id = RC_DB::table('merchants_ad')->insertGetId($data);
@@ -331,7 +331,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$this->admin_priv('mh_cycleimage_update');
     	 
     	$id 		= intval($_POST['id']);
-    	$ad_name	= !empty($_POST['ad_name']) 	? trim($_POST['ad_name']) 		: '';
+    	$ad_name	= !empty($_POST['ad_name']) 	? remove_xss($_POST['ad_name']) 		: '';
     	$sort_order = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	 
     	$old_pic = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->pluck('ad_code');
@@ -352,12 +352,12 @@ class mh_cycleimage extends ecjia_merchant {
     	if (empty($_POST['show_client'])) {
     		return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
-    		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
+    		$show_client = Ecjia\App\Adsense\Client::clientSelected(remove_xss($_POST['show_client']));
     	}
     	 
     	$data = array(
     		'ad_code' 		=> $ad_code,
-    		'ad_link' 		=> $_POST['ad_link'],
+    		'ad_link' 		=> remove_xss($_POST['ad_link']),
     		'ad_name' 		=> $ad_name,
     		'show_client'   => $show_client,
     		'enabled' 		=> intval($_POST['enabled']),

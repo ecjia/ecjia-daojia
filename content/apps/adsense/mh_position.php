@@ -79,8 +79,8 @@ class mh_position extends ecjia_merchant {
     	$this->assign('ur_here', __('广告位置列表 ', 'adsense'));
     	$this->assign('action_link', array('text' => __('添加广告位', 'adsense'), 'href' => RC_Uri::url('adsense/mh_position/add')));
     	
-    	$sort_by   = trim($_GET['sort_by']);
-    	$sort_order= trim($_GET['sort_order']);
+    	$sort_by   = remove_xss($_GET['sort_by']);
+    	$sort_order= remove_xss($_GET['sort_order']);
     	if (!empty($sort_by)) {
     		$orderBy = array($sort_by => $sort_order);
     	} else {
@@ -112,8 +112,8 @@ class mh_position extends ecjia_merchant {
     public function insert() {
     	$this->admin_priv('mh_adsense_position_update');
     	 
-    	$position_name = !empty($_POST['position_name']) ? trim($_POST['position_name']) : '';
-    	$position_code = !empty($_POST['position_code']) ? trim($_POST['position_code']) : '';
+    	$position_name = !empty($_POST['position_name']) ? remove_xss($_POST['position_name']) : '';
+    	$position_code = !empty($_POST['position_code']) ? remove_xss($_POST['position_code']) : '';
     	$position_desc = !empty($_POST['position_desc']) ? nl2br(htmlspecialchars($_POST['position_desc'])) : '';
     	$ad_width      = !empty($_POST['ad_width']) ? intval($_POST['ad_width']) : 0;
     	$ad_height     = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
@@ -205,7 +205,7 @@ class mh_position extends ecjia_merchant {
     	$this->admin_priv('mh_adsense_position_update');
     
     	$id = intval($_POST['pk']);
-    	$position_name = trim($_POST['value']);
+    	$position_name = remove_xss($_POST['value']);
     	if (!empty($position_name)) {
     		$data = array('position_name' => $position_name);
     		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->update($data);

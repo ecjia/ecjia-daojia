@@ -95,8 +95,8 @@ class mh_group extends ecjia_merchant {
 		$this->assign('position_id', $position_id);
 		$this->assign('position_code', $position_code);
 
-		$filter['sort_by']    = empty($_GET['sort_by']) ? 'sort_order' : trim($_GET['sort_by']);
-		$filter['sort_order'] = empty($_GET['sort_order']) ? 'asc' : trim($_GET['sort_order']);
+		$filter['sort_by']    = empty($_GET['sort_by']) ? 'sort_order' : remove_xss($_GET['sort_by']);
+		$filter['sort_order'] = empty($_GET['sort_order']) ? 'asc' : remove_xss($_GET['sort_order']);
 		
 		$data_position = RC_DB::table('merchants_ad_position')
 			->where('store_id', $_SESSION['store_id'])
@@ -210,7 +210,7 @@ class mh_group extends ecjia_merchant {
 	
 	public function update_sort() {
 		$this->admin_priv('mh_adsense_group_update');
-		$position_array = $_GET['position_array'];
+		$position_array = remove_xss($_GET['position_array']);
 		if (!empty($position_array)) {
 			foreach ($position_array as $row) {
 				$data= array('sort_order' => $row['position_sort']);
@@ -270,7 +270,7 @@ class mh_group extends ecjia_merchant {
 		$data = array('group_id' => 0);
 		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('group_id', $group_position_id)->update($data);
 	
-		$linked_array = $_GET['linked_array'];
+		$linked_array = remove_xss($_GET['linked_array']);
 		if (!empty($linked_array)) {
 			foreach ($linked_array as $key => $val) {
 				$data= array('group_id' => $group_position_id ,'sort_order' => intval($key));

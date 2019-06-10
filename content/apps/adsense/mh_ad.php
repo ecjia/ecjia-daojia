@@ -153,7 +153,7 @@ class mh_ad extends ecjia_merchant {
 	
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加广告'), 'adsense'));
 		
-		$show_client =intval($_GET['show_client']);
+		$show_client = intval($_GET['show_client']);
 		$this->assign('show_client', $show_client);
 		
 		$position_id = intval($_GET['position_id']);
@@ -190,19 +190,19 @@ class mh_ad extends ecjia_merchant {
 		$this->admin_priv('mh_adsense_update');
 		
 		$position_id= intval($_POST['position_id']);
-		$ad_name 	= !empty($_POST['ad_name']) ? trim($_POST['ad_name']) : '';
+		$ad_name 	= !empty($_POST['ad_name']) ? remove_xss($_POST['ad_name']) : '';
 		$media_type = !empty($_POST['media_type']) ? intval($_POST['media_type']) : 0;
-		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime($_POST['start_time']) : '0';
-		$end_time = !empty($_POST['end_time']) ? RC_Time::local_strtotime($_POST['end_time']) : '0';
+		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime(remove_xss($_POST['start_time'])) : '0';
+		$end_time = !empty($_POST['end_time']) ? RC_Time::local_strtotime(remove_xss($_POST['end_time'])) : '0';
 		$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
-		$link_man    = !empty($_POST['link_man']) ? $_POST['link_man'] : '';
-		$link_email  = !empty($_POST['link_email']) ? $_POST['link_email'] : '';
-		$link_phone  = !empty($_POST['link_phone']) ? $_POST['link_phone'] : '';
+		$link_man    = !empty($_POST['link_man']) ? remove_xss($_POST['link_man']) : '';
+		$link_email  = !empty($_POST['link_email']) ? remove_xss($_POST['link_email']) : '';
+		$link_phone  = !empty($_POST['link_phone']) ? remove_xss($_POST['link_phone']) : '';
 		
 		if ($media_type === 0) {
-			$ad_link = !empty($_POST['ad_link']) ? trim($_POST['ad_link']) : '';
+			$ad_link = !empty($_POST['ad_link']) ? remove_xss($_POST['ad_link']) : '';
 		} else {
-			$ad_link = !empty($_POST['ad_link2']) ? trim($_POST['ad_link2']) : '';
+			$ad_link = !empty($_POST['ad_link2']) ? remove_xss($_POST['ad_link2']) : '';
 		}
 		/* 添加图片类型的广告 */
 		if ($media_type === 0) {
@@ -218,13 +218,13 @@ class mh_ad extends ecjia_merchant {
 			}
 		} elseif ($media_type === 2) {
 			if (!empty($_POST['ad_code'])) {
-				$ad_code = $_POST['ad_code'];
+				$ad_code = remove_xss($_POST['ad_code']);
 			} else {
 				return $this->showmessage(__('广告的代码不能为空', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} elseif ($media_type === 3) {
 			if (!empty($_POST['ad_text'])) {
-				$ad_code = $_POST['ad_text'];
+				$ad_code = remove_xss($_POST['ad_text']);
 			} else {
 				return $this->showmessage(__('广告内容不能为空', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
@@ -233,7 +233,7 @@ class mh_ad extends ecjia_merchant {
 		if (empty($_POST['show_client'])) {
 			return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
+			$show_client = Ecjia\App\Adsense\Client::clientSelected(remove_xss($_POST['show_client']));
 		}
 		
 		$data = array(
@@ -256,7 +256,7 @@ class mh_ad extends ecjia_merchant {
 		$ad_id = RC_DB::table('merchants_ad')->insertGetId($data);
 		/* 释放广告位缓存 */
 		$ad_postion_db = RC_Model::model('adsense/orm_ad_position_model');
-		$cache_key = sprintf('%X', crc32('adsense_position-' . $_POST['position_id']));
+		$cache_key = sprintf('%X', crc32('adsense_position-' . intval($_POST['position_id'])));
 		$ad_postion_db->delete_cache_item($cache_key);
 		ecjia_merchant::admin_log($ad_name, 'add', 'ads');
 	
@@ -335,19 +335,19 @@ class mh_ad extends ecjia_merchant {
 	
 		$type 		= !empty($_POST['media_type']) 	? intval($_POST['media_type']) 	: 0;
 		$id 		= !empty($_POST['id']) 			? intval($_POST['id']) 			: 0;
-		$ad_name	= !empty($_POST['ad_name']) 	? trim($_POST['ad_name']) 		: '';
+		$ad_name	= !empty($_POST['ad_name']) 	? remove_xss($_POST['ad_name']) 		: '';
 		$enabled    = intval($_POST['enabled']);
 		$sort_order = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
-		$link_man	= !empty($_POST['link_man']) ? $_POST['link_man'] : '';
-		$link_email = !empty($_POST['link_email']) ? $_POST['link_email'] : '';
-		$link_phone = !empty($_POST['link_phone']) ? $_POST['link_phone'] : '';
-		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime($_POST['start_time']) : '0';
-		$end_time = !empty($_POST['end_time']) ? RC_Time::local_strtotime($_POST['end_time']) : '0';
+		$link_man	= !empty($_POST['link_man']) ? remove_xss($_POST['link_man']) : '';
+		$link_email = !empty($_POST['link_email']) ? remove_xss($_POST['link_email']) : '';
+		$link_phone = !empty($_POST['link_phone']) ? remove_xss($_POST['link_phone']) : '';
+		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime(remove_xss($_POST['start_time'])) : '0';
+		$end_time = !empty($_POST['end_time']) ? RC_Time::local_strtotime(remove_xss($_POST['end_time'])) : '0';
 		
 		if ($type === 0) {
-			$ad_link = !empty($_POST['ad_link']) ? trim($_POST['ad_link']) : '';
+			$ad_link = !empty($_POST['ad_link']) ? remove_xss($_POST['ad_link']) : '';
 		} else {
-			$ad_link = !empty($_POST['ad_link2']) ? trim($_POST['ad_link2']) : '';
+			$ad_link = !empty($_POST['ad_link2']) ? remove_xss($_POST['ad_link2']) : '';
 		}
 		
 		$ad_info = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->first();
@@ -370,13 +370,13 @@ class mh_ad extends ecjia_merchant {
 			}
 		} elseif ($type === 2) {
 			if (!empty($_POST['ad_code'])) {
-				$ad_code = $_POST['ad_code'];
+				$ad_code = remove_xss($_POST['ad_code']);
 			} else {
 				return $this->showmessage(__('广告的代码不能为空', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} elseif ($type === 3) {
 			if (!empty($_POST['ad_text'])) {
-				$ad_code = $_POST['ad_text'];
+				$ad_code = remove_xss($_POST['ad_text']);
 			} else {
 				return $this->showmessage(__('广告内容不能为空', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
@@ -385,14 +385,14 @@ class mh_ad extends ecjia_merchant {
 		if (empty($_POST['show_client'])) {
 			return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
+			$show_client = Ecjia\App\Adsense\Client::clientSelected(remove_xss($_POST['show_client']));
 		}
 		$position_id = intval($_POST['position_id']);
 		$show_client_value = intval($_POST['show_client_value']);
 		
 	
 		$old_enabled = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->pluck('enabled');
-		$now_end_time = $_POST['end_time'];
+		$now_end_time = remove_xss($_POST['end_time']);
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 	
 		if ($now > $now_end_time && $old_enabled != $enabled) {
@@ -414,7 +414,7 @@ class mh_ad extends ecjia_merchant {
 			);
 			
 			$ad_postion_db = RC_Model::model('adsense/orm_ad_position_model');
-			$new_cache_key = sprintf('%X', crc32('adsense_position-' . $_POST['position_id']));
+			$new_cache_key = sprintf('%X', crc32('adsense_position-' . intval($_POST['position_id'])));
 			$ad_postion_db->delete_cache_item($new_cache_key);
 			$old_cache_key = sprintf('%X', crc32('adsense_position-' . $ad_info['position_id']));
 			$ad_postion_db->delete_cache_item($old_cache_key);
@@ -476,7 +476,7 @@ class mh_ad extends ecjia_merchant {
 		$this->admin_priv('mh_adsense_update');
 	
 		$id = intval($_POST['pk']);
-		$ad_name = trim($_POST['value']);
+		$ad_name = remove_xss($_POST['value']);
 		$position_id  = intval($_GET['position_id']);
 		$show_client  = intval($_GET['show_client']);
 		
