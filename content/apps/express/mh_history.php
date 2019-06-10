@@ -153,16 +153,16 @@ class mh_history extends ecjia_merchant {
 		$db_data->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
 		$db_data->whereIn(RC_DB::raw('status'), array(5, 7));
 		
-		$type = !empty($_GET['type']) ? trim($_GET['type']) : 'platform';
+		$type = !empty($_GET['type']) ? remove_xss($_GET['type']) : 'platform';
 		
 		if ($_GET['start_date'] && $_GET['end_date']) {
-			$start_date = RC_Time::local_strtotime($_GET['start_date']);
-			$end_date	= RC_Time::local_strtotime($_GET['end_date']);
+			$start_date = RC_Time::local_strtotime(remove_xss($_GET['start_date']));
+			$end_date	= RC_Time::local_strtotime(remove_xss($_GET['end_date']));
 			$db_data->where('signed_time', '>=', $start_date);
 			$db_data->where('signed_time', '<', $end_date + 86400);
 		}
 		
-		$filter['keyword']	 = trim($_GET['keyword']);
+		$filter['keyword']	 = remove_xss($_GET['keyword']);
 		if ($filter['keyword']) {
 			$db_data ->whereRaw('(express_user  like  "%'.mysql_like_quote($filter['keyword']).'%"  or express_sn like "%'.mysql_like_quote($filter['keyword']).'%")');
 		}

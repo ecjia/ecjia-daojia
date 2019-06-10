@@ -112,8 +112,8 @@ class mh_match extends ecjia_merchant {
 		$this->assign('form_action', RC_Uri::url('express/mh_match/detail'));
 		$start_date = $end_date = '';
 		if (isset($_GET['start_date']) && !empty($_GET['end_date'])) {
-			$start_date	= RC_Time::local_strtotime($_GET['start_date']);
-			$end_date	= RC_Time::local_strtotime($_GET['end_date']);
+			$start_date	= RC_Time::local_strtotime(remove_xss($_GET['start_date']));
+			$end_date	= RC_Time::local_strtotime(remove_xss($_GET['end_date']));
 		} else {
 			$start_date	= RC_Time::local_strtotime(RC_Time::local_date(ecjia::config('date_format'), strtotime('-1 month')-8*3600));
 			$end_date	= RC_Time::local_strtotime(RC_Time::local_date(ecjia::config('date_format')));
@@ -168,7 +168,7 @@ class mh_match extends ecjia_merchant {
 		$db_data->where(RC_DB::raw('parent_id'), '<>', 0);
 		$db_data->where(RC_DB::raw('group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 	
-		$filter['keyword']	 = trim($_GET['keyword']);
+		$filter['keyword']	 = remove_xss($_GET['keyword']);
 		if ($filter['keyword']) {
 			$db_data ->whereRaw('(name  like  "%'.mysql_like_quote($filter['keyword']).'%"  or mobile like "%'.mysql_like_quote($filter['keyword']).'%")');
 		}

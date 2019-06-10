@@ -87,7 +87,7 @@ class mh_express extends ecjia_merchant {
 		$this->assign('ur_here', __('配送员管理', 'express'));
 		$this->assign('action_link', array('text' => __('添加配送员', 'express'), 'href' => RC_Uri::url('staff/merchant/add', array('step'=>1))));
 		
-		$type = trim($_GET['type']);
+		$type = remove_xss($_GET['type']);
 		$this->assign('type', $type);
 		$data = $this->get_express_list($type);
 		$this->assign('data', $data);
@@ -131,7 +131,7 @@ class mh_express extends ecjia_merchant {
 	public function batch() {
 		$this->admin_priv('mh_express_delete');
 
-		$ids  = explode(',', $_POST['user_id']);
+		$ids  = explode(',', intval($_POST['user_id']));
 		RC_DB::table('staff_user')->whereIn('user_id', $ids)->delete();
 		RC_DB::table('express_user')->whereIn('user_id', $ids)->delete();
 		
@@ -212,8 +212,8 @@ class mh_express extends ecjia_merchant {
 
 		$start_date = $end_date = '';
 		if (isset($_GET['start_date']) && !empty($_GET['end_date'])) {
-			$start_date	= RC_Time::local_strtotime($_GET['start_date']);
-			$end_date	= RC_Time::local_strtotime($_GET['end_date']);
+			$start_date	= RC_Time::local_strtotime(remove_xss($_GET['start_date']));
+			$end_date	= RC_Time::local_strtotime(remove_xss($_GET['end_date']));
 		} else {
 			$start_date	= RC_Time::local_strtotime(RC_Time::local_date(ecjia::config('date_format'), strtotime('-1 month')-8*3600));
 			$end_date	= RC_Time::local_strtotime(RC_Time::local_date(ecjia::config('date_format')));
@@ -256,7 +256,7 @@ class mh_express extends ecjia_merchant {
 		$db_data->where(RC_DB::raw('group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 		$db_data->where(RC_DB::raw('parent_id'), '<>', 0);
 		
-		$filter['keyword']	 = trim($_GET['keyword']);
+		$filter['keyword']	 = remove_xss($_GET['keyword']);
 		if ($filter['keyword']) {
 			$db_data ->whereRaw('(su.name  like  "%'.mysql_like_quote($filter['keyword']).'%"  or su.mobile like "%'.mysql_like_quote($filter['keyword']).'%")');
 		}

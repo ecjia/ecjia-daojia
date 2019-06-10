@@ -97,7 +97,7 @@ class merchant extends ecjia_merchant {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($title));
 		$this->assign('ur_here', $title);
 		
-		$type = empty($_GET['type']) ? 'wait_grab' : trim($_GET['type']);
+		$type = empty($_GET['type']) ? 'wait_grab' : remove_xss($_GET['type']);
 		$this->assign('type', $type);
 		
 		/*待派单列表*/
@@ -113,7 +113,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('first_express_id', $first_express_order_id);
 		
 		/*配送员列表*/
-		$keywords = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+		$keywords = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
 		$express_user_list = $this->get_express_user_list($type, $keywords);
 		
 		/*配送员列表与第一个订单之间的距离数组*/
@@ -185,8 +185,8 @@ class merchant extends ecjia_merchant {
 	public function get_nearest_exuser() {
 		$this->admin_priv('mh_express_task_manage');
 		
-		$sf_lng = $_POST['sf_lng'];
-		$sf_lat = $_POST['sf_lat'];
+		$sf_lng = remove_xss($_POST['sf_lng']);
+		$sf_lat = remove_xss($_POST['sf_lat']);
 		/*配送员列表*/
 		$express_user_list = $this->get_express_user_list();
 		
@@ -253,7 +253,7 @@ class merchant extends ecjia_merchant {
 		}
 
 		$staff_id = intval($_GET['staff_id']);
-		$type 	  = $_GET['type'];
+		$type 	  = remove_xss($_GET['type']);
 		
 		$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.expect_shipping_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as sf_longitude, sf.latitude as sf_latitude';
 			$dbview = RC_DB::table('express_order as eo')
@@ -366,7 +366,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_express_task_manage');
 	
 		$express_id = intval($_GET['express_id']);
-		$type = trim($_GET['type']);
+		$type = remove_xss($_GET['type']);
 		
 		$platform = intval($_GET['platform']);
 		$this->assign('platform', $platform);
@@ -434,8 +434,8 @@ class merchant extends ecjia_merchant {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($title));
 		$this->assign('ur_here', $title);
 	
-		$type = empty($_GET['type']) ? 'wait_pickup' : trim($_GET['type']);
-		$keywords = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+		$type = empty($_GET['type']) ? 'wait_pickup' : remove_xss($_GET['type']);
+		$keywords = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
 		$this->assign('type', $type);
 	
 		/*待取货列表*/
@@ -458,7 +458,7 @@ class merchant extends ecjia_merchant {
 	
 		$express_id = intval($_GET['express_id']);
 		$store_id   = intval($_GET['store_id']);
-		$type = trim($_GET['type']);
+		$type = remove_xss($_GET['type']);
 	
 		$express_info = RC_DB::table('express_order as eo')
 							->leftJoin('express_user as eu', RC_DB::raw('eo.staff_id'), '=', RC_DB::raw('eu.user_id'))
@@ -488,7 +488,7 @@ class merchant extends ecjia_merchant {
 	
 		$express_id = intval($_GET['express_id']);
 		$store_id   = intval($_GET['store_id']);
-		$type       = trim($_GET['type']);
+		$type       = remove_xss($_GET['type']);
 		
 		$express_info = RC_DB::table('express_order as eo')
 		->leftJoin('express_user as eu', RC_DB::raw('eo.staff_id'), '=', RC_DB::raw('eu.user_id'))
@@ -526,7 +526,7 @@ class merchant extends ecjia_merchant {
 	public function waitgrablist_search_user() {
 		$this->admin_priv('mh_express_task_manage');
 		
-		$type = $_GET['type'];
+		$type = remove_xss($_GET['type']);
 		
 		/*配送员列表*/
 		$express_user_list = $this->get_express_user_list();
@@ -554,8 +554,8 @@ class merchant extends ecjia_merchant {
 	public function reassign_search_user() {
 		$this->admin_priv('mh_express_task_manage');
 		
-		$type = $_GET['type'];
-		$keywords = $_GET['keywords'];
+		$type = remove_xss($_GET['type']);
+		$keywords = remove_xss($_GET['keywords']);
 		
  		/*配送员列表*/
 		$express_user_list = $this->get_express_user_list($type, $keywords);
@@ -577,7 +577,7 @@ class merchant extends ecjia_merchant {
         /* 检查权限 */
         $this->admin_priv('mh_express_task_manage', ecjia::MSGTYPE_JSON);
 
-        $delivery_sn = trim($_POST['sn']);
+        $delivery_sn = remove_xss($_POST['sn']);
         if (empty($delivery_sn)) {
             return $this->showmessage(__('配送单号不能为空', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -650,7 +650,7 @@ class merchant extends ecjia_merchant {
 
     //提醒指派
     public function remind_assign() {
-    	$express_id = trim($_GET['id']);
+    	$express_id = intval($_GET['id']);
     	$express_sn = RC_DB::table('express_order')->where('express_id', $express_id)->where('store_id', $_SESSION['store_id'])->pluck('express_sn');
     	if (empty($express_sn)) {
     		return $this->showmessage(__('该配送单不存在', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -687,7 +687,7 @@ class merchant extends ecjia_merchant {
 				  eo.longitude, eo.latitude, eo.express_user, eo.express_mobile, eo.staff_id, eo.from, eo.receive_time, sf.province as sf_province, sf.city as sf_city, sf.longitude as sf_longitude, sf.latitude as sf_latitude, 
 				  sf.district as sf_district, sf.street as sf_street, sf.address as sf_address';
 		
-		$filter['keywords']	= empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+		$filter['keywords']	= empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
 		$filter['type'] 	= empty($type) ? 'wait_grab' : $type;
 		
 		$db = RC_DB::table('express_order');
@@ -763,7 +763,7 @@ class merchant extends ecjia_merchant {
 		->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));
 		$express_user_view->where(RC_DB::raw('su.store_id'), $_SESSION['store_id']);
 		$express_user_view->where(RC_DB::raw('su.group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
-		$keywords = $_GET['keywords'];
+		$keywords = remove_xss($_GET['keywords']);
 		if (!empty($keywords)) {
 			$express_user_view ->whereRaw('(su.name  like  "%'.mysql_like_quote($keywords).'%")');
 		}
