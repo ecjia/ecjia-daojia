@@ -7292,8 +7292,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.12.0';
-    const RELEASE = '2019-05-31';
+    const VERSION = '5.13.0';
+    const RELEASE = '2019-06-05';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -41191,6 +41191,9 @@ class ParseThemeStyle
 
 namespace Ecjia\System\BaseController {
 use ecjia;
+use Ecjia\System\Frameworks\Component\ShowMessage\Options\JsonShowMessageOption;
+use Ecjia\System\Frameworks\Component\ShowMessage\Options\PjaxShowMessageOption;
+use Ecjia\System\Frameworks\Component\ShowMessage\ShowMessage;
 use ecjia_utility;
 use RC_DB;
 use RC_Redirect;
@@ -41355,10 +41358,10 @@ abstract class EcjiaController extends RoyalcmsController
     public function load_constants()
     {
     }
-    public function showmessage($message, $type = ecjia::MSGTYPE_HTML, $options = array())
+    public function showmessage($message, $msgtype = ecjia::MSGTYPE_HTML, $options = array())
     {
-        $state = $type & 0xf;
-        $type = $type & 0xf0;
+        $state = $msgtype & 0xf;
+        $type = $msgtype & 0xf0;
         if ($type === ecjia::MSGTYPE_JSON && !is_ajax()) {
             $type = ecjia::MSGTYPE_ALERT;
         }
@@ -41392,18 +41395,13 @@ abstract class EcjiaController extends RoyalcmsController
             }
             return $this->alert($message, $url);
         } elseif ($type === ecjia::MSGTYPE_JSON) {
-            $res = array('message' => $message);
-            if ($state === 0) {
-                $res['state'] = 'error';
-            } elseif ($state === 1) {
-                $res['state'] = 'success';
+            if ($options instanceof PjaxShowMessageOption) {
+                $options->setMessage($message);
+                $options->setState($state);
+                return (new ShowMessage($message, $msgtype, $options))->getResponse();
             }
-            if (!empty($options)) {
-                foreach ($options as $key => $val) {
-                    $res[$key] = $val;
-                }
-            }
-            return $this->ajax($res);
+            $jsonOption = (new JsonShowMessageOption())->setMessage($message)->setState($state)->setOptions($options);
+            return (new ShowMessage($message, $msgtype, $jsonOption))->getResponse();
         } elseif ($type === ecjia::MSGTYPE_XML) {
             return $this->ajax($message, 'xml');
         }
@@ -41458,14 +41456,19 @@ class ecjia_view
         $no_output_filter = isset($options['no_output_filter']) ? $options['no_output_filter'] : false;
         $content = $this->smarty->fetch($resource_name, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         if ($show) {
-            $charset = strtoupper(RC_CHARSET) == 'UTF8' ? "UTF-8" : strtoupper(RC_CHARSET);
-            if (!headers_sent()) {
-                header("Content-type:" . $content_type . ';charset=' . $charset);
-            }
-            echo $content;
+            return $this->displayContent($content, $content_type);
         } else {
             return $content;
         }
+    }
+    public function displayContent($content, $content_type = 'text/html')
+    {
+        $response = royalcms('response');
+        if ($content_type) {
+            $response->header('Content-Type', $content_type);
+        }
+        $response->setContent($content);
+        return $response;
     }
     public function fetch($tpl_file = null, $cache_id = null, $options = array())
     {
