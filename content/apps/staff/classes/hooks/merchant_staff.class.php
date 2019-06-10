@@ -68,7 +68,7 @@ class merchant_staff_hooks
         
         ecjia_admin::$controller->assign('merchant_info', $merchant_info);
 
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_information.lbi', true)
         );
     }
@@ -81,7 +81,7 @@ class merchant_staff_hooks
         $user_info['last_login'] = RC_Time::local_date('Y-m-d H:i', $user_info['last_login']);
 
         ecjia_admin::$controller->assign('user_info', $user_info);
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_profile.lbi', true)
         );
     }
@@ -89,7 +89,7 @@ class merchant_staff_hooks
     //联系平台
     public static function merchant_dashboard_right_4_2()
     {
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_contact.lbi', true)
         );
     }
@@ -110,7 +110,7 @@ class merchant_staff_hooks
             }
         }
         ecjia_merchant::$controller->assign('list', $list);
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_notice.lbi', true)
         );
     }
@@ -132,8 +132,8 @@ class merchant_staff_hooks
 			}
 		}
     	ecjia_merchant::$controller->assign('list', $list);
-    	
-    	ecjia_merchant::$controller->display(
+
+        return ecjia_merchant::$controller->fetch(
     		RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_shopmsg.lbi', true)
     	);
     }
@@ -158,7 +158,7 @@ class merchant_staff_hooks
         }
         ecjia_admin::$controller->assign('log_lists', $data);
 
-        ecjia_merchant::$controller->display(
+        echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_loglist.lbi', true)
         );
     }
@@ -180,7 +180,7 @@ class merchant_staff_hooks
     		array('title' => '小程序模板', 'url' => RC_Uri::url('merchant/merchant/template'), 'img' => $statics_url.'img/merchant_dashboard/weapp.png'),
     	);
     	ecjia_admin::$controller->assign('list', $list);
-    	ecjia_merchant::$controller->display(
+    	echo ecjia_merchant::$controller->fetch(
     		RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_fastenter.lbi', true)
     	);
     }
