@@ -79,7 +79,7 @@ class admin_main_hooks {
 	    ecjia_admin::$controller->assign('title',      $title);
 	    ecjia_admin::$controller->assign('help_urls',  $help_urls);
 	    
-	    ecjia_admin::$controller->display(RC_Package::package('app::main')->loadTemplate('admin/library/widget_admin_dashboard_product_help.lbi', true));
+	    echo ecjia_admin::$controller->fetch(RC_Package::package('app::main')->loadTemplate('admin/library/widget_admin_dashboard_product_help.lbi', true));
 	}
 
 	public static function set_daojia_admin_cpname($name) 
@@ -93,7 +93,7 @@ class admin_main_hooks {
 	        $ecjia_version = RC_Config::get('release.version');
 	        $ecjia_release = RC_Config::get('release.build');
 	        $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
-	        $ecjia_about_url = RC_Uri::url('@index/about_us');
+	        $ecjia_about_url = RC_Uri::url('@about/about_us');
 	        $welcomeecjia 	= __('欢迎使用ECJia到家', 'main');
 	        $description 	= __("EC+（ecjia）到家是由上海商创网络科技有限公司推出的，一款可开展O2O业务的移动电商系统。
 	            它包含：移动端APP，采用原生模式开发，覆盖使用iOS 及Android系统的移动终端；后台系统，针对平台日常运营维护
@@ -120,7 +120,7 @@ WELCOME;
 	        echo $welcome;
 	    } else {
 	        $license_logo = RC_Uri::admin_url('statics/images/license-logo.png');
-	        $license_url = RC_Uri::url('admincp/index/license');
+	        $license_url = RC_Uri::url('@license/license');
 	        $certificate = ecjia_license::instance()->get_certificate();
 	        $license_domain = $certificate['subject']['commonName'];
             $license = __('终身商业授权', 'main');
