@@ -112,13 +112,13 @@ class mh_cashier_scales extends ecjia_merchant {
 		// 检查权限
 		$this->admin_priv('mh_scales_update', ecjia::MSGTYPE_JSON);
 		
-		$barcode_mode 		= !empty($_POST['barcode_mode'])  ? $_POST['barcode_mode'] : 1;
-		$scale_sn 			= !empty($_POST['scale_sn'])  ? trim($_POST['scale_sn']) : '';
-		$date_format 		= !empty($_POST['date_format'])  ? $_POST['date_format'] : 1;
-		$weight_unit 		= !empty($_POST['weight_unit'])  ? $_POST['weight_unit'] : 1;
-		$price_unit 		= !empty($_POST['price_unit'])  ? $_POST['price_unit'] : 1;
-		$wipezero 			= empty($_POST['wipezero']) ? 0 : $_POST['wipezero'];
-		$reserve_quantile 	= empty($_POST['reserve_quantile']) ? 0 : $_POST['reserve_quantile'];
+		$barcode_mode 		= !empty($_POST['barcode_mode'])  ? remove_xss($_POST['barcode_mode']) : 1;
+		$scale_sn 			= !empty($_POST['scale_sn'])  ? remove_xss($_POST['scale_sn']) : '';
+		$date_format 		= !empty($_POST['date_format'])  ? remove_xss($_POST['date_format']) : 1;
+		$weight_unit 		= !empty($_POST['weight_unit'])  ? remove_xss($_POST['weight_unit']) : 1;
+		$price_unit 		= !empty($_POST['price_unit'])  ? remove_xss($_POST['price_unit']) : 1;
+		$wipezero 			= empty($_POST['wipezero']) ? 0 : remove_xss($_POST['wipezero']);
+		$reserve_quantile 	= empty($_POST['reserve_quantile']) ? 0 : remove_xss($_POST['reserve_quantile']);
 		
 		if (empty($scale_sn)) {
 			return $this->showmessage(__('请输入条码秤码！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -161,7 +161,7 @@ class mh_cashier_scales extends ecjia_merchant {
 	
 		$this->assign('ur_here', __('编辑条码秤', 'cashier'));
 		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_scales/init'), 'text' => __('条码秤列表', 'cashier')));
-		$id = $_GET['id'];
+		$id = intval($_GET['id']);
 		/* 条码秤信息 */
 		$scales_info = RC_DB::table('cashier_scales')->where('id', $id)->where('store_id', $_SESSION['store_id'])->first();
 	
@@ -179,14 +179,14 @@ class mh_cashier_scales extends ecjia_merchant {
 	public function update() {
 		$this->admin_priv('mh_scales_update', ecjia::MSGTYPE_JSON);
 	
-		$id = $_POST['id'];
-		$barcode_mode 		= !empty($_POST['barcode_mode'])  ? $_POST['barcode_mode'] : 1;
-		$scale_sn 			= !empty($_POST['scale_sn'])  ? trim($_POST['scale_sn']) : '';
-		$date_format 		= !empty($_POST['date_format'])  ? $_POST['date_format'] : 1;
-		$weight_unit 		= !empty($_POST['weight_unit'])  ? $_POST['weight_unit'] : 1;
-		$price_unit 		= !empty($_POST['price_unit'])  ? $_POST['price_unit'] : 1;
-		$wipezero 			= $_POST['wipezero'];
-		$reserve_quantile 	= $_POST['reserve_quantile'];
+		$id = intval($_POST['id']);
+		$barcode_mode 		= !empty($_POST['barcode_mode'])  ? remove_xss($_POST['barcode_mode']) : 1;
+		$scale_sn 			= !empty($_POST['scale_sn'])  ? remove_xss($_POST['scale_sn']) : '';
+		$date_format 		= !empty($_POST['date_format'])  ? remove_xss($_POST['date_format']) : 1;
+		$weight_unit 		= !empty($_POST['weight_unit'])  ? remove_xss($_POST['weight_unit']) : 1;
+		$price_unit 		= !empty($_POST['price_unit'])  ? remove_xss($_POST['price_unit']) : 1;
+		$wipezero 			= remove_xss($_POST['wipezero']);
+		$reserve_quantile 	= remove_xss($_POST['reserve_quantile']);
 		
 		if (empty($scale_sn)) {
 			return $this->showmessage(__('请输入条码秤码！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

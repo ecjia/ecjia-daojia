@@ -111,7 +111,7 @@ class mh_bulk_goods extends ecjia_merchant {
 	 */
 	public function batch() {
 		/* 取得要操作的商品编号 */
-		$goods_id = !empty($_POST['checkboxes']) ? $_POST['checkboxes'] : 0;
+		$goods_id = !empty($_POST['checkboxes']) ? remove_xss($_POST['checkboxes']) : 0;
 		
 		if (!isset($_GET['type']) || $_GET['type'] == '') {
 			return $this->showmessage(__('请选择操作', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -149,7 +149,7 @@ class mh_bulk_goods extends ecjia_merchant {
 				if (empty($_GET['target_cat'])) {
 					return $this->showmessage(__('请先选择要转移的分类', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
-				Ecjia\App\Cashier\BulkGoods::update_goods($goods_id, 'merchant_cat_id', $_GET['target_cat']);
+				Ecjia\App\Cashier\BulkGoods::update_goods($goods_id, 'merchant_cat_id', remove_xss($_GET['target_cat']));
 				$action = 'batch_move_cat';
 			}
 		}
@@ -161,7 +161,7 @@ class mh_bulk_goods extends ecjia_merchant {
 			}
 		}
 	
-		$page = empty($_GET['page']) ? '&page=1' : '&page='.$_GET['page'];
+		$page = empty($_GET['page']) ? '&page=1' : '&page='.intval($_GET['page']);
 	
 		$pjaxurl = RC_Uri::url('cashier/mh_bulk_goods/init' ,$page);
 	
@@ -175,7 +175,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		$this->admin_priv('mh_bulk_goods_update', ecjia::MSGTYPE_JSON);
 	
 		$goods_id = intval($_POST['pk']);
-		$goods_name = trim($_POST['value']);
+		$goods_name = remove_xss($_POST['value']);
 		
 		if (!empty($goods_name)) {
 			RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update(array('goods_name' => $goods_name, 'last_update' => RC_Time::gmtime()));
@@ -192,7 +192,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		$this->admin_priv('mh_bulk_goods_update', ecjia::MSGTYPE_JSON);
 	
 		$goods_id = intval($_POST['pk']);
-		$goods_sn = trim($_POST['value']);
+		$goods_sn = remove_xss($_POST['value']);
 	
 		if (empty($goods_sn)) {
 			return $this->showmessage(__('请输入商品货号', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -350,7 +350,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		
 		$volume_price_list = '';
 		if (isset($_GET['goods_id'])) {
-			$volume_price_list = Ecjia\App\Cashier\BulkGoods::get_volume_price_list($_GET['goods_id']);
+			$volume_price_list = Ecjia\App\Cashier\BulkGoods::get_volume_price_list(intval($_GET['goods_id']));
 		}
 		if (empty($volume_price_list)) {
 			$volume_price_list = array('0' => array('number' => '', 'price' => ''));
@@ -369,7 +369,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		$this->admin_priv('mh_bulk_goods_update', ecjia::MSGTYPE_JSON);
 	
 		
-		$goods_sn = trim($_POST['goods_sn']);
+		$goods_sn = remove_xss($_POST['goods_sn']);
 		if (empty($goods_sn)) {
 			return $this->showmessage(__('请填写商品货号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -396,28 +396,28 @@ class mh_bulk_goods extends ecjia_merchant {
 		}
 	
 		/* 处理商品数据 */
-		$shop_price 	= !empty($_POST['shop_price']) 		? $_POST['shop_price'] 				: 0;
-		$market_price 	= !empty($_POST['market_price']) && is_numeric($_POST['market_price']) ? $_POST['market_price'] : 0;
+		$shop_price 	= !empty($_POST['shop_price']) 		? floatval($_POST['shop_price']) 				: 0;
+		$market_price 	= !empty($_POST['market_price']) && is_numeric($_POST['market_price']) ? floatval($_POST['market_price']) : 0;
 		$promote_price 	= !empty($_POST['promote_price']) 	? floatval($_POST['promote_price']) : 0;
 		$is_promote 	= empty($promote_price) 			? 0 								: 1;
 
-		$promote_start_date = ($is_promote && !empty($_POST['promote_start_date'])) ? RC_Time::local_strtotime($_POST['promote_start_date']) 	: 0;
-		$promote_end_date 	= ($is_promote && !empty($_POST['promote_end_date'])) 	? RC_Time::local_strtotime($_POST['promote_end_date']) 		: 0;
-		$weight_stock		= !empty($_POST['weight_stock']) && is_numeric($_POST['weight_stock']) ? $_POST['weight_stock'] : 0.000;
-		$weight_unit		= !empty($_POST['weight_unit']) && is_numeric($_POST['weight_unit']) ? $_POST['weight_unit'] : 1;
+		$promote_start_date = ($is_promote && !empty($_POST['promote_start_date'])) ? RC_Time::local_strtotime(remove_xss($_POST['promote_start_date'])) 	: 0;
+		$promote_end_date 	= ($is_promote && !empty($_POST['promote_end_date'])) 	? RC_Time::local_strtotime(remove_xss($_POST['promote_end_date'])) 		: 0;
+		$weight_stock		= !empty($_POST['weight_stock']) && is_numeric($_POST['weight_stock']) ? remove_xss($_POST['weight_stock']) : 0.000;
+		$weight_unit		= !empty($_POST['weight_unit']) && is_numeric($_POST['weight_unit']) ? remove_xss($_POST['weight_unit']) : 1;
 		
-		$cost_price 	= !empty($_POST['cost_price']) && is_numeric($_POST['cost_price']) ? $_POST['cost_price'] : 0.00;
-		$generate_date 	= !empty($_POST['generate_date'])? trim($_POST['generate_date']) : '';
-		$limit_days 	= !empty($_POST['limit_days'])? $_POST['limit_days'] : 0;
-		$expiry_date 	= !empty($_POST['expiry_date'])? $_POST['expiry_date'] : '';
+		$cost_price 	= !empty($_POST['cost_price']) && is_numeric($_POST['cost_price']) ? floatval($_POST['cost_price']) : 0.00;
+		$generate_date 	= !empty($_POST['generate_date'])? remove_xss($_POST['generate_date']) : '';
+		$limit_days 	= !empty($_POST['limit_days'])? remove_xss($_POST['limit_days']) : 0;
+		$expiry_date 	= !empty($_POST['expiry_date'])? remove_xss($_POST['expiry_date']) : '';
 		
 		$is_on_sale 	= !empty($_POST['is_on_sale']) 		? 1 : 0;
-		$warn_number 	= !empty($_POST['warn_number'])		? $_POST['warn_number'] 	: 0;
+		$warn_number 	= !empty($_POST['warn_number'])		? remove_xss($_POST['warn_number']) 	: 0;
 
 		$goods_name 		= isset($_POST['goods_name']) 		? htmlspecialchars($_POST['goods_name']) 		: '';
 		$merchant_cat_id 	= empty($_POST['merchant_cat_id']) 	? '' 	: intval($_POST['merchant_cat_id']);
 		//保质期
-		$limit_days_unit = $_POST['limit_days_unit'];
+		$limit_days_unit = remove_xss($_POST['limit_days_unit']);
 		if (!empty($limit_days)) {
 			if ($limit_days_unit == '1') {
 				$limit_days_final = $limit_days.' day';
@@ -457,11 +457,11 @@ class mh_bulk_goods extends ecjia_merchant {
 				'promote_end_date'      => $promote_end_date,
 // 				'keywords'              => $_POST['keywords'],
 // 				'goods_brief'           => $_POST['goods_brief'],
-				'seller_note'           => $_POST['seller_note'],
+				'seller_note'           => remove_xss($_POST['seller_note']),
 				'goods_weight'          => 0.000,
 				'goods_number'          => 1000,
 				'warn_number'           => $warn_number,
-				'integral'              => $_POST['integral'],
+				'integral'              => remove_xss($_POST['integral']),
 				'store_best'            => 0,
 				'store_new'             => 0,
 				'store_hot'             => 0,
@@ -489,18 +489,18 @@ class mh_bulk_goods extends ecjia_merchant {
 		ecjia_merchant::admin_log($goods_name, 'add', 'bulk_goods');
 		/* 处理会员价格 */
 		if (isset($_POST['user_rank']) && isset($_POST['user_price'])) {
-			Ecjia\App\Cashier\BulkGoods::handle_member_price($goods_id, $_POST['user_rank'], $_POST['user_price']);
+			Ecjia\App\Cashier\BulkGoods::handle_member_price($goods_id, remove_xss($_POST['user_rank']), remove_xss($_POST['user_price']));
 		}
 	
 		/* 处理优惠价格 */
 		if (isset($_POST['volume_number']) && isset($_POST['volume_price'])) {
-			$temp_num = array_count_values($_POST['volume_number']);
+			$temp_num = array_count_values(remove_xss($_POST['volume_number']));
 			foreach ($temp_num as $v) {
 				if ($v > 1) {
 					return $this->showmessage(__('优惠数量重复！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 			}
-			Ecjia\App\Cashier\BulkGoods::handle_volume_price($goods_id, $_POST['volume_number'], $_POST['volume_price']);
+			Ecjia\App\Cashier\BulkGoods::handle_volume_price($goods_id, remove_xss($_POST['volume_number']), remove_xss($_POST['volume_price']));
 		}
 		return $this->showmessage(__('添加散装商品成功！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_bulk_goods/edit', array('goods_id' => $goods_id))));
 	}
@@ -582,11 +582,11 @@ class mh_bulk_goods extends ecjia_merchant {
 		$this->assign('user_rank_list', 	Ecjia\App\Cashier\BulkGoods::get_rank_list());
 	
 		$this->assign('weight_unit', 		$goods['weight_unit']);
-		$this->assign('member_price_list', 	Ecjia\App\Cashier\BulkGoods::get_member_price_list($_GET['goods_id']));
+		$this->assign('member_price_list', 	Ecjia\App\Cashier\BulkGoods::get_member_price_list(intval($_GET['goods_id'])));
 	
 		$volume_price_list = '';
 		if (isset($_GET['goods_id'])) {
-			$volume_price_list = Ecjia\App\Cashier\BulkGoods::get_volume_price_list($_GET['goods_id']);
+			$volume_price_list = Ecjia\App\Cashier\BulkGoods::get_volume_price_list(intval($_GET['goods_id']));
 		}
 		if (empty($volume_price_list)) {
 			$volume_price_list = array('0' => array('number' => '', 'price' => ''));
@@ -605,7 +605,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		$this->admin_priv('mh_bulk_goods_update', ecjia::MSGTYPE_JSON);
 	
 		$goods_id = !empty($_POST['goods_id']) ? intval($_POST['goods_id']) : 0;
-		$goods_sn = trim($_POST['goods_sn']);
+		$goods_sn = remove_xss($_POST['goods_sn']);
 		if (empty($goods_sn)) {
 			return $this->showmessage(__('请填写商品货号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -633,22 +633,22 @@ class mh_bulk_goods extends ecjia_merchant {
 		}
 		
 		/* 处理商品数据 */
-		$shop_price 	= !empty($_POST['shop_price']) 		? $_POST['shop_price'] 				: 0;
-		$market_price 	= !empty($_POST['market_price']) && is_numeric($_POST['market_price']) ? $_POST['market_price'] : 0;
+		$shop_price 	= !empty($_POST['shop_price']) 		? floatval($_POST['shop_price']) 				: 0;
+		$market_price 	= !empty($_POST['market_price']) && is_numeric($_POST['market_price']) ? floatval($_POST['market_price']) : 0;
 		$promote_price 	= !empty($_POST['promote_price']) 	? floatval($_POST['promote_price']) : 0;
 		$is_promote 	= empty($_POST['is_promote']) 		? 0 								: 1;
 
-		$promote_start_date = ($is_promote && !empty($_POST['promote_start_date'])) ? RC_Time::local_strtotime($_POST['promote_start_date']) 	: 0;
-		$promote_end_date 	= ($is_promote && !empty($_POST['promote_end_date'])) 	? RC_Time::local_strtotime($_POST['promote_end_date']) 		: 0;
-		$weight_stock		= !empty($_POST['weight_stock']) && is_numeric($_POST['weight_stock']) ? $_POST['weight_stock'] : 0.000;
-		$weight_unit		= !empty($_POST['weight_unit']) && is_numeric($_POST['weight_unit']) ? $_POST['weight_unit'] : 1;
+		$promote_start_date = ($is_promote && !empty($_POST['promote_start_date'])) ? RC_Time::local_strtotime(remove_xss($_POST['promote_start_date'])) 	: 0;
+		$promote_end_date 	= ($is_promote && !empty($_POST['promote_end_date'])) 	? RC_Time::local_strtotime(remove_xss($_POST['promote_end_date'])) 		: 0;
+		$weight_stock		= !empty($_POST['weight_stock']) && is_numeric($_POST['weight_stock']) ? remove_xss($_POST['weight_stock']) : 0.000;
+		$weight_unit		= !empty($_POST['weight_unit']) && is_numeric($_POST['weight_unit']) ? remove_xss($_POST['weight_unit']) : 1;
 		
-		$cost_price 	= !empty($_POST['cost_price']) && is_numeric($_POST['cost_price']) ? $_POST['cost_price'] : 0.00;
-		$generate_date 	= !empty($_POST['generate_date'])? trim($_POST['generate_date']) : '';
-		$limit_days 	= !empty($_POST['limit_days'])? $_POST['limit_days'] : 0;
-		$expiry_date 	= !empty($_POST['expiry_date'])? $_POST['expiry_date'] : '';
+		$cost_price 	= !empty($_POST['cost_price']) && is_numeric($_POST['cost_price']) ? floatval($_POST['cost_price']) : 0.00;
+		$generate_date 	= !empty($_POST['generate_date'])? remove_xss($_POST['generate_date']) : '';
+		$limit_days 	= !empty($_POST['limit_days'])? remove_xss($_POST['limit_days']) : 0;
+		$expiry_date 	= !empty($_POST['expiry_date'])? remove_xss($_POST['expiry_date']) : '';
 		//保质期
-		$limit_days_unit = $_POST['limit_days_unit'];
+		$limit_days_unit = intval($_POST['limit_days_unit']);
 		if (!empty($limit_days)) {
 			if ($limit_days_unit == '1') {
 				$limit_days_final = $limit_days.' day';
@@ -665,7 +665,7 @@ class mh_bulk_goods extends ecjia_merchant {
 			$exppire_date = Ecjia\App\Cashier\BulkGoods::expiry_date($generate_date, $limit_days, $limit_days_unit);
 		}
 		$is_on_sale 	= isset($_POST['is_on_sale']) 		? 1 : 0;
-		$warn_number 	= isset($_POST['warn_number']) 		? $_POST['warn_number'] 	: 0;
+		$warn_number 	= isset($_POST['warn_number']) 		? remove_xss($_POST['warn_number']) 	: 0;
 		$goods_name 		= htmlspecialchars($_POST['goods_name']);
 		$merchant_cat_id 	= empty($_POST['merchant_cat_id']) 	? '' 	: intval($_POST['merchant_cat_id']);
 
@@ -695,11 +695,11 @@ class mh_bulk_goods extends ecjia_merchant {
 				'extension_code'			=> 'bulk',
 				'keywords'			  		=> '',
 				'goods_brief'		   		=> '',
-				'seller_note'		   		=> $_POST['seller_note'],
+				'seller_note'		   		=> remove_xss($_POST['seller_note']),
 				'goods_weight'		 		=> 0.000,
 				'goods_number'		  		=> 1000,
 				'warn_number'		   		=> $warn_number,
-				'integral'			  		=> $_POST['integral'],
+				'integral'			  		=> remove_xss($_POST['integral']),
 				'store_best'			   	=> 0,
 				'store_new'					=> 0,
 				'store_hot'					=> 0,
@@ -717,25 +717,25 @@ class mh_bulk_goods extends ecjia_merchant {
 		RC_DB::table('goods')->where('goods_id', $goods_id)->update($data);
 
 		/* 记录日志 */
-		ecjia_merchant::admin_log($_POST['goods_name'], 'edit', 'bulk_goods');
+		ecjia_merchant::admin_log(remove_xss($_POST['goods_name']), 'edit', 'bulk_goods');
 		//为更新用户购物车数据加标记
 		RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 
 		/* 处理会员价格 */
 		if (isset($_POST['user_rank']) && isset($_POST['user_price'])) {
-			Ecjia\App\Cashier\BulkGoods::handle_member_price($goods_id, $_POST['user_rank'], $_POST['user_price']);
+			Ecjia\App\Cashier\BulkGoods::handle_member_price($goods_id, remove_xss($_POST['user_rank']), floatval($_POST['user_price']));
 		}
 
 		/* 处理优惠价格 */
 		if (isset($_POST['volume_number']) && isset($_POST['volume_price'])) {
-			$temp_num = array_count_values($_POST['volume_number']);
+			$temp_num = array_count_values(remove_xss($_POST['volume_number']));
 			foreach ($temp_num as $v) {
 				if ($v > 1) {
 					return $this->showmessage(__('优惠数量重复！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 					break;
 				}
 			}
-			Ecjia\App\Cashier\BulkGoods::handle_volume_price($goods_id, $_POST['volume_number'], $_POST['volume_price']);
+			Ecjia\App\Cashier\BulkGoods::handle_volume_price($goods_id, remove_xss($_POST['volume_number']), floatval($_POST['volume_price']));
 		}
 		return $this->showmessage(__('编辑商品成功', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_bulk_goods/edit', array('goods_id' => $goods_id))));
 	}
@@ -759,9 +759,9 @@ class mh_bulk_goods extends ecjia_merchant {
 	 * 获取商品到期日期
 	 */
 	public function get_expire_date() {
-		$produce_date =  empty($_POST['produce_date']) ? '' : $_POST['produce_date'];
-		$limit_days =  empty($_POST['limit_days']) ? '' : trim($_POST['limit_days']);
-		$limit_unit =  empty($_POST['limit_unit']) ? '' : trim($_POST['limit_unit']);
+		$produce_date =  empty($_POST['produce_date']) ? '' : remove_xss($_POST['produce_date']);
+		$limit_days =  empty($_POST['limit_days']) ? '' : remove_xss($_POST['limit_days']);
+		$limit_unit =  empty($_POST['limit_unit']) ? '' : remove_xss($_POST['limit_unit']);
 		
 		if (!empty($produce_date) && !empty($limit_days) && !empty($limit_unit)) {
 			$produce_date_str = RC_Time::local_strtotime($produce_date);
@@ -780,11 +780,11 @@ class mh_bulk_goods extends ecjia_merchant {
 	 */
 	private function bulk_goods_list() {
 		/* 过滤条件 */
-		$filter ['keywords'] 		= empty ($_GET['keywords']) 		? '' 	: trim($_GET['keywords']);
-		$filter ['type'] 			= !empty($_GET['type']) 			? $_GET['type'] : '';
+		$filter ['keywords'] 		= empty ($_GET['keywords']) 		? '' 	: remove_xss($_GET['keywords']);
+		$filter ['type'] 			= !empty($_GET['type']) 			? remove_xss($_GET['type']) : '';
 	
-		$filter ['sort_by'] 		= empty($_GET['sort_by']) 	? 'store_sort_order' : trim($_GET['sort_by']);
-		$filter ['sort_order'] 		= empty($_GET['sort_order'])? 'asc' 			: trim($_GET['sort_order']);
+		$filter ['sort_by'] 		= empty($_GET['sort_by']) 	? 'store_sort_order' : remove_xss($_GET['sort_by']);
+		$filter ['sort_order'] 		= empty($_GET['sort_order'])? 'asc' 			: remove_xss($_GET['sort_order']);
 	
 		$db_goods = RC_DB::table('goods');
 		$db_goods->where('store_id', $_SESSION['store_id'])->where('is_delete', 0)->where('extension_code', 'bulk');

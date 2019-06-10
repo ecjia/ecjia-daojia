@@ -115,14 +115,14 @@ class mh_cashier_device extends ecjia_merchant {
 		// 检查权限
 		$this->admin_priv('mh_cashier_device_update', ecjia::MSGTYPE_JSON);
 		
-		$device_name 		= !empty($_POST['device_name'])  ? trim($_POST['device_name']) : '';
-		$device_mac 		= !empty($_POST['device_mac'])  ? trim($_POST['device_mac']) : '';
-		$product_sn 		= !empty($_POST['product_sn'])  ? trim($_POST['product_sn']) : '';
-		$device_type 		= !empty($_POST['device_type'])  ? trim($_POST['device_type']) : '';
-		$device_sn	 		= !empty($_POST['device_sn'])  ? trim($_POST['device_sn']) : '';
-		$keyboard_sn		= !empty($_POST['keyboard_sn'])  ? trim($_POST['keyboard_sn']) : '';
-		$status 			= empty($_POST['status']) ? 0 : $_POST['status'];
-		$cashier_type 		= empty($_POST['cashier_type']) ? 'cashier-desk' : trim($_POST['cashier_type']);
+		$device_name 		= !empty($_POST['device_name'])  ? remove_xss($_POST['device_name']) : '';
+		$device_mac 		= !empty($_POST['device_mac'])  ? remove_xss($_POST['device_mac']) : '';
+		$product_sn 		= !empty($_POST['product_sn'])  ? remove_xss($_POST['product_sn']) : '';
+		$device_type 		= !empty($_POST['device_type'])  ? remove_xss($_POST['device_type']) : '';
+		$device_sn	 		= !empty($_POST['device_sn'])  ? remove_xss($_POST['device_sn']) : '';
+		$keyboard_sn		= !empty($_POST['keyboard_sn'])  ? remove_xss($_POST['keyboard_sn']) : '';
+		$status 			= empty($_POST['status']) ? 0 : remove_xss($_POST['status']);
+		$cashier_type 		= empty($_POST['cashier_type']) ? 'cashier-desk' : remove_xss($_POST['cashier_type']);
 		
 		if (empty($device_name)) {
 			return $this->showmessage(__('请输入设备名称！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -177,7 +177,7 @@ class mh_cashier_device extends ecjia_merchant {
 	
 		$this->assign('ur_here', __('编辑收银设备', 'cashier'));
 		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_device/init'), 'text' => __('收银设备列表', 'cashier')));
-		$id = $_GET['id'];
+		$id = intval($_GET['id']);
 		/* 条码秤信息 */
 		$cashier_device_info = RC_DB::table('cashier_device')->where('id', $id)->where('store_id', $_SESSION['store_id'])->first();
 	
@@ -197,15 +197,15 @@ class mh_cashier_device extends ecjia_merchant {
 	public function update() {
 		$this->admin_priv('mh_cashier_device_update', ecjia::MSGTYPE_JSON);
 	
-		$id = $_POST['id'];
-		$device_name 		= !empty($_POST['device_name'])  ? trim($_POST['device_name']) : '';
-		$device_mac 		= !empty($_POST['device_mac'])  ? trim($_POST['device_mac']) : '';
-		$product_sn 		= !empty($_POST['product_sn'])  ? trim($_POST['product_sn']) : '';
-		$device_type 		= !empty($_POST['device_type'])  ? trim($_POST['device_type']) : '';
-		$device_sn 			= !empty($_POST['device_sn'])  ? trim($_POST['device_sn']) : '';
-		$keyboard_sn		= !empty($_POST['keyboard_sn'])  ? trim($_POST['keyboard_sn']) : '';
-		$status 			= empty($_POST['status']) ? 0 : $_POST['status'];
-		$cashier_type 		= empty($_POST['cashier_type']) ? 'cashier-desk' : trim($_POST['cashier_type']);
+		$id = intval($_POST['id']);
+		$device_name 		= !empty($_POST['device_name'])  ? remove_xss($_POST['device_name']) : '';
+		$device_mac 		= !empty($_POST['device_mac'])  ? remove_xss($_POST['device_mac']) : '';
+		$product_sn 		= !empty($_POST['product_sn'])  ? remove_xss($_POST['product_sn']) : '';
+		$device_type 		= !empty($_POST['device_type'])  ? remove_xss($_POST['device_type']) : '';
+		$device_sn 			= !empty($_POST['device_sn'])  ? remove_xss($_POST['device_sn']) : '';
+		$keyboard_sn		= !empty($_POST['keyboard_sn'])  ? remove_xss($_POST['keyboard_sn']) : '';
+		$status 			= empty($_POST['status']) ? 0 : remove_xss($_POST['status']);
+		$cashier_type 		= empty($_POST['cashier_type']) ? 'cashier-desk' : remove_xss($_POST['cashier_type']);
 		
 		if (empty($device_name)) {
 			return $this->showmessage(__('请输入设备名称！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -287,7 +287,7 @@ class mh_cashier_device extends ecjia_merchant {
 		$store_id = $_SESSION['store_id'];
 		$db = RC_DB::table('cashier_device');
 	
-		$keywords = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+		$keywords = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
 	
 		$db->where('store_id', $store_id);
 		
