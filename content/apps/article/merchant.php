@@ -144,18 +144,18 @@ class merchant extends ecjia_merchant {
 	public function insert() {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 
-		$title 	      = !empty($_POST['title'])     	? trim($_POST['title'])         : '';
-		$link     	  = !empty($_POST['link'])     		? trim($_POST['link'])      	: '';
+		$title 	      = !empty($_POST['title'])     	? remove_xss($_POST['title'])         : '';
+		$link     	  = !empty($_POST['link'])     		? remove_xss($_POST['link'])      	: '';
 		
-		$author       = !empty($_POST['author'])        ? trim($_POST['author'])        : '';
-		$author_email = !empty($_POST['author_email'])	? trim($_POST['author_email'])  : '';
+		$author       = !empty($_POST['author'])        ? remove_xss($_POST['author'])        : '';
+		$author_email = !empty($_POST['author_email'])	? remove_xss($_POST['author_email'])  : '';
 		
-		$keywords     = !empty($_POST['keywords'])    	? trim($_POST['keywords'])      : '';
-		$description  = !empty($_POST['description'])  	? trim($_POST['description'])   : '';
+		$keywords     = !empty($_POST['keywords'])    	? remove_xss($_POST['keywords'])      : '';
+		$description  = !empty($_POST['description'])  	? remove_xss($_POST['description'])   : '';
 		$content      = !empty($_POST['content'])    	? $_POST['content']       		: '';
 		
 		$cat_id       = !empty($_POST['cat_id'])     	? intval($_POST['cat_id']) 		: 0;
-		$article_type = !empty($_POST['article_type'])  ? trim($_POST['article_type'])	: 'article';
+		$article_type = !empty($_POST['article_type'])  ? remove_xss($_POST['article_type'])	: 'article';
 		
 		$file_name = '';
 		//获取上传文件的信息
@@ -264,8 +264,8 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 
 		$article_id   = !empty($_POST['article_id'])  ? intval($_POST['article_id'])              : 0;
-		$key          = !empty($_POST['key'])         ? htmlspecialchars(trim($_POST['key']))     : '';
-		$value        = !empty($_POST['value'])       ? htmlspecialchars(trim($_POST['value']))   : '';
+		$key          = !empty($_POST['key'])         ? htmlspecialchars(remove_xss($_POST['key']))     : '';
+		$value        = !empty($_POST['value'])       ? htmlspecialchars(remove_xss($_POST['value']))   : '';
 
 		$data = array(
 			'object_id'		=> $article_id,
@@ -408,18 +408,18 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 	
 		$id           = !empty($_POST['id']) 			? intval($_POST['id'])          : 0;
-		$title 	      = !empty($_POST['title'])     	? trim($_POST['title'])         : '';
-		$link     	  = !empty($_POST['link'])     		? trim($_POST['link'])      	: '';
+		$title 	      = !empty($_POST['title'])     	? remove_xss($_POST['title'])         : '';
+		$link     	  = !empty($_POST['link'])     		? remove_xss($_POST['link'])      	: '';
 		
-		$author       = !empty($_POST['author'])        ? trim($_POST['author'])        : '';
-		$author_email = !empty($_POST['author_email'])	? trim($_POST['author_email'])  : '';
+		$author       = !empty($_POST['author'])        ? remove_xss($_POST['author'])        : '';
+		$author_email = !empty($_POST['author_email'])	? remove_xss($_POST['author_email'])  : '';
 		
-		$keywords     = !empty($_POST['keywords'])    	? trim($_POST['keywords'])      : '';
-		$description  = !empty($_POST['description'])  	? trim($_POST['description'])   : '';
+		$keywords     = !empty($_POST['keywords'])    	? remove_xss($_POST['keywords'])      : '';
+		$description  = !empty($_POST['description'])  	? remove_xss($_POST['description'])   : '';
 		$content      = !empty($_POST['content'])    	? $_POST['content']       		: '';
 		
 		$cat_id       = !empty($_POST['cat_id'])     	? intval($_POST['cat_id']) 		: 0;
-		$article_type = !empty($_POST['article_type'])  ? trim($_POST['article_type'])	: 'article';
+		$article_type = !empty($_POST['article_type'])  ? remove_xss($_POST['article_type'])	: 'article';
 
 		$article = get_merchant_article_info($id);
 		if (empty($article)) {
@@ -570,7 +570,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('action_link', array('href' => RC_Uri::url('article/merchant/init'), 'text' => __('文章列表', 'article')));
 		$this->assign('ur_here', __('编辑关联商品', 'article'));
 		
-		$article_id = !empty($_GET['id']) ? $_GET['id'] : '';
+		$article_id = !empty($_GET['id']) ? intval($_GET['id']) : '';
 		
 		$article = get_merchant_article_info($article_id);
 		if (empty($article)) {
@@ -597,7 +597,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 
 		$article_id		= !empty($_GET['id']) 			? intval($_GET['id']) 	: 0;
-		$linked_array 	= !empty($_GET['linked_array']) ? $_GET['linked_array'] : '';
+		$linked_array 	= !empty($_GET['linked_array']) ? remove_xss($_GET['linked_array']) : '';
 
 		RC_DB::table('goods_article')->where('article_id', $article_id)->delete();
 
@@ -634,7 +634,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 
 		$id    	= !empty($_POST['pk'])    ? intval($_POST['pk'])      : 0;
-		$title 	= !empty($_POST['value']) ? trim($_POST['value'])     : '';
+		$title 	= !empty($_POST['value']) ? remove_xss($_POST['value'])     : '';
 		$cat_id = !empty($_POST['name'])  ? intval($_POST['name'])    : 0;
 
 		if (empty($title)) {
@@ -700,12 +700,12 @@ class merchant extends ecjia_merchant {
 	public function remove_comment() {
 		$this->admin_priv('mh_article_comment_update', ecjia::MSGTYPE_JSON);
 		
-		$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+		$type = !empty($_GET['type']) ? remove_xss($_GET['type']) : '';
 		$article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
 		
 		//批量删除
 		if ($type == 'batch') {
-			$ids = !empty($_POST['id']) ? $_POST['id'] : '';
+			$ids = !empty($_POST['id']) ? intval($_POST['id']) : '';
 			if (!is_array($ids)){
 				$ids = explode(',', $ids);
 			}
@@ -773,7 +773,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 
 		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+		$type = !empty($_GET['type']) ? remove_xss($_GET['type']) : '';
 		
 		$article = get_merchant_article_info($id);
 		$disk = RC_Filesystem::disk();
@@ -798,8 +798,8 @@ class merchant extends ecjia_merchant {
 	public function batch() {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 		
-		$action = !empty($_GET['sel_action']) ? trim($_GET['sel_action']) : 'move_to';
-		$article_ids = !empty($_POST['article_id']) ? $_POST['article_id'] : '';
+		$action = !empty($_GET['sel_action']) ? remove_xss($_GET['sel_action']) : 'move_to';
+		$article_ids = !empty($_POST['article_id']) ? intval($_POST['article_id']) : '';
 		
 		if (!is_array($article_ids)){
 			$article_ids = explode(',', $article_ids);
@@ -858,7 +858,7 @@ class merchant extends ecjia_merchant {
 	 * 搜索商品，仅返回名称及ID
 	 */
 	public function get_goods_list() {
-		$filter = $_GET['JSON'];
+		$filter = remove_xss($_GET['JSON']);
 		/*商家条件*/
 		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 			$filter['store_id'] = $_SESSION['store_id'];
@@ -885,7 +885,7 @@ class merchant extends ecjia_merchant {
 	public function article_comment() {
 		$this->admin_priv('mh_article_comment_manage');
 		
-		$id = !empty($_GET['id']) ? $_GET['id'] : '';
+		$id = !empty($_GET['id']) ? intval($_GET['id']) : '';
 		
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('文章评论列表', 'article')));
 		$this->assign('ur_here', __('文章评论列表', 'article'));
@@ -910,10 +910,10 @@ class merchant extends ecjia_merchant {
 		
 		$article_id = !empty($_POST['article_id']) ? intval($_POST['article_id']) : 0;
 		$comment_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$status = !empty($_POST['status']) ? $_POST['status'] : 0;
+		$status = !empty($_POST['status']) ? remove_xss($_POST['status']) : 0;
 		
-		$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
-		$keywords = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
+		$type = !empty($_GET['type']) ? remove_xss($_GET['type']) : '';
+		$keywords = !empty($_GET['keywords']) ? remove_xss($_GET['keywords']) : '';
 		
 		$pjax_url = RC_Uri::url('article/merchant/article_comment');
 		if (!empty($type)) {
@@ -965,8 +965,8 @@ class merchant extends ecjia_merchant {
 	public function batch_check() {
 		$this->admin_priv('mh_article_comment_update', ecjia::MSGTYPE_JSON);
 		
-		$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
-		$ids = !empty($_POST['id']) ? $_POST['id'] : '';
+		$type = !empty($_GET['type']) ? remove_xss($_GET['type']) : '';
+		$ids = !empty($_POST['id']) ? intval($_POST['id']) : '';
 		
 		if (!is_array($ids)){
 			$ids = explode(',', $ids);
@@ -1014,10 +1014,10 @@ class merchant extends ecjia_merchant {
 	 */
 	private function get_article_comment_list($id) {
 	    $filter = array();
-	    $filter['keywords']   = empty($_GET['keywords'])      ? ''    	: trim($_GET['keywords']);
-	    $filter['sort_by']    = empty($_GET['sort_by'])       ? 'dc.id'	: trim($_GET['sort_by']);
-	    $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC' 	: trim($_GET['sort_order']);
-	    $filter['type']   	  = empty($_GET['type'])      	  ? ''      : trim($_GET['type']);
+	    $filter['keywords']   = empty($_GET['keywords'])      ? ''    	: remove_xss($_GET['keywords']);
+	    $filter['sort_by']    = empty($_GET['sort_by'])       ? 'dc.id'	: remove_xss($_GET['sort_by']);
+	    $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC' 	: remove_xss($_GET['sort_order']);
+	    $filter['type']   	  = empty($_GET['type'])      	  ? ''      : remove_xss($_GET['type']);
 	    
 	    $db_dc = RC_DB::table('discuss_comments as dc')
     	    ->leftJoin('article as a', RC_DB::raw('dc.id_value'), '=', RC_DB::raw('a.article_id'))
@@ -1081,11 +1081,11 @@ class merchant extends ecjia_merchant {
 	 */
 	private function get_articles_list() {
 		$filter = array();
-		$filter['keywords']   = empty($_GET['keywords'])      ? ''                : trim($_GET['keywords']);
+		$filter['keywords']   = empty($_GET['keywords'])      ? ''                : remove_xss($_GET['keywords']);
 		$filter['cat_id']     = empty($_GET['cat_id'])        ? 0                 : intval($_GET['cat_id']);
 		
-		$filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : trim($_GET['sort_order']);
-		$filter['type']   	  = empty($_GET['type'])      	  ? ''                : trim($_GET['type']);
+		$filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : remove_xss($_GET['sort_order']);
+		$filter['type']   	  = empty($_GET['type'])      	  ? ''                : remove_xss($_GET['type']);
 		$filter['sort_by'] 	  = 'a.article_id';
 		
 		if (!empty($_GET['sort_by'])) {

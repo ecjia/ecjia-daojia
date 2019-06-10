@@ -96,7 +96,7 @@ class article_admin_hooks
         ecjia_admin::$controller->assign('article', $article);
         ecjia_admin::$controller->assign('article_comment', $article_comment);
 
-        ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_articlestats.lbi', 'article'));
+        echo ecjia_admin::$controller->fetch(ecjia_app::get_app_template('library/widget_admin_dashboard_articlestats.lbi', 'article'));
     }
 
     public static function append_admin_setting_group($menus)
