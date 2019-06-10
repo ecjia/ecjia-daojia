@@ -55,7 +55,6 @@ class callback extends ecjia_front
     public function __construct()
     {
         parent::__construct();
-
     }
     
     /**
@@ -65,13 +64,13 @@ class callback extends ecjia_front
      */
     public function init()
     {
-        $connect_code = $this->request->query('connect_code');
+        $connect_code = remove_xss($this->request->query('connect_code'));
         if (empty($connect_code)) {
             $link[] = array('text' => __('返回上一页', 'connect'), 'href' => 'javascript:history.back(-1)');
             return $this->showmessage(__('未找到第三方登录插件', 'connect'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
         
-        $user_type = $this->request->query('user_type', 'user');
+        $user_type = remove_xss($this->request->query('user_type', 'user'));
         $templateStr = null;
         
         $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
@@ -98,7 +97,6 @@ class callback extends ecjia_front
                 //RC_Logger::getlogger('wechat')->info($result);
                 
                 $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $connect_user->getUserType()), $templateStr, $result);
-
             } 
         }
 
@@ -119,14 +117,14 @@ class callback extends ecjia_front
      * 绑定注册
      */
     public function bind_signup() {
-        $user_type = $this->request->query('user_type', 'user');
-        $connect_code   = $this->request->query('connect_code');
-        $open_id        = $this->request->query('open_id');
+        $user_type = remove_xss($this->request->query('user_type', 'user'));
+        $connect_code   = remove_xss($this->request->query('connect_code'));
+        $open_id        = remove_xss($this->request->query('open_id'));
         
         $connect_user = new Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
         //判断已绑定授权登录用户 直接登录
         if ($connect_user->checkUser()) {
-            $this->userBindedProcessHandle($user_type, $connect_user);
+            return $this->userBindedProcessHandle($user_type, $connect_user);
         } else {
             //新用户注册并登录
             /*创建用户*/
@@ -142,15 +140,18 @@ class callback extends ecjia_front
              * 用户绑定完成后的结果判断处理，用于界面显示 
              * @param $result boolean 判断执行成功与否
              */
-            RC_Hook::do_action(sprintf("connect_callback_%s_bind_complete", $connect_user->getUserType()), $result);
+            return RC_Hook::do_action(sprintf("connect_callback_%s_bind_complete", $connect_user->getUserType()), $result);
         }
+
+        return royalcms('response');
     }
     
     /**
      * 绑定登录界面
      */
-    public function bind_login() {
-        $user_type = $this->request->query('user_type', 'user');
+    public function bind_login()
+    {
+        $user_type = remove_xss($this->request->query('user_type', 'user'));
         
         $action_link = RC_Uri::url('connect/callback/bind_signin', array('connect_code' => $_GET['connect_code'], 'open_id' => $_GET['open_id']));
         $this->assign('action_link', $action_link);
@@ -163,20 +164,21 @@ class callback extends ecjia_front
     /**
      * 绑定登录
      */
-    public function bind_signin() {
-        $user_type      = $this->request->query('user_type', 'user');
-        $return         = $this->request->query('return');
-        $connect_code   = $this->request->query('connect_code');
-        $open_id        = $this->request->query('open_id');
+    public function bind_signin()
+    {
+        $user_type      = remove_xss($this->request->query('user_type', 'user'));
+        $return         = remove_xss($this->request->query('return'));
+        $connect_code   = remove_xss($this->request->query('connect_code'));
+        $open_id        = remove_xss($this->request->query('open_id'));
         
-        $username       = $this->request->input('username');
-        $password       = $this->request->input('password');
+        $username       = remove_xss($this->request->input('username'));
+        $password       = remove_xss($this->request->input('password'));
         
         $connect_user = new Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
 
         //判断已绑定授权登录用户 直接登录
         if ($connect_user->checkUser()) {
-            $this->userBindedProcessHandle($user_type, $connect_user);
+            return $this->userBindedProcessHandle($user_type, $connect_user);
         } else {
             /**
              * 登录用户绑定
@@ -194,6 +196,8 @@ class callback extends ecjia_front
              */
             RC_Hook::do_action(sprintf("connect_callback_%s_bind_complete", $connect_user->getUserType()), $result);
         }
+
+        return royalcms('response');
     }
     
     /**
@@ -209,6 +213,8 @@ class callback extends ecjia_front
          * connect_callback_admin_signin
          */
         RC_Hook::do_action(sprintf("connect_callback_%s_signin", $user_type), $connect_user);
+
+        return royalcms('response');
     }
 }
 

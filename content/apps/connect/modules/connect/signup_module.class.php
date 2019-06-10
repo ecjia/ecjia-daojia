@@ -59,7 +59,7 @@ class connect_signup_module extends api_front implements api_interface {
 		$code		  = $this->requestData('validate_code');
 		$profile	  = $this->requestData('profile');
 		$api_version   = $this->request->header('api-version');
-		
+
 		/*兼容1.17之前版本*/
 		if (version_compare($api_version, '1.17', '<')) {
 		    return $this->versionLessThan_0117();
