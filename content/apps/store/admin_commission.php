@@ -339,7 +339,8 @@ class admin_commission extends ecjia_admin {
 		);
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $opt));
 	}
-	
+
+	//资金管理
 	public function fund() {
 		$this->admin_priv('store_fund_manage');
 		$this->assign('form_action', RC_Uri::url('store/admin_commission/update'));
@@ -644,19 +645,19 @@ class admin_commission extends ecjia_admin {
 	private function get_store_account($store_id = 0) {
 		$data = RC_DB::table('store_account')->where('store_id', $store_id)->first();
 		if (empty($data)) {
-			$data['formated_amount_available'] = $data['formated_money'] = $data['formated_frozen_money'] = $data['formated_deposit'] = '￥0.00';
+			$data['formated_amount_available'] = $data['formated_money'] = $data['formated_frozen_money'] = $data['formated_deposit'] = ecjia_price_format(0, false);
 			$data['amount_available'] = $data['money'] = $data['frozen_money'] = $data['deposit'] = '0.00';
 		} else {
 			$amount_available = $data['money'] - $data['deposit'];//可用余额=money-保证金
-			$data['formated_amount_available'] = price_format($amount_available);
+			$data['formated_amount_available'] = ecjia_price_format($amount_available, false);
 			$data['amount_available'] = $amount_available;
 				
 			$money = $data['money'] + $data['frozen_money'];//总金额=money+冻结
-			$data['formated_money'] = price_format($money);
+			$data['formated_money'] = ecjia_price_format($money, false);
 			$data['money'] = $money;
 				
-			$data['formated_frozen_money'] = price_format($data['frozen_money']);
-			$data['formated_deposit'] = price_format($data['deposit']);
+			$data['formated_frozen_money'] = ecjia_price_format($data['frozen_money'], false);
+			$data['formated_deposit'] = ecjia_price_format($data['deposit'], false);
 		}
 		return $data;
 	}
@@ -671,6 +672,8 @@ class admin_commission extends ecjia_admin {
 		$data = $db->take(10)->skip($page->start_id - 1)->orderBy('change_time', 'desc')->orderBy('log_id', 'desc')->get();
 		if (!empty($data)) {
 			foreach ($data as $k => $v) {
+                $data[$k]['money_formatted'] = ecjia_price_format($v['money'], false);
+                $data[$k]['store_money_formatted'] = ecjia_price_format($v['store_money'], false);
 				$data[$k]['change_time'] = RC_Time::local_date('Y-m-d H:i:s', $v['change_time']);
 			}
 		}
