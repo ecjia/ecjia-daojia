@@ -44,15 +44,55 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\BaseController;
+
+use admin_menu;
+use admin_nav_here;
+use ecjia;
+use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
+use ecjia_admin_log;
+use ecjia_admin_menu;
+use ecjia_app;
+use ecjia_config;
+use ecjia_notification;
+use ecjia_screen;
+use ecjia_view;
+use RC_Config;
+use RC_Cookie;
+use RC_ENV;
+use RC_File;
+use RC_Hook;
+use RC_Ip;
+use RC_Loader;
+use RC_Plugin;
+use RC_Script;
+use RC_Session;
+use RC_Style;
+use RC_Time;
+use RC_Uri;
+use Smarty;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 //定义在后台
 define('IN_ADMIN', true);
 
-abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController implements \Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader
+abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemplateFileLoader
 {
 
-	
+    /**
+     * 模板视图对象静态属性
+     *
+     * @var \ecjia_view
+     */
+    public static $view_object;
+
+    /**
+     * 控制器对象静态属性
+     * @var \Ecjia\System\BaseController\EcjiaAdminController
+     */
+    public static $controller;
+
 	public function __construct()
     {
 		parent::__construct();
@@ -96,8 +136,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		    } else {
 
 		        RC_Cookie::set('admin_login_referer', RC_Uri::current_url());
-                $this->redirect(RC_Uri::url('@privilege/login'));
-                $this->exited();
+                $this->redirectWithExited(RC_Uri::url('@privilege/login'));
 		    }
 		}
         
@@ -106,8 +145,6 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		} else {
 			error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 		}
-        
-//		$this->load_cachekey();
 
 		$this->load_default_script_style();
 		
@@ -117,7 +154,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		$this->assign('ecjia_config', ecjia::config());
 		
 		/* 判断是否支持 Gzip 模式 */
-		if (RC_Config::get('system.gzip') && RC_Env::gzip_enabled()) {
+		if (RC_Config::get('system.gzip') && RC_ENV::gzip_enabled()) {
 		    ob_start('ob_gzhandler');
 		} else {
 		    ob_start();
@@ -288,14 +325,10 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	/**
 	 * 信息提示
 	 *
-	 * @param string $msg
-	 *            提示内容
-	 * @param string $url
-	 *            跳转URL
-	 * @param int $time
-	 *            跳转时间
-	 * @param null $tpl
-	 *            模板文件
+	 * @param string $msg 提示内容
+	 * @param string $url 跳转URL
+	 * @param int $time 跳转时间
+	 * @param null $tpl 模板文件
 	 */
 	protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
 	{
@@ -320,8 +353,6 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	    } else {
 	        return parent::message($msg, $url, $time, $tpl);
 	    }
-	
-	    exit(0);
 	}
 	
 	/**
@@ -501,12 +532,12 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	/**
 	 * 获取当前管理员信息
      *
-	 * @return  array
+	 * @return  array|bool
 	 */
 	public final static function admin_info()
 	{
 	    $db = RC_Loader::load_model('admin_user_model');
-	    $admin_info = $db->find(array('user_id' => intval($_SESSION[admin_id])));
+	    $admin_info = $db->find(array('user_id' => intval($_SESSION['admin_id'])));
 	    if (!empty($admin_info)) {
 	        return $admin_info;
 	    }
@@ -517,7 +548,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	/**
 	 * 添加IE支持的header信息
 	 */
-	public static function _ie_support_header() {
+	public static function _ie_support_header()
+    {
 		if (is_ie()) {
 			echo "\n";
 			echo '<!--[if lte IE 8]>'. "\n";
@@ -533,7 +565,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	}
 
     
-    public static function display_admin_header_nav() {
+    public static function display_admin_header_nav()
+    {
         $menus = ecjia_admin_menu::singleton()->admin_menu();
         $menus_label = ecjia_admin_menu::singleton()->get_menu_label();
 
@@ -586,7 +619,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
     }
     
     
-    public static function display_admin_sidebar_nav_search() {
+    public static function display_admin_sidebar_nav_search()
+    {
         $menus = ecjia_admin_menu::singleton()->admin_menu();
         
         if (!empty($menus['apps'])) {
@@ -621,7 +655,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
         }
     }
 
-    public static function display_admin_sidebar_nav() {
+    public static function display_admin_sidebar_nav()
+    {
         $menus = ecjia_admin_menu::singleton()->admin_menu();
         
         if (!empty($menus['apps'])) {
@@ -660,7 +695,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
         }
     }
     
-    public static function display_admin_copyright() {
+    public static function display_admin_copyright()
+    {
         $ecjia_version = ecjia::version();
     	$company_msg   = '版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。';
     	$ecjia_icon    = RC_Uri::admin_url('statics/images/ecjia_icon.png');
@@ -678,37 +714,37 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
         	</div>";
     }
     
-    public static function display_admin_welcome() {
-        if (1) {
-            $ecjia_version = VERSION;
-            $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
-            $ecjia_about_url = RC_Uri::url('@about/about_us');
-            $welcome_ecjia 	= __('欢迎使用ECJia');
-            $description 	= __('ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带来全新的使用体验！');
-            $more 			= __('了解更多 »');
-            $welcome = <<<WELCOME
-		  <div>
-			<a class="close m_r10" data-dismiss="alert">×</a>
-			<div class="hero-unit">
-				<div class="row-fluid">
-					<div class="span3">
-						<img src="{$ecjia_welcome_logo}" />
-					</div>
-					<div class="span9">
-						<h1>{$welcome_ecjia} {$ecjia_version}</h1>
-						<p>{$description}</p>
-						<a class="btn btn-info" href="{$ecjia_about_url}" target="_self">{$more}</a>
-					</div>
-				</div>
-			</div>
-		</div>
+    public static function display_admin_welcome()
+    {
+        $ecjia_version = VERSION;
+        $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
+        $ecjia_about_url = RC_Uri::url('@about/about_us');
+        $welcome_ecjia 	= __('欢迎使用ECJia');
+        $description 	= __('ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带来全新的使用体验！');
+        $more 			= __('了解更多 »');
+        $welcome = <<<WELCOME
+      <div>
+        <a class="close m_r10" data-dismiss="alert">×</a>
+        <div class="hero-unit">
+            <div class="row-fluid">
+                <div class="span3">
+                    <img src="{$ecjia_welcome_logo}" />
+                </div>
+                <div class="span9">
+                    <h1>{$welcome_ecjia} {$ecjia_version}</h1>
+                    <p>{$description}</p>
+                    <a class="btn btn-info" href="{$ecjia_about_url}" target="_self">{$more}</a>
+                </div>
+            </div>
+        </div>
+    </div>
 WELCOME;
-            echo $welcome;
-        }
+        echo $welcome;
     }
     
     
-    public static function display_admin_about_welcome() {
+    public static function display_admin_about_welcome()
+    {
         $ecjia_version = VERSION;
         $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
         $welcome_ecjia 	= __('欢迎使用ECJia');
@@ -734,12 +770,14 @@ WELCOME;
     }
     
     
-    public static function is_super_admin() {
+    public static function is_super_admin()
+    {
         
     }
 
 
-    public static function is_sidebar_hidden() {
+    public static function is_sidebar_hidden()
+    {
         $sidebar_display = ecjia_screen::get_current_screen()->get_sidebar_display();
         $ecjia_sidebar = royalcms('request')->cookie('ecjia_sidebar');
 

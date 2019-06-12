@@ -44,79 +44,16 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\BaseController;
 
-use RC_Hook;
-use ecjia_loader;
-use Royalcms\Component\Routing\Controller as RoyalcmsController;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-abstract class BasicController extends RoyalcmsController
+/**
+ * ECJIA 控制器基础类
+ */
+abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaFrontController
 {
-    
-    public function __construct()
-    {
 
-        $this->load_default_script_style();
-    
-        RC_Hook::do_action('ecjia_basic_finish_launching');
-    }
-    
-    protected function session_start()
-    {
-        //Dot't session
-    }
-    
-    protected function load_hooks()
-    {
-        RC_Hook::add_action( 'front_enqueue_scripts',	array($this, 'front_enqueue_scripts'),	1 );
-        RC_Hook::add_action( 'front_print_styles',	array($this, 'front_print_head_styles'),		8 );
-        RC_Hook::add_action( 'front_print_scripts',	array($this, 'front_print_head_scripts'),	9 );
-        RC_Hook::add_action( 'front_print_footer_scripts',	array($this, 'print_front_footer_scripts'), 20 );
-
-    }
-
-    protected function load_default_script_style()
-    {
-        //...
-    }
-
-    /**
-     * 需要的时候继承修改
-     * Fires when scripts and styles are enqueued.
-     * @since 1.0.0
-     */
-    public function front_enqueue_scripts()
-    {
-        //...
-    }
-
-    /**
-     * 禁止继承修改
-     */
-    public final function print_front_footer_scripts()
-    {
-        $this->front_print_late_styles();
-        $this->front_print_footer_scripts();
-    }
-
-    public function front_print_head_styles()
-    {
-        ecjia_loader::print_head_styles();
-    }
-
-    public function front_print_head_scripts()
-    {
-        ecjia_loader::print_head_scripts();
-    }
-
-    public function front_print_footer_scripts()
-    {
-        ecjia_loader::print_footer_scripts();
-    }
-
-    public function front_print_late_styles()
-    {
-        ecjia_loader::print_late_styles();
-    }
 
 }
+
+// end

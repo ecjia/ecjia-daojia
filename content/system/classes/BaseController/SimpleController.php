@@ -60,10 +60,11 @@ use RC_Api;
 use ecjia_app;
 use ecjia_loader;
 
-class SimpleController extends EcjiaController implements EcjiaTemplateFileLoader
+abstract class SimpleController extends EcjiaController implements EcjiaTemplateFileLoader
 {
     
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     
         self::$controller = static::$controller;
@@ -81,13 +82,15 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
             error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
         }
 
-//        $this->load_cachekey();
         $this->load_default_script_style();
     
         RC_Hook::do_action('ecjia_simple_finish_launching');
     }
     
-    protected function session_start() {}
+    protected function session_start()
+    {
+        //Dot't session
+    }
     
     public function create_view()
     {
@@ -96,10 +99,8 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
         // 模板目录
         $view->setTemplateDir($this->get_template_dir());
         // 编译目录
-        $view->setCompileDir(TEMPLATE_COMPILE_PATH . 'front' . DIRECTORY_SEPARATOR);
-        // 插件目录
-//         $view->setPluginsDir(dirname(dirname($this->get_template_dir())) . '/smarty/');
-         
+        $view->setCompileDir(TEMPLATE_COMPILE_PATH . 'simple' . DIRECTORY_SEPARATOR);
+
         if (RC_Config::get('system.debug')) {
             $view->caching = Smarty::CACHING_OFF;
             $view->cache_lifetime = 0;
@@ -155,15 +156,18 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
             return $file;
         } else {
             // 模版文件不存在
-            if (RC_Config::get('system.debug'))
+            if (RC_Config::get('system.debug')) {
                 // TODO:
                 rc_die("Template does not exist.:$file");
-            else
+            }
+            else {
                 return null;
+            }
         }
     }
     
-    public final function display($tpl_file = null, $cache_id = null, $show = true, $options = array()) {
+    public final function display($tpl_file = null, $cache_id = null, $show = true, $options = array())
+    {
         if (strpos($tpl_file, 'string:') !== 0) {
             if (RC_File::file_suffix($tpl_file) !== 'php') {
                 $tpl_file = $tpl_file . '.php';
@@ -175,7 +179,8 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
         return parent::display($tpl_file, $cache_id, $show, $options);
     }
     
-    public final function fetch($tpl_file = null, $cache_id = null, $options = array()) {
+    public final function fetch($tpl_file = null, $cache_id = null, $options = array())
+    {
         if (strpos($tpl_file, 'string:') !== 0) {
             if (RC_File::file_suffix($tpl_file) !== 'php') {
                 $tpl_file = $tpl_file . '.php';
@@ -196,7 +201,8 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
      *
      * @return  bool
      */
-    public final function is_cached($tpl_file, $cache_id = null, $options = array()) {
+    public final function is_cached($tpl_file, $cache_id = null, $options = array())
+    {
         if (strpos($tpl_file, 'string:') !== 0) {
             if (RC_File::file_suffix($tpl_file) !== 'php') {
                 $tpl_file = $tpl_file . '.php';
@@ -215,16 +221,6 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
             return false;
         }
         return $is_cached;
-    }
-    
-    /**
-     * 直接跳转
-     *
-     * @param string $url
-     * @param int $code
-     */
-    public function redirect($url, $code = 302) {
-        return parent::redirect($url, $code);
     }
     
     /**
@@ -269,20 +265,6 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
         $title_suffix = RC_Hook::apply_filters('page_title_suffix', ' - Powered by ECJia');
         $this->assign('page_title', $title . $title_suffix);
     }
-
-
-//    /**
-//     * 加载缓存key
-//     */
-//    protected function load_cachekey()
-//    {
-//        $res = RC_Api::api('system', 'system_cache');
-//        if (! empty($res)) {
-//            foreach ($res as $cache_handle) {
-//                ecjia_update_cache::make()->register($cache_handle->getCode(), $cache_handle);
-//            }
-//        }
-//    }
     
     protected function load_hooks()
     {

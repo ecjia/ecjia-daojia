@@ -210,6 +210,8 @@ class SystemServiceProvider extends AppParentServiceProvider
 
 	        //compatible
 	        $loader->alias('ecjia_base', 'Ecjia\System\BaseController\EcjiaController');
+	        $loader->alias('ecjia_admin', 'Ecjia\System\BaseController\EcjiaAdminController');
+	        $loader->alias('ecjia_front', 'Ecjia\System\BaseController\EcjiaFrontController');
 	        $loader->alias('ecjia_error', 'Royalcms\Component\Error\Error');
 	    });
 	}
@@ -280,7 +282,12 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Theme/Theme.php",
             $dir . "/Theme/ParseThemeStyle.php",
 
+            $dir . "/BaseController/BasicController.php",
             $dir . "/BaseController/EcjiaController.php",
+            $dir . "/BaseController/SimpleController.php",
+            $dir . "/BaseController/SmartyController.php",
+            $dir . "/BaseController/EcjiaAdminController.php",
+            $dir . "/BaseController/EcjiaFrontController.php",
 
             $dir . "/ecjia_view.class.php",
             $dir . "/ecjia_notification.class.php",

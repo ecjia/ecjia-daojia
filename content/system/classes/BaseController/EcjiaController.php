@@ -79,7 +79,7 @@ abstract class EcjiaController extends RoyalcmsController
     /**
      * 模板视图对象
      *
-     * @var view
+     * @var \ecjia_view
      */
     protected $view;
 
@@ -98,7 +98,7 @@ abstract class EcjiaController extends RoyalcmsController
     
     /**
      * HTTP请求对象
-     * @var \Royalcms\Component\HttpKernel\Request
+     * @var \Royalcms\Component\Http\Request
      */
     protected $request;
 
@@ -261,7 +261,7 @@ abstract class EcjiaController extends RoyalcmsController
     }
 
     /**
-     * 直接跳转
+     * 直接跳转，返回Response对象
      *
      * @param string $url
      * @param int $code
@@ -287,6 +287,18 @@ abstract class EcjiaController extends RoyalcmsController
     {
         royalcms('response')->send();
         exit(0);
+    }
+
+    /**
+     * 直接跳转，并中断程序输出
+     *
+     * @param string $url
+     * @param int $code
+     */
+    public function redirectWithExited($url, $code = 302)
+    {
+        $this->redirect($url, $code);
+        $this->exited();
     }
 
     /**
@@ -373,6 +385,8 @@ abstract class EcjiaController extends RoyalcmsController
         }
 
         $response->setContent($content);
+
+        royalcms()->instance('response', $response);
 
         return $response;
     }

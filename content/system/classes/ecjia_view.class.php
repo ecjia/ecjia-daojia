@@ -152,6 +152,8 @@ class ecjia_view
 
         $response->setContent($content);
 
+        royalcms()->instance('response', $response);
+
         return $response;
     }
     
