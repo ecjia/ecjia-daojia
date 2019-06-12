@@ -7292,8 +7292,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.13.0';
-    const RELEASE = '2019-06-05';
+    const VERSION = '5.14.0';
+    const RELEASE = '2019-06-12';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -41801,6 +41801,15 @@ abstract class SmartyController extends EcjiaController implements EcjiaTemplate
         }
         return parent::clear_cache($tpl_file, $cache_id, $options);
     }
+    public function assign_title($title = '')
+    {
+        $title_suffix = RC_Hook::apply_filters('page_title_suffix', ' - Powered by ECJia');
+        if (empty($title)) {
+            $this->assign('page_title', ecjia::config('shop_title') . $title_suffix);
+        } else {
+            $this->assign('page_title', $title . '-' . ecjia::config('shop_title') . $title_suffix);
+        }
+    }
 }
 }
 
@@ -41813,6 +41822,7 @@ use ecjia_admin_log;
 use ecjia_admin_menu;
 use ecjia_app;
 use ecjia_config;
+use ecjia_editor;
 use ecjia_notification;
 use ecjia_screen;
 use ecjia_view;
@@ -41830,14 +41840,13 @@ use RC_Style;
 use RC_Time;
 use RC_Uri;
 use Smarty;
-defined('IN_ECJIA') or exit('No permission resources.');
-define('IN_ADMIN', true);
 abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemplateFileLoader
 {
     public static $view_object;
     public static $controller;
     public function __construct()
     {
+        define('IN_ADMIN', true);
         parent::__construct();
         self::$controller = static::$controller;
         self::$view_object = static::$view_object;
@@ -41865,8 +41874,7 @@ abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemp
                 exit;
             } else {
                 RC_Cookie::set('admin_login_referer', RC_Uri::current_url());
-                $this->redirect(RC_Uri::url('@privilege/login'));
-                $this->exited();
+                $this->redirectWithExited(RC_Uri::url('@privilege/login'));
             }
         }
         if (RC_Config::get('system.debug')) {
@@ -42087,6 +42095,15 @@ abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemp
         RC_Hook::add_action('admin_dashboard_top', array(__CLASS__, 'display_admin_welcome'), 9);
         RC_Hook::add_filter('upload_default_random_filename', array('ecjia_utility', 'random_filename'));
         RC_Hook::add_action('admin_print_footer_scripts', array(ecjia_notification::make(), 'printScript'));
+        RC_Hook::add_action('editor_setting_first_init', function () {
+            if (is_pjax()) {
+                RC_Hook::add_action('admin_pjax_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('admin_pjax_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            } else {
+                RC_Hook::add_action('admin_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('admin_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            }
+        });
         RC_Loader::load_sys_class('hooks.admin_system', false);
         $system_plugins = ecjia_config::instance()->get_addon_config('system_plugins', true);
         if (is_array($system_plugins)) {
@@ -42315,8 +42332,8 @@ WELCOME;
 
 namespace Ecjia\System\BaseController {
 use ecjia;
-use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
 use ecjia_app;
+use ecjia_editor;
 use ecjia_loader;
 use RC_Config;
 use RC_ENV;
@@ -42325,11 +42342,8 @@ use RC_Ip;
 use RC_Loader;
 use RC_Response;
 use RC_Session;
-defined('IN_ECJIA') or exit('No permission resources.');
 abstract class EcjiaFrontController extends SmartyController
 {
-    public static $view_object;
-    public static $controller;
     public function __construct()
     {
         parent::__construct();
@@ -42432,6 +42446,10 @@ abstract class EcjiaFrontController extends SmartyController
         RC_Hook::add_action('front_print_styles', array($this, 'front_print_head_styles'), 8);
         RC_Hook::add_action('front_print_scripts', array($this, 'front_print_head_scripts'), 9);
         RC_Hook::add_action('front_print_footer_scripts', array($this, 'print_front_footer_scripts'), 20);
+        RC_Hook::add_action('editor_setting_first_init', function () {
+            RC_Hook::add_action('front_print_footer_scripts', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+            RC_Hook::add_action('front_print_footer_scripts', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+        });
         $apps = ecjia_app::installed_app_floders();
         if (is_array($apps)) {
             foreach ($apps as $app) {
