@@ -186,7 +186,7 @@ WELCOME;
 	
 	public static function remove_admin_about_welcome()
 	{
-	    RC_Hook::remove_action( 'admin_about_welcome', array('ecjia_admin', 'display_admin_about_welcome') );
+	    RC_Hook::remove_action( 'admin_about_welcome', array('Ecjia\System\BaseController\EcjiaAdminController', 'display_admin_about_welcome') );
 	}
 	
 	public static function set_daojia_version($version)
@@ -198,7 +198,7 @@ WELCOME;
 RC_Hook::add_action( 'admin_dashboard_right', array('admin_main_hooks', 'admin_dashboard_right_2') );
 RC_Hook::add_filter( 'ecjia_admin_cpname', array('admin_main_hooks', 'set_daojia_admin_cpname') );
 RC_Hook::add_filter( 'ecjia_build_version', array('admin_main_hooks', 'set_daojia_version') );
-RC_Hook::remove_action( 'admin_dashboard_top', array('ecjia_admin', 'display_admin_welcome'), 9 );
+RC_Hook::remove_action( 'admin_dashboard_top', array('Ecjia\System\BaseController\EcjiaAdminController', 'display_admin_welcome'), 9 );
 RC_Hook::add_action( 'admin_dashboard_top', array('admin_main_hooks', 'set_daojia_admin_welcome') );
 RC_Hook::add_action( 'admin_print_main_header', array('admin_main_hooks', 'remove_admin_about_welcome') );
 RC_Hook::add_action( 'admin_about_welcome', array('admin_main_hooks', 'set_daojia_admin_about_welcome'), 11 );
