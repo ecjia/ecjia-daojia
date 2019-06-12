@@ -92,7 +92,7 @@ class mobile_userbind extends EcjiaWechatUserController
             $mobile = trim($_GET['mobile']);
 
             if (RC_Time::gmtime() - $_SESSION['temp_register_code_time'] < 60) {
-                return ecjia_front::$controller->showmessage(__('规定时间1分钟以外，可重新发送验证码', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('规定时间1分钟以外，可重新发送验证码', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         } else {
             $openid = trim($_POST['openid']);
@@ -101,12 +101,12 @@ class mobile_userbind extends EcjiaWechatUserController
         }
 
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage(__('手机号不能为空！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('手机号不能为空！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
         if (is_ecjia_error($check_mobile)) {
-            return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $code     = rand(100000, 999999);
@@ -123,9 +123,9 @@ class mobile_userbind extends EcjiaWechatUserController
         $_SESSION['temp_register_code']      = $code;
         $_SESSION['temp_register_code_time'] = RC_Time::gmtime();
         if (!is_ecjia_error($response)) {
-            return ecjia_front::$controller->showmessage(sprintf(__('短信已发送到手机%s，请注意查看', 'wechat'), $mobile), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_userbind/enter_code', array('mobile' => $mobile, 'uuid' => $uuid, 'openid' => $openid))));
+            return $this->showmessage(sprintf(__('短信已发送到手机%s，请注意查看', 'wechat'), $mobile), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_userbind/enter_code', array('mobile' => $mobile, 'uuid' => $uuid, 'openid' => $openid))));
         } else {
-            return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -153,13 +153,13 @@ class mobile_userbind extends EcjiaWechatUserController
         $code   = trim($_POST['password']);
 
         if (empty($code)) {
-            return ecjia_front::$controller->showmessage(__('请输入短信验证码', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入短信验证码', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (RC_Time::gmtime() - $_SESSION['temp_register_code_time'] > 300) {
-            return ecjia_front::$controller->showmessage(__('验证码已过期，请重新获取', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('验证码已过期，请重新获取', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if ($code != $_SESSION['temp_register_code']) {
-            return ecjia_front::$controller->showmessage(__('验证码输入有误，请重新输入', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('type' => 'error'));
+            return $this->showmessage(__('验证码输入有误，请重新输入', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('type' => 'error'));
         }
 
         $wechat_id   = with(new Ecjia\App\Platform\Frameworks\Platform\Account($uuid))->getAccountID();
@@ -192,14 +192,14 @@ class mobile_userbind extends EcjiaWechatUserController
             ));
 
             if (is_ecjia_error($user_info)) {
-                return ecjia_front::$controller->showmessage($user_info->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage($user_info->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $getUserId = $user_info['user_id'];
         }
         $wechat_user->setEcjiaUserId($getUserId);
 
-        return ecjia_front::$controller->showmessage(__('恭喜您，关联成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $openid, 'uuid' => $uuid))));
+        return $this->showmessage(__('恭喜您，关联成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $openid, 'uuid' => $uuid))));
     }
 
     protected function load_default_script_style()
