@@ -8,7 +8,7 @@ use RC_Hook;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Royalcms\Component\Http\Response as RoyalcmsResponse;
 
 class AppControllerDispatcher
 {
@@ -52,7 +52,7 @@ class AppControllerDispatcher
         // so that we can call the methods on it. We will also apply any "after" filters
         // to the route so that they will be run by the routers after this processing.
         $controller = $this->makeController();
-        if ( $controller instanceof SymfonyResponse) {
+        if ( $controller instanceof RoyalcmsResponse) {
             return $controller;
         }
         
@@ -66,13 +66,14 @@ class AppControllerDispatcher
             } else {
                 
                 $response = $this->route->runControllerAction($controller, $this->route->getAction());
-                
-                if ( ! $response instanceof SymfonyResponse) {
-                    return royalcms('response');
-                } else {
-                    return $response;
+
+                if ( $response instanceof RoyalcmsResponse) {
+                    if (! is_null($response->getOriginalContent())) {
+                        return $response;
+                    }
                 }
-                
+
+                return royalcms('response');
             }
             
         } catch (NotFoundHttpException $e) {
