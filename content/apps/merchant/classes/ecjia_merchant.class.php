@@ -118,8 +118,7 @@ abstract class ecjia_merchant extends Ecjia\System\BaseController\EcjiaControlle
 		        $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 $this->exited();
 		    } else {
-		        $this->redirect(RC_Uri::url('staff/privilege/login'));
-		        $this->exited();
+		        $this->redirectWithExited(RC_Uri::url('staff/privilege/login'));
 		    }
 		}
 
