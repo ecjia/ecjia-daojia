@@ -152,6 +152,12 @@ final class ecjia_editor {
 	}
 
 
+	public static function editor_instance()
+    {
+        return self::$this_tinymce;
+    }
+
+
 	
 	/**
 	 * Outputs the HTML for a single instance of the editor.
