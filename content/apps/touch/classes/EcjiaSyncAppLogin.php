@@ -74,8 +74,7 @@ class EcjiaSyncAppLogin
                     $query_str = http_build_query($querys);
                     $url = RC_Uri::site_url(). '/index.php?' .$query_str;
 
-                    ecjia_front::$controller->redirect($url);
-                    ecjia_front::$controller->exited();
+                    ecjia_front::$controller->redirectWithExited($url);
                 }
 
             }

@@ -62,32 +62,28 @@ class admin_touch_hooks {
    {
        $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
        $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url) ;
-       ecjia_admin::$controller->redirect($url);
-       ecjia_admin::$controller->exited();
+       ecjia_admin::$controller->redirectWithExited($url);
    }
    
    public static function goods_admin_h5_priview_handler($goods_id)
    {
    	    $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
    	    $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url) ;
-   	    ecjia_admin::$controller->redirect($url);
-        ecjia_admin::$controller->exited();
+   	    ecjia_admin::$controller->redirectWithExited($url);
    }
    
    public static function goods_admin_pc_priview_handler($goods_id)
    {
    	    $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
    	    $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url(), $url) ;
-   	    ecjia_admin::$controller->redirect($url);
-        ecjia_admin::$controller->exited();
+   	    ecjia_admin::$controller->redirectWithExited($url);
    }
    
    public static function article_admin_priview_handler($article_id)
    {
        $url = RC_Uri::url('article/index/detail', array('article_id' => $article_id));
        $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url) ;
-       ecjia_admin::$controller->redirect($url);
-       ecjia_admin::$controller->exited();
+       ecjia_admin::$controller->redirectWithExited($url);
    }
 }
 
