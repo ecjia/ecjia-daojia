@@ -43,8 +43,8 @@ class UcController extends BasicController
             
             $data = $handle->handleRequest($this->request);
             $data = is_array($data) ? ApiBase::serialize($data, 1) : $data;
-            $this->displayContent($data);
-            
+            return $this->displayContent($data);
+
         } else {
             
             echo 'Api Error: ' . $url . ' does not exist.';
