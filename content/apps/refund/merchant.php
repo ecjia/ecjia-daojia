@@ -121,7 +121,11 @@ class merchant extends ecjia_merchant {
 		$this->assign('refund_id', $refund_id);
 		
 		//售后订单信息
-		$refund_info = RefundOrderInfo::get_refund_order_info($refund_id);
+		$refund_info = RefundOrderInfo::get_refund_order_info($refund_id, $_SESSION['store_id']);
+		if(empty($refund_info)) {
+            $links[] = array('text' => __('返回列表', 'orders'), 'href' => RC_Uri::url('refund/merchant/init'));
+            return $this->showmessage(__('无法找到对应的订单！', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
+        }
 		$this->assign('refund_info', $refund_info);
 		
 		//获取用户退货退款原因
