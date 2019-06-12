@@ -79,7 +79,7 @@ class index extends ecjia_front {
         RC_Hook::do_action('connect_'.$connect_code.'_handle', $connect_handle);
         
         $code_url = $connect_handle->authorize_url();
-        return ecjia_front::$controller->redirect($code_url);
+        return $this->redirect($code_url);
     }
 }
 
