@@ -91,8 +91,8 @@ class mh_notification extends ecjia_merchant
         $data = array(
             'read_at' => $time,
         );
-        $type      = isset($_POST['type']) ? $_POST['type'] : '';
-        $status    = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
+        $type      = isset($_POST['type']) ? remove_xss($_POST['type']) : '';
+        $status    = !empty($_GET['status']) ? remove_xss($_GET['status']) : 'not_read';
         $page      = !empty($_GET['page']) ? intval($_GET['page']) : 1;
         $page_size = 20;
 
@@ -139,7 +139,7 @@ class mh_notification extends ecjia_merchant
                 $update = $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->whereRaw('type = ' . "'$type'")->whereNull('read_at')->update($data);
             } else {
                 //标记单个
-                $id    = isset($_POST['val']) ? $_POST['val'] : '';
+                $id    = isset($_POST['val']) ? remove_xss($_POST['val']) : '';
 
                 $db_notifications = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id']);
                 $info  = $db_notifications->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('id', $id)->whereNull('read_at')->first();
@@ -164,7 +164,7 @@ class mh_notification extends ecjia_merchant
     {
         $db = RC_DB::table('notifications')->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id']);
 
-        $status = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
+        $status = !empty($_GET['status']) ? remove_xss($_GET['status']) : 'not_read';
 
         $db->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model']);
         if ($status == 'not_read') {
