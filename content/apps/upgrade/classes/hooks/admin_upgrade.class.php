@@ -75,7 +75,7 @@ class admin_upgrade_hooks {
         
         if (! upgrade_utility::checkUpgradeLock() && ROUTE_M != 'upgrade' 
             && version_compare($old_version, $new_version, '<')) {
-            ecjia_front::$controller->redirectWithExited(RC_Uri::url('upgrade/index/init'));
+            ecjia_admin::$controller->redirectWithExited(RC_Uri::url('upgrade/index/init'));
         }
     }
 
