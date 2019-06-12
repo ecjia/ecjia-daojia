@@ -111,7 +111,7 @@ class merchant extends ecjia_merchant
 
         $this->assign('active', true);
 
-        $this->display('franchisee_index.dwt');
+        return $this->display('franchisee_index.dwt');
     }
 
     public function article()
@@ -149,7 +149,7 @@ class merchant extends ecjia_merchant
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($article['title']));
 
-        $this->display('franchisee_article.dwt');
+        return $this->display('franchisee_article.dwt');
     }
 
     public function join()
@@ -332,7 +332,7 @@ class merchant extends ecjia_merchant
         if (ecjia_config::has('captcha_style') && intval(ecjia::config('captcha')) && RC_ENV::gd_version() > 0) {
             $this->assign('check_captcha', true);
         }
-        $this->display('franchisee.dwt');
+        return $this->display('franchisee.dwt');
     }
 
     public function get_code_value()
@@ -745,7 +745,7 @@ class merchant extends ecjia_merchant
             $this->assign('check_captcha', true);
         }
 
-        $this->display('franchisee_view.dwt');
+        return $this->display('franchisee_view.dwt');
     }
 
     public function view_post()
