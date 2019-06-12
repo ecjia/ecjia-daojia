@@ -65,8 +65,8 @@ class merchant_staff_hooks
 
         $merchant_info['shop_logo'] = !empty($merchant_info['shop_logo']) ? RC_Upload::upload_url($merchant_info['shop_logo']) : '';
         $merchant_info['identity_type'] = intval($merchant_info['identity_type']);
-        
-        ecjia_admin::$controller->assign('merchant_info', $merchant_info);
+
+        ecjia_merchant::$controller->assign('merchant_info', $merchant_info);
 
         echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_information.lbi', true)
@@ -80,7 +80,7 @@ class merchant_staff_hooks
         $user_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $user_info['add_time']);
         $user_info['last_login'] = RC_Time::local_date('Y-m-d H:i', $user_info['last_login']);
 
-        ecjia_admin::$controller->assign('user_info', $user_info);
+        ecjia_merchant::$controller->assign('user_info', $user_info);
         echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_profile.lbi', true)
         );
@@ -156,7 +156,7 @@ class merchant_staff_hooks
                 ->get();
             RC_Cache::app_cache_set($key, $data, 'staff', 30);
         }
-        ecjia_admin::$controller->assign('log_lists', $data);
+        ecjia_merchant::$controller->assign('log_lists', $data);
 
         echo ecjia_merchant::$controller->fetch(
             RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_loglist.lbi', true)
@@ -179,7 +179,7 @@ class merchant_staff_hooks
     		array('title' => '公众平台', 'url' => RC_Uri::url('platform/merchant/init'), 'img' => $statics_url.'img/merchant_dashboard/platform.png'),
     		array('title' => '小程序模板', 'url' => RC_Uri::url('merchant/merchant/template'), 'img' => $statics_url.'img/merchant_dashboard/weapp.png'),
     	);
-    	ecjia_admin::$controller->assign('list', $list);
+        ecjia_merchant::$controller->assign('list', $list);
     	echo ecjia_merchant::$controller->fetch(
     		RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_fastenter.lbi', true)
     	);
