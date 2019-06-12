@@ -158,7 +158,7 @@ class mh_parameter_attribute extends ecjia_merchant {
 			return $this->showmessage(__('参数名称在当前参数模板下已存在，请您换一个名称', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$attr_group      = isset($_POST['attr_group']) ? intval($_POST['attr_group']) 	: 0;//参数分组
+		$attr_group      = !empty($_POST['attr_group']) ? trim($_POST['attr_group']) 	: '';//参数分组
 		$attr_type       = !empty($_POST['attr_type']) ? intval($_POST['attr_type']) 	: 0;  //参数可选值,唯一/复选
 		$attr_input_type = intval($_POST['attr_input_type']);//该属性值的录入方式
 		$attr_values     = isset($_POST['attr_values']) ? $_POST['attr_values'] : ''; //可选值列表,
@@ -198,6 +198,7 @@ class mh_parameter_attribute extends ecjia_merchant {
 		$this->assign('ur_here', __('编辑参数', 'goods'));
 		
 		$attr_info = RC_DB::table('attribute')->where('attr_id', $_GET['attr_id'])->first();
+		
 		$this->assign('attr', $attr_info);
 		
 		$this->assign('attr_groups', Ecjia\App\Goods\MerchantGoodsAttr::get_attr_groups($attr_info['cat_id']));
@@ -227,7 +228,7 @@ class mh_parameter_attribute extends ecjia_merchant {
 			return $this->showmessage(__('参数名称在当前参数模板下已存在，请您换一个名称', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$attr_group = isset($_POST['attr_group']) ? intval($_POST['attr_group']) 	: 0;//参数分组
+		$attr_group      = !empty($_POST['attr_group']) ? trim($_POST['attr_group']) 	: '';//参数分组
 		$attr_type = !empty($_POST['attr_type']) ? intval($_POST['attr_type']) 	: 0;  //参数可选值,唯一/复选
 		$attr_input_type = intval($_POST['attr_input_type']);//该属性值的录入方式
 		$attr_values = isset($_POST['attr_values']) ? $_POST['attr_values'] : ''; //可选值列表,
@@ -341,7 +342,7 @@ class mh_parameter_attribute extends ecjia_merchant {
 	public function get_attr_group() {
 		$cat_id = !empty($_POST['cat_id']) ? $_POST['cat_id'] : 0;
 	
-		$data = Ecjia\App\Goods\GoodsFunction::get_attr_groups($cat_id);
+		$data = Ecjia\App\Goods\GoodsAttr::get_attr_groups($cat_id);
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $data));
 	}
 }

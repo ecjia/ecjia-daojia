@@ -44,22 +44,34 @@
 					<div class="controls no-chzn-container">
 						<select class="w350 attr_list" name="attr_group">
 							<!-- {if $attr_groups} -->
-							<!-- {html_options options=$attr_groups selected=$attr.attr_group} -->
+								<!-- {foreach from=$attr_groups key=key item=val} -->
+									<option value="{$val}" {if $attr.attr_group eq $val}selected{/if}>{$val}</option>
+								<!-- {/foreach} -->
 							<!-- {/if} -->
 						</select>
 					</div>
 				</div>
-			
-				<div class="control-group formSep">
-					<label class="control-label">{t domain="goods"}参数可选值：{/t}</label>
-					<div class="controls chk_radio">
-                        {foreach from=$attr_types item=value key=key}
-                        <input class="uni_style" name="attr_type"  id="attr_type_{$key}" type="radio" value="{$key}" {if $attr.attr_type eq $key} checked="true"{/if} autocomplete="off"/><span>{$value}</span>
-                        {/foreach}
-						<span class="help-block" id="noticeAttrType">{t domain="goods" escape=no }选择"唯一参数"时，商品的该参数值只能设置一个值，用户只能查看该值。<br/>选择"复选参数"时，可以对商品该参数设置多个值。{/t}</span>
-					</div>
-				</div>
 				
+				{if $attr.attr_id neq 0}
+					<div class="control-group formSep">
+					    <label class="control-label">{t domain="promotion"}参数可选值：{/t}</label>
+					    <div class="controls l_h30">
+					    	{if $attr.attr_type eq 0}唯一参数{elseif $attr.attr_type eq 2}复选参数{/if}
+					    	<input type="hidden" name="attr_type" value="{$attr.attr_type}"/>
+					    	<span class="help-block" id="noticeAttrType">{t domain="goods" escape=no }添加时选择"唯一参数"，商品的该参数值只能设置一个值，用户只能查看该值。<br/>添加时选择"复选参数"，可以对商品该参数设置多个值。{/t}</span>
+					    </div>
+					</div>
+				{else}
+					<div class="control-group formSep">
+						<label class="control-label">{t domain="goods"}参数可选值：{/t}</label>
+						<div class="controls chk_radio">
+	                        {foreach from=$attr_types item=value key=key}
+	                        <input class="uni_style" name="attr_type"  id="attr_type_{$key}" type="radio" value="{$key}" {if $attr.attr_type eq $key} checked="true"{/if} autocomplete="off"/><span>{$value}</span>
+	                        {/foreach}
+							<span class="help-block" id="noticeAttrType">{t domain="goods" escape=no }选择"唯一参数"时，商品的该参数值只能设置一个值，用户只能查看该值。<br/>选择"复选参数"时，可以对商品该参数设置多个值。{/t}</span>
+						</div>
+					</div>
+				{/if}
 				<div class="control-group formSep attr_input_type" {if $attr.attr_type eq 2}style="display: none;"{/if}>
 					<label class="control-label">{t domain="goods"}该参数值的录入方式：{/t}</label>
 					<div class="controls chk_radio">

@@ -218,7 +218,7 @@ class mh_spec_attribute extends ecjia_merchant {
 		$attr = array(
 			'cat_id'			=> $cat_id,
 			'attr_name'			=> trim($_POST['attr_name']),
-			'attr_cat_type'		=> intval($_POST['attr_cat_type']),
+			//'attr_cat_type'		=> intval($_POST['attr_cat_type']),
 			'attr_values'       => isset($_POST['attr_values']) ? $_POST['attr_values'] : '',
 		);
 		RC_DB::table('attribute')->where('attr_id', $attr_id)->update($attr);

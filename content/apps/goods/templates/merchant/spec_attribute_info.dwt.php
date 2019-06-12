@@ -43,17 +43,24 @@
 							</div>
 							<span class="input-must">*</span>
 						</div>
+						{if $attr.attr_id neq 0}
+							<div class="form-group">
+								<label class="control-label col-lg-3">{t domain="promotion"}属性类型：{/t}</label>
+								<div class="col-lg-6 l_h30">{if $attr.attr_cat_type eq 0}{t domain="goods"}普通{/t}{elseif $attr.attr_cat_type eq 1}{t domain="goods"}颜色{/t}{/if}</div>
+							</div>
+						{else}
+							<div class="form-group">
+	              				<label class="control-label col-lg-3">{t domain="goods"}属性类型：{/t}</label>
+	                     		<div class="col-lg-6">
+	                     			<input type="radio" id="enabled_2" name="attr_cat_type" value="0" {if $attr.attr_cat_type eq 0} checked {/if}>
+	                      			<label for="enabled_2">{t domain="goods"}普通{/t}</label>
+	                      			
+	                  				<input type="radio" id="enabled_1" name="attr_cat_type" value="1" {if $attr.attr_cat_type eq 1} checked {/if}>
+	                      			<label for="enabled_1">{t domain="goods"}颜色{/t}</label>
+	        					</div> 
+	              			</div>
+						{/if}
 						
-						<div class="form-group">
-              				<label class="control-label col-lg-3">{t domain="goods"}属性类型：{/t}</label>
-                     		<div class="col-lg-6">
-                     			<input type="radio" id="enabled_2" name="attr_cat_type" value="0" {if $attr.attr_cat_type eq 0} checked {/if}>
-                      			<label for="enabled_2">{t domain="goods"}普通{/t}</label>
-                      			
-                  				<input type="radio" id="enabled_1" name="attr_cat_type" value="1" {if $attr.attr_cat_type eq 1} checked {/if}>
-                      			<label for="enabled_1">{t domain="goods"}颜色{/t}</label>
-        					</div> 
-              			</div>
 
 						<div class="form-group attr_values">
 							<label class="control-label col-lg-3">{t domain="goods"}可选值列表：{/t}</label>

@@ -599,6 +599,22 @@ class merchant extends ecjia_merchant {
 	public function preview() {
 		$this->admin_priv('goods_manage');
 		
+		
+		$has_attr_group_pralist = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'parameter')->where('cat_id', 155)->whereNotNull('attr_group')->get();
+		if (!empty($has_attr_group_pralist)) {
+			foreach ($has_attr_group_pralist as $row) {
+				$arr = explode(',', str_replace("\n", ",", $row['attr_group']));
+				if (!empty($row->attribute_collection)) {
+					$row->attribute_collection->map(function ($item) use ($arr) {
+						$attr_group_str = $arr[$item->attr_group];
+						if (!empty($attr_group_str)) {
+							$item->update(array('attr_group' => $attr_group_str));
+						}
+					});
+				}
+			}
+		}
+		
 		$goods_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
 		$preview_type = $_GET['preview_type'];
 		

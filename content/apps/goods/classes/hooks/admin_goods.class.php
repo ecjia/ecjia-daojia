@@ -131,6 +131,7 @@ class goods_admin_hooks
     public static function add_maintain_command($factories)
     {
         $factories['goods_spec_parameter_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsSpecParameterCompatible';
+        $factories['goods_parameter_attrgroup_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsParameterAttrgroupCompatible';
         $factories['goods_up_levels_catid_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsUpLevelsCatidCompatible';
         return $factories;
     }

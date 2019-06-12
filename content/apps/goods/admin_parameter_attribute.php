@@ -149,7 +149,7 @@ class admin_parameter_attribute extends ecjia_admin {
 			return $this->showmessage(__('参数名称在当前参数模板下已存在，请您换一个名称', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$attr_group = isset($_POST['attr_group']) ? intval($_POST['attr_group']) 	: 0;//参数分组
+		$attr_group      = !empty($_POST['attr_group']) ? trim($_POST['attr_group']) 	: '';//参数分组
 		$attr_type = !empty($_POST['attr_type']) ? intval($_POST['attr_type']) 	: 0;  //参数可选值,唯一/复选
 		$attr_input_type = intval($_POST['attr_input_type']);//该属性值的录入方式
 		$attr_values = isset($_POST['attr_values']) ? $_POST['attr_values'] : ''; //可选值列表,
@@ -219,7 +219,7 @@ class admin_parameter_attribute extends ecjia_admin {
 			return $this->showmessage(__('参数名称在当前参数模板下已存在，请您换一个名称', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 			
-		$attr_group = isset($_POST['attr_group']) ? intval($_POST['attr_group']) 	: 0;//参数分组
+		$attr_group      = !empty($_POST['attr_group']) ? trim($_POST['attr_group']) 	: '';//参数分组
 		$attr_type = !empty($_POST['attr_type']) ? intval($_POST['attr_type']) 	: 0;  //参数可选值,唯一/复选
 		$attr_input_type = intval($_POST['attr_input_type']);//该属性值的录入方式
 		$attr_values = isset($_POST['attr_values']) ? $_POST['attr_values'] : ''; //可选值列表,

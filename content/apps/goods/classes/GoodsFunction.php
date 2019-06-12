@@ -292,4 +292,78 @@ class GoodsFunction
     	return $outData;
     }
     
+    /**
+     * 获取某个分类的上级分类信息
+     * @param int $cat_id 分类id
+     * @param int $is_merchant_category 是否是商家分类
+     * @param int $store_id 店铺id
+     * @return array
+     */
+    public static function get_parent_cats($cat_id, $is_merchant_category = 0, $store_id = 0)
+    {
+    	if ($cat_id == 0) {
+    		return array(
+    				'cat_id'   => 0,
+    				'cat_name' => '',
+    				'parent_id' => 0,
+    				'level' => 0
+    		);
+    	}
+    
+    	$where = array();
+    	if ($is_merchant_category) {
+    		$db_category = RC_DB::table('merchants_category')->where('store_id', $store_id);
+    	} else {
+    		$db_category = RC_DB::table('category');
+    	}
+    
+    	$arr = $db_category->select('cat_id', 'cat_name', 'parent_id')->get();
+    	
+    	if (empty($arr)) {
+    		return array(
+    				'cat_id'   => 0,
+    				'cat_name' => '',
+    				'parent_id' => 0,
+    				'level' => 0
+    		);
+    	}
+    
+    	$index = 0;
+    	$cats  = array();
+    	while (1) {
+    		foreach ($arr as $row) {
+    			if ($cat_id == $row['cat_id']) {
+    				$cat_id = $row['parent_id'];
+    
+    				$cats[$index]['cat_id']   = $row['cat_id'];
+    				$cats[$index]['cat_name'] = $row['cat_name'];
+    				$cats[$index]['parent_id'] = $row['parent_id'];
+    				$cats[$index]['level'] = 0;
+    
+    				$index++;
+    				break;
+    			}
+    		}
+    		if ($index == 0 || $cat_id == 0) {
+    			break;
+    		}
+    	}
+    
+    	return self::change_cats_level($cats);
+    }
+    
+    
+    public static function change_cats_level($cats = array()) {
+    	if (empty($cats)) return $cats;
+    	$levels = count($cats);
+    	$new_cats = array();
+    
+    	krsort($cats);
+    	foreach ($cats as $key => $val) {
+    		$val['level'] = $levels - $key - 1;
+    		$new_cats[] = $val;
+    	}
+    
+    	return $new_cats;
+    }
 }

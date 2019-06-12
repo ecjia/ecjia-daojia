@@ -102,14 +102,14 @@ class admin_goods_merchant_category_add_module extends api_admin implements api_
     		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
     	}
     	
-    	RC_Loader::load_app_func('admin_category', 'goods');
+    	
     	$category_detail = array(
-			'category_id'	=> $category_info['cat_id'],
-			'category_name'	=> $category_info['cat_name'],
+			'category_id'		=> $category_info['cat_id'],
+			'category_name'		=> $category_info['cat_name'],
 			'category_image'	=> !empty($category_info['style']) ? RC_Upload::upload_url($category_info['style']) : '',
-    	    'category' => get_parent_cats($category_info['cat_id'], 1, $_SESSION['store_id']),
-			'is_show'		=> $category_info['is_show'],
-			'goods_count'	=> 0,
+    	    'category' 			=> Ecjia\App\Goods\GoodsFunction::get_parent_cats($category_info['cat_id'], 1, $_SESSION['store_id']),
+			'is_show'			=> $category_info['is_show'],
+			'goods_count'		=> 0,
     	);
     	return $category_detail;
     	

@@ -36,7 +36,7 @@
 							{$list.product_bar_code}
 						</td>
 						<td align="left">
-							{$list.product_shop_price}
+							{$list.formatted_product_shop_price}
 						</td>
 						<td>{$list.product_number}</td>
 						<td>

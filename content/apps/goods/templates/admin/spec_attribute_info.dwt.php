@@ -39,14 +39,20 @@
 					</div>
 				</div>
 				
-				<div class="control-group formSep">
-					<label class="control-label">{t domain="goods"}属性类型：{/t}</label>
-					<div class="controls chk_radio">
-						<input class="uni_style" type="radio" name="attr_cat_type" value="0" {if $attr.attr_cat_type eq 0} checked="checked" {/if}/><span>{t domain="goods"}普通{/t}</span>
-						<input class="uni_style" type="radio" name="attr_cat_type" value="1" {if $attr.attr_cat_type eq 1} checked="checked" {/if}/><span>{t domain="goods"}颜色{/t}</span>
+				{if $attr.attr_id neq 0}
+					<div class="control-group formSep">
+					    <label class="control-label">{t domain="promotion"}属性类型：{/t}</label>
+					    <div class="controls l_h30">{if $attr.attr_cat_type eq 0}普通{elseif $attr.attr_cat_type eq 1}颜色{/if}</div>
 					</div>
-				</div>
-				
+				{else}
+					<div class="control-group formSep">
+						<label class="control-label">{t domain="goods"}属性类型：{/t}</label>
+						<div class="controls chk_radio">
+							<input class="uni_style" type="radio" name="attr_cat_type" value="0" {if $attr.attr_cat_type eq 0} checked="checked" {/if}/><span>{t domain="goods"}普通{/t}</span>
+							<input class="uni_style" type="radio" name="attr_cat_type" value="1" {if $attr.attr_cat_type eq 1} checked="checked" {/if}/><span>{t domain="goods"}颜色{/t}</span>
+						</div>
+					</div>
+				{/if}
 				<div class="control-group formSep attr_values">
 					<label class="control-label">{t domain="goods"}可选值列表：{/t}</label>
 					<div class="controls">

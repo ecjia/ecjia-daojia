@@ -178,12 +178,12 @@ class admin_goods_list_module extends api_admin implements api_interface {
 			
 			return array('data' => $collection['goods_list'], 'pager' => $collection['pager']);
 		} else {
-			$oldVersionData = $this->getoldVersionData($category_id, $keywords, $on_sale, $stock, $sort_by, $page, $size);
+			$oldVersionData = $this->getOldVersionData($category_id, $keywords, $on_sale, $stock, $sort_by, $page, $size);
 			return $oldVersionData;
 		}
 	}
 	
-	private function getoldVersionData($category_id, $keywords, $on_sale, $stock, $sort_by, $page, $size)
+	private function getOldVersionData($category_id, $keywords, $on_sale, $stock, $sort_by, $page, $size)
 	{
 		$where = array();
 		$where = array(
