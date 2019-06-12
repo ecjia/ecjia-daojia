@@ -26778,7 +26778,7 @@ use RC_Hook;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Royalcms\Component\Http\Response as RoyalcmsResponse;
 class AppControllerDispatcher
 {
     protected $route;
@@ -26797,7 +26797,7 @@ class AppControllerDispatcher
     public function dispatch()
     {
         $controller = $this->makeController();
-        if ($controller instanceof SymfonyResponse) {
+        if ($controller instanceof RoyalcmsResponse) {
             return $controller;
         }
         try {
@@ -26807,11 +26807,12 @@ class AppControllerDispatcher
                 return royalcms('response');
             } else {
                 $response = $this->route->runControllerAction($controller, $this->route->getAction());
-                if (!$response instanceof SymfonyResponse) {
-                    return royalcms('response');
-                } else {
-                    return $response;
+                if ($response instanceof RoyalcmsResponse) {
+                    if (!is_null($response->getOriginalContent())) {
+                        return $response;
+                    }
                 }
+                return royalcms('response');
             }
         } catch (NotFoundHttpException $e) {
             abort(403, $e->getMessage());
@@ -41190,6 +41191,57 @@ class ParseThemeStyle
 }
 
 namespace Ecjia\System\BaseController {
+use RC_Hook;
+use ecjia_loader;
+use Royalcms\Component\Routing\Controller as RoyalcmsController;
+abstract class BasicController extends RoyalcmsController
+{
+    public function __construct()
+    {
+        $this->load_default_script_style();
+        RC_Hook::do_action('ecjia_basic_finish_launching');
+    }
+    protected function session_start()
+    {
+    }
+    protected function load_hooks()
+    {
+        RC_Hook::add_action('front_enqueue_scripts', array($this, 'front_enqueue_scripts'), 1);
+        RC_Hook::add_action('front_print_styles', array($this, 'front_print_head_styles'), 8);
+        RC_Hook::add_action('front_print_scripts', array($this, 'front_print_head_scripts'), 9);
+        RC_Hook::add_action('front_print_footer_scripts', array($this, 'print_front_footer_scripts'), 20);
+    }
+    protected function load_default_script_style()
+    {
+    }
+    public function front_enqueue_scripts()
+    {
+    }
+    public final function print_front_footer_scripts()
+    {
+        $this->front_print_late_styles();
+        $this->front_print_footer_scripts();
+    }
+    public function front_print_head_styles()
+    {
+        ecjia_loader::print_head_styles();
+    }
+    public function front_print_head_scripts()
+    {
+        ecjia_loader::print_head_scripts();
+    }
+    public function front_print_footer_scripts()
+    {
+        ecjia_loader::print_footer_scripts();
+    }
+    public function front_print_late_styles()
+    {
+        ecjia_loader::print_late_styles();
+    }
+}
+}
+
+namespace Ecjia\System\BaseController {
 use ecjia;
 use Ecjia\System\Frameworks\Component\ShowMessage\Options\JsonShowMessageOption;
 use Ecjia\System\Frameworks\Component\ShowMessage\Options\PjaxShowMessageOption;
@@ -41304,6 +41356,11 @@ abstract class EcjiaController extends RoyalcmsController
         royalcms('response')->send();
         exit(0);
     }
+    public function redirectWithExited($url, $code = 302)
+    {
+        $this->redirect($url, $code);
+        $this->exited();
+    }
     protected function header($key, $value, $replace = true)
     {
         RC_Response::header($key, $value, $replace);
@@ -41348,6 +41405,7 @@ abstract class EcjiaController extends RoyalcmsController
             $response->header('Content-Type', $content_type);
         }
         $response->setContent($content);
+        royalcms()->instance('response', $response);
         return $response;
     }
     public function displayAppTemplate($app, $resource_name, $cache_id = null, $show = true, $options = array())
@@ -41413,6 +41471,1004 @@ abstract class EcjiaController extends RoyalcmsController
 }
 }
 
+namespace Ecjia\System\BaseController {
+use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
+use ecjia_view;
+use RC_File;
+use RC_Config;
+use RC_Loader;
+use Smarty;
+use RC_Uri;
+use RC_Response;
+use RC_Hook;
+use RC_Theme;
+use RC_Api;
+use ecjia_app;
+use ecjia_loader;
+abstract class SimpleController extends EcjiaController implements EcjiaTemplateFileLoader
+{
+    public function __construct()
+    {
+        parent::__construct();
+        self::$controller = static::$controller;
+        self::$view_object = static::$view_object;
+        RC_Response::header('Cache-control', 'private');
+        $this->assign_title();
+        if (RC_Config::get('system.debug')) {
+            error_reporting(E_ALL);
+        } else {
+            error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+        }
+        $this->load_default_script_style();
+        RC_Hook::do_action('ecjia_simple_finish_launching');
+    }
+    protected function session_start()
+    {
+    }
+    public function create_view()
+    {
+        $view = new ecjia_view($this);
+        $view->setTemplateDir($this->get_template_dir());
+        $view->setCompileDir(TEMPLATE_COMPILE_PATH . 'simple' . DIRECTORY_SEPARATOR);
+        if (RC_Config::get('system.debug')) {
+            $view->caching = Smarty::CACHING_OFF;
+            $view->cache_lifetime = 0;
+            $view->debugging = true;
+            $view->force_compile = true;
+        } else {
+            $view->caching = Smarty::CACHING_LIFETIME_CURRENT;
+            $view->cache_lifetime = 1800;
+            $view->debugging = false;
+            $view->force_compile = false;
+        }
+        $view->assign('ecjia_charset', RC_CHARSET);
+        $view->assign('system_static_url', RC_Uri::system_static_url() . '/');
+        return $view;
+    }
+    public function get_template_dir()
+    {
+        if (RC_Loader::exists_site_app(ROUTE_M)) {
+            $dir = SITE_APP_PATH . ROUTE_M . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'front' . DIRECTORY_SEPARATOR;
+        } else {
+            $dir = RC_APP_PATH . ROUTE_M . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'front' . DIRECTORY_SEPARATOR;
+        }
+        return $dir;
+    }
+    public function get_template_file($file)
+    {
+        $style = RC_Theme::get_template();
+        if (is_null($file)) {
+            $file = SITE_THEME_PATH . $style . DIRECTORY_SEPARATOR . ROUTE_M . DIRECTORY_SEPARATOR . ROUTE_C . '_' . ROUTE_A;
+        } elseif (!RC_File::is_absolute_path($file)) {
+            $file = SITE_THEME_PATH . $style . DIRECTORY_SEPARATOR . $file;
+        }
+        if (!preg_match('@\\.[a-z]+$@', $file)) {
+            $file .= RC_Config::get('system.tpl_fix');
+        }
+        if (is_file($file)) {
+            return $file;
+        } else {
+            if (RC_Config::get('system.debug')) {
+                rc_die("Template does not exist.:{$file}");
+            } else {
+                return null;
+            }
+        }
+    }
+    public final function display($tpl_file = null, $cache_id = null, $show = true, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (RC_Config::get('system.tpl_usedfront') && !RC_File::is_absolute_path($tpl_file)) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+        return parent::display($tpl_file, $cache_id, $show, $options);
+    }
+    public final function fetch($tpl_file = null, $cache_id = null, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (RC_Config::get('system.tpl_usedfront') && !RC_File::is_absolute_path($tpl_file)) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+        return parent::fetch($tpl_file, $cache_id, $options);
+    }
+    public final function is_cached($tpl_file, $cache_id = null, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (RC_Config::get('system.tpl_usedfront')) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+        $is_cached = parent::is_cached($tpl_file, $cache_id, $options);
+        $purge = royalcms('request')->query('purge', 0);
+        $purge = intval($purge);
+        if ($is_cached && $purge === 1) {
+            parent::clear_cache($tpl_file, $cache_id, $options);
+            return false;
+        }
+        return $is_cached;
+    }
+    protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
+    {
+        $revise_url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
+        $front_tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . RC_Config::get('system.tpl_message');
+        if ($tpl) {
+            $this->assign(array('msg' => $msg, 'url' => $revise_url, 'time' => $time));
+            $tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . $tpl;
+            return $this->display($tpl);
+        } elseif (file_exists($front_tpl)) {
+            $this->assign(array('msg' => $msg, 'url' => $revise_url, 'time' => $time));
+            return $this->display($front_tpl);
+        } else {
+            return parent::message($msg, $url, $time, $tpl);
+        }
+    }
+    public function assign_title($title = '')
+    {
+        $title_suffix = RC_Hook::apply_filters('page_title_suffix', ' - Powered by ECJia');
+        $this->assign('page_title', $title . $title_suffix);
+    }
+    protected function load_hooks()
+    {
+        RC_Hook::add_action('front_enqueue_scripts', array($this, 'front_enqueue_scripts'), 1);
+        RC_Hook::add_action('front_print_styles', array($this, 'front_print_head_styles'), 8);
+        RC_Hook::add_action('front_print_scripts', array($this, 'front_print_head_scripts'), 9);
+        RC_Hook::add_action('front_print_footer_scripts', array($this, 'print_front_footer_scripts'), 20);
+    }
+    protected function load_default_script_style()
+    {
+    }
+    public function front_enqueue_scripts()
+    {
+    }
+    public final function print_front_footer_scripts()
+    {
+        $this->front_print_late_styles();
+        $this->front_print_footer_scripts();
+    }
+    public function front_print_head_styles()
+    {
+        ecjia_loader::print_head_styles();
+    }
+    public function front_print_head_scripts()
+    {
+        ecjia_loader::print_head_scripts();
+    }
+    public function front_print_footer_scripts()
+    {
+        ecjia_loader::print_footer_scripts();
+    }
+    public function front_print_late_styles()
+    {
+        ecjia_loader::print_late_styles();
+    }
+}
+}
+
+namespace Ecjia\System\BaseController {
+use ecjia;
+use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
+use ecjia_app;
+use Ecjia_ThemeManager;
+use ecjia_view;
+use InvalidArgumentException;
+use RC_File;
+use RC_Hook;
+use RC_Session;
+use RC_Theme;
+use RC_Uri;
+use Smarty;
+abstract class SmartyController extends EcjiaController implements EcjiaTemplateFileLoader
+{
+    public static $view_object;
+    public static $controller;
+    public function __construct()
+    {
+        parent::__construct();
+        self::$controller = static::$controller;
+        self::$view_object = static::$view_object;
+        if (config('system.debug')) {
+            error_reporting(E_ALL);
+        } else {
+            error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+        }
+        RC_Hook::do_action('ecjia_smarty_finish_launching');
+    }
+    protected function session_start()
+    {
+        RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
+            return config('session.session_name');
+        });
+        RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
+            return RC_Hook::apply_filters('ecjia_front_session_id', $sessin_id);
+        });
+        RC_Session::start();
+    }
+    public function create_view()
+    {
+        $view = new ecjia_view($this);
+        $view->setTemplateDir(SITE_THEME_PATH . RC_Theme::get_template() . DIRECTORY_SEPARATOR);
+        $view->addPluginsDir(SITE_THEME_PATH . RC_Theme::get_template() . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR);
+        $view->setCompileDir(TEMPLATE_COMPILE_PATH . 'front' . DIRECTORY_SEPARATOR);
+        if (config('system.debug')) {
+            $view->caching = Smarty::CACHING_OFF;
+            $view->cache_lifetime = 0;
+            $view->debugging = true;
+            $view->force_compile = true;
+        } else {
+            $view->caching = Smarty::CACHING_LIFETIME_CURRENT;
+            $view->cache_lifetime = ecjia::config('cache_time');
+            $view->debugging = false;
+            $view->force_compile = false;
+        }
+        $view->assign('ecjia_charset', RC_CHARSET);
+        $view->assign('theme_url', RC_Theme::get_template_directory_uri() . '/');
+        $view->assign('system_static_url', RC_Uri::system_static_url() . '/');
+        try {
+            $css_path = Ecjia_ThemeManager::driver(Ecjia_ThemeManager::getTemplateName())->loadSpecifyStyle(Ecjia_ThemeManager::getStyleName())->getStyle();
+            $view->assign('theme_css_path', $css_path);
+        } catch (InvalidArgumentException $e) {
+        }
+        return $view;
+    }
+    public function get_template_dir()
+    {
+        $style = RC_Theme::get_template();
+        $dir = SITE_THEME_PATH . $style . DIRECTORY_SEPARATOR;
+        return $dir;
+    }
+    public function get_template_file($file)
+    {
+        $style = RC_Theme::get_template();
+        if (is_null($file)) {
+            $file = SITE_THEME_PATH . $style . DIRECTORY_SEPARATOR . ROUTE_M . DIRECTORY_SEPARATOR . ROUTE_C . '_' . ROUTE_A;
+        } elseif (!RC_File::is_absolute_path($file)) {
+            $file = SITE_THEME_PATH . $style . DIRECTORY_SEPARATOR . $file;
+        }
+        if (!preg_match('@\\.[a-z]+$@', $file)) {
+            $file .= config('system.tpl_fix');
+        }
+        if (is_file($file)) {
+            return $file;
+        }
+        if (config('system.debug')) {
+            rc_die("Template does not exist.:{$file}");
+        }
+        return str_replace($this->get_template_dir(), '', $file);
+    }
+    public function display($tpl_file = null, $cache_id = null, $show = true, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (config('system.tpl_usedfront') && !RC_File::is_absolute_path($tpl_file)) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+        return parent::display($tpl_file, $cache_id, $show, $options);
+    }
+    public function fetch($tpl_file = null, $cache_id = null, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (config('system.tpl_usedfront') && !RC_File::is_absolute_path($tpl_file)) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+        return parent::fetch($tpl_file, $cache_id, $options);
+    }
+    public final function is_cached($tpl_file, $cache_id = null, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (config('system.tpl_usedfront') && !RC_File::is_absolute_path($tpl_file)) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+        $is_cached = parent::is_cached($tpl_file, $cache_id, $options);
+        $purge = royalcms('request')->query('purge', 0);
+        $purge = intval($purge);
+        if ($is_cached && $purge === 1) {
+            $this->clear_cache($tpl_file, $cache_id, $options);
+            return false;
+        }
+        return $is_cached;
+    }
+    public function clear_cache($tpl_file, $cache_id = null, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (config('system.tpl_usedfront')) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+        return parent::clear_cache($tpl_file, $cache_id, $options);
+    }
+}
+}
+
+namespace Ecjia\System\BaseController {
+use admin_menu;
+use admin_nav_here;
+use ecjia;
+use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
+use ecjia_admin_log;
+use ecjia_admin_menu;
+use ecjia_app;
+use ecjia_config;
+use ecjia_notification;
+use ecjia_screen;
+use ecjia_view;
+use RC_Config;
+use RC_Cookie;
+use RC_ENV;
+use RC_File;
+use RC_Hook;
+use RC_Ip;
+use RC_Loader;
+use RC_Plugin;
+use RC_Script;
+use RC_Session;
+use RC_Style;
+use RC_Time;
+use RC_Uri;
+use Smarty;
+defined('IN_ECJIA') or exit('No permission resources.');
+define('IN_ADMIN', true);
+abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemplateFileLoader
+{
+    public static $view_object;
+    public static $controller;
+    public function __construct()
+    {
+        parent::__construct();
+        self::$controller = static::$controller;
+        self::$view_object = static::$view_object;
+        if (defined('DEBUG_MODE') == false) {
+            define('DEBUG_MODE', 2);
+        }
+        RC_Loader::load_sys_func('global');
+        RC_Loader::load_sys_func('general_template');
+        clearstatcache();
+        if (empty(ecjia_screen::$current_screen)) {
+            ecjia_screen::set_current_screen();
+        }
+        RC_Hook::add_action('admin_print_main_header', array(ecjia_screen::$current_screen, 'render_screen_meta'));
+        $this->public_route = RC_Hook::apply_filters('admin_access_public_route', config('system::public_route'));
+        if (!$this->_check_login()) {
+            RC_Session::destroy();
+            if (is_pjax()) {
+                ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
+                $response = $this->showmessage(__('对不起,您没有执行此项操作的权限!'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('@privilege/login')))));
+                royalcms('response')->send();
+                exit;
+            } elseif (is_ajax()) {
+                $this->showmessage(__('对不起,您没有执行此项操作的权限!'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                royalcms('response')->send();
+                exit;
+            } else {
+                RC_Cookie::set('admin_login_referer', RC_Uri::current_url());
+                $this->redirect(RC_Uri::url('@privilege/login'));
+                $this->exited();
+            }
+        }
+        if (RC_Config::get('system.debug')) {
+            error_reporting(E_ALL);
+        } else {
+            error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+        }
+        $this->load_default_script_style();
+        $this->assign('ecjia_admin_cptitle', RC_Hook::apply_filters('ecjia_admin_cptitle', __('ECJIA 管理面板')));
+        $this->assign('ecjia_admin_cpname', RC_Hook::apply_filters('ecjia_admin_cpname', 'ECJia Admin <span class="sml_t">' . VERSION . '</span>'));
+        $this->assign('admin_message_is_show', RC_Hook::apply_filters('ecjia_admin_message_show', true));
+        $this->assign('ecjia_config', ecjia::config());
+        if (RC_Config::get('system.gzip') && RC_ENV::gzip_enabled()) {
+            ob_start('ob_gzhandler');
+        } else {
+            ob_start();
+        }
+        RC_Hook::add_action('admin_enqueue_scripts', function () {
+            $this->csrf_token_meta();
+        });
+        RC_Hook::do_action('ecjia_admin_finish_launching');
+    }
+    protected function registerServiceProvider()
+    {
+        royalcms()->register('Royalcms\\Component\\Purifier\\PurifierServiceProvider');
+        royalcms()->register('Ecjia\\System\\Providers\\EcjiaAdminServiceProvider');
+    }
+    protected function session_start()
+    {
+        RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
+            return RC_Config::get('session.session_admin_name');
+        });
+        RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
+            return RC_Hook::apply_filters('ecjia_admin_session_id', $sessin_id);
+        });
+        RC_Session::start();
+    }
+    public function create_view()
+    {
+        $view = new ecjia_view($this);
+        $view->setTemplateDir(SITE_SYSTEM_PATH . 'templates' . DIRECTORY_SEPARATOR);
+        if (!in_array($this->get_template_dir(), $view->getTemplateDir())) {
+            $view->addTemplateDir($this->get_template_dir());
+        }
+        $view->setCompileDir(TEMPLATE_COMPILE_PATH . 'admin' . DIRECTORY_SEPARATOR);
+        if (RC_Config::get('system.debug')) {
+            $view->caching = Smarty::CACHING_OFF;
+            $view->debugging = true;
+            $view->force_compile = true;
+        } else {
+            $view->caching = Smarty::CACHING_OFF;
+            $view->debugging = false;
+            $view->force_compile = false;
+        }
+        return $view;
+    }
+    protected function authSession()
+    {
+        if (session('session_user_id') && session('session_user_type') == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function csrf_token_meta()
+    {
+        echo '<meta name="csrf-token" content="' . csrf_token() . '">';
+    }
+    private function _check_login()
+    {
+        if ($this->isVerificationPublicRoute()) {
+            return true;
+        }
+        if ($this->authSession()) {
+            return true;
+        }
+        return (new \Ecjia\System\Admins\RememberPassword\RememberPassword())->verification(function ($model) {
+            $this->admin_session($model['user_id'], $model['user_name'], $model['action_list'], $model['last_time']);
+            $model->last_login = RC_Time::gmtime();
+            $model->last_ip = RC_Ip::client_ip();
+            $model->save();
+        });
+    }
+    public function get_template_dir()
+    {
+        if (ROUTE_M != RC_Config::get('system.admin_entrance') && ROUTE_M != 'system') {
+            if (RC_Loader::exists_site_app(ROUTE_M)) {
+                $dir = SITE_APP_PATH . ROUTE_M . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR;
+            } else {
+                $dir = RC_APP_PATH . ROUTE_M . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR;
+            }
+        } else {
+            $dir = SITE_SYSTEM_PATH . 'templates' . DIRECTORY_SEPARATOR;
+        }
+        return $dir;
+    }
+    public function get_template_file($file)
+    {
+        if (strpos($file, '/') !== 0 && strpos($file, ":\\") !== 1) {
+            $file = $this->get_template_dir() . $file;
+        }
+        if (!preg_match('@\\.[a-z]+$@', $file)) {
+            $file .= RC_Config::get('system.tpl_fix');
+        }
+        if (is_file($file)) {
+            return $file;
+        } else {
+            return str_replace($this->get_template_dir(), '', $file);
+        }
+    }
+    public final function display($tpl_file = null, $cache_id = null, $show = true, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+        }
+        return parent::display($tpl_file, $cache_id, $show, $options);
+    }
+    public final function fetch($tpl_file = null, $cache_id = null, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+        }
+        return parent::fetch($tpl_file, $cache_id, $options);
+    }
+    protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
+    {
+        $revise_url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
+        $system_tpl = SITE_SYSTEM_PATH . 'templates' . DIRECTORY_SEPARATOR . RC_Config::get('system.tpl_message');
+        if ($tpl) {
+            $this->assign(array('msg' => $msg, 'url' => $revise_url, 'time' => $time));
+            $tpl = SITE_SYSTEM_PATH . 'templates' . DIRECTORY_SEPARATOR . $tpl;
+            return $this->display($tpl);
+        } elseif (file_exists($system_tpl)) {
+            $this->assign(array('msg' => $msg, 'url' => $revise_url, 'time' => $time));
+            return $this->display($system_tpl);
+        } else {
+            return parent::message($msg, $url, $time, $tpl);
+        }
+    }
+    public function admin_session($user_id, $username, $action_list, $last_time, $email = '')
+    {
+        RC_Session::set('admin_id', $user_id);
+        RC_Session::set('admin_name', $username);
+        RC_Session::set('action_list', $action_list);
+        RC_Session::set('last_check_order', $last_time);
+        RC_Session::set('session_user_id', $user_id);
+        RC_Session::set('session_user_type', 'admin');
+        RC_Session::set('email', $email);
+        RC_Session::set('ip', RC_Ip::client_ip());
+    }
+    public static function make_admin_menu($action, $name, $link, $sort = 99, $target = '_self')
+    {
+        return new admin_menu($action, $name, $link, $sort, $target);
+    }
+    public final function admin_priv($priv_str, $msg_type = ecjia::MSGTYPE_HTML, $msg_output = true)
+    {
+        if (ecjia_admin_menu::singleton()->admin_priv($priv_str)) {
+            return true;
+        } else {
+            if ($msg_output) {
+                if ($msg_type == ecjia::MSGTYPE_JSON && is_ajax() && !is_pjax()) {
+                    $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    royalcms('response')->send();
+                    die;
+                } else {
+                    ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
+                    $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+                    royalcms('response')->send();
+                    die;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+    public final function load_default_script_style()
+    {
+        RC_Style::enqueue_style('bootstrap');
+        RC_Style::enqueue_style('bootstrap-responsive');
+        RC_Style::enqueue_style('jquery-jBreadCrumb');
+        RC_Style::enqueue_style('flags');
+        RC_Style::enqueue_style('fontello');
+        RC_Style::enqueue_style('ecjia');
+        RC_Style::enqueue_style('ecjia-ui');
+        RC_Style::enqueue_style('ecjia-function');
+        RC_Style::enqueue_style('ecjia-skin-blue');
+        RC_Style::enqueue_style('jquery-sticky');
+        RC_Script::enqueue_script('ecjia');
+        RC_Script::enqueue_script('jquery-migrate');
+        RC_Script::enqueue_script('jquery-ui-touchpunch');
+        RC_Script::enqueue_script('jquery-pjax');
+        RC_Script::enqueue_script('jquery-cookie');
+        RC_Script::enqueue_script('js-json');
+        RC_Script::enqueue_script('jquery-actual');
+        RC_Script::enqueue_script('jquery-sticky');
+        RC_Script::enqueue_script('bootstrap');
+        RC_Script::enqueue_script('jquery-ui-totop');
+        RC_Script::enqueue_script('ecjia-admin');
+        RC_Script::enqueue_script('ecjia-ui');
+        RC_Script::enqueue_script('jquery-quicksearch');
+        RC_Script::localize_script('ecjia-admin', 'admin_lang', config('system::jslang.admin_default_page'));
+    }
+    protected function load_hooks()
+    {
+        RC_Hook::add_action('admin_head', array(__CLASS__, '_ie_support_header'));
+        RC_Hook::add_action('admin_head', array('ecjia_loader', 'admin_enqueue_scripts'), 1);
+        RC_Hook::add_action('admin_print_scripts', array('ecjia_loader', 'print_head_scripts'), 20);
+        RC_Hook::add_action('admin_print_footer_scripts', array('ecjia_loader', 'print_admin_footer_scripts'));
+        RC_Hook::add_action('admin_print_styles', array('ecjia_loader', 'print_head_styles'), 20);
+        RC_Hook::add_action('admin_print_main_bottom', array(__CLASS__, 'display_admin_copyright'));
+        RC_Hook::add_action('admin_print_header_nav', array(__CLASS__, 'display_admin_header_nav'));
+        RC_Hook::add_action('admin_sidebar_collapse_search', array(__CLASS__, 'display_admin_sidebar_nav_search'), 9);
+        RC_Hook::add_action('admin_sidebar_collapse', array(__CLASS__, 'display_admin_sidebar_nav'), 9);
+        RC_Hook::add_action('admin_dashboard_top', array(__CLASS__, 'display_admin_welcome'), 9);
+        RC_Hook::add_filter('upload_default_random_filename', array('ecjia_utility', 'random_filename'));
+        RC_Hook::add_action('admin_print_footer_scripts', array(ecjia_notification::make(), 'printScript'));
+        RC_Loader::load_sys_class('hooks.admin_system', false);
+        $system_plugins = ecjia_config::instance()->get_addon_config('system_plugins', true);
+        if (is_array($system_plugins)) {
+            foreach ($system_plugins as $plugin_file) {
+                RC_Plugin::load_files($plugin_file);
+            }
+        }
+        $apps = ecjia_app::installed_app_floders();
+        if (is_array($apps)) {
+            foreach ($apps as $app) {
+                RC_Loader::load_app_class('hooks.admin_' . $app, $app, false);
+            }
+        }
+    }
+    public static final function admin_log($sn, $action, $content)
+    {
+        $log_info = ecjia_admin_log::instance()->get_message($sn, $action, $content);
+        $db = RC_Loader::load_model('admin_log_model');
+        $data = array('log_time' => RC_Time::gmtime(), 'user_id' => $_SESSION['admin_id'], 'log_info' => stripslashes($log_info), 'ip_address' => RC_Ip::client_ip());
+        $db->insert($data);
+    }
+    public static final function admin_info()
+    {
+        $db = RC_Loader::load_model('admin_user_model');
+        $admin_info = $db->find(array('user_id' => intval($_SESSION['admin_id'])));
+        if (!empty($admin_info)) {
+            return $admin_info;
+        }
+        return false;
+    }
+    public static function _ie_support_header()
+    {
+        if (is_ie()) {
+            echo "\n";
+            echo '<!--[if lte IE 8]>' . "\n";
+            echo '<link rel="stylesheet" href="' . RC_Uri::admin_url() . '/statics/lib/ie/ie.css" />' . "\n";
+            echo '<![endif]-->' . "\n";
+            echo "\n";
+            echo '<!--[if lt IE 9]>' . "\n";
+            echo '<script src="' . RC_Uri::admin_url() . '/statics/lib/ie/html5.js"></script>' . "\n";
+            echo '<script src="' . RC_Uri::admin_url() . '/statics/lib/ie/respond.min.js"></script>' . "\n";
+            echo '<script src="' . RC_Uri::admin_url() . '/statics/lib/flot/excanvas.min.js"></script>' . "\n";
+            echo '<![endif]-->' . "\n";
+        }
+    }
+    public static function display_admin_header_nav()
+    {
+        $menus = ecjia_admin_menu::singleton()->admin_menu();
+        $menus_label = ecjia_admin_menu::singleton()->get_menu_label();
+        echo '<ul class="nav" id="mobile-nav">' . PHP_EOL;
+        foreach ($menus as $key => $group) {
+            if ($group) {
+                echo '<li class="dropdown">' . PHP_EOL;
+                echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list-alt icon-white"></i> ' . $menus_label[$key] . ' <b class="caret"></b></a>' . PHP_EOL;
+                echo '<ul class="dropdown-menu">' . PHP_EOL;
+                foreach ($group as $k => $menu) {
+                    if ($menu->has_submenus) {
+                        echo '<li class="dropdown">' . PHP_EOL;
+                        if ($menu->link) {
+                            echo '<a href="' . $menu->link . '" target="' . $menu->target . '">' . $menu->name . ' <b class="caret-right"></b></a>' . PHP_EOL;
+                        } else {
+                            echo '<a href="javascript:;" target="' . $menu->target . '">' . $menu->name . ' <b class="caret-right"></b></a>' . PHP_EOL;
+                        }
+                        echo '<ul class="dropdown-menu">' . PHP_EOL;
+                        if ($menu->submenus) {
+                            foreach ($menu->submenus as $child) {
+                                if ($child->action == 'divider') {
+                                    echo '<li class="divider"></li>' . PHP_EOL;
+                                } elseif ($child->action == 'nav-header') {
+                                    echo '<li class="nav-header">' . $child->name . '</li>' . PHP_EOL;
+                                } else {
+                                    echo '<li><a href="' . $child->link . '" target="' . $menu->target . '">' . $child->name . '</a></li>' . PHP_EOL;
+                                }
+                            }
+                        }
+                        echo '</ul>' . PHP_EOL;
+                        echo '</li>' . PHP_EOL;
+                    } else {
+                        if ($menu->action == 'divider') {
+                            echo '<li class="divider"></li>' . PHP_EOL;
+                        } elseif ($menu->action == 'nav-header') {
+                            echo '<li class="nav-header">' . $menu->name . '</li>' . PHP_EOL;
+                        } else {
+                            echo '<li><a href="' . $menu->link . '" target="' . $menu->target . '">' . $menu->name . '</a></li>' . PHP_EOL;
+                        }
+                    }
+                }
+            }
+            echo '</ul>' . PHP_EOL;
+            echo '</li>' . PHP_EOL;
+        }
+        echo '</ul>' . PHP_EOL;
+    }
+    public static function display_admin_sidebar_nav_search()
+    {
+        $menus = ecjia_admin_menu::singleton()->admin_menu();
+        if (!empty($menus['apps'])) {
+            foreach ($menus['apps'] as $k => $menu) {
+                if ($menu->has_submenus) {
+                    if ($menu->submenus) {
+                        foreach ($menu->submenus as $child) {
+                            if ($child->action == 'divider') {
+                                echo '<li class="divider"></li>';
+                            } elseif ($child->action == 'nav-header') {
+                                echo '<li class="nav-header">' . $child->name . '</li>';
+                            } else {
+                                echo '<li><a href="' . $child->link . '">' . $child->name . '</a></li>';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public static function display_admin_sidebar_nav()
+    {
+        $menus = ecjia_admin_menu::singleton()->admin_menu();
+        if (!empty($menus['apps'])) {
+            foreach ($menus['apps'] as $k => $menu) {
+                echo '<div class="accordion-group">';
+                echo '<div class="accordion-heading">';
+                echo '<a class="accordion-toggle" href="#collapse' . $k . '" data-parent="#side_accordion" data-toggle="collapse">';
+                echo '<i class="icon-folder-close"></i> ' . $menu->name;
+                echo '</a>';
+                echo '</div>';
+                if ($menu->has_submenus) {
+                    echo '<div class="accordion-body collapse" id="collapse' . $k . '">';
+                    echo '<div class="accordion-inner">';
+                    echo '<ul class="nav nav-list">';
+                    if ($menu->submenus) {
+                        foreach ($menu->submenus as $child) {
+                            if ($child->action == 'divider') {
+                                echo '<li class="divider"></li>';
+                            } elseif ($child->action == 'nav-header') {
+                                echo '<li class="nav-header">' . $child->name . '</li>';
+                            } else {
+                                if (RC_Uri::current_url() === $child->link) {
+                                    echo '<li class="active"><a href="' . $child->link . '">' . $child->name . '</a></li>';
+                                } else {
+                                    echo '<li><a href="' . $child->link . '">' . $child->name . '</a></li>';
+                                }
+                            }
+                        }
+                    }
+                    echo '</ul>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                echo '</div>';
+            }
+        }
+    }
+    public static function display_admin_copyright()
+    {
+        $ecjia_version = ecjia::version();
+        $company_msg = '版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。';
+        $ecjia_icon = RC_Uri::admin_url('statics/images/ecjia_icon.png');
+        echo "<div class='row-fluid footer'>\n        \t\t<div class='span12'>\n        \t\t\t<span class='f_l w35'>\n        \t\t\t\t<img src='{$ecjia_icon}' />\n        \t\t\t</span>\n        \t\t\t{$company_msg}\t\n        \t\t\t<span class='f_r muted'>\n        \t\t\t\t<i>v{$ecjia_version}</i>\n        \t\t\t</span>\n        \t\t</div>\n        \t</div>";
+    }
+    public static function display_admin_welcome()
+    {
+        $ecjia_version = VERSION;
+        $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
+        $ecjia_about_url = RC_Uri::url('@about/about_us');
+        $welcome_ecjia = __('欢迎使用ECJia');
+        $description = __('ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带来全新的使用体验！');
+        $more = __('了解更多 »');
+        $welcome = <<<WELCOME
+      <div>
+        <a class="close m_r10" data-dismiss="alert">×</a>
+        <div class="hero-unit">
+            <div class="row-fluid">
+                <div class="span3">
+                    <img src="{$ecjia_welcome_logo}" />
+                </div>
+                <div class="span9">
+                    <h1>{$welcome_ecjia} {$ecjia_version}</h1>
+                    <p>{$description}</p>
+                    <a class="btn btn-info" href="{$ecjia_about_url}" target="_self">{$more}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+WELCOME;
+        echo $welcome;
+    }
+    public static function display_admin_about_welcome()
+    {
+        $ecjia_version = VERSION;
+        $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
+        $welcome_ecjia = __('欢迎使用ECJia');
+        $description = __('ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带来全新的使用体验！');
+        $more = __('进入官网 »');
+        $ecjia_url = 'https://ecjia.com';
+        $welcome = <<<WELCOME
+        <div class="hero-unit">
+\t\t\t<div class="row-fluid">
+\t\t\t\t<div class="span9">
+\t\t\t\t\t<h1>{$welcome_ecjia} {$ecjia_version}</h1>
+\t\t\t\t\t<p>{$description}</p>
+\t\t\t\t\t<p><a class="btn btn-info" href="{$ecjia_url}" target="_bank">{$more}</a></p>
+\t\t\t\t</div>
+\t\t\t\t<div class="span3">
+\t\t\t\t\t<div><img src="{$ecjia_welcome_logo}" /></div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+WELCOME;
+        echo $welcome;
+    }
+    public static function is_super_admin()
+    {
+    }
+    public static function is_sidebar_hidden()
+    {
+        $sidebar_display = ecjia_screen::get_current_screen()->get_sidebar_display();
+        $ecjia_sidebar = royalcms('request')->cookie('ecjia_sidebar');
+        if ($sidebar_display === false || $ecjia_sidebar == 'hidden') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+}
+
+namespace Ecjia\System\BaseController {
+use ecjia;
+use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
+use ecjia_app;
+use ecjia_loader;
+use RC_Config;
+use RC_ENV;
+use RC_Hook;
+use RC_Ip;
+use RC_Loader;
+use RC_Response;
+use RC_Session;
+defined('IN_ECJIA') or exit('No permission resources.');
+abstract class EcjiaFrontController extends SmartyController
+{
+    public static $view_object;
+    public static $controller;
+    public function __construct()
+    {
+        parent::__construct();
+        self::$controller = static::$controller;
+        self::$view_object = static::$view_object;
+        if (defined('DEBUG_MODE') == false) {
+            define('DEBUG_MODE', 0);
+        }
+        if (ecjia::config('shop_closed') == 1) {
+            RC_Hook::do_action('ecjia_shop_closed');
+        }
+        defined('SESS_ID') or define('SESS_ID', RC_Session::session_id());
+        RC_Hook::do_action('ecjia_front_access_session');
+        if (isset($_SERVER['PHP_SELF'])) {
+            $_SERVER['PHP_SELF'] = htmlspecialchars($_SERVER['PHP_SELF']);
+        }
+        RC_Response::header('Cache-control', 'private');
+        $this->assign_title();
+        RC_Hook::do_action('ecjia_compatible_process');
+        $this->load_default_script_style();
+        if (RC_Config::get('system.gzip') && RC_ENV::gzip_enabled()) {
+            ob_start('ob_gzhandler');
+        } else {
+            ob_start();
+        }
+        RC_Hook::do_action('ecjia_front_finish_launching');
+    }
+    protected function registerServiceProvider()
+    {
+        royalcms()->forgeRegister('Royalcms\\Component\\Purifier\\PurifierServiceProvider');
+    }
+    protected function session_start()
+    {
+        parent::session_start();
+        $this->default_session();
+    }
+    protected function default_session()
+    {
+        if (!RC_Session::has('user_rank')) {
+            RC_Session::set('user_rank', 0);
+        }
+        if (!RC_Session::has('discount')) {
+            RC_Session::set('discount', 1.0);
+        }
+        if (!RC_Session::has('ip')) {
+            RC_Session::set('ip', RC_Ip::client_ip());
+        }
+    }
+    protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
+    {
+        $revise_url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
+        $front_tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . RC_Config::get('system.tpl_message');
+        if ($tpl) {
+            $this->assign(array('msg' => $msg, 'url' => $revise_url, 'time' => $time));
+            $tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . $tpl;
+            return $this->display($tpl);
+        } elseif (file_exists($front_tpl)) {
+            $this->assign(array('msg' => $msg, 'url' => $revise_url, 'time' => $time));
+            return $this->display($front_tpl);
+        } else {
+            return parent::message($msg, $url, $time, $tpl);
+        }
+    }
+    public function assign_title($title = '')
+    {
+        $title_suffix = RC_Hook::apply_filters('page_title_suffix', ' - Powered by ECJia');
+        if (empty($title)) {
+            $this->assign('page_title', ecjia::config('shop_title') . $title_suffix);
+        } else {
+            $this->assign('page_title', $title . '-' . ecjia::config('shop_title') . $title_suffix);
+        }
+    }
+    public function assign_template($ctype = '', $catlist = array())
+    {
+        $this->assign('image_width', ecjia::config('image_width'));
+        $this->assign('image_height', ecjia::config('image_height'));
+        $this->assign('points_name', ecjia::config('integral_name'));
+        $this->assign('qq', explode(',', ecjia::config('qq')));
+        $this->assign('ww', explode(',', ecjia::config('ww')));
+        $this->assign('ym', explode(',', ecjia::config('ym')));
+        $this->assign('msn', explode(',', ecjia::config('msn')));
+        $this->assign('skype', explode(',', ecjia::config('skype')));
+        $this->assign('stats_code', ecjia::config('stats_code'));
+        $this->assign('copyright', '版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。');
+        $this->assign('shop_name', ecjia::config('shop_name'));
+        $this->assign('service_email', ecjia::config('service_email'));
+        $this->assign('service_phone', ecjia::config('service_phone'));
+        $this->assign('shop_address', ecjia::config('shop_address'));
+        $this->assign('ecs_version', VERSION);
+        $this->assign('icp_number', ecjia::config('icp_number'));
+        $this->assign('username', !empty($_SESSION['user_name']) ? $_SESSION['user_name'] : '');
+        if (ecjia::config('search_keywords', ecjia::CONFIG_CHECK)) {
+            $searchkeywords = explode(',', trim(ecjia::config('search_keywords')));
+            $this->assign('searchkeywords', $searchkeywords);
+        }
+    }
+    protected function load_hooks()
+    {
+        RC_Hook::add_action('front_enqueue_scripts', array($this, 'front_enqueue_scripts'), 1);
+        RC_Hook::add_action('front_print_styles', array($this, 'front_print_head_styles'), 8);
+        RC_Hook::add_action('front_print_scripts', array($this, 'front_print_head_scripts'), 9);
+        RC_Hook::add_action('front_print_footer_scripts', array($this, 'print_front_footer_scripts'), 20);
+        $apps = ecjia_app::installed_app_floders();
+        if (is_array($apps)) {
+            foreach ($apps as $app) {
+                RC_Loader::load_app_class('hooks.front_' . $app, $app, false);
+            }
+        }
+    }
+    protected function load_default_script_style()
+    {
+    }
+    public function front_enqueue_scripts()
+    {
+    }
+    public final function print_front_footer_scripts()
+    {
+        $this->front_print_late_styles();
+        $this->front_print_footer_scripts();
+    }
+    public function front_print_head_styles()
+    {
+        ecjia_loader::print_head_styles();
+    }
+    public function front_print_head_scripts()
+    {
+        ecjia_loader::print_head_scripts();
+    }
+    protected function front_print_late_styles()
+    {
+        ecjia_loader::print_late_styles();
+    }
+    protected function front_print_footer_scripts()
+    {
+        ecjia_loader::print_footer_scripts();
+    }
+}
+}
+
 namespace {
 class ecjia_view
 {
@@ -41468,6 +42524,7 @@ class ecjia_view
             $response->header('Content-Type', $content_type);
         }
         $response->setContent($content);
+        royalcms()->instance('response', $response);
         return $response;
     }
     public function fetch($tpl_file = null, $cache_id = null, $options = array())
