@@ -87,7 +87,7 @@ class weapp_platform_hooks
         $count = count($list);
         ecjia_platform::$controller->assign('count', $count);
 
-        ecjia_platform::$controller->display(
+        echo ecjia_platform::$controller->fetch(
             RC_Package::package('app::weapp')->loadTemplate('platform/library/common_header_messages.lbi', true)
         );
     }
@@ -122,7 +122,7 @@ class weapp_platform_hooks
         );
         ecjia_platform::$controller->assign('count', $count);
 
-        ecjia_platform::$controller->display(
+        echo ecjia_platform::$controller->fetch(
             RC_Package::package('app::weapp')->loadTemplate('platform/library/widget_platform_dashboard_stats.lbi', true)
         );
     }
@@ -167,7 +167,7 @@ class weapp_platform_hooks
         ecjia_platform::$controller->assign('arr', $arr);
 
         if (!empty($arr)) {
-            ecjia_platform::$controller->display(
+            echo ecjia_platform::$controller->fetch(
                 RC_Package::package('app::weapp')->loadTemplate('platform/library/widget_platform_dashboard_msg_stats.lbi', true)
             );
         }
