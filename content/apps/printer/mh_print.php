@@ -213,9 +213,9 @@ class mh_print extends ecjia_merchant
     {
         $this->admin_priv('mh_printer_update', ecjia::MSGTYPE_JSON);
 
-        $action = trim($_POST['action']);
+        $action = remove_xss($_POST['action']);
         $id     = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-        $type   = isset($_POST['type']) ? trim($_POST['type']) : '';
+        $type   = isset($_POST['type']) ? remove_xss($_POST['type']) : '';
         $voice  = isset($_POST['voice']) ? intval($_POST['voice']) : 0;
 
         $info = RC_DB::table('printer_machine')->where('store_id', $_SESSION['store_id'])->where('id', $id)->first();
@@ -246,7 +246,7 @@ class mh_print extends ecjia_merchant
         $this->admin_priv('mh_printer_update', ecjia::MSGTYPE_JSON);
 
         $id   = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-        $type = isset($_POST['type']) ? trim($_POST['type']) : '';
+        $type = isset($_POST['type']) ? remove_xss($_POST['type']) : '';
         $type = $type == 'btnopen' ? 'btnclose' : 'btnopen';
 
         $info = RC_DB::table('printer_machine')->where('store_id', $_SESSION['store_id'])->where('id', $id)->first();
@@ -269,7 +269,7 @@ class mh_print extends ecjia_merchant
         $this->admin_priv('mh_printer_update', ecjia::MSGTYPE_JSON);
 
         $id   = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-        $type = isset($_POST['type']) ? trim($_POST['type']) : '';
+        $type = isset($_POST['type']) ? remove_xss($_POST['type']) : '';
         $type = $type == 'open' ? 'close' : 'open';
 
         $info = RC_DB::table('printer_machine')->where('store_id', $_SESSION['store_id'])->where('id', $id)->first();
@@ -292,7 +292,7 @@ class mh_print extends ecjia_merchant
         $this->admin_priv('mh_printer_update', ecjia::MSGTYPE_JSON);
 
         $id           = !empty($_POST['pk']) ? intval($_POST['pk']) : 0;
-        $machine_name = !empty($_POST['value']) ? trim($_POST['value']) : '';
+        $machine_name = !empty($_POST['value']) ? remove_xss($_POST['value']) : '';
         if (empty($machine_name)) {
             return $this->showmessage(__('请输入小票机名称', 'printer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -308,7 +308,7 @@ class mh_print extends ecjia_merchant
         $this->admin_priv('mh_printer_update', ecjia::MSGTYPE_JSON);
 
         $id             = !empty($_POST['pk']) ? intval($_POST['pk']) : 0;
-        $machine_mobile = !empty($_POST['value']) ? trim($_POST['value']) : '';
+        $machine_mobile = !empty($_POST['value']) ? remove_xss($_POST['value']) : '';
         if (empty($machine_mobile)) {
             return $this->showmessage(__('请输入手机卡号', 'printer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -438,7 +438,7 @@ class mh_print extends ecjia_merchant
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('小票打印设置', 'printer')));
         $this->assign('ur_here', __('小票打印设置', 'printer'));
 
-        $type  = trim($_GET['type']);
+        $type  = remove_xss($_GET['type']);
         $array = array('print_buy_orders', 'print_takeaway_orders', 'print_store_orders', 'print_quickpay_orders', 'print_refund_orders', 'print_surplus_orders');
         if (!in_array($type, $array)) {
             return $this->showmessage(__('该小票类型不存在', 'printer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('printer/mh_print/order_ticket', array('type' => 'normal'))));
@@ -490,7 +490,7 @@ class mh_print extends ecjia_merchant
     public function print_order_ticker()
     {
         $this->admin_priv('mh_printer_template', ecjia::MSGTYPE_JSON);
-        $type = trim($_POST['type']);
+        $type = remove_xss($_POST['type']);
 
         $array = array('print_buy_orders', 'print_takeaway_orders', 'print_store_orders', 'print_quickpay_orders');
         if (!in_array($type, $array)) {
@@ -522,8 +522,8 @@ class mh_print extends ecjia_merchant
     {
         $this->admin_priv('mh_printer_template_update', ecjia::MSGTYPE_JSON);
 
-        $template_subject = !empty($_POST['template_subject']) ? trim($_POST['template_subject']) : '';
-        $template_code    = !empty($_POST['template_code']) ? trim($_POST['template_code']) : '';
+        $template_subject = !empty($_POST['template_subject']) ? remove_xss($_POST['template_subject']) : '';
+        $template_code    = !empty($_POST['template_code']) ? remove_xss($_POST['template_code']) : '';
         $print_number     = !empty($_POST['print_number']) ? (intval($_POST['print_number']) > 9 ? 9 : intval($_POST['print_number'])) : 1;
         $status           = !empty($_POST['status']) ? intval($_POST['status']) : 0;
         $auto_print       = !empty($_POST['auto_print']) ? intval($_POST['auto_print']) : 0;
