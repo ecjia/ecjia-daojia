@@ -66,8 +66,7 @@ class user_front
                 $url = $_GET['referer_url'];
             }
 
-            ecjia_front::$controller->redirect(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
-            ecjia_front::$controller->exited();
+            ecjia_front::$controller->redirectWithExited(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
         }
 
         if ($this->check_status()) {
@@ -75,7 +74,7 @@ class user_front
             $current_url = RC_Uri::current_url();
 	    
             if ($url != $current_url) {
-                return ecjia_front::$controller->redirect($url);
+                return ecjia_front::$controller->redirectWithExited($url);
             }
         }
     }

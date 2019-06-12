@@ -108,7 +108,7 @@ RC_Hook::add_action('ecjia_front_finish_launching', function () {
                 // }
                 
                 $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'snsapi_userinfo'));
-                return ecjia_front::$controller->redirect($url);
+                ecjia_front::$controller->redirectWithExited($url);
             }
         }
     }
@@ -148,7 +148,7 @@ RC_Hook::add_filter('connect_callback_user_template', function($templateStr, $da
             RC_Cookie::set('wechat_not_login', 1);
             //结合cookie判断返回来源url
             $back_url = RC_Cookie::get('referer', RC_Uri::url('touch/index/init'));
-            return ecjia_front::$controller->redirect($back_url);
+            ecjia_front::$controller->redirectWithExited($back_url);
         }
     } else {
 
@@ -227,7 +227,7 @@ RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
     	$back_url = RC_Uri::url('touch/my/init');
     } 
     
-    return ecjia_front::$controller->redirect($back_url);
+    ecjia_front::$controller->redirectWithExited($back_url);
 });
 
 /**
@@ -245,7 +245,7 @@ RC_Hook::add_action('connect_callback_user_bind_complete', function($result) {
         }
     } else {
         if ($result) {
-            return ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
+            return ecjia_front::$controller->redirectWithExited(RC_Uri::url('touch/my/init'));
         } else {
             $link[] = array('text' => __('返回上一页', 'h5'), 'href' => 'javascript:history.back(-1)');
             return ecjia_front::$controller->showmessage(__('绑定失败，用户名或密码错误！', 'h5'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));

@@ -86,7 +86,7 @@ class touch_function {
     			setcookie("city_id", $rs['region_id'], time() + 1800);
     			setcookie("city_name", $rs['region_name'], time() + 1800);
     		}
-    		return ecjia_front::$controller->redirect($referer_url);
+    		return ecjia_front::$controller->redirectWithExited($referer_url);
     	}
     }
     
