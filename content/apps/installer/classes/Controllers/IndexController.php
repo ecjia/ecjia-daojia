@@ -622,18 +622,15 @@ class IndexController extends SimpleController
     {
         if ($step > 1) {
             if (!isset($_COOKIE['install_step1']) || !isset($_COOKIE['agree'])) {
-                $this->redirect(RC_Uri::url('installer/index/init'));
-                $this->exited();
+                $this->redirectWithExited(RC_Uri::url('installer/index/init'));
             }
             if ($step > 2) {
                 if (!isset($_COOKIE['install_step2']) || $_COOKIE['install_config'] != 1) {
-                    $this->redirect(RC_Uri::url('installer/index/detect'));
-                    $this->exited();
+                    $this->redirectWithExited(RC_Uri::url('installer/index/detect'));
                 } else {
                     if ($step > 3) {
                         if (!isset($_COOKIE['install_step3']) || !isset($_COOKIE['install_step4'])) {
-                            $this->redirect(RC_Uri::url('installer/index/deploy'));
-                            $this->exited();
+                            $this->redirectWithExited(RC_Uri::url('installer/index/deploy'));
                         }
                     }
                 }
@@ -649,8 +646,7 @@ class IndexController extends SimpleController
     {
         /* 初始化流程控制变量 */
         if (Helper::checkInstallLock()) {
-            $this->redirect(RC_Uri::url('installer/index/installed'));
-            $this->exited();
+            $this->redirectWithExited(RC_Uri::url('installer/index/installed'));
         }
     }
 
