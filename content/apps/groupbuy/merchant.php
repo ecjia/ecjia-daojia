@@ -153,10 +153,10 @@ class merchant extends ecjia_merchant
             return $this->showmessage(__('商品有属性价格时，不可添加为团购商品！', 'groupbuy'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $act_desc        = !empty($_POST['act_desc']) ? trim($_POST['act_desc']) : '';
-        $price_ladder    = !empty($_POST['price_ladder']) ? $_POST['price_ladder'] : '';
-        $restrict_amount = !empty($_POST['restrict_amount']) ? $_POST['restrict_amount'] : '';
-        $gift_integral   = !empty($_POST['gift_integral']) ? $_POST['gift_integral'] : 0;
+        $act_desc        = !empty($_POST['act_desc']) ? remove_xss($_POST['act_desc']) : '';
+        $price_ladder    = !empty($_POST['price_ladder']) ? remove_xss($_POST['price_ladder']) : '';
+        $restrict_amount = !empty($_POST['restrict_amount']) ? remove_xss($_POST['restrict_amount']) : '';
+        $gift_integral   = !empty($_POST['gift_integral']) ? remove_xss($_POST['gift_integral']) : 0;
         $deposit         = (!empty($_POST['deposit']) && floatval($_POST['deposit']) > 0) ? floatval($_POST['deposit']) : 0;
 
         if (empty($deposit)) {
@@ -164,7 +164,7 @@ class merchant extends ecjia_merchant
         }
 
         $price_ladder = array();
-        $count        = count($_POST['ladder_amount']);
+        $count        = count(intval($_POST['ladder_amount']));
 
         for ($i = $count - 1; $i >= 0; $i--) {
             $amount = intval($_POST['ladder_amount'][$i]);
@@ -192,8 +192,8 @@ class merchant extends ecjia_merchant
         ksort($price_ladder);
         $price_ladder = array_values($price_ladder);
 
-        $start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime($_POST['start_time']) : '';
-        $end_time   = !empty($_POST['end_time']) ? RC_Time::local_strtotime($_POST['end_time']) : '';
+        $start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime(remove_xss($_POST['start_time'])) : '';
+        $end_time   = !empty($_POST['end_time']) ? RC_Time::local_strtotime(remove_xss($_POST['end_time'])) : '';
 
         if ($start_time >= $end_time) {
             return $this->showmessage(__('请输入一个有效的团购时间！', 'groupbuy'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -278,7 +278,7 @@ class merchant extends ecjia_merchant
         $group_buy    = $this->group_buy_info($group_buy_id);
         $page         = intval($_GET['page']);
 
-        $submitname = isset($_POST['submitname']) ? $_POST['submitname'] : '';
+        $submitname = isset($_POST['submitname']) ? remove_xss($_POST['submitname']) : '';
 
         $edit_url = RC_Uri::url('groupbuy/merchant/edit', array('id' => $group_buy_id));
         if ($page > 1) {
@@ -313,7 +313,7 @@ class merchant extends ecjia_merchant
             }
             $data = array(
                 'is_finished' => GBS_FAIL,
-                'act_desc'    => $_POST['act_desc'],
+                'act_desc'    => remove_xss($_POST['act_desc']),
             );
             RC_DB::table('goods_activity')->where('store_id', $_SESSION['store_id'])->where('act_id', $group_buy_id)->update($data);
 
@@ -321,13 +321,13 @@ class merchant extends ecjia_merchant
         } else {
             $group_buy = $this->group_buy_info($group_buy_id);
 
-            $act_desc = !empty($_POST['act_desc']) ? trim($_POST['act_desc']) : '';
+            $act_desc = !empty($_POST['act_desc']) ? remove_xss($_POST['act_desc']) : '';
 
-            $start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime($_POST['start_time']) : '';
-            $end_time   = !empty($_POST['end_time']) ? RC_Time::local_strtotime($_POST['end_time']) : '';
+            $start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime(remove_xss($_POST['start_time'])) : '';
+            $end_time   = !empty($_POST['end_time']) ? RC_Time::local_strtotime(remove_xss($_POST['end_time'])) : '';
 
-            $price_ladder    = !empty($_POST['price_ladder']) ? $_POST['price_ladder'] : '';
-            $restrict_amount = !empty($_POST['restrict_amount']) ? $_POST['restrict_amount'] : '';
+            $price_ladder    = !empty($_POST['price_ladder']) ? remove_xss($_POST['price_ladder']) : '';
+            $restrict_amount = !empty($_POST['restrict_amount']) ? remove_xss($_POST['restrict_amount']) : '';
 
             //活动未开始 所有都可修改
             if (empty($group_buy['status'])) {
@@ -346,7 +346,7 @@ class merchant extends ecjia_merchant
                 $goods_name = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_id', $goods_id)->pluck('goods_name');
                 $act_name   = $goods_name;
 
-                $gift_integral = !empty($_POST['gift_integral']) ? $_POST['gift_integral'] : 0;
+                $gift_integral = !empty($_POST['gift_integral']) ? remove_xss($_POST['gift_integral']) : 0;
                 $deposit       = (!empty($_POST['deposit']) && floatval($_POST['deposit']) > 0) ? floatval($_POST['deposit']) : 0;
 
                 if (empty($deposit)) {
@@ -354,7 +354,7 @@ class merchant extends ecjia_merchant
                 }
 
                 $price_ladder = array();
-                $count        = count($_POST['ladder_amount']);
+                $count        = count(intval($_POST['ladder_amount']));
                 for ($i = $count - 1; $i >= 0; $i--) {
                     $amount = intval($_POST['ladder_amount'][$i]);
                     if ($amount <= 0) {
@@ -464,7 +464,7 @@ class merchant extends ecjia_merchant
             return $this->showmessage(__('入驻商家没有操作权限，请登陆商家后台操作！', 'groupbuy'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $group_buy_id  = $_POST['act_id'];
+        $group_buy_id  = intval($_POST['act_id']);
         $group_id_list = explode(',', $group_buy_id);
 
         $message = '';
@@ -519,7 +519,7 @@ class merchant extends ecjia_merchant
         }
 
         $row = RC_Api::api('goods', 'get_goods_list', array(
-            'keyword'       => $_POST['keyword'],
+            'keyword'       => remove_xss($_POST['keyword']),
             'store_id'      => $_SESSION['store_id'],
             'is_on_sale'    => 1,
             'review_status' => array('neq' => $review_status)
@@ -549,8 +549,8 @@ class merchant extends ecjia_merchant
             ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('g.store_id'));
 
         $filter             = array();
-        $filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
-        $filter['type']     = !empty($_GET['type']) ? trim($_GET['type']) : '';
+        $filter['keywords'] = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
+        $filter['type']     = !empty($_GET['type']) ? remove_xss($_GET['type']) : '';
 
         $where = array();
         if ($filter['keywords']) {
