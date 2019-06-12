@@ -229,4 +229,17 @@ abstract class SmartyController extends EcjiaController implements EcjiaTemplate
         return parent::clear_cache($tpl_file, $cache_id, $options);
     }
 
+    /**
+     * 向模版注册title
+     */
+    public function assign_title($title = '')
+    {
+        $title_suffix = RC_Hook::apply_filters('page_title_suffix', ' - Powered by ECJia');
+        if (empty($title)) {
+            $this->assign('page_title', ecjia::config('shop_title') . $title_suffix);
+        } else {
+            $this->assign('page_title', $title . '-' . ecjia::config('shop_title') . $title_suffix);
+        }
+    }
+
 }

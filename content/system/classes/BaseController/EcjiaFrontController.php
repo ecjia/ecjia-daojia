@@ -47,8 +47,8 @@
 namespace Ecjia\System\BaseController;
 
 use ecjia;
-use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
 use ecjia_app;
+use ecjia_editor;
 use ecjia_loader;
 use RC_Config;
 use RC_ENV;
@@ -60,9 +60,9 @@ use RC_Session;
 
 /**
  * ecjia 前端页面控制器父类
+ * Class EcjiaFrontController
+ * @package Ecjia\System\BaseController
  */
-defined('IN_ECJIA') or exit('No permission resources.');
-
 abstract class EcjiaFrontController extends SmartyController
 {
     /**
@@ -70,13 +70,13 @@ abstract class EcjiaFrontController extends SmartyController
      *
      * @var \ecjia_view
      */
-    public static $view_object;
+//    public static $view_object;
 
     /**
      * 控制器对象静态属性
      * @var \ecjia_front
      */
-    public static $controller;
+//    public static $controller;
     
 	public function __construct()
     {
@@ -104,7 +104,7 @@ abstract class EcjiaFrontController extends SmartyController
 
 		RC_Response::header('Cache-control', 'private');
 		
-		//title信息
+		//title信息，注册默认标题
 		$this->assign_title();
 		RC_Hook::do_action('ecjia_compatible_process');
 		
@@ -226,6 +226,12 @@ abstract class EcjiaFrontController extends SmartyController
 		RC_Hook::add_action( 'front_print_styles',	array($this, 'front_print_head_styles'),		8 );
 		RC_Hook::add_action( 'front_print_scripts',	array($this, 'front_print_head_scripts'),	9 );
 		RC_Hook::add_action( 'front_print_footer_scripts',	array($this, 'print_front_footer_scripts'), 20 );
+
+        //editor loading
+        RC_Hook::add_action('editor_setting_first_init', function() {
+            RC_Hook::add_action('front_print_footer_scripts', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+            RC_Hook::add_action('front_print_footer_scripts', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+        });
 
 		$apps = ecjia_app::installed_app_floders();
 		if (is_array($apps)) {

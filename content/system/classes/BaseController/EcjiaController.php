@@ -62,6 +62,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * ECJIA 控制器基础类
+ * 原类名 ecjia_base
  *
  * @method string display($resource_name, $cache_id = null, $show = true, $options = array()) 显示视图
  * @method string fetch($tpl_file = null, $cache_id = null, $options = array()) 获得视图显示内容 用于生成静态或生成缓存文件

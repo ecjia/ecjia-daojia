@@ -54,6 +54,7 @@ use ecjia_admin_log;
 use ecjia_admin_menu;
 use ecjia_app;
 use ecjia_config;
+use ecjia_editor;
 use ecjia_notification;
 use ecjia_screen;
 use ecjia_view;
@@ -72,11 +73,10 @@ use RC_Time;
 use RC_Uri;
 use Smarty;
 
-defined('IN_ECJIA') or exit('No permission resources.');
-
-//定义在后台
-define('IN_ADMIN', true);
-
+/**
+ * Class EcjiaAdminController
+ * @package Ecjia\System\BaseController
+ */
 abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemplateFileLoader
 {
 
@@ -95,6 +95,9 @@ abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemp
 
 	public function __construct()
     {
+        //定义在后台
+        define('IN_ADMIN', true);
+
 		parent::__construct();
 		
 		self::$controller = static::$controller;
@@ -484,7 +487,18 @@ abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemp
 		RC_Hook::add_action('admin_dashboard_top', array(__CLASS__, 'display_admin_welcome'), 9);
 		RC_Hook::add_filter('upload_default_random_filename', array('ecjia_utility', 'random_filename'));
 		RC_Hook::add_action('admin_print_footer_scripts', array(ecjia_notification::make(), 'printScript') );
-		
+
+		//editor loading
+		RC_Hook::add_action('editor_setting_first_init', function() {
+            if (is_pjax()) {
+                RC_Hook::add_action('admin_pjax_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('admin_pjax_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            } else {
+                RC_Hook::add_action('admin_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('admin_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            }
+        });
+
 		RC_Loader::load_sys_class('hooks.admin_system', false);
 		
 		$system_plugins = ecjia_config::instance()->get_addon_config('system_plugins', true);
