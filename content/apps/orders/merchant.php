@@ -4337,6 +4337,9 @@ class merchant extends ecjia_merchant
 
         /* 一键发货 */
         $order = RC_Api::api('orders', 'merchant_order_info', array('order_id' => $order_id));
+        if(empty($order)) {
+            return $this->showmessage(__('无法找到对应的订单！', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
 
         if ($shipping_id != $order['shipping_id']) {
             $ship_info              = ecjia_shipping::pluginData($shipping_id);
