@@ -567,6 +567,17 @@ abstract class ecjia_merchant extends Ecjia\System\BaseController\EcjiaControlle
 		RC_Hook::add_filter('upload_default_random_filename', array('ecjia_utility', 'random_filename'));
 		RC_Hook::add_action('merchant_print_footer_scripts', array(ecjia_notification::make(), 'printScript') );
 
+        //editor loading
+        RC_Hook::add_action('editor_setting_first_init', function() {
+            if (is_pjax()) {
+                RC_Hook::add_action('merchant_pjax_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('merchant_pjax_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            } else {
+                RC_Hook::add_action('merchant_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('merchant_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            }
+        });
+
 		RC_Package::package('app::merchant')->loadClass('hooks.merchant_merchant', false);
 
 		$system_plugins = ecjia_config::instance()->get_addon_config('system_plugins', true);
