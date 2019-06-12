@@ -65,8 +65,7 @@ class PluginPageController
      */
     public function redirect($url)
     {
-        ecjia_front::$controller->redirect($url);
-        ecjia_front::$controller->exited();
+        ecjia_front::$controller->redirectWithExited($url);
     }
 
 }

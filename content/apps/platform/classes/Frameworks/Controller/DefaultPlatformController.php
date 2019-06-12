@@ -47,15 +47,19 @@
 
 namespace Ecjia\App\Platform\Frameworks\Controller;
 
+use Ecjia\App\Platform\Frameworks\EcjiaPlatform;
+
 /**
  * ecjia商家后台默认控制器
  * @author royalwang
  */
-class DefaultPlatformController extends EcjiaPlatformController {
+class DefaultPlatformController extends EcjiaPlatform
+{
     
     public function __construct() {
         parent::__construct();
     }
+
 }
 
 // end

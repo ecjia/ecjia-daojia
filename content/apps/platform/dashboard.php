@@ -55,8 +55,8 @@ class dashboard extends ecjia_platform
         ecjia_platform_screen::get_current_screen()->set_parentage('dashboard', 'platform/dashboard.php');
         ecjia_platform_screen::get_current_screen()->set_subject(__('仪表盘', 'platform'));
 
-        ecjia_platform::$controller->assign('ur_here', __('仪表盘', 'platform'));
-        ecjia_platform::$controller->display('index.dwt');
+        $this->assign('ur_here', __('仪表盘', 'platform'));
+        return $this->display('index.dwt');
     }
 }
 

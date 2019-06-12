@@ -49,9 +49,7 @@ namespace Ecjia\App\Platform\Frameworks;
 use ecjia;
 use Ecjia\App\Platform\Frameworks\Exceptions\AccountException;
 use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
-use ecjia_base;
-use ecjia_update_cache;
-use ecjia_admin_menu;
+use Ecjia\System\BaseController\EcjiaController;
 use ecjia_view;
 use ecjia_notification;
 use ecjia_config;
@@ -64,11 +62,9 @@ use RC_Loader;
 use RC_Config;
 use RC_Hook;
 use RC_Session;
-use RC_Cookie;
 use RC_Script;
 use RC_Style;
 use RC_App;
-use RC_Api;
 use RC_Package;
 use RC_Plugin;
 use RC_Uri;
@@ -86,7 +82,7 @@ use Ecjia\App\Platform\Frameworks\Platform\Account;
 //定义在后台
 define('IN_PLATFORM', true);
 
-abstract class EcjiaPlatform extends Ecjia\System\BaseController\EcjiaController implements EcjiaTemplateFileLoader
+abstract class EcjiaPlatform extends EcjiaController implements EcjiaTemplateFileLoader
 {
 
 	/**
@@ -160,9 +156,7 @@ abstract class EcjiaPlatform extends Ecjia\System\BaseController\EcjiaController
                 royalcms('response')->send();
 		        exit();
 		    } else {
-		        $this->redirect($this->getPlatformLoginUrl());
-                royalcms('response')->send();
-		        exit();
+		        $this->redirectWithExited($this->getPlatformLoginUrl());
 		    }
 		}
 

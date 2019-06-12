@@ -58,7 +58,7 @@ class platform_platform_hooks
 
     public static function ecjia_platform_dashboard_contact()
     {
-        ecjia_platform::$controller->display(
+        echo ecjia_platform::$controller->fetch(
             RC_Package::package('app::platform')->loadTemplate('platform/library/widget_platform_dashboard_contact.lbi', true)
         );
     }
@@ -66,8 +66,7 @@ class platform_platform_hooks
 
     public static function platform_dashboard_header_notifications()
     {
-
-        ecjia_platform::$controller->display('library/common_header_notifications.lbi');
+        echo ecjia_platform::$controller->fetch('library/common_header_notifications.lbi');
     }
 
 }
