@@ -50,6 +50,7 @@ use ecjia;
 use Ecjia\App\Platform\Frameworks\Exceptions\AccountException;
 use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
 use Ecjia\System\BaseController\EcjiaController;
+use ecjia_editor;
 use ecjia_view;
 use ecjia_notification;
 use ecjia_config;
@@ -592,6 +593,17 @@ abstract class EcjiaPlatform extends EcjiaController implements EcjiaTemplateFil
 		RC_Hook::add_action('platform_print_sidebar_nav', array(__CLASS__, 'display_admin_sidebar_nav'), 9);
 		RC_Hook::add_filter('upload_default_random_filename', array('ecjia_utility', 'random_filename'));
 		RC_Hook::add_action('platform_print_footer_scripts', array(ecjia_notification::make(), 'printScript') );
+
+        //editor loading
+        RC_Hook::add_action('editor_setting_first_init', function() {
+            if (is_pjax()) {
+                RC_Hook::add_action('platform_pjax_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('platform_pjax_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            } else {
+                RC_Hook::add_action('platform_footer', array(ecjia_editor::editor_instance(), 'editor_js'), 50);
+                RC_Hook::add_action('platform_footer', array(ecjia_editor::editor_instance(), 'enqueue_scripts'), 1);
+            }
+        });
 
 		RC_Package::package('app::platform')->loadClass('hooks.platform_platform', false);
 
