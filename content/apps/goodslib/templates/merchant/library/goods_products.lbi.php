@@ -31,7 +31,7 @@
     		<td>
     			{$list.product_bar_code}				
     		</td>
-    		<td>{$list.product_shop_price}</td>
+    		<td>{$list.formatted_product_shop_price}</td>
     		<td>{$list.product_number}</td>
     	</tr>
     <!-- {/foreach} -->

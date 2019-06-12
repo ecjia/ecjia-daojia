@@ -102,7 +102,7 @@
 							<a class="data-pjax" href='{url path="goodslib/admin/edit_goods_parameter" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}商品参数{/t}</a>&nbsp;|&nbsp;
 							<a class="data-pjax" href='{url path="goodslib/admin/edit_goods_specification" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}规格/货品{/t}</a>&nbsp;|&nbsp;
 							<a target="_blank" href='{url path="goodslib/admin/preview" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}预览{/t}</a>&nbsp;|&nbsp;
-							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain='goodslib'}您确定要把该商品放入回收站吗？{/t}" href='{url path="goodslib/admin/remove" args="id={$goods.goods_id}"}'>{t domain='goodslib'}删除{/t}</a>
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain='goodslib'}您确定要删除此商品吗？{/t}" href='{url path="goodslib/admin/remove" args="id={$goods.goods_id}"}'>{t domain='goodslib'}删除{/t}</a>
 						</div>
 					</td>	
 					

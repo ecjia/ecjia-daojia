@@ -1137,7 +1137,7 @@ class admin extends ecjia_admin {
         if (empty($goodslib_product->product_name)) {
         	$goodslib_product['product_name'] = $goods->goods_name;
         	if ($goodslib_product->goods_attr) {
-        		$goods_attr = explode('|', $product->goods_attr);
+        		$goods_attr = explode('|', $goodslib_product->goods_attr);
         		if ($goods->goodslib_attr_collection) {
         			$product_attr_value = $goods->goodslib_attr_collection->whereIn('goods_attr_id', $goods_attr)->sortBy('goods_attr_id')->lists('attr_value');
         			$product_attr_value = $product_attr_value->implode('/');

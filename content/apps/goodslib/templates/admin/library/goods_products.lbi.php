@@ -34,7 +34,7 @@
 							{$list.product_bar_code}
 						</td>
 						<td align="left">
-							{$list.product_shop_price}
+							{$list.formatted_product_shop_price}
 						</td>
 						<td>
 							<a target="_blank" href='{url path="goodslib/admin/product_edit" args="id={$list.product_id}&goods_id={$list.goods_id}"}'>{t domain='goodslib'}编辑{/t}</a>&nbsp;|&nbsp;

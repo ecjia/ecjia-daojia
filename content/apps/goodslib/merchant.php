@@ -188,11 +188,11 @@ class merchant extends ecjia_merchant {
 	        
 	    } else {//单个导入
 	        $id = isset($_POST['goods_id']) 		? intval($_POST['goods_id']) 		: 0;
-	        $goods_name = isset($_POST['goods_name']) 		? $_POST['goods_name'] 		: '';
-	        $goods_sn = isset($_POST['goods_sn']) 		? $_POST['goods_sn'] 		: '';
-	        $shop_price = isset($_POST['shop_price']) 		? $_POST['shop_price'] 		: 0;
-	        $market_price = isset($_POST['market_price']) 		? $_POST['market_price'] 		: 0;
-            $cost_price = isset($_POST['cost_price']) 		? $_POST['cost_price'] 		: 0;
+	        $goods_name = isset($_POST['goods_name']) 		? remove_xss($_POST['goods_name']) 		: '';
+	        $goods_sn = isset($_POST['goods_sn']) 		? remove_xss($_POST['goods_sn']) 		: '';
+	        $shop_price = isset($_POST['shop_price']) 		? floatval($_POST['shop_price']) 		: 0;
+	        $market_price = isset($_POST['market_price']) 		? floatval($_POST['market_price']) 		: 0;
+            $cost_price = isset($_POST['cost_price']) 		? floatval($_POST['cost_price']) 		: 0;
 	        $goods_number = isset($_POST['goods_number']) 		? intval($_POST['goods_number']) : ecjia::config('default_storage');
 	        $merchant_cat_id = isset($_POST['merchant_cat_id']) 	? intval($_POST['merchant_cat_id']) : 0;
 	        if(empty($id)) {
@@ -434,7 +434,7 @@ class merchant extends ecjia_merchant {
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品预览', 'goodslib')));
 	    
 	    $this->assign('ur_here', __('商品预览', 'goodslib'));
-	    $this->assign('action_link', array('text' => '返回', 'href' => RC_Uri::url('goodslib/merchant/add', array('cat_id' => $_GET['cat_id']))));
+	    $this->assign('action_link', array('text' => '返回', 'href' => RC_Uri::url('goodslib/merchant/add', array('cat_id' => intval($_GET['cat_id'])))));
 	    
 	    $GoodslibBasicInfo = new Ecjia\App\Goodslib\GoodslibBasicInfo($goods_id);
 	    
