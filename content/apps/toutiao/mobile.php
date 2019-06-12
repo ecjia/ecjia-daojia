@@ -45,11 +45,13 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 class mobile extends ecjia_front
 {
     public function __construct()
     {
         parent::__construct();
+
         $this->assign('statics_url', RC_App::apps_url('statics/', __FILE__));
     }
 
@@ -60,7 +62,7 @@ class mobile extends ecjia_front
 
         $resource_name = RC_Package::package('app::toutiao')->loadTemplate('front/preview.dwt', true);
 
-        if (!ecjia_front::$controller->is_cached($resource_name, $cache_id)) {
+        if (! $this->is_cached($resource_name, $cache_id)) {
             $id              = intval($_GET['id']);
             $data            = RC_DB::table('merchant_news')->where('id', $id)->first();
             $data['content'] = stripslashes($data['content']);
