@@ -233,7 +233,7 @@ class admin extends ecjia_admin
         $id   = intval($_GET['id']);
         $data = Agent::get_agent_info($id);
         if (empty($data)) {
-            return ecjia_front::$controller->showmessage(__('该代理商不存在', 'agent'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该代理商不存在', 'agent'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
         $this->assign('data', $data);
 
@@ -269,7 +269,7 @@ class admin extends ecjia_admin
 
         $data = Agent::get_agent_info($id);
         if (empty($data)) {
-            return ecjia_front::$controller->showmessage(__('该代理商不存在', 'agent'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该代理商不存在', 'agent'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($name)) {
@@ -348,7 +348,7 @@ class admin extends ecjia_admin
         $id   = intval($_GET['id']);
         $data = Agent::get_agent_info($id);
         if (empty($data)) {
-            return ecjia_front::$controller->showmessage(__('该代理商不存在', 'agent'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该代理商不存在', 'agent'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
 
         $rank_info          = Agent::get_agent_rank($data['rank_code']);
