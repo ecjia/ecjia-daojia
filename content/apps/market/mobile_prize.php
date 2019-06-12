@@ -193,19 +193,19 @@ class mobile_prize extends EcjiaMarketActivityController
   
     	$prize_log_info = RC_DB::table('market_activity_log')->where('id',$log_id )->first();
     	if (empty($prize_log_info)) {
-    		return ecjia_front::$controller->showmessage(__('抽奖信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('抽奖信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	if ($prize_log_info['issue_status'] == '1') {
-    		return ecjia_front::$controller->showmessage(__('奖品已发放！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('奖品已发放！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	if (empty($user_name)) {
-    		return ecjia_front::$controller->showmessage(__('请填写收货人姓名！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请填写收货人姓名！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	if (empty($mobile)) {
-    		return ecjia_front::$controller->showmessage(__('请填写收货人手机号码！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请填写收货人手机号码！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	if (empty($address)) {
-    		return ecjia_front::$controller->showmessage(__('请填写收货人详细地址！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请填写收货人详细地址！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	$data = array(
@@ -216,7 +216,7 @@ class mobile_prize extends EcjiaMarketActivityController
     	$data = serialize($data);
     	$winner['issue_extend'] = $data;
     	RC_DB::table('market_activity_log')->where('id', $log_id)->update($winner);
-    	return ecjia_front::$controller->showmessage(__('资料提交成功，请等待发放奖品！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('market/mobile_prize/prize_init', array('openid' => $prize_log_info['user_id']))));
+    	return $this->showmessage(__('资料提交成功，请等待发放奖品！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('market/mobile_prize/prize_init', array('openid' => $prize_log_info['user_id']))));
     }
     
     //领取奖品
@@ -229,17 +229,17 @@ class mobile_prize extends EcjiaMarketActivityController
     	$time					= RC_Time::gmtime();
     	
     	if (empty($activity_info)) {
-    		return ecjia_front::$controller->showmessage(__('活动信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('活动信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	$market_activity_log	= RC_DB::table('market_activity_log')->where('id', $log_id)->first();
     	if (empty($market_activity_log)) {
-    		return ecjia_front::$controller->showmessage(__('抽奖信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('抽奖信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	$prize_info = Ecjia\App\Market\Models\MarketActivityPrizeModel::where('activity_id', $activity_id)->find($market_activity_log['prize_id']);
     	if (empty($prize_info)) {
-    		return ecjia_front::$controller->showmessage(__('奖品信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('奖品信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	$MarketActivity = new Ecjia\App\Market\Prize\MarketActivity($activity_info['activity_group'], $activity_info['store_id'], $activity_info['wechat_id']);
@@ -247,15 +247,15 @@ class mobile_prize extends EcjiaMarketActivityController
     	if ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
     		$bonus_info = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->where('send_start_date', '<=', $time)->where('send_end_date', '>=', $time)->first();
     		if (empty($bonus_info)) {
-    			return ecjia_front::$controller->showmessage(__('红包发放日期已过，请联系管理员发放！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    			return $this->showmessage(__('红包发放日期已过，请联系管理员发放！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     	}
     	//发奖环节
     	$res = $MarketActivity->issuePrize($activity_info['wechat_id'], $openid, $prize_info, $log_id);
     	if ($res) {
-    		return ecjia_front::$controller->showmessage(__('兑换成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/mobile_prize/prize_init', array('openid' => $openid))));
+    		return $this->showmessage(__('兑换成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/mobile_prize/prize_init', array('openid' => $openid))));
     	} else {
-    		return ecjia_front::$controller->showmessage(__('兑换失败！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('兑换失败！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     }
 }

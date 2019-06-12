@@ -89,34 +89,34 @@ class mobile_reward extends ecjia_front {
 		// 		ECJiaBrowse/1.2.0
 		if(!preg_match('/ECJiaBrowse/', $_SERVER['HTTP_USER_AGENT'])) {
 		    if ($need_login) {
-		        return ecjia_front::$controller->showmessage(__('您还未登录，请先登录！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('user/privilege/login')));
+		        return $this->showmessage(__('您还未登录，请先登录！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('user/privilege/login')));
 		    }
 		    
 		    /* 新人有礼的红包id*/
 		    if (!$bonus_id) {
-		       return ecjia_front::$controller->showmessage(__('活动未开始！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('touch/my/init')));
+		       return $this->showmessage(__('活动未开始！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('touch/my/init')));
 		    }
 		    
 		    if (!empty($is_received)) { 
-		        return ecjia_front::$controller->showmessage(__('你已领取过！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('touch/index/init')));
+		        return $this->showmessage(__('你已领取过！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('touch/index/init')));
 		    }
 		    
 		    $this->send_bonus($_SESSION['user_id'], $bonus_id);
 		    
-		    return ecjia_front::$controller->showmessage(__('发放成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/bonus/init'), 'close_url' => RC_Uri::url('touch/index/init')));
+		    return $this->showmessage(__('发放成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/bonus/init'), 'close_url' => RC_Uri::url('touch/index/init')));
 		    
 		} else {
 		    if ($need_login) {
-		        return ecjia_front::$controller->showmessage(__('您还未登录，请先登录！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => 'ecjiaopen://app?open_type=signin'));
+		        return $this->showmessage(__('您还未登录，请先登录！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => 'ecjiaopen://app?open_type=signin'));
 		    }
 		    
 		    /* 新人有礼的红包id*/
 		    if (!$bonus_id) {
-		       return ecjia_front::$controller->showmessage(__('活动未开始！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		       return $this->showmessage(__('活动未开始！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		    }
 		    
 		    if (!empty($is_received)) {
-		        return ecjia_front::$controller->showmessage(__('您已领取过！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		        return $this->showmessage(__('您已领取过！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		    }
 		    
 		    // 		$user_info = RC_Model::model('user/users_model')->where(array('user_id' => $_SESSION['user_id']))->find();
@@ -127,7 +127,7 @@ class mobile_reward extends ecjia_front {
 		    
 		    $this->send_bonus($_SESSION['user_id'], $bonus_id);
 		    
-		   return ecjia_front::$controller->showmessage(__('发放成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => 'ecjiaopen://app?open_type=user_bonus&type=usable'));
+		   return $this->showmessage(__('发放成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => 'ecjiaopen://app?open_type=user_bonus&type=usable'));
 		}
 		
 	}
