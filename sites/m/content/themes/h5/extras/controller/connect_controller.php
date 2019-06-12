@@ -336,7 +336,7 @@ class connect_controller
 
         if (empty($mobile_phone)) {
             $login_str = user_function::return_login_str();
-            ecjia_front::$controller->redirect(RC_Uri::url($login_str));
+            return ecjia_front::$controller->redirect(RC_Uri::url($login_str));
         }
 
         $token = ecjia_touch_user::singleton()->getShopToken();
@@ -428,7 +428,7 @@ class connect_controller
         $mobile = $_SESSION['user_temp']['mobile'];
         if (empty($mobile)) {
             $login_str = user_function::return_login_str();
-            ecjia_front::$controller->redirect(RC_Uri::url($login_str));
+            return ecjia_front::$controller->redirect(RC_Uri::url($login_str));
         }
 
         $code_captcha = $_SESSION['user_temp']['captcha_code'];
@@ -534,7 +534,7 @@ class connect_controller
 
         if ($_SESSION['user_temp']['register_status'] != 'succeed' || empty($mobile)) {
             $login_str = user_function::return_login_str();
-            ecjia_front::$controller->redirect(RC_Uri::url($login_str));
+            return ecjia_front::$controller->redirect(RC_Uri::url($login_str));
         }
         if (isset($_POST['username'])) {
             $username          = !empty($_POST['username']) ? trim($_POST['username']) : '';
