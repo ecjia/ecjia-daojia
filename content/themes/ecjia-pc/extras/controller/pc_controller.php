@@ -149,7 +149,7 @@ class pc_controller
             $url['goods_url'] = RC_Uri::url('goods/index/init', array('keywords' => $keywords));
             $url['store_url'] = RC_Uri::url('merchant/store/category', array('keywords' => $keywords));
 
-            ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('count' => $count, 'url' => $url, 'keywords' => $keywords));
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('count' => $count, 'url' => $url, 'keywords' => $keywords));
         }
     }
 }
