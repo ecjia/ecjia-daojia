@@ -78,7 +78,7 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
 		
-		if (version_compare($api_version, '1.17', '>')) {
+		if (version_compare($api_version, '1.32', '>=')) {
 			$image_info = null;
 			$save_path = 'images';
 			
@@ -93,11 +93,6 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 			if (isset($images)) {
 				$image_info = $upload->upload($images);
 			}
-			RC_Logger::getlogger('info')->info([
-				'file' => __FILE__,
-				'line' => __LINE__,
-				'image_info' => $image_info,
-			]);
 			if (empty($image_info)) {
 				return new ecjia_error('upload_error'. __LINE__, $upload->error());
 			}

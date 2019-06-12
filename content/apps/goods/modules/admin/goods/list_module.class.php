@@ -171,10 +171,10 @@ class admin_goods_list_module extends api_admin implements api_interface {
 				$filters['sort_by'] = $sort_by;
 			}
 			//分页信息
-			$filters['size'] = $size;
-			$filters['page'] = $page;
+			$input['size'] = $size;
+			$input['page'] = $page;
 			
-			$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsAdminApiCollection($filters))->getData();
+			$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsAdminApiCollection($input))->getData();
 			
 			return array('data' => $collection['goods_list'], 'pager' => $collection['pager']);
 		} else {
