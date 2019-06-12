@@ -129,7 +129,7 @@ class merchant_privilege extends ecjia_merchant
         $user_name = $user->getUserName();
 
         /* 更新管理员的权限 */
-        $act_list = join(',', $_POST['action_code']);
+        $act_list = join(',', remove_xss($_POST['action_code']));
 
         $user->setActionList($act_list);
 
