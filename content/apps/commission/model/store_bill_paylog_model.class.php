@@ -100,7 +100,7 @@ class store_bill_paylog_model extends Component_Model_Model {
 	    
 	    if ($row) {
 	        foreach ($row as $key => &$val) {
-	            $val['add_time_formate'] = RC_Time::local_date('Y-m-d H:i:s', $val['add_time']);
+	            $val['add_time_formatted'] = RC_Time::local_date('Y-m-d H:i:s', $val['add_time']);
 	        }
 	    }
 	    return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());

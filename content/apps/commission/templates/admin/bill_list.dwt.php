@@ -83,14 +83,14 @@ ecjia.admin.bill_list.init();
 					    {/if}
 					    <td>{$commission.order_count}</td>
     					<td>{$commission.refund_count}</td>
-					    <td class="ecjiaf-tar">￥{$commission.order_amount}</td>
-					    <td class="">￥{$commission.refund_amount}</td>
+					    <td class="ecjiaf-tar">{$commission.order_amount_formatted}</td>
+					    <td class="">{$commission.refund_amount_formatted}</td>
 					    <!-- {if $commission.percent_value} -->
 					    <td>{$commission.percent_value}%</td>
 					    <!-- {else} -->
 					    <td>{t domain="commission"}0{/t}</td>
 					    <!-- {/if} -->
-					    <td>￥{$commission.bill_amount}</td>
+					    <td>{$commission.bill_amount_formatted}</td>
 					</tr>
 					<!-- {foreachelse} -->
 				   	<tr><td class="no-records" colspan="9">{t domain="commission"}没有找到任何记录{/t}</td></tr>

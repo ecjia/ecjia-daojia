@@ -58,8 +58,8 @@
 									&nbsp;
 									{$list.change_desc}									
 								</td>
-								<td {if $list.change_type eq 'withdraw'}class="withdraw-price"{/if}>{$list.money}</td>
-								<td>{$list.store_money}</td>
+								<td {if $list.change_type eq 'withdraw'}class="withdraw-price"{/if}>{$list.money_formatted}</td>
+								<td>{$list.store_money_formatted}</td>
 	        				</tr>
 	        				<!-- {foreachelse} -->
 	        		    	<tr><td class="dataTables_empty" colspan="5">{t domain="commission"}没有找到任何记录{/t}</td></tr>

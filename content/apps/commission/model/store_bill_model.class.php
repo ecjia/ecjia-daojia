@@ -120,8 +120,13 @@ class store_bill_model extends Component_Model_Model {
 	    
 	    if ($row) {
 	        foreach ($row as $key => &$val) {
-	            $val['pay_time_formate'] = RC_Time::local_date('Y-m-d H:i', $val['pay_time']);
-	            $val['add_time_formate'] = RC_Time::local_date('Y-m-d H:i', $val['add_time']);
+                $val['order_amount_formatted'] = ecjia_price_format($val['order_amount'], false);
+                $val['refund_amount_formatted'] = ecjia_price_format($val['refund_amount'], false);
+                $val['available_amount_formatted'] = ecjia_price_format($val['available_amount'], false);
+                $val['bill_amount_formatted'] = ecjia_price_format($val['bill_amount'], false);
+
+	            $val['pay_time_formatted'] = RC_Time::local_date('Y-m-d H:i', $val['pay_time']);
+	            $val['add_time_formatted'] = RC_Time::local_date('Y-m-d H:i', $val['add_time']);
 	        }
 	    }
 	    return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
@@ -161,8 +166,13 @@ class store_bill_model extends Component_Model_Model {
 	     
 	    if ($row) {
 	        foreach ($row as $key => &$val) {
-	            $val['pay_time_formate'] = RC_Time::local_date('Y-m-d H:i', $val['pay_time']);
-	            $val['add_time_formate'] = RC_Time::local_date('Y-m-d H:i', $val['add_time']);
+                $val['order_amount_formatted'] = ecjia_price_format($val['order_amount'], false);
+                $val['refund_amount_formatted'] = ecjia_price_format($val['refund_amount'], false);
+                $val['available_amount_formatted'] = ecjia_price_format($val['available_amount'], false);
+                $val['bill_amount_formatted'] = ecjia_price_format($val['bill_amount'], false);
+
+                $val['pay_time_formatted'] = RC_Time::local_date('Y-m-d H:i', $val['pay_time']);
+                $val['add_time_formatted'] = RC_Time::local_date('Y-m-d H:i', $val['add_time']);
 	        }
 	    }
 	     
@@ -179,8 +189,14 @@ class store_bill_model extends Component_Model_Model {
 	    }
 	    
 	    $info = $db_store_bill->where('bill_id', $bill_id)->first();
+	    if($info) {
+            $info['order_amount_formatted'] = ecjia_price_format($info['order_amount'], false);
+            $info['refund_amount_formatted'] = ecjia_price_format($info['refund_amount'], false);
+            $info['available_amount_formatted'] = ecjia_price_format($info['available_amount'], false);
+            $info['bill_amount_formatted'] = ecjia_price_format($info['bill_amount'], false);
+        }
 	    if ($info['pay_time']) {
-	        $info['pay_time_formate'] = RC_Time::local_date('Y-m-d H:i:s', $info['pay_time']);
+	        $info['pay_time_formatted'] = RC_Time::local_date('Y-m-d H:i:s', $info['pay_time']);
 	    }
 	    return $info;
 	}

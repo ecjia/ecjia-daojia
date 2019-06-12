@@ -61,10 +61,10 @@ ecjia.merchant.bill.init()
 	        					</td>
 	        					<td>{$list.order_count}</td>
 	        					<td>{$list.refund_count}</td>
-	        					<td>￥{$list.order_amount}</td>
-	        					<td>￥{$list.refund_amount}</td>
+	        					<td>{$list.order_amount_formatted}</td>
+	        					<td>{$list.refund_amount_formatted}</td>
 	        					<td>{$list.percent_value}%</td>
-	        					<td>￥{$list.bill_amount}</td>
+	        					<td>{$list.bill_amount_formatted}</td>
 	        				</tr>
 	        				<!-- {foreachelse} -->
 	        		    	<tr><td class="dataTables_empty" colspan="8">{t domain="commission"}没有找到任何记录{/t}</td></tr>

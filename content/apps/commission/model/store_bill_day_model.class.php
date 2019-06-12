@@ -108,7 +108,11 @@ class store_bill_day_model extends Component_Model_Model {
 	     
 	    if ($row) {
 	        foreach ($row as $key => &$val) {
-	            $val['add_time_formate'] = RC_Time::local_date('Y-m-d H:i', $val['add_time']);
+                $val['order_amount_formatted'] = ecjia_price_format($val['order_amount'], false);
+                $val['refund_amount_formatted'] = ecjia_price_format($val['refund_amount'], false);
+                $val['brokerage_amount_formatted'] = ecjia_price_format($val['brokerage_amount'], false);
+
+                $val['add_time_formatted'] = RC_Time::local_date('Y-m-d H:i', $val['add_time']);
 	        }
 	    }
 	    return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());

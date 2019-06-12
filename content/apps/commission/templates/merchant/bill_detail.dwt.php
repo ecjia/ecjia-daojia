@@ -38,19 +38,19 @@ ecjia.merchant.bill.init()
 								<td align="right">{t domain="commission"}入账订单数：{/t}</td>
 								<td>{$bill_info.order_count}</td>
 								<td align="right">{t domain="commission"}入账总金额：{/t}</td>
-								<td>￥{$bill_info.order_amount}</td>
+								<td>{$bill_info.order_amount_formatted}</td>
 							</tr>
 							<tr>
 								<td align="right">{t domain="commission"}退款订单数：{/t}</td>
 								<td>{$bill_info.refund_count}</td>
 								<td align="right">{t domain="commission"}退款总金额：{/t}</td>
-								<td>￥{$bill_info.refund_amount}</td>
+								<td>{$bill_info.refund_amount_formatted}</td>
 							</tr>
 							<tr>
 								<td align="right">{t domain="commission"}佣金百分比：{/t}</td>
 								<td>{$bill_info.percent_value}%&nbsp;<a title="{t domain="commission"}以订单入账比例为准{/t}"><i class="fa fa-question-circle"></i></a></td>
 								<td align="right"><h4>{t domain="commission"}本月账单金额：{/t}</h4></td>
-								<td><h4 class="ecjiaf-ib ecjiafc-red"><b>￥{$bill_info.bill_amount}</b></h4>
+								<td><h4 class="ecjiaf-ib ecjiafc-red"><b>{$bill_info.bill_amount_formatted}</b></h4>
 								</td>{if 0} = {$bill_info.available_amount} * {$bill_info.percent_value}%{/if}
 							</tr>
 						</tbody>
@@ -91,14 +91,14 @@ ecjia.merchant.bill.init()
     							</td>
     							<td>{$commission.order_count}</td>
 	        					<td>{$commission.refund_count}</td>
-    						    <td class="">￥{$commission.order_amount}</td>
-    						    <td class="">￥{$commission.refund_amount}</td>
+    						    <td class="">{$commission.order_amount_formatted}</td>
+    						    <td class="">{$commission.refund_amount_formatted}</td>
     						    <!-- {if $commission.percent_value} -->
     						    <td>{$commission.percent_value}%</td>
     						    <!-- {else} -->
     						    <td>100%</td>
     						    <!-- {/if} -->
-    						    <td>￥{$commission.brokerage_amount}</td>
+    						    <td>{$commission.brokerage_amount_formatted}</td>
     						</tr>
     						<!-- {foreachelse} -->
     					   <tr><td class="no-records" colspan="7">{t domain="commission"}没有找到任何记录{/t}</td></tr>
@@ -129,9 +129,9 @@ ecjia.merchant.bill.init()
         						{assign var=order_url value=RC_Uri::url('orders/merchant/info',"order_id={$list.order_id}")}
     					       <a href="{$order_url}" target="_blank">{$list.order_sn}</a>
         					</td>
-        					<td>￥{$list.total_fee}</td>
+        					<td>{$list.total_fee_formatted}</td>
         					<td>{$list.percent_value}%</td>
-        					<td>￥{$list.brokerage_amount}</td>
+        					<td>{$list.brokerage_amount_formatted}</td>
         					<td>{$list.add_time}</td>
         					<td>{if $list.bill_status eq 0}{t domain="commission"}未结算{/t}{else}{t domain="commission"}已结算{/t}{/if}</td>
         				</tr>

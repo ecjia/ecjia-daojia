@@ -56,14 +56,14 @@ ecjia.merchant.bill.record()
 	        					</td>
 	        					<td>{$list.order_count}</td>
 	        					<td>{$list.refund_count}</td>
-	        					<td class="ecjiafc-tar">￥{$list.order_amount}</td>
-	        					<td class="">￥{$list.refund_amount}</td>
+	        					<td class="ecjiafc-tar">{$list.order_amount_formatted}</td>
+	        					<td class="">{$list.refund_amount_formatted}</td>
 	        					<!-- {if $list.percent_value} -->
     						    <td>{$list.percent_value}%</td>
     						    <!-- {else} -->
     						    <td>100%</td>
     						    <!-- {/if} -->
-	        					<td>￥{$list.brokerage_amount}</td>
+	        					<td>{$list.brokerage_amount_formatted}</td>
 	        				</tr>
 	        				<!-- {foreachelse} -->
 	        		    	<tr><td class="dataTables_empty" colspan="8">{t domain="commission"}没有找到任何记录{/t}</td></tr>

@@ -64,7 +64,7 @@ class store_bill_queue_model extends Component_Model_Model {
 	 */
 	
 	public function bill_queue() {
-	    $list = RC_DB::table('store_bill_queue')->orderBy('priority', 'desc')->get();
+	    $list = RC_DB::table('store_bill_queue')->orderBy('priority', 'desc')->orderBy('id', 'asc')->get();
 	    if ($list) {
 	        foreach ($list as $row) {
 	            RC_Api::api('commission', 'add_bill_detail', array('order_type' => $row['order_type'], 'order_id' => $row['order_id']));

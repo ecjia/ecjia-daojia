@@ -96,14 +96,14 @@ ecjia.admin.bill_list.searchFormDay();
                         {/if}
                         <td>{$commission.order_count}</td>
     					<td>{$commission.refund_count}</td>
-                        <td class="ecjiaf-tar">￥{$commission.order_amount}</td>
-                        <td class="">￥{$commission.refund_amount}</td>
+                        <td class="ecjiaf-tar">{$commission.order_amount_formatted}</td>
+                        <td class="">{$commission.refund_amount_formatted}</td>
                         <!-- {if $commission.percent_value} -->
                         <td>{$commission.percent_value}%</td>
                         <!-- {else} -->
                         <td>100%</td>
                         <!-- {/if} -->
-                        <td>￥{$commission.brokerage_amount}</td>
+                        <td>{$commission.brokerage_amount_formatted}</td>
                     </tr>
                     <!-- {foreachelse} -->
                    <tr><td class="no-records" colspan="8">{t domain="commission"}没有找到任何记录{/t}</td></tr>

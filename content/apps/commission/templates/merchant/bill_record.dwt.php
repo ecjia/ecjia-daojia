@@ -58,16 +58,18 @@ ecjia.merchant.bill.record()
 	        					<td>
 	        					{if $list.order_type eq 'buy'}
 	        						{assign var=order_url value=RC_Uri::url('orders/merchant/info',"order_id={$list.order_id}")}
-	        					{else} 
+                                {else if $list.order_type eq 'refund'}
+                                    {assign var=order_url value=RC_Uri::url('refund/merchant/refund_detail',"refund_id={$list.order_id}")}
+                                {else if $list.order_type eq 'quickpay'}
 	        						{assign var=order_url value=RC_Uri::url('quickpay/mh_order/order_info',"order_id={$list.order_id}")}
 	        					{/if}
 	        						
 	    					       <a href="{$order_url}" target="_blank">{$list.order_sn}</a>
 	        					</td>
-	        					<td>￥{$list.total_fee}</td>
-	        					<td>￥{$list.commission_fee}</td>
+	        					<td>{$list.total_fee_formatted}</td>
+	        					<td>{$list.commission_fee_formatted}</td>
 	        					<td>{$list.percent_value}%</td>
-	        					<td>￥{$list.brokerage_amount}</td>
+	        					<td>{$list.brokerage_amount_formatted}</td>
 	        					<td>{$list.add_time}</td>
 	        					<td>
 	        					{if $list.bill_status eq 0}

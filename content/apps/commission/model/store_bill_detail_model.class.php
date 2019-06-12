@@ -148,19 +148,19 @@ class store_bill_detail_model extends Component_Model_Model {
             //支付手续费平台收取 @update 20190410
             if($order_info['shipping_code'] == 'ship_ecjia_express') {
                 if(in_array($data['pay_code'], array('pay_cod', 'pay_cash', 'pay_wxpay_merchant'))) {
-                    $data['brokerage_amount'] = $data['order_amount'] * (100 - $data['percent_value']) / 100 * -1 - $data['pay_fee'];
+                    $data['brokerage_amount'] = ($data['order_amount']- $data['pay_fee']) * (100 - $data['percent_value']) / 100 * -1 ;
                     $data['platform_profit'] = $data['brokerage_amount'] * -1;
                 } else {
-                    $data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100 - $data['pay_fee'];
+                    $data['brokerage_amount'] = ($data['order_amount']- $data['pay_fee']) * $data['percent_value'] / 100 ;
                     $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
                 }
             } else {
                 //运费不参与分佣 @update 20181210
                 if(in_array($data['pay_code'], array('pay_cod', 'pay_cash', 'pay_wxpay_merchant'))) {
-                    $data['brokerage_amount'] = (($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * (100 - $data['percent_value']) / 100 + $data['shipping_fee'] + $data['insure_fee']) * -1 - $data['pay_fee'];
+                    $data['brokerage_amount'] = (($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee'] - $data['pay_fee']) * (100 - $data['percent_value']) / 100 + $data['shipping_fee'] + $data['insure_fee']) * -1;
                     $data['platform_profit'] = $data['brokerage_amount'] * -1;
                 } else {
-                    $data['brokerage_amount'] = ($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * $data['percent_value'] / 100 + $data['shipping_fee'] + $data['insure_fee'] - $data['pay_fee'];
+                    $data['brokerage_amount'] = ($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee'] - $data['pay_fee']) * $data['percent_value'] / 100 + $data['shipping_fee'] + $data['insure_fee'];
                     $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
                 }
             }
@@ -373,8 +373,12 @@ class store_bill_detail_model extends Component_Model_Model {
 	                }
 	            }
 	            //分成金额=订单金额-运费-保价费
-	            $row[$key]['commission_fee'] = $row[$key]['total_fee'] - $row[$key]['shipping_fee'] - $row[$key]['insure_fee'];
-	            $row[$key]['commission_fee'] = number_format($row[$key]['commission_fee'], 2, '.', '');
+	            $row[$key]['commission_fee'] = $row[$key]['total_fee'] - $row[$key]['shipping_fee'] - $row[$key]['insure_fee'] - $row[$key]['pay_fee'];
+                $row[$key]['commission_fee_formatted'] = ecjia_price_format($row[$key]['commission_fee'], false);
+                $row[$key]['total_fee_formatted'] = ecjia_price_format($row[$key]['total_fee'], false);
+                $row[$key]['brokerage_amount_formatted'] = ecjia_price_format($row[$key]['brokerage_amount'], false);
+                $row[$key]['platform_profit_formatted'] = ecjia_price_format($row[$key]['platform_profit'], false);
+
 	        	$row[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['add_time']);
 	        	$row[$key]['bill_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['bill_time']);
 
