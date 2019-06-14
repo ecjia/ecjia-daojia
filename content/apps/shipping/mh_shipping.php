@@ -117,7 +117,7 @@ class mh_shipping extends ecjia_merchant
     {
     	$this->admin_priv('ship_merchant_update');
     	
-        $template_name = !empty($_GET['template_name']) ? trim($_GET['template_name']) : '';
+        $template_name = !empty($_GET['template_name']) ? remove_xss($_GET['template_name']) : '';
 
         $this->assign('ur_here', __('编辑运费模板', 'shipping'));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运费模板', 'shipping'), RC_Uri::url('shipping/mh_shipping/shipping_template')));
@@ -351,14 +351,14 @@ class mh_shipping extends ecjia_merchant
     public function add_shipping()
     {
     	$this->admin_priv('ship_merchant_update', ecjia::MSGTYPE_JSON);
-    	
-        $shipping_id = !empty($_POST['shipping_id']) ? intval($_POST['shipping_id']) : 0;
-        $temp_name   = !empty($_POST['temp_name']) ? trim($_POST['temp_name']) : '';
 
-        $template_name = !empty($_POST['template_name']) ? trim($_POST['template_name']) : '';
+        $shipping_id = !empty($_POST['shipping_id']) ? intval($_POST['shipping_id']) : 0;
+        $temp_name   = !empty($_POST['temp_name']) ? remove_xss($_POST['temp_name']) : '';
+
+        $template_name = !empty($_POST['template_name']) ? remove_xss($_POST['template_name']) : '';
 
         $shipping_area_id = !empty($_POST['shipping_area_id']) ? intval($_POST['shipping_area_id']) : 0;
-        $regions          = !empty($_POST['regions']) ? $_POST['regions'] : '';
+        $regions          = !empty($_POST['regions']) ? remove_xss($_POST['regions']) : '';
 
         if (!empty($temp_name) && empty($template_name)) {
             $count = RC_DB::table('shipping_area')
@@ -402,14 +402,14 @@ class mh_shipping extends ecjia_merchant
         	$config = array();
         	$shipping_handle = ecjia_shipping::channel($shipping_data['shipping_code']);
         	$config = !is_ecjia_error($shipping_handle) ? $shipping_handle->makeFormData($config) : array();
-        	
+
         	if (!empty($config)) {
         		foreach ($config as $key => $val) {
         			$config[$key]['name']  = $val['name'];
-        			$config[$key]['value'] = $_POST[$val['name']];
+        			$config[$key]['value'] = remove_xss($_POST[$val['name']]);
         		}
         	}
-        	
+
         	$count = count($config);
         	/*商家配送和众包配送的设置*/
         	if ($shipping_data['shipping_code'] == 'ship_o2o_express' || $shipping_data['shipping_code'] == 'ship_ecjia_express') {
@@ -419,12 +419,12 @@ class mh_shipping extends ecjia_merchant
         			if (empty($start_time)) {
         				return $this->showmessage(__('配送开始时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
-        			$end_time = trim($_POST['end_ship_time'][$k]);
+        			$end_time = remove_xss($_POST['end_ship_time'][$k]);
         			if (empty($end_time)) {
         				return $this->showmessage(__('配送结束时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$time[$k]['start']	= $v;
-        			$time[$k]['end']	= $_POST['end_ship_time'][$k];
+        			$time[$k]['end']	= remove_xss($_POST['end_ship_time'][$k]);
         		}
         		$express = array();
         		foreach ($_POST['express_distance'] as $k => $v) {
@@ -437,13 +437,13 @@ class mh_shipping extends ecjia_merchant
         				return $this->showmessage(__('配送费只能为数值且不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$express[$k]['express_distance'] = $v;
-        			$express[$k]['express_money']	= $_POST['express_money'][$k];
+        			$express[$k]['express_money']	= floatval($_POST['express_money'][$k]);
         		}
         		$config[$count]['name']     = 'ship_days';
         		$config[$count]['value']    = empty($_POST['ship_days']) ? 7 : intval($_POST['ship_days']);
         		$count++;
         		$config[$count]['name']     = 'last_order_time';
-        		$config[$count]['value']    = empty($_POST['last_order_time']) ? '' : trim($_POST['last_order_time']);
+        		$config[$count]['value']    = empty($_POST['last_order_time']) ? '' : remove_xss($_POST['last_order_time']);
         		$count++;
         		$config[$count]['name']     = 'ship_time';
         		$config[$count]['value']    = empty($time) ? '' : $time;
@@ -459,7 +459,7 @@ class mh_shipping extends ecjia_merchant
         			if (empty($start_pickup_time)) {
         				return $this->showmessage(__('取货开始时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
-        			$end_pickup_time = trim($_POST['end_pickup_time'][$k]);
+        			$end_pickup_time = remove_xss($_POST['end_pickup_time'][$k]);
         			if (empty($end_pickup_time)) {
         				return $this->showmessage(__('取货结束时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
@@ -546,7 +546,7 @@ class mh_shipping extends ecjia_merchant
 
     public function remove_shipping_template()
     {
-        $name         = !empty($_GET['name']) ? trim($_GET['name']) : '';
+        $name         = !empty($_GET['name']) ? remove_xss($_GET['name']) : '';
         $area_id_list = RC_DB::table('shipping_area')->where('shipping_area_name', $name)->where('store_id', $_SESSION['store_id'])->lists('shipping_area_id');
 
         RC_DB::table('shipping_area')->where('shipping_area_name', $name)->where('store_id', $_SESSION['store_id'])->delete();
@@ -560,10 +560,10 @@ class mh_shipping extends ecjia_merchant
     {
     	$this->admin_priv('ship_merchant_update');
     	
-        $temp_name     = !empty($_POST['temp_name']) ? trim($_POST['temp_name']) : '';
-        $template_name = !empty($_POST['template_name']) ? trim($_POST['template_name']) : '';
+        $temp_name     = !empty($_POST['temp_name']) ? remove_xss($_POST['temp_name']) : '';
+        $template_name = !empty($_POST['template_name']) ? remove_xss($_POST['template_name']) : '';
 
-        $regions = !empty($_POST['regions']) ? $_POST['regions'] : '';
+        $regions = !empty($_POST['regions']) ? remove_xss($_POST['regions']) : '';
         if (empty($regions)) {
             return $this->showmessage(__('请添加配送地区', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
