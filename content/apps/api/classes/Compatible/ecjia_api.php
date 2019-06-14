@@ -51,7 +51,7 @@
  * Time: 9:26 AM
  */
 
-class ecjia_api extends Ecjia\App\Api\BaseControllers\EcjiaApi
+abstract class ecjia_api extends Ecjia\App\Api\BaseControllers\EcjiaApi
 {
 
 }
