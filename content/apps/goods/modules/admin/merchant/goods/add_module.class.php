@@ -229,8 +229,11 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
 			'rank_integral'				=> $goods->rank_integral,
 			'integral'					=> $goods->integral,
 			'sales_volume'				=> $goods->sales_volume,
+			'weight_unit'				=> $goods->weight == '1' ? 'gram' : 'kilogram',
+			'weight_stock'				=> $goods->weight_stock,
+			'extension_code'			=> empty($goods->extension_code) ? 'common' : $goods->extension_code,
     	];
-    	
+			
     	$goods_detail['user_rank'] = array();
     		
     	if ($goods->volume_price_collection) {

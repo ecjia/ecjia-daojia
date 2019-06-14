@@ -1145,33 +1145,6 @@ function generate_goods_sn($goods_id) {
 }
 
 /**
- * 为某商品生成唯一的货号
- *
- * @param int $goods_id
- *            商品编号
- * @return string 唯一的货号
- */
-function generate_supplier_goods_sn($goods_id) {
-    $goods_sn = ecjia::config('sn_prefix') . str_repeat('0', 6 - strlen($goods_id)) . $goods_id;
-    $sn_list = RC_DB::table('supplier_goods')
-        ->where('goods_sn', 'like', '%' . mysql_like_quote($goods_sn) . '%')
-        ->where('goods_id', '!=', $goods_id)->orderBy(RC_DB::raw('LENGTH(goods_sn)'), 'desc')
-        ->get();
-
-    /* 判断数组为空就创建数组类型否则类型为null 报错 */
-    $sn_list = empty($sn_list) ? array() : $sn_list;
-    if (in_array($goods_sn, $sn_list)) {
-        $max = pow(10, strlen($sn_list[0]) - strlen($goods_sn) + 1) - 1;
-        $new_sn = $goods_sn . mt_rand(0, $max);
-        while (in_array($new_sn, $sn_list)) {
-            $new_sn = $goods_sn . mt_rand(0, $max);
-        }
-        $goods_sn = $new_sn;
-    }
-    return $goods_sn;
-}
-
-/**
  * 商品货号是否重复
  *
  * @param string $goods_sn
