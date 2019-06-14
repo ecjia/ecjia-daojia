@@ -110,16 +110,18 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 		$service_email = ecjia::config('service_email');
 		if (ecjia::config('send_service_email') && !empty($service_email)) {
 		    try {
-		        $tpl_name = 'remind_of_new_order';
-		        $tpl   = RC_Api::api('mail', 'mail_template', $tpl_name);
-		        
-		        ecjia_front::$controller->assign('order', $order);
-		        ecjia_front::$controller->assign('goods_list', $order['goods_list']);
-		        ecjia_front::$controller->assign('shop_name', ecjia::config('shop_name'));
-		        ecjia_front::$controller->assign('send_date', date(ecjia::config('time_format')));
-		        
-		        $content = ecjia_front::$controller->fetch_string($tpl['template_content']);
-		        RC_Mail::send_mail(ecjia::config('shop_name'), ecjia::config('service_email'), $tpl['template_subject'], $content, $tpl['is_html']);
+		    	if (!is_null(ecjia_front::$controller)) {
+		    		$tpl_name = 'remind_of_new_order';
+		    		$tpl   = RC_Api::api('mail', 'mail_template', $tpl_name);
+		    		
+		    		ecjia_front::$controller->assign('order', $order);
+		    		ecjia_front::$controller->assign('goods_list', $order['goods_list']);
+		    		ecjia_front::$controller->assign('shop_name', ecjia::config('shop_name'));
+		    		ecjia_front::$controller->assign('send_date', date(ecjia::config('time_format')));
+		    		
+		    		$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
+		    		RC_Mail::send_mail(ecjia::config('shop_name'), ecjia::config('service_email'), $tpl['template_subject'], $content, $tpl['is_html']);
+		    	}
 		    } catch (PDOException $e) {
 		        RC_Logger::getlogger('error')->error($e);
 		    }
