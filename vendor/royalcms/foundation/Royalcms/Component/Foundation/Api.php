@@ -18,10 +18,17 @@ class Api extends RoyalcmsObject
     public static function api($app, $name, $params = array())
     {
         $api_name = $app . '.' . $name;
-        $api_call = $app . '_' . $name . '_apihook';
+
+        $api_call = $app . '_' . $name . '_apicall';
         if (RC_Hook::has_filter($api_call)) {
-            $api_name = RC_Hook::apply_filters($api_call, $api_name, $params);
+            return RC_Hook::apply_filters($api_call, null, $api_name, $params);
         }
+
+        $api_hook = $app . '_' . $name . '_apihook';
+        if (RC_Hook::has_filter($api_hook)) {
+            $api_name = RC_Hook::apply_filters($api_hook, $api_name, $params);
+        }
+
         return Loader::load_api($api_name, $params);
     }
 
