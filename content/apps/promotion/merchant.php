@@ -90,7 +90,7 @@ class merchant extends ecjia_merchant
         $this->assign('ur_here', __('促销活动列表', 'promotion'));
         $this->assign('action_link', array('href' => RC_Uri::url('promotion/merchant/add'), 'text' => __('促销活动', 'promotion')));
 
-        $type           = isset($_GET['type']) && in_array($_GET['type'], array('on_sale', 'coming', 'finished', 'merchant')) ? trim($_GET['type']) : 'on_sale';
+        $type           = isset($_GET['type']) && in_array($_GET['type'], array('on_sale', 'coming', 'finished', 'merchant')) ? remove_xss($_GET['type']) : 'on_sale';
         $promotion_list = $this->promotion_list($type);
 
         $this->assign('promotion_list', $promotion_list);
@@ -152,8 +152,8 @@ class merchant extends ecjia_merchant
         if (empty($goods_id)) {
             return $this->showmessage(__('请选择活动商品', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        $start_time = RC_Time::local_strtotime($_POST['start_time']);
-        $end_time   = RC_Time::local_strtotime($_POST['end_time']);
+        $start_time = RC_Time::local_strtotime(remove_xss($_POST['start_time']));
+        $end_time   = RC_Time::local_strtotime(remove_xss($_POST['end_time']));
 
         if ($start_time >= $end_time) {
             return $this->showmessage(__('请输入一个有效的促销时间', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -178,14 +178,14 @@ class merchant extends ecjia_merchant
         //查询该商品是否有货品
         $products = RC_DB::table('products')->where('goods_id', $goods_id)->get();
         if (!empty($products)) {
-            $checkbox = $_POST['checkboxes'];
+            $checkbox = remove_xss($_POST['checkboxes']);
             if (empty($checkbox)) {
                 return $this->showmessage(__('请选择SKU商品参与活动', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
-            $promote_price        = $_POST['promote_price'];
-            $promote_limited      = $_POST['promote_limited'];
-            $promote_user_limited = $_POST['promote_user_limited'];
-            $product_ids          = $_POST['product_id'];
+            $promote_price        = floatval($_POST['promote_price']);
+            $promote_limited      = remove_xss($_POST['promote_limited']);
+            $promote_user_limited = remove_xss($_POST['promote_user_limited']);
+            $product_ids          = remove_xss($_POST['product_id']);
 
             $data = [];
             foreach ($checkbox as $k => $v) {
@@ -313,8 +313,8 @@ class merchant extends ecjia_merchant
         if (empty($goods_id)) {
             return $this->showmessage(__('请选择活动商品', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        $start_time = RC_Time::local_strtotime($_POST['start_time']);
-        $end_time   = RC_Time::local_strtotime($_POST['end_time']);
+        $start_time = RC_Time::local_strtotime(remove_xss($_POST['start_time']));
+        $end_time   = RC_Time::local_strtotime(remove_xss($_POST['end_time']));
 
         if ($start_time >= $end_time) {
             return $this->showmessage(__('请输入一个有效的促销时间', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -341,14 +341,14 @@ class merchant extends ecjia_merchant
         //查询该商品是否有货品
         $products = RC_DB::table('products')->where('goods_id', $goods_id)->get();
         if (!empty($products)) {
-            $checkbox = $_POST['checkboxes'];
+            $checkbox = remove_xss($_POST['checkboxes']);
             if (empty($checkbox)) {
                 return $this->showmessage(__('请选择SKU商品参与活动', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
-            $promote_price        = $_POST['promote_price'];
-            $promote_limited      = $_POST['promote_limited'];
-            $promote_user_limited = $_POST['promote_user_limited'];
-            $product_ids          = $_POST['product_id'];
+            $promote_price        = floatval($_POST['promote_price']);
+            $promote_limited      = remove_xss($_POST['promote_limited']);
+            $promote_user_limited = remove_xss($_POST['promote_user_limited']);
+            $product_ids          = remove_xss($_POST['product_id']);
 
             $data = [];
             foreach ($checkbox as $k => $v) {
@@ -465,7 +465,7 @@ class merchant extends ecjia_merchant
 
         $id   = intval($_GET['id']);
         $db   = RC_DB::table('goods');
-        $from = trim($_GET['from']);
+        $from = remove_xss($_GET['from']);
 
         $goods_name = $db->where('store_id', $_SESSION['store_id'])->where('goods_id', $id)->pluck('goods_name');
 
@@ -507,8 +507,8 @@ class merchant extends ecjia_merchant
     public function search_goods()
     {
         $merchant_cat_id = intval($_POST['merchant_cat_id']);
-        $goods_keywords  = trim($_POST['goods_keywords']);
-        $goods_sn        = trim($_POST['goods_sn']);
+        $goods_keywords  = remove_xss($_POST['goods_keywords']);
+        $goods_sn        = remove_xss($_POST['goods_sn']);
 
         $db_goods = RC_DB::table('goods as g')
             ->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
@@ -546,7 +546,7 @@ class merchant extends ecjia_merchant
         $this->assign('goods', $data['goods']);
         $this->assign('products', $data['products']);
 
-        $type = trim($_POST['type']);
+        $type = remove_xss($_POST['type']);
         if ($type == 'add') {
             $content = $this->fetch('library/goods.lbi');
         } else {
@@ -618,7 +618,7 @@ class merchant extends ecjia_merchant
      */
     private function promotion_list($type = '')
     {
-        $filter['keywords'] = empty($_GET['keywords']) ? '' : stripslashes(trim($_GET['keywords']));
+        $filter['keywords'] = empty($_GET['keywords']) ? '' : stripslashes(remove_xss($_GET['keywords']));
 
         $db_goods = RC_DB::table('goods as g');
 
