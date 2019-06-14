@@ -742,6 +742,17 @@ if ( ! function_exists('is_ecjia_error'))
     }
 }
 
+if ( ! function_exists('is_redirect_response'))
+{
+    /**
+     * @param $response
+     * @return bool
+     */
+    function is_redirect_response($response) {
+        return $response instanceof \Royalcms\Component\Http\RedirectResponse;
+    }
+}
+
 if ( ! function_exists('is_ecjia_admin'))
 {
     /**

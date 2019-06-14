@@ -85,13 +85,13 @@ abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemp
      *
      * @var \ecjia_view
      */
-    public static $view_object;
+//    public static $view_object;
 
     /**
      * 控制器对象静态属性
      * @var \Ecjia\System\BaseController\EcjiaAdminController
      */
-    public static $controller;
+//    public static $controller;
 
 	public function __construct()
     {

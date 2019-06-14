@@ -158,9 +158,15 @@ class AdminUser extends AbstractRepository implements UserInterface
     /**
      * 获取个人头像地址
      */
-    public function getAvatarUrl()
+    public function getAvatarUrl($default = null)
     {
-        return RC_Uri::system_static_url('images/user_avatar.png');
+        if (is_null($default)) {
+            $avatar = RC_Uri::system_static_url('images/user_avatar.png');
+        } else {
+            $avatar = $default;
+        }
+
+        return $avatar;
     }
     
 }
