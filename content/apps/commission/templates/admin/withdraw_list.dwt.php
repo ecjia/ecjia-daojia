@@ -19,23 +19,23 @@
 	<div class="span12">
 		<ul class="nav nav-pills">
 		    <li class="{if !$smarty.get.type}active{/if}">
-				<a class="data-pjax" href='{$search_action}{$url_parames}'>{t domain="commission"}待审核{/t}
+				<a class="data-pjax" href='{RC_Uri::url("commission/admin/withdraw", "{$url_parames}")}'>{t domain="commission"}待审核{/t}
 					<span class="badge badge-info">{$type_count.wait_check}</span>
 				</a>
 			</li>
 			<li class="{if $smarty.get.type eq 1}active{/if}">
-				<a class="data-pjax" href='{$search_action}{$url_parames}&type=1'>{t domain="commission"}已通过{/t}
+				<a class="data-pjax" href='{RC_Uri::url("commission/admin/withdraw", "type=1{$url_parames}")}'>{t domain="commission"}已通过{/t}
 					<span class="badge badge-info">{$type_count.passed}</span>
 				</a>
 			</li>
 			<li class="{if $smarty.get.type eq 2}active{/if}">
-				<a class="data-pjax" href='{$search_action}{$url_parames}&type=2'>{t domain="commission"}已拒绝{/t}
+				<a class="data-pjax" href='{RC_Uri::url("commission/admin/withdraw", "type=2{$url_parames}")}'>{t domain="commission"}已拒绝{/t}
 					<span class="badge badge-info">{$type_count.refused}</span>
 				</a>
 			</li>
 		</ul>
 		<ul class="nav nav-pills choose_list " style="border:none;">
-			<form class="f_r form-inline" action='{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}' method="post" name="searchForm">
+			<form class="f_r form-inline" action='{RC_Uri::url("commission/admin/withdraw")}{if $smarty.get.type}&type={$smarty.get.type}{/if}' method="post" name="searchForm">
     			<input class="date f_l w120" name="start_time" type="text" value="{$smarty.get.start_time}" placeholder="{t domain="commission"}开始时间{/t}">
              	<input class="date f_l w120" name="end_time" type="text" value="{$smarty.get.end_time}" placeholder="{t domain="commission"}结束时间{/t}">
     			<input type="text" name="merchant_keywords" value="{$smarty.get.merchant_keywords}" placeholder="{t domain="commission"}请输入商家关键字{/t}" size="15" />
@@ -47,15 +47,13 @@
 			<div class="row-fluid">
 				<table class="table table-striped smpl_tbl dataTable table-hide-edit">
 					<thead>
-						<tr data-sorthref='{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}{if $smarty.get.start_time}&start_time={$smarty.get.start_time}{/if}
-					{if $smarty.get.end_time}&end_time={$smarty.get.end_time}{/if}{if $smarty.get.merchant_keywords}&merchant_keywords={$smarty.get.merchant_keywords}{/if}
-					{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}'>
+						<tr>
 						    <th>{t domain="commission"}流水号{/t}</th>
 						    <th>{t domain="commission"}商家名称{/t}</th>
 						    <th>{t domain="commission"}提现金额{/t}</th>
 						    <th>{t domain="commission"}提现方式{/t}</th>
 						    <th>{t domain="commission"}收款账号{/t}</th>
-						    <th data-toggle="sortby" data-sortby="add_time">{t domain="commission"}申请时间{/t}</th>
+						    <th>{t domain="commission"}申请时间{/t}</th>
 						    <th>{t domain="commission"}处理状态{/t}</th>
 						</tr>
 					</thead>
