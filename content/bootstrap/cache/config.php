@@ -1077,7 +1077,7 @@
   'sentry::config' => 
   array (
     'dsn' => 'https://fc7073447dd44ca2992d59ff400976d3:6b37c9ef5688473a9d02cd02ff91a6f8@exception.ecjia.com/2',
-    'release' => '5.14.0',
+    'release' => '5.15.0',
     'breadcrumbs.sql_bindings' => true,
     'user_context' => false,
   ),
