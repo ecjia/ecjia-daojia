@@ -440,7 +440,7 @@ class user_privilege_controller
 
                 unset($_SESSION['user_temp']);
 
-                ecjia_touch_user::singleton()->signin('smslogin', $mobile, $password);
+                ecjia_touch_user::singleton()->setUserinfo($res);//登录
                 return ecjia_front::$controller->showmessage(__('恭喜您，注册成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
             } else {
                 return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
