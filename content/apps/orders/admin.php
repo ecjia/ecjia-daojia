@@ -767,19 +767,7 @@ class admin extends ecjia_admin
      */
     public function ajax_merge_order()
     {
-        $this->admin_priv('order_os_edit', ecjia::MSGTYPE_JSON);
-
-        $from_order_sn = empty($_POST['from_order_sn']) ? '' : $_POST['from_order_sn'];
-        $to_order_sn   = empty($_POST['to_order_sn']) ? '' : $_POST['to_order_sn'];
-
-        /* 参数验证  */
-        $m_result = merge_order($from_order_sn, $to_order_sn);
-        $result   = array('error' => 0, 'content' => '');
-        if ($m_result === true) {
-            return $this->showmessage(__('操作成功', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-        } else {
-            return $this->showmessage(__('操作失败', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
+    	
     }
 
     /**
