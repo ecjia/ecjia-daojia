@@ -620,6 +620,9 @@ return array(
 	'admin/merchant/goods/parameter/attribute/detail'			=> 'goods::admin/merchant/goods/parameter/attribute/detail',			//获取参数模板参数属性详情	
 	'admin/merchant/goods/parameter/attribute/update'			=> 'goods::admin/merchant/goods/parameter/attribute/update',			//编辑参数模板参数属性
 	'admin/merchant/goods/attribute/delete'						=> 'goods::admin/merchant/goods/attribute/delete',						//删除规格或参数属性	
+	//商品添加/编辑	
+	'admin/merchant/goods/list'			    					=> 'goods::admin/merchant/goods/list',									//掌柜商品列表；原来admin/goods/list升级
+	'admin/merchant/goods/add'									=> 'goods::admin/merchant/goods/add',									//掌柜添加商品；原来admin/goods/add升级
 		
 		
 		
