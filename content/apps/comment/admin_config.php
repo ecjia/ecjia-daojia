@@ -124,12 +124,14 @@ class admin_config extends ecjia_admin {
 	    ecjia_config::instance()->write_config('comment_check', $comment_check);
 	    ecjia_config::instance()->write_config('comment_factor', $comment_factor);
 	    
-	    $comment_award_rules = '';
+	    $comment_award_rules = [];
+	    
 	    if (isset($_POST['comment_award_rules'])) {
 	        foreach ($_POST['comment_award_rules'] as $key => $val) {
 	            if (empty($val)) {
 	                continue;
 	            }
+	            
 	            $comment_award_rules[$key] = intval($val);
 	        }
 	        if (!empty($comment_award_rules)) {
