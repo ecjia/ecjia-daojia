@@ -63,7 +63,13 @@ class touch_controller
         ecjia_front::$controller->assign('theme_url', RC_Theme::get_template_directory_uri() . '/');
 
         $url = RC_Uri::url('touch/index/init');
-        touch_function::redirect_referer_url($url);
+        $result = touch_function::redirect_referer_url($url);
+        if (is_ecjia_error($result)) {
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+        }
+        if (is_redirect_response($result)) {
+            return $result;
+        }
 
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $_COOKIE['city_id'] . '-' . $_COOKIE['longitude'] . '-' . $_COOKIE['latitude'] . '-' . $_COOKIE['close_download']));
         if (!ecjia_front::$controller->is_cached('index.dwt', $cache_id)) {
@@ -305,7 +311,14 @@ class touch_controller
     public static function choose_store()
     {
         $url = RC_Uri::url('touch/index/init');
-        touch_function::redirect_referer_url($url);
+        $result = touch_function::redirect_referer_url($url);
+        if (is_ecjia_error($result)) {
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+        }
+        if (is_redirect_response($result)) {
+            return $result;
+        }
+
         //周边店铺
         $paramater = array(
             'pagination' => array('count' => 10, 'page' => 1),

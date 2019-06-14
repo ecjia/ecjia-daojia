@@ -57,7 +57,13 @@ class cart_controller
     public static function init()
     {
         $url = RC_Uri::url('cart/index/init');
-        touch_function::redirect_referer_url($url);
+        $result = touch_function::redirect_referer_url($url);
+        if (is_ecjia_error($result)) {
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+        }
+        if (is_redirect_response($result)) {
+            return $result;
+        }
 
         $token = ecjia_touch_user::singleton()->getToken();
         $arr   = array(

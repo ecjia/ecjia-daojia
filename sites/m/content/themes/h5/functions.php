@@ -73,6 +73,11 @@ ecjia_extra::loadThemeFrameworkOptions();
  * 自定义主题框架的控制器
  */
 RC_Hook::add_action('royalcms_default_controller', function($route) {
+
+    if (ROUTE_M == 'user') {
+        return new ecjia_user_front_controller();
+    }
+
     return new ecjia_theme_controller();
 });
 
@@ -113,9 +118,9 @@ RC_Hook::add_action('ecjia_front_finish_launching', function () {
         }
     }
 
-    if (ROUTE_M == 'user') {
-        new user_front();
-    }
+//    if (ROUTE_M == 'user') {
+//        new user_front();
+//    }
     
     if (!RC_Agent::isPhone()) {
         $qrcode = with(new Ecjia\App\Mobile\UrlTempQrcode())->getQrcodeBase64();

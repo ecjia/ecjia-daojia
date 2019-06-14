@@ -85,5 +85,6 @@ return [
     'ecjia_goods_specification' => 'extras/classes/ecjia_goods_specification.class.php',
     'ecjia_open_handler'        => 'extras/classes/ecjia_open_handler.class.php',
     'ecjia_theme_controller'    => 'extras/classes/ecjia_theme_controller.class.php',
+    'ecjia_user_front_controller'    => 'extras/classes/ecjia_user_front_controller.class.php',
 
 ];

@@ -302,9 +302,10 @@ class user_order_controller
                     return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $url));
                 }
             }
-            $url = RC_Uri::url('cart/index/init');
-            return ecjia_front::$controller->redirect($url);
         }
+
+        $url = RC_Uri::url('cart/index/init');
+        return ecjia_front::$controller->redirect($url);
     }
 
     /**

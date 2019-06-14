@@ -133,11 +133,18 @@ class goods_controller
         $goods_id = isset($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
 
         $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
-        touch_function::redirect_referer_url($url);
+        $result = touch_function::redirect_referer_url($url);
+        if (is_ecjia_error($result)) {
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+        }
+        if (is_redirect_response($result)) {
+            return $result;
+        }
 
         $rec_type  = isset($_GET['rec_type']) ? $_GET['rec_type'] : 0;
         $object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
         $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0; //货品id
+        $dwt = 'goods_show.dwt';
 
         $ecjia_goods_specification = new ecjia_goods_specification($goods_id);
 
@@ -200,8 +207,6 @@ class goods_controller
             $goods_info['label_trade_time'] = $store_info['label_trade_time'];
             if ($goods_info['promote_price'] != 0 && $goods_info['activity_type'] == 'PROMOTE_GOODS') {
             	$dwt = 'goods_promotion_detail.dwt';
-            } else {
-            	$dwt = 'goods_show.dwt';
             }
            
             if ($store_info['shop_closed'] != 1) {
@@ -670,7 +675,13 @@ class goods_controller
         if ($keywords !== '') {
             if (!empty($store_id)) {
                 $url = RC_Uri::url('goods/category/store_list', array('store_id' => $store_id, 'keywords' => $keywords));
-                touch_function::redirect_referer_url($url);
+                $result = touch_function::redirect_referer_url($url);
+                if (is_ecjia_error($result)) {
+                    return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+                }
+                if (is_redirect_response($result)) {
+                    return $result;
+                }
 
                 $arr['filter']['keywords'] = $keywords;
                 $arr['seller_id']          = $store_id;
