@@ -63,15 +63,6 @@ return array(
 		'tip_msg' => __('更换模板，会将之前已添加的相关数据进行清除，请谨慎操作，您确定要【清除】吗？', 'goods'),
 		'ok'      => __('确定', 'goods'),
 		'cancel'  => __('取消', 'goods'),
-        'add_goods_ok'          => __('添加商品成功', 'goodslib'),
-        'import_goods'          => __('开始导入', 'goodslib'),
-        'importing'             => __('导入中', 'goodslib'),
-        'goods_name_required'   => __('请输入商品名称！', 'goodslib'),
-        'shop_price_required'   => __('请输入商品价格！', 'goodslib'),
-        'goods_number_required' => __('请输入商品库存！', 'goodslib'),
-        'import_goods_required' => __('请选择需要导入的商品！', 'goodslib'),
-        'not_compute'           => __('未计算', 'goodslib'),
-        'empty_data'            => __('暂无内容', 'goodslib'),
 	),
 		
     'goods_list_page' => array(

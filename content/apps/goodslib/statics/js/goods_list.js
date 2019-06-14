@@ -14,102 +14,6 @@
 			app.goods_list.batch_move_cat();
 			app.goods_list.review_static();
 			app.goods_list.toggle_on_sale();
-			app.goods_list.insertSupplier();
-		},
-		insertSupplier: function() {
-			$(".insert-goods-btn").on('click', function(e) {
-				$("div.form-group").removeClass("error");
-				$("div.form-group").removeClass("f_error");
-				$("label.error").remove();
-				$(".insertSubmit").removeAttr('disabled');
-				$(".insertSubmit").html(js_lang.import_goods);
-
-				var $this = $(this);
-				var goods_id = $this.attr('data-id');
-				var goods_name = $this.attr('data-name');
-				var goods_sn = $this.attr('data-sn');
-				var shop_price = $this.attr('data-shopprice');
-				var market_price = $this.attr('data-marketprice');
-
-				$("input[name=goods_id]").val(goods_id);
-				$("input[name=goods_name]").val(goods_name);
-				$("input[name=goods_sn]").val(goods_sn);
-				$("input[name=shop_price]").val(shop_price);
-				$("input[name=market_price]").val(market_price);
-
-				$('#insertGoods').modal('show');
-			});
-			$(".insertSubmit").on('click', function(e) {
-				$(".insertSubmit").attr('disabled', true);
-				$(".insertSubmit").html(js_lang.importing + ' <i class="fontello-icon-spin6 animate-spin"></i>');
-				$("form[name='insertForm']").submit();
-				//$('#insertGoods').modal('hide');
-			});
-
-			$("form[name='insertForm']").on('submit', function(e) {
-				e.preventDefault();
-			});
-
-
-			var $this = $('form[name="insertForm"]');
-			var option = {
-				rules: {
-					goods_name: {
-						required: true
-					},
-					shop_price: {
-						required: true
-					},
-					goods_number: {
-						required: true
-					}
-				},
-				messages: {
-					goods_name: {
-						required: js_lang.goods_name_required
-					},
-					shop_price: {
-						required: js_lang.shop_price_required
-					},
-					goods_number: {
-						required: js_lang.goods_number_required
-					}
-				},
-				submitHandler: function() {
-					$this.ajaxSubmit({
-						dataType: "json",
-						success: function(data) {
-							if (data.state == 'error') {
-								smoke.alert(data.message);
-								$(".insertSubmit").removeAttr('disabled');
-								$(".insertSubmit").html(js_lang.import_goods);
-								//ecjia.merchant.showmessage(data);
-								return false;
-							}
-							//成功界面
-							$('#insertGoods').modal('hide');
-							$(".modal-backdrop").remove();
-							ecjia.pjax(data.url, function() {
-								ecjia.admin.showmessage(data);
-							})
-						},
-						error: function(data) {
-							$(".insertSubmit").removeAttr('disabled');
-							$(".insertSubmit").html(js_lang.import_goods);
-						}
-					});
-				},
-				showErrors : function(errorMap, errorList) {
-					$(".insertSubmit").removeAttr('disabled');
-					$(".insertSubmit").html(js_lang.import_goods);
-
-					this.defaultShowErrors();
-				}
-			};
-
-			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
-			$this.validate(options);
-
 		},
 		review_static: function() {
 			$('.review_static').each(function() {
@@ -352,6 +256,8 @@
 			app.goods_info.term_meta();
 			app.goods_info.term_meta_key();
 
+			app.goods_info.add_brand();
+			app.goods_info.add_cat();
 		},
 		fileupload: function() {
 			$(".fileupload-btn").on('click', function(e) {
@@ -630,6 +536,95 @@
 			});
 		},
 
+		add_brand: function() {
+			$('.add_brand_link').on('click', function(e) {
+				e.preventDefault();
+				$(this).hide();
+				$('.add_brand_div').show();
+			});
+
+			$('.add_brand_ok').on('click', function(e) {
+				e.preventDefault();
+				var brand_name = $('input[name="brand_name"]').val(),
+					url = $('div.add_brand_div').attr('data-url'),
+					info = {
+						brand_name: brand_name
+					};
+				if (brand_name.replace(/^\s+|\s+$/g, '') == '') {
+					smoke.alert(js_lang.brand_name_empty);
+					return false;
+				}
+				$.post(url, info, function(data) {
+					if (data.state == 'success') {
+						var opt = '<option value=' + data.content.id + ' selected>' + data.content.name + '</option>';
+						$('select[name="brand_id"]').append(opt).trigger("liszt:updated").trigger("change");
+						$('.add_brand_cancel').trigger('click');
+					}
+					ecjia.admin.showmessage(data);
+				}, 'json');
+			});
+
+			$('.add_brand_cancel').on('click', function(e) {
+				e.preventDefault();
+				$('input[name="brand_name"]').val('');
+				$('.add_brand_link').show();
+				$('.add_brand_div').hide();
+			});
+		},
+
+		add_cat: function() {
+			$('.add_cat_link').on('click', function(e) {
+				e.preventDefault();
+				$(this).hide();
+				$('.add_cat_div').show();
+			});
+
+			$('.add_cat_ok').on('click', function(e) {
+				e.preventDefault();
+
+				var cat_name = $('input[name="cat_name"]').val(),
+					cat_id = $('select[name="cat_id"]').val(),
+					url = $('div.add_cat_div').attr('data-url'),
+					info = {
+						cat_name: cat_name,
+						cat_id: cat_id,
+					};
+				if (cat_name.replace(/^\s+|\s+$/g, '') == '') {
+					smoke.alert(js_lang.cat_name_empty);
+					return false;
+				}
+				$.post(url, info, function(data) {
+					if (data.state == 'success') {
+						var content = '<option value="0">' + js_lang.pls_select + '</option>';
+						content += data.content;
+						$('select[name="cat_id"]').html('').append(content).trigger("liszt:updated").trigger("change");
+
+						var opt = data.opt;
+						if (opt !== '') {
+							var parent_id = '.cat_' + opt.parent_id;
+							var padding = (opt.level * 20) + 'px';
+							var label_class = 'cat_' + opt.cat_id;
+							var label = '<label style=padding-left:' + padding + ' class=' + label_class + '><input type="checkbox" checked name="other_cat[]" value=' + opt.cat_id + ' style="opacity: 0;"><span class="m_l5">' + opt.cat_name + '</span></label>';
+							if (opt.parent_id != 0) {
+								$('.goods-cat').children('.goods-span').find(parent_id).after(label);
+							} else {
+								$('.goods-cat').children('.goods-span').prepend(label);
+							}
+							$('.goods-cat').children('.goods-span').find('input[name="other_cat[]"]').uniform();
+						}
+						$('.add_cat_cancel').trigger('click');
+					}
+					ecjia.admin.showmessage(data);
+				}, 'json');
+			});
+
+			$('.add_cat_cancel').on('click', function(e) {
+				e.preventDefault();
+				$('input[name="cat_name"]').val('');
+				$('.add_cat_link').show();
+				$('.add_cat_div').hide();
+			});
+		},
 	}
 
 	/* 商品预览 */
