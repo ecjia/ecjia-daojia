@@ -37,8 +37,8 @@ abstract class SmartyController extends EcjiaController implements EcjiaTemplate
     {
         parent::__construct();
 
-        self::$controller = static::$controller;
-        self::$view_object = static::$view_object;
+//        self::$controller = static::$controller;
+//        self::$view_object = static::$view_object;
 
 
         if (config('system.debug')) {
