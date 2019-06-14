@@ -57,10 +57,14 @@ class commission_admin_menu_api extends Component_Event_Api {
 		$menus = ecjia_admin::make_admin_menu('07_commission', __('商家结算', 'commission'), '', 7);
 		
 		$submenus = array(
-			ecjia_admin::make_admin_menu('01_commission_list', __('商家提现', 'commission'), RC_Uri::url('commission/admin/withdraw'), 1)->add_purview('commission_withdraw'),
-			ecjia_admin::make_admin_menu('02_commission_list', __('月账单', 'commission'), RC_Uri::url('commission/admin/init'), 2)->add_purview('commission_manage'),
-		    ecjia_admin::make_admin_menu('03_commission_list_day', __('日账单', 'commission'), RC_Uri::url('commission/admin/day'), 3)->add_purview('commission_day_manage'),
-		    ecjia_admin::make_admin_menu('04_commission_order_list', __('订单分成', 'commission'), RC_Uri::url('commission/admin/order'), 4)->add_purview('commission_order'),
+            ecjia_admin::make_admin_menu('01_commission_deposit_list', __('商家充值', 'commission'), RC_Uri::url('commission/admin/deposit'), 1)->add_purview('commission_deposit'),
+			ecjia_admin::make_admin_menu('01_commission_list', __('商家提现', 'commission'), RC_Uri::url('commission/admin/withdraw'), 2)->add_purview('commission_withdraw'),
+
+            ecjia_admin::make_admin_menu('divider', '', '', 3)->add_purview(array('commission_manage', 'commission_day_manage', 'commission_order'), 6),
+
+            ecjia_admin::make_admin_menu('02_commission_list', __('月账单', 'commission'), RC_Uri::url('commission/admin/init'), 4)->add_purview('commission_manage'),
+		    ecjia_admin::make_admin_menu('03_commission_list_day', __('日账单', 'commission'), RC_Uri::url('commission/admin/day'), 5)->add_purview('commission_day_manage'),
+		    ecjia_admin::make_admin_menu('04_commission_order_list', __('订单分成', 'commission'), RC_Uri::url('commission/admin/order'), 6)->add_purview('commission_order'),
 		);
 		$menus->add_submenu($submenus);
 		

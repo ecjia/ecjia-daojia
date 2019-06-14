@@ -48,7 +48,7 @@
 	        				<tr>
 								<td>{$list.change_time}</td>
 								<td>
-									{if $list.change_type eq 'charge'}
+									{if $list.change_type eq 'deposit'}
                                     {t domain="commission"}充值{/t}
 									{else if $list.change_type eq 'withdraw'}
                                     {t domain="commission"}提现{/t}
