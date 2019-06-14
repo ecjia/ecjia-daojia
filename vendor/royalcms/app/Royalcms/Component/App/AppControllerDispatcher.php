@@ -81,17 +81,17 @@ class AppControllerDispatcher
                 
                 $response = $this->route->runControllerAction($controller, $this->route->getAction());
 
-                if (is_null($response)) {
-                    return royalcms('response');
+                if ( $response instanceof RoyalcmsResponse) {
+                    if (! is_null($response->getOriginalContent())) {
+                        return $response;
+                    }
                 }
 
-//                if ( $response instanceof RoyalcmsResponse) {
-//                    if (! is_null($response->getOriginalContent())) {
-//                        return $response;
-//                    }
-//                }
+                if (! is_null($response)) {
+                    return $response;
+                }
 
-                return $response;
+                return royalcms('response');
             }
             
         } catch (NotFoundHttpException $e) {
