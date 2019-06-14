@@ -192,22 +192,28 @@ class admin_gallery_product extends ecjia_admin {
             return $this->showmessage(__('参数丢失', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $upload = RC_Upload::uploader('image', array('save_path' => './images', 'auto_sub_dirs' => true));
+        $upload = RC_Upload::uploader('newimage', array('save_path' => 'goodslib', 'auto_sub_dirs' => true));
         $upload->add_saving_callback(function ($file, $filename) {
             return true;
         });
         
-        if (!$upload->check_upload_file($_FILES['img_url'])) {
-            return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
+//        if (!$upload->check_upload_file($_FILES['img_url'])) {
+//            return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//        }
 
-        $image_info = $upload->upload($_FILES['img_url']);
+        $image_info = $upload->upload('img_url');
         if (empty($image_info)) {
             return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
-        $goods_image = new product_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id, $product_id);
-        $goods_image->update_gallery();
+//        $goods_image = new product_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id, $product_id);
+//        $goods_image->update_gallery();
+
+        $goods_image = new \Ecjia\App\Goodslib\GoodsImage\Goods\GoodsGallery($goods_id, $product_id, $image_info);
+        $result = $goods_image->updateToDatabase();
+        if (is_ecjia_error($result)) {
+            return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         
         $arr['goods_id'] = $goods_id;
         $arr['id'] = $product_id;
