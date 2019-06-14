@@ -89,8 +89,8 @@ class merchant extends ecjia_merchant
     public function init()
     {
         $this->admin_priv('shopguide_setup');
-        $step = isset($_GET['step']) ? $_GET['step'] : 1;
-        $type = isset($_GET['type']) ? $_GET['type'] : '';
+        $step = isset($_GET['step']) ? remove_xss($_GET['step']) : 1;
+        $type = isset($_GET['type']) ? remove_xss($_GET['type']) : '';
 
         $this->assign('ur_here', __('开店向导', 'shopguide'));
 
@@ -184,10 +184,10 @@ class merchant extends ecjia_merchant
 
         if ($step == 1) {
             $store_id         = $_SESSION['store_id'];
-            $shop_kf_mobile   = ($_POST['shop_kf_mobile'] == get_merchant_config('shop_kf_mobile')) ? '' : htmlspecialchars($_POST['shop_kf_mobile']);
-            $shop_description = ($_POST['shop_description'] == get_merchant_config('shop_description')) ? '' : htmlspecialchars($_POST['shop_description']);
-            $shop_trade_time  = empty($_POST['shop_trade_time']) ? '' : htmlspecialchars($_POST['shop_trade_time']);
-            $shop_notice      = ($_POST['shop_notice'] == get_merchant_config('shop_notice')) ? '' : htmlspecialchars($_POST['shop_notice']);
+            $shop_kf_mobile   = ($_POST['shop_kf_mobile'] == get_merchant_config('shop_kf_mobile')) ? '' : htmlspecialchars(remove_xss($_POST['shop_kf_mobile']));
+            $shop_description = ($_POST['shop_description'] == get_merchant_config('shop_description')) ? '' : htmlspecialchars(remove_xss($_POST['shop_description']));
+            $shop_trade_time  = empty($_POST['shop_trade_time']) ? '' : htmlspecialchars(remove_xss($_POST['shop_trade_time']));
+            $shop_notice      = ($_POST['shop_notice'] == get_merchant_config('shop_notice')) ? '' : htmlspecialchars(remove_xss($_POST['shop_notice']));
 
             $merchant_config = array();
             //默认店铺页头部LOGO
@@ -253,11 +253,11 @@ class merchant extends ecjia_merchant
         } elseif ($step == 2) {
             $goods_id   = empty($_POST['goods_id']) ? '' : intval($_POST['goods_id']);
             $cat_id     = empty($_POST['cat_id']) ? '' : intval($_POST['cat_id']);
-            $goods_name = empty($_POST['goods_name']) ? '' : trim($_POST['goods_name']);
+            $goods_name = empty($_POST['goods_name']) ? '' : remove_xss($_POST['goods_name']);
 
-            $goods_price  = empty($_POST['goods_price']) || !is_numeric($_POST['goods_price']) ? 0 : $_POST['goods_price'];
+            $goods_price  = empty($_POST['goods_price']) || !is_numeric($_POST['goods_price']) ? 0 : floatval($_POST['goods_price']);
             $goods_number = empty($_POST['goods_num']) ? 0 : intval($_POST['goods_num']);
-            $goods_brief  = empty($_POST['goods_brief']) ? '' : $_POST['goods_brief'];
+            $goods_brief  = empty($_POST['goods_brief']) ? '' : remove_xss($_POST['goods_brief']);
             $is_best      = empty($_POST['is_best']) ? 0 : 1;
             $is_new       = empty($_POST['is_new']) ? 0 : 1;
             $is_hot       = empty($_POST['is_hot']) ? 0 : 1;
@@ -369,7 +369,7 @@ class merchant extends ecjia_merchant
      */
     public function drop_file()
     {
-        $code = $_GET['code'];
+        $code = remove_xss($_GET['code']);
         if ($code == 'goods_img') {
             $goods_id = !empty($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
 
