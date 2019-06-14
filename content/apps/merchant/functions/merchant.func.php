@@ -237,11 +237,11 @@ function merchant_file_upload_info($path, $code, $old_images = '')
     if (!empty($file) && (isset($file['error']) && $file['error'] == 0 || !isset($file['error']) && $file['tmp_name'] != 'none')) {
         // 检测图片类型是否符合
         if (!$upload->check_upload_file($file)) {
-            return ecjia_merchant::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return new ecjia_error('upload_error', $upload->error());
         } else {
             $image_info = $upload->upload($file);
             if (empty($image_info)) {
-                return ecjia_merchant::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return new ecjia_error('upload_error', $upload->error());
             }
             // 删除旧的图片
             if (!empty($old_images)) {

@@ -157,12 +157,16 @@ class StaffUser extends AbstractRepository implements UserInterface
     /**
      * 获取个人头像地址
      */
-    public function getAvatarUrl()
+    public function getAvatarUrl($default = null)
     {
         if ($this->user->avatar) {
             $avatar = RC_Upload::upload_url($this->user->avatar);
         } else {
-            $avatar = RC_App::apps_url('statics/img/ecjia_avatar.jpg', dirname(dirname(dirname(__FILE__))));
+            if (is_null($default)) {
+                $avatar = RC_App::apps_url('statics/img/ecjia_avatar.jpg', dirname(dirname(dirname(__FILE__))));
+            } else {
+                $avatar = $default;
+            }
         }
 
         return $avatar;

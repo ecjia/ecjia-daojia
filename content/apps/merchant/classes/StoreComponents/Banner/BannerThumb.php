@@ -116,15 +116,10 @@ class BannerThumb
             });
             $content = $img->encode(RC_File::extension($this->getStoreBannerPath()));
 
-            $tempPath = $this->getTempPath();
-            
-            RC_File::put($tempPath, $content);
+            $content = $content->getEncoded();
 
             //上传临时文件到指定目录
-            RC_Storage::disk()->move($tempPath, $this->getStoreBannerThumbPath(), true, FS_CHMOD_FILE);
-
-            //删除临时文件
-            RC_File::delete($tempPath);
+            RC_Storage::disk()->write($this->transformBannerThumbFileName(), $content);
         }
 
         return $this;
@@ -133,8 +128,8 @@ class BannerThumb
 
     public function removeBannerThumbFile()
     {
-        if (RC_Storage::disk()->exists($this->getStoreBannerThumbPath())) {
-            return RC_Storage::delete($this->getStoreBannerThumbPath());
+        if (RC_Storage::disk()->exists($this->transformBannerThumbFileName())) {
+            return RC_Storage::delete($this->transformBannerThumbFileName());
         }
 
         return false;

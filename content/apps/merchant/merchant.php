@@ -197,17 +197,32 @@ class merchant extends ecjia_merchant
 
         // 店铺导航背景图
         if (!empty($_FILES['shop_nav_background']) && empty($_FILES['error']) && !empty($_FILES['shop_nav_background']['name'])) {
-            $merchants_config['shop_nav_background'] = merchant_file_upload_info('shop_nav_background', '', $shop_nav_background);
+            $shop_nav_background_check = merchant_file_upload_info('shop_nav_background', '', $shop_nav_background);
+            if (is_ecjia_error($shop_nav_background_check)) {
+                return $shop_nav_background_check;
+            } else {
+                $merchants_config['shop_nav_background'] = $shop_nav_background_check;
+            }
         }
         // 默认店铺页头部LOGO
         if (!empty($_FILES['shop_logo']) && empty($_FILES['error']) && !empty($_FILES['shop_logo']['name'])) {
-            $merchants_config['shop_logo'] = merchant_file_upload_info('shop_logo', '', $shop_logo);
+            $shop_logo_check = merchant_file_upload_info('shop_logo', '', $shop_logo);
+            if (is_ecjia_error($shop_logo_check)) {
+                return $shop_logo_check;
+            } else {
+                $merchants_config['shop_logo'] = $shop_logo_check;
+            }
         }
 
         $edit_app_banner = false;
         // APPbanner图
         if (!empty($_FILES['shop_banner_pic']) && empty($_FILES['error']) && !empty($_FILES['shop_banner_pic']['name'])) {
-            $merchants_config['shop_banner_pic'] = merchant_file_upload_info('shop_banner', 'shop_banner_pic', $shop_banner_pic);
+            $shop_banner_pic_check = merchant_file_upload_info('shop_banner', 'shop_banner_pic', $shop_banner_pic);
+            if (is_ecjia_error($shop_banner_pic_check)) {
+                return $shop_banner_pic_check;
+            } else {
+                $merchants_config['shop_banner_pic'] = $shop_banner_pic_check;
+            }
             $edit_app_banner                     = true;
         }
         // 如果没有上传店铺LOGO 提示上传店铺LOGO
