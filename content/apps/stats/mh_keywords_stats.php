@@ -137,8 +137,8 @@ class mh_keywords_stats extends ecjia_merchant {
 	    $page_num = 20;
 		$db_keywords = RC_DB::table('store_keywords');
 		
-		$start_date = empty($_GET['start_date']) 	? RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('-7 days')) : $_GET['start_date'];
-		$end_date 	= empty($_GET['end_date']) 		? RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('today')) 	: $_GET['end_date'];
+		$start_date = empty($_GET['start_date']) 	? RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('-7 days')) : remove_xss($_GET['start_date']);
+		$end_date 	= empty($_GET['end_date']) 		? RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('today')) 	: remove_xss($_GET['end_date']);
 		$db_keywords->where('date', '>=', $start_date)->where('date', '<=', $end_date);
 		
 		$db_keywords->select('keyword', 'count', 'date')->where('store_id', $_SESSION['store_id'])->orderby('count', 'desc');
