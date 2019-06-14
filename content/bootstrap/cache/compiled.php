@@ -26773,7 +26773,6 @@ interface BundlePackage
 
 namespace Royalcms\Component\App {
 use Royalcms\Component\DefaultRoute\HttpQueryRoute;
-use Royalcms\Component\Error\Facades\Error as RC_Error;
 use RC_Hook;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26799,20 +26798,21 @@ class AppControllerDispatcher
         $controller = $this->makeController();
         if ($controller instanceof RoyalcmsResponse) {
             return $controller;
+        } elseif (is_rc_error($controller)) {
+            if (RC_Hook::has_action('royalcms_default_controller')) {
+                RC_Hook::do_action('royalcms_default_controller', $this->routePath);
+            }
         }
         try {
             if (RC_Hook::has_action($this->routePath)) {
-                with(new $controller());
                 RC_Hook::do_action($this->routePath);
                 return royalcms('response');
             } else {
                 $response = $this->route->runControllerAction($controller, $this->route->getAction());
-                if ($response instanceof RoyalcmsResponse) {
-                    if (!is_null($response->getOriginalContent())) {
-                        return $response;
-                    }
+                if (is_null($response)) {
+                    return royalcms('response');
                 }
-                return royalcms('response');
+                return $response;
             }
         } catch (NotFoundHttpException $e) {
             abort(403, $e->getMessage());
@@ -26828,19 +26828,7 @@ class AppControllerDispatcher
                 abort(404, "App {$this->route->getModule()} does not found.");
             }
             $controller = $bundle->getControllerClassName($this->route->getController());
-            if (RC_Error::is_error($controller)) {
-                if (RC_Hook::has_action('royalcms_default_controller')) {
-                    RC_Hook::do_action('royalcms_default_controller', $this->routePath);
-                }
-                if (RC_Hook::has_action($this->routePath)) {
-                    RC_Hook::do_action($this->routePath);
-                    return royalcms('response');
-                } else {
-                    abort(403, $controller->get_error_message());
-                }
-            } else {
-                return $controller;
-            }
+            return $controller;
         } catch (InvalidArgumentException $e) {
             abort(403, $e->getMessage());
         }
@@ -41670,8 +41658,6 @@ use RC_Uri;
 use Smarty;
 abstract class SmartyController extends EcjiaController implements EcjiaTemplateFileLoader
 {
-    public static $view_object;
-    public static $controller;
     public function __construct()
     {
         parent::__construct();
@@ -41842,8 +41828,6 @@ use RC_Uri;
 use Smarty;
 abstract class EcjiaAdminController extends EcjiaController implements EcjiaTemplateFileLoader
 {
-    public static $view_object;
-    public static $controller;
     public function __construct()
     {
         define('IN_ADMIN', true);
@@ -42805,7 +42789,7 @@ class ecjia_screen
         }
         return $admin == $this->in_admin;
     }
-    function set_parentage($parent_base, $parent_file)
+    function set_parentage($parent_base, $parent_file = '')
     {
         $this->parent_file = $parent_file;
         $this->parent_base = $parent_base;
