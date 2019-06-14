@@ -99,8 +99,8 @@ class mh_sale_list extends ecjia_merchant {
 		
 		$db_quickpay_order = RC_DB::table('quickpay_orders');
 	
-		$start_date = RC_Time::local_strtotime($_GET['start_date']);
-		$end_date   = RC_Time::local_strtotime($_GET['end_date']);
+		$start_date = RC_Time::local_strtotime(remove_xss($_GET['start_date']));
+		$end_date   = RC_Time::local_strtotime(remove_xss($_GET['end_date']));
 			
 		$format = '%Y-%m-%d';
 		$db_quickpay_order->where('store_id', $_SESSION['store_id']);
@@ -118,7 +118,7 @@ class mh_sale_list extends ecjia_merchant {
 		->get();
 		$filetitle = __('商家买单销售明细报表', 'quickpay');
 		$totext = __('至', 'quickpay');
-		$filename = mb_convert_encoding($filetitle . '_' . $_GET['start_date'] . $totext . $_GET['end_date'], "GBK", "UTF-8");
+		$filename = mb_convert_encoding($filetitle . '_' . remove_xss($_GET['start_date']) . $totext . remove_xss($_GET['end_date']), "GBK", "UTF-8");
 		header("Content-type: application/vnd.ms-excel; charset=utf-8");
 		header("Content-Disposition: attachment; filename=$filename.xls");
 		$title1 = __('商家买单销售明细', 'quickpay');

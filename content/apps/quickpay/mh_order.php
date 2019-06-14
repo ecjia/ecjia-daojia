@@ -185,7 +185,7 @@ class mh_order extends ecjia_merchant {
 	public function order_action() {
 		$this->admin_priv('mh_quickpay_order_update');
 		
-		$action_note = trim($_POST['action_note']);
+		$action_note = remove_xss($_POST['action_note']);
 		$order_id    = intval($_POST['order_id']);
 		if (empty($action_note)) {
 			return $this->showmessage(__('操作备注不能为空', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,array('url' => RC_Uri::url('quickpay/mh_order/init')));
@@ -242,7 +242,7 @@ class mh_order extends ecjia_merchant {
 	public function order_action_cancel() {
 		$this->admin_priv('mh_quickpay_order_update');
 	
-		$action_note = trim($_POST['action_note']);
+		$action_note = remove_xss($_POST['action_note']);
 		$order_id    = intval($_POST['order_id']);
 		if (empty($action_note)) {
 			return $this->showmessage(__('操作备注不能为空', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,array('url' => RC_Uri::url('quickpay/mh_order/init')));
@@ -419,7 +419,7 @@ class mh_order extends ecjia_merchant {
 		}
 
 		
-		$filter['check_type'] = !empty($_GET['check_type']) ? trim($_GET['check_type']) : 'unverification';
+		$filter['check_type'] = !empty($_GET['check_type']) ? remove_xss($_GET['check_type']) : 'unverification';
 		$order_count = $db_quickpay_order->select(RC_DB::raw('SUM(IF(order_status = 0 and verification_status=0 and pay_status=0, 1, 0)) as unpay'),
 				RC_DB::raw('SUM(IF(verification_status = 1 and order_status=1 and pay_status=1, 1, 0)) as verification'),
 				RC_DB::raw('SUM(IF(verification_status = 0 and order_status =1 and pay_status=1, 1, 0)) as unverification'))->first();

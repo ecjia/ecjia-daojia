@@ -172,22 +172,22 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_quickpay_update');
 		
 		$store_id = $_SESSION['store_id'];
-		$title    = trim($_POST['title']);
-		$description = trim($_POST['description']);
+		$title    = remove_xss($_POST['title']);
+		$description = remove_xss($_POST['description']);
 
 		if (RC_DB::table('quickpay_activity')->where('title', $title)->where('store_id', $store_id)->count() > 0) {
 			return $this->showmessage(__('当前店铺下已存在该买单标题', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
-		$start_time = RC_Time::local_strtotime($_POST['start_time']);
-		$end_time   = RC_Time::local_strtotime($_POST['end_time']);
+		$start_time = RC_Time::local_strtotime(remove_xss($_POST['start_time']));
+		$end_time   = RC_Time::local_strtotime(remove_xss($_POST['end_time']));
 		
 		if ($start_time >= $end_time) {
 			return $this->showmessage(__('开始时间不能大于或等于结束时间', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		//相对应的买单优惠类型活动参数处理
-		$activity_discount_value = $_POST['activity_discount_value'];
+		$activity_discount_value = remove_xss($_POST['activity_discount_value']);
 		if (!empty($activity_discount_value)) {
 			$activity_value = $activity_discount_value;
 		} else {
@@ -202,34 +202,34 @@ class merchant extends ecjia_merchant {
 		}
 
 		//时间规则处理
-		$limit_time_type = trim($_POST['limit_time_type']);//限制时间类型类型
+		$limit_time_type = remove_xss($_POST['limit_time_type']);//限制时间类型类型
 		$limit_time_weekly = 0;
 		if ($limit_time_type == 'customize') {
 			//每周星期0x1111111代表7天
 			if (!empty($_POST['limit_time_weekly'])){
-				$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeklySelected($_POST['limit_time_weekly']);
+				$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeklySelected(remove_xss($_POST['limit_time_weekly']));
 			}
 				
 			//每天时间段
 			$time_quantum = array();
 			foreach ($_POST['start_ship_time'] as $k => $v) {
 				$time_quantum[$k]['start']	= $v;
-				$time_quantum[$k]['end']	= $_POST['end_ship_time'][$k];
+				$time_quantum[$k]['end']	= remove_xss($_POST['end_ship_time'][$k]);
 			}
 			$limit_time_daily = serialize($time_quantum);
 				
 			//排除日期
-			$limit_time_exclude_data = $_POST['limit_time_exclude'];
+			$limit_time_exclude_data = remove_xss($_POST['limit_time_exclude']);
 			$limit_time_exclude = implode(",", $limit_time_exclude_data);
 		} 
 
 		
 		//是否可参与红包抵现
-		$use_bonus_enabled = trim($_POST['use_bonus_enabled']);
+		$use_bonus_enabled = remove_xss($_POST['use_bonus_enabled']);
 		if ($use_bonus_enabled == 'close') {
 			$use_bonus = $use_bonus_enabled;
 		} else{
-			$use_bonus_select = trim($_POST['use_bonus_select']);
+			$use_bonus_select = remove_xss($_POST['use_bonus_select']);
 			if ($use_bonus_select == 'nolimit') {
 				$use_bonus = $use_bonus_select;
 			} else{
@@ -242,16 +242,16 @@ class merchant extends ecjia_merchant {
 		}
 		
 		//是否可参与积分抵现
-		$use_integral_enabled = trim($_POST['use_integral_enabled']);
+		$use_integral_enabled = remove_xss($_POST['use_integral_enabled']);
 		if ($use_integral_enabled == 'close') {
 			$use_integral = $use_integral_enabled;
 		} else{
-			$use_integral_select = trim($_POST['use_integral_select']);
+			$use_integral_select = remove_xss($_POST['use_integral_select']);
 			if ($use_integral_select == 'nolimit') {
 				$use_integral = $use_integral_select;
 			} else{
 				if (!empty($_POST['integral_keyword'])) {
-					$use_integral = $_POST['integral_keyword'];
+					$use_integral = remove_xss($_POST['integral_keyword']);
 				}else{
 					return $this->showmessage(__('设置最大可用积分数', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
@@ -261,7 +261,7 @@ class merchant extends ecjia_merchant {
 			'store_id'		=> $store_id,
 			'title'      	=> $title,
 			'description'	=> $description,
-			'activity_type' => $_POST['activity_type'],
+			'activity_type' => remove_xss($_POST['activity_type']),
 			'activity_value'	=> $activity_value,	
 				
 			'limit_time_type'	=> $limit_time_type,
@@ -340,22 +340,22 @@ class merchant extends ecjia_merchant {
 		
 		$store_id = $_SESSION['store_id'];
 		$id = intval($_POST['id']);
-		$title    = trim($_POST['title']);
-		$description = trim($_POST['description']);
+		$title    = remove_xss($_POST['title']);
+		$description = remove_xss($_POST['description']);
 
 		if (RC_DB::table('quickpay_activity')->where('title', $title)->where('store_id', $store_id)->where('id', '!=', $id)->count() > 0) {
 			return $this->showmessage(__('当前店铺下已存在该买单标题', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
-		$start_time = RC_Time::local_strtotime($_POST['start_time']);
-		$end_time   = RC_Time::local_strtotime($_POST['end_time']);
+		$start_time = RC_Time::local_strtotime(remove_xss($_POST['start_time']));
+		$end_time   = RC_Time::local_strtotime(remove_xss($_POST['end_time']));
 		
 		if ($start_time >= $end_time) {
 			return $this->showmessage(__('开始时间不能大于或等于结束时间', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		//相对应的买单优惠类型活动参数处理
-		$activity_discount_value = $_POST['activity_discount_value'];
+		$activity_discount_value = remove_xss($_POST['activity_discount_value']);
 		if (!empty($activity_discount_value)) {
 			$activity_value = $activity_discount_value;
 		} else {
@@ -370,33 +370,33 @@ class merchant extends ecjia_merchant {
 		}
 
 		//时间规则处理
-		$limit_time_type = trim($_POST['limit_time_type']);//限制时间类型类型
+		$limit_time_type = remove_xss($_POST['limit_time_type']);//限制时间类型类型
 		$limit_time_weekly = 0;
 		if ($limit_time_type == 'customize') {
 			//每周星期0x1111111代表7天
 			if (!empty($_POST['limit_time_weekly'])){
-				$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeklySelected($_POST['limit_time_weekly']);
+				$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeklySelected(remove_xss($_POST['limit_time_weekly']));
 			}
 				
 			//每天时间段
 			$time_quantum = array();
 			foreach ($_POST['start_ship_time'] as $k => $v) {
 				$time_quantum[$k]['start']	= $v;
-				$time_quantum[$k]['end']	= $_POST['end_ship_time'][$k];
+				$time_quantum[$k]['end']	= remove_xss($_POST['end_ship_time'][$k]);
 			}
 			$limit_time_daily = serialize($time_quantum);
 				
 			//排除日期
-			$limit_time_exclude_data = $_POST['limit_time_exclude'];
+			$limit_time_exclude_data = remove_xss($_POST['limit_time_exclude']);
 			$limit_time_exclude = implode(",", $limit_time_exclude_data);
 		} 
 		
 		//是否可参与红包抵现
-		$use_bonus_enabled = trim($_POST['use_bonus_enabled']);
+		$use_bonus_enabled = remove_xss($_POST['use_bonus_enabled']);
 		if ($use_bonus_enabled == 'close') {
 			$use_bonus = $use_bonus_enabled;
 		} else{
-			$use_bonus_select = trim($_POST['use_bonus_select']);
+			$use_bonus_select = remove_xss($_POST['use_bonus_select']);
 			if ($use_bonus_select == 'nolimit') {
 				$use_bonus = $use_bonus_select;
 			} else{
@@ -410,16 +410,16 @@ class merchant extends ecjia_merchant {
 		
 		
 		//是否可参与积分抵现
-		$use_integral_enabled = trim($_POST['use_integral_enabled']);
+		$use_integral_enabled = remove_xss($_POST['use_integral_enabled']);
 		if ($use_integral_enabled == 'close') {
 			$use_integral = $use_integral_enabled;
 		} else{
-			$use_integral_select = trim($_POST['use_integral_select']);
+			$use_integral_select = remove_xss($_POST['use_integral_select']);
 			if ($use_integral_select == 'nolimit') {
 				$use_integral = $use_integral_select;
 			} else{
 				if (!empty($_POST['integral_keyword'])) {
-					$use_integral = $_POST['integral_keyword'];
+					$use_integral = remove_xss($_POST['integral_keyword']);
 				}else{
 					return $this->showmessage(__('设置最大可用积分数', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
@@ -429,7 +429,7 @@ class merchant extends ecjia_merchant {
 		$data = array(
 			'title'      	=> $title,
 			'description'	=> $description,
-			'activity_type' => $_POST['activity_type'],
+			'activity_type' => remove_xss($_POST['activity_type']),
 			'activity_value'=> $activity_value,	
 				
 			'limit_time_type'	=> $limit_time_type,
@@ -473,7 +473,7 @@ class merchant extends ecjia_merchant {
     public function search() {
     	$this->admin_priv('mh_quickpay_manage');
     
-    	$keyword = trim($_POST['keyword']);
+    	$keyword = remove_xss($_POST['keyword']);
     	$db_bonus = RC_DB::table('bonus_type')->where('store_id', $_SESSION['store_id'])->select(RC_DB::raw('type_id'), RC_DB::raw('type_name'));
     	if (!empty($keyword)) {
     		$db_bonus->where('type_name', 'like', '%'.mysql_like_quote($keyword).'%');
@@ -496,11 +496,11 @@ class merchant extends ecjia_merchant {
 	private function quickpay_list($store_id) {
 		$db_quickpay_activity = RC_DB::table('quickpay_activity');
 
-		$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+		$filter['keywords'] = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
 		if ($filter['keywords']) {
 			$db_quickpay_activity->where('title', 'like', '%'.mysql_like_quote($filter['keywords']).'%');
 		}
-		$filter['activity_type'] = empty($_GET['activity_type']) ? '' : trim($_GET['activity_type']);
+		$filter['activity_type'] = empty($_GET['activity_type']) ? '' : remove_xss($_GET['activity_type']);
 		if ($filter['activity_type']) {
 			$db_quickpay_activity->where('activity_type', $filter['activity_type']);
 		}
