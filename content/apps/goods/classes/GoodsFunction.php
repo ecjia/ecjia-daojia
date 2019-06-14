@@ -12,6 +12,7 @@ use RC_Model;
 use RC_Loader;
 use RC_Time;
 use RC_DB;
+use ecjia;
 
 class GoodsFunction
 {
@@ -365,5 +366,58 @@ class GoodsFunction
     	}
     
     	return $new_cats;
+    }
+    
+    
+    /**
+     * 获取审核状态 1未审核 2审核未通过 3审核已通过 5无需审核
+     */
+    public static function get_review_status($store_id) {
+    	$review_status = 1; //默认未审核
+    
+    	//商店设置->基本设置中 商家审核关闭 则所有商家商品无需审核
+    	if (ecjia::config('review_goods') == 0) {
+    		$review_status = 5;
+    	} else {
+    		if (isset($store_id) && $store_id > 0) {
+    			$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('manage_mode');
+    			if ($manage_mode == 'self') {
+    				$review_status = 5;
+    			}
+    			$shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->pluck('value');
+    			//单个商店开启了审核商品 则默认为未审核
+    			if ($shop_review_goods == 1) {
+    				$review_status = 1;
+    			}
+    		}
+    	}
+    	return $review_status;
+    }
+    
+    /**
+     * 为某商品生成唯一的货号
+     *
+     * @param int $goods_id
+     *            商品编号
+     * @return string 唯一的货号
+     */
+    public static function generate_goods_sn($goods_id) {
+    	$goods_sn = ecjia::config('sn_prefix') . str_repeat('0', 6 - strlen($goods_id)) . $goods_id;
+    	$sn_list = RC_DB::table('goods')
+    	->where('goods_sn', 'like', '%' . mysql_like_quote($goods_sn) . '%')
+    	->where('goods_id', '!=', $goods_id)->orderBy(RC_DB::raw('LENGTH(goods_sn)'), 'desc')
+    	->get();
+    
+    	/* 判断数组为空就创建数组类型否则类型为null 报错 */
+    	$sn_list = empty($sn_list) ? array() : $sn_list;
+    	if (in_array($goods_sn, $sn_list)) {
+    		$max = pow(10, strlen($sn_list[0]) - strlen($goods_sn) + 1) - 1;
+    		$new_sn = $goods_sn . mt_rand(0, $max);
+    		while (in_array($new_sn, $sn_list)) {
+    			$new_sn = $goods_sn . mt_rand(0, $max);
+    		}
+    		$goods_sn = $new_sn;
+    	}
+    	return $goods_sn;
     }
 }

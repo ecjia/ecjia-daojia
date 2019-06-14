@@ -97,7 +97,7 @@ class GoodsAdminApiFormatted
     					$str = '克';
     					$goods_weight = $goods['goods_weight']*1000;
     				} else {
-    					$str = '千克';
+    					$str = '克';
     					$goods_weight = $goods['goods_weight'];
     				}
     				$goods['goods_weight_string'] = $goods_weight.$str;

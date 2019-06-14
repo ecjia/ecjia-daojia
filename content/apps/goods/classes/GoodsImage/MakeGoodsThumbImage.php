@@ -10,7 +10,6 @@ namespace Ecjia\App\Goods\GoodsImage;
 
 use ecjia;
 use RC_Image;
-use RC_File;
 
 class MakeGoodsThumbImage
 {

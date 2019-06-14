@@ -167,7 +167,12 @@ class mh_category extends ecjia_merchant
         }
 
         if (!empty($_FILES['cat_image']) && empty($_FILES['cat_image']['error']) && !empty($_FILES['cat_image']['name'])) {
-            $cat['cat_image'] = goods_file_upload_info('category', 'cat_image', '');
+            $cat_image_check = goods_file_upload_info('category', 'cat_image', '');
+            if (is_ecjia_error($cat_image_check)) {
+                return $cat_image_check;
+            } else {
+                $cat['cat_image'] =  $cat_image_check;
+            }
         }
 
         /* 入库的操作 */
@@ -275,8 +280,14 @@ class mh_category extends ecjia_merchant
         }
         if (!empty($_FILES['cat_image']) && empty($_FILES['cat_image']['error']) && !empty($_FILES['cat_image']['name'])) {
             $cat_info         = get_merchant_cat_info($cat_id);
-            $cat['cat_image'] = goods_file_upload_info('category', 'cat_image', $cat_info['cat_image_base']);
+            $cat_image_check =  goods_file_upload_info('category', 'cat_image', $cat_info['cat_image_base']);
+            if (is_ecjia_error($cat_image_check)) {
+                return $cat_image_check;
+            } else {
+                $cat['cat_image'] = $cat_image_check;
+            }
         }
+            
 
         RC_DB::table('merchants_category')->where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->update($cat);
 

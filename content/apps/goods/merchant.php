@@ -683,7 +683,7 @@ class merchant extends ecjia_merchant {
 						$str = '克';
 						$goods_weight = $goods['goods_weight']*1000;
 					} else {
-						$str = '千克';
+						$str = '克';
 						$goods_weight = $goods['goods_weight'];
 					}
 					$goods['goods_weight_string'] =$goods_weight.$str;
@@ -967,49 +967,43 @@ class merchant extends ecjia_merchant {
 		}
 		$code = '';
 		
-		/* 处理商品图片 */
-		$goods_img = ''; 	// 初始化商品图片
-		$goods_thumb = ''; 	// 初始化商品缩略图
-		$img_original = ''; // 初始化原始图片
+//		/* 处理商品图片 */
+//		$goods_img = ''; 	// 初始化商品图片
+//		$goods_thumb = ''; 	// 初始化商品缩略图
+//		$img_original = ''; // 初始化原始图片
 
-		$upload = RC_Upload::uploader('image', array('save_path' => 'images', 'auto_sub_dirs' => true));
+		$upload = RC_Upload::uploader('newimage', array('save_path' => 'images', 'auto_sub_dirs' => true));
 		$upload->add_saving_callback(function ($file, $filename) {
 		    return true;
 		});
+
+        /* 是否处理商品图 */
+        $proc_goods_img = $this->request->hasFile('goods_img');
+        $proc_thumb_img = $this->request->hasFile('thumb_img');
 		
-		/* 是否处理商品图 */
-		$proc_goods_img = true;
-		 
-		if (isset($_FILES['goods_img'])) {
-			if (!$upload->check_upload_file($_FILES['goods_img'])) {
-			    $proc_goods_img = false;
-			}
-		}
-		/* 是否处理缩略图 */
-		$proc_thumb_img = isset($_FILES['thumb_img']) ? true : false;
-		 
-		if (isset($_FILES['thumb_img'])) {
-			if (!$upload->check_upload_file($_FILES['thumb_img'])) {
-			    $proc_thumb_img = false;
-			}
-		}
+//		/* 是否处理商品图 */
+//		$proc_goods_img = true;
+//		if (isset($_FILES['goods_img']) && !$upload->check_upload_file($_FILES['goods_img'])) {
+//            $proc_goods_img = false;
+//		}
+//		/* 是否处理缩略图 */
+//		$proc_thumb_img = isset($_FILES['thumb_img']) ? true : false;
+//		if (isset($_FILES['thumb_img']) && !$upload->check_upload_file($_FILES['thumb_img'])) {
+//            $proc_thumb_img = false;
+//		}
 
 		if ($proc_goods_img) {
-			if (isset($_FILES['goods_img'])) {
-			    $image_info = $upload->upload($_FILES['goods_img']);
-			    if (empty($image_info)) {
-			    	return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			    }
-			}
+            $image_info = $upload->upload('goods_img');
+            if (empty($image_info)) {
+                return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
 		}
 		 
 		if ($proc_thumb_img) {
-			if (isset($_FILES['thumb_img'])) {
-				$thumb_info = $upload->upload($_FILES['thumb_img']);
-				if (empty($thumb_info)) {
-					return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				}
-			}
+            $thumb_info = $upload->upload('thumb_img');
+            if (empty($thumb_info)) {
+                return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
 		}
 
 		/* 如果没有输入商品货号则自动生成一个商品货号 */
@@ -1147,13 +1141,23 @@ class merchant extends ecjia_merchant {
 
 		/* 更新上传后的商品图片 */
 		if ($proc_goods_img) {
-			if (isset($image_info)) {
-				$goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
-				if ($proc_thumb_img) {
-					$goods_image->set_auto_thumb(false);
-				}
+			if (!empty($image_info)) {
+//				$goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
+//				if ($proc_thumb_img) {
+//					$goods_image->set_auto_thumb(false);
+//				}
+//
+//				$result = $goods_image->update_goods();
 
-				$result = $goods_image->update_goods();
+                $goods_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsImage($goods_id, 0, $image_info);
+                if ($proc_thumb_img) {
+                    $goods_image->setAutoGenerateThumb(false);
+                } else {
+                    $goods_image->setAutoGenerateThumb(true);
+                }
+
+                $result = $goods_image->updateToDatabase($goods_id);
+
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
@@ -1162,9 +1166,13 @@ class merchant extends ecjia_merchant {
 
 		/* 更新上传后的缩略图片 */
 		if ($proc_thumb_img) {
-			if (isset($thumb_info)) {
-				$thumb_image = new goods_image_data($thumb_info['name'], $thumb_info['tmpname'], $thumb_info['ext'], $goods_id);
-				$result = $thumb_image->update_thumb();
+			if (!empty($thumb_info)) {
+//				$thumb_image = new goods_image_data($thumb_info['name'], $thumb_info['tmpname'], $thumb_info['ext'], $goods_id);
+//				$result = $thumb_image->update_thumb();
+
+                $thumb_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsThumb($goods_id, 0, $thumb_info);
+                $result = $thumb_image->updateToDatabase();
+
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
@@ -1326,13 +1334,7 @@ class merchant extends ecjia_merchant {
 				} else {
 					$goods['weight_unit'] = 1; //克
 				}
-			} else {
-				if ($goods['weight_unit'] == 1) {
-					if ($goods['goods_weight'] > 1) {
-						$goods['weight_unit'] = 2; //千克
-					}
-				}
-			}
+			} 
 		}
 		
 		//设置选中状态,并分配标签导航
@@ -1383,44 +1385,44 @@ class merchant extends ecjia_merchant {
 		
 		$goods_id = !empty($_POST['goods_id']) ? intval($_POST['goods_id']) : 0;
 
-		$upload = RC_Upload::uploader('image', array('save_path' => 'images', 'auto_sub_dirs' => true));
+		$upload = RC_Upload::uploader('newimage', array('save_path' => 'images', 'auto_sub_dirs' => true));
 		$upload->add_saving_callback(function ($file, $filename) {
 			return true;
 		});
+
+        /* 是否处理商品图 */
+        $proc_goods_img = $this->request->hasFile('goods_img');
+        $proc_thumb_img = $this->request->hasFile('thumb_img');
 		
-		/* 是否处理商品图 */
-		$proc_goods_img = true;
-		if (isset($_FILES['goods_img']) && !$upload->check_upload_file($_FILES['goods_img'])) {
-		    $proc_goods_img = false;
-		}
-		
-		/* 是否处理缩略图 */
-		$proc_thumb_img = isset($_FILES['thumb_img']) ? true : false;
-		if (isset($_FILES['thumb_img']) && !$upload->check_upload_file($_FILES['thumb_img'])) {
-		    $proc_thumb_img = false;
-		}
+//		/* 是否处理商品图 */
+//		$proc_goods_img = true;
+//		if (isset($_FILES['goods_img']) && !$upload->check_upload_file($_FILES['goods_img'])) {
+//		    $proc_goods_img = false;
+//		}
+//
+//		/* 是否处理缩略图 */
+//		$proc_thumb_img = isset($_FILES['thumb_img']) ? true : false;
+//		if (isset($_FILES['thumb_img']) && !$upload->check_upload_file($_FILES['thumb_img'])) {
+//		    $proc_thumb_img = false;
+//		}
 
 		if ($proc_goods_img) {
-			if (isset($_FILES['goods_img'])) {
-				$image_info = $upload->upload($_FILES['goods_img']);
-				if (empty($image_info)) {
-					 return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				}
-			}
+            $image_info = $upload->upload('goods_img');
+            if (empty($image_info)) {
+                return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
 		}
 		if ($proc_thumb_img) {
-			if (isset($_FILES['thumb_img'])) {
-				$thumb_info = $upload->upload($_FILES['thumb_img']);
-				if (empty($thumb_info)) {
-					return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				}
-			}
+            $thumb_info = $upload->upload('thumb_img');
+            if (empty($thumb_info)) {
+                return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
 		}
 
-		/* 处理商品图片 */
-		$goods_img	 	= ''; // 初始化商品图片
-		$goods_thumb 	= ''; // 初始化商品缩略图
-		$img_original	= ''; // 初始化原始图片
+//		/* 处理商品图片 */
+//		$goods_img	 	= ''; // 初始化商品图片
+//		$goods_thumb 	= ''; // 初始化商品缩略图
+//		$img_original	= ''; // 初始化原始图片
 
 
 		/* 处理商品数据 */
@@ -1534,13 +1536,23 @@ class merchant extends ecjia_merchant {
 
 		/* 更新上传后的商品图片 */
 		if ($proc_goods_img) {
-			if (isset($image_info)) {
-				$goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
-				if ($proc_thumb_img) {
-					$goods_image->set_auto_thumb(false);
-				}
-				
-				$result = $goods_image->update_goods();
+			if (!empty($image_info)) {
+//				$goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
+//				if ($proc_thumb_img) {
+//					$goods_image->set_auto_thumb(false);
+//				}
+//
+//				$result = $goods_image->update_goods();
+
+                $goods_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsImage($goods_id, 0, $image_info);
+                if ($proc_thumb_img) {
+                    $goods_image->setAutoGenerateThumb(false);
+                } else {
+                    $goods_image->setAutoGenerateThumb(true);
+                }
+
+                $result = $goods_image->updateToDatabase();
+
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
@@ -1555,9 +1567,13 @@ class merchant extends ecjia_merchant {
 
 		/* 更新上传后的缩略图片 */
 		if ($proc_thumb_img) {
-			if (isset($thumb_info)) {
-				$thumb_image = new goods_image_data($thumb_info['name'], $thumb_info['tmpname'], $thumb_info['ext'], $goods_id);
-				$result = $thumb_image->update_thumb();
+			if (!empty($thumb_info)) {
+//				$thumb_image = new goods_image_data($thumb_info['name'], $thumb_info['tmpname'], $thumb_info['ext'], $goods_id);
+//				$result = $thumb_image->update_thumb();
+
+                $thumb_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsThumb($goods_id, 0, $thumb_info);
+                $result = $thumb_image->updateToDatabase();
+
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}

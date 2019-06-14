@@ -86,6 +86,11 @@ class admin_merchant_goods_parameter_attribute_module extends api_admin implemen
 			if ($data) {
 				$result = $data->map(function ($item) {
 					$attr_values  = !empty($item->attr_values) ? str_replace("\n", ",", $item->attr_values) : '';
+					if (!empty($attr_values)) {
+						$attr_values = explode(',', $attr_values);
+					} else {
+						$attr_values = [];
+					}
 					
 					if ($item->attr_input_type == '0') {
 						$label_attr_input_type = '手工录入';

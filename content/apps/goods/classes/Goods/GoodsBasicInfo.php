@@ -126,14 +126,35 @@ class GoodsBasicInfo
     			if (empty($item->product_name)) {
     				$item['product_name'] = $goods->goods_name;
     			}
+    			//缩略图
     			$product_thumb = $item->product_thumb;
     			if (empty($product_thumb)) {
     				$product_thumb = $goods->goods_thumb;
     			} 
-    			if (!$disk->exists(\RC_Upload::upload_path($item['img_url'])) || empty($product_thumb)) {
+    			if (!$disk->exists(\RC_Upload::upload_path($item['product_thumb'])) || empty($product_thumb)) {
     				$item['product_thumb'] = \RC_Uri::admin_url('statics/images/nopic.png');
     			} else {
     				$item['product_thumb'] = \RC_Upload::upload_url($product_thumb);
+    			}
+    			//小图
+    			$product_img = $item->product_img;
+    			if (empty($product_img)) {
+    				$product_img = $goods->goods_img;
+    			}
+    			if (!$disk->exists(\RC_Upload::upload_path($item['product_img'])) || empty($product_img)) {
+    				$item['product_img'] = \RC_Uri::admin_url('statics/images/nopic.png');
+    			} else {
+    				$item['product_img'] = \RC_Upload::upload_url($product_img);
+    			}
+    			//原图
+    			$product_original_img = $item->product_original_img;
+    			if (empty($product_original_img)) {
+    				$product_original_img = $goods->original_img;
+    			}
+    			if (!$disk->exists(\RC_Upload::upload_path($item['product_original_img'])) || empty($product_original_img)) {
+    				$item['product_original_img'] = \RC_Uri::admin_url('statics/images/nopic.png');
+    			} else {
+    				$item['product_original_img'] = \RC_Upload::upload_url($product_original_img);
     			}
     			
     			$item['product_shop_price'] 			= $item->product_shop_price <= 0 ? $goods->shop_price : $item->product_shop_price;

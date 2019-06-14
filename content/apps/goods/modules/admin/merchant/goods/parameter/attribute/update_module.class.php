@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author zrl
  *
  */
-class admin_merchant_goods_specification_attribute_update_module extends api_admin implements api_interface {
+class admin_merchant_goods_parameter_attribute_update_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -58,7 +58,7 @@ class admin_merchant_goods_specification_attribute_update_module extends api_adm
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$parameter_id 		= intval($attribute_info->goods_type_model->cat_id);
+		$parameter_id 		= intval($this->requestData('parameter_id', 0));
 		$attr_id			= intval($this->requestData('attr_id', 0));
 		$attr_name			= trim($this->requestData('attr_name', ''));
 		$attr_values		= $this->requestData('attr_values', []);
@@ -66,14 +66,11 @@ class admin_merchant_goods_specification_attribute_update_module extends api_adm
 		
 		$store_id 			= $_SESSION['store_id'];
 
-		if (empty($attr_id)) {
+		if (empty($attr_id) || empty($parameter_id)) {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		
 		$attribute_info = Ecjia\App\Goods\Models\AttributeModel::where('attr_id', $attr_id)->first();
-		if (empty($parameter_id)) {
-			$parameter_id = $attribute_info->cat_id;
-		}
 		
 		$data = [];
 		if (!empty($attr_name)) {

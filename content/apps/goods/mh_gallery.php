@@ -191,21 +191,27 @@ class mh_gallery extends ecjia_merchant {
             return $this->showmessage(__('参数丢失', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $upload = RC_Upload::uploader('image', array('save_path' => './images', 'auto_sub_dirs' => true));
+        $upload = RC_Upload::uploader('newimage', array('save_path' => 'images', 'auto_sub_dirs' => true));
         $upload->add_saving_callback(function ($file, $filename) {
             return true;
         });
         
-        if (!$upload->check_upload_file($_FILES['img_url'])) {
-            return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
+//        if (!$upload->check_upload_file($_FILES['img_url'])) {
+//            return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//        }
 
-        $image_info = $upload->upload($_FILES['img_url']);
+        $image_info = $upload->upload('img_url');
         if (empty($image_info)) {
             return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        $goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
-        $goods_image->update_gallery();
+//        $goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
+//        $goods_image->update_gallery();
+
+        $goods_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsGallery($goods_id, 0, $image_info);
+        $result = $goods_image->updateToDatabase();
+        if (is_ecjia_error($result)) {
+            return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         
         /*释放商品相册缓存*/
         $cache_goods_gallery_key = 'goods_gallery_'.$goods_id;
@@ -236,13 +242,13 @@ class mh_gallery extends ecjia_merchant {
 
 		RC_Loader::load_app_class('goods_imageutils', 'goods', false);
 		if ($row['img_url']) {
-			RC_Filesystem::disk()->delete(goods_imageutils::getAbsolutePath($row['img_url']));
+            RC_Storage::disk()->delete($row['img_url']);
 		}
 		if ($row['thumb_url']) {
-			RC_Filesystem::disk()->delete(goods_imageutils::getAbsolutePath($row['thumb_url']));
+            RC_Storage::disk()->delete($row['thumb_url']);
 		}
 		if ($row['img_original']) {
-			RC_Filesystem::disk()->delete(goods_imageutils::getAbsolutePath($row['img_original']));
+            RC_Storage::disk()->delete($row['img_original']);
 		}
 
 		/* 删除数据 */
