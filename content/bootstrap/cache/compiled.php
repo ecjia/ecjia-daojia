@@ -26809,10 +26809,15 @@ class AppControllerDispatcher
                 return royalcms('response');
             } else {
                 $response = $this->route->runControllerAction($controller, $this->route->getAction());
-                if (is_null($response)) {
-                    return royalcms('response');
+                if ($response instanceof RoyalcmsResponse) {
+                    if (!is_null($response->getOriginalContent())) {
+                        return $response;
+                    }
                 }
-                return $response;
+                if (!is_null($response)) {
+                    return $response;
+                }
+                return royalcms('response');
             }
         } catch (NotFoundHttpException $e) {
             abort(403, $e->getMessage());
@@ -41661,8 +41666,6 @@ abstract class SmartyController extends EcjiaController implements EcjiaTemplate
     public function __construct()
     {
         parent::__construct();
-        self::$controller = static::$controller;
-        self::$view_object = static::$view_object;
         if (config('system.debug')) {
             error_reporting(E_ALL);
         } else {
@@ -42789,7 +42792,7 @@ class ecjia_screen
         }
         return $admin == $this->in_admin;
     }
-    function set_parentage($parent_base, $parent_file = '')
+    function set_parentage($parent_base, $parent_file)
     {
         $this->parent_file = $parent_file;
         $this->parent_base = $parent_base;
