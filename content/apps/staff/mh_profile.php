@@ -96,12 +96,12 @@ class mh_profile extends ecjia_merchant
      */
     public function update_self()
     {
-        $user_ident             = !empty($_POST['user_ident']) ? trim($_POST['user_ident']) : '';
-        $name                   = !empty($_POST['name']) ? trim($_POST['name']) : '';
+        $user_ident             = !empty($_POST['user_ident']) ? remove_xss($_POST['user_ident']) : '';
+        $name                   = !empty($_POST['name']) ? remove_xss($_POST['name']) : '';
         $_SESSION['staff_name'] = $name;
-        $nick_name              = !empty($_POST['nick_name']) ? trim($_POST['nick_name']) : '';
-        $todolist               = !empty($_POST['todolist']) ? trim($_POST['todolist']) : '';
-        $introduction           = !empty($_POST['introduction']) ? trim($_POST['introduction']) : '';
+        $nick_name              = !empty($_POST['nick_name']) ? remove_xss($_POST['nick_name']) : '';
+        $todolist               = !empty($_POST['todolist']) ? remove_xss($_POST['todolist']) : '';
+        $introduction           = !empty($_POST['introduction']) ? remove_xss($_POST['introduction']) : '';
 
         if (RC_DB::table('staff_user')->where('name', $name)->where('user_id', '!=', $_SESSION['staff_id'])->count() > 0) {
             return $this->showmessage(__('该员工名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -144,9 +144,9 @@ class mh_profile extends ecjia_merchant
     {
         $staff_id = $_SESSION['staff_id'];
         $salt     = rand(1, 9999);
-        $password = !empty($_POST['new_password']) ? md5(md5($_POST['new_password']) . $salt) : '';
-        $mobile   = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
-        $email    = !empty($_POST['email']) ? trim($_POST['email']) : '';
+        $password = !empty($_POST['new_password']) ? md5(md5(remove_xss($_POST['new_password'])) . $salt) : '';
+        $mobile   = !empty($_POST['mobile']) ? remove_xss($_POST['mobile']) : '';
+        $email    = !empty($_POST['email']) ? remove_xss($_POST['email']) : '';
 
         $admin_oldemail = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('email'); //单个
         /* Email地址是否有重复 */
@@ -166,9 +166,9 @@ class mh_profile extends ecjia_merchant
             }
 
             if (empty($old_salt)) {
-                $old_ecjia_password = md5($_POST['old_password']);
+                $old_ecjia_password = md5(remove_xss($_POST['old_password']));
             } else {
-                $old_ecjia_password = md5(md5($_POST['old_password']) . $old_salt);
+                $old_ecjia_password = md5(md5(remove_xss($_POST['old_password'])) . $old_salt);
             }
 
             if ($old_password != $old_ecjia_password) {
@@ -215,7 +215,7 @@ class mh_profile extends ecjia_merchant
     //获取短信验证码
     public function get_mobile_code()
     {
-        $newmobile = $_GET['newmobile'];
+        $newmobile = remove_xss($_GET['newmobile']);
         if (empty($newmobile)) {
             return $this->showmessage(__('请输入新的手机账号', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -249,8 +249,8 @@ class mh_profile extends ecjia_merchant
     public function update_mobile()
     {
 
-        $code      = $_POST['mobilecode'];
-        $newmobile = $_POST['newmobile'];
+        $code      = remove_xss($_POST['mobilecode']);
+        $newmobile = remove_xss($_POST['newmobile']);
         if (RC_DB::table('staff_user')->where('mobile', $newmobile)->count() > 0) {
             return $this->showmessage(__('该手机账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -270,7 +270,7 @@ class mh_profile extends ecjia_merchant
     //获取邮箱验证码
     public function get_email_code()
     {
-        $newemail = $_GET['newemail'];
+        $newemail = remove_xss($_GET['newemail']);
 
         if (empty($newemail)) {
             return $this->showmessage(__('请输入新的邮件账号', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -305,8 +305,8 @@ class mh_profile extends ecjia_merchant
     public function update_email()
     {
 
-        $code     = $_POST['emailcode'];
-        $newemail = $_POST['newemail'];
+        $code     = remove_xss($_POST['emailcode']);
+        $newemail = remove_xss($_POST['newemail']);
         if (RC_DB::table('staff_user')->where('email', $newemail)->count() > 0) {
             return $this->showmessage(__('该邮件账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }

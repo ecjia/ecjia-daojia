@@ -126,7 +126,7 @@ class merchant extends ecjia_merchant
         $group_list = $this->get_group_select_list($_SESSION['store_id']);
         $this->assign('group_list', $group_list);
 
-        $step = $_GET['step'];
+        $step = remove_xss($_GET['step']);
         if ($step == 1) {
             $this->assign('form_action', RC_Uri::url('staff/merchant/insert_one', array('step' => 1)));
         } elseif ($step == 2) {
@@ -166,7 +166,7 @@ class merchant extends ecjia_merchant
         	return $this->showmessage(sprintf(__('抱歉，目前子员工数额已达到%s个，不可再添加', 'staff'), $num), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $mobile = $_GET['mobile'];
+        $mobile = remove_xss($_GET['mobile']);
         if (empty($mobile)) {
             return $this->showmessage(__('请输入员工手机号', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -199,8 +199,8 @@ class merchant extends ecjia_merchant
 
     public function insert_one()
     {
-        $code   = $_POST['code'];
-        $mobile = $_POST['mobile'];
+        $code   = remove_xss($_POST['code']);
+        $mobile = remove_xss($_POST['mobile']);
 
         $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
         
@@ -237,10 +237,10 @@ class merchant extends ecjia_merchant
             if ($_POST['group_id'] > 0) {
                 $action_list = RC_DB::table('staff_group')
                     ->where('store_id', $store_id)
-                    ->where('group_id', $_POST['group_id'])
+                    ->where('group_id', intval($_POST['group_id']))
                     ->pluck('action_list');
             }
-            $group_id = $_POST['group_id'];
+            $group_id = intval($_POST['group_id']);
         }
 
         $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
@@ -252,29 +252,29 @@ class merchant extends ecjia_merchant
         	return $this->showmessage(sprintf(__('抱歉，目前子员工数额已达到%s个，不可再添加', 'staff'), $num), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
-        if (RC_DB::table('staff_user')->where('name', $_POST['name'])->where('store_id', $_SESSION['store_id'])->count() > 0) {
+        if (RC_DB::table('staff_user')->where('name', remove_xss($_POST['name']))->where('store_id', $_SESSION['store_id'])->count() > 0) {
             return $this->showmessage(__('该员工名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        if (RC_DB::table('staff_user')->where('email', $_POST['email'])->count() > 0) {
+        if (RC_DB::table('staff_user')->where('email', remove_xss($_POST['email']))->count() > 0) {
             return $this->showmessage(__('该邮件账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $manager_id = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('user_id');
         $data       = array(
             'store_id'     => $store_id,
-            'name'         => !empty($_POST['name']) ? $_POST['name'] : '',
-            'nick_name'    => !empty($_POST['nick_name']) ? $_POST['nick_name'] : '',
-            'user_ident'   => !empty($_POST['user_ident']) ? $_POST['user_ident'] : '',
+            'name'         => !empty($_POST['name']) ? remove_xss($_POST['name']) : '',
+            'nick_name'    => !empty($_POST['nick_name']) ? remove_xss($_POST['nick_name']) : '',
+            'user_ident'   => !empty($_POST['user_ident']) ? remove_xss($_POST['user_ident']) : '',
             'mobile'       => $_SESSION['mobile'],
-            'email'        => !empty($_POST['email']) ? $_POST['email'] : '',
-            'password'     => md5($_POST['password']),
+            'email'        => !empty($_POST['email']) ? remove_xss($_POST['email']) : '',
+            'password'     => md5(remove_xss($_POST['password'])),
             'group_id'     => $group_id,
             'action_list'  => $action_list,
-            'todolist'     => !empty($_POST['todolist']) ? $_POST['todolist'] : '',
+            'todolist'     => !empty($_POST['todolist']) ? remove_xss($_POST['todolist']) : '',
             'add_time'     => RC_Time::gmtime(),
             'parent_id'    => $manager_id,
-            'introduction' => !empty($_POST['introduction']) ? $_POST['introduction'] : '',
+            'introduction' => !empty($_POST['introduction']) ? remove_xss($_POST['introduction']) : '',
         );
         $staff_id = RC_DB::table('staff_user')->insertGetId($data);
         
@@ -290,13 +290,13 @@ class merchant extends ecjia_merchant
         	RC_DB::table('express_user')->insertGetId($data_express);
         	//短信发送通知
         	$store_name = $_SESSION['store_name'];
-        	$password = empty($_POST['password']) ? '' : $_POST['password'];
+        	$password = empty($_POST['password']) ? '' : remove_xss($_POST['password']);
         	
         	$options = array(
         			'mobile' => $_SESSION['mobile'],
         			'event'	 => 'sms_store_express_added',
         			'value'  =>array(
-        					'user_name'	 => $_POST['name'],
+        					'user_name'	 => remove_xss($_POST['name']),
         					'store_name' => $store_name,
         					'account'	 => $_SESSION['mobile'],
         					'password'	 => $password,
@@ -305,7 +305,7 @@ class merchant extends ecjia_merchant
         	$response = RC_Api::api('sms', 'send_event_sms', $options);
         }
         
-        ecjia_merchant::admin_log($_POST['name'], 'add', 'staff');
+        ecjia_merchant::admin_log(remove_xss($_POST['name']), 'add', 'staff');
         
         return $this->showmessage(__('添加员工信息成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 3, 'id' => $staff_id))));
     }
@@ -338,7 +338,7 @@ class merchant extends ecjia_merchant
         $staff['add_time'] = RC_Time::local_date('Y-m-d', $staff['add_time']);
         $this->assign('staff', $staff);
         $this->assign('store_id', $_SESSION['store_id']);
-        $this->assign('parent_id', $_GET['parent_id']);
+        $this->assign('parent_id', remove_xss($_GET['parent_id']));
 
         $group_list = $this->get_group_select_list($_SESSION['store_id']);
         $this->assign('group_list', $group_list);
@@ -358,24 +358,24 @@ class merchant extends ecjia_merchant
         $user_id  = !empty($_POST['user_id']) ? intval($_POST['user_id']) : 0;
         $store_id = $_SESSION['store_id'];
 
-        if (RC_DB::table('staff_user')->where('name', $_POST['name'])->where('user_id', '!=', $user_id)->where('store_id', $_SESSION['store_id'])->count() > 0) {
+        if (RC_DB::table('staff_user')->where('name', remove_xss($_POST['name']))->where('user_id', '!=', $user_id)->where('store_id', $_SESSION['store_id'])->count() > 0) {
             return $this->showmessage(__('该员工名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $user_ident = !empty($_POST['user_ident']) ? trim($_POST['user_ident']) : '';
-        $name       = !empty($_POST['name']) ? trim($_POST['name']) : '';
+        $user_ident = !empty($_POST['user_ident']) ? remove_xss($_POST['user_ident']) : '';
+        $name       = !empty($_POST['name']) ? remove_xss($_POST['name']) : '';
 
         if ($_SESSION['staff_id'] == $user_id) {
             $_SESSION['staff_name'] = $name;
         }
 
-        $nick_name    = !empty($_POST['nick_name']) ? trim($_POST['nick_name']) : '';
-        $mobile       = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
-        $email        = !empty($_POST['email']) ? trim($_POST['email']) : '';
-        $todolist     = !empty($_POST['todolist']) ? trim($_POST['todolist']) : '';
+        $nick_name    = !empty($_POST['nick_name']) ? remove_xss($_POST['nick_name']) : '';
+        $mobile       = !empty($_POST['mobile']) ? remove_xss($_POST['mobile']) : '';
+        $email        = !empty($_POST['email']) ? remove_xss($_POST['email']) : '';
+        $todolist     = !empty($_POST['todolist']) ? remove_xss($_POST['todolist']) : '';
         $salt         = rand(1, 9999);
-        $password     = !empty($_POST['new_password']) ? md5(md5($_POST['new_password']) . $salt) : '';
-        $introduction = !empty($_POST['introduction']) ? trim($_POST['introduction']) : '';
+        $password     = !empty($_POST['new_password']) ? md5(md5(remove_xss($_POST['new_password'])) . $salt) : '';
+        $introduction = !empty($_POST['introduction']) ? remove_xss($_POST['introduction']) : '';
 
         //如果要修改密码
         $pwd_modified = false;
@@ -409,7 +409,7 @@ class merchant extends ecjia_merchant
         }
 
         if ($_POST['parent_id'] != 0) {
-            $group_id    = $_POST['group_id'];
+            $group_id    = intval($_POST['group_id']);
             $action_list = '';
             if ($_POST['group_id'] > 0) {
                 $action_list = RC_DB::table('staff_group')
@@ -457,7 +457,7 @@ class merchant extends ecjia_merchant
         $this->assign('priv_group', $priv_group);
 
         $this->assign('ur_here', sprintf(__('分派商家后台权限 [ %s ] ', 'staff'), $user_name));
-        $this->assign('user_id', $_GET['user_id']);
+        $this->assign('user_id', intval($_GET['user_id']));
 
         $this->assign('form_action', RC_Uri::url('staff/merchant/update_allot'));
 
@@ -519,7 +519,7 @@ class merchant extends ecjia_merchant
     {
         $db_staff_user = RC_DB::table('staff_user');
 
-        $filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+        $filter['keywords'] = empty($_GET['keywords']) ? '' : remove_xss($_GET['keywords']);
         if ($filter['keywords']) {
             $db_staff_user->where('name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
         }

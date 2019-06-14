@@ -142,20 +142,20 @@ class mh_group extends ecjia_merchant
     {
         $this->admin_priv('staff_group_update', ecjia::MSGTYPE_JSON);
 
-        if (RC_DB::table('staff_group')->where('group_name', $_POST['group_name'])->where('store_id', $_SESSION['store_id'])->count() > 0) {
+        if (RC_DB::table('staff_group')->where('group_name', remove_xss($_POST['group_name']))->where('store_id', $_SESSION['store_id'])->count() > 0) {
             return $this->showmessage(__('该员工组名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $action_list = join(",", $_POST['action_code']);
         $data        = array(
             'store_id'      => $_SESSION['store_id'],
-            'group_name'    => !empty($_POST['group_name']) ? $_POST['group_name'] : '',
-            'groupdescribe' => !empty($_POST['groupdescribe']) ? $_POST['groupdescribe'] : '',
+            'group_name'    => !empty($_POST['group_name']) ? remove_xss($_POST['group_name']) : '',
+            'groupdescribe' => !empty($_POST['groupdescribe']) ? remove_xss($_POST['groupdescribe']) : '',
             'action_list'   => $action_list,
         );
 
         $group_id = RC_DB::table('staff_group')->insertGetId($data);
 
-        ecjia_merchant::admin_log($_POST['group_name'], 'add', 'staff_group');
+        ecjia_merchant::admin_log(remove_xss($_POST['group_name']), 'add', 'staff_group');
         $links[] = array('text' => __('返回员工组列表', 'staff'), 'href' => RC_Uri::url('staff/mh_group/init'));
         $links[] = array('text' => __('继续添加员工组', 'staff'), 'href' => RC_Uri::url('staff/mh_group/add'));
         return $this->showmessage(__('员工信息添加成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('staff/mh_group/edit', array('group_id' => $group_id))));
@@ -198,16 +198,16 @@ class mh_group extends ecjia_merchant
 
         $action_list = join(",", $_POST['action_code']);
         $group_id    = intval($_POST['group_id']);
-        if (RC_DB::table('staff_group')->where('group_name', $_POST['group_name'])->where('group_id', '!=', $group_id)->where('store_id', $_SESSION['store_id'])->count() > 0) {
+        if (RC_DB::table('staff_group')->where('group_name', remove_xss($_POST['group_name']))->where('group_id', '!=', $group_id)->where('store_id', $_SESSION['store_id'])->count() > 0) {
             return $this->showmessage(__('该员工组名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $data = array(
-            'group_name'    => !empty($_POST['group_name']) ? $_POST['group_name'] : '',
-            'groupdescribe' => !empty($_POST['groupdescribe']) ? $_POST['groupdescribe'] : '',
+            'group_name'    => !empty($_POST['group_name']) ? remove_xss($_POST['group_name']) : '',
+            'groupdescribe' => !empty($_POST['groupdescribe']) ? remove_xss($_POST['groupdescribe']) : '',
             'action_list'   => $action_list,
         );
         RC_DB::table('staff_group')->where('group_id', $group_id)->where('store_id', $_SESSION['store_id'])->update($data);
-        ecjia_merchant::admin_log($_POST['group_name'], 'edit', 'staff_group');
+        ecjia_merchant::admin_log(remove_xss($_POST['group_name']), 'edit', 'staff_group');
         return $this->showmessage(__('编辑员工组信息成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_group/edit', array('group_id' => $group_id))));
     }
 
