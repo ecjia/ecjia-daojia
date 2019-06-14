@@ -199,9 +199,9 @@ class merchant extends ecjia_merchant {
 	public function merchant_check_refund() {
 		$this->admin_priv('refund_manage');
 		
-		$type = trim($_POST['type']);
-		$refund_id	= $_POST['refund_id'];
-		$action_note= trim($_POST['action_note']);
+		$type = remove_xss($_POST['type']);
+		$refund_id	= intval($_POST['refund_id']);
+		$action_note= remove_xss($_POST['action_note']);
 		if (empty($action_note)) {
 			return $this->showmessage(__('请输入操作备注', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -442,16 +442,16 @@ class merchant extends ecjia_merchant {
 	public function merchant_check_return() {
 		$this->admin_priv('refund_manage');
 		
-		$type = trim($_POST['type']);
-		$refund_id	= $_POST['refund_id'];	
+		$type = remove_xss($_POST['type']);
+		$refund_id	= intval($_POST['refund_id']);
 		$order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('order_id');
-		$action_note= trim($_POST['action_note']);
+		$action_note= remove_xss($_POST['action_note']);
 		if (empty($action_note)) {
 			return $this->showmessage(__('请输入操作备注', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if ($type == 'agree') {
 			$status = 1; 
-			$return_shipping_range= $_POST['return_shipping_range'];
+			$return_shipping_range= remove_xss($_POST['return_shipping_range']);
 			if (empty($return_shipping_range)) {
 				return $this->showmessage(__('请选择返还方式', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
@@ -508,9 +508,9 @@ class merchant extends ecjia_merchant {
 	public function merchant_confirm() {
 		$this->admin_priv('refund_manage');
 	
-		$type = trim($_POST['type']);
-		$refund_id	= $_POST['refund_id'];
-		$action_note= trim($_POST['action_note']);
+		$type = remove_xss($_POST['type']);
+		$refund_id	= intval($_POST['refund_id']);
+		$action_note= remove_xss($_POST['action_note']);
 		
 		if (empty($action_note)) {
 			return $this->showmessage(__('请输入操作备注', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -613,8 +613,8 @@ class merchant extends ecjia_merchant {
 		
 		$filter ['sort_by'] 	= empty ($_REQUEST ['sort_by']) 	? 'refund_id'	: trim($_REQUEST ['sort_by']);
 		$filter ['sort_order'] 	= empty ($_REQUEST ['sort_order']) 	? 'desc' 				: trim($_REQUEST ['sort_order']);
-		$filter['start_date']= $_GET['start_date'];
-		$filter['end_date']  = $_GET['end_date'];
+		$filter['start_date']= remove_xss($_GET['start_date']);
+		$filter['end_date']  = remove_xss($_GET['end_date']);
 		if (!empty($filter['start_date']) && !empty($filter['end_date'])) {
 			$filter['start_date']	= RC_Time::local_strtotime($filter['start_date']);
 			$filter['end_date']		= RC_Time::local_strtotime($filter['end_date']);
@@ -622,16 +622,16 @@ class merchant extends ecjia_merchant {
 			$db_refund_view->where('add_time', '<', $filter['end_date'] + 86400);
 		}
 		
-		$filter['keywords']  = trim($_GET['keywords']);
+		$filter['keywords']  = remove_xss($_GET['keywords']);
 		if ($filter['keywords']) {
 			$db_refund_view ->whereRaw('(refund_sn like "%'.mysql_like_quote($filter['keywords']).'%" or order_sn like "%'.mysql_like_quote($filter['keywords']).'%")');
 		}
-		$status = $_GET['status'];
+		$status = remove_xss($_GET['status']);
 		if (!empty($status) || $status == '0') {
 			$db_refund_view ->where('status', $status);
 		}
 		
-		$filter['refund_type'] = trim($_GET['refund_type']);
+		$filter['refund_type'] = remove_xss($_GET['refund_type']);
 		$refund_count = $db_refund_view->select(RC_DB::raw('count(*) as count'),
 				RC_DB::raw('SUM(IF(refund_type = "refund", 1, 0)) as refund'),
 				RC_DB::raw('SUM(IF(refund_type = "cancel", 1, 0)) as cancel'),
