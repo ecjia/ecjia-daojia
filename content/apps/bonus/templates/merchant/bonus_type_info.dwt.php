@@ -62,7 +62,7 @@
                                 <label for="send_type_0">{t domain="bonus"}按用户发放{/t}</label>
 
                                 <input id="send_type_3" type="radio" name="send_type" value="3" {if $bonus_arr.send_type eq 3} checked="true" {/if} onClick="javascript:ecjia.merchant.bonus_info_edit.type_info_showunit(3)"  />
-                                <label for="send_type_3">{t domain="bonus"}注册送红包{/t}</label>
+                                <label for="send_type_3">{t domain="bonus"}线下发放的红包{/t}</label>
 
                                 <input id="send_type_1" type="radio" name="send_type" value="1" {if $bonus_arr.send_type eq 1} checked="true" {/if} onClick="javascript:ecjia.merchant.bonus_info_edit.type_info_showunit(1)"  />
                                 <label for="send_type_1">{t domain="bonus"}按商品发放{/t}</label>
