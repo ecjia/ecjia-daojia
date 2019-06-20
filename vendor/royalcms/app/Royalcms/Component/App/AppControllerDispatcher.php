@@ -4,6 +4,7 @@ namespace Royalcms\Component\App;
 
 use Royalcms\Component\DefaultRoute\HttpQueryRoute;
 use RC_Hook;
+use Royalcms\Component\Error\Error;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
@@ -54,50 +55,52 @@ class AppControllerDispatcher
         if ( $controller instanceof RoyalcmsResponse) {
             return $controller;
         }
-        elseif (is_rc_error($controller)) {
 
-            if (RC_Hook::has_action('royalcms_default_controller')) {
-                RC_Hook::do_action('royalcms_default_controller', $this->routePath);
+        if (is_rc_error($controller)) {
+            return $this->handlerNotFoundController($controller);
+        }
+        else {
+
+            try {
+                //优化判断hook路由方法
+                if (RC_Hook::has_action($this->routePath)) {
+                    if (RC_Hook::has_filter('royalcms_handler_controller')) {
+                        $controller = RC_Hook::apply_filters('royalcms_handler_controller', $controller, $this->route);
+                    }
+                    RC_Hook::do_action($this->routePath, new $controller);
+                    return royalcms('response');
+                } else {
+                    $response = $this->route->runControllerAction($controller, $this->route->getAction());
+                    if (is_null($response)) {
+                        return royalcms('response');
+                    }
+                    return $response;
+                }
+            } catch (NotFoundHttpException $e) {
+                abort(403, $e->getMessage());
+            } catch (AccessDeniedHttpException $e) {
+                abort(401, $e->getMessage());
             }
-
-//            if (RC_Hook::has_action($this->routePath)) {
-//                RC_Hook::do_action($this->routePath);
-//                return royalcms('response');
-//            } else {
-//                abort(403, $controller->get_error_message());
-//            }
 
         }
 
-        try {
-            
-            if (RC_Hook::has_action($this->routePath)) {
-                // 实例化控制器对象，辅助给hook方法使用
+    }
 
-//                with(new $controller);
-                RC_Hook::do_action($this->routePath);
-                return royalcms('response');
-            } else {
-                
-                $response = $this->route->runControllerAction($controller, $this->route->getAction());
+    /**
+     * @param \Royalcms\Component\Error\Error $error
+     * @return mixed|\Royalcms\Component\Foundation\Royalcms
+     */
+    protected function handlerNotFoundController(Error $error)
+    {
+        if (RC_Hook::has_action('royalcms_default_controller')) {
+            RC_Hook::do_action('royalcms_default_controller', $this->routePath);
+        }
 
-                if ( $response instanceof RoyalcmsResponse) {
-                    if (! is_null($response->getOriginalContent())) {
-                        return $response;
-                    }
-                }
-
-                if (! is_null($response)) {
-                    return $response;
-                }
-
-                return royalcms('response');
-            }
-            
-        } catch (NotFoundHttpException $e) {
-            abort(403, $e->getMessage());
-        } catch (AccessDeniedHttpException $e) {
-            abort(401, $e->getMessage());
+        if (RC_Hook::has_action($this->routePath)) {
+            RC_Hook::do_action($this->routePath);
+            return royalcms('response');
+        } else {
+            abort(403, $error->get_error_message());
         }
     }
     
@@ -111,57 +114,19 @@ class AppControllerDispatcher
     protected function makeController()
     {
         try {
+            /**
+             * @var $bundle BundleAbstract
+             */
             $bundle = $this->manager->driver($this->route->getModule());
             if ( ! $bundle) {
                 abort(404, "App {$this->route->getModule()} does not found.");
             }
             
             $controller = $bundle->getControllerClassName($this->route->getController());
-//            if (RC_Error::is_error($controller)) {
-//
-//                if (RC_Hook::has_action('royalcms_default_controller')) {
-//                    RC_Hook::do_action('royalcms_default_controller', $this->routePath);
-//                }
-//
-//                if (RC_Hook::has_action($this->routePath)) {
-//                    RC_Hook::do_action($this->routePath);
-//                    return royalcms('response');
-//                } else {
-//                    abort(403, $controller->get_error_message());
-//                }
-//
-//            } else {
-//                return $controller;
-//            }
+
             return $controller;
         } catch (InvalidArgumentException $e) {
             abort(403, $e->getMessage());
-        }
-    }
-    
-    
-    /**
-     * Call the "before" filters for the controller.
-     *
-     * @param  \Royalcms\Component\Routing\Controller  $instance
-     * @param  \Royalcms\Component\Routing\Route  $route
-     * @param  \Royalcms\Component\Http\Request  $request
-     * @param  string  $method
-     * @return mixed
-     */
-    protected function before($instance, $route, $request, $method)
-    {
-        foreach ($instance->getBeforeFilters() as $filter)
-        {
-            if ($this->filterApplies($filter, $request, $method))
-            {
-                // Here we will just check if the filter applies. If it does we will call the filter
-                // and return the responses if it isn't null. If it is null, we will keep hitting
-                // them until we get a response or are finished iterating through this filters.
-                $response = $this->callFilter($filter, $route, $request);
-                
-                if ( ! is_null($response)) return $response;
-            }
         }
     }
     

@@ -119,8 +119,12 @@ abstract class BundleAbstract implements JsonSerializable
 
             include_once $my_controller;
         }
+
+        if (class_exists($controller_classname)) {
+            return $controller_classname;
+        }
         
-        return $controller_classname;
+        return RC_Error::make('controller_does_not_exist', "Controller class {$controller_classname} does not exist.");;
     }
     
     
