@@ -464,7 +464,7 @@ class merchant extends ecjia_merchant
             return $this->showmessage(__('入驻商家没有操作权限，请登陆商家后台操作！', 'groupbuy'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $group_buy_id  = intval($_POST['act_id']);
+        $group_buy_id  = $_POST['act_id'];
         $group_id_list = explode(',', $group_buy_id);
 
         $message = '';

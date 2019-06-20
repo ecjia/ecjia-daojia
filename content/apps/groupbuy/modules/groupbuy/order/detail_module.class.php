@@ -61,7 +61,7 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		RC_Loader::load_app_func('admin_order', 'orders');
 		$order_id = $this->requestData('order_id', 0);
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'groupbuy'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'groupbuy'), __CLASS__));
 		}
 
 		/* 订单详情 */

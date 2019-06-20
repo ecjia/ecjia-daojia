@@ -65,7 +65,7 @@ class groupbuy_order_pay_module extends api_front implements api_interface {
 		$wxpay_open_id = $this->requestData('wxpay_open_id', null);
 		
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'groupbuy'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'groupbuy'), __CLASS__));
 		}
 		
 		/* 订单详情 */

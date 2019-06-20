@@ -71,7 +71,7 @@ class groupbuy_order_list_module extends api_front implements api_interface {
 		$type = $this->requestData('type', '');
 		$store_id = $this->requestData('store_id', 0);
 		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'groupbuy'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'groupbuy'), __CLASS__));
 		}
 		//type whole全部，await_pay待付款，await_ship待发货，shipped待收货，allow_comment待评价
 		$size = $this->requestData('pagination.count', 15);

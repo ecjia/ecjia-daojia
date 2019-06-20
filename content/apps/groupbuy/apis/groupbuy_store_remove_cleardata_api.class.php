@@ -60,7 +60,7 @@ class groupbuy_store_remove_cleardata_api extends Component_Event_Api
         $store_id = array_get($options, 'store_id');
 
         if (empty($store_id)) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'groupbuy'), 'groupbuy_store_remove_cleardata_api'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'groupbuy'), __CLASS__));
         }
 
         return [

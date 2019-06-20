@@ -9,12 +9,12 @@ class groupbuy_groupbuy_goods_list_api extends Component_Event_Api
 {
     /**
      * @param  array $options['store_id']    店铺id
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options)) {
-            return new ecjia_error('invalid_parameter', __('调用api文件,groupbuy_goods_list,参数无效', 'groupbuy'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'groupbuy'), __CLASS__));
         }
         return $this->groupbuy_goods_list($options);
     }
