@@ -8,11 +8,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class refund_refund_agree_api extends Component_Event_Api {
     /**
      * @param  array $options['refund_id']	退款申请id
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', __('调用api文件，refund_agree，参数无效', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		return $this->agree_refund_apply($options);
 	}

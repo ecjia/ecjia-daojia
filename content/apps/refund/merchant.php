@@ -451,7 +451,7 @@ class merchant extends ecjia_merchant {
 		}
 		if ($type == 'agree') {
 			$status = 1; 
-			$return_shipping_range= remove_xss($_POST['return_shipping_range']);
+			$return_shipping_range= $_POST['return_shipping_range'];
 			if (empty($return_shipping_range)) {
 				return $this->showmessage(__('请选择返还方式', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {

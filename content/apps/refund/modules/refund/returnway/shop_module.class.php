@@ -65,7 +65,7 @@ class refund_returnway_shop_module extends api_front implements api_interface {
 		$store_address		= trim($this->requestData('store_address', ''));
 		
 		if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		
 		RC_Loader::load_app_class('order_refund', 'refund', false);

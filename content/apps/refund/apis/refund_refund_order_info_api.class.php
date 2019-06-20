@@ -54,12 +54,12 @@ class refund_refund_order_info_api extends Component_Event_Api {
 	
     /**
      * @param  array $options	条件参数
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		if (!is_array($options)
 		|| (empty($options['refund_id']) && empty($options['refund_sn']))) {
-			return new ecjia_error('invalid_parameter', __('调取api文件，refund_order_info，参数错误。', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		
 		return $this->refund_order_info($options);

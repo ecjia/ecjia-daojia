@@ -62,7 +62,7 @@ class refund_reasons_module extends api_front implements api_interface {
 		$type_array = array('await_ship', 'shipped', 'finished');
 		
 		if (empty($type) || !in_array($type, $type_array)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		
 		RC_Loader::load_app_class('order_refund', 'refund', false);

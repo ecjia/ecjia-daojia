@@ -8,11 +8,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class refund_merchant_refund_order_api extends Component_Event_Api {
     /**
      * @param  array $options['store_id']	店铺id
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', __('调用api文件，merchant_refund_order，参数无效', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		return $this->store_refund_order_list($options);
 	}

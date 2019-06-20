@@ -62,7 +62,7 @@ class refund_payrecord_module extends api_front implements api_interface {
 		$refund_sn = $this->requestData('refund_sn', '');
 		
 		if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		
 		$options = array('refund_sn' => $refund_sn);

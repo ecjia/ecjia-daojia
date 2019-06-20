@@ -61,7 +61,7 @@ class refund_detail_module extends api_front implements api_interface {
     	RC_Loader::load_app_class('order_refund', 'refund', false);
 		$refund_sn = $this->requestData('refund_sn', '');
 		if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		
 		$options = array('refund_sn' => $refund_sn);

@@ -66,7 +66,7 @@ class refund_apply_module extends api_front implements api_interface {
 		$refund_images      = $this->requestData('refund_images', array()); //兼容表单提交上传
 		
 		if (empty($order_id) || empty($refund_type) || empty($reason_id)) {
-			return new ecjia_error('invalid_parameter', _('参数错误', 'refund'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'refund'), __CLASS__));
 		}
 		
 		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
