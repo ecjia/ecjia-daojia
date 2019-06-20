@@ -37,5 +37,13 @@ class LinkGoodsModel extends Model
      */
     public $timestamps = false;
 
+    /**
+     * 一对一
+     * 获取关联商品信息
+     */
+    public function goods_model()
+    {
+    	return $this->belongsTo('Ecjia\App\Goods\Models\GoodsModel', 'link_goods_id', 'goods_id');
+    }
 	
 }

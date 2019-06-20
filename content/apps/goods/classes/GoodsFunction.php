@@ -420,4 +420,45 @@ class GoodsFunction
     	}
     	return $goods_sn;
     }
+    
+    
+    /**
+     * 商家商品根据分类获取[规格/参数]模板
+     */
+    public static function get_merchant_cat_template($type, $cat_id, $store_id) {
+    	$template_id = 0;
+    	if ($type === 'parameter') {
+    		$template_id = RC_DB::table('merchants_category')->where('store_id', $store_id)->where('cat_id', $cat_id)->pluck('parameter_id');
+    	} else {
+    		$template_id = RC_DB::table('merchants_category')->where('store_id', $store_id)->where('cat_id', $cat_id)->pluck('specification_id');
+    	}
+    	if (empty($template_id)) {
+    		$category_info = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->first();
+    		if ($category_info['parent_id'] > 0) {
+    			$template_id = self::get_cat_template($type, $category_info['parent_id']);
+    		}
+    	}
+    	return $template_id;
+    }
+    
+    /**
+     * 商品库商品根据分类获取[规格/参数]模板
+     */
+    public static function get_admin_cat_template($type, $cat_id) {
+    	$template_id = 0;
+    	if ($type === 'parameter') {
+    		$template_id = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('parameter_id');
+    	} else {
+    		$template_id = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('specification_id');
+    	}
+    	if (empty($template_id)) {
+    		$category_info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
+    		if ($category_info['parent_id'] > 0) {
+    			$template_id = self::get_cat_template($type, $category_info['parent_id']);
+    		}
+    	}
+    	return $template_id;
+    }
+    
+    
 }

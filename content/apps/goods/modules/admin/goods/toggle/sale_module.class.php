@@ -67,7 +67,7 @@ class admin_goods_toggle_sale_module extends api_admin implements api_interface 
 		$id 	= explode(',', $id);
 		$type	= $this->requestData('type');//online 上架;offline下架
 		if (empty($id) || empty($type)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
 		$on_sale = $type == 'online' ? 1 : 0;
 		

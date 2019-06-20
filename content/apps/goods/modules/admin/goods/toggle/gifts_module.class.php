@@ -65,7 +65,7 @@ class admin_goods_toggle_gifts_module extends api_admin implements api_interface
 		$goods_id	= $this->requestData('id');
 		$is_alone	= $this->requestData('is_gift', 0);
 		if (empty($goods_id)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
 		
 		$is_alone = $is_alone == 1 ? 0 : 1;

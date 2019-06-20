@@ -128,7 +128,7 @@
 							    <div id="mainbody">
 							    	<!-- {foreach from=$product_photo_list key=k item=val} -->
 							    	{if $k eq 0}
-							      	<img src="{$val.img_url}" id="mainphoto" />
+							      	<img src="{$val.format_img_url}" id="mainphoto" />
 							      	{/if}
 							      	<!-- {/foreach} -->
 							    </div>
@@ -138,7 +138,7 @@
 							    	<div id="showArea">
 								        <!-- SRC: 缩略图地址 REL: 大图地址  NAME: 网址 -->
 								        <!-- {foreach from=$product_photo_list key=k item=val} -->
-								        <img src="{$val.thumb_url}" rel="{$val.img_url}" />
+								        <img src="{$val.format_thumb_url}" rel="{$val.format_img_url}" />
 								        <!-- {/foreach} -->
 							      	</div>
 							    </div>

@@ -65,7 +65,7 @@ class admin_goods_gallery_delete_batch_module extends api_admin implements api_i
     	$goods_id		= $this->requestData('goods_id');
     	$img_ids		= $this->requestData('img_id', array());
     	if (empty($goods_id) || empty($img_ids)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
     	RC_Logger::getLogger('info')->info('delete_batch');

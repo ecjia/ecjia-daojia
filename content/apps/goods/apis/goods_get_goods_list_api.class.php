@@ -63,7 +63,7 @@ class goods_get_goods_list_api extends Component_Event_Api {
 	        || ((isset($options['keyword']) && empty($options['keyword'])) 
 	        && !isset($options['cat_id']) 
 	        && !isset($options['brand_id']))) {
-	        return new ecjia_error('invalid_parameter', '参数无效');
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效！', 'goods'), __CLASS__));
 	    }
 	   	$row = $this->get_goods_list($options);
 	    return $row;

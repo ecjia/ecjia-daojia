@@ -66,7 +66,7 @@ class admin_goods_toggle_suggest_module extends api_admin implements api_interfa
 		$type		= $this->requestData('type');//best 精品，new 新品，hot 热销
 		$is_suggest	= $this->requestData('is_suggest', 0);
 		if (empty($goods_id) || empty($type)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
 		
 		$data = array(
@@ -74,13 +74,13 @@ class admin_goods_toggle_suggest_module extends api_admin implements api_interfa
 		);
 		
 		if ($type == 'best') {
-			$data['is_best'] = $is_suggest;
+			$data['store_best'] = $is_suggest;
 			$log_label = __('精品', 'goods');
 		} elseif ($type == 'new') {
-			$data['is_new'] = $is_suggest;
+			$data['store_new'] = $is_suggest;
 			$log_label = __('新品', 'goods');
 		} elseif ($type == 'hot') {
-			$data['is_hot'] = $is_suggest;
+			$data['store_hot'] = $is_suggest;
 			$log_label = __('热销', 'goods');
 		}
 		

@@ -68,7 +68,7 @@ class admin_goods_move_category_module extends api_admin implements api_interfac
     	
     	/* 商品分类不允许为空 */
     	if (empty($category_id) || empty($target_category_id) || empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
     	/* 获取商品*/

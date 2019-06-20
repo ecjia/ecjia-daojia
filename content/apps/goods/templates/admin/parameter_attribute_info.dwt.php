@@ -72,24 +72,40 @@
 						</div>
 					</div>
 				{/if}
-				<div class="control-group formSep attr_input_type" {if $attr.attr_type eq 2}style="display: none;"{/if}>
-					<label class="control-label">{t domain="goods"}该参数值的录入方式：{/t}</label>
-					<div class="controls chk_radio">
-                        {foreach from=$attr_input_types item=value key=key}
-                        	<input class="uni_style" name="attr_input_type" id="attr_input_type_{$key}" type="radio" value="{$key}" {if $attr.attr_input_type eq $key}checked="true"{/if} autocomplete="off"/><span>{$value}</span>
-                        {/foreach}
+				{if $attr.attr_id neq 0}
+					<div class="control-group formSep attr_input_type">
+						<label class="control-label">{t domain="goods"}该参数值的录入方式：{/t}</label>
+						<div class="controls l_h30">
+	                        {foreach from=$attr_input_types item=value key=key}
+	                        	{if $attr.attr_input_type eq $key}
+	                        		<span>{$value}</span>
+	                        		<input type="hidden" name="attr_input_type" value="{$key}" />
+	                        	{/if}
+	                        	
+	                        {/foreach}
+						</div>
 					</div>
-				</div>
-				
-				<div class="control-group formSep attr_values">
-					<label class="control-label">{t domain="goods"}可选值列表：{/t}</label>
-					<div class="controls">
-						<textarea class="w350" name="attr_values" cols="30" rows="8">{$attr.attr_values}</textarea>
-						<span class="input-must">*</span>
-						<span class="help-block">多个可选值时，换行输入，每行一个可选值。</span>
+				{else}
+					<div class="control-group formSep attr_input_type">
+						<label class="control-label">{t domain="goods"}该参数值的录入方式：{/t}</label>
+						<div class="controls chk_radio">
+	                        {foreach from=$attr_input_types item=value key=key}
+	                        	<input class="uni_style" name="attr_input_type" id="attr_input_type_{$key}" type="radio" value="{$key}" {if $attr.attr_input_type eq $key}checked="true"{/if} autocomplete="off"/><span>{$value}</span>
+	                        {/foreach}
+						</div>
 					</div>
-				</div>
+				{/if}
 				
+				{if $attr.attr_id eq 0 OR $attr.attr_input_type eq '1'}
+					<div class="control-group formSep attr_values">
+						<label class="control-label">{t domain="goods"}可选值列表：{/t}</label>
+						<div class="controls">
+							<textarea class="w350" name="attr_values" cols="30" rows="8">{$attr.attr_values}</textarea>
+							<span class="input-must">*</span>
+							<span class="help-block">多个可选值时，换行输入，每行一个可选值。</span>
+						</div>
+					</div>
+				{/if}
 				<div class="control-group">
 					<div class="controls">
 						<button class="btn btn-gebo" type="submit">{t domain="goods"}确定{/t}</button>

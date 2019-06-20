@@ -64,7 +64,7 @@ class admin_goods_merchant_category_delete_module extends api_admin implements a
     	
     	$cat_id = $this->requestData('category_id');
     	if (empty($cat_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
 		/* 删除入驻商分类*/

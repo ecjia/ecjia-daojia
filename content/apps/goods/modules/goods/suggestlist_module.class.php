@@ -63,7 +63,7 @@ class goods_suggestlist_module extends api_front implements api_interface {
     	$type = array('new', 'best', 'hot', 'promotion');//推荐类型
     	
     	if (!in_array($action_type, $type)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
     	$promotion_type = $this->requestData('promotion_type', '');

@@ -64,7 +64,7 @@ class admin_goods_updatedesc_module extends api_admin implements api_interface {
        	$goods_id			= $this->requestData('goods_id', 0);
        	$goods_desc			= $this->requestData('goods_desc', '');
     	if (empty($goods_id) || empty($goods_desc)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
     	$this->db_goods = RC_Loader::load_app_model('goods_model','goods');

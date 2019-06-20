@@ -77,7 +77,7 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
     	$bulk_goods_sn			= $this->requestData('goods_sn', '');
     	
     	if (empty($add_type) || !in_array($add_type, ['common', 'cashier', 'bulk'])) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
     	if ($add_type == 'commom') {
@@ -197,12 +197,13 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
     		'brand_name'				=> !empty($goods->brand_model) ? $goods->brand_model->brand_name : '',
     		'category_id'				=> intval($goods->cat_id),
     		'category_name'				=> !empty($goods->category_model) ? $goods->category_model->cat_name : '',
-    		'category'					=> Ecjia\App\Goods\GoodsFunction::get_parent_cats($goods->merchant_cat_id, 1, $_SESSION['store_id']),
-    		'merchant_category_id'		=> empty($goods->merchant_cat_id) ? 0 : $goods->merchant_cat_id,
+    		'category'					=> $goods->cat_id > 0 ? Ecjia\App\Goods\GoodsFunction::get_parent_cats($goods->cat_id, 1, $_SESSION['store_id']) : [],
+    		'merchant_category_id'		=> intval($goods->merchant_cat_id),
     		'merchant_category_name'	=> !empty($goods->merchants_category_model) ? $goods->merchants_category_model->cat_name : '',
-    		'merchant_category'			=> Ecjia\App\Goods\GoodsFunction::get_parent_cats($goods->merchant_cat_id, 1, $_SESSION['store_id']),
+    		'merchant_category'			=> $goods->merchant_cat_id > 0 ? Ecjia\App\Goods\GoodsFunction::get_parent_cats($goods->merchant_cat_id, 1, $_SESSION['store_id']) : [],
     		'market_price'				=> ecjia_price_format($goods->market_price, false),
     		'shop_price'				=> ecjia_price_format($goods->shop_price, false),
+    		'cost_price'				=> ecjia_price_format($goods->cost_price, false),
     		'is_promote'				=> $is_promote,
     		'promote_price'				=> ecjia_price_format($goods->promote_price, false),
     		'promote_start_date'		=> !empty($goods->promote_start_date) ? RC_Time::local_date('Y-m-d H:i:s', $goods->promote_start_date) : '',
@@ -223,6 +224,7 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
 							    				'small'	=> !empty($goods->goods_thumb) ? RC_Upload::upload_url($goods->goods_thumb) : '',
 						    				),
 			'unformatted_shop_price'	=> $goods->shop_price,
+			'unformatted_cost_price'	=> $goods->cost_price,
 			'unformatted_market_price'	=> $goods->market_price,
 			'unformatted_promote_price'	=> $goods->promote_price,
 			'give_integral'				=> $goods->give_integral,
@@ -329,7 +331,7 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
     	}
     		 
     	if ($proc_goods_img) {
-    		if (isset($_FILES['goods_image'])) {
+    		if (isset($file_goods_image)) {
     			$image_info = $upload->upload($file_goods_image);
     		}
     	}
@@ -405,7 +407,7 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
     
     /**
      * 商品优惠价格
-     * @param unknown $volume_number
+     * @param object $volume_number
      * @return array
      */
     private function get_volume_number($volume_number)

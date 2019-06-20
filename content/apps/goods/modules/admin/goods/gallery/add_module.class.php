@@ -65,7 +65,7 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		$api_version = $this->request->header('api-version');
     	$goods_id		= $this->requestData('goods_id');
     	if (empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
 		$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();

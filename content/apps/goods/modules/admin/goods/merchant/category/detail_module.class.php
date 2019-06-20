@@ -64,7 +64,7 @@ class admin_goods_merchant_category_detail_module extends api_admin implements a
     	
     	$cat_id = $this->requestData('category_id');
     	if (empty($cat_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
     	$category_info = Ecjia\App\Goods\Models\MerchantCategoryModel::where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->first();
@@ -75,20 +75,18 @@ class admin_goods_merchant_category_detail_module extends api_admin implements a
     	
 		$goods_count = Ecjia\App\Goods\Models\GoodsModel::where('merchant_cat_id', $cat_id)->where('is_delete', 0)->where('store_id', $_SESSION['store_id'])->count();
     	//绑定的规格模板信息
-    	$specification_info = [];
+    	$specification_id = 0;
+    	$specification_name = '';
     	if ($category_info->goods_type_specification_model) {
-    		$specification_info = [
-    			'specification_id' 		=> $category_info->goods_type_specification_model->cat_id,
-    			'specification_name'	=> $category_info->goods_type_specification_model->cat_name,
-    		];
+    		$specification_id 	= intval($category_info->goods_type_specification_model->cat_id);
+    		$specification_name = trim($category_info->goods_type_specification_model->cat_name);
     	}
     	//绑定的参数模板信息
-    	$parameter_info = [];
+    	$parameter_id = 0;
+    	$parameter_name = '';
     	if ($category_info->goods_type_parameter_model) {
-    		$parameter_info = [
-    			'parameter_id' 		=> $category_info->goods_type_parameter_model->cat_id,
-    			'parameter_name'	=> $category_info->goods_type_parameter_model->cat_name,
-    		];
+    		$parameter_id 	= intval($category_info->goods_type_parameter_model->cat_id);
+    		$parameter_name = trim($category_info->goods_type_parameter_model->cat_name);
     	}
 
     	$category_detail = array(
@@ -98,8 +96,10 @@ class admin_goods_merchant_category_detail_module extends api_admin implements a
     	    'category' 				=> Ecjia\App\Goods\GoodsFunction::get_parent_cats($category_info['cat_id'], 1, $_SESSION['store_id']),
 			'is_show'				=> $category_info['is_show'],
 			'goods_count'			=> $goods_count,
-    		'specification_info'	=> $specification_info,
-    		'parameter_info'		=> $parameter_info
+    		'specification_id'		=> $specification_id,
+    		'specification_name'	=> $specification_name,
+    		'parameter_id'			=> $parameter_id,
+    		'parameter_name'		=> $parameter_name
     	);
     	 
     	return $category_detail;

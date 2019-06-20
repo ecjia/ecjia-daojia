@@ -61,7 +61,7 @@ class admin_merchant_goods_parameter_attribute_module extends api_admin implemen
 		$parameter_id	= intval($this->requestData('parameter_id', 0));
 		
 		if (empty($parameter_id)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
 		$store_id = $_SESSION['store_id'];
 		

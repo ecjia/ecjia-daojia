@@ -21,7 +21,7 @@
 					<tr>
 						<td class="hide-edit-area">
 							{if $list.product_thumb}
-			    				<img class="ecjiaf-fl" src="{$list.product_thumb}" width="60" height="60">
+			    				<img class="ecjiaf-fl" src="{$list.format_product_thumb}" width="60" height="60">
 							{/if}
 							<div class="product-info" style="margin-left:65px;">
 							    <div class="product-goods-name-style">{$list.product_name}</div>

@@ -55,7 +55,7 @@ class goods_product_specification_module extends api_front implements api_interf
 
 		$goods_id = $this->requestData('goods_id', 0);
 		if (empty($goods_id)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
 		/*获得商品的规格和属性*/
 // 		$properties = Ecjia\App\Goods\GoodsFunction::get_goods_properties($goods_id);

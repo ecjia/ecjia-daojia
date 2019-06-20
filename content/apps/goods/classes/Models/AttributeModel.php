@@ -54,4 +54,13 @@ class AttributeModel extends Model
         return $this->belongsTo('Ecjia\App\Goods\Models\GoodsTypeModel', 'cat_id', 'cat_id');
     }
     
+    /**
+     * 一对多
+     * 属性对应的商品属性集合
+     */
+    public function goods_attr_collection()
+    {
+    	return $this->hasMany('Ecjia\App\Goods\Models\GoodsAttrModel', 'attr_id', 'attr_id');
+    }
+    
 }

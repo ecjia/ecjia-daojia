@@ -63,7 +63,7 @@ class goods_detail_module extends api_front implements api_interface {
         $product_id = $this->requestData('product_id', 0);
         
         if (empty($goods_id)) {
-        	return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
         }
 		
         RC_Loader::load_app_class('groupbuy_activity', 'groupbuy', false);

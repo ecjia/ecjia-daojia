@@ -65,7 +65,7 @@ class admin_goods_update_module extends api_admin implements api_interface {
     	//请求参数：
     	$goods_id		= $this->requestData('goods_id', 0);
     	if (empty($goods_id)) {
-    	    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    	    return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	$goods_name		= $this->requestData('goods_name');
     	if (empty($goods_name)) {

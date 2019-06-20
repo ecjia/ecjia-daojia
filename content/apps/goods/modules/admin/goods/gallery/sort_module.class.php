@@ -65,7 +65,7 @@ class admin_goods_gallery_sort_module extends api_admin implements api_interface
     	$goods_id		= $this->requestData('goods_id');
     	$gallery_sort	= $this->requestData('gallery_sort', array());
     	if (empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	if (empty($gallery_sort)) {
     	    return array();

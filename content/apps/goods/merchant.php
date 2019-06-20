@@ -3217,11 +3217,14 @@ class merchant extends ecjia_merchant {
 		$goods_id = intval($_POST['goods_id']);
 		$this->assign('goods_id', $goods_id);
 				
-		$goods_info = RC_DB::TABLE('goods')->where('goods_id', $goods_id)->select('specification_id', 'merchant_cat_id')->first();		
+		$goods_info = RC_DB::TABLE('goods')->where('goods_id', $goods_id)->select('specification_id', 'merchant_cat_id', 'cat_id')->first();		
 		if(!empty($goods_info['specification_id'])) {
 			$template_id = $goods_info['specification_id'];
 		} else {
 			$template_id = Ecjia\App\Goods\MerchantGoodsAttr::get_cat_template('specification', $goods_info['merchant_cat_id']);
+			if(empty($template_id)) {
+				$template_id = Ecjia\App\Goods\GoodsAttr::get_cat_template('specification', $goods_info['cat_id']);
+			}
 		}
 		if ($template_id) {
 			$this->assign('template_id', $template_id);

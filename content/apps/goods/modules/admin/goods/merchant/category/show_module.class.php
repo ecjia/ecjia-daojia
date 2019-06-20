@@ -65,7 +65,7 @@ class admin_goods_merchant_category_show_module extends api_admin implements api
     	$category_id = $this->requestData('category_id');
     	$is_show	 = $this->requestData('is_show', 1);
     	if (empty($category_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	$category	= RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $category_id, 'store_id' => $_SESSION['store_id']))->find();
     	if (empty($category)) {

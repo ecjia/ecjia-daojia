@@ -61,7 +61,7 @@ class goods_desc_module extends api_front implements api_interface {
     	
 		RC_Loader::load_app_func('admin_goods', 'goods');
 		if ($goods_id < 1) {
-		    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+		    return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
         $goods = get_goods_info($goods_id);
         if ($goods === false) {

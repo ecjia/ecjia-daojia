@@ -60,7 +60,7 @@ class admin_merchant_goods_specification_module extends api_admin implements api
 		$type	= trim($this->requestData('type', 'merchant'));
 		
 		if (!in_array($type, ['merchant', 'platform'])) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
 		$store_id = $_SESSION['store_id'];
 		

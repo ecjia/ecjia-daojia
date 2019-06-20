@@ -60,7 +60,7 @@ class admin_merchant_goods_specification_delete_module extends api_admin impleme
 		
 		$specification_id	= intval($this->requestData('specification_id', 0));
 		if (empty($specification_id)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
 		}
 		
 		$info = Ecjia\App\Goods\Models\GoodsTypeModel::where('cat_type', 'specification')->where('cat_id', $specification_id)->where('store_id', $_SESSION['store_id'])->first();

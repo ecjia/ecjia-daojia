@@ -75,7 +75,12 @@ class ProductBasicInfo
      */
     public function productInfo()
     {
-    	$data = ProductsModel::where('product_id', $this->product_id)->first();
+    	if ($this->goods_id) {
+    		$data = ProductsModel::where('product_id', $this->product_id)->where('goods_id', $this->goods_id)->first();
+    	} else {
+    		$data = ProductsModel::where('product_id', $this->product_id)->first();
+    	}
+    	
     	return $data;
     }
 
@@ -90,16 +95,23 @@ class ProductBasicInfo
     		$disk = \RC_Filesystem::disk();
     		$gallery = $this->model->goods_gallery_collection->map(function ($item) use ($disk) {
     			if (!$disk->exists(\RC_Upload::upload_path($item['img_url'])) || empty($item['img_url'])) {
-    				$item['img_url'] = \RC_Uri::admin_url('statics/images/nopic.png');
+    				$item['format_img_url'] = \RC_Uri::admin_url('statics/images/nopic.png');
     			} else {
-    				$item['img_url'] = \RC_Upload::upload_url($item['img_url']);
+    				$item['format_img_url'] = \RC_Upload::upload_url($item['img_url']);
     			}
     			
     			if (!$disk->exists(\RC_Upload::upload_path($item['thumb_url'])) || empty($item['thumb_url'])) {
-    				$item['thumb_url'] = \RC_Uri::admin_url('statics/images/nopic.png');
+    				$item['format_thumb_url'] = \RC_Uri::admin_url('statics/images/nopic.png');
     			} else {
-    				$item['thumb_url'] = \RC_Upload::upload_url($item['thumb_url']);
+    				$item['format_thumb_url'] = \RC_Upload::upload_url($item['thumb_url']);
     			}
+    			
+    			if (!$disk->exists(\RC_Upload::upload_path($item['img_original'])) || empty($item['img_original'])) {
+    				$item['format_img_original'] = \RC_Uri::admin_url('statics/images/nopic.png');
+    			} else {
+    				$item['format_img_original'] = \RC_Upload::upload_url($item['img_original']);
+    			}
+    			
     			return $item;
     		});
     		$gallery = $gallery->toArray();

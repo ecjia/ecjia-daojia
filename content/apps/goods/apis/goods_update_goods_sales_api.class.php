@@ -11,7 +11,7 @@ class goods_update_goods_sales_api extends Component_Event_Api {
 	public function call(&$options) {
 	    
 	    if (empty($options['order_id'])) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
 	    }
 	    
 	    $goods_list = RC_DB::table('order_goods')->where('order_id', $options['order_id'])->get();
