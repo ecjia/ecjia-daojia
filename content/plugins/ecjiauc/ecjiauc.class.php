@@ -156,7 +156,7 @@ class ecjiauc extends UserIntegrateAbstract
             $count = RC_DB::table('users')->where('email', $username)->count();
 			if ($count > 1) {
 
-				$this->error = __('邮箱有重复，请使用用户名登录！', 'ecjiauc');
+				$this->error = new ecjia_error(self::ERR_EMAIL_EXISTS, __('邮箱有重复，请使用用户名登录！', 'ecjiauc'));
 
 				return false;
 
@@ -164,7 +164,7 @@ class ecjiauc extends UserIntegrateAbstract
                 $username = RC_DB::table('users')->select('user_name')->where('email', $username)->pluck('user_name');
 
 				if (! $username) {
-					$this->error = __('邮箱或密码错误！', 'ecjiauc');
+					$this->error = new ecjia_error(self::ERR_INVALID_USERNAME, __('邮箱或密码错误！', 'ecjiauc'));
 
 					return false;	
 				}
@@ -173,7 +173,13 @@ class ecjiauc extends UserIntegrateAbstract
 
 		$isuid = 6;
 
-        list($uid, $uname, $pwd, $email, $repeat) = ecjia_uc_call("uc_user_login", array($username, $password, $isuid));
+		$uc_call_result = ecjia_uc_call("uc_user_login", array($username, $password, $isuid));
+		if (is_ecjia_error($uc_call_result)) {
+            $this->error = $uc_call_result->get_error_message();
+		    return false;
+        }
+
+        list($uid, $uname, $pwd, $email, $repeat) = $uc_call_result;
         $uname = addslashes($uname);
 
         if ($uid < 0) {
@@ -185,7 +191,7 @@ class ecjiauc extends UserIntegrateAbstract
                 $local_user_id = 0;
             } else {
                 $mobile = $user->mobile_phone;
-                $uid = uc_call('uc_user_register', array($mobile, $password, $user->email));
+                $uid = ecjia_uc_call('uc_user_register', array($mobile, $password, $user->email));
                 $local_user_id = $user->user_id;
             }
         }
@@ -257,34 +263,32 @@ class ecjiauc extends UserIntegrateAbstract
             return false;
         }
 
+        /**
+         * 手机号不存在直接登录，暂且不作判断
         if ($this->checkMobile($mobile)) {
             $this->error = self::ERR_MOBILE_EXISTS;
             return false;
-        }
+        }*/
 
-        $uid = uc_call('uc_user_register', array($mobile, $password, $email));
+        $uid = ecjia_uc_call('uc_user_register', array($mobile, $password, $email));
         if ($uid <= 0) {
             if($uid == -1) {
                 $this->error = self::ERR_INVALID_USERNAME;
-                return false;
             } elseif($uid == -2) {
                 $this->error = self::ERR_USERNAME_NOT_ALLOW;
-                return false;
             } elseif($uid == -3) {
                 $this->error = self::ERR_USERNAME_EXISTS;
-                return false;
             } elseif($uid == -4) {
                 $this->error = self::ERR_INVALID_EMAIL;
-                return false;
             } elseif($uid == -5) {
                 $this->error = self::ERR_EMAIL_NOT_ALLOW;
-                return false;
             } elseif($uid == -6) {
                 $this->error = self::ERR_EMAIL_EXISTS;
-                return false;
             } else {
-                return false;
+                $this->error = $uid;
             }
+
+            return false;
         } else {
             //注册成功，插入用户表
             $ip = RC_Ip::client_ip();
