@@ -72,13 +72,13 @@ class withdraw_wechat_wallet_bind_module extends api_front implements api_interf
         $api_version = $this->request->header('api-version');
         
         if (empty($smscode) || empty($real_name)) {
-        	return new ecjia_error('invalid_parameter', __('调用接口withdraw_wechat_wallet_bind_module参数无效！', 'withdraw'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'withdraw'), __CLASS__));
         }
         
         //兼容1.30开始参数判断
         if (version_compare($api_version, '1.30', '>=')) {
         	if (empty($connect_code)) {
-        		return new ecjia_error('invalid_parameter', __('调用接口withdraw_wechat_wallet_bind_module参数无效！', 'withdraw'));
+        		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'withdraw'), __CLASS__));
         	}
         }
        
