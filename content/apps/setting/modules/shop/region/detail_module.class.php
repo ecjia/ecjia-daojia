@@ -61,7 +61,7 @@ class shop_region_detail_module extends api_front implements api_interface
         $city_id = trim($this->requestData('city_id'));
         
         if (empty($city) && empty($city_id)) {
-        	return new ecjia_error('invalid_parameter', '缺少参数');
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'setting'), __CLASS__));
         }
         // API版本大于1.9使用新接口返回数据
         if (version_compare($api_version, '1.9', '>')) {
@@ -77,7 +77,7 @@ class shop_region_detail_module extends api_front implements api_interface
                 }
             }
             if (empty($city_id)) {
-            	return new ecjia_error('invalid_parameter', '参数错误');
+            	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'setting'), __CLASS__));
             } 
             $all = ecjia_region::getRegionsWithRecursivelyUpwards($city_id);
             if (!empty($all)) {
