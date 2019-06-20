@@ -119,11 +119,11 @@ return array(
     'Ecjia\App\Topic'           => $contentDir . '/apps/topic/classes',
     'Ecjia\App\Supplier'        => $contentDir . '/apps/supplier/classes',
     
-    'Royalcms\Component\HttpKernel' => $contentDir . '/apps/api/classes/Royalcms/Component/HttpKernel',
-    'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
-    'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart',
-    'Royalcms\Component\Printer' => $contentDir . '/apps/printer/classes/Royalcms/Component/Printer',
-    'Royalcms\Component\Ucenter' => $contentDir . '/apps/ucclient/classes/Ucenter/Royalcms/Component/Ucenter',
+    'Royalcms\Component\HttpKernel'     => $contentDir . '/apps/api/classes/Royalcms/Component/HttpKernel',
+    'Royalcms\Component\Cron'           => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
+    'Royalcms\Component\ShoppingCart'   => $contentDir . '/apps/cart/vendor/royalcms/shopping-cart/Royalcms/Component/ShoppingCart',
+    'Royalcms\Component\Printer'        => $contentDir . '/apps/printer/classes/Royalcms/Component/Printer',
+    'Royalcms\Component\Ucenter'        => $contentDir . '/apps/ucclient/vendor/royalcms/ucenter/Royalcms/Component/Ucenter',
 );
 
 //end

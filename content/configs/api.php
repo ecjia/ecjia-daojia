@@ -120,8 +120,6 @@ return array(
     'user/account/pay'              => 'user::user/account/pay',
     'user/account/raply'            => 'user::user/account/raply',
     'user/account/cancel'           => 'user::user/account/cancel',
-//	'user/connect/signin'	        => 'user::user/connect/signin',废弃
-//	'user/connect/signup'	        => 'user::user/connect/signup',废弃
     'user/collect/create'           => 'user::user/collect/create',
     'user/collect/delete'           => 'user::user/collect/delete',
     'user/collect/list'             => 'user::user/collect/list',
@@ -621,10 +619,37 @@ return array(
 	'admin/merchant/goods/parameter/attribute/update'			=> 'goods::admin/merchant/goods/parameter/attribute/update',			//编辑参数模板参数属性
 	'admin/merchant/goods/attribute/delete'						=> 'goods::admin/merchant/goods/attribute/delete',						//删除规格或参数属性	
 	//商品添加/编辑	
+	'admin/merchant/goods/updatePrice'	    					=> 'goods::admin/merchant/goods/updateprice',							//掌柜修改商品相关的价格
+	'admin/merchant/goods/expirydate/update'					=> 'goods::admin/merchant/goods/expirydate/update',						//掌柜修改商品保质期信息
 	'admin/merchant/goods/list'			    					=> 'goods::admin/merchant/goods/list',									//掌柜商品列表；原来admin/goods/list升级
 	'admin/merchant/goods/add'									=> 'goods::admin/merchant/goods/add',									//掌柜添加商品；原来admin/goods/add升级
-		
-		
+	'admin/merchant/goods/detail'								=> 'goods::admin/merchant/goods/detail',								//掌柜获取商品详情；原来admin/goods/detail升级
+	'admin/merchant/goods/update'								=> 'goods::admin/merchant/goods/update',								//掌柜更新商品；原来admin/goods/update升级
+	'admin/merchant/goods/toggle/suggest'						=> 'goods::admin/merchant/goods/toggle/suggest',						//掌柜切换商品为推荐商品；原来接口admin/goods/toggle/suggest升级
+	'admin/merchant/goods/review/log'							=> 'goods::admin/merchant/goods/review/log',							//掌柜获取商品审核日志	
+	'admin/merchant/goods/linkgoods'							=> 'goods::admin/merchant/goods/linkgoods',								//掌柜获取商品的关联商品
+	'admin/merchant/goods/linkgoods/add'						=> 'goods::admin/merchant/goods/linkgoods/add',							//掌柜给某一商品添加关联商品
+	'admin/merchant/goods/price/update'							=> 'goods::admin/merchant/goods/price/update',							//快速修改商品价格（单独修改商品shop_price）
+	'admin/merchant/goods/stock/update'                         => 'goods::admin/merchant/goods/stock/update',                          //快速修改商品库存（单独修改商品goods_number）
+	'admin/merchant/goods/parameter/binded/template'			=> 'goods::admin/merchant/goods/parameter/binded/template',				//商品绑定的参数模板信息	
+	'admin/merchant/goods/goodsattr/parameter/update'			=> 'goods::admin/merchant/goods/goodsattr/parameter/update',			//编辑商品的参数属性	
+	'admin/merchant/goods/goodsattr/parameter/clear'			=> 'goods::admin/merchant/goods/goodsattr/parameter/clear',				//清除商品参数属性
+	'admin/merchant/goods/specification/binded/template'		=> 'goods::admin/merchant/goods/specification/binded/template',			//商品绑定的规格模板的规格信息
+	'admin/merchant/goods/goodsattr/specification/update'		=> 'goods::admin/merchant/goods/goodsattr/specification/update',		//编辑商品的规格属性
+	'admin/merchant/goods/goodsattr/specification/clear'		=> 'goods::admin/merchant/goods/goodsattr/specification/clear',			//清除商品规格属性	
+	'admin/merchant/goods/goodsattr/specification/binded'		=> 'goods::admin/merchant/goods/goodsattr/specification/binded',		//获取商品已设置的规格属性	
+	'admin/merchant/goods/product/add'							=> 'goods::admin/merchant/goods/product/add',							//添加商品货品	
+	'admin/merchant/goods/product/delete'						=> 'goods::admin/merchant/goods/product/delete',						//删除商品货品
+	'admin/merchant/goods/product/detail'						=> 'goods::admin/merchant/goods/product/detail',						//商品货品详情	
+	'admin/merchant/goods/product/update'						=> 'goods::admin/merchant/goods/product/update',						//编辑商品货品	
+	'admin/merchant/goods/product/list'							=> 'goods::admin/merchant/goods/product/list',							//商品货品列表	
+	'admin/merchant/goods/product/desc'							=> 'goods::admin/merchant/goods/product/desc',							//货品描述信息	
+	'admin/merchant/goods/product/desc/update'					=> 'goods::admin/merchant/goods/product/desc/update',					//编辑货品描述
+	'admin/merchant/goods/product/gallery/add'					=> 'goods::admin/merchant/goods/product/gallery/add',					//货品相册上传
+	'admin/merchant/goods/product/gallery/delete'				=> 'goods::admin/merchant/goods/product/gallery/delete',				//货品相册删除	
+	'admin/merchant/goods/product/gallery/sort'					=> 'goods::admin/merchant/goods/product/gallery/sort',					//货品相册排序	
+	'admin/merchant/goods/product/price/update'					=> 'goods::admin/merchant/goods/product/price/update',					//快速修改货品价格（支持批量修改）
+	'admin/merchant/goods/product/stock/update'					=> 'goods::admin/merchant/goods/product/stock/update',					//快速修改货品库存（支持批量修改）
 		
     /**
      * 1.0 已经废弃

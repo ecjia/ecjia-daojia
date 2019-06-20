@@ -32,7 +32,6 @@ return [
         $baseDir . '/vendor/royalcms/wechat-miniprogram/Royalcms/Component/WeChat/MiniProgram/MiniProgramServiceProvider.php',
 
         $contentDir . '/apps/cron/classes/Royalcms/Component/Cron/CronServiceProvider.php',
-        $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart/ShoppingcartServiceProvider.php',
         $contentDir . '/apps/printer/classes/Royalcms/Component/Printer/PrinterServiceProvider.php',
 
         $contentDir . '/system/classes/Providers/SystemServiceProvider.php',
