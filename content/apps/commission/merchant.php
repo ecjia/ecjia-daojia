@@ -292,7 +292,7 @@ class merchant extends ecjia_merchant {
 			'order_sn'	   => ecjia_order_store_account_sn(),
 			'amount'   	   => $amount,
 			'staff_note'   => $staff_note,
-			'process_type' => 'withdraw',
+			'process_type' =>  Ecjia\App\Commission\StoreAccountOrder::PROCESS_TYPE_WITHDRAW,
 			'status'	   => 1,
 			'account_type' => 'bank',
 			'account_name' 		=> $bank_info['bank_account_name'],
@@ -413,7 +413,7 @@ class merchant extends ecjia_merchant {
 		$filter['start_time'] = !empty($_GET['start_time']) ? remove_xss($_GET['start_time']) : '';
 		$filter['end_time'] = !empty($_GET['end_time']) ? remove_xss($_GET['end_time']) : '';
 		
-		$db->where('store_id', $_SESSION['store_id'])->where('process_type', 'withdraw');
+		$db->where('store_id', $_SESSION['store_id'])->where('process_type', Ecjia\App\Commission\StoreAccountOrder::PROCESS_TYPE_WITHDRAW);
 		
 		if (!empty($filter['keywords'])) {
 			$db->where('order_sn', 'like', '%'.mysql_like_quote($filter['keywords']).'%');

@@ -62,5 +62,8 @@ return array(
     'pay_more_than_unpay_money' => __('打款金额超出未付金额', 'commission'),
     'withdraw_amount_canot_empty' => __('提现金额不能为空', 'commission'),
     'desc_canot_empty'          => __('备注内容不能为空', 'commission'),
+    'deposit_amount_canot_empty' => __('充值金额不能为空', 'commission'),
+    'phone_canot_empty'          => __('手机号不能为空', 'commission'),
+    'phone_error'          => __('手机号格式有误', 'commission'),
 );
 //end

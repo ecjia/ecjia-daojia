@@ -61,32 +61,13 @@ class store_account {
      */
     
     //充值
-    public function charge($data) {
-        //         `store_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-        //         `order_sn` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单编号',
-        //         `amount` decimal(10,2) NOT NULL,
-        //         `process_type` = charge,
-        //         `pay_code` varchar(90) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-        //         `payname` varchar(90) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-        //         `pay_time` int(10) NOT NULL DEFAULT '0',
-        //         `pay_status` tinyint(1) NOT NULL DEFAULT '0',
-        //         `status` 2,
-        //         `add_time` int(10) NOT NULL DEFAULT '0',
+    public function deposit($data) {
+
     }
     
     //提现
     public function withdraw() {
-        //`store_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-        //         `amount` decimal(10,2) NOT NULL,
-        //         `staff_note` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-        //         `process_type` varchar(20) = withdraw
-        //         `status` 1待审核,
-        //         `add_time` int(10) NOT NULL DEFAULT '0',
-//         `account_type` varchar(10) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '账户类型，bank银行，alipay支付宝',
-//         `account_name` varchar(60) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '收款人',
-//         `account_number` varchar(60) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '银行账号',
-//         `bank_name` varchar(60) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '收款银行',
-//         `bank_branch_name` varchar(60) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '开户银行支行名称',
+
     }
     
     //结算
@@ -94,7 +75,7 @@ class store_account {
         if(empty($data['store_id']) || empty($data['amount']) || empty($data['bill_order_type']) || empty($data['bill_order_id']) || empty($data['bill_order_sn']) ) {
             return new ecjia_error('invalid_parameter', __('参数无效', 'commission'));
         }
-        $data['process_type'] = 'bill';
+        $data['process_type'] = Ecjia\App\Commission\StoreAccountOrder::PROCESS_TYPE_BILL;
         $data['pay_time'] = $data['add_time'] = RC_Time::gmtime();
         $data['pay_status'] = 1;
         $data['status'] = 2;
@@ -120,23 +101,6 @@ class store_account {
     
     //订单表
     public static function insert_store_account_order($data) {
-//         `store_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-//         `order_sn` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单编号',
-//         `amount` decimal(10,2) NOT NULL,
-//         `admin_id` int(10) NOT NULL DEFAULT '0',
-//         `admin_name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-//         `admin_note` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-//         `staff_note` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-//         `process_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'buy' COMMENT 'charge充值，withdraw提现，bill结算',
-//         `pay_code` varchar(90) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-//         `payname` varchar(90) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-//         `pay_time` int(10) NOT NULL DEFAULT '0',
-//         `pay_status` tinyint(1) NOT NULL DEFAULT '0',
-//         `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1待审核，2通过，3拒绝',
-//         `bill_order_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'buy' COMMENT 'buy订单,quickpay买单,refund退款',
-//         `bill_order_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '订单id',
-//         `bill_order_sn` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单编号',
-//         `add_time` int(10) NOT NULL DEFAULT '0',
 
         $data['order_sn'] = empty($data['order_sn']) ? ecjia_order_store_account_sn() : $data['order_sn'];
         return RC_DB::table('store_account_order')->insert($data);

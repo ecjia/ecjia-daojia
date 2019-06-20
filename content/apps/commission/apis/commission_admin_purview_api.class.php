@@ -65,8 +65,9 @@ class commission_admin_purview_api extends Component_Event_Api {
             array('action_name' => __('订单分成', 'commission'), 'action_code' => 'commission_order', 'relevance'   => ''),
             array('action_name' => __('订单重新结算', 'commission'), 'action_code' => 'commission_order_again', 'relevance'   => ''),
         	//资金管理权限
-        	array('action_name' => __('资金管理', 'commission'), 'action_code' => 'commission_withdraw', 'relevance'   => ''),
+        	array('action_name' => __('商家提现', 'commission'), 'action_code' => 'commission_withdraw', 'relevance'   => ''),
         	array('action_name' => __('申请提现管理', 'commission'), 'action_code' => 'commission_withdraw_update', 'relevance'   => ''),
+            array('action_name' => __('商家充值', 'commission'), 'action_code' => 'commission_deposit', 'relevance'   => ''),
         );
         return $purviews;
     }
