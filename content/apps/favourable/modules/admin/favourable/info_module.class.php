@@ -65,7 +65,7 @@ class admin_favourable_info_module extends api_admin implements api_interface {
 		
 		$id = $this->requestData('act_id', 0);
 		if ($id <= 0) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'favourable'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'favourable'), __CLASS__));
 		}
 		
 		//$result = RC_Model::Model('favourable/favourable_activity_model')->favourable_info($id);

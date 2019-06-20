@@ -56,7 +56,7 @@ class favourable_favourable_count_api extends Component_Event_Api {
     
     public function call(&$options) {
     	if (!is_array($options)) {
-    		return new ecjia_error('invalid_parameter', '参数无效');
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'favourable'), __CLASS__));
     	}
     	
     	$favourable_activity_dbview = RC_DB::table('favourable_activity as fa');
