@@ -138,12 +138,20 @@ abstract class UserIntegrateAbstract extends AbstractPlugin implements UserInteg
 
     public function getError()
     {
+        if (is_ecjia_error($this->error)) {
+            return $this->error->get_error_code();
+        }
+
         return $this->error;
     }
 
     public function getErrorMessage()
     {
-        return array_get($this->error_message, $this->error, '未知错误');
+        if (is_ecjia_error($this->error)) {
+            return $this->error->get_error_message();
+        }
+
+        return array_get($this->error_message, $this->error, $this->error);
     }
 
     public function needSync()

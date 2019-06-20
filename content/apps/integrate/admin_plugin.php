@@ -193,7 +193,7 @@ class admin_plugin extends ecjia_admin
 
 		$code = strval($_POST['code']);
 
-		if ($code != 'ecjia' && $code != 'ucenter' && $code != 'ecshop') {
+		if ($code != 'ecjiauc' && $code != 'ecjia' && $code != 'ucenter' && $code != 'ecshop') {
 		    return $this->showmessage(__('目前仅支持UCenter方式的会员整合。', 'integrate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
