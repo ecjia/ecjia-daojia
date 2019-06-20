@@ -57,7 +57,7 @@ class seller_collect_delete_module extends api_front implements api_interface {
 		$user_id   = session('user_id');
 		$seller_id = $this->requestData('seller_id');
 		if (empty($seller_id)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
 		RC_DB::table('collect_store')->where('user_id', $user_id)->where('store_id', $seller_id)->delete();
 

@@ -56,7 +56,7 @@ class admin_merchant_process_module extends api_admin implements api_interface {
     	$validate_code	= $this->requestData('validate_code');
 
         if (empty($mobile) || empty($validate_code)) {
-        	return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
+        	return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
     	}
     	
     	/* 判断校验码*/

@@ -75,7 +75,7 @@ class merchant_home_data_module extends api_front implements api_interface {
 		$location = $this->requestData('location', array());
 	
 		if (empty($seller_id)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
 		//是否开启闪惠功能
 		RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);

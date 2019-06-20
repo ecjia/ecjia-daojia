@@ -58,7 +58,7 @@ class merchant_goods_category_module extends api_front implements api_interface 
 		$seller_id = empty($seller_id) ? '' : $seller_id;
 
 		if (empty($seller_id)) {
-			return new ecjia_error('invalid_parameter', __('参数无效' ,'merchant'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
 		$cat_list = RC_DB::table('merchants_category')->select(RC_DB::raw('cat_id, cat_name, parent_id,cat_image'))
         												->where('parent_id', 0)

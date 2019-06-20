@@ -71,7 +71,7 @@ class admin_merchant_signup_module extends api_admin implements api_interface {
 
 		if (empty($responsible_person) || empty($email) || empty($mobile) || empty($seller_name) || empty($seller_category)
 		     || empty($validate_type) || empty($province) || empty($city)|| empty($district) || empty($street) || empty($address) || empty($longitude) || empty($latitude)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
 
         $preaudit_count   = RC_DB::table('store_preaudit')->where('email', '=', $email)->count();

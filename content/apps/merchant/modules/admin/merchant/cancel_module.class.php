@@ -58,7 +58,7 @@ class admin_merchant_cancel_module extends api_admin implements api_interface {
 		$validate_code	= $this->requestData('validate_code');
 
 		if (empty($validate_code) || empty($value)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
 
 		if (!empty($validate_code)) {

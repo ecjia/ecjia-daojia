@@ -63,7 +63,7 @@ class merchant_goods_list_module extends api_front implements api_interface {
 		$store_id = empty($store_id) ? 0 : $store_id;
 	
 		if (empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
 		
 		$promotion_type = $this->requestData('promotion_type', '');
