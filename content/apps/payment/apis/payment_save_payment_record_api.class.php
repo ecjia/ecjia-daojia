@@ -65,7 +65,7 @@ class payment_save_payment_record_api extends Component_Event_Api {
      */
 	public function call(&$options) {	
 		if (!array_get($options, 'order_sn') || !array_has($options, 'total_fee')) {
-			return new ecjia_error('invalid_parameter', __(sprintf('%s缺少必要参数', __CLASS__), 'payment'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'payment'), __CLASS__));
 		}
 		
 		$trade_type = array_get($options, 'trade_type', Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER);

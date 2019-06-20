@@ -55,11 +55,11 @@ class payment_update_payment_record_api extends Component_Event_Api {
     /**
      * order_sn 订单编号（必填）
      * trade_no 外部交易订单号（必填）
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {	
 		if (! array_get($options, 'order_sn') || ! array_has($options, 'trade_no')) {
-			return new ecjia_error('invalid_parameter', __('调用update_payment_record_api文件缺少必要参数', 'payment'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'payment'), __CLASS__));
 		}
 		
 		/* 插入支付流水记录 */

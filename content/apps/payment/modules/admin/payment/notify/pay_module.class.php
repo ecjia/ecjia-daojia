@@ -70,7 +70,7 @@ class admin_payment_notify_pay_module extends api_admin implements api_interface
         
         //传参判断
         if (empty($order_trade_no) || empty($notify_data)) {
-        	return new ecjia_error('invalid_parameter', __('admin_payment_notify_pay_module接口参数无效', 'payment'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'payment'), __CLASS__));
         }
         
         //查找交易记录

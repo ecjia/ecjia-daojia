@@ -53,11 +53,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class payment_pay_info_api extends Component_Event_Api {
 	
     /**
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {	
 		if (!isset($options['code'])) {
-			return new ecjia_error('invalid_parameter', __('调用pay_info_api文件参数无效', 'payment'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'payment'), __CLASS__));
 		}
 	   	return $this->get_pay_info($options['code']);
 	}

@@ -61,7 +61,7 @@ class admin_payment_pay_cash_module extends api_admin implements api_interface
     	$record_id 	= $this->requestData('record_id');
     	
     	if (empty($record_id)) {
-    		return new ecjia_error( 'invalid_parameter', __('调用接口admin_payment_pay_cash_module参数无效！', 'payment'));
+    		return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'payment'), __CLASS__));
     	}
     	
     	$paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
