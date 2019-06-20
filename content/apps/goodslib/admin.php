@@ -56,7 +56,8 @@ class admin extends ecjia_admin {
     private $db_goods;
     private $error;
     
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         
 
@@ -159,8 +160,28 @@ class admin extends ecjia_admin {
         
         return $this->display('goodslib_list.dwt');
     }
-    
-    public function goods_spec() {
+
+    /**
+     * 生成列表操作链接
+     */
+    public static function maker_goodslist_links($data)
+    {
+        $links = [
+            '<a class="data-pjax" href="'.RC_Uri::url('goodslib/admin/edit', ['goods_id' => $data['goods_id']]).'">'.__('编辑', 'goodslib').'</a>',
+            '<a class="data-pjax" href="'.RC_Uri::url('goodslib/admin_gallery/init', ['goods_id' => $data['goods_id']]).'">'.__('商品相册', 'goodslib').'</a>',
+            '<a class="data-pjax" href="'.RC_Uri::url('goodslib/admin/edit_goods_parameter', ['goods_id' => $data['goods_id']]).'">'.__('商品参数', 'goodslib').'</a>',
+            '<a class="data-pjax" href="'.RC_Uri::url('goodslib/admin/edit_goods_specification', ['goods_id' => $data['goods_id']]).'">'.__('规格/货品', 'goodslib').'</a>',
+            '<a target="_blank" href="'.RC_Uri::url('goodslib/admin/preview', ['goods_id' => $data['goods_id']]).'">'.__('预览', 'goodslib').'</a>',
+            '<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="'.__('您确定要删除此商品吗？', 'goodslib').'" href="'.RC_Uri::url('goodslib/admin/remove', ['id' => $data['goods_id']]).'">'.__('删除', 'goodslib').'</a>',
+        ];
+
+        $links = RC_Hook::apply_filters('goodslib_maker_goodslist_links', $links, $data);
+
+        return implode('&nbsp;|&nbsp;', $links);
+    }
+
+    public function goods_spec()
+    {
         $this->admin_priv('goodslib_update');
         
         

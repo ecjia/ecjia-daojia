@@ -1049,7 +1049,7 @@ function generate_goodslib_goods_sn($goods_id) {
     $sn_list = RC_DB::table('goodslib')
         ->where('goods_sn', 'like', '%' . mysql_like_quote($goods_sn) . '%')
         ->where('goods_id', '!=', $goods_id)->orderBy(RC_DB::raw('LENGTH(goods_sn)'), 'desc')
-        ->get();
+        ->lists('goods_sn');
 
     /* 判断数组为空就创建数组类型否则类型为null 报错 */
     $sn_list = empty($sn_list) ? array() : $sn_list;

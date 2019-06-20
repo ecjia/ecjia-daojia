@@ -4,6 +4,8 @@
 <!-- {block name="footer"} -->
 <script type="text/javascript">
 	ecjia.admin.goods_list.init();
+    ecjia.admin.goods_info.integral_market_price();
+    ecjia.admin.goods_info.marketPriceSetted();
 </script>
 <!-- {/block} -->
 
@@ -97,12 +99,7 @@
                         {if $goods.has_products}<span class="label-orange">{t domain='goodslib'}多货品{/t}{/if}</span>{$goods.goods_name|escape:html}
 						<br/>
 						<div class="edit-list">
-							<a class="data-pjax" href='{url path="goodslib/admin/edit" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}编辑{/t}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{url path="goodslib/admin_gallery/init" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}商品相册{/t}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{url path="goodslib/admin/edit_goods_parameter" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}商品参数{/t}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{url path="goodslib/admin/edit_goods_specification" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}规格/货品{/t}</a>&nbsp;|&nbsp;
-							<a target="_blank" href='{url path="goodslib/admin/preview" args="goods_id={$goods.goods_id}"}'>{t domain='goodslib'}预览{/t}</a>&nbsp;|&nbsp;
-							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain='goodslib'}您确定要删除此商品吗？{/t}" href='{url path="goodslib/admin/remove" args="id={$goods.goods_id}"}'>{t domain='goodslib'}删除{/t}</a>
+                            {admin::maker_goodslist_links($goods)}
 						</div>
 					</td>	
 					
@@ -142,4 +139,7 @@
 		<!-- {$goods_list.page} -->
 	</div>
 </div>
+
+<!-- {ecjia:hook id=goodslib_modal_goodslist_page} -->
+
 <!-- {/block} -->
