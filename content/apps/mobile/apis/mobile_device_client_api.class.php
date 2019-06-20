@@ -56,11 +56,11 @@ class mobile_device_client_api extends Component_Event_Api {
      * 
      * @param  $options['code'] device-code 客户端代号
      *
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {	
 	    if (! array_get($options, 'code') ) {
-	        return new ecjia_error('invalid_parameter', __('缺少必要参数', 'mobile'));
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'mobile'), __CLASS__));
 	    }
 	    
 	    try {

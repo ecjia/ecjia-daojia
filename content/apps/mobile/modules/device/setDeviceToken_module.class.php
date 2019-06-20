@@ -59,7 +59,7 @@ class device_setDeviceToken_module extends api_front implements api_interface {
 		$user_type		        = $this->requestData('user_type', 'user');
 		
 		if (empty($device['udid']) || empty($device['client']) || empty($device['code']) || empty($device['device_token'])) {
-			return new ecjia_error(101, '参数错误');
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'mobile'), __CLASS__));
 		}
 		
 		//$db_mobile_device = RC_Model::model('mobile/mobile_device_model');

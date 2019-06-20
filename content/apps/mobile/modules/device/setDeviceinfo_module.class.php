@@ -64,7 +64,7 @@ class device_setDeviceinfo_module extends api_front implements api_interface {
 		$user_type		= $this->requestData('user_type', 'user');
 		
 		if (empty($device['udid']) || empty($device['client']) || empty($device['code'])) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效', 'mobile'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'mobile'), __CLASS__));
 		}
 		
 		$device_data = array(

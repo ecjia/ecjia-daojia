@@ -55,11 +55,11 @@ class mobile_device_record_api extends Component_Event_Api {
     /**
      * @param $options[array] 
      *
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {	
 		if (!is_array($options) || !isset($options['device']) || empty($options['device'])) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'mobile'), __CLASS__));
 		}
 		$device = $options['device']; 
 		if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
