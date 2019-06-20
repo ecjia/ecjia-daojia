@@ -178,7 +178,7 @@ class merchant extends ecjia_merchant
         //查询该商品是否有货品
         $products = RC_DB::table('products')->where('goods_id', $goods_id)->get();
         if (!empty($products)) {
-            $checkbox = remove_xss($_POST['checkboxes']);
+            $checkbox = $_POST['checkboxes'];
             if (empty($checkbox)) {
                 return $this->showmessage(__('请选择SKU商品参与活动', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
@@ -341,7 +341,7 @@ class merchant extends ecjia_merchant
         //查询该商品是否有货品
         $products = RC_DB::table('products')->where('goods_id', $goods_id)->get();
         if (!empty($products)) {
-            $checkbox = remove_xss($_POST['checkboxes']);
+            $checkbox = $_POST['checkboxes'];
             if (empty($checkbox)) {
                 return $this->showmessage(__('请选择SKU商品参与活动', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }

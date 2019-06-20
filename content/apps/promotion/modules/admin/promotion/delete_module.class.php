@@ -63,7 +63,7 @@ class admin_promotion_delete_module extends api_admin implements api_interface {
 		}
 		$id = $this->requestData('goods_id', '0');
 		if ($id <= 0) {
-			return new ecjia_error(101, '参数错误');
+			return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'promotion'), __CLASS__));
 		}
 
 		$promotion_info = RC_Model::Model('goods/goods_model')->promote_goods_info($id);
