@@ -597,7 +597,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 
 		$article_id		= !empty($_GET['id']) 			? intval($_GET['id']) 	: 0;
-		$linked_array 	= !empty($_GET['linked_array']) ? remove_xss($_GET['linked_array']) : '';
+		$linked_array 	= !empty($_GET['linked_array']) ? $_GET['linked_array'] : '';
 
 		RC_DB::table('goods_article')->where('article_id', $article_id)->delete();
 
@@ -705,7 +705,7 @@ class merchant extends ecjia_merchant {
 		
 		//批量删除
 		if ($type == 'batch') {
-			$ids = !empty($_POST['id']) ? intval($_POST['id']) : '';
+			$ids = !empty($_POST['id']) ? $_POST['id'] : '';
 			if (!is_array($ids)){
 				$ids = explode(',', $ids);
 			}
@@ -858,7 +858,7 @@ class merchant extends ecjia_merchant {
 	 * 搜索商品，仅返回名称及ID
 	 */
 	public function get_goods_list() {
-		$filter = remove_xss($_GET['JSON']);
+		$filter = $_GET['JSON'];
 		/*商家条件*/
 		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 			$filter['store_id'] = $_SESSION['store_id'];
@@ -966,7 +966,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_comment_update', ecjia::MSGTYPE_JSON);
 		
 		$type = !empty($_GET['type']) ? remove_xss($_GET['type']) : '';
-		$ids = !empty($_POST['id']) ? intval($_POST['id']) : '';
+		$ids = !empty($_POST['id']) ? $_POST['id'] : '';
 		
 		if (!is_array($ids)){
 			$ids = explode(',', $ids);

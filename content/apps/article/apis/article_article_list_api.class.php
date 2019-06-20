@@ -54,11 +54,11 @@ class article_article_list_api extends Component_Event_Api {
 	
     /**
      * @param  array $options	条件参数
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'article'), __CLASS__));
 		}
 		return $this->articleslist($options);
 	}

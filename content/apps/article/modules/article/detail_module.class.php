@@ -55,7 +55,7 @@ class article_detail_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$id = $this->requestData('article_id', 0);
     	if ($id <= 0) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'article'), __CLASS__));
 		}
 		
 		$cache_article_key = 'article_info_'.$id;

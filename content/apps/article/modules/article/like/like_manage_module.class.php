@@ -64,7 +64,7 @@ class article_like_like_manage_module extends api_front implements api_interface
 		$article_id		= $this->requestData('article_id', 0);//30
 		
 		if ( $article_id <= 0) {
-			return new ecjia_error('invalid_parameter', __('参数错误！','article'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'article'), __CLASS__));
 		}
 		$article_info = RC_DB::table('article')->where('article_id', $article_id)->first();
 		if (empty($article_info)) {

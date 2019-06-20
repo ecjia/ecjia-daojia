@@ -21,7 +21,6 @@
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
 				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}{if $publishby}&publishby={$publishby}{/if}"}#tab1'>{t domain="article"}通用信息{/t}</a></li>
-<!-- 				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}"}#tab2'>{t domain="article"}文章内容{/t}</a></li> -->
 				<li class="active"><a href="javascript:;">{t domain="article"}关联商品{/t}</a></li>
 			</ul>
 			
