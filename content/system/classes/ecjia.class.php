@@ -57,9 +57,9 @@ define('RELEASE', ecjia::RELEASE);
 
 class ecjia {
 
-    const VERSION = '1.51';
+    const VERSION = '1.52';
 
-    const RELEASE = '20190614';
+    const RELEASE = '20190620';
 	
 	protected $config;
 	

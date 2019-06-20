@@ -1045,6 +1045,39 @@ if (! function_exists('ecjia_order_delivery_sn'))
     }
 }
 
+if (! function_exists('ecjia_order_supplier_sn'))
+{
+    /**
+     * 获取采购供货订单号
+     */
+    function ecjia_order_supplier_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_SUPPLIER))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_supplier_delivery_sn'))
+{
+    /**
+     * 获取采购供货发货单号
+     */
+    function ecjia_order_supplier_delivery_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_SUPPLIER_DELIVERY))->generation();
+    }
+}
+
+if (! function_exists('ecjia_supplier_refund_sn'))
+{
+    /**
+     * 获取供货退款订单
+     */
+    function ecjia_supplier_refund_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::SUPPLIER_REFUND))->generation();
+    }
+}
+
 if (! function_exists('ecjia_order_express_sn'))
 {
     /**
@@ -1109,6 +1142,43 @@ if (! function_exists('ecjia_alert_links'))
         $links = func_get_args();
 
         return $links;
+    }
+}
+
+
+if (! function_exists('ecjia_filter_request_input'))
+{
+    /**
+     * 过滤$_GET,$_POST,$_REQUEST,$_COOKIE
+     * @param $data
+     * @return int|string|array
+     */
+    function ecjia_filter_request_input(& $data)
+    {
+        if (is_array($data)) {
+            $new_data = [];
+            foreach ($data as $vkey => $vdata) {
+                $vkey = ecjia_filter_request_input($vkey);
+                $vdata = ecjia_filter_request_input($vdata);
+
+                $new_data[$vkey] = $vdata;
+            }
+
+            $data = $new_data;
+
+            return $data;
+        }
+
+        if (is_string($data)) {
+            if (function_exists('remove_xss')) {
+                return safe_remove(remove_xss($data));
+            }
+            else {
+                return safe_remove($data);
+            }
+        }
+
+        return intval($data);
     }
 }
 

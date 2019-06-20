@@ -44,20 +44,18 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 控制器基础类
+ * 后台服务菜单API
+ * @author royalwang
  */
-abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaFrontController
-{
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+class system_service_menu_api extends Component_Event_Api {
+	
+	public function call(&$options) {	
+		$menus = ecjia_admin::make_admin_menu('ecjia_appstore', __('应用市场'), 'https://appstore.ecjia.com', 1);
+		return $menus;
+	}
 }
 
 // end

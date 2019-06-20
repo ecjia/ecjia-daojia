@@ -283,10 +283,17 @@ function set_ecjia_config_filter($arr) {
     
     return $arr;
 }
-RC_Hook::add_filter('set_ecjia_config_filter', 'set_ecjia_config_filter');    
+RC_Hook::add_filter('set_ecjia_config_filter', 'set_ecjia_config_filter');
 
-
-
+function set_ecjia_filter_request_get() {
+    ecjia_filter_request_input($_GET);
+    ecjia_filter_request_input($_REQUEST);
+}
+RC_Hook::add_action('ecjia_admin_finish_launching', 'set_ecjia_filter_request_get');
+RC_Hook::add_action('ecjia_front_finish_launching', 'set_ecjia_filter_request_get');
+RC_Hook::add_action('ecjia_api_finish_launching', 'set_ecjia_filter_request_get');
+RC_Hook::add_action('ecjia_merchant_finish_launching', 'set_ecjia_filter_request_get');
+RC_Hook::add_action('ecjia_platform_finish_launching', 'set_ecjia_filter_request_get');
 
 
 // end

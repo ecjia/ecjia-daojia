@@ -53,6 +53,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaAdminController
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
 }
 

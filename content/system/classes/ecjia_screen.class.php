@@ -467,7 +467,7 @@ class ecjia_screen {
 	 * @param string $parent_base The parent base of the screen. 
 	 * @param string $parent_file The parent file of the screen. Typically the $parent_file global.
 	 */
-	function set_parentage($parent_base, $parent_file ) {
+	function set_parentage($parent_base, $parent_file = null ) {
 		$this->parent_file = $parent_file;
 		$this->parent_base = $parent_base;
 	}

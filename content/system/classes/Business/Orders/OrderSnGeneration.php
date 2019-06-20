@@ -14,42 +14,59 @@ class OrderSnGeneration
     /**
      * 普通购买订单
      */
-    const ORDER_BUY         = 10;
+    const ORDER_BUY             = 10;
 
     /**
      * 普通订单用来分单的订单号
      */
-    const ORDER_SEPARATE    = 11;
+    const ORDER_SEPARATE        = 11;
+
 
     /**
      * 快速买单订单
      */
-    const ORDER_QUICKPAY    = 20;
+    const ORDER_QUICKPAY        = 20;
 
     /**
      * 会员充值订单
      */
-    const ORDER_DEPOSIT     = 30;
+    const ORDER_DEPOSIT         = 30;
 
     /**
      * 商家提现订单
      */
-    const ORDER_STORE_ACCOUNT = 40;
+    const ORDER_STORE_ACCOUNT   = 40;
+
+    /**
+     * 采购供货订单
+     */
+    const ORDER_SUPPLIER            = 46;
+
+    /**
+     * 采购供货发货单号
+     */
+    const ORDER_SUPPLIER_DELIVERY   = 47;
+
 
     /**
      * 退款订单
      */
-    const ORDER_REFUND      = 90;
+    const ORDER_REFUND          = 90;
+
+    /**
+     * 供货退款订单
+     */
+    const SUPPLIER_REFUND       = 96;
 
     /**
      * 发货单号订单
      */
-    const ORDER_DELIVERY    = 16;
+    const ORDER_DELIVERY        = 16;
 
     /**
      * 配送订单号
      */
-    const ORDER_EXPRESS     = 17;
+    const ORDER_EXPRESS         = 17;
 
 
     protected $order_type;
