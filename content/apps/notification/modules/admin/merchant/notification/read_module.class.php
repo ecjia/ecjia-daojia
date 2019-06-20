@@ -60,7 +60,7 @@ class admin_merchant_notification_read_module extends api_admin implements api_i
 		
     	$message_id = $this->requestData('id');
     	if (empty($message_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数无效', 'notification'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'notification'), __CLASS__));
     	}
     	
     	$db = RC_DB::table('notifications');

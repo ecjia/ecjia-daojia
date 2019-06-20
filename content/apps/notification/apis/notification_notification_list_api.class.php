@@ -11,12 +11,12 @@ class notification_notification_list_api extends Component_Event_Api
      * @param  string $options['type']    通知类型（用户，商家）
      * @param  int $options['notifiable_id'] 通知用户id
      * @param  string $options['status']  消息状态（readed已读，unread未读）
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options)) {
-            return new ecjia_error('invalid_parameter', __('调用api文件,notification_list,参数无效', 'notification'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'notification'), __CLASS__));
         }
         return $this->notifications_list($options);
     }
