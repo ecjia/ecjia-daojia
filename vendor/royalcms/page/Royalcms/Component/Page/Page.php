@@ -58,7 +58,10 @@ abstract class Page implements Presenter
         $this->total_pages = ceil($this->total_records / $this->page_size); // 总页数
         self::$static_total_pages = $this->total_pages; // 总页数
         self::$page_num_label = empty($page_num_label) ? self::$page_num_label : $page_num_label; // 替换标签
-        $this->current_page = min($this->total_pages, empty($set_current_page) ? empty($_GET[RC_Config::get('system.page_var')]) ? 1 : max(1, (int) $_GET[RC_Config::get('system.page_var')]) : max(1, (int) $set_current_page)); // 当前页
+
+        $page_var = intval($_GET[RC_Config::get('system.page_var')]);
+
+        $this->current_page = min($this->total_pages, empty($set_current_page) ? empty($page_var) ? 1 : max(1, $page_var) : max(1, (int) $set_current_page)); // 当前页
         $this->url = $this->set_url($custom_url);
         $this->start_id = ($this->current_page - 1) * $this->page_size + 1; // 当前页开始ID
         $this->end_id = min($this->current_page * $this->page_size, $this->total_records); // 当前页结束ID
@@ -247,7 +250,7 @@ abstract class Page implements Presenter
     /**
      * 移除 URLs 变量
      *
-     * @param unknown $vars            
+     * @param array $vars
      */
     protected function unset_url_val(& $vars)
     {
@@ -257,6 +260,22 @@ abstract class Page implements Presenter
         unset($vars[RC_Config::get('route.lang')]);
         unset($vars[RC_Config::get('route.page')]);
         unset($vars[RC_Config::get('route.route')]);
+
+        $new_vars = [];
+
+        foreach ($vars as $key => $var) {
+            if (function_exists('remove_xss')) {
+                $key = safe_remove(remove_xss($key));
+                $var = safe_remove(remove_xss($var));
+            } else {
+                $key = safe_remove($key);
+                $var = safe_remove($var);
+            }
+
+            $new_vars[$key] = $var;
+        }
+
+        $vars = $new_vars;
     }
 
 
