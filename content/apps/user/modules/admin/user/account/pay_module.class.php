@@ -21,7 +21,7 @@ class admin_user_account_pay_module extends api_admin implements api_interface
         $payment_id = $this->requestData('payment_id', 0);
 
         if ($account_id <= 0) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         if ($payment_id <= 0) {

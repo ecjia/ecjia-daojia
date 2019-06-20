@@ -55,12 +55,12 @@ class user_neighbors_address_store_api extends Component_Event_Api
     /**
      *
      * @param array $options
-     * @return  array
+     * @return  array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options) || !isset($options['address']) || empty($options['store_id'])) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $store_info = RC_DB::table('store_franchisee')->where('store_id', $options['store_id'])->where('shop_close', '0')->first();

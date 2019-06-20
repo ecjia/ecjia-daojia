@@ -56,7 +56,7 @@ class user_update_user_avatar_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!is_array($options) || !isset($options['avatar_url'])) {
-            return new ecjia_error('invalid_parameter', __('调用update_user_avatar参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $avatar_url = trim($options['avatar_url']);

@@ -76,7 +76,7 @@ class user_get_local_user_api extends Component_Event_Api
         $user_id  = array_get($options, 'user_id');
 
         if (empty($username) && empty($mobile) && empty($email) && empty($user_id)) {
-            return new ecjia_error('invalid_parameter', __('调用接口user_get_local_user_api参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $localUser = new \Ecjia\App\User\LocalUser();

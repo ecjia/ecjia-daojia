@@ -64,7 +64,7 @@ class user_account_switchPayment_module extends api_front implements api_interfa
         $pay_code = $this->requestData('pay_code', '');
 
         if (empty($order_sn) || empty($pay_code)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataByCode($pay_code);

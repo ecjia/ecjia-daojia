@@ -24,7 +24,7 @@ class admin_user_account_deposit_module extends api_admin implements api_interfa
         $user_id    = $this->requestData('user_id', 0);
 
         if (empty($user_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $amount = floatval($amount);

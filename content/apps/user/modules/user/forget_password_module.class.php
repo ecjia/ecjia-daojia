@@ -62,7 +62,7 @@ class user_forget_password_module extends api_front implements api_interface
         $api_version = $this->request->header('api-version');
 
         if (empty($type) || empty($value)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $db = RC_Model::model('user/users_model');
@@ -78,7 +78,7 @@ class user_forget_password_module extends api_front implements api_interface
             if (version_compare($api_version, '1.14', '>=')) {
                 $captcha_code = $this->requestData('captcha_code');
                 if (empty($captcha_code)) {
-                    return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+                    return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
                 }
                 //判断验证码是否正确
                 if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {

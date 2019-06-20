@@ -70,7 +70,7 @@ class payConfirm_module extends api_admin implements api_interface
         $account_id = $this->requestData('account_id');
 
         if (empty($account_id)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         /* 查询充值订单信息 */

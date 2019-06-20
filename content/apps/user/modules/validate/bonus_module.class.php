@@ -74,7 +74,7 @@ class validate_bonus_module extends api_front implements api_interface
         $result = array('error' => '', 'content' => '');
 
         /* 取得购物类型 */
-        $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+        $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
 
         /* 获得收货人信息 */
         $consignee = get_consignee($_SESSION['user_id']);
@@ -114,7 +114,7 @@ class validate_bonus_module extends api_front implements api_interface
                 $result['error'] = sprintf(__('订单商品金额没有达到使用该红包的最低金额 %s', 'user'), price_format($bonus['min_goods_amount'], false));
             }
             /* 团购标志 */
-            if ($flow_type == CART_GROUP_BUY_GOODS) {
+            if ($flow_type == \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS) {
                 $is_group_buy = 1;
             }
 

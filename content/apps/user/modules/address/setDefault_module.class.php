@@ -63,7 +63,7 @@ class address_setDefault_module extends api_front implements api_interface
         }
         $address_id = $this->requestData('address_id', 0);
         if (empty($address_id) || empty($user_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $db_users = RC_Model::model('user/users_model');

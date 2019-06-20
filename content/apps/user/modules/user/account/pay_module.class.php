@@ -66,7 +66,7 @@ class user_account_pay_module extends api_front implements api_interface
         $user_id       = $_SESSION['user_id'];
         $wxpay_open_id = $this->requestData('wxpay_open_id', 0);
         if ($account_id <= 0 || $payment_id <= 0) {
-            return new ecjia_error(101, __('参数错误', 'user'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         //获取单条会员帐目信息

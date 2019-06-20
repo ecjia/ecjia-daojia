@@ -63,7 +63,7 @@ class user_signin_module extends api_front implements api_interface
 
         if (version_compare($api_version, '1.14', '>=')) {
             if (empty($login_type) || !in_array($login_type, $login_type_array) || empty($name) || empty($password)) {
-                return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+                return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
             }
 
             if ($login_type == 'password') {

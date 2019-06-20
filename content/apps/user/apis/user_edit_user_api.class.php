@@ -56,7 +56,7 @@ class user_edit_user_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!is_array($options) || !isset($options['new_password']) || !isset($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $user_info = ecjia_integrate::getProfileById($options['user_id']);

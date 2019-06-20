@@ -63,7 +63,7 @@ class admin_cashier_validate_integral_module extends api_admin implements api_in
         $integral = $this->requestData('integral', 0);
         
         if ($integral <= 0 || empty($user_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $user_info = Ecjia\App\User\UserInfoFunction::user_info($user_id);

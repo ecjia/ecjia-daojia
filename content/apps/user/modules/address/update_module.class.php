@@ -66,7 +66,7 @@ class address_update_module extends api_front implements api_interface
         $address['user_id']    = $user_id;
         $address['address_id'] = $this->requestData('address_id', 0);
         if (empty($address['address_id']) || empty($address['user_id'])) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $address_update_data               = array();

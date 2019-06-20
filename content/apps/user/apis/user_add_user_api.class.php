@@ -87,7 +87,7 @@ class user_add_user_api extends Component_Event_Api
             if (!empty($mobile)) {
                 $username = $mobile;
             } else {
-                return new ecjia_error('invalid_parameter', __('调用接口user_add_user_api参数无效', 'user'));
+                return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
             }
 
         }

@@ -63,7 +63,7 @@ class user_user_account_info_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!is_array($options) || (empty($options['account_id']) && empty($options['order_sn']))) {
-            return new ecjia_error('invalid_parameter', __('调用接口user_account_info_api参数无效！', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $user_account_info = $this->getUserAccountInfo($options);

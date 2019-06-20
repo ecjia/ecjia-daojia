@@ -61,7 +61,7 @@ class user_address_manage_api extends Component_Event_Api
             || !isset($address['consignee'])
             || (!isset($address['mobile']) && !isset($address['tel']))
         ) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         /* 验证参数的合法性*/

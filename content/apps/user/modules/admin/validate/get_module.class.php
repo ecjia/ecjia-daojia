@@ -56,7 +56,7 @@ class admin_validate_get_module extends api_admin implements api_interface
         $type  = $this->requestData('type');
         $value = $this->requestData('value', '');
         if (empty($type) || empty($value)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $code = rand(100001, 999999);

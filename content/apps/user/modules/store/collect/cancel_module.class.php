@@ -62,7 +62,7 @@ class store_collect_cancel_module extends api_front implements api_interface
         }
         $store_id = $this->requestData('store_id', '0');
         if (empty($store_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $info = RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->first();

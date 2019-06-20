@@ -62,7 +62,7 @@ class user_account_activate_apply_module extends api_front implements api_interf
         $smscode = $this->requestData('smscode', '');
         //参数判断
         if (empty($smscode)) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数错误', 'user'), 'user_account_activate_apply_module'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
         $user_id = $_SESSION['user_id'];
         //用户信息

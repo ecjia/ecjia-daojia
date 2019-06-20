@@ -59,7 +59,7 @@ class user_reset_password_module extends api_front implements api_interface
         $value    = $this->requestData('value');
         $password = $this->requestData('password');
         if (empty($type) || empty($value) || empty($password)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $db = RC_Model::model('user/users_model');

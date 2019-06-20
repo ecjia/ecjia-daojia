@@ -11,12 +11,12 @@ class user_user_collect_goods_list_api extends Component_Event_Api
     /**
      * $options['user_id']    用户id（必填）
      * @param  array
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options) || empty($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', __('调用api文件,user_collect_goods_list参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
         return $this->user_collect_goodslist($options);
     }

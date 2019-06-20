@@ -61,7 +61,7 @@ class validate_integral_module extends api_front implements api_interface
         }
         $integral = $this->requestData('integral', 0);
         if (!$integral) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         RC_Loader::load_app_func('admin_order', 'orders');

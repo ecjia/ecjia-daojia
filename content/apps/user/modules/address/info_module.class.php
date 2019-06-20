@@ -63,7 +63,7 @@ class address_info_module extends api_front implements api_interface
         }
         $id = $this->requestData('address_id', 0);
         if (intval($id) < 1 || empty($user_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
         $location  = $this->requestData('location', array());
         $seller_id = $this->requestData('seller_id');

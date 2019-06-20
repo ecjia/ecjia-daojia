@@ -66,7 +66,7 @@ class user_connect_binded_status_module extends api_front implements api_interfa
         $platform_arr = ['wechat', 'qq', 'alipay'];
         
         if (empty($platform) || !in_array($platform, $platform_arr)) {
-        	return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
         
         if ($platform == 'wechat') {

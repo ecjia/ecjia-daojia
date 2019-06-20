@@ -62,7 +62,7 @@ class user_account_record_detail_module extends api_front implements api_interfa
         $user_id    = $_SESSION['user_id'];
 
         if (empty($account_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         $account_info = RC_Api::api('user', 'user_account_info', array('account_id' => intval($account_id)));

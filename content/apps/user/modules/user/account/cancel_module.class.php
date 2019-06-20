@@ -61,7 +61,7 @@ class user_account_cancel_module extends api_front implements api_interface
         $id      = $this->requestData('account_id', 0);
         $user_id = $_SESSION['user_id'];
         if ($id <= 0 || $user_id == 0) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         RC_Loader::load_app_func('admin_user', 'user');

@@ -65,7 +65,7 @@ class user_paypassword_modify_module extends api_front implements api_interface
 
         //判断值是否为空
         if (empty($smscode) || empty($paypassword)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
 
         //密码判断
