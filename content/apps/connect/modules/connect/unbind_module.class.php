@@ -80,7 +80,7 @@ class connect_unbind_module extends api_front implements api_interface {
 // 		}
 		
 		if (empty($connect_code) || empty($smscode) || !in_array($connect_code, $type_arr)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'connect').' connect_unbind_module');
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'connect'), __CLASS__));
 		}
 		
 		$connect_user_info = RC_DB::table('connect_user')->where('connect_code', $connect_code)->where('user_type', 'user')->where('user_id', $user_id)->first();

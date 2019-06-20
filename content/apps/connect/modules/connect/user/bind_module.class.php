@@ -60,7 +60,7 @@ class connect_user_bind_module extends api_front implements api_interface {
 		$user_id 		= $_SESSION['user_id'];
 		
 		if (empty($open_id) || empty($connect_code)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'connect'), __CLASS__));
 		}
 
 		$connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);

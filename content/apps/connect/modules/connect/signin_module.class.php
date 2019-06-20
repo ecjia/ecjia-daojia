@@ -67,7 +67,7 @@ class connect_signin_module extends api_front implements api_interface
         }
 
         if (empty($open_id) || empty($connect_code) || empty($profile)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'connect'), __CLASS__));
         }
 
         /**

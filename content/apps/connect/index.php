@@ -46,15 +46,18 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class index extends ecjia_front {
+class index extends ecjia_front
+{
     /**
      * 构造函数
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
     
-    public function init() {
+    public function init()
+    {
         $connect_code = $this->request->query('connect_code');
         if (empty($connect_code)) {
             $link[] = array(
