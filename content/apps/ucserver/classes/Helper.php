@@ -98,7 +98,7 @@ class Helper
             $_SERVER['HTTP_USER_AGENT'].
             time());
         $return = array();
-        for($i = 0; $i < 32; $i++) {
+        for ($i = 0; $i < 32; $i++) {
             $return[$i] = $random[$i] . $info[$i];
         }
         return implode('', $return);
@@ -144,7 +144,7 @@ class Helper
         // 动态密匙长度，相同的明文会生成不同密文就是依靠动态密匙
         $ckey_length = 4;
         // 密匙
-        $key = md5($key);
+        $key = md5($key ? $key : UC_MYKEY);
         // 密匙a会参与加解密
         $keya = md5(substr($key, 0, 16));
         // 密匙b会用来做数据完整性验证

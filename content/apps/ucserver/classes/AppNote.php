@@ -44,7 +44,7 @@ class AppNote
         
         $action = $this->operations[$operation][1];
         $content = sprintf("%s&%stime=%s", $action, ($getdata ? "$getdata&" : ''), SYS_TIME);
-        $code = urlencode(Helper::authcode($content, 'ENCODE', $authkey));
+        $code = urlencode(AuthCode::encode($content, $authkey));
         
         if ($app['type'] == 'ECJIA') {
             $url = $url."/sites/uc";

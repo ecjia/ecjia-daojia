@@ -90,7 +90,11 @@ class server_user_register_module extends ApiBase implements ApiHandler
         //注册成功
         if ($uid > 0) {
             $ucenterOpenidsModel = new Ecjia\App\Ucserver\Models\UcenterOpenidsModel();
-            $ucenterOpenidsModel->createOpenId($this->app['appid'], $uid, $username);
+            if ($ucenterOpenidsModel->hasOpenId($this->app['appid'], $uid)) {
+                $ucenterOpenidsModel->updateLoginTimes($this->app['appid'], $uid);
+            } else {
+                $ucenterOpenidsModel->createOpenId($this->app['appid'], $uid, $username);
+            }
         }
 
         return $uid;
@@ -114,7 +118,13 @@ class server_user_register_module extends ApiBase implements ApiHandler
 
         //username是手机号，必须是
         if ( ($status = $checkUser->checkMobile($username) ) < 0) {
-            return $status;
+            if ($status === ApiBase::UC_USER_MOBILE_EXISTS) {
+                $userModel = new Ecjia\App\Ucserver\Models\UserModel();
+                $user = $userModel->getUserByMobile($username);
+                return $user['user_id'];
+            } else {
+                return $status;
+            }
         }
 
         //允许email为空，不填写

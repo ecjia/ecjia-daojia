@@ -2,6 +2,7 @@
 
 namespace Ecjia\App\Ucserver\Server;
 
+use Ecjia\App\Ucserver\AuthCode;
 use Ecjia\App\Ucserver\Repositories\ApplicationRepository;
 use RC_Ip;
 use Ecjia\App\Ucserver\Helper;
@@ -95,7 +96,7 @@ class ApiBase
     {
         $input = $this->request->input('input');
         if ($input) {
-            $input = Helper::authcode($input, 'DECODE', $this->authkey);
+            $input = AuthCode::decode($input, $this->authkey);
             if (empty($input)) {
                 exit('Access denied for authcode DECODE failed');
             }

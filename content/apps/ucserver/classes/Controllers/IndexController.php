@@ -3,14 +3,14 @@
 namespace Ecjia\App\Ucserver\Controllers;
 
 use Ecjia\App\Ucserver\Server\ApiManager;
-use Royalcms\Component\Routing\Controller as RoyalcmsController;
+use Ecjia\System\BaseController\BasicController;
 
-class IndexController extends RoyalcmsController
+class IndexController extends BasicController
 {
 
     public function __construct()
     {
-
+        parent::__construct();
     }
 
     

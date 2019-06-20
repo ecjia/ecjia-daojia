@@ -14,7 +14,8 @@ class UcserverServiceProvider extends  AppParentServiceProvider
     
     public function register()
     {
-        
+        $ucmykey = Helper::generateAuthKey();
+        define('UC_MYKEY', $ucmykey);
     }
     
     

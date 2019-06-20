@@ -46,6 +46,7 @@
 //
 namespace Ecjia\App\Ucserver\Repositories;
 
+use Ecjia\App\Ucserver\AuthCode;
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
 use Ecjia\App\Ucserver\Helper;
 use RC_Cache;
@@ -63,7 +64,7 @@ class ApplicationRepository extends AbstractRepository
 	    $data = $this->findWhere($where, $columns);
 	    foreach($data as $k => $v) {
 	        isset($v['extra']) && !empty($v['extra']) && $v['extra'] = unserialize($v['extra']);
-	        $tmp = Helper::authcode($v['authkey'], 'DECODE', UC_MYKEY);
+	        $tmp = AuthCode::decode($v['authkey'], UC_MYKEY);
 	        if ($tmp) {
 	            $v['authkey'] = $tmp;
 	        }
@@ -77,15 +78,16 @@ class ApplicationRepository extends AbstractRepository
 	 * 获取应用信息
 	 * @param number $appid
 	 * @param string $includecert
-	 * @return unknown
+	 * @return array|null
 	 */
-	public function getApp($appid) {
+	public function getApp($appid)
+    {
 	    $appid = intval($appid);
 	    $data = $this->find($appid);
 	    if ($data) {
 	        $data['extra'] = unserialize($data['extra']);
 	         
-	        $tmp = Helper::authcode($data['authkey'], 'DECODE', UC_MYKEY);
+	        $tmp = AuthCode::decod($data['authkey'], UC_MYKEY);
 	        if ($tmp) {
 	            $data['authkey'] = $tmp;
 	        }
