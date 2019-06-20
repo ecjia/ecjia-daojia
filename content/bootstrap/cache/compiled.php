@@ -25008,23 +25008,6 @@ class CronServiceProvider extends ServiceProvider
 }
 }
 
-namespace Royalcms\Component\Shoppingcart {
-use Royalcms\Component\Support\ServiceProvider;
-class ShoppingcartServiceProvider extends ServiceProvider
-{
-    public function boot()
-    {
-        $this->package('royalcms/shoppingcart');
-    }
-    public function register()
-    {
-        $this->royalcms->bind('cart', function ($royalcms) {
-            return new Cart();
-        });
-    }
-}
-}
-
 namespace Royalcms\Component\Printer {
 use Royalcms\Component\Support\ServiceProvider;
 class PrinterServiceProvider extends ServiceProvider
@@ -26658,7 +26641,10 @@ abstract class BundleAbstract implements JsonSerializable
             $controller_classname = 'MY_' . $controller;
             include_once $my_controller;
         }
-        return $controller_classname;
+        if (class_exists($controller_classname)) {
+            return $controller_classname;
+        }
+        return RC_Error::make('controller_does_not_exist', "Controller class {$controller_classname} does not exist.");
     }
     protected function appPackage($markup = true, $translate = true)
     {
@@ -26774,6 +26760,7 @@ interface BundlePackage
 namespace Royalcms\Component\App {
 use Royalcms\Component\DefaultRoute\HttpQueryRoute;
 use RC_Hook;
+use Royalcms\Component\Error\Error;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
@@ -26798,31 +26785,41 @@ class AppControllerDispatcher
         $controller = $this->makeController();
         if ($controller instanceof RoyalcmsResponse) {
             return $controller;
-        } elseif (is_rc_error($controller)) {
-            if (RC_Hook::has_action('royalcms_default_controller')) {
-                RC_Hook::do_action('royalcms_default_controller', $this->routePath);
-            }
         }
-        try {
-            if (RC_Hook::has_action($this->routePath)) {
-                RC_Hook::do_action($this->routePath);
-                return royalcms('response');
-            } else {
-                $response = $this->route->runControllerAction($controller, $this->route->getAction());
-                if ($response instanceof RoyalcmsResponse) {
-                    if (!is_null($response->getOriginalContent())) {
-                        return $response;
+        if (is_rc_error($controller)) {
+            return $this->handlerNotFoundController($controller);
+        } else {
+            try {
+                if (RC_Hook::has_action($this->routePath)) {
+                    if (RC_Hook::has_filter('royalcms_handler_controller')) {
+                        $controller = RC_Hook::apply_filters('royalcms_handler_controller', $controller, $this->route);
                     }
-                }
-                if (!is_null($response)) {
+                    RC_Hook::do_action($this->routePath, new $controller());
+                    return royalcms('response');
+                } else {
+                    $response = $this->route->runControllerAction($controller, $this->route->getAction());
+                    if (is_null($response)) {
+                        return royalcms('response');
+                    }
                     return $response;
                 }
-                return royalcms('response');
+            } catch (NotFoundHttpException $e) {
+                abort(403, $e->getMessage());
+            } catch (AccessDeniedHttpException $e) {
+                abort(401, $e->getMessage());
             }
-        } catch (NotFoundHttpException $e) {
-            abort(403, $e->getMessage());
-        } catch (AccessDeniedHttpException $e) {
-            abort(401, $e->getMessage());
+        }
+    }
+    protected function handlerNotFoundController(Error $error)
+    {
+        if (RC_Hook::has_action('royalcms_default_controller')) {
+            RC_Hook::do_action('royalcms_default_controller', $this->routePath);
+        }
+        if (RC_Hook::has_action($this->routePath)) {
+            RC_Hook::do_action($this->routePath);
+            return royalcms('response');
+        } else {
+            abort(403, $error->get_error_message());
         }
     }
     protected function makeController()
@@ -26836,17 +26833,6 @@ class AppControllerDispatcher
             return $controller;
         } catch (InvalidArgumentException $e) {
             abort(403, $e->getMessage());
-        }
-    }
-    protected function before($instance, $route, $request, $method)
-    {
-        foreach ($instance->getBeforeFilters() as $filter) {
-            if ($this->filterApplies($filter, $request, $method)) {
-                $response = $this->callFilter($filter, $route, $request);
-                if (!is_null($response)) {
-                    return $response;
-                }
-            }
         }
     }
     protected function call($instance, $route, $method)
@@ -42792,7 +42778,7 @@ class ecjia_screen
         }
         return $admin == $this->in_admin;
     }
-    function set_parentage($parent_base, $parent_file)
+    function set_parentage($parent_base, $parent_file = null)
     {
         $this->parent_file = $parent_file;
         $this->parent_base = $parent_base;
