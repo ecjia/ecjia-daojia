@@ -60,7 +60,7 @@ class admin_shopkeeper_crowdsource_express_remind_module extends api_admin imple
 		
         $express_id = $this->requestData('express_id', 0);
         if (empty($express_id)) {
-        	return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'express'), __CLASS__));
         }
         
 		RC_Loader::load_app_class('express_order', 'express', false);

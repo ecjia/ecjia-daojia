@@ -77,7 +77,7 @@ class admin_shopkeeper_express_task_module extends api_admin implements api_inte
 		$page     = $this->requestData('pagination.page', 1);
 		
 		if (empty($express_type)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'express'), __CLASS__));
 		}
 		
 		$dbview = RC_DB::table('express_order as eo')

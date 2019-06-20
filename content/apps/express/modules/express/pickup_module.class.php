@@ -63,7 +63,7 @@ class express_pickup_module extends api_admin implements api_interface {
         $delivery_sn = $this->requestData('delivery_sn');
         
 		if (empty($delivery_sn)) {
-    		return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'express'), __CLASS__));
     	}
     	$express_order         = array();
     	//$express_order_db      = RC_Model::model('express/express_order_viewmodel');

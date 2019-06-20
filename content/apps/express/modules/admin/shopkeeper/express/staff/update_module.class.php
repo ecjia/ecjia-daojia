@@ -70,7 +70,7 @@ class admin_shopkeeper_express_staff_update_module extends api_admin implements 
         $remark 	= $this->requestData('remark', '');
         
 		if (empty($staff_id)) {
-    		return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'express'), __CLASS__));
     	}
     	
     	//配送员信息

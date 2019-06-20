@@ -67,7 +67,7 @@ class admin_shopkeeper_express_staff_online_module extends api_admin implements 
 		$keywords = $this->requestData('keywords');
 		
 		if (empty($express_id)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'express'), __CLASS__));
 		}
 		
 		$db = RC_DB::table('staff_user')->leftJoin('express_user', 'staff_user.user_id', '=', 'express_user.user_id');
