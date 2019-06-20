@@ -74,7 +74,7 @@ class market_shake_module extends api_front implements api_interface {
 		/*经纬度为空判断*/
 		$options = array();
 		if ((!is_array($location) || empty($location['longitude']) || empty($location['latitude']))) {
-			return new ecjia_error('invalid_parameter', __('参数无效'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'market'), __CLASS__));
 		}
 		
 		/*
