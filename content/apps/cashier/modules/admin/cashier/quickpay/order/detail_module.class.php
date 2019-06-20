@@ -61,7 +61,7 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
     	RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
 		$order_id = $this->requestData('order_id', 0);
 		if (empty($order_id)) {
-			return new ecjia_error('invalid_parameter', __('参数无效！', 'cashier'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
 		}
 		
 		$options = array('order_id' => $order_id, 'store_id' => $_SESSION['store_id']);

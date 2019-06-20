@@ -16,7 +16,7 @@ class admin_cashier_pendorder_delete_module extends api_admin implements api_int
 	    $pendorder_id = $this->requestData('pendorder_id', 0);
 	   
 	    if (empty($pendorder_id)) {
-	        return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
 	    }
 	    
 	   	$pendorder_info = RC_DB::table('cashier_pendorder')->where('pendorder_id', $pendorder_id)->first();

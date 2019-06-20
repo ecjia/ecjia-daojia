@@ -22,7 +22,7 @@ class admin_cashier_pendorder_list_module  extends api_admin implements api_inte
         RC_Loader::load_app_func('cart', 'cart');
         
 		recalculate_price($device);
-		$flow_type = CART_CASHDESK_GOODS;
+		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS;
 		
 		$db = RC_DB::table('cashier_pendorder');
 		//当前收银员的挂单列表

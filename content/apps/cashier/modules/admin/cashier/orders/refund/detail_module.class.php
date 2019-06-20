@@ -58,7 +58,7 @@ class admin_cashier_orders_refund_detail_module extends api_admin implements api
         }
 		$refund_sn	= trim($this->requestData('refund_sn', ''));
     	if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'cashier'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
 		}
 		
 		RC_Loader::load_app_class('order_refund', 'refund', false);

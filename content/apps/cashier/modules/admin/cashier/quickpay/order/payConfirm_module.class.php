@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author zrl
  *
  */
-class payConfirm_module extends api_admin implements api_interface
+class admin_cashier_quickpay_order_payConfirm_module extends api_admin implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {	
@@ -69,7 +69,7 @@ class payConfirm_module extends api_admin implements api_interface
 		$order_id = $this->requestData('order_id');
 		
 		if (empty($order_id)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
 		}
 		
 		/*买单订单信息 */

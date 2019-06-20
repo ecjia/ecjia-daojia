@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 收银台收款订单记录（买单订单表）
  * @author zrl
  */
-class list_module extends api_admin implements api_interface {
+class admin_cashier_quickpay_order_list_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     
     	$this->authadminSession();

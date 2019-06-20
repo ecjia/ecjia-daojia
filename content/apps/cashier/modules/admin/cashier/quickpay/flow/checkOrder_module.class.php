@@ -76,7 +76,7 @@ class admin_cashier_quickpay_flow_checkOrder_module extends api_admin implements
 		}
 		
 		if (empty($store_id) || $goods_amount <= 0) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'cashier'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
 		}
 		
 		//店铺有没锁定

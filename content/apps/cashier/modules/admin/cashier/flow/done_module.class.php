@@ -85,7 +85,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         $rec_id = empty($rec_id) ? $_SESSION['cart_id'] : $rec_id;
 		$cart_id = empty($rec_id) ? array() : explode(',', $rec_id);
 		
-		$flow_type = CART_CASHDESK_GOODS;
+		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS;
 		
 		$pendorder_id = $this->requestData('pendorder_id', '0'); //挂单id
 		if (!empty($pendorder_id)) {
@@ -244,7 +244,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         }
         
         /* 订单中的总额 */
-        $total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, $consignee, $cart_ids, CART_CASHDESK_GOODS, $pendorder_id, $_SESSION['store_id']);
+        $total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, $consignee, $cart_ids, \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS, $pendorder_id, $_SESSION['store_id']);
         
         $order['bonus']			= $total['bonus'];
         $order['goods_amount']	= $total['goods_price'];

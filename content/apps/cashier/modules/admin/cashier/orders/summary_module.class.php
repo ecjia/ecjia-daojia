@@ -30,7 +30,7 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
         }
         
         if (empty($start_date) || empty($end_date)) {
-        	return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
         }
         
         $device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);

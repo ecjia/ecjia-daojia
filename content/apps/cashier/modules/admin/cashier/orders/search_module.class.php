@@ -24,7 +24,7 @@ class admin_cashier_orders_search_module  extends api_admin implements api_inter
         }
         
         if (empty($type) || empty($value) || !in_array($type, $type_arr)) {
-        	return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
         }
        
         //按订单号搜索

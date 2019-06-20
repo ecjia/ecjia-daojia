@@ -78,7 +78,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 		$pendorder_id   = $this->requestData('pendorder_id', '0');	//挂单id
 		
 		/*收银台商品购物车类型*/
-		$flow_type = CART_CASHDESK_GOODS;
+		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS;
 		
 		if (!empty($pendorder_id) && empty($user['user_id'])) {
 			$user_id = RC_DB::table('cart')->where('pendorder_id', $pendorder_id)->lists('user_id');
@@ -135,7 +135,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 		/* 取得订单信息*/
 		$order = cart_cashdesk::flow_order_info();
 		/* 计算订单的费用 */
-		$total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods,  array(), $cart_ids, CART_CASHDESK_GOODS, $pendorder_id, $_SESSION['store_id']);
+		$total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods,  array(), $cart_ids, \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS, $pendorder_id, $_SESSION['store_id']);
 		
 		$out = array();
 		$out['user_info'] = array();
@@ -164,7 +164,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 		}
 		
 		if ((ecjia::config('use_integral') == '1') && $_SESSION['user_id'] > 0 && $user_info['pay_points'] > 0
-		&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
+		&& ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS && $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS))
 		{
 			// 能使用积分
 			$allow_use_integral = 1;
@@ -179,7 +179,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 		/* 如果使用红包，取得用户可以使用的红包及用户选择的红包 */
 		$allow_use_bonus = 0;
 		$bonus_list = [];
-		if ((ecjia::config('use_bonus') == '1') && ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS)){
+		if ((ecjia::config('use_bonus') == '1') && ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS && $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS)){
 			// 取得用户可用红包
 			$user_bonus = user_bonus($_SESSION['user_id'], $total['goods_price'], array(), $_SESSION['store_id']);
 			$bonus_list = $this->user_bonus_data_handle($user_bonus);
@@ -257,7 +257,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 					$dbcart_updateuser->where('user_id', 0);
 				}
 				
-				$dbcart_updateuser->where('store_id', $store_id)->where('rec_type', CART_CASHDESK_GOODS)->update(array('user_id' => $user_id));
+				$dbcart_updateuser->where('store_id', $store_id)->where('rec_type', \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS)->update(array('user_id' => $user_id));
 		
 				$user_info = user_info($user_id);
 		
@@ -291,8 +291,12 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 	/**
 	 * 有添加商品货号
 	 */
-	private function _processAddgoods($addgoods = array(), $store_id = 0, $pendorder_id = 0, $flow_type = CART_CASHDESK_GOODS)
+	private function _processAddgoods($addgoods = array(), $store_id = 0, $pendorder_id = 0, $flow_type = null)
 	{
+        if (is_null($flow_type)) {
+            $flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS;
+        }
+
 		$goods_spec = array();
 			
 		//商品区分

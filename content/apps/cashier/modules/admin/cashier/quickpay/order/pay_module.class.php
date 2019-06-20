@@ -69,7 +69,7 @@ class admin_cashier_quickpay_order_pay_module extends api_admin implements api_i
 		}
 		
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', __('参数无效！', 'cashier'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
 		}
 		
 		/* 订单详情 */

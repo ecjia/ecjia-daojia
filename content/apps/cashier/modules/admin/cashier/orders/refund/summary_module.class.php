@@ -30,7 +30,7 @@ class admin_cashier_orders_refund_summary_module  extends api_admin implements a
         }
         
         if (empty($start_date) || empty($end_date)) {
-        	return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
         }
        
         $field = 'count(ro.refund_id) as count,

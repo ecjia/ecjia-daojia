@@ -480,7 +480,7 @@ class mh_cashier_goods extends ecjia_merchant {
 	
 		/* 处理优惠价格 */
 		if (isset($_POST['volume_number']) && isset($_POST['volume_price'])) {
-			$temp_num = array_count_values(remove_xss($_POST['volume_number']));
+			$temp_num = array_count_values($_POST['volume_number']);
 			foreach ($temp_num as $v) {
 				if ($v > 1) {
 					return $this->showmessage(__('优惠数量重复！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -695,7 +695,7 @@ class mh_cashier_goods extends ecjia_merchant {
 
 		/* 处理优惠价格 */
 		if (isset($_POST['volume_number']) && isset($_POST['volume_price'])) {
-			$temp_num = array_count_values(remove_xss($_POST['volume_number']));
+			$temp_num = array_count_values($_POST['volume_number']);
 			foreach ($temp_num as $v) {
 				if ($v > 1) {
 					return $this->showmessage(__('优惠数量重复！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

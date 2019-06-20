@@ -72,7 +72,7 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
 		$refund_content = $auto_refuse['0']['reason_name'];
 		
 		if (empty($order_id) || empty($refund_way) || !in_array($refund_way, $refund_way_arr)) {
-			return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cashier'), __CLASS__));
 		}
 		
 		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'store_id' => $_SESSION['store_id'], 'referer' => 'ecjia-cashdesk'));
