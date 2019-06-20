@@ -173,6 +173,16 @@ class quickpay_activity {
 	}
 	
 	/**
+	 * 计算积分的价值（能抵多少钱）
+	 * @param   int	 $integral   积分
+	 * @return  float   积分价值
+	 */
+	public static function value_of_integral($value) {
+		$scale = floatval(ecjia::config('integral_scale'));
+		return $scale > 0 ? round($value / $scale * 100) : 0;
+	}
+	
+	/**
 	 * 买单活动折扣
 	 */
 	public static function get_quickpay_discount($options){

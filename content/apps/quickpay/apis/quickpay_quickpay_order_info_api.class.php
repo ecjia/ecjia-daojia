@@ -54,12 +54,12 @@ class quickpay_quickpay_order_info_api extends Component_Event_Api {
 	
     /**
      * @param  array $options	条件参数
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		if (!is_array($options)
 		|| (!isset($options['order_id']) && !isset($options['order_sn']))) {
-			return new ecjia_error('invalid_parameter', __('调取api文件，quickpay_order_info，参数错误', 'quickpay'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'quickpay'), __CLASS__));
 		}
 		
 		return $this->order_info($options);

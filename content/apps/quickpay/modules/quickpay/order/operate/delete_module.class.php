@@ -64,7 +64,7 @@ class quickpay_order_operate_delete_module extends api_front implements api_inte
 		$order_id		= $this->requestData('order_id', 0);
 		
 		if ( $order_id <= 0) {
-			return new ecjia_error('invalid_parameter', '参数错误！');
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'quickpay'), __CLASS__));
 		}
 	
 		$options = array('order_id' => $order_id);

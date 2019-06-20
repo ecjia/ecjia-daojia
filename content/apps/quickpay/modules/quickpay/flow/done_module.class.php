@@ -86,7 +86,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     	}
     	
 		if (empty($goods_amount) || empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效', 'quickpay'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'quickpay'), __CLASS__));
 		}
 		$goods_amount = sprintf("%.2f", $goods_amount);
     	/*商家买单功能是否开启*/
@@ -102,9 +102,13 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 				'surplus'   		=> $this->requestData('surplus', 0.00),
 				'integral'     		=> $integral,
 				'bonus_id'     		=> $bonus_id,
+				'bonus'				=> 0,
+				'integral_money'	=> 0,
+				'discount'			=> 0,
 				'user_id'      		=> $_SESSION['user_id'],
 				'add_time'     		=> RC_Time::gmtime(),
 				'order_status'  	=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::UNCONFIRMED,
+				'order_amount'		=> $goods_amount, 
 		);
 
 		if (!empty($activity_id) && $activity_id > 0) {
@@ -143,9 +147,19 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 				} else{
 					$order['bonus_id'] = $bonus_id;
 					$order['bonus'] = $bonus_info['type_money'];
+					//使用红包金额不可超过订单金额
+					if ($order['order_amount'] >= $bonus_info['type_money']) {
+						$order['order_amount'] -= $bonus_info['type_money'];
+					} else {
+						$order['bonus'] = $order['order_amount'];
+						$order['order_amount'] -= $order['bonus'];
+					}
 				}
 					
 			}
+			
+			/*活动可优惠金额获取*/
+			$discount = quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
 			
 			if ($integral > 0) {
 				/*会员可用积分数*/
@@ -154,10 +168,16 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 					return new ecjia_error('integral_error', '使用积分不可超过会员总积分数！');
 				}
 				$order['integral_money'] = quickpay_activity::integral_of_value($integral);
+				//使用积分抵扣金额不可超过订单金额
+				if ($order['order_amount'] >= $order['integral_money']) {
+					$order['order_amount'] -= $order['integral_money'];
+				} else {
+					$order['integral_money'] = $order['order_amount'];
+					$order['integral']		 = quickpay_activity::value_of_integral($order['integral_money']);
+					$order['order_amount'] -= $order['integral_money'];
+				}
 			}
 			
-			/*活动可优惠金额获取*/
-			$discount = quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
 			
 			/*自定义时间限制处理，当前时间不可用时，订单可正常提交,只是优惠金额是0；红包和积分也为0*/
 			if ($quickpay_activity_info['limit_time_type'] == 'customize') {
@@ -181,7 +201,14 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 		
 		/*活动可优惠金额处理*/
 		$order['discount'] = sprintf("%.2f", $discount);
-		$formated_discount = price_format($order['discount'], false);
+		if ($order['order_amount'] >= $order['discount']) {
+			$order['order_amount'] -= $order['discount'];
+		} else {
+			$order['discount'] = $order['order_amount'];
+			$order['order_amount'] -= $order['discount'];
+		}
+		
+		$formated_discount = ecjia_price_format($order['discount'], false);
 		
 		$order['store_id'] = $store_id;
 		/*订单编号*/
@@ -205,7 +232,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 		$order['referer'] = ! empty($device['device']['client']) ? $device['device']['client'] : 'mobile';
 		
     	/*实付金额*/
-		$order['order_amount'] = $goods_amount - ($discount + $order['integral_money'] + $order['bonus']);
+		//$order['order_amount'] = $goods_amount - ($discount + $order['integral_money'] + $order['bonus']);
     	
     	$order['order_amount'] = number_format($order['order_amount'], 2, '.', '');
     	/*插入订单数据*/

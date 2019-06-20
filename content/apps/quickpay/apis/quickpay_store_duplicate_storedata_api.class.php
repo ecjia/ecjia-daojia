@@ -61,14 +61,12 @@ class quickpay_store_duplicate_storedata_api extends Component_Event_Api
         $source_store_id = array_get($options, 'source_store_id');
 
         if (empty($store_id) || empty($source_store_id)) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'quickpay'), __CLASS__));
         }
 
         return [
-
             //quickpay
             new \Ecjia\App\Quickpay\StoreDuplicateHandlers\StoreQuickPayDuplicate($store_id, $source_store_id),
-
         ];
     }
 

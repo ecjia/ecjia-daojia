@@ -60,7 +60,7 @@ class list_module extends api_admin implements api_interface {
     	
 		$store_id	 = $_SESSION['store_id'];
 		if ($store_id <= 0) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'quickpay'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'quickpay'), __CLASS__));
 		}
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);
