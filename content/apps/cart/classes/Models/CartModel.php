@@ -87,34 +87,69 @@ class CartModel extends Model
 	    'pendorder_id',
 	    'add_time'
     ];
-	
-	/**
+
+    /**
 	 * 该模型是否被自动维护时间戳
 	 *
 	 * @var bool
 	 */
 	public $timestamps = false;
 
-
+    /**
+     * @return \Royalcms\Component\Database\Eloquent\Relations\BelongsTo
+     * @deprecated 1.33.0
+     */
     public function goods()
+    {
+        return $this->belongsTo('Ecjia\App\Cart\Models\GoodsModel', 'goods_id', 'goods_id');
+    }
+
+    /**
+     * 获取对应的商品信息
+     * 一对一
+     * @return \Royalcms\Component\Database\Eloquent\Relations\BelongsTo
+     */
+    public function goods_model()
     {
         return $this->belongsTo('Ecjia\App\Cart\Models\GoodsModel', 'goods_id', 'goods_id');
     }
 	
     /**
      * 获取购物车店铺信息
+     * @deprecated 1.33.0
      */
     public function store_franchisee()
     {
     	return $this->belongsTo('Ecjia\App\Cart\Models\StoreFranchiseeModel', 'store_id', 'store_id');
     }
+
+    /**
+     * 获取购物车店铺信息
+     * 一对一
+     * @return \Royalcms\Component\Database\Eloquent\Relations\BelongsTo
+     */
+    public function store_franchisee_model()
+    {
+        return $this->belongsTo('Ecjia\App\Cart\Models\StoreFranchiseeModel', 'store_id', 'store_id');
+    }
     
     /**
      * 获取购物车对应货品信息
+     * @deprecated 1.33.0
      */
     public function products()
     {
     	return $this->belongsTo('Ecjia\App\Cart\Models\ProductsModel', 'product_id', 'product_id');
+    }
+
+    /**
+     * 获取购物车对应货品信息
+     * 一对一
+     * @return \Royalcms\Component\Database\Eloquent\Relations\BelongsTo
+     */
+    public function products_model()
+    {
+        return $this->belongsTo('Ecjia\App\Cart\Models\ProductsModel', 'product_id', 'product_id');
     }
 
 }

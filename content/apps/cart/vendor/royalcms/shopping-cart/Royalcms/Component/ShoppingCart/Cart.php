@@ -1,16 +1,16 @@
 <?php
 
-namespace Royalcms\Component\Shoppingcart;
+namespace Royalcms\Component\ShoppingCart;
 
 use Closure;
 use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Session\SessionManager;
 use Royalcms\Component\Database\DatabaseManager;
 use Royalcms\Component\Contracts\Events\Dispatcher;
-use Royalcms\Component\Shoppingcart\Contracts\Buyable;
-use Royalcms\Component\Shoppingcart\Exceptions\UnknownModelException;
-use Royalcms\Component\Shoppingcart\Exceptions\InvalidRowIDException;
-use Royalcms\Component\Shoppingcart\Exceptions\CartAlreadyStoredException;
+use Royalcms\Component\ShoppingCart\Contracts\Buyable;
+use Royalcms\Component\ShoppingCart\Exceptions\UnknownModelException;
+use Royalcms\Component\ShoppingCart\Exceptions\InvalidRowIDException;
+use Royalcms\Component\ShoppingCart\Exceptions\CartAlreadyStoredException;
 
 class Cart
 {

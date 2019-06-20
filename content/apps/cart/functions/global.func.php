@@ -196,7 +196,7 @@ function cart_favourable() {
 	$db_cart = RC_Loader::load_app_model('cart_model','cart');
     $list = array();
 
-    $data = $db_cart->field('is_gift, COUNT(*) AS num')->where('session_id = "' . SESS_ID . '" AND rec_type = ' . CART_GENERAL_GOODS . ' AND is_gift > 0')->group('is_gift asc')->select();
+    $data = $db_cart->field('is_gift, COUNT(*) AS num')->where('session_id = "' . SESS_ID . '" AND rec_type = ' . \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS . ' AND is_gift > 0')->group('is_gift asc')->select();
     
     if(!empty($data))
     {
@@ -250,7 +250,7 @@ function add_gift_to_cart($act_id, $id, $price) {
 		'extension_code' => $row['extension_code'],
 		'parent_id' => 0,
 		'is_gift' => $act_id,
-		'rec_type' => CART_GENERAL_GOODS,
+		'rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS,
 	);
 
 	$db_cart->insert($data);
@@ -278,7 +278,7 @@ function add_favourable_to_cart($act_id, $act_name, $amount) {
 		'extension_code' => '',
 		'parent_id' => 0,
 		'is_gift' => $act_id,
-		'rec_type' => CART_GENERAL_GOODS
+		'rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS
 	);
 	$db_cart->insert($data);	
 }
@@ -299,7 +299,7 @@ function cart_favourable_amount($favourable) {
     	)
     );
     $where = array(
-    	'c.rec_type' => CART_GENERAL_GOODS,
+    	'c.rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS,
     	'c.is_gift' => 0,
     	'c.goods_id' => array('gt' => 0),
     );

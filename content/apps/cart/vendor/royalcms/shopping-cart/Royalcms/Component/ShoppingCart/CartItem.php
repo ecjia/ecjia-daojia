@@ -1,10 +1,10 @@
 <?php
 
-namespace Royalcms\Component\Shoppingcart;
+namespace Royalcms\Component\ShoppingCart;
 
 use Royalcms\Component\Contracts\Support\Arrayable;
-use Royalcms\Component\Shoppingcart\Contracts\Buyable;
 use Royalcms\Component\Contracts\Support\Jsonable;
+use Royalcms\Component\ShoppingCart\Contracts\Buyable;
 
 class CartItem implements Arrayable, Jsonable
 {

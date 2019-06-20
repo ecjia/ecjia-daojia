@@ -106,7 +106,10 @@ class cart_goods_stock {
 	 * @access  private
 	 * @return  integral
 	 */
-	public static function flow_available_points($cart_id = array(), $rec_type = CART_GENERAL_GOODS, $user_id = 0) {
+	public static function flow_available_points($cart_id = array(), $rec_type = null, $user_id = 0) {
+        if (is_null($rec_type)) {
+            $rec_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
 		
 		$db_view = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
 		$db_view->where(RC_DB::raw('c.user_id'), $user_id)->where(RC_DB::raw('c.is_gift'), 0)->where(RC_DB::raw('g.integral'), '>', 0)->where(RC_DB::raw('c.rec_type'), $rec_type);

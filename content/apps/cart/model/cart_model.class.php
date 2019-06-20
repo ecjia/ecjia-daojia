@@ -57,7 +57,11 @@ class cart_model extends Component_Model_Model {
 	 * 清空购物车
 	 * @param   int	 $type   类型：默认普通商品
 	 */
-	public function clear_cart($type = CART_GENERAL_GOODS, $cart_id = array()) {
+	public function clear_cart($type = null, $cart_id = array()) {
+        if (is_null($type)) {
+            $type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
+
 		$where = array('rec_type' => $type, 'user_id' => $_SESSION['user_id']);
 		if (!empty($cart_id)) {
 			$where['rec_id'] =  $cart_id;

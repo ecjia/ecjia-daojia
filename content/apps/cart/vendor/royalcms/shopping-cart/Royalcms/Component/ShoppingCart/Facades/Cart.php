@@ -1,5 +1,5 @@
 <?php
-namespace Royalcms\Component\Shoppingcart\Facades;
+namespace Royalcms\Component\ShoppingCart\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 

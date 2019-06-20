@@ -56,7 +56,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @param   bool    $is_gb_deposit  是否团购保证金（如果是，应付款金额只计算商品总额和支付费用，可以获得的积分取 $gift_integral）
  * @return  array
  */
-function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = array(), $rec_type = CART_GENERAL_GOODS) {
+function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = array(), $rec_type = null) {
+    if (is_null($rec_type)) {
+        $rec_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+    }
 	
     RC_Loader::load_app_func('global','goods');
     RC_Loader::load_app_func('cart','cart');
@@ -259,7 +262,7 @@ function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = arr
     $se_flow_type = isset($_SESSION['flow_type']) ? $_SESSION['flow_type'] : '';
 
     /* 支付费用 */
-    if (!empty($order['pay_id']) && ($total['real_goods_count'] > 0 || $se_flow_type != CART_EXCHANGE_GOODS)) {
+    if (!empty($order['pay_id']) && ($total['real_goods_count'] > 0 || $se_flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS)) {
         $total['pay_fee']      	= pay_fee($order['pay_id'], $total['amount'], $shipping_cod_fee);
     }
     $total['pay_fee_formated'] 	= price_format($total['pay_fee'], false);
@@ -282,9 +285,9 @@ function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = arr
 
     if ($order['extension_code'] == 'exchange_goods') {
         if ($_SESSION['user_id']) {
-            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.user_id' => $_SESSION['user_id'] , 'c.rec_type' => CART_EXCHANGE_GOODS , 'c.is_gift' => 0 ,'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
+            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.user_id' => $_SESSION['user_id'] , 'c.rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS , 'c.is_gift' => 0 ,'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
         } else {
-            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.session_id' => SESS_ID , 'c.rec_type' => CART_EXCHANGE_GOODS , 'c.is_gift' => 0 ,'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
+            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.session_id' => SESS_ID , 'c.rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS , 'c.is_gift' => 0 ,'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
         }
         $total['exchange_integral'] = $exchange_integral;
     }

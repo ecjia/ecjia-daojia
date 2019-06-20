@@ -163,7 +163,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 
 		/* 扩展信息 */
-		if (isset($flow_type) && intval($flow_type) != CART_GENERAL_GOODS) {
+		if (isset($flow_type) && intval($flow_type) != \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS) {
 			if ($flow_type == '1') {
 				$order['extension_code'] = 'group_buy';
 				if (!empty($cart_goods)) {
@@ -222,11 +222,11 @@ class cart_flow_done_api extends Component_Event_Api {
 		/* 检查商品总额是否达到最低限购金额 */
 		//获取店铺最小购物金额设置
 		$min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'min_goods_amount')->pluck('value');
-		$cart_amount = cart::cart_amount(true, CART_GENERAL_GOODS, $options['cart_id']);
+		$cart_amount = cart::cart_amount(true, \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $options['cart_id']);
 		$be_short_amount = $cart_amount - $min_goods_amount;
 		$be_short_amount = price_format($be_short_amount);
 		
-		if ($options['flow_type'] == CART_GENERAL_GOODS && $cart_amount < $min_goods_amount) {
+		if ($options['flow_type'] == \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS && $cart_amount < $min_goods_amount) {
 			return new ecjia_error('bug_error', __('您的商品金额未达到最低限购金额，还差', 'cart').'【'.$be_short_amount.'】');
 		}
 
@@ -549,7 +549,7 @@ class cart_flow_done_api extends Component_Event_Api {
 				);
 			}
 
-			if ($virtual_goods and $options['flow_type'] != CART_GROUP_BUY_GOODS) {
+			if ($virtual_goods and $options['flow_type'] != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS) {
 				/* 如果没有实体商品，修改发货状态，送积分和红包 */
 				$count = $db_order_goods
 					->where('order_id', $order['order_id'])

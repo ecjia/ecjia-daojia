@@ -416,7 +416,11 @@ class cart {
 	 * @param   int	 $flow_type  购物流程类型
 	 * @return  bool
 	 */
-	public static function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS) {
+	public static function exist_real_goods($order_id = 0, $flow_type = null) {
+	    if (is_null($flow_type)) {
+            $flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
+
 		if ($order_id <= 0) {
 			$where = array('user_id' => $_SESSION['user_id'] , 'is_real' => 1 , 'rec_type' => $flow_type);
 // 			if (defined('SESS_ID')) {
@@ -475,7 +479,11 @@ class cart {
 	 * @access  private
 	 * @return  integral
 	 */
-	public static function flow_available_points($cart_id = array(), $rec_type = CART_GENERAL_GOODS) {
+	public static function flow_available_points($cart_id = array(), $rec_type = null) {
+        if (is_null($rec_type)) {
+            $rec_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
+
 		$dbview = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
 		$dbview->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])->where(RC_DB::raw('c.is_gift'), 0)->where(RC_DB::raw('g.integral'), '>', 0)->where(RC_DB::raw('c.rec_type'), $rec_type);
 		if (is_array($cart_id) && !empty($cart_id)) {
@@ -524,7 +532,10 @@ class cart {
 	 * @param   int     $type           类型：默认普通商品
 	 * @return  float   购物车总金额
 	 */
-	public static function cart_amount($include_gift = true, $type = CART_GENERAL_GOODS, $cart_id = array()) {
+	public static function cart_amount($include_gift = true, $type = null, $cart_id = array()) {
+        if (is_null($type)) {
+            $type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
 		
 		$db = RC_DB::table('cart');
 		$db->where('rec_type', $type)->where('user_id', $_SESSION['user_id']);
@@ -666,9 +677,9 @@ class cart {
 			
 			if (!empty($shipping_info)) {
 				if ($order['extension_code'] == 'group_buy') {
-					$weight_price = self::cart_weight_price(CART_GROUP_BUY_GOODS);
+					$weight_price = self::cart_weight_price(\Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS);
 				} else {
-					$weight_price = self::cart_weight_price(CART_GENERAL_GOODS, $cart_id);
+					$weight_price = self::cart_weight_price(\Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $cart_id);
 				}
 				if (!empty($cart_id)) {
 					$shipping_count_where = array('rec_id' => $cart_id);
@@ -788,7 +799,7 @@ class cart {
 		$se_flow_type = isset($_SESSION['flow_type']) ? $_SESSION['flow_type'] : '';
 
 		/* 支付费用 */
-		if (!empty($order['pay_id']) && ($total['real_goods_count'] > 0 || $se_flow_type != CART_EXCHANGE_GOODS)) {
+		if (!empty($order['pay_id']) && ($total['real_goods_count'] > 0 || $se_flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS)) {
 			$total['pay_fee']      	= self::pay_fee($order['pay_id'], $total['amount'], $shipping_cod_fee);
 		}
 		$total['pay_fee_formated'] 	= price_format($total['pay_fee'], false);
@@ -913,10 +924,13 @@ class cart {
 	 * @param   int	 $type   类型：默认普通商品
 	 * @return  array
 	 */
-	public static function cart_weight_price($type = CART_GENERAL_GOODS, $cart_id = array()) {
+	public static function cart_weight_price($type = null, $cart_id = array()) {
 // 		$db = RC_Model::model('cart/cart_model');
 // 		$dbview = RC_Model::model('orders/package_goods_viewmodel');
 // 		$db_cartview = RC_Model::model('cart/cart_good_member_viewmodel');
+        if (is_null($type)) {
+            $type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
 
 		$package_row['weight'] 			= 0;
 		$package_row['amount'] 			= 0;
@@ -1081,7 +1095,7 @@ class cart {
 			'c.user_id'		=> $_SESSION['user_id'],
 			'c.parent_id'	=> 0,
 			'c.is_gift'		=> 0,
-			'rec_type' 		=> CART_GENERAL_GOODS,
+			'rec_type' 		=> \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS,
 	        'c.is_checked'  => 1, // 增加选中状态条件
 		);
 
@@ -1219,7 +1233,7 @@ class cart {
 	        'c.user_id'		=> $_SESSION['user_id'],
 	        'c.parent_id'	=> 0,
 	        'c.is_gift'		=> 0,
-	        'rec_type' 		=> CART_GENERAL_GOODS,
+	        'rec_type' 		=> \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS,
 	        'c.is_checked'  => 1, // 增加选中状态条件
 	        'c.store_id'    => $store_id,
 	    );
@@ -1351,7 +1365,7 @@ class cart {
 				'on'    => 'c.goods_id = g.goods_id'
 			)
 		);
-		$cart_where = array('c.parent_id' => 0 , 'c.is_gift' => 0 , 'rec_type' => CART_GENERAL_GOODS);
+		$cart_where = array('c.parent_id' => 0 , 'c.is_gift' => 0 , 'rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS);
 		if (!empty($cart_id)) {
 			$cart_where = array_merge($cart_where, array('c.rec_id' => $cart_id));
 		}
@@ -1489,7 +1503,11 @@ class cart {
 	 * 清空购物车
 	 * @param   int	 $type   类型：默认普通商品
 	 */
-	public static function clear_cart($type = CART_GENERAL_GOODS, $cart_id = array(), $user_id = 0) {
+	public static function clear_cart($type = null, $cart_id = array(), $user_id = 0) {
+        if (is_null($type)) {
+            $type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
+
 		$db_cart = RC_DB::table('cart');
 		$db_cart->where('user_id', $user_id)->where('rec_type', $type);
 		if (!empty($cart_id) && is_array($cart_id)) {
@@ -1842,7 +1860,7 @@ class cart {
 		}
 
 		/* 扩展信息 */
-		if (isset($_SESSION['flow_type']) && intval($_SESSION['flow_type']) != CART_GENERAL_GOODS) {
+		if (isset($_SESSION['flow_type']) && intval($_SESSION['flow_type']) != \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS) {
 			$order['extension_code'] 	= $_SESSION['extension_code'];
 			$order['extension_id'] 		= $_SESSION['extension_id'];
 		}

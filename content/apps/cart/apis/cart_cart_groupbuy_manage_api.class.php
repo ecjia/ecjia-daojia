@@ -169,7 +169,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     	
     	/* 更新：清空购物车中所有团购商品 */
     	RC_Loader::load_app_func('cart', 'cart');
-    	clear_cart(CART_GROUP_BUY_GOODS);
+    	clear_cart(\Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS);
     
     	/* 更新：加入购物车 */
     	$goods_price = $group_buy['deposit'] > 0 ? $group_buy['deposit'] : $group_buy['cur_price'];
@@ -188,7 +188,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     			'is_real'        => $goods['is_real'],
     			'extension_code' => 'group_buy',
     			'parent_id'      => 0,
-    			'rec_type'       => CART_GROUP_BUY_GOODS,
+    			'rec_type'       => \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS,
     			'is_gift'        => 0,
     			'is_shipping'    => $goods['is_shipping'],
     			'add_time'		 => RC_Time::gmtime()
@@ -197,7 +197,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     	$result = RC_DB::table('cart')->insertGetId($cart);
     
     	/* 更新：记录购物流程类型：团购 */
-    	$_SESSION['flow_type'] = CART_GROUP_BUY_GOODS;
+    	$_SESSION['flow_type'] = \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS;
     	$_SESSION['extension_code'] = 'group_buy';
     	$_SESSION['extension_id'] = $act_id;
     	return $result;

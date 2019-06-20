@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Shoppingcart\Contracts;
+namespace Royalcms\Component\ShoppingCart\Contracts;
 
 interface Cartable
 {

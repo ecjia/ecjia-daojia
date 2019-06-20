@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Shoppingcart;
+namespace Royalcms\Component\ShoppingCart;
 
 trait CanBeBought
 {

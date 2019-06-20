@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Shoppingcart\Exceptions;
+namespace Royalcms\Component\ShoppingCart\Exceptions;
 
 use RuntimeException;
 

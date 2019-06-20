@@ -61,7 +61,7 @@ class admin_bonus_validate_module extends api_admin implements api_interface
 		
 		$bonus_sn = $this->requestData('bonus_sn');
 		if (empty($bonus_sn)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
 		}
 		RC_Loader::load_app_func('admin_bonus', 'bonus');
 		RC_Loader::load_app_func('cart', 'cart');

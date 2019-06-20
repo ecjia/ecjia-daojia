@@ -56,12 +56,12 @@ class cart_mark_cart_goods_api extends Component_Event_Api {
     /**
      * @param
      *
-     * @return bool
+     * @return bool|ecjia_error
      */
     public function call(&$options) {
 
         if (!isset($options['goods_id']) && !isset($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
         }
         
         $data = array('mark_changed' => 1);

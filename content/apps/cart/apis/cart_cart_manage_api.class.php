@@ -55,7 +55,7 @@ class cart_cart_manage_api extends Component_Event_Api {
     /**
      * @param
      *
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options) {
 
@@ -78,7 +78,7 @@ class cart_cart_manage_api extends Component_Event_Api {
      * @param   integer $num        商品数量
      * @param   array   $spec       规格值对应的id数组
      * @param   integer $parent     基本件
-     * @return  boolean
+     * @return  array|bool|ecjia_error
      */
     private function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array(), $product_id = 0) {
         RC_Loader::load_app_class('goods_info', 'goods', false);
@@ -210,7 +210,7 @@ class cart_cart_manage_api extends Component_Event_Api {
 	        'extension_code'=> $goods['extension_code'],
 	        'is_gift'       => 0,
 	        'is_shipping'   => $goods['is_shipping'],
-	        'rec_type'      => CART_GENERAL_GOODS,
+	        'rec_type'      => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS,
 	        'store_id'      => $goods['store_id'],
 	        'add_time'      => RC_Time::gmtime(),
         );
@@ -333,7 +333,7 @@ class cart_cart_manage_api extends Component_Event_Api {
         $user_id = $_SESSION['user_id'];
         if ($num > 0) {
             /* 检查该商品是否已经存在在购物车中 */
-        	$rec_type = CART_GENERAL_GOODS;
+        	$rec_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
             // 重新赋值查询
             $db_cart_model = RC_DB::table('cart');
             $row = $db_cart_model

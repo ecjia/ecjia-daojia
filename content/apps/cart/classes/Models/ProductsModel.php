@@ -36,8 +36,23 @@ class ProductsModel extends Model
      */
     public $timestamps = false;
 
+    /**
+     * @return \Royalcms\Component\Database\Eloquent\Relations\HasMany
+     * @deprecated 1.33.0
+     */
     public function cart()
     {
         return $this->hasMany('Ecjia\App\Cart\Models\CartModel', 'product_id', 'product_id');
     }
+
+    /**
+     * 获取购物车
+     * 一对多
+     * @return \Royalcms\Component\Database\Eloquent\Relations\HasMany
+     */
+    public function cart_collection()
+    {
+        return $this->hasMany('Ecjia\App\Cart\Models\CartModel', 'product_id', 'product_id');
+    }
+    
 }

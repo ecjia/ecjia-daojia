@@ -68,7 +68,7 @@ class cart_update_module extends api_front implements api_interface {
 		$new_number = $this->requestData('new_number', 0);
 		
 		if ($new_number < 1 || $rec_id < 1) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
 		}
 		$goods_number = array($rec_id => $new_number);
 
@@ -98,7 +98,7 @@ class cart_update_module extends api_front implements api_interface {
         	return new ecjia_error('location_error', __('当前的定位地址超出店铺配送范围，请重新定位', 'cart'));
         }
         
-        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
+        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS));
         
         return formated_cart_list($cart_result, $store_id_group);
 	}

@@ -2,7 +2,7 @@
 
 namespace Ecjia\App\Cart;
 
-use Royalcms\Component\Shoppingcart\Contracts\Cartable;
+use Royalcms\Component\ShoppingCart\Contracts\Cartable;
 
 class DatabaseCart implements Cartable 
 {

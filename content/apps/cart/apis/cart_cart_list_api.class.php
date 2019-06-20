@@ -68,7 +68,7 @@ class cart_cart_list_api extends Component_Event_Api {
 	 * @access  public
 	 * @return  array
 	 */
-	private function get_cart_goods($cart_id = array(), $flow_type = CART_GENERAL_GOODS, $store_group = array()) {
+	private function get_cart_goods($cart_id = array(), $flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $store_group = array()) {
 		$dbview_cart = RC_DB::table('cart as c')
 					   ->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
 					   ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('c.store_id'));

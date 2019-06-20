@@ -96,7 +96,7 @@ class cart_delete_module extends api_front implements api_interface {
         } else {
         	return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
         }
-        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
+        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS));
         
         return formated_cart_list($cart_result, $store_id_group);
 	}

@@ -72,11 +72,11 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 	    $goods_number	= $this->requestData('number', 1);
 	    $store_id		= $this->requestData('store_id', 0);
 	    if (!$goods_sn) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
 	    }
 	    
-	    $rec_type		= $this->requestData('rec_type', CART_STOREBUY_GOODS); //暂没用到
-	    $rec_type = CART_STOREBUY_GOODS;
+	    $rec_type		= $this->requestData('rec_type', \Ecjia\App\Cart\Enums\CartEnum::CART_STOREBUY_GOODS); //暂没用到
+	    $rec_type = \Ecjia\App\Cart\Enums\CartEnum::CART_STOREBUY_GOODS;
 
 	    RC_Loader::load_app_func('cart', 'cart');
 
@@ -123,7 +123,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 		}
 	     
 		$store_id_group = array($goods['store_id']);
-	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
+	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_STOREBUY_GOODS));
 	     
 	    return formated_cart_list($cart_result, $store_id_group);
 	}

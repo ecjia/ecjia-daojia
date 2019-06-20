@@ -76,7 +76,7 @@ class cart_create_module extends api_front implements api_interface {
 	    $product_id		= $this->requestData('product_id', '0');  //货品id
 	    
 	    if (!$goods_id) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
 	    }
 	    $goods_spec		= $this->requestData('spec', array());
 	    
@@ -121,11 +121,25 @@ class cart_create_module extends api_front implements api_interface {
     	}
 
     	if ($rec_type == 'GROUPBUY_GOODS') {
-    		$flow_type = CART_GROUP_BUY_GOODS;
-    		$result = RC_Api::api('cart', 'cart_groupbuy_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'goods_activity_id' => $object_id));
+    		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS;
+    		$result = RC_Api::api('cart', 'cart_groupbuy_manage', array(
+    		    'goods_id'      => $goods_id,
+                'goods_number'  => $goods_number,
+                'goods_spec'    => $goods_spec,
+                'rec_type'      => $rec_type,
+                'store_group'   => $store_id_group,
+                'goods_activity_id' => $object_id
+            ));
     	} else {
-    		$flow_type = CART_GENERAL_GOODS;
-    		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'product_id' => $product_id));
+    		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+    		$result = RC_Api::api('cart', 'cart_manage', array(
+    		    'goods_id' => $goods_id,
+                'goods_number' => $goods_number,
+                'goods_spec' => $goods_spec,
+                'rec_type' => $rec_type,
+                'store_group' => $store_id_group,
+                'product_id' => $product_id
+            ));
     	}
     	
 	    // 更新：添加到购物车

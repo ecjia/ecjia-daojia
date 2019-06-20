@@ -88,10 +88,10 @@ class admin_flow_done_module extends api_admin implements api_interface
 		$cart_id = empty($rec_id) ? '' : explode(',', $rec_id);
 		
         /* 取得购物类型 */
-        $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+        $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
         $codes = config('app-cashier::cashier_device_code');
         if (!empty($device) && in_array($device['code'], $codes)) {
-        	$flow_type = CART_CASHDESK_GOODS;
+        	$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS;
         }
         
         /* 检查购物车中是否有商品 */
@@ -212,7 +212,7 @@ class admin_flow_done_module extends api_admin implements api_interface
         );
         
         /* 扩展信息 */
-        if (isset($_SESSION['flow_type']) && intval($_SESSION['flow_type']) != CART_GENERAL_GOODS) {
+        if (isset($_SESSION['flow_type']) && intval($_SESSION['flow_type']) != \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS) {
             $order['extension_code']	= 'cashdesk';//$_SESSION['extension_code'];
             $order['extension_id']		= $_SESSION['extension_id'];
         } else {
@@ -264,7 +264,7 @@ class admin_flow_done_module extends api_admin implements api_interface
         }
         
         /* 检查商品总额是否达到最低限购金额 */
-        if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
+        if ($flow_type == \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS && cart_amount(true, \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
         	return new ecjia_error('insufficient_balance', __('您的余额不足以支付整个订单，请选择其他支付方式。', 'cart'));
         }
         
@@ -283,7 +283,7 @@ class admin_flow_done_module extends api_admin implements api_interface
 
         /* 订单中的总额 *///$order['bonus_id']
         //$total = cashdesk_order_fee($order, $cart_goods, $consignee);
-        $total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, $consignee, array(), CART_CASHDESK_GOODS);
+        $total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, $consignee, array(), \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS);
        
         $order['bonus']			= $total['bonus'];
         $order['goods_amount']	= $total['goods_price'];

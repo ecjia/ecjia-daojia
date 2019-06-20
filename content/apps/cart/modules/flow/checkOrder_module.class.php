@@ -63,7 +63,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		$location 	= $this->requestData('location', array());
 		
 		if (empty($rec_id)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
 		}
 		$cart_id = array();
 		if (!empty($rec_id)) {
@@ -79,16 +79,16 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		} else {
 			$rec_type = $rec_type['0'];
 			if ($rec_type == 1) {
-				$flow_type = CART_GROUP_BUY_GOODS;
+				$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS;
 			} else {
-				$flow_type = CART_GENERAL_GOODS;
+				$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
 			}
 		}
 		/* 团购标志 */
-		if ($flow_type == CART_GROUP_BUY_GOODS) {
+		if ($flow_type == \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS) {
 			$is_group_buy = 1;
 			$order_activity_type = 'group_buy';
-		} elseif ($flow_type == CART_EXCHANGE_GOODS) {
+		} elseif ($flow_type == \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS) {
 			/* 积分兑换商品 */
 			$is_exchange_goods = 1;
 		} else {
@@ -112,7 +112,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		}
 		
 		/* 对是否允许修改购物车赋值 */
-		if ($flow_type != CART_GENERAL_GOODS || ecjia::config('one_step_buy') == '1') {
+		if ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS || ecjia::config('one_step_buy') == '1') {
 		    $allow_edit_cart = 0 ;
 		} else {
 		    $allow_edit_cart = 1 ;
@@ -201,10 +201,10 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		    $region            = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district'], $consignee['street']);
 		    $shipping_list     = ecjia_shipping::availableUserShippings($region, $order['store_id']);
 
-		    if ($flow_type == CART_GROUP_BUY_GOODS) {
-                $cart_weight_price = cart::cart_weight_price(CART_GROUP_BUY_GOODS);
+		    if ($flow_type == \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS) {
+                $cart_weight_price = cart::cart_weight_price(\Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS);
             } else {
-                $cart_weight_price = cart::cart_weight_price(CART_GENERAL_GOODS, $cart_id);
+                $cart_weight_price = cart::cart_weight_price(\Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $cart_id);
             }
 
 		    $insure_disabled   = true;
@@ -314,7 +314,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		        $cod      = $shipping['support_cod'];
 		        if ($cod){
 		            /* 如果是团购，且保证金大于0，不能使用货到付款 */
-		            if ($flow_type == CART_GROUP_BUY_GOODS) {
+		            if ($flow_type == \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS) {
 		                $group_buy_id = $_SESSION['extension_id'];
 		                if ($group_buy_id <= 0) {
 		                    return new ecjia_error('groupbuy_not_support_cod', __('如果是团购，且保证金大于0，不能使用货到付款', 'cart'));
@@ -399,7 +399,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		if ((ecjia_config::has('use_integral') || ecjia::config('use_integral') == '1')
 				&& $_SESSION['user_id'] > 0
 				&& $user_info['pay_points'] > 0
-				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
+				&& ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS && $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS))
 		{
 			// 能使用积分
 			$allow_use_integral = 1;
@@ -414,7 +414,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		$out['order_max_integral'] = $order_max_integral;//订单最大可使用积分
 			/* 如果使用红包，取得用户可以使用的红包及用户选择的红包 */
 		if ((ecjia_config::has('use_bonus') || ecjia::config('use_bonus') == '1')
-				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
+				&& ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS && $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS))
 		{
 			// 取得用户可用红包
 			$pra = array(
@@ -459,7 +459,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		$out['bonus']				= !empty($bonus_list) ? $bonus_list : array();//红包
 		$out['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
 		/* 如果能开发票，取得发票内容列表 */
-		if ((ecjia_config::has('can_invoice') && ecjia::config('can_invoice') == '1') && ecjia_config::has('invoice_content') && $flow_type != CART_EXCHANGE_GOODS)
+		if ((ecjia_config::has('can_invoice') && ecjia::config('can_invoice') == '1') && ecjia_config::has('invoice_content') && $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS)
 		{
 			$inv_content_list = explode("\n", str_replace("\r", '', ecjia::config('invoice_content')));
 			

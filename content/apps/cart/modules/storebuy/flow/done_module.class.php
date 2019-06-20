@@ -78,12 +78,12 @@ class storebuy_flow_done_module extends api_front implements api_interface
         $rec_id = $this->requestData('rec_id', 0);
         $rec_id = empty($rec_id) ? $_SESSION['cart_id'] : $rec_id;
         if (empty($rec_id)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
         }
 		$cart_id = empty($rec_id) ? '' : explode(',', $rec_id);
 
         /* 取得购物类型 */
-		$flow_type = CART_STOREBUY_GOODS;
+		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_STOREBUY_GOODS;
 
         /* 检查购物车中是否有商品 */
 		$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
@@ -205,7 +205,7 @@ class storebuy_flow_done_module extends api_front implements api_interface
         }
 
         /* 扩展信息 */
-        if ($flow_type != CART_GENERAL_GOODS) {
+        if ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS) {
             $order['extension_code']	= 'storebuy';
             $order['extension_id']		= $_SESSION['extension_id'];
         } else {
@@ -252,7 +252,7 @@ class storebuy_flow_done_module extends api_front implements api_interface
 
 
         /* 检查商品总额是否达到最低限购金额 */
-        if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
+        if ($flow_type == \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS && cart_amount(true, \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
         	return new ecjia_error('min_goods_amount_error', __('订单金额未达到最小购物金额【'.ecjia::config('min_goods_amount').'】。', 'cart'));
         }
 
@@ -446,7 +446,7 @@ class storebuy_flow_done_module extends api_front implements api_interface
                 );
             }
 
-            if ($virtual_goods and $flow_type != CART_GROUP_BUY_GOODS) {
+            if ($virtual_goods and $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS) {
                 /* 虚拟卡发货 */
                 if (virtual_goods_ship($virtual_goods, $msg, $order['order_sn'], true)) {
                     /* 如果没有实体商品，修改发货状态，送积分和红包 */

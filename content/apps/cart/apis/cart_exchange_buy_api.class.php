@@ -55,7 +55,7 @@ class cart_exchange_buy_api extends Component_Event_Api {
     
     public function call(&$options) {
     	if (!is_array($options)) {
-    		return new ecjia_error('invalid_parameter', __('参数无效', 'cart'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
     	}
         return $this->exchange_buy($options);
     }
@@ -134,7 +134,7 @@ class cart_exchange_buy_api extends Component_Event_Api {
 	    $goods_attr = join(chr(13) . chr(10), $attr_list);
 	
 	    /* 更新：清空购物车中所有团购商品 */
-	    RC_Model::model('cart/cart_model')->clear_cart(CART_EXCHANGE_GOODS);
+	    RC_Model::model('cart/cart_model')->clear_cart(\Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS);
 	
 	    /* 更新：加入购物车 */
 	    $number = 1;
@@ -153,13 +153,13 @@ class cart_exchange_buy_api extends Component_Event_Api {
 	        'is_real'        => $goods['is_real'],
 	        'extension_code' => addslashes($goods['extension_code']),
 	        'parent_id'      => 0,
-	        'rec_type'       => CART_EXCHANGE_GOODS,
+	        'rec_type'       => \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS,
 	        'is_gift'        => 0
 	    );
 	    RC_Model::model('cart/cart_model')->insert($cart);
 	
 	    /* 记录购物流程类型：团购 */
-	    $_SESSION['flow_type']		= CART_EXCHANGE_GOODS;
+	    $_SESSION['flow_type']		= \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS;
 	    $_SESSION['extension_code'] = 'exchange_goods';
 	    $_SESSION['extension_id']	= $goods_id;
 	

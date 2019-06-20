@@ -102,10 +102,10 @@ class bbc_cart_create_module extends api_front implements api_interface {
     	$store_id_group = array($store_id);
     	
     	if ($rec_type == 'GROUPBUY_GOODS') {
-    		$flow_type = CART_GROUP_BUY_GOODS;
+    		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS;
     		$result = RC_Api::api('cart', 'cart_groupbuy_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'goods_activity_id' => $object_id));
     	} else {
-    		$flow_type = CART_GENERAL_GOODS;
+    		$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
     		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, $product_id));
     	}
 

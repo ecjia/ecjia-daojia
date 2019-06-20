@@ -29,10 +29,10 @@ class CartFunction
         $codes = config('app-cashier::cashier_device_code');
         if (!empty($device)) {
             if (in_array($device['code'], $codes)) {
-                $rec_type = CART_CASHDESK_GOODS;
+                $rec_type = \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS;
             }
         } else {
-            $rec_type = CART_GENERAL_GOODS;
+            $rec_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
         }
 
         $discount = $_SESSION['discount'];
@@ -112,8 +112,12 @@ class CartFunction
     /**
      * 获取购物车商品
      */
-    public static function cart_list($flow_type = CART_GENERAL_GOODS,  $user_id, $cart_id = [], $store_id = [])
+    public static function cart_list($flow_type = null,  $user_id, $cart_id = [], $store_id = [])
     {
+        if (is_null($flow_type)) {
+            $flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
+
     	$dbview_cart = RC_DB::table('cart as c')
     		->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
     		->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('c.store_id'));
@@ -415,7 +419,11 @@ class CartFunction
      * @param   int     $type   类型：默认普通商品
      * @return  array   购物车商品数组
      */
-    function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
+    function cart_goods($type = null, $cart_id = array()) {
+
+        if (is_null($type)) {
+            $type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+        }
     
     	$db = RC_Loader::load_app_model('cart_goods_viewmodel', 'cart');
     

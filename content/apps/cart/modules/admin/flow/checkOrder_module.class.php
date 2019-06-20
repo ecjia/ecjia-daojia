@@ -137,11 +137,11 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		}
 		
 		/* 取得购物类型 */
-		$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+		$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
 	    /*收银台商品购物车类型*/
 		$codes = config('app-cashier::cashier_device_code');
 	    if (!empty($device) && in_array($device['code'], $codes)) {
-	    	$flow_type = CART_CASHDESK_GOODS;
+	    	$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS;
 	    }
 		
 		if (!empty($addgoods)) {
@@ -195,7 +195,7 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		$order = flow_order_info();
 		/* 计算订单的费用 */
 		//$total = cashdesk_order_fee($order, $cart_goods);
-		$total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, array(), array(), CART_CASHDESK_GOODS);
+		$total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, array(), array(), \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS);
 	
 // 		/* 取得支付列表 */
 // 		$cod_fee    = 0;
@@ -241,7 +241,7 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		if ((ecjia::config('use_integral', ecjia::CONFIG_CHECK) || ecjia::config('use_integral') == '1')
 		&& $_SESSION['user_id'] > 0
 		&& $user_info['pay_points'] > 0
-		&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
+		&& ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS && $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS))
 		{
 			// 能使用积分
 			$allow_use_integral = 1;
@@ -256,7 +256,7 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		/* 如果使用红包，取得用户可以使用的红包及用户选择的红包 */
 		$allow_use_bonus = 0;
 		if ((ecjia::config('use_bonus', ecjia::CONFIG_CHECK) || ecjia::config('use_bonus') == '1')
-				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS)){
+				&& ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS && $flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS)){
 			// 取得用户可用红包
 			$user_bonus = user_bonus($_SESSION['user_id'], $total['goods_price'], array(), $_SESSION['store_id']);
 			if (!empty($user_bonus)) {

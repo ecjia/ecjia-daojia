@@ -75,11 +75,11 @@ class storebuy_cart_list_module extends api_front implements api_interface {
 		$city_id	= $this->requestData('city_id', '');
 
 		if($store_id <= 0) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
 		}
 		
 	    $store_id_group = array($store_id);
-	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
+	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_STOREBUY_GOODS));
 		
 		return formated_cart_list($cart_result, $store_id_group);
 	}

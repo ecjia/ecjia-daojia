@@ -1,10 +1,10 @@
 <?php
 
-namespace Royalcms\Component\Shoppingcart;
+namespace Royalcms\Component\ShoppingCart;
 
 use Royalcms\Component\Support\ServiceProvider;
 
-class ShoppingcartServiceProvider extends ServiceProvider
+class ShoppingCartServiceProvider extends ServiceProvider
 {
     
     /**
@@ -13,7 +13,7 @@ class ShoppingcartServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-        $this->package('royalcms/shoppingcart');
+        $this->package('royalcms/shopping-cart');
     }
 
     /**

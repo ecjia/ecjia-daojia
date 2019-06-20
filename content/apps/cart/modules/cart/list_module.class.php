@@ -78,9 +78,9 @@ class cart_list_module extends api_front implements api_interface {
 		$rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS'));
 		
 		if ($rec_type == 'GROUPBUY_GOODS') {
-			$flow_type = CART_GROUP_BUY_GOODS;
+			$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GROUP_BUY_GOODS;
 		} else {
-			$flow_type = CART_GENERAL_GOODS;
+			$flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
 		}
 		
 		if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
