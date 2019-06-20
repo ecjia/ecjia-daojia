@@ -60,12 +60,12 @@ class finance_surplus_order_paid_api extends Component_Event_Api
      * @param  order_sn  订单编号
      * @param  money     支付金额
      *
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!array_get($options, 'order_sn') || !array_get($options, 'money')) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'finance'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), __CLASS__));
         }
 
         /* 改变订单状态 */

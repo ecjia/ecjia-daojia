@@ -60,7 +60,7 @@ class finance_refund_back_pay_points_api extends Component_Event_Api
     public function call(& $options)
     {
         if (!array_get($options, 'refund_id')) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), 'refund_back_pay_points_api'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), __CLASS__));
         }
 
         $refund_id   = array_get($options, 'refund_id');

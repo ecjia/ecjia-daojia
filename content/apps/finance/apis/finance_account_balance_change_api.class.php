@@ -65,7 +65,7 @@ class finance_account_balance_change_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!array_get($options, 'user_id') || !array_get($options, 'user_money') || !array_get($options, 'change_desc')) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), 'user_account_balance_change_api'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), __CLASS__));
         }
 
         $user_id      = array_get($options, 'user_id');

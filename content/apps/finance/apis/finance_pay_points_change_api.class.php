@@ -66,7 +66,7 @@ class finance_pay_points_change_api extends Component_Event_Api
     public function call(& $options)
     {
         if (!array_get($options, 'point') || !array_get($options, 'change_desc') || !array_get($options, 'user_id')) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), 'finance_pay_points_change_api'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), __CLASS__));
         }
 
         $user_id     = array_get($options, 'user_id');

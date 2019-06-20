@@ -55,12 +55,12 @@ class finance_user_account_order_info_api extends Component_Event_Api
 
     /**
      * @param  array $options 条件参数
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options) || (!isset($options['order_id']) && !isset($options['order_sn']))) {
-            return new ecjia_error('invalid_parameter', sprintf(__('调取api文件%s，参数错误', 'finance'), 'user_account_order_info'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), __CLASS__));
         }
 
         return $this->order_info($options);
