@@ -58,7 +58,7 @@ class store_add_check_log_api extends Component_Event_Api {
 	 */
 	public function call (&$options) {
 		if (!is_array($options) ) {
-			return new ecjia_error('invalid_parameter', __('参数无效！', 'store'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
 		}
 		$options['time'] = RC_Time::gmtime();
 		

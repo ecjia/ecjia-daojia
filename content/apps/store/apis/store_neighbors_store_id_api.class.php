@@ -54,11 +54,11 @@ class store_neighbors_store_id_api extends Component_Event_Api {
 	/**
 	 *
 	 * @param array $options
-	 * @return  array
+	 * @return  array|ecjia_error
 	 */
 	public function call (&$options) {
 		if (!is_array($options) || ((!isset($options['geohash']) || empty($options['geohash'])) && (!isset($options['city_id']) || !$options['city_id']))) {
-			return new ecjia_error('invalid_parameter', __('参数无效！', 'store'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
 		}
 
 		return $this->neighbors_store($options['geohash'], $options['city_id']);

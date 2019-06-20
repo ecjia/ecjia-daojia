@@ -8,11 +8,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class store_store_collect_list_api extends Component_Event_Api {
     /**
      * @param  array $options['user_id']	用户id
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', __('调用api文件,store_collect_list,参数无效', 'store'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
 		}
 		return $this->store_collect_list($options);
 	}
