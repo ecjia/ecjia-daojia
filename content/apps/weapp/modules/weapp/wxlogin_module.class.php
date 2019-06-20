@@ -55,7 +55,7 @@ class weapp_wxlogin_module extends api_front implements api_interface
         $code = $this->requestData('code');
 
         if (empty($uuid) || empty($code)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'weapp'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'weapp'), __CLASS__));
         }
 
         /*获取weappid*/

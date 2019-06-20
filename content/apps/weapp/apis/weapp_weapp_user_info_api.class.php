@@ -60,7 +60,7 @@ class weapp_weapp_user_info_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!array_get($options, 'user_id') || !array_get($options, 'uuid')) {
-            return new ecjia_error('invalid_parameter', sprintf(__('接口%s参数无效', 'weapp'), 'weapp_weapp_user_info_api'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'weapp'), __CLASS__));
         }
 
         $user_id = $options['user_id'];

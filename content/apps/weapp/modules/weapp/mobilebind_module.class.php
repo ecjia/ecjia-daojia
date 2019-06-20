@@ -56,7 +56,7 @@ class weapp_mobilebind_module extends api_front implements api_interface
         $smscode       = trim($this->requestData('smscode'));
 
         if (empty($mobile) || empty($uuid) || empty($smscode)) {
-            return new ecjia_error('invalid_parameter', __(sprintf('%s参数无效', 'weapp/mobilebind'), 'weapp'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'weapp'), __CLASS__));
         }
 
         

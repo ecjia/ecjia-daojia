@@ -57,7 +57,7 @@ class weapp_wxauthorize_module extends api_front implements api_interface
         $uuid          = trim($this->requestData('uuid'));
 
         if (empty($iv) || empty($encrypteddata) || empty($uuid)) {
-            return new ecjia_error('invalid_parameter', __(sprintf('%s参数无效', 'weapp/wxauthorize'), 'weapp'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'weapp'), __CLASS__));
         }
 
         $openid                = session('openid');
