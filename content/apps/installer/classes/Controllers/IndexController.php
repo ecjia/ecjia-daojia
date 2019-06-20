@@ -126,7 +126,7 @@ class IndexController extends SimpleController
     /*
      * 检查环境页面加载
      */
-    public function detect ()
+    public function detect()
     {
         $this->check_installed();
         $this->check_step(2);
@@ -404,6 +404,8 @@ class IndexController extends SimpleController
      */
     public function check_db_correct()
     {
+        $this->check_installed();
+
         $db_host    = isset($_POST['db_host']) ? trim($_POST['db_host']) : '';
         $db_port    = isset($_POST['db_port']) ? trim($_POST['db_port']) : '';
         $db_user    = isset($_POST['db_user']) ? trim($_POST['db_user']) : '';
@@ -440,6 +442,8 @@ class IndexController extends SimpleController
      */
     public function check_db_exists()
     {
+        $this->check_installed();
+
         $db_host    = isset($_POST['db_host']) ? trim($_POST['db_host']) : '';
         $db_port    = isset($_POST['db_port']) ? trim($_POST['db_port']) : '';
         $db_user    = isset($_POST['db_user']) ? trim($_POST['db_user']) : '';
@@ -463,6 +467,8 @@ class IndexController extends SimpleController
      */
     public function create_config_file()
     {
+        $this->check_installed();
+
         $db_host    = isset($_POST['db_host'])		?   trim($_POST['db_host']) 	: '';
         $db_port    = isset($_POST['db_port'])      ?   trim($_POST['db_port'])     : '';
         $db_name    = isset($_POST['db_name'])      ?   trim($_POST['db_name']) 	: '';
@@ -499,6 +505,8 @@ class IndexController extends SimpleController
      */
     public function create_database()
     {
+        $this->check_installed();
+
         $db_host    = isset($_POST['db_host'])      ?   trim($_POST['db_host']) : '';
         $db_port    = isset($_POST['db_port'])      ?   trim($_POST['db_port']) : '';
         $db_user    = isset($_POST['db_user'])      ?   trim($_POST['db_user']) : '';
@@ -519,6 +527,8 @@ class IndexController extends SimpleController
      */
     public function install_structure()
     {
+        $this->check_installed();
+
         $limit = 20;
 
         $result = Helper::installStructure($limit);
@@ -547,6 +557,8 @@ class IndexController extends SimpleController
      */
     public function install_base_data()
     {
+        $this->check_installed();
+
         $result = Helper::installBaseData();
 
         if (is_ecjia_error($result)) {
@@ -562,6 +574,8 @@ class IndexController extends SimpleController
      */
     public function install_demo_data()
     {
+        $this->check_installed();
+
         $result = Helper::installDemoData();
 
         if (is_ecjia_error($result)) {
@@ -577,6 +591,8 @@ class IndexController extends SimpleController
      */
     public function create_admin_passport()
     {
+        $this->check_installed();
+        
         $admin_name         = isset($_POST['admin_name'])       ? trim($_POST['admin_name']) 		: '';
         $admin_password     = isset($_POST['admin_password'])   ? trim($_POST['admin_password']) 	: '';
         $admin_password2    = isset($_POST['admin_password2'])  ? trim($_POST['admin_password2']) 	: '';

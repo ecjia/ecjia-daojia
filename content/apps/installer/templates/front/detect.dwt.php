@@ -8,6 +8,7 @@
 	        {if $path_error}
 			<div class="staticalert alert alert-error ui_showmessage path_error">{$path_error}</div>
 			{/if}
+            {nocache}
             <div class="column-14 start-06 ecjia-install">
 				<form method="post" action='{RC_Uri::url("installer/index/deploy")}' name="check_form" onsubmit="return ecjia.front.install.check();">
 					<div class="ecjia-install-body">
@@ -160,6 +161,7 @@
 					</p>
 				</form>
 			</div>
+            {/nocache}
 		</div>
 	</div>
 </div>
