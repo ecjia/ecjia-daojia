@@ -13,12 +13,12 @@ class orders_order_integral_api extends Component_Event_Api
      * @param  $options ['order_id'] 订单ID
      *         $options['order_sn'] 订单号
      *
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         return $this->integral_to_give($options);
     }

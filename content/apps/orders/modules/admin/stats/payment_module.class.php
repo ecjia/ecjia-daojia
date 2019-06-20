@@ -75,7 +75,7 @@ class admin_stats_payment_module extends api_admin implements api_interface
         $end_date   = $this->requestData('end_date');
 // 		$start_date = $end_date = '2016-05-23';
         if (empty($start_date) || empty($end_date)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         $cache_key = 'cashdesk_stats_' . md5($start_date . $end_date);
         $data      = RC_Cache::app_cache_get($cache_key, 'stats');

@@ -69,7 +69,7 @@ class order_detail_module extends api_front implements api_interface
         $with_log   = $this->requestData('with_log', 'yes');  //是否携带返回订单状态记录信息，默认返回
 
         if (!$order_id) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         /* 订单详情 */

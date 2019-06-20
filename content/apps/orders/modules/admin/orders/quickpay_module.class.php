@@ -75,7 +75,7 @@ class admin_orders_quickpay_module extends api_admin implements api_interface
         $amount = $this->requestData('amount');
 
         if (empty($pay_id) || $pay_id <= 0) {
-            return new ecjia_error(100, __('错误的参数提交', 'orders'));
+            return new ecjia_error(100, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         /* 判断是否是会员 */

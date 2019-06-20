@@ -63,7 +63,7 @@ class admin_orders_delivery_module extends api_admin implements api_interface
         $order_id = $this->requestData('order_id', 0);
 
         if (empty($order_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         $db_table = RC_DB::table('delivery_order');
         if ($_SESSION['store_id']) {

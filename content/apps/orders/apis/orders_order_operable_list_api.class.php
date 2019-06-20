@@ -56,12 +56,12 @@ class orders_order_operable_list_api extends Component_Event_Api
     /**
      * @param  $options 订单信息
      *
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         return $this->operable_list($options);

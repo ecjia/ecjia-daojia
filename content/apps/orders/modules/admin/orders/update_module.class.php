@@ -64,7 +64,7 @@ class admin_orders_update_module extends api_admin implements api_interface
         $order_id = $this->requestData('order_id', 0);
         $pay_id   = $this->requestData('pay_id', 0);
         if (!$order_id || !$pay_id) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 // 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
         $payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($pay_id);

@@ -71,7 +71,7 @@ class admin_orders_consignee_list_module extends api_admin implements api_interf
 
         $order_id = $this->requestData('order_id', 0);
         if ($order_id <= 0) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         $order_info   = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
         $address_list = array();

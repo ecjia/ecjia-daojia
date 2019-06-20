@@ -63,7 +63,7 @@ class admin_shopkeeper_order_checking_detail_module extends api_admin implements
         $pickup_code = $this->requestData('pickup_code');
 
         if (empty($pickup_code)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         $order = array();
 

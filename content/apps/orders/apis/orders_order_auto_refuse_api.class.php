@@ -53,12 +53,12 @@ class orders_order_auto_refuse_api extends Component_Event_Api
 {
     /**
      * @param  $options ['order_sn'] 订单编号
-     * @return bool
+     * @return bool|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options) || !isset($options['order_sn'])) {
-            return new ecjia_error('invalid_parameter', __('调用api文件order_auto_refuse参数错误', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         return $this->refuse_order($options['order_sn']);
     }

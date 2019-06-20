@@ -66,7 +66,7 @@ class order_comment_detail_module extends api_front implements api_interface
 
         $rec_id = $this->requestData('rec_id', 0);
         if (empty($rec_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 //        $field = 'oi.order_id, og.rec_id, og.goods_name, og.goods_id, og.goods_attr, og.goods_price, c.comment_id, c.content, c.comment_rank, c.has_image, c.is_anonymous';
 

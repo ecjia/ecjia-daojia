@@ -446,7 +446,7 @@ function order_fee($order, $goods, $consignee, $cart_id = array(), $cart_goods_l
     $_SESSION['flow_order'] = $order;
     $se_flow_type           = isset($_SESSION['flow_type']) ? $_SESSION['flow_type'] : '';
     /* 支付费用 */
-    if (!empty($order['pay_id']) && ($total['real_goods_count'] > 0 || $se_flow_type != CART_EXCHANGE_GOODS)) {
+    if (!empty($order['pay_id']) && ($total['real_goods_count'] > 0 || $se_flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS)) {
         $total['pay_fee'] = pay_fee($order['pay_id'], $total['amount'], $shipping_cod_fee);
     }
     $total['pay_fee_formated'] = price_format($total['pay_fee'], false);
@@ -467,9 +467,9 @@ function order_fee($order, $goods, $consignee, $cart_id = array(), $cart_goods_l
     $total['formated_saving']       = price_format($total['saving'], false);
     if ($order['extension_code'] == 'exchange_goods') {
         if ($_SESSION['user_id']) {
-            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.user_id' => $_SESSION['user_id'], 'c.rec_type' => CART_EXCHANGE_GOODS, 'c.is_gift' => 0, 'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
+            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.user_id' => $_SESSION['user_id'], 'c.rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS, 'c.is_gift' => 0, 'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
         } else {
-            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.session_id' => SESS_ID, 'c.rec_type' => CART_EXCHANGE_GOODS, 'c.is_gift' => 0, 'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
+            $exchange_integral = $dbview->join('exchange_goods')->where(array('c.session_id' => SESS_ID, 'c.rec_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS, 'c.is_gift' => 0, 'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
         }
         $total['exchange_integral'] = $exchange_integral;
     }
@@ -700,8 +700,12 @@ function order_refund($order, $refund_type, $refund_note, $refund_amount = 0)
  * @param   int $flow_type 购物流程类型
  * @return  bool
  */
-function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS)
+function exist_real_goods($order_id = 0, $flow_type = null)
 {
+    if (is_null($flow_type)) {
+        $flow_type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;
+    }
+
     if ($order_id <= 0) {
         $db_cart = RC_DB::table('cart')->where('is_real', 1)->where('rec_type', $flow_type);
         if ($_SESSION['user_id']) {

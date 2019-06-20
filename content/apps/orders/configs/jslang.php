@@ -92,6 +92,7 @@ return array(
         'shipped_order'    => __('已发货订单', 'orders'),
         'returned_order'   => __('退货订单', 'orders'),
         'canceled_order'   => __('已取消订单', 'orders'),
+    	'succeed_order'	   => __('已完成订单', 'orders'),
         'no_stats_data'    => __('没有统计数据', 'orders'),
         'order_number_s'   => __('订单数量：%s', 'orders'),
         'default'          => __('配送', 'orders'),

@@ -70,7 +70,7 @@ class admin_orders_shipping_list_module extends api_admin implements api_interfa
         }
         $order_id = $this->requestData('order_id', 0);
         if ($order_id <= 0) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         /*验证订单是否属于此入驻商*/

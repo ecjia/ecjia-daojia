@@ -72,7 +72,7 @@ class admin_orders_cancel_module extends api_admin implements api_interface
         $order_id = $this->requestData('id');
 
         if (empty($order_id)) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         RC_Loader::load_app_func('admin_order', 'orders');
         RC_Loader::load_app_func('global', 'orders');

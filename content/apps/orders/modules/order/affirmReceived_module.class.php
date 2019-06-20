@@ -64,7 +64,7 @@ class order_affirmReceived_module extends api_front implements api_interface
         }
         $order_id = $this->requestData('order_id', 0);
         if ($order_id < 1) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         $result = $this->affirm_received(intval($order_id), $user_id);

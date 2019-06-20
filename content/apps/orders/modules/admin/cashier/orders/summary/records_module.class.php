@@ -77,7 +77,7 @@ class admin_cashier_orders_summary_records_module extends api_admin implements a
         $type_arr 	= ['billing', 'check_order'];	//billing开单，check_order验单
         
         if (empty($type) && !in_array($type, $type_arr)) {
-        	return new ecjia_error('invalid_parameter', __('参数无效！', 'orders'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         //日期筛选条件

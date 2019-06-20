@@ -62,7 +62,7 @@ class order_update_module extends api_front implements api_interface
         $order_id = $this->requestData('order_id', 0);
         $pay_id   = $this->requestData('pay_id', 0);
         if (!$order_id || !$pay_id) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         $payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($pay_id);

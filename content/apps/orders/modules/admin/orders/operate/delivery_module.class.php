@@ -77,7 +77,7 @@ class admin_orders_operate_delivery_module extends api_admin implements api_inte
 
         $action_note = $this->requestData('action_note', '');
         if (empty($order_id)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         /*验证订单是否属于此入驻商*/
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {

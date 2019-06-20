@@ -67,7 +67,7 @@ class admin_orders_express_module extends api_admin implements api_interface
 
         $order_id = $this->requestData('order_id');
         if (empty($order_id)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {

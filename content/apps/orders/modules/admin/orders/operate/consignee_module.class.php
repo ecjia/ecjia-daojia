@@ -81,7 +81,7 @@ class admin_orders_operate_consignee_module extends api_admin implements api_int
         $mobile      = $this->requestData('mobile');
 
         if (empty($order_id)) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {

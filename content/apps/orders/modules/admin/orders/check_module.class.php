@@ -74,7 +74,7 @@ class admin_orders_check_module extends api_admin implements api_interface
 
         $id = $this->requestData('order_id', 0);
         if (empty($verification_code)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         $db_term_meta = RC_Loader::load_model('term_meta_model');
         $meta_where   = array(

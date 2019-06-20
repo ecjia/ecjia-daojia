@@ -72,7 +72,7 @@ class admin_stats_order_sales_module extends api_admin implements api_interface
         $start_date = $this->requestData('start_date');
         $end_date   = $this->requestData('end_date');
         if (empty($start_date) || empty($end_date)) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         $cache_key = 'admin_stats_order_sales_' . $_SESSION['store_id'] . '_' . md5($start_date . $end_date);

@@ -55,12 +55,12 @@ class orders_order_list_api extends Component_Event_Api
     /**
      * 查看订单列表
      * @param array $options
-     * @return  array
+     * @return  array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         $user_id = array_get($options, 'user_id', $_SESSION['user_id']);

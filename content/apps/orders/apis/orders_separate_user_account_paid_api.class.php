@@ -59,14 +59,14 @@ class orders_separate_user_account_paid_api extends Component_Event_Api
     /**
      * @param  $options ['user_id'] 会员id
      *         $options['order_sn'] 订单sn
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options)
             || !isset($options['user_id'])
             || !isset($options['order_sn'])) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         $result = $this->user_account_paid($options['user_id'], $options['order_sn']);

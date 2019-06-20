@@ -72,7 +72,7 @@ class admin_orders_operate_pay_module extends api_admin implements api_interface
         $action_note = $this->requestData('action_note', '');
 
         if (empty($order_id) || empty($action_note)) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         /*验证订单是否属于此入驻商*/
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {

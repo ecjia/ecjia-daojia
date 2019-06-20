@@ -63,7 +63,7 @@ class orders_order_paid_api extends Component_Event_Api
      *         $options['pay_status'] 支付状态
      *         $options['note'] 支付备注（非必须）
      *
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
@@ -71,7 +71,7 @@ class orders_order_paid_api extends Component_Event_Api
             || !isset($options['log_id'])
             || !isset($options['money'])
             || !isset($options['pay_status'])) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         /* 检查支付的金额是否相符 */

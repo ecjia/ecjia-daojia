@@ -61,12 +61,12 @@ class orders_separate_order_paid_api extends Component_Event_Api
      * @param Y float money      支付金额
      * @param N array order_info    订单信息
      * @param N string pay_code     支付方式
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!array_get($options, 'order_sn') || !array_get($options, 'money')) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         $order_sn = $options['order_sn'];

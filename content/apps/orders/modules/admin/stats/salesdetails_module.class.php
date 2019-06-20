@@ -72,7 +72,7 @@ class admin_stats_salesdetails_module extends api_admin implements api_interface
         $start_date = $this->requestData('start_date');
         $end_date   = $this->requestData('end_date');
         if (empty($start_date) || empty($end_date)) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
 
         $db_orderinfo_view       = RC_Model::model('orders/order_info_viewmodel');
