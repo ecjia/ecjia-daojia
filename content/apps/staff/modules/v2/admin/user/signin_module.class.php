@@ -70,7 +70,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
 		
 		if (version_compare($api_version, '1.14', '>=')) {
 			if (empty($login_type) || !in_array($login_type, $login_type_array) || empty($username) || empty($password)) {
-				return new ecjia_error('invalid_parameter', __('参数无效', 'staff'));
+				return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'staff'), __CLASS__));
 			}
 			if ($login_type =='smslogin') {
 				$user_count = RC_DB::table('staff_user')->where('mobile', $username)->count();

@@ -65,7 +65,7 @@ class admin_user_search_module extends api_admin implements api_interface {
 		
 		$keywords = $this->requestData('keywords');
 		if (empty($keywords)) {
-			return new ecjia_error(101, '参数错误');
+			return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'staff'), __CLASS__));
 		}
 		
 		$db_user = RC_Model::model('user/user_viewmodel');

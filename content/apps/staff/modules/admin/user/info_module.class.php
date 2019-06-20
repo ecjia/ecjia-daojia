@@ -62,7 +62,7 @@ class admin_user_info_module extends api_admin implements api_interface {
 		$user_id = $this->requestData('user_id', 0);
 		$mobile	 = $this->requestData('mobile', '');
 		if (empty($user_id) && empty($mobile)) {
-			return new ecjia_error('invalid_parameter', '错误的参数提交');
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'staff'), __CLASS__));
 		}
 		
 		RC_Loader::load_app_func('admin_user', 'user');

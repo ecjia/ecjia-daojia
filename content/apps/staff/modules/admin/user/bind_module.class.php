@@ -66,7 +66,7 @@ class admin_user_bind_module extends api_admin implements api_interface {
 		$type_array = array('mobile', 'email');
 		//判断值是否为空，且type是否是在此类型中
 		if ( empty($type) || empty($value) || !in_array($type, $type_array)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效', 'staff'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'staff'), __CLASS__));
 		}
 		if (empty($code)) {
 		    return new ecjia_error( 'invalid_parameter', __('请填写验证码', 'staff'));
