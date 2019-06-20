@@ -54,7 +54,7 @@ class shop_captcha_mail_module extends api_front implements api_interface {
 		$value = $this->requestData('mail', '');
 		
 		if (empty($type) || empty($value)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效', 'captcha'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'captcha'), __CLASS__));
 		}
 		
 		$code = rand(100001, 999999);

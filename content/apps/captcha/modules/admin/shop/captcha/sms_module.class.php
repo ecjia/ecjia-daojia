@@ -54,7 +54,7 @@ class admin_shop_captcha_sms_module extends api_admin implements api_interface {
 		$mobile = $this->requestData('mobile', '');
 		
 		if (empty($type) || empty($mobile)) {
-			return new ecjia_error( 'invalid_parameter', __('参数无效', 'captcha'));
+			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'captcha'), __CLASS__));
 		}
 		
 		$code = rand(100001, 999999);
