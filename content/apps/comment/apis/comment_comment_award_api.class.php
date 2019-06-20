@@ -51,13 +51,13 @@ class comment_comment_award_api extends Component_Event_Api {
     /**
      * @param
      *
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 // 	    $options['comment_id'] 
 		
 	    if (empty($options['comment_id'])) {
-	        return new ecjia_error('invalid_parameter', __('参数无效', 'comment'));
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'comment'), __CLASS__));
 	    }
 	    $comment_id = $options['comment_id'];
 	    if (!ecjia::config('comment_award_open')) {

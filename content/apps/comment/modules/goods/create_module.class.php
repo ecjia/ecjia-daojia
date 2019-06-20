@@ -68,7 +68,7 @@ class goods_create_module extends api_front implements api_interface {
 		$picture		= $this->requestData('picture', array()); //兼容表单提交图片上传
 		
 		if ( empty($rec_id)) {
-			return new ecjia_error('invalid_parameter', '参数错误！');
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'comment'), __CLASS__));
 		}
 		
 		$comment_info = RC_DB::table('comment')->where('rec_id', $rec_id)->where('parent_id', 0)->first();

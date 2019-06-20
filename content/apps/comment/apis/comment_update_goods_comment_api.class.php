@@ -51,13 +51,13 @@ class comment_update_goods_comment_api extends Component_Event_Api {
     /**
      * @param
      *
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 // 	    $options['goods_id'] $options['rank']
 		
 	    if (empty($options['goods_id'])) {
-	        return new ecjia_error('invalid_parameter', __('参数无效', 'comment'));
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'comment'), __CLASS__));
 	    }
 	    $goods_id = $options['goods_id'];
 	    $goods = RC_DB::table('goods')->where('goods_id', $goods_id)->first();
