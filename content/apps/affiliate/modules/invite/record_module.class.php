@@ -71,7 +71,7 @@ class invite_record_module extends api_front implements api_interface {
  		$page = $this->requestData('pagination.page', 1);
 		
 		if (empty($date)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'affiliate'));
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
 		}
 		
 		$count = RC_DB::table('invite_reward')

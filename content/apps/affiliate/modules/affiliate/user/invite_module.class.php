@@ -60,7 +60,7 @@ class affiliate_user_invite_module extends api_front implements api_interface
         $sms_code     = $this->requestData('sms_code');
         
         if (empty($mobile) || empty($invite_code) || empty($sms_code)) {
-        	return new ecjia_error('invalid_parameter', __('参数无效', 'affiliate'));
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
         }
         //手机号码格式判断
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);

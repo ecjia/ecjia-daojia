@@ -54,14 +54,14 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 	
     /**
      * @param  $options['invite_code'] 受邀码
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {	
 	    if (!is_array($options) 
 	        || !isset($options['invite_type'])
 	    	|| !isset($options['user_id'])
 	    	) {
-	        return new ecjia_error('invalid_parameter', __('调用affiliate_invite_reward_api参数无效', 'affiliate'));
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
 	    }
 	    $user_info = RC_DB::table('users')->select(RC_DB::raw('user_name, parent_id'))->where('user_id', $options['user_id'])->first();
 	    $invite_id = $user_info['parent_id'];

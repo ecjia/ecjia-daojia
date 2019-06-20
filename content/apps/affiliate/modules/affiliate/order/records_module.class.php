@@ -67,7 +67,7 @@ class affiliate_order_records_module extends api_front implements api_interface
 
         $status_arr = array('await_separate', 'separated');
         if (empty($status) || !in_array($status, $status_arr)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'affiliate'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
         }
 
         if ($status == 'await_separate') {

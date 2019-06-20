@@ -54,12 +54,12 @@ class affiliate_invite_bind_api extends Component_Event_Api {
 	
     /**
      * @param  $options['invite_code'] 受邀码
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {	
 	    if (!is_array($options) 
 	        || (!isset($options['invite_code']))) {
-	        return new ecjia_error('invalid_parameter', __('调用affiliate_invite_bind_api参数无效', 'affiliate'));
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
 	    }
 	    /* 统一转为大写*/
 	    $options['invite_code'] = strtoupper($options['invite_code']);

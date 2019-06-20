@@ -54,12 +54,12 @@ class affiliate_user_invite_code_api extends Component_Event_Api
 {
 
     /**
-     * @return array
+     * @return string|ecjia_error
      */
     public function call(&$options)
     {
         if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-            return new ecjia_error('invalid_parameter', __('调用affiliate_user_invite_code_api参数无效', 'affiliate'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
         }
         
         $user_invite_code = Ecjia\App\Affiliate\UserInviteCode::getCode($_SESSION['user_id']);

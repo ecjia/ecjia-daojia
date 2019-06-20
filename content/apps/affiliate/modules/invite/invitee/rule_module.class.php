@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 被邀请说明
  * @author zrl
  */
-class rule_module extends api_front implements api_interface {
+class invite_invitee_rule_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
 		
 		
