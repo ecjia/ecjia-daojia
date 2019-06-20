@@ -64,7 +64,7 @@ class push_push_event_send_api extends Component_Event_Api {
      */
 	public function call(&$options) {	    
 	    if (!is_array($options)) {
-	        return new ecjia_error('invalid_argument', __('无效参数', 'push'));
+	        return new ecjia_error('invalid_argument', sprintf(__('请求接口%s参数无效', 'push'), __CLASS__));
 	    }
 	    
 	    if (!array_get($options, 'user_id') || !array_get($options, 'user_type') || !array_get($options, 'event')) {
