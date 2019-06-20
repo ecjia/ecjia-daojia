@@ -68,6 +68,8 @@ abstract class EcjiaApiAdminController extends EcjiaApi
 
     protected function registerServiceProvider()
     {
+        parent::registerServiceProvider();
+
         royalcms()->forgeRegister('Ecjia\System\Providers\EcjiaAdminServiceProvider');
     }
 

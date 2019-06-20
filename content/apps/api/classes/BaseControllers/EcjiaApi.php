@@ -112,6 +112,13 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
 		RC_Hook::do_action('ecjia_api_finish_launching');
 	}
 
+    protected function registerServiceProvider()
+    {
+        parent::registerServiceProvider();
+
+        royalcms()->register('Royalcms\Component\Purifier\PurifierServiceProvider');
+    }
+
     /**
      * 游客状态也需要设置一下session值
      */
