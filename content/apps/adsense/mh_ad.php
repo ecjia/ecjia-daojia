@@ -233,7 +233,7 @@ class mh_ad extends ecjia_merchant {
 		if (empty($_POST['show_client'])) {
 			return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$show_client = Ecjia\App\Adsense\Client::clientSelected(remove_xss($_POST['show_client']));
+			$show_client = Ecjia\App\Adsense\Client::clientSelected(array_map("intval", $_POST['show_client']));
 		}
 		
 		$data = array(
@@ -385,7 +385,7 @@ class mh_ad extends ecjia_merchant {
 		if (empty($_POST['show_client'])) {
 			return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$show_client = Ecjia\App\Adsense\Client::clientSelected(remove_xss($_POST['show_client']));
+			$show_client = Ecjia\App\Adsense\Client::clientSelected(array_map("intval", ($_POST['show_client'])));
 		}
 		$position_id = intval($_POST['position_id']);
 		$show_client_value = intval($_POST['show_client_value']);
