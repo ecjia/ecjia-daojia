@@ -52,12 +52,12 @@ class customer_store_user_buy_api extends Component_Event_Api {
      * @param $options
      * Y user_id order_id/store_id
      * N store_name
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		
 	    if (empty($options['user_id']) || (empty($options['store_id']) && empty($options['order_id']))) {
-	        return new ecjia_error('invalid_parameter', '参数无效');
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'customer'), __CLASS__));
 	    }
 	    
 	    $user_id = $options['user_id'];

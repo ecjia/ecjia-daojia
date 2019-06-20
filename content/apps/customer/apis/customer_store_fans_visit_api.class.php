@@ -51,12 +51,12 @@ class customer_store_fans_visit_api extends Component_Event_Api {
     /**
      * @param $options
      * user_id store_id longitude latitude
-     * @return array
+     * @return array|ecjia_error
      */
 	public function call(&$options) {
 		
 	    if (empty($options['user_id']) || empty($options['store_id'])) {
-	        return new ecjia_error('invalid_parameter', __('参数无效', 'customer'));
+	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'customer'), __CLASS__));
 	    }
 	    //设置缓存key
 	    $cache_id = 'store_fans_visit-'.$options['store_id'].'-'.$options['user_id'];
