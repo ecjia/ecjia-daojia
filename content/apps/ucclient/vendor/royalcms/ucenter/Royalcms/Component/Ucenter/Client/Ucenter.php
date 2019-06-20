@@ -193,6 +193,16 @@ class Ucenter
     }
 
     /**
+     * 检查用户手机号是否存在
+     *
+     * @param string $mobile
+     */
+    public function ucUserCheckMobile($mobile)
+    {
+        return $this->requestHandler->send('user', 'check_mobile', array('mobile' => $mobile));
+    }
+
+    /**
      * 获取用户信息
      *
      * @param $username

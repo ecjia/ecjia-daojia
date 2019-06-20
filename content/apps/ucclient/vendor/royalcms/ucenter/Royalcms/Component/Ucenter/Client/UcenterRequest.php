@@ -61,7 +61,7 @@ class UcenterRequest
      * @param $module
      * @param $action
      * @param array $arg
-     * @return array|\RC_Error
+     * @return array|string|\RC_Error
      */
     public function send($module, $action, $arg = array(), $extra = null)
     {

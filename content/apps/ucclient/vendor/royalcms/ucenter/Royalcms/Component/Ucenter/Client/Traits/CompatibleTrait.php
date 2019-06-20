@@ -175,6 +175,14 @@ trait CompatibleTrait
     }
 
     /**
+     * @param $mobile
+     */
+    public function uc_user_checkmobile($mobile)
+    {
+        return $this->ucUserCheckMobile($mobile);
+    }
+
+    /**
      * @param $username
      * @param string $admin
      */
