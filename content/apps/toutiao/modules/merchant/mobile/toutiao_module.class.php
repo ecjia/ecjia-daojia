@@ -16,7 +16,7 @@ class merchant_mobile_toutiao_module extends api_front implements api_interface 
     	$store_id = $this->requestData('store_id', '0');
     	
     	if (empty($store_id)) {
-    		return new ecjia_error( 'invalid_parameter', __('参数无效', 'toutiao'));
+    		return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'toutiao'), __CLASS__));
     	}
 		
     	$db = RC_DB::table('merchant_news');
