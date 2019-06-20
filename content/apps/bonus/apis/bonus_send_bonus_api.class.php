@@ -55,12 +55,12 @@ class bonus_send_bonus_api extends Component_Event_Api
 
     /**
      * @param  array $options    条件参数
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!is_array($options) || !isset($options['type'])) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'bonus'), __CLASS__));
         }
 
         if ($options['type'] == SEND_COUPON) {

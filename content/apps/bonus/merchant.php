@@ -645,7 +645,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('bonus_send', ecjia::MSGTYPE_JSON);
 
 		$user_list = array();
-		$user_ids = remove_xss($_GET['linked_array']);
+		$user_ids = $_GET['linked_array'];
 		if (empty($user_ids)) {
 			return $this->showmessage(__('您没有选择需要发放红包的会员，请返回！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -779,7 +779,7 @@ class merchant extends ecjia_merchant {
 	public function search_users() {
 		$this->admin_priv('bonus_send', ecjia::MSGTYPE_JSON);
 		
-		$json = remove_xss($_POST['JSON']);
+		$json = $_POST['JSON'];
 		$keywords = !empty($json) && isset($json['keyword']) ? trim($json['keyword']) : '';
 		if(!empty($keywords)){
 			$db_user = RC_DB::table('users');
@@ -959,7 +959,7 @@ class merchant extends ecjia_merchant {
     	$this->admin_priv('bonus_manage', ecjia::MSGTYPE_JSON);
 
     	@set_time_limit(0);
-    	$tid  = !empty($_GET['tid']) ? intval($_GET['tid']) : 0;
+    	$tid  = !empty($_GET['tid']) ? $_GET['tid'] : 0;
     	$type_name = RC_DB::table('bonus_type')->where('type_id', $tid)->where('store_id', $_SESSION['store_id'])->pluck('type_name');
     	$bonus_filename = $type_name .'_bonus_list';
     	header("Content-type: application/vnd.ms-excel; charset=utf-8");

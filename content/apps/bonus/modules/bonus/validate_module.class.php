@@ -13,7 +13,7 @@ class bonus_validate_module extends api_front implements api_interface
     	$bonus_sn = $this->requestData('bonus_sn');
 		
     	if (empty($bonus_sn)) {
-    		return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'bonus'), __CLASS__));
     	}
     	
 		$time = RC_Time::gmtime();

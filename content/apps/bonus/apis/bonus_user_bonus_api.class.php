@@ -70,7 +70,7 @@ class bonus_user_bonus_api extends Component_Event_Api {
 	    }
 	    
 	    $db_cart_view->where(RC_DB::raw('c.user_id'), '=', $_SESSION['user_id']);
-	    $db_cart_view->where(RC_DB::raw('c.rec_type'), '=', CART_GENERAL_GOODS);
+	    $db_cart_view->where(RC_DB::raw('c.rec_type'), '=', \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS);
 	   
 		$dbview = RC_DB::table('user_bonus as ub')->leftJoin('bonus_type as bt', RC_DB::raw('ub.bonus_type_id'), '=', RC_DB::raw('bt.type_id'));
 		$today = RC_Time::gmtime();

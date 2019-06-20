@@ -243,7 +243,7 @@ function user_bonus($user_id, $goods_amount = 0, $cart_id = array(), $store_id =
     if (!empty($cart_id)) {
         $db_cart->where(RC_DB::raw('c.rec_id'), $cart_id);
     }
-    $db_cart->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])->where('rec_type', CART_GENERAL_GOODS);
+    $db_cart->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])->where('rec_type', \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS);
 	$today = RC_Time::gmtime();
 	
 	$dbview = RC_DB::table('user_bonus as ub')
@@ -330,7 +330,7 @@ function get_total_bonus() {
 			->where(RC_DB::raw('t.send_type'), SEND_BY_GOODS)
 			->where(RC_DB::raw('t.send_start_date'), '<=', $today)
 			->where(RC_DB::raw('t.send_end_date'), '>=', $today)
-			->where(RC_DB::raw('c.rec_type'), CART_GENERAL_GOODS)
+			->where(RC_DB::raw('c.rec_type'), \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS)
 			->SUM(RC_DB::raw('c.goods_number * t.type_money'));
 		$goods_total = floatval($total_money);
 
@@ -338,7 +338,7 @@ function get_total_bonus() {
 	    $goods_amount = RC_DB::table('cart')
 	        ->where('user_id', $_SESSION['user_id'])
 	        ->where('is_gift', 0)
-	        ->where('rec_type', CART_GENERAL_GOODS)
+	        ->where('rec_type', \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS)
 	        ->SUM(RC_DB::raw('goods_price * goods_number'));
 		$amount = floatval($goods_amount);
 
@@ -351,7 +351,7 @@ function get_total_bonus() {
 			->where(RC_DB::raw('t.send_type'), SEND_BY_GOODS)
 			->where(RC_DB::raw('t.send_start_date'), '<=', $today)
 			->where(RC_DB::raw('t.send_end_date'), '>=', $today)
-			->where(RC_DB::raw('c.rec_type'), CART_GENERAL_GOODS)
+			->where(RC_DB::raw('c.rec_type'), \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS)
 			->SUM(RC_DB::raw('c.goods_number * t.type_money'));
 		$goods_total = floatval($total_money);
 
@@ -359,7 +359,7 @@ function get_total_bonus() {
 		$goods_amount = RC_DB::table('cart')
 	        ->where('session_id', SESS_ID)
 	        ->where('is_gift', 0)
-	        ->where('rec_type', CART_GENERAL_GOODS)
+	        ->where('rec_type', \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS)
 	        ->SUM(RC_DB::raw('goods_price * goods_number'));
 		$amount = floatval($goods_amount);
 	}

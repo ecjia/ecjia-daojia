@@ -61,7 +61,7 @@ class bonus_send_user_bonus_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!array_get($options, 'type_id') || !array_get($options, 'user_id')) {
-            return new ecjia_error('invalid_parameter', __('请求接口bonus_send_user_bonus_api参数无效', 'bonus'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'bonus'), __CLASS__));
         }
 
         $type_id = array_get($options, 'type_id');

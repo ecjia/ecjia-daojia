@@ -59,7 +59,7 @@ class bonus_coupon_module extends api_front implements api_interface {
 		$city_id	= $this->requestData('city_id', '');
 		/*经纬度为空判断*/
 		if (!is_array($location) || ((empty($location['longitude']) || empty($location['latitude'])) && $city_id <= 0)) {
-			return new ecjia_error('invalid_parameter', '参数无效');
+			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'bonus'), __CLASS__));
 		}
 		
 		$size = $this->requestData('pagination.count', 15);

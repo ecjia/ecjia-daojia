@@ -55,7 +55,7 @@ class bonus_use_bonus_api extends Component_Event_Api {
     
     public function call(&$options) {
         if (!is_array($options) || !isset($options['bonus_id']) || (empty($options['order_id']) && empty($options['order_sn'])) ) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'bonus'), __CLASS__));
         }
         $options['order_id'] = intval($options['order_id']);
         $options['order_sn'] = isset($options['order_sn']) ? $options['order_sn'] : '';

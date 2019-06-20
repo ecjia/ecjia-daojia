@@ -54,7 +54,7 @@ class bonus_bonus_type_count_api extends Component_Event_Api {
     
     public function call(&$options) {
     	if (!is_array($options)) {
-    		return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'bonus'), __CLASS__));
     	}
     	$bonus_type_db = RC_DB::table('bonus_type as bt');
     	$bonus_type_db->whereNotIn(RC_DB::raw('bt.send_type'),array(100, 101))->where(RC_DB::raw('bt.send_type'), '<>', 100);
