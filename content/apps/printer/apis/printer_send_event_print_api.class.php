@@ -68,7 +68,7 @@ class printer_send_event_print_api extends Component_Event_Api
         // $auto_print 可选
 
         if (!array_key_exists('store_id', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
-            return new ecjia_error('invalid_argument', sprintf(__('调用%s，无效参数', 'printer'), 'send_event_print'));
+            return new ecjia_error('invalid_argument', sprintf(__('请求接口%s参数无效', 'printer'), __CLASS__));
         }
         $store_id   = $options['store_id'];
         $event      = $options['event'];
