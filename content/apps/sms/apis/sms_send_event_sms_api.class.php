@@ -64,7 +64,7 @@ class sms_send_event_sms_api extends Component_Event_Api {
 	    // $mobile, $event, $value
 	    
 	    if (!array_key_exists('mobile', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
-	        return new ecjia_error('invalid_argument', __('无效参数', 'sms'));
+	        return new ecjia_error('invalid_argument', sprintf(__('请求接口%s参数无效', 'sms'), __CLASS__));
 	    }
 	    
 	    $mobile = $options['mobile'];
