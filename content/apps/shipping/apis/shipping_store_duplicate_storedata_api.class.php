@@ -61,7 +61,7 @@ class shipping_store_duplicate_storedata_api extends Component_Event_Api
         $source_store_id = array_get($options, 'source_store_id');
 
         if (empty($store_id)) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'shipping'), __CLASS__));
         }
 
         return [

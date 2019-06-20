@@ -66,12 +66,12 @@ class shipping_shipping_area_info_api extends Component_Event_Api
      * @param province      省份
      * @param city          城市
      * @param district      地区
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
         if (!array_get($options, 'shipping_id')) {
-            return new ecjia_error('invalid_parameter', __('缺少必要参数', 'shipping'));
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'shipping'), __CLASS__));
         }
 
         $store_id = array_get($options, 'store_id', 0);

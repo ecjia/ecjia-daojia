@@ -358,7 +358,7 @@ class mh_shipping extends ecjia_merchant
         $template_name = !empty($_POST['template_name']) ? remove_xss($_POST['template_name']) : '';
 
         $shipping_area_id = !empty($_POST['shipping_area_id']) ? intval($_POST['shipping_area_id']) : 0;
-        $regions          = !empty($_POST['regions']) ? remove_xss($_POST['regions']) : '';
+        $regions          = !empty($_POST['regions']) ? $_POST['regions'] : '';
 
         if (!empty($temp_name) && empty($template_name)) {
             $count = RC_DB::table('shipping_area')
@@ -563,7 +563,7 @@ class mh_shipping extends ecjia_merchant
         $temp_name     = !empty($_POST['temp_name']) ? remove_xss($_POST['temp_name']) : '';
         $template_name = !empty($_POST['template_name']) ? remove_xss($_POST['template_name']) : '';
 
-        $regions = !empty($_POST['regions']) ? remove_xss($_POST['regions']) : '';
+        $regions = !empty($_POST['regions']) ? $_POST['regions'] : '';
         if (empty($regions)) {
             return $this->showmessage(__('请添加配送地区', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
