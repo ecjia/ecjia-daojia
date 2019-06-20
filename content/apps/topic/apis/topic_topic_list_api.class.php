@@ -9,13 +9,13 @@ class topic_topic_list_api extends Component_Event_Api
 {
     /**
      * @param  array $options    条件参数
-     * @return array
+     * @return array|ecjia_error
      */
     public function call(&$options)
     {
     	if (!is_array($options)) 
     	{
-    		return new ecjia_error('invalid_parameter', __('调用api文件topic_list_api参数无效！', 'topic'));
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'topic'), __CLASS__));
     	}
     	
         return $this->topic_list($options);

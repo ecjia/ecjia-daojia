@@ -13,7 +13,7 @@ class topic_info_module extends api_front implements api_interface
     	$topic_id = $this->requestData('topic_id', 0);
 
     	if (empty($topic_id)) {
-    		return new ecjia_error('invalid_parameter', '调用接口topic_info_module参数无效！');
+    		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'topic'), __CLASS__));
     	}
     	$type = $this->requestData('type');
     	$size = $this->requestData('pagination.count', 15);
