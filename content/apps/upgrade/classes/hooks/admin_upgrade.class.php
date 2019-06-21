@@ -67,16 +67,22 @@ class admin_upgrade_hooks {
         if (!(array_get($_SESSION, 'admin_id') && array_get($_SESSION, 'action_list') == 'all')) {
             return false;
         }
-        
-        RC_Package::package('app::upgrade')->loadClass('upgrade_utility', false);
-        
-        $old_version = ecjia::config('ecjia_version');
-        $new_version = RC_Config::get('release.version');
-        
-        if (! upgrade_utility::checkUpgradeLock() && ROUTE_M != 'upgrade' 
-            && version_compare($old_version, $new_version, '<')) {
-            ecjia_admin::$controller->redirectWithExited(RC_Uri::url('upgrade/index/init'));
+
+        $route = royalcms('default-router');
+        if ($route->justCurrentRoute('admincp/index/init')) {
+
+            RC_Package::package('app::upgrade')->loadClass('upgrade_utility', false);
+
+            $old_version = ecjia::config('ecjia_version');
+            $new_version = RC_Config::get('release.version');
+
+            if (! upgrade_utility::checkUpgradeLock() && ROUTE_M != 'upgrade'
+                && version_compare($old_version, $new_version, '<')) {
+                ecjia_admin::$controller->redirectWithExited(RC_Uri::url('upgrade/index/init'));
+            }
+
         }
+        
     }
 
 
