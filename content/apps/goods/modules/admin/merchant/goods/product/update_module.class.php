@@ -104,7 +104,10 @@ class admin_merchant_goods_product_update_module extends api_admin implements ap
     	
     	//货品图片上传
     	if (isset($_FILES['product_image'])) {
-    		$this->processProductImage($_FILES['product_image'], $goods_id, $product_id);
+    		$upload_result = $this->processProductImage($_FILES['product_image'], $goods_id, $product_id);
+    		if (is_ecjia_error($upload_result)) {
+    			return $upload_result;
+    		}
     	}
     	
     	if (!empty($update_data)) {
@@ -144,9 +147,21 @@ class admin_merchant_goods_product_update_module extends api_admin implements ap
     	if ($proc_goods_img) {
     		if (isset($file_goods_image)) {
     			$image_info = $upload->upload($file_product_image);
+    			if (empty($image_info)) {
+    				return new ecjia_error('upload_error', $upload->error());
+    			}
     		}
     	}
     		 
+    	RC_Logger::getlogger('info')->info([
+		    'file' => __FILE__,
+		    'line' => __LINE__,
+		    'product_image' => $file_product_image,
+		    '$_FILES' => $_FILES,
+		    'proc_goods_img' => $proc_goods_img,
+		    'image_info' => $image_info,
+		]);
+
     	/* 更新上传后的商品图片 */
     	if ($proc_goods_img) {
     		if (isset($image_info)) {

@@ -163,6 +163,13 @@ class product_image_data {
 	        'product_thumb'    => $goods_thumb,
 	        'product_original_img'   => $goods_original,
 		);
+
+		RC_Logger::getlogger('info')->info([
+		    'file' => __FILE__,
+		    'line' => __LINE__,
+		    'data' => $data,
+		]);
+
         RC_DB::table('products')->where('product_id', $this->product_id)->update($data);
 		
 		/* 先存储新的图片，再删除原来的图片 */

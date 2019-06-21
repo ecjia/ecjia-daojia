@@ -115,13 +115,28 @@ class admin_goods_merchant_category_update_module extends api_admin implements a
     	}
     	
     	/* 上传分类图片 */
-    	$upload = RC_Upload::uploader('image', array('save_path' => 'data/category', 'auto_sub_dirs' => true));
-    	if (isset($_FILES['category_image']) && $upload->check_upload_file($_FILES['category_image'])) {
-    		$image_info = $upload->upload($_FILES['category_image']);
-    		if (!empty($image_info)) {
-    			$file_name = $category->cat_image;
-    			$upload->remove($file_name);
-    			$cat['cat_image'] = $upload->get_position($image_info);
+    	$old_images =  $category['cat_image'];
+    	$upload = RC_Upload::uploader('image', array('save_path' => 'merchant/' . $_SESSION['store_id'] . '/data/' . 'category', 'auto_sub_dirs' => true));
+    	$file = $_FILES['category_image'];
+    	if (!empty($file) && (isset($file['error']) && $file['error'] == 0 || !isset($file['error']) && $file['tmp_name'] != 'none')) {
+    		// 检测图片类型是否符合
+    		if (!$upload->check_upload_file($file)) {
+    			return new ecjia_error('upload_error', $upload->error());
+    		} else {
+    			$image_info = $upload->upload($file);
+    			if (empty($image_info)) {
+    				return new ecjia_error('upload_error', $upload->error());
+    			}
+    			// 删除旧的图片
+    			if (!empty($old_images)) {
+    				$upload->remove($old_images);
+    			}
+    			$img_path = $upload->get_position($image_info);
+    			if (is_ecjia_error($img_path)) {
+    				return $img_path;
+    			} else {
+    				$cat['cat_image'] = $img_path;
+    			}
     		}
     	}
     	

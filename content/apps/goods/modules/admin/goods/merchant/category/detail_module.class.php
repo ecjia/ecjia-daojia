@@ -92,7 +92,7 @@ class admin_goods_merchant_category_detail_module extends api_admin implements a
     	$category_detail = array(
 			'category_id'			=> $category_info['cat_id'],
 			'category_name'			=> $category_info['cat_name'],
-			'category_image'		=> !empty($category_info['style']) ? RC_Upload::upload_url($category_info['style']) : '',
+			'category_image'		=> !empty($category_info['cat_image']) ? RC_Upload::upload_url($category_info['cat_image']) : '',
     	    'category' 				=> Ecjia\App\Goods\GoodsFunction::get_parent_cats($category_info['cat_id'], 1, $_SESSION['store_id']),
 			'is_show'				=> $category_info['is_show'],
 			'goods_count'			=> $goods_count,
