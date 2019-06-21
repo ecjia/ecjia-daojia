@@ -131,6 +131,19 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 				return new ecjia_error('activity_error', '活动还未开始或已结束');
 			}
 			
+			/*活动可优惠金额获取*/
+			$discount = quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
+				
+			/*活动可优惠金额处理*/
+			$order['discount'] = sprintf("%.2f", $discount);
+			if ($order['order_amount'] >= $order['discount']) {
+				$order['order_amount'] -= $order['discount'];
+			} else {
+				$order['discount'] = $order['order_amount'];
+				$order['order_amount'] -= $order['discount'];
+			}
+			
+			
 			/*红包是否可用*/
 			if ($bonus_id > 0) {
 				$bonus_info = RC_Api::api('bonus', 'bonus_info', array('bonus_id' => $bonus_id));
@@ -157,9 +170,6 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 				}
 					
 			}
-			
-			/*活动可优惠金额获取*/
-			$discount = quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
 			
 			if ($integral > 0) {
 				/*会员可用积分数*/
@@ -196,16 +206,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 			$order['bonus'] = 0.00;
 			$order['integral'] = 0;
 			$order['integral_money'] = 0.00;
-			$discount = 0.00;
-		}
-		
-		/*活动可优惠金额处理*/
-		$order['discount'] = sprintf("%.2f", $discount);
-		if ($order['order_amount'] >= $order['discount']) {
-			$order['order_amount'] -= $order['discount'];
-		} else {
-			$order['discount'] = $order['order_amount'];
-			$order['order_amount'] -= $order['discount'];
+			$order['discount'] = 0.00;
 		}
 		
 		$formated_discount = ecjia_price_format($order['discount'], false);
