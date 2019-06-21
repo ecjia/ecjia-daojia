@@ -96,6 +96,7 @@ return array(
     'Royalcms\\Component\\Timer\\' => array($vendorDir . '/royalcms/timer'),
     'Royalcms\\Component\\Tinker\\' => array($vendorDir . '/royalcms/tinker'),
     'Royalcms\\Component\\Translation\\' => array($vendorDir . '/royalcms/translation'),
+    'Royalcms\\Component\\Url\\' => array($vendorDir . '/royalcms/url'),
     'Royalcms\\Component\\Upload\\' => array($vendorDir . '/royalcms/upload'),
     'Royalcms\\Component\\Uploader\\' => array($vendorDir . '/royalcms/uploader'),
     'Royalcms\\Component\\Uuid\\' => array($vendorDir . '/royalcms/uuid'),
