@@ -435,7 +435,7 @@ class GoodsFunction
     	if (empty($template_id)) {
     		$category_info = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->first();
     		if ($category_info['parent_id'] > 0) {
-    			$template_id = self::get_cat_template($type, $category_info['parent_id']);
+    			$template_id = self::get_merchant_cat_template($type, $category_info['parent_id']);
     		}
     	}
     	return $template_id;
@@ -454,7 +454,7 @@ class GoodsFunction
     	if (empty($template_id)) {
     		$category_info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
     		if ($category_info['parent_id'] > 0) {
-    			$template_id = self::get_cat_template($type, $category_info['parent_id']);
+    			$template_id = self::get_admin_cat_template($type, $category_info['parent_id']);
     		}
     	}
     	return $template_id;

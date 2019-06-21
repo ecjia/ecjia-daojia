@@ -109,18 +109,16 @@ class admin_merchant_goods_parameter_binded_template_module extends api_admin im
 					}
 					$goods_attr_values = [];
 					if ($item->goods_attr_collection) {
-						$goods_attr_value = $item->goods_attr_collection->where('goods_id', $goods_id)->where('attr_value', '!=', '')->all();
-						
+						$goods_attr_value = $item->goods_attr_collection->where('goods_id', $goods_id)->where('attr_value', '!=', '');
+						$goods_attr_value = $goods_attr_value->toArray();
 						if ($goods_attr_value) {
-							$goods_attr_values = collect($goods_attr_value)->map(function($g_attr_val) use ($item) {
-								if ($item->attr_input_type == '2') { //参数值录入是多行文本时，商品属性值处理
-									$arr = explode(',', str_replace("\n", ",", $g_attr_val->attr_value));
+							foreach ($goods_attr_value as $v) {
+								if ($item->attr_input_type == '2') {//参数值录入是多行文本时，商品属性值处理
+									$arr = explode(',', str_replace("\n", ",", $v['attr_value']));
 								} else {
-									$arr = $g_attr_val->attr_value;
+									$arr[] = $v['attr_value'];
 								}
-								return $arr;
-							});
-							$goods_attr_values = $goods_attr_values->toArray();
+							}
 						}
 					}
 					
@@ -129,7 +127,7 @@ class admin_merchant_goods_parameter_binded_template_module extends api_admin im
 						'attr_name'			=> trim($item->attr_name),
 						'attr_form_type'	=> $attr_form_type,
 						'attr_values'		=> $attr_values,
-						'goods_attr_value'	=> $goods_attr_values
+						'goods_attr_value'	=> empty($arr) ? [] : $arr
 					];
 					return $attr_list;
 				});

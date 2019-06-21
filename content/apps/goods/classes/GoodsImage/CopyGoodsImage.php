@@ -19,6 +19,12 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
 
     protected $extension_name;
 
+    /**
+     * 商品上传的目录位置
+     * @var string
+     */
+    protected $root_dir = 'images/';
+
     public function __construct($goods_id, $product_id = 0)
     {
         $this->goods_id = $goods_id;
@@ -54,7 +60,7 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
     {
         $this->extension_name = RC_File::extension($original_path);
 
-        $image_format = new GoodsImageFormatted($this);
+        $image_format = new GoodsImageFormatted($this, $this->root_dir);
 
         return $this->copyImage($image_format, $original_path, $img_path, $thumb_path);
     }
@@ -63,7 +69,7 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
     {
         $this->extension_name = RC_File::extension($original_path);
 
-        $image_format = new GoodsGalleryFormatted($this);
+        $image_format = new GoodsGalleryFormatted($this, $this->root_dir);
 
         return $this->copyImage($image_format, $original_path, $img_path, $thumb_path);
     }
@@ -81,7 +87,7 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
     {
         $this->extension_name = RC_File::extension($original_path);
 
-        $image_format = new ProductImageFormatted($this);
+        $image_format = new ProductImageFormatted($this, $this->root_dir);
 
         return $this->copyImage($image_format, $original_path, $img_path, $thumb_path);
     }
@@ -90,7 +96,7 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
     {
         $this->extension_name = RC_File::extension($original_path);
 
-        $image_format = new ProductGalleryFormatted($this);
+        $image_format = new ProductGalleryFormatted($this, $this->root_dir);
 
         return $this->copyImage($image_format, $original_path, $img_path, $thumb_path);
     }

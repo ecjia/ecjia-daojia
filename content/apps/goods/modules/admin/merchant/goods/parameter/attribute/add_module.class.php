@@ -73,6 +73,9 @@ class admin_merchant_goods_parameter_attribute_add_module extends api_admin impl
 		if (empty($attr_name)) {
 			return new ecjia_error('attr_name_error', __('请填写参数属性名称！', 'goods'));
 		}
+		if ($attr_type == 2) {//为复选参数时
+			$attr_input_type = 1;
+		}
 		//参数属性值类型是唯一参数且参数值录入方式是从下拉表中选择，则必须填写可选值列表；参数属性值类型是复选参数时，可选值列表需必填
 		if (($attr_type === 0 && $attr_input_type === 1) || ($attr_type === 2)) {
 			if (!is_array($attr_values) || empty($attr_values)) {
