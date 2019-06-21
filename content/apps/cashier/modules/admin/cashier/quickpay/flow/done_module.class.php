@@ -133,6 +133,18 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 				return new ecjia_error('activity_error', __('活动还未开始或已结束', 'cashier'));
 			}
 			
+			/*活动可优惠金额获取*/
+			$discount = quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
+				
+			/*活动可优惠金额处理*/
+			$order['discount'] = sprintf("%.2f", $order['discount']);
+			if ($order['order_amount'] >= $order['discount']) {
+				$order['order_amount'] -= $order['discount'];
+			} else {
+				$order['discount'] = $order['order_amount'];
+				$order['order_amount'] -= $order['discount'];
+			}
+			
 			/*红包是否可用*/
 			if ($bonus_id > 0) {
 				$bonus_info = RC_Api::api('bonus', 'bonus_info', array('bonus_id' => $bonus_id));
@@ -156,7 +168,6 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 						$order['bonus'] = $order['order_amount'];
 						$order['order_amount'] -= $order['bonus'];
 					}
-
 				}
 					
 			}
@@ -178,9 +189,6 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 				}
 			}
 			
-			/*活动可优惠金额获取*/
-			$discount = quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
-			
 			/*自定义时间限制处理，当前时间不可用时，订单可正常提交,只是优惠金额是0；红包和积分也为0*/
 			if ($quickpay_activity_info['limit_time_type'] == 'customize') {
 				if (!quickpay_activity::customize_activity_is_available($quickpay_activity_info)) {
@@ -197,17 +205,9 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 			$order['bonus_id'] = 0;
 			$order['bonus'] = 0.00;
 			$order['integral_money'] = 0.00;
-			$discount = 0.00;
+			$order['discount'] = 0.00;
 		}
 		
-		/*活动可优惠金额处理*/
-		$order['discount'] = sprintf("%.2f", $discount);
-		if ($order['order_amount'] >= $order['discount']) {
-			$order['order_amount'] -= $order['discount'];
-		} else {
-			$order['discount'] = $order['order_amount'];
-			$order['order_amount'] -= $order['discount'];
-		}
 		$formated_discount = price_format($order['discount'], false);
 		
 		$order['store_id'] = $store_id;
