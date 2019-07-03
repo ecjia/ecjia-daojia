@@ -8159,10 +8159,6 @@ class Booted
     public function bootstrap(Royalcms $royalcms)
     {
         $royalcms->booted(function () use($royalcms) {
-            $_POST = rc_addslashes($_POST);
-            $_GET = rc_addslashes($_GET);
-            $_REQUEST = rc_addslashes($_REQUEST);
-            $_COOKIE = rc_addslashes($_COOKIE);
             RC_Loader::auto_load_func();
             $path = $royalcms['path.system'] . '/start/global.php';
             if (file_exists($path)) {
@@ -9094,55 +9090,18 @@ class ProviderRepository
 }
 }
 
-namespace Royalcms\Component\Foundation {
+namespace Royalcms\Component\Url\Facades {
 use RC_Config;
+use Royalcms\Component\Foundation\RoyalcmsObject;
 use Royalcms\Component\Support\Format;
 use RC_Hook;
-use RC_Route;
+use RC_Loader;
+use Royalcms\Component\Url\BuildUrl\BuildUrl;
 class Uri extends RoyalcmsObject
 {
     public static function url($pathinfo, $args = array())
     {
-        if (preg_match("/^https?:\\/\\//i", $pathinfo)) {
-            return $pathinfo;
-        }
-        if (strpos($pathinfo, '@') === 0) {
-            $pathinfo = str_replace('@', RC_Config::get('system.admin_entrance') . '/', $pathinfo);
-        } elseif (strpos($pathinfo, '#') === 0) {
-            $pathinfo = str_replace('#', ROUTE_M . '/', $pathinfo);
-        }
-        $gets = self::build_params($pathinfo, $args);
-        $urlType = RC_Config::get('system.url_mode');
-        $url = '';
-        switch ($urlType) {
-            case 'pathinfo':
-                foreach ($gets as $value) {
-                    $url .= RC_Config::get('system.url_pathinfo_dli') . $value;
-                }
-                $url = str_replace(array("/" . RC_Config::get('route.module') . "/", "/" . RC_Config::get('route.controller') . "/", "/" . RC_Config::get('route.action') . "/"), "/", $url);
-                $url = substr($url, 1);
-                break;
-            case 'normal':
-                foreach ($gets as $k => $value) {
-                    if ($k % 2) {
-                        if (is_array($value)) {
-                            $url .= '=' . implode('', $value);
-                        } else {
-                            $url .= '=' . $value;
-                        }
-                    } else {
-                        $url .= '&' . $value;
-                    }
-                }
-                $url = substr($url, 1);
-                break;
-        }
-        if ($urlType == 'pathinfo' && RC_Config::get('system.url_pathinfo_suf')) {
-            $pathinfo_suf = '.' . trim(RC_Config::get('system.url_pathinfo_suf'), '.');
-        } else {
-            $pathinfo_suf = '';
-        }
-        return self::build_root_url($pathinfo) . self::resolve_url($url) . $pathinfo_suf;
+        return (string) new BuildUrl($pathinfo, $args);
     }
     private static function build_params($pathinfo, $args = array())
     {
@@ -9300,20 +9259,20 @@ class Uri extends RoyalcmsObject
     public static function current_url()
     {
         $sys_protocal = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
-        $php_self = $_SERVER['PHP_SELF'] ? safe_replace($_SERVER['PHP_SELF']) : safe_replace($_SERVER['SCRIPT_NAME']);
+        $script_name = isset($_SERVER['SCRIPT_NAME']) ? safe_replace($_SERVER['SCRIPT_NAME']) : '';
         $path_info = isset($_SERVER['PATH_INFO']) ? safe_replace($_SERVER['PATH_INFO']) : '';
-        $relate_url = isset($_SERVER['REQUEST_URI']) ? safe_replace($_SERVER['REQUEST_URI']) : $php_self . (isset($_SERVER['QUERY_STRING']) ? '?' . safe_replace($_SERVER['QUERY_STRING']) : $path_info);
+        $relate_url = isset($_SERVER['REQUEST_URI']) ? safe_replace($_SERVER['REQUEST_URI']) : $script_name . (isset($_SERVER['QUERY_STRING']) ? '?' . safe_replace($_SERVER['QUERY_STRING']) : $path_info);
         $current_url = $sys_protocal . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . $relate_url;
         return RC_Hook::apply_filters('set_current_url', $current_url);
     }
     public static function site_folder()
     {
-        $php_self = $_SERVER['PHP_SELF'] ? safe_replace($_SERVER['PHP_SELF']) : safe_replace($_SERVER['SCRIPT_NAME']);
+        $script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
         if (RC_Config::has('site.site_folder')) {
             $site_folder = RC_Config::get('site.site_folder');
         } else {
-            if (strpos($php_self, '/sites/') === 0) {
-                $site_folder = str_replace('/sites/', '', dirname($php_self));
+            if (strpos($script_name, '/sites/') === 0) {
+                $site_folder = str_replace('/sites/', '', dirname($script_name));
             } else {
                 $site_folder = '';
             }
@@ -9324,11 +9283,11 @@ class Uri extends RoyalcmsObject
     {
         $sys_protocal = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
         $site_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
-        $php_self = $_SERVER['PHP_SELF'] ? safe_replace($_SERVER['PHP_SELF']) : safe_replace($_SERVER['SCRIPT_NAME']);
+        $script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
         if (RC_Config::has('site.web_path')) {
             $web_path = RC_Config::get('site.web_path');
         } else {
-            $web_path = str_replace($sys_protocal . $site_host, '', dirname($sys_protocal . $site_host . $php_self)) . '/';
+            $web_path = str_replace($sys_protocal . $site_host, '', dirname($sys_protocal . $site_host . $script_name)) . '/';
         }
         return $web_path;
     }
@@ -9421,7 +9380,7 @@ class Uri extends RoyalcmsObject
     }
     public static function admin_url($path = '', $scheme = 'admin')
     {
-        if (self::site_folder() && Loader::exists_site_system()) {
+        if (self::site_folder() && RC_Loader::exists_site_system()) {
             $url = self::site_url('content/system/', $scheme);
         } else {
             $url = self::home_url('content/system/', $scheme);
@@ -9434,7 +9393,7 @@ class Uri extends RoyalcmsObject
     }
     public static function system_static_url($path = '', $scheme = 'admin')
     {
-        if (self::site_folder() && Loader::exists_site_system()) {
+        if (self::site_folder() && RC_Loader::exists_site_system()) {
             $url = self::site_url('content/system/statics/', $scheme);
         } else {
             $url = self::home_url('content/system/statics/', $scheme);
@@ -9579,13 +9538,17 @@ class Uri extends RoyalcmsObject
 }
 }
 
-namespace Royalcms\Component\Foundation {
-use Royalcms\Component\Support\Facades\Config;
+namespace Royalcms\Component\Theme\Facades {
+use Royalcms\Component\Foundation\Kses;
+use RC_Plugin;
+use Royalcms\Component\Foundation\RoyalcmsObject;
+use Royalcms\Component\Support\Facades\Config as RC_Config;
 use RC_Hook;
 use Royalcms\Component\Support\Facades\Cache as RC_Cache;
-use Royalcms\Component\Support\Format;
+use Royalcms\Component\Support\Format as RC_Format;
 use Royalcms\Component\Support\Facades\File as RC_File;
 use RC_Locale;
+use Royalcms\Component\Url\Facades\Uri;
 class Theme extends RoyalcmsObject
 {
     public static function get_theme_data($theme_file, $markup = true, $translate = true)
@@ -9622,8 +9585,8 @@ class Theme extends RoyalcmsObject
         $theme_data['Author'] = Kses::kses($theme_data['Author'], $allowed_tags);
         $theme_data['Description'] = Kses::kses($theme_data['Description'], $allowed_tags);
         $theme_data['Version'] = Kses::kses($theme_data['Version'], $allowed_tags);
-        $theme_data['TemplateURI'] = Format::esc_url($theme_data['TemplateURI']);
-        $theme_data['AuthorURI'] = Format::esc_url($theme_data['AuthorURI']);
+        $theme_data['TemplateURI'] = RC_Format::esc_url($theme_data['TemplateURI']);
+        $theme_data['AuthorURI'] = RC_Format::esc_url($theme_data['AuthorURI']);
         $theme_data['Title'] = $theme_data['Name'];
         $theme_data['AuthorName'] = $theme_data['Author'];
         if ($markup) {
@@ -9633,7 +9596,7 @@ class Theme extends RoyalcmsObject
             if ($theme_data['AuthorURI'] && $theme_data['Author']) {
                 $theme_data['Author'] = '<a href="' . $theme_data['AuthorURI'] . '" title="' . esc_attr__('Visit author homepage') . '">' . $theme_data['Author'] . '</a>';
             }
-            $theme_data['Description'] = Format::texturize($theme_data['Description']);
+            $theme_data['Description'] = RC_Format::texturize($theme_data['Description']);
             if ($theme_data['Author']) {
                 $theme_data['Description'] .= ' <cite>' . sprintf(__('By %s.'), $theme_data['Author']) . '</cite>';
             }
@@ -9657,7 +9620,7 @@ class Theme extends RoyalcmsObject
                 } elseif (0 === strpos($theme_root, SITE_PATH)) {
                     $theme_root_uri = Uri::site_url(str_replace(SITE_PATH, '', $theme_root));
                 } elseif (0 === strpos($theme_root, SITE_PLUGIN_PATH)) {
-                    $theme_root_uri = Plugin::plugins_url(basename($theme_root), $theme_root);
+                    $theme_root_uri = RC_Plugin::plugins_url(basename($theme_root), $theme_root);
                 } else {
                     $theme_root_uri = $theme_root;
                 }
@@ -9714,7 +9677,7 @@ class Theme extends RoyalcmsObject
     }
     public static function get_template()
     {
-        return RC_Hook::apply_filters('template', Config::get('system.tpl_style'));
+        return RC_Hook::apply_filters('template', RC_Config::get('system.tpl_style'));
     }
     private static function search_theme_directories($force = false)
     {
@@ -9787,6 +9750,254 @@ class Theme extends RoyalcmsObject
         }
         self::$theme_directories[] = $directory;
         return true;
+    }
+}
+}
+
+namespace Royalcms\Component\Plugin\Facades {
+use RC_Hook;
+use Royalcms\Component\Foundation\Kses;
+use Royalcms\Component\Foundation\RoyalcmsObject;
+use RC_Format;
+use Royalcms\Component\Support\Facades\File;
+use RC_Cache;
+use RC_Locale;
+use Royalcms\Component\Url\Facades\Uri;
+class Plugin extends RoyalcmsObject
+{
+    public static function get_plugins($plugin_folder = '')
+    {
+        if (!($cache_plugins = RC_Cache::app_cache_get('plugins', 'system'))) {
+            $cache_plugins = array();
+        }
+        if (isset($cache_plugins[$plugin_folder])) {
+            return $cache_plugins[$plugin_folder];
+        }
+        $rc_plugins = array();
+        $plugin_roots = array(RC_PLUGIN_PATH, SITE_PLUGIN_PATH);
+        foreach ($plugin_roots as $plugin_root) {
+            if (!empty($plugin_folder)) {
+                $plugin_root .= $plugin_folder;
+            }
+            $plugins_dir = @opendir($plugin_root);
+            $plugin_files = array();
+            if ($plugins_dir) {
+                while (($file = readdir($plugins_dir)) !== false) {
+                    if (substr($file, 0, 1) == '.') {
+                        continue;
+                    }
+                    if (is_dir($plugin_root . '/' . $file)) {
+                        $plugins_subdir = @opendir($plugin_root . '/' . $file);
+                        if ($plugins_subdir) {
+                            while (($subfile = readdir($plugins_subdir)) !== false) {
+                                if (substr($subfile, 0, 1) == '.') {
+                                    continue;
+                                }
+                                if (substr($subfile, -4) == '.php') {
+                                    $plugin_files[] = "{$file}/{$subfile}";
+                                }
+                            }
+                            closedir($plugins_subdir);
+                        }
+                    } else {
+                        if (substr($file, -4) == '.php') {
+                            $plugin_files[] = $file;
+                        }
+                    }
+                }
+                closedir($plugins_dir);
+            }
+            if (empty($plugin_files)) {
+                return $rc_plugins;
+            }
+            foreach ($plugin_files as $plugin_file) {
+                if (!is_readable("{$plugin_root}/{$plugin_file}")) {
+                    continue;
+                }
+                $plugin_data = self::get_plugin_data("{$plugin_root}/{$plugin_file}", false, false);
+                if (empty($plugin_data['Name'])) {
+                    continue;
+                }
+                $rc_plugins[self::plugin_basename($plugin_file)] = $plugin_data;
+            }
+            uasort($rc_plugins, array(__CLASS__, '_sort_uname_callback'));
+        }
+        $cache_plugins[$plugin_folder] = $rc_plugins;
+        RC_Cache::app_cache_set('plugins', $cache_plugins, 'system');
+        return $rc_plugins;
+    }
+    public static function _sort_uname_callback($a, $b)
+    {
+        return strnatcasecmp($a['Name'], $b['Name']);
+    }
+    public static function get_plugin_data($plugin_file, $markup = true, $translate = true)
+    {
+        $default_headers = array('Name' => 'Plugin Name', 'PluginURI' => 'Plugin URI', 'Version' => 'Version', 'Description' => 'Description', 'Author' => 'Author', 'AuthorURI' => 'Author URI', 'TextDomain' => 'Text Domain', 'DomainPath' => 'Domain Path', 'PluginApp' => 'Plugin App');
+        $plugin_data = File::get_file_data($plugin_file, $default_headers, 'plugin');
+        if (empty($plugin_data['PluginApp'])) {
+            $plugin_data['PluginApp'] = 'system';
+        }
+        if ($markup || $translate) {
+            $plugin_data = self::_get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup, $translate);
+        } else {
+            $plugin_data['Title'] = $plugin_data['Name'];
+            $plugin_data['AuthorName'] = $plugin_data['Author'];
+        }
+        return $plugin_data;
+    }
+    public static function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup = true, $translate = true)
+    {
+        $plugin_file = self::plugin_basename($plugin_file);
+        if ($translate) {
+            if (($textdomain = $plugin_data['TextDomain']) == true) {
+                if ($plugin_data['DomainPath']) {
+                    RC_Locale::load_plugin_textdomain($textdomain, false, dirname($plugin_file) . $plugin_data['DomainPath']);
+                } else {
+                    RC_Locale::load_plugin_textdomain($textdomain, false, dirname($plugin_file));
+                }
+            } elseif (in_array(basename($plugin_file), array('hello.php', 'akismet.php'))) {
+                $textdomain = 'default';
+            }
+            if ($textdomain) {
+                foreach (array('Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version') as $field) {
+                    $plugin_data[$field] = RC_Locale::translate($plugin_data[$field], $textdomain);
+                }
+            }
+        }
+        $allowed_tags = $allowed_tags_in_links = array('abbr' => array('title' => true), 'acronym' => array('title' => true), 'code' => true, 'em' => true, 'strong' => true);
+        $allowed_tags['a'] = array('href' => true, 'title' => true);
+        $plugin_data['Name'] = Kses::kses($plugin_data['Name'], $allowed_tags_in_links);
+        $plugin_data['Author'] = Kses::kses($plugin_data['Author'], $allowed_tags);
+        $plugin_data['Description'] = Kses::kses($plugin_data['Description'], $allowed_tags);
+        $plugin_data['Version'] = Kses::kses($plugin_data['Version'], $allowed_tags);
+        $plugin_data['PluginURI'] = RC_Format::esc_url($plugin_data['PluginURI']);
+        $plugin_data['AuthorURI'] = RC_Format::esc_url($plugin_data['AuthorURI']);
+        $plugin_data['Title'] = $plugin_data['Name'];
+        $plugin_data['AuthorName'] = $plugin_data['Author'];
+        if ($markup) {
+            if ($plugin_data['PluginURI'] && $plugin_data['Name']) {
+                $plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . esc_attr__('Visit plugin homepage') . '">' . $plugin_data['Name'] . '</a>';
+            }
+            if ($plugin_data['AuthorURI'] && $plugin_data['Author']) {
+                $plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . esc_attr__('Visit author homepage') . '">' . $plugin_data['Author'] . '</a>';
+            }
+            $plugin_data['Description'] = RC_Format::texturize($plugin_data['Description']);
+            if ($plugin_data['Author']) {
+                $plugin_data['Description'] .= ' <cite>' . sprintf(__('By %s.'), $plugin_data['Author']) . '</cite>';
+            }
+        }
+        return $plugin_data;
+    }
+    public static function clean_plugins_cache($clear_update_cache = true)
+    {
+        if ($clear_update_cache) {
+        }
+        RC_Cache::app_cache_delete('plugins', 'system');
+    }
+    public static function plugins_url($path = '', $plugin = '')
+    {
+        if (defined('RC_SITE') && strpos($plugin, 'sites' . DS . RC_SITE)) {
+            $url = Uri::content_url() . '/plugins';
+        } else {
+            $url = Uri::home_content_url() . '/plugins';
+        }
+        $url = Uri::set_url_scheme($url);
+        if (!empty($plugin) && is_string($plugin)) {
+            $folder = dirname(self::plugin_basename($plugin));
+            if ('.' != $folder) {
+                $url .= '/' . ltrim($folder, '/');
+            }
+        }
+        if ($path && is_string($path)) {
+            $url .= '/' . ltrim($path, '/');
+        }
+        return RC_Hook::apply_filters('plugins_url', $url, $path, $plugin);
+    }
+    public static function plugin_dir_url($file)
+    {
+        return RC_Format::trailingslashit(self::plugins_url('', $file));
+    }
+    public static function plugin_dir_path($file)
+    {
+        return RC_Format::trailingslashit(dirname($file));
+    }
+    public static function plugin_basename($file)
+    {
+        if (defined('RC_SITE') && strpos($file, 'sites' . DS . RC_SITE)) {
+            $realdir = SITE_PLUGIN_PATH;
+        } else {
+            $realdir = RC_PLUGIN_PATH;
+        }
+        if (strpos($file, $realdir) === 0) {
+            $file = substr($file, strlen($realdir));
+        }
+        $file = RC_Format::normalize_path($file);
+        $dir = RC_Format::normalize_path(SITE_PLUGIN_PATH);
+        $file = preg_replace('#^' . preg_quote($dir, '#') . '/#', '', $file);
+        $file = trim($file, '/');
+        return $file;
+    }
+    public static function register_activation_hook($file, $function)
+    {
+        $file = self::plugin_basename($file);
+        RC_Hook::add_action('activate_' . $file, $function);
+    }
+    public static function register_deactivation_hook($file, $function)
+    {
+        $file = self::plugin_basename($file);
+        RC_Hook::add_action('deactivate_' . $file, $function);
+    }
+    public static function get_plugin_files($plugin)
+    {
+        $plugin_file = SITE_PLUGIN_PATH . $plugin;
+        $dir = dirname($plugin_file);
+        $plugin_files = array($plugin);
+        if (is_dir($dir) && $dir != SITE_PLUGIN_PATH) {
+            $plugins_dir = @opendir($dir);
+            if ($plugins_dir) {
+                while (($file = readdir($plugins_dir)) !== false) {
+                    if (substr($file, 0, 1) == '.') {
+                        continue;
+                    }
+                    if (is_dir($dir . '/' . $file)) {
+                        $plugins_subdir = @opendir($dir . '/' . $file);
+                        if ($plugins_subdir) {
+                            while (($subfile = readdir($plugins_subdir)) !== false) {
+                                if (substr($subfile, 0, 1) == '.') {
+                                    continue;
+                                }
+                                $plugin_files[] = self::plugin_basename("{$dir}/{$file}/{$subfile}");
+                            }
+                            @closedir($plugins_subdir);
+                        }
+                    } else {
+                        if (self::plugin_basename("{$dir}/{$file}") != $plugin) {
+                            $plugin_files[] = self::plugin_basename("{$dir}/{$file}");
+                        }
+                    }
+                }
+                @closedir($plugins_dir);
+            }
+        }
+        return $plugin_files;
+    }
+    public static function load_files($path)
+    {
+        if (is_string($path)) {
+            $files = array($path);
+        } elseif (is_array($path)) {
+            $files = $path;
+        } else {
+            $files = array();
+        }
+        foreach ($files as $file) {
+            if (file_exists(SITE_PLUGIN_PATH . $file)) {
+                return require_once SITE_PLUGIN_PATH . $file;
+            } elseif (file_exists(RC_PLUGIN_PATH . $file)) {
+                return require_once RC_PLUGIN_PATH . $file;
+            }
+        }
+        return false;
     }
 }
 }
@@ -26301,7 +26512,7 @@ namespace Royalcms\Component\App\Facades {
 use RC_Hook;
 use Royalcms\Component\Support\Facades\Lang;
 use Royalcms\Component\Support\Facades\Cache as RC_Cache;
-use Royalcms\Component\Foundation\Uri;
+use RC_Uri;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\Facade;
 class App extends Facade
@@ -26413,11 +26624,11 @@ class App extends Facade
     public static function apps_url($path = '', $app = '')
     {
         if (defined('RC_SITE') && strpos($app, 'sites' . DS . RC_SITE)) {
-            $url = Uri::content_url() . '/apps';
+            $url = RC_Uri::content_url() . '/apps';
         } else {
-            $url = Uri::home_content_url() . '/apps';
+            $url = RC_Uri::home_content_url() . '/apps';
         }
-        $url = Uri::set_url_scheme($url);
+        $url = RC_Uri::set_url_scheme($url);
         if (!empty($app) && is_string($app)) {
             $folder = dirname(self::app_basename($app));
             if ('.' != $folder) {
@@ -32131,7 +32342,7 @@ class Locale
 
 namespace Royalcms\Component\Gettext {
 use RC_Hook;
-use Royalcms\Component\Foundation\Theme;
+use RC_Theme;
 use Royalcms\Component\Support\Facades\File;
 use Royalcms\Component\Gettext\Translations\NoopTranslations;
 class TextdomainManager
@@ -32199,7 +32410,7 @@ class TextdomainManager
         $locale = $this->locale->getLocale();
         $locale = RC_Hook::apply_filters('theme_locale', $locale, $domain);
         if (!$path) {
-            $path = Theme::get_template_directory();
+            $path = RC_Theme::get_template_directory();
         }
         $path = rtrim($path, '/');
         $mofile = "{$path}/languages/{$locale}/{$domain}.mo";
@@ -32213,7 +32424,7 @@ class TextdomainManager
     public function loadChildThemeTextdomain($domain, $path = false)
     {
         if (!$path) {
-            $path = Theme::get_template_directory();
+            $path = RC_Theme::get_template_directory();
         }
         return $this->loadThemeTextdomain($domain, $path);
     }
@@ -34367,7 +34578,7 @@ class Rewrite extends Facade
 
 namespace Royalcms\Component\Rewrite {
 use RC_Hook;
-use Royalcms\Component\Foundation\Uri;
+use RC_Uri;
 class RewriteQuery
 {
     protected $rc_rewrite;
@@ -34447,7 +34658,7 @@ class RewriteQuery
                 $req_str = '';
             }
             $self = $_SERVER['PHP_SELF'];
-            $home_path = trim(parse_url(Uri::home_url(), PHP_URL_PATH), '/');
+            $home_path = trim(parse_url(RC_Uri::home_url(), PHP_URL_PATH), '/');
             $home_path_regex = sprintf('|^%s|i', preg_quote($home_path, '|'));
             $req_uri = str_replace($pathinfo, '', $req_uri);
             $req_uri = trim($req_uri, '/');
@@ -35309,18 +35520,27 @@ class HttpQueryRoute
     }
     public function getModule()
     {
-        $moduleName = config('route.module', 'm');
-        return $this->module ?: $this->matchDefaultRoute($moduleName);
+        if (empty($this->module)) {
+            $moduleName = config('route.module', 'm');
+            $this->module = $this->matchDefaultRoute($moduleName);
+        }
+        return $this->module;
     }
     public function getController()
     {
-        $controllerName = config('route.controller', 'c');
-        return $this->controller ?: $this->matchDefaultRoute($controllerName);
+        if (empty($this->controller)) {
+            $controllerName = config('route.controller', 'c');
+            $this->controller = $this->matchDefaultRoute($controllerName);
+        }
+        return $this->controller;
     }
     public function getAction()
     {
-        $actionName = config('route.action', 'a');
-        return $this->action ?: $this->matchDefaultRoute($actionName);
+        if (empty($this->action)) {
+            $actionName = config('route.action', 'a');
+            $this->action = $this->matchDefaultRoute($actionName);
+        }
+        return $this->action;
     }
     public function getRule()
     {
@@ -37716,7 +37936,7 @@ class FilesystemAdapter extends BaseFilesystemAdapter
 
 namespace Royalcms\Component\Storage {
 use Royalcms\Component\Support\Format;
-use Royalcms\Component\Foundation\Theme;
+use RC_Theme;
 trait FilesystemBaseTrait
 {
     public $verbose = false;
@@ -37740,7 +37960,7 @@ trait FilesystemBaseTrait
     }
     public function rc_themes_dir($theme = false)
     {
-        $theme_root = Theme::get_theme_root($theme);
+        $theme_root = RC_Theme::get_theme_root($theme);
         if ('/themes' == $theme_root || !is_dir($theme_root)) {
             $theme_root = RC_CONTENT_PATH . $theme_root;
         }
@@ -37935,7 +38155,6 @@ class FilesystemManager extends BaseFilesystemManager
     }
     protected function createFilesystem(AbstractAdapter $adapter, array $config)
     {
-        $config = Arr::only($config, ['visibility', 'disable_asserts']);
         return new Filesystem($adapter, count($config) > 0 ? $config : null);
     }
     protected function adapt(FilesystemInterface $filesystem)
@@ -38988,9 +39207,10 @@ class UploadManager extends Manager
 }
 
 namespace Royalcms\Component\Upload\Facades {
+use RC_Storage;
 use Royalcms\Component\Support\Facades\Facade;
 use RC_Hook;
-use Royalcms\Component\Foundation\Uri;
+use RC_Uri;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\DateTime\Time;
 use Royalcms\Component\Support\Facades\Config;
@@ -39009,23 +39229,35 @@ class Upload extends Facade
     {
         return self::upload_url($path, 'local');
     }
-    public static function upload_path($path = '', $disk = null)
+    public static function custom_upload_path($path = '', $disk = null)
     {
-        $upload_root = \RC_Storage::disk($disk)->path('');
+        $upload_root = SITE_UPLOAD_PATH;
         if ($path && is_string($path)) {
             $upload_root = rtrim($upload_root, DIRECTORY_SEPARATOR);
             $upload_root .= DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
         }
-        return RC_Hook::apply_filters('upload_path', $upload_root, $path);
+        $upload_path = RC_Hook::apply_filters('upload_path', $upload_root, $path);
+        return $upload_path;
     }
-    public static function upload_url($path = '', $disk = null)
+    public static function custom_upload_url($path = '', $disk = null)
     {
-        $url = \RC_Storage::disk($disk)->url('');
+        $url = rtrim(SITE_UPLOAD_URL, '/');
         $url = rtrim($url, '/');
         if ($path && is_string($path)) {
             $url .= '/' . ltrim($path, '/');
         }
-        return RC_Hook::apply_filters('upload_url', $url, $path);
+        $upload_url = RC_Hook::apply_filters('upload_url', $url, $path);
+        return $upload_url;
+    }
+    public static function upload_path($path = '', $disk = null)
+    {
+        $path = RC_Storage::disk($disk)->path($path);
+        return $path;
+    }
+    public static function upload_url($path = '', $disk = null)
+    {
+        $url = RC_Storage::disk($disk)->url($path);
+        return $url;
     }
     public static function relative_upload_path($path)
     {
@@ -39039,7 +39271,7 @@ class Upload extends Facade
     }
     public static function upload_dir($type = '', $time = null)
     {
-        $siteurl = Uri::site_url();
+        $siteurl = RC_Uri::site_url();
         $upload_path = trim(Config::get('upload.path'));
         if (empty($upload_path) || 'content/uploads' == $upload_path) {
             $dir = Format::untrailingslashit(self::upload_path());
@@ -39547,7 +39779,7 @@ class ScriptLoader implements ScriptLoaderInterface
         $this->scripts->add('jquery-quicksearch', "/lib/multi-select/js/jquery.quicksearch.js", array(), false, 1);
         $this->scripts->add('bootstrap-datepicker', "/lib/datepicker/bootstrap-datepicker.min.js", array(), false, 1);
         $this->scripts->add('tinymce', RC_Uri::vendor_url('tinymce/tinymce/tinymce') . "{$suffix}.js", array(), false, 1);
-        $this->scripts->localize('ecjia.ui', 'admin_lang', config('system::jslang.loader_page'));
+        $this->scripts->localize('ecjia-ui', 'admin_lang', config('system::jslang.loader_page'));
     }
     protected function script_concat_settings()
     {
@@ -39831,7 +40063,9 @@ class NotInstallScreen extends AllScreen
 }
 
 namespace Ecjia\System\Frameworks\Screens {
+use RC_Config;
 use RC_Hook;
+use RC_Upload;
 class AllScreen
 {
     public function __construct()
@@ -39841,6 +40075,18 @@ class AllScreen
     {
         RC_Hook::add_filter('pretty_page_table_data', [__CLASS__, 'remove_env_pretty_page_table_data']);
         RC_Hook::add_action('reset_mail_config', ['Ecjia\\System\\Frameworks\\Component\\Mailer', 'ecjia_mail_config']);
+        RC_Hook::add_action('init', [__CLASS__, 'updateCustomStoragePath']);
+        RC_Hook::add_filter('upload_path', [__CLASS__, 'custom_upload_path'], 10, 2);
+        RC_Hook::add_filter('upload_url', [__CLASS__, 'custom_upload_url'], 10, 2);
+        RC_Hook::add_filter('home_url', [__CLASS__, 'custom_home_url'], 10, 3);
+        RC_Hook::add_filter('site_url', [__CLASS__, 'custom_site_url'], 10, 3);
+        RC_Hook::add_action('ecjia_admin_finish_launching', [__CLASS__, 'ecjia_set_header']);
+        RC_Hook::add_action('ecjia_front_finish_launching', [__CLASS__, 'ecjia_set_header']);
+        RC_Hook::add_action('ecjia_admin_finish_launching', [__CLASS__, 'set_ecjia_filter_request_get']);
+        RC_Hook::add_action('ecjia_front_finish_launching', [__CLASS__, 'set_ecjia_filter_request_get']);
+        RC_Hook::add_action('ecjia_api_finish_launching', [__CLASS__, 'set_ecjia_filter_request_get']);
+        RC_Hook::add_action('ecjia_merchant_finish_launching', [__CLASS__, 'set_ecjia_filter_request_get']);
+        RC_Hook::add_action('ecjia_platform_finish_launching', [__CLASS__, 'set_ecjia_filter_request_get']);
     }
     public static function remove_env_pretty_page_table_data($tables)
     {
@@ -39854,6 +40100,65 @@ class AllScreen
         $tables['Environment Variables'] = $env->all();
         $tables['Server/Request Data'] = $server->all();
         return $tables;
+    }
+    public static function updateCustomStoragePath()
+    {
+        if (RC_Config::has('site.custom_upload_path')) {
+            RC_Config::set('storage.disks.direct.root', RC_Upload::custom_upload_path());
+            RC_Config::set('storage.disks.local.root', RC_Upload::custom_upload_path());
+        }
+        if (RC_Config::has('site.custom_upload_url')) {
+            RC_Config::set('storage.disks.direct.url', RC_Upload::custom_upload_url());
+            RC_Config::set('storage.disks.local.url', RC_Upload::custom_upload_url());
+        }
+    }
+    public static function custom_upload_path($url, $path)
+    {
+        if (RC_Config::has('site.custom_upload_path')) {
+            $upload_path = RC_Config::get('site.custom_upload_path');
+        } else {
+            $upload_path = SITE_UPLOAD_PATH;
+        }
+        $upload_path = $upload_path . ltrim($path, '/');
+        return $upload_path;
+    }
+    public static function custom_upload_url($url, $path)
+    {
+        if (RC_Config::has('site.custom_upload_url')) {
+            $home_url = RC_Config::get('site.custom_upload_url');
+            $url = $home_url . '/' . $path;
+        }
+        $upload_url = rtrim($url, '/');
+        return $upload_url;
+    }
+    public static function custom_home_url($url, $path, $scheme)
+    {
+        if (RC_Config::has('site.custom_home_url')) {
+            $home_url = RC_Config::get('site.custom_home_url');
+            $url = $home_url . '/' . $path;
+        }
+        return rtrim($url, '/');
+    }
+    public static function custom_site_url($url, $path, $scheme)
+    {
+        if (RC_Config::has('site.custom_site_url')) {
+            $home_url = RC_Config::get('site.custom_site_url');
+            $url = $home_url . '/' . $path;
+        }
+        return rtrim($url, '/');
+    }
+    public static function set_ecjia_filter_request_get()
+    {
+        ecjia_filter_request_input($_GET);
+        ecjia_filter_request_input($_REQUEST);
+    }
+    public static function ecjia_set_header()
+    {
+        header('content-type: text/html; charset=' . RC_CHARSET);
+        header('Expires: Fri, 14 Mar 1980 20:53:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: no-cache');
     }
 }
 }
