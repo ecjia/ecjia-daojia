@@ -150,7 +150,8 @@ class AdminPluginController extends ecjia_admin
     public function install() {
         $this->admin_priv('plugin_install', ecjia::MSGTYPE_JSON);
 
-        $id = trim($_GET['id']);
+        $id = simple_remove_xss(trim($this->request->input('id')));
+        
         $result = ecjia_plugin::activate_plugin($id);
         if ( is_ecjia_error( $result ) ) {
             if ( 'unexpected_output' == $result->get_error_code() ) {
@@ -175,7 +176,7 @@ class AdminPluginController extends ecjia_admin
     public function uninstall() {
         $this->admin_priv('plugin_uninstall', ecjia::MSGTYPE_JSON);
 
-        $id = trim($_GET['id']);
+        $id = simple_remove_xss(trim($this->request->input('id')));
 
         $result = ecjia_plugin::deactivate_plugins(array($id));
 

@@ -46,6 +46,12 @@
 //
 use Royalcms\Component\Support\Facades\Royalcms;
 
+// 请求数据自动转义
+$_POST      = rc_addslashes($_POST);
+$_GET       = rc_addslashes($_GET);
+$_REQUEST   = rc_addslashes($_REQUEST);
+$_COOKIE    = rc_addslashes($_COOKIE);
+
 // Load the default text localization domain.
 RC_Locale::loadDefaultTextdomain();
 

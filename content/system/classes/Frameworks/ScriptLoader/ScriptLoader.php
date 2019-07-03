@@ -234,7 +234,7 @@ class ScriptLoader implements ScriptLoaderInterface
         $this->scripts->add( 'tinymce',	                    RC_Uri::vendor_url('tinymce/tinymce/tinymce') . "$suffix.js", array(), false, 1 );
 
         //js语言包调用
-        $this->scripts->localize('ecjia.ui', 'admin_lang', config('system::jslang.loader_page'));
+        $this->scripts->localize('ecjia-ui', 'admin_lang', config('system::jslang.loader_page'));
     }
 
     /**

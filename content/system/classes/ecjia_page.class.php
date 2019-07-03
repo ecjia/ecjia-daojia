@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 
+use Ecjia\System\Frameworks\Component\Paginator\EcjiaPageRenderStyle2;
 use \Royalcms\Component\Page\Page;
 
 /**
@@ -60,9 +61,9 @@ class ecjia_page extends Page
      */
     public function pre() {
         if ($this->current_page > 1 && $this->current_page <= $this->total_pages) {
-            return "<li><a class='a1 data-pjax external_link' href='" . $this->get_url($this->current_page - 1) . "'>{$this->desc['pre']}</a></li>";
+            return "<li><a class='a1 data-pjax external_link' href='" . $this->get_url($this->current_page - 1) . "'>{$this->desc['prev']}</a></li>";
         }
-        return "<li class='active'><a>{$this->desc['pre']}</a><li>";
+        return "<li class='active'><a>{$this->desc['prev']}</a><li>";
     }
     
     /**
@@ -177,7 +178,7 @@ class ecjia_page extends Page
      * @return string
      */
     public function end() {
-        $end = $this->desc ['end'];
+        $end = $this->desc ['last'];
         return $this->current_page < $this->total_pages - $this->page_row ? "<li><a class='end a1 data-pjax external_link' href='" . $this->get_url($this->total_pages) . "'>{$end}</a></li>" : "";
     }
 
@@ -217,18 +218,34 @@ EOF;
 // 		{$lang['page_size']} <span id="pageCurrent">{$this->page_size}</span> {$this->desc['unit']}
     }
     
-    protected function unset_url_val(& $vars) {
+    protected function unset_url_val(& $vars)
+    {
     	unset($vars['pjax']);
     	unset($vars['_pjax']);
     	unset($vars['_']);
+
     	parent::unset_url_val($vars);
+    }
+
+    /**
+     * 移出路由默认变量
+     * @param $querys
+     */
+    protected function removeRouteQuerys(& $querys)
+    {
+        array_forget($querys, config('pjax'));
+        array_forget($querys, config('_pjax'));
+        array_forget($querys, config('_'));
+
+        parent::removeRouteQuerys($querys);
     }
     
     /**
      * 生成页面格式
      * @param 分页的html代码 $code
      */
-    public function page_code($code, $page_desc = null) {
+    public function page_code($code, $page_desc = null)
+    {
     	if (is_null($page_desc)) {
     		$page_desc = $this->page_desc();
     	}
@@ -251,11 +268,13 @@ EOF;
      * @param int $page_row 页码显示行数
      * @return string
      */
-    public function show($style = '', $page_row = null) {
+    public function show($style = '', $page_row = null)
+    {
     	if (empty($style)) {
-    		$style = RC_Config::get('system.page_style');
+    		$style = config('system.page_style');
     	}
-    	if($this->total_pages <= 1) {
+
+    	if ($this->total_pages <= 1) {
     		return '';
     	}
     	
@@ -267,6 +286,7 @@ EOF;
     			return $this->page_code("{$this->input()}<ul>{$this->first()}{$this->pre()}{$this->pres()}{$this->text_list()}{$this->nexts()}{$this->next()}{$this->end()}</ul>
     			<ul>{$this->now_page()}{$this->pic_list()}</ul>{$this->select()}",'');
     		case 2 :
+//    		    return new EcjiaPageRenderStyle2($this->paginator);
     			return $this->page_code("{$this->input()}<ul>" . $this->first() . $this->pre() . $this->text_list() . $this->next() . $this->end() . '</ul>');
     		case 3 :
     			return $this->page_code("<ul>" . $this->first() . $this->pre() . $this->text_list() . $this->next() . $this->end() . '</ul>');

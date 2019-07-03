@@ -132,7 +132,8 @@ abstract class EcjiaController extends RoyalcmsController
      *
      * @return  void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->request = royalcms('request');
         
         $this->session_start();
@@ -163,6 +164,9 @@ abstract class EcjiaController extends RoyalcmsController
         return parent::__call($method, $parameters);
     }
 
+    /**
+     * @return \Royalcms\Component\Http\Request
+     */
     public function getRequest()
     {
         return $this->request;

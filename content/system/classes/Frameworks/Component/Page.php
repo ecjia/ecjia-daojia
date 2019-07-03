@@ -308,7 +308,7 @@ class Page
         if ( isset( $_parent_pages[$menu_slug] ) ) {
             $parent_slug = $_parent_pages[$menu_slug];
             if ( $parent_slug && ! isset( $_parent_pages[$parent_slug] ) ) {
-                $url = admin_url( add_query_arg( 'page', $menu_slug, $parent_slug ) );
+                $url = admin_url( \RC_Uri::add_query_arg( 'page', $menu_slug, $parent_slug ) );
             } else {
                 $url = admin_url( 'admin.php?page=' . $menu_slug );
             }

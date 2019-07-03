@@ -93,13 +93,13 @@ class ThemeInstallerSkin extends UpgraderSkin
         $stylesheet = $this->upgrader->result['destination_name'];
         $template   = $theme_info->get_template();
     
-        $preview_link = add_query_arg( array(
+        $preview_link = \RC_Uri::add_query_arg( array(
             'preview'    => 1,
             'template'   => urlencode( $template ),
             'stylesheet' => urlencode( $stylesheet ),
         ), trailingslashit( home_url() ) );
     
-        $activate_link = add_query_arg( array(
+        $activate_link = \RC_Uri::add_query_arg( array(
             'action'     => 'activate',
             'template'   => urlencode( $template ),
             'stylesheet' => urlencode( $stylesheet ),

@@ -1171,10 +1171,10 @@ if (! function_exists('ecjia_filter_request_input'))
 
         if (is_string($data)) {
             if (function_exists('remove_xss')) {
-                return safe_remove(remove_xss($data));
+                return remove_xss($data);
             }
             else {
-                return safe_remove($data);
+                return simple_remove_xss($data);
             }
         }
 

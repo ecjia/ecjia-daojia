@@ -143,73 +143,6 @@ function custom_system_static_url($url, $path) {
 }
 RC_Hook::add_filter('system_static_url', 'custom_system_static_url', 10, 2);
 
-
-/**
- * 自定义项目访问URL
- * @param string $url
- * @param string $path
- * @return string
- */
-function custom_home_url($url, $path, $scheme) {
-    if (RC_Config::has('site.custom_home_url')) {
-        $home_url = RC_Config::get('site.custom_home_url');
-        $url = $home_url . '/' . $path;
-    }
-    return rtrim($url, '/');
-}
-RC_Hook::add_filter('home_url', 'custom_home_url', 10, 3);
-
-/**
- * 自定义项目访问URL
- * @param string $url
- * @param string $path
- * @return string
- */
-function custom_site_url($url, $path, $scheme) {
-    if (RC_Config::has('site.custom_site_url')) {
-        $home_url = RC_Config::get('site.custom_site_url');
-        $url = $home_url . '/' . $path;
-    }
-    return rtrim($url, '/');
-}
-RC_Hook::add_filter('site_url', 'custom_site_url', 10, 3);
-
-
-/**
- * 自定义上传目录访问URL
- * @param string $url
- * @param string $path
- * @return string
- */
-function custom_upload_url($url, $path) {
-    if (RC_Config::has('site.custom_upload_url')) {
-        $home_url = RC_Config::get('site.custom_upload_url');
-        $url = $home_url . '/' . $path;
-    }
-    return rtrim($url, '/');
-}
-RC_Hook::add_filter('upload_url', 'custom_upload_url', 10, 2);
-
-
-/**
- * 自定义上传目录路径
- * @param string $url
- * @param string $path
- * @return string
- */
-function custom_upload_path($url, $path) {
-    if (RC_Config::has('site.custom_upload_path')) {
-        $upload_path = RC_Config::get('site.custom_upload_path');
-    } else {
-        $upload_path = SITE_UPLOAD_PATH;
-    }
-    $upload_path = $upload_path . ltrim($path, '/');
-    return $upload_path;
-}
-RC_Hook::add_filter('upload_path', 'custom_upload_path', 10, 2);
-
-
-
 function compatible_process_handle() {
     ecjia_front::$view_object->assign('ecs_charset', RC_CHARSET);
     
@@ -223,17 +156,6 @@ function compatible_process_handle() {
     }
 }
 RC_Hook::add_action('ecjia_compatible_process', 'compatible_process_handle');
-
-
-function ecjia_set_header() {
-    header('content-type: text/html; charset=' . RC_CHARSET);
-    header('Expires: Fri, 14 Mar 1980 20:53:00 GMT');
-    header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-    header('Cache-Control: no-cache, must-revalidate');
-    header('Pragma: no-cache');
-}
-RC_Hook::add_action('ecjia_admin_finish_launching', 'ecjia_set_header');
-RC_Hook::add_action('ecjia_front_finish_launching', 'ecjia_set_header');
 
 
 function set_ecjia_config_filter($arr) {
@@ -284,16 +206,6 @@ function set_ecjia_config_filter($arr) {
     return $arr;
 }
 RC_Hook::add_filter('set_ecjia_config_filter', 'set_ecjia_config_filter');
-
-function set_ecjia_filter_request_get() {
-    ecjia_filter_request_input($_GET);
-    ecjia_filter_request_input($_REQUEST);
-}
-RC_Hook::add_action('ecjia_admin_finish_launching', 'set_ecjia_filter_request_get');
-RC_Hook::add_action('ecjia_front_finish_launching', 'set_ecjia_filter_request_get');
-RC_Hook::add_action('ecjia_api_finish_launching', 'set_ecjia_filter_request_get');
-RC_Hook::add_action('ecjia_merchant_finish_launching', 'set_ecjia_filter_request_get');
-RC_Hook::add_action('ecjia_platform_finish_launching', 'set_ecjia_filter_request_get');
 
 
 // end
