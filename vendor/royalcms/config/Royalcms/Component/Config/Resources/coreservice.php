@@ -54,7 +54,6 @@ return array(
         
         // Component Facades
         'RC_Debugbar'          => 'Royalcms\Component\Debugbar\Facades\Debugbar',
-        'RC_LogViewer'         => 'Royalcms\Component\LogViewer\Facades\LogViewer',
         'RC_Mail'              => 'Royalcms\Component\Mail\Facades\Mail',
         'RC_Timer'             => 'Royalcms\Component\Timer\Facades\Timer',
         'RC_Gettext'           => 'Royalcms\Component\Gettext\Facades\Gettext',
@@ -66,6 +65,10 @@ return array(
         'RC_Variable'          => 'Royalcms\Component\Variable\Facades\Variable',
         'RC_App'               => 'Royalcms\Component\App\Facades\App',
         'RC_Widget'            => 'Royalcms\Component\Widget\Facades\Widget',
+        'RC_Uri'               => 'Royalcms\Component\Url\Facades\Uri',
+        'RC_Url'               => 'Royalcms\Component\Url\Url',
+        'RC_Theme'             => 'Royalcms\Component\Theme\Facades\Theme',
+        'RC_Plugin'            => 'Royalcms\Component\Plugin\Facades\Plugin',
 
         //other
         'RC_String'            => 'Royalcms\Component\Support\Str',
@@ -87,10 +90,7 @@ return array(
         'RC_Kses'              => 'Royalcms\Component\Foundation\Kses',
         'RC_Loader'            => 'Royalcms\Component\Foundation\Loader',
         'RC_Api'               => 'Royalcms\Component\Foundation\Api',
-        'RC_Plugin'            => 'Royalcms\Component\Foundation\Plugin',
-        'RC_Theme'             => 'Royalcms\Component\Foundation\Theme',
         'RC_Token'             => 'Royalcms\Component\Foundation\Token',
-        'RC_Uri'               => 'Royalcms\Component\Foundation\Uri',
         'RC_Validate'          => 'Royalcms\Component\Foundation\Validate',
         'RC_Xml'               => 'Royalcms\Component\Foundation\Xml',
         

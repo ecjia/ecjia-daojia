@@ -86,20 +86,22 @@ return array(
      * ******************************分页处理*******************************
      */
     // 分页GET变量
-    'page_var' => 'page',
+    'page_var'          => 'page',
     // 页码数量
-    'page_row' => 10,
+    'page_row'          => 10,
     // 每页显示条数
-    'page_show_row' => 10,
+    'page_show_row'     => 10,
     // 页码风格
-    'page_style' => 2,
+    'page_style'        => 2,
     // 分页文字设置
-    'page_desc' => array(
-            'pre'   => '上一页',
-            'next'  => '下一页',
-            'first' => '首页',
-            'end'   => '尾页',
-            'unit'  => '条',
+    'page_desc'         => array(
+            'prev'      => '上一页',
+            'pre'       => '上一页', /* @deprecated v5.17.0 */
+            'next'      => '下一页',
+            'first'     => '首页',
+            'last'      => '尾页',
+            'end'       => '尾页', /* @deprecated v5.17.0 */
+            'unit'      => '条',
     ),
 
     /*
