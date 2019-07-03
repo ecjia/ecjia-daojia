@@ -28,6 +28,11 @@ class Url implements UriInterface
     /** @var string */
     protected $path = '';
 
+    /**
+     * @var string
+     */
+    protected $pathinfo = '';
+
     /** @var \Royalcms\Component\Url\QueryParameterBag */
     protected $query;
 
@@ -57,6 +62,7 @@ class Url implements UriInterface
         $url->user = isset($parts['user']) ? $parts['user'] : '';
         $url->password = isset($parts['pass']) ? $parts['pass'] : null;
         $url->path = isset($parts['path']) ? $parts['path'] : '/';
+        $url->pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
         $url->query = QueryParameterBag::fromString(isset($parts['query']) ? $parts['query'] : '');
         $url->fragment = isset($parts['fragment']) ? $parts['fragment'] : '';
 
@@ -107,6 +113,11 @@ class Url implements UriInterface
     public function getPath()
     {
         return $this->path;
+    }
+
+    public function getPathinfo()
+    {
+        return $this->pathinfo;
     }
 
     public function getBasename()
@@ -287,6 +298,19 @@ class Url implements UriInterface
         return $url;
     }
 
+    public function withPathinfo($pathinfo)
+    {
+        $url = clone $this;
+
+        if (strpos($pathinfo, '/') !== 0) {
+            $pathinfo = '/'.$pathinfo;
+        }
+
+        $url->pathinfo = $pathinfo;
+
+        return $url;
+    }
+
     /**
      * @param string $dirname
      * @return UriInterface|Url
@@ -365,6 +389,10 @@ class Url implements UriInterface
         }
 
         $url .= rtrim($this->getPath(), '/');
+
+        if ($this->getPathinfo() !== '') {
+            $url .= rtrim($this->getPathinfo(), '/');
+        }
 
         if ($this->getQuery() !== '') {
             $url .= '?'.$this->getQuery();
