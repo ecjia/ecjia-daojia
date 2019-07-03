@@ -129,20 +129,32 @@ class HttpQueryRoute
     
     public function getModule()
     {
-        $moduleName = config('route.module', 'm');
-        return $this->module ?: $this->matchDefaultRoute($moduleName);
+        if (empty($this->module)) {
+            $moduleName = config('route.module', 'm');
+            $this->module = $this->matchDefaultRoute($moduleName);
+        }
+
+        return $this->module;
     }
     
     public function getController()
     {
-        $controllerName = config('route.controller', 'c');
-        return $this->controller ?: $this->matchDefaultRoute($controllerName);
+        if (empty($this->controller)) {
+            $controllerName = config('route.controller', 'c');
+            $this->controller = $this->matchDefaultRoute($controllerName);
+        }
+
+        return $this->controller;
     }
     
     public function getAction()
     {
-        $actionName = config('route.action', 'a');
-        return $this->action ?: $this->matchDefaultRoute($actionName);
+        if (empty($this->action)) {
+            $actionName = config('route.action', 'a');
+            $this->action = $this->matchDefaultRoute($actionName);
+        }
+
+        return $this->action;
     }
 
     /**
