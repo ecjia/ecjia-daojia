@@ -26,13 +26,13 @@
             </div>
             <div class="info-menu">
                 <ul>
-                    <li onclick="document.getElementById('shop_help').click();" class="help-center {if $smarty.get.c eq 'help' || empty($smarty.get.c) } current {/if}">
+                    <li onclick="document.getElementById('shop_help').click();" class="help-center {if $menu_c eq 'help' || empty($menu_c) } current {/if}">
                         <a id="shop_help" href='{url path="article/help/init"}'><span>{t domain="default"}帮助中心{/t}</span> </a>
                     </li>
-                    <li onclick="document.getElementById('shop_notice').click();" class="new-ad {if $smarty.get.c eq 'notice'} current {/if}">
+                    <li onclick="document.getElementById('shop_notice').click();" class="new-ad {if $menu_c eq 'notice'} current {/if}">
                         <a id="shop_notice" href='{url path="article/notice/init"}'><span>{t domain="default"}商城公告{/t}</span></a>
                     </li>
-                    <li onclick="document.getElementById('shop_info').click();" class="about-our {if $smarty.get.c eq 'info'} current {/if}">
+                    <li onclick="document.getElementById('shop_info').click();" class="about-our {if $menu_c eq 'info'} current {/if}">
                         <a id="shop_info" href='{url path="article/info/init"}'> <span>{t domain="default"}关于我们{/t}</span></a>
                     </li>
                 </ul>

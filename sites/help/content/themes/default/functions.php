@@ -85,6 +85,12 @@ RC_Hook::add_action('ecjia_front_finish_launching', function () {
         'user_safe_url'            => ecjia_member_uri::user_safe_url(),
         'merchant_franchisee_url'  => ecjia_member_uri::merchant_franchisee_url(),
     );
+
+    ecjia_front::$controller->assign('menu_m', ROUTE_M);
+    ecjia_front::$controller->assign('menu_c', ROUTE_C);
+    ecjia_front::$controller->assign('menu_a', ROUTE_A);
+    ecjia_front::$controller->assign('menu_active', ROUTE_M . '/' . ROUTE_C . '/' . ROUTE_A);
+
     ecjia_front::$controller->assign('common_url', $common_url);
 
     ecjia_front::$controller->assign('theme_url', RC_Theme::get_template_directory_uri() . '/');

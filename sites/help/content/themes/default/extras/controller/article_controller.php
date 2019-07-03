@@ -53,7 +53,7 @@ class article_controller
     public static function init()
     {
 
-        $article_id = intval($_GET['aid']);
+        $article_id = $_GET['aid'];
         $article_type =   'shop_help';
 
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type;
@@ -101,7 +101,7 @@ class article_controller
 
     public static function info()
     {
-        $article_id = intval($_GET['aid']);
+        $article_id = $_GET['aid'];
         $article_type =   'shop_info';
 
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type;
@@ -153,9 +153,9 @@ class article_controller
 
     public static function notice()
     {
-        $article_id     = intval($_GET['aid']);
+        $article_id     = $_GET['aid'];
         $article_type   = 'shop_notice';
-        $page_size      = !empty($_GET['page_size']) ? intval($_GET['page_size']) : 99999999;
+        $page_size      = !empty($_GET['page_size']) ? $_GET['page_size'] : 99999999;
 
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type . '-' .  $page_size;
         $cache_id = sprintf('%X', crc32($cache_id));
@@ -180,7 +180,7 @@ class article_controller
                 $article_list[$row['cat_id']]['article'][$row['month']][$key]['date']           = $row['date'];
                 $article_list[$row['cat_id']]['article'][$row['month']][$key]['short_title']   = ecjia::config('article_title_length') > 0 ? RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
             }
-            $date = !empty($_GET['date']) ? remove_xss($_GET['date']) : head(array_keys(head($article_list)['article']));
+            $date = !empty($_GET['date']) ? $_GET['date'] : head(array_keys(head($article_list)['article']));
 
             if (!is_ecjia_error($article_list)) {
                 ecjia_front::$controller->assign('article_list', $article_list);
@@ -204,9 +204,9 @@ class article_controller
 
     public static function detail()
     {
-        $article_id     = intval($_GET['aid']);
+        $article_id     = $_GET['aid'];
         $article_type   = 'shop_notice';
-        $page_size      = !empty($_GET['page_size']) ? intval($_GET['page_size']) : 99999999;
+        $page_size      = !empty($_GET['page_size']) ? $_GET['page_size'] : 99999999;
 
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type . '-' .  $page_size;
         $cache_id = sprintf('%X', crc32($cache_id));
@@ -230,7 +230,7 @@ class article_controller
                 $article_list[$row['cat_id']]['article'][$row['month']][$key]['date']           = $row['date'];
                 $article_list[$row['cat_id']]['article'][$row['month']][$key]['short_title']   = ecjia::config('article_title_length') > 0 ? RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
             }
-            $date = !empty($_GET['date']) ? remove_xss($_GET['date']) : head(array_keys(head($article_list)['article']));
+            $date = !empty($_GET['date']) ? $_GET['date'] : head(array_keys(head($article_list)['article']));
 
             if (!is_ecjia_error($article_list)) {
                 ecjia_front::$controller->assign('article_list', $article_list);

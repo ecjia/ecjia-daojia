@@ -26,7 +26,7 @@
                     </li>
                     <!-- {/foreach} -->
                     <li>
-                        <a  href='{url path="article/info/friendlink"}' {if $smarty.get.a eq "friendlink"} class='current' {/if}>{t domain="default"}友情链接{/t}</a>
+                        <a  href='{url path="article/info/friendlink"}' {if $menu_a eq "friendlink"} class='current' {/if}>{t domain="default"}友情链接{/t}</a>
                     </li>
                 </ul>
                 <!-- {/foreach} -->
