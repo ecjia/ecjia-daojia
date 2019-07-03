@@ -5,7 +5,7 @@ namespace Royalcms\Component\App\Facades;
 use RC_Hook;
 use Royalcms\Component\Support\Facades\Lang;
 use Royalcms\Component\Support\Facades\Cache as RC_Cache;
-use Royalcms\Component\Foundation\Uri;
+use RC_Uri;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\Facade;
 
@@ -229,12 +229,12 @@ class App extends Facade
     public static function apps_url($path = '', $app = '')
     {
         if (defined('RC_SITE') && strpos($app, 'sites' . DS . RC_SITE)) {
-            $url = Uri::content_url() . '/apps';
+            $url = RC_Uri::content_url() . '/apps';
         } else {
-            $url = Uri::home_content_url() . '/apps';
+            $url = RC_Uri::home_content_url() . '/apps';
         }
         
-        $url = Uri::set_url_scheme($url);
+        $url = RC_Uri::set_url_scheme($url);
         
         if (! empty($app) && is_string($app)) {
             $folder = dirname(self::app_basename($app));
