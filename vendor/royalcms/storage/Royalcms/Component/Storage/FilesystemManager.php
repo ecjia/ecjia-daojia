@@ -71,8 +71,6 @@ class FilesystemManager extends BaseFilesystemManager
      */
     protected function createFilesystem(AbstractAdapter $adapter, array $config)
     {
-        $config = Arr::only($config, ['visibility', 'disable_asserts']);
-
         return new Filesystem($adapter, count($config) > 0 ? $config : null);
     }
 

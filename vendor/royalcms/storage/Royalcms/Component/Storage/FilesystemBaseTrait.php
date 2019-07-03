@@ -3,7 +3,7 @@
 namespace Royalcms\Component\Storage;
 
 use Royalcms\Component\Support\Format;
-use Royalcms\Component\Foundation\Theme;
+use RC_Theme;
 
 /**
  * Base Royalcms Filesystem
@@ -103,7 +103,7 @@ trait FilesystemBaseTrait
      */
     public function rc_themes_dir($theme = false)
     {
-        $theme_root = Theme::get_theme_root($theme);
+        $theme_root = RC_Theme::get_theme_root($theme);
         
         // Account for relative theme roots
         if ('/themes' == $theme_root || ! is_dir($theme_root))
