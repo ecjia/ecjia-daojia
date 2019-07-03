@@ -97,7 +97,9 @@ class user_signup_module extends api_front implements api_interface
                     $other['mobile_phone'] = $username;
                     $mobile                = $username;
                     $username              = substr_replace($username, '****', 3, 4);
-
+                    if (ecjia_integrate::checkUser($username)) {
+                        $username = $username . rand(10, 99);
+                    }
                 }
             } elseif (empty($username) && !empty($mobile)) {
                 /* 判断是否为手机*/
@@ -107,6 +109,9 @@ class user_signup_module extends api_front implements api_interface
                     $other['mobile_phone'] = $mobile;
 
                     $username = substr_replace($mobile, '****', 3, 4);
+                    if (ecjia_integrate::checkUser($username)) {
+                        $username = $username . rand(10, 99);
+                    }
                 }
             }
         } else {
@@ -118,7 +123,7 @@ class user_signup_module extends api_front implements api_interface
                 $mobile                = $username;
                 $username              = $device_client . '_' . $code;
                 if (ecjia_integrate::checkUser($username)) {
-                    $username = $username . rand(0, 9);
+                    $username = $username . rand(10, 99);
                 }
             }
         }
