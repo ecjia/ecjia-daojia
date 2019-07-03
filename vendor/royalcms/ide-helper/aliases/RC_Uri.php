@@ -6,7 +6,7 @@
  * Time: 10:23 AM
  */
 
-class RC_Uri extends Royalcms\Component\Foundation\Uri
+class RC_Uri extends Royalcms\Component\Url\Facades\Uri
 {
 
 }

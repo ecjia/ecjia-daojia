@@ -6,7 +6,7 @@
  * Time: 10:23 AM
  */
 
-class RC_Theme extends Royalcms\Component\Foundation\Theme
+class RC_Theme extends Royalcms\Component\Theme\Facades\Theme
 {
 
 }

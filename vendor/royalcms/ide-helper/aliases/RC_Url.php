@@ -6,7 +6,7 @@
  * Time: 10:23 AM
  */
 
-class RC_Plugin extends Royalcms\Component\Plugin\Facades\Plugin
+class RC_Url extends Royalcms\Component\Url\Url
 {
 
 }
