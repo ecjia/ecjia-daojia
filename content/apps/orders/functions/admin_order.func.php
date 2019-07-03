@@ -1691,9 +1691,9 @@ function get_delivery_list()
             if ($value['status'] == 1) {
                 $row[$key]['status_name'] = __('退货', 'orders');
             } elseif ($value['status'] == 2) {
-                $row[$key]['status_name'] = '正常';
+                $row[$key]['status_name'] = __('正常', 'orders');
             } else {
-                $row[$key]['status_name'] = __(__('已发货', 'orders'), 'orders');
+                $row[$key]['status_name'] = __('已发货', 'orders');
             }
         }
     }

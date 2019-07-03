@@ -282,7 +282,7 @@ class order_detail_module extends api_front implements api_interface
                         $goods_attr = explode("\n", $v['goods_attr']);
                         $goods_attr = array_filter($goods_attr);
                         foreach ($goods_attr as $val) {
-                            $a = explode(':', $val);
+                            $a = explode(' ', $val);
                             if (!empty($a[0]) && !empty($a[1])) {
                                 $attr[] = array('name' => $a[0], 'value' => $a[1]);
                             }

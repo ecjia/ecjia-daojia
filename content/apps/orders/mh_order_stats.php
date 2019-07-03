@@ -98,8 +98,8 @@ class mh_order_stats extends ecjia_merchant
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('报表统计', RC_Uri::url('stats/mh_keywords_stats/init')));
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单统计')));
 
-        $this->assign('ur_here', '订单统计');
-        $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/mh_order_stats/download')));
+        $this->assign('ur_here', __('订单统计', 'orders'));
+        $this->assign('action_link', array('text' => __('订单统计报表下载', 'orders'), 'href' => RC_Uri::url('orders/mh_order_stats/download')));
 
         $store_id = $_SESSION['store_id'];
         //获取订单统计信息
