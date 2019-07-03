@@ -18,13 +18,6 @@ class Booted
     {
         $royalcms->booted(function() use ($royalcms) {
 
-            // 请求数据自动转义
-            $_POST      = rc_addslashes($_POST);
-            $_GET       = rc_addslashes($_GET);
-            $_REQUEST   = rc_addslashes($_REQUEST);
-            $_COOKIE    = rc_addslashes($_COOKIE);
-
-
             // 加载扩展函数库
             RC_Loader::auto_load_func();
 

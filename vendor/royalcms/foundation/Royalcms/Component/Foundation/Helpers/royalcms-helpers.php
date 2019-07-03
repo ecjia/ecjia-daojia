@@ -102,7 +102,7 @@ if ( ! function_exists('rc_addslashes'))
             foreach ($string as $key => $val) {
                 $string[$key] = rc_addslashes($val);
             }
-        } elseif (is_object($string) == true) {
+        } elseif (is_object($string) === true) {
             foreach ($string as $key => $val) {
                 $string->$key = rc_addslashes($val);
             }
@@ -128,7 +128,7 @@ if ( ! function_exists('rc_stripslashes'))
             foreach ($string as $key => $val) {
                 $string[$key] = rc_stripslashes($val);
             }
-        } elseif (is_object($string) == true) {
+        } elseif (is_object($string) === true) {
             foreach ($string as $key => $val) {
                 $string->$key = rc_stripslashes($val);
             }
@@ -155,7 +155,7 @@ if ( ! function_exists('rc_htmlspecialchars'))
             foreach ($string as $key => $val) {
                 $string[$key] = strip_tags($val);
             }
-        } elseif (is_object($string) == true) {
+        } elseif (is_object($string) === true) {
             foreach ($string as $key => $val) {
                 $string->$key = strip_tags($val);
             }
@@ -186,6 +186,82 @@ if ( ! function_exists('rc_unslash'))
     }   
 }
 
+if ( ! function_exists('rc_stripslashes_deep'))
+{
+    /**
+     * Navigates through an array, object, or scalar, and removes slashes from the values.
+     *
+     * @since 2.0.0
+     *
+     * @param mixed $value The value to be stripped.
+     * @return mixed Stripped value.
+     */
+    function rc_stripslashes_deep( $value ) {
+        return map_deep( $value, 'stripslashes_from_strings_only' );
+    }
+}
+
+if ( ! function_exists('stripslashes_from_strings_only'))
+{
+    /**
+     * Callback function for `rc_stripslashes_deep()` which strips slashes from strings.
+     *
+     * @since 4.4.0
+     *
+     * @param mixed $value The array or string to be stripped.
+     * @return mixed $value The stripped value.
+     */
+    function stripslashes_from_strings_only( $value ) {
+        return is_string( $value ) ? stripslashes( $value ) : $value;
+    }
+}
+
+if ( ! function_exists('rc_urlencode_deep'))
+{
+    /**
+     * Navigates through an array, object, or scalar, and encodes the values to be used in a URL.
+     *
+     * @since 2.2.0
+     *
+     * @param mixed $value The array or string to be encoded.
+     * @return mixed $value The encoded value.
+     */
+    function rc_urlencode_deep( $value ) {
+        return map_deep( $value, 'urlencode' );
+    }
+}
+
+if ( ! function_exists('rc_urldecode_deep'))
+{
+    /**
+     * Navigates through an array, object, or scalar, and decodes URL-encoded values
+     *
+     * @since 4.4.0
+     *
+     * @param mixed $value The array or string to be decoded.
+     * @return mixed $value The decoded value.
+     */
+    function rc_urldecode_deep( $value ) {
+        return map_deep( $value, 'urldecode' );
+    }
+}
+
+if ( ! function_exists('rc_rawurlencode_deep'))
+{
+    /**
+     * Navigates through an array, object, or scalar, and raw-encodes the values to be used in a URL.
+     *
+     * @since 3.4.0
+     *
+     * @param mixed $value The array or string to be encoded.
+     * @return mixed $value The encoded value.
+     */
+    function rc_rawurlencode_deep( $value ) {
+        return map_deep( $value, 'rawurlencode' );
+    }
+}
+
+
 
 if ( ! function_exists('safe_replace'))
 {
@@ -204,7 +280,6 @@ if ( ! function_exists('safe_replace'))
         $string = str_replace('*', '', $string);
         $string = str_replace('"', '&quot;', $string);
         $string = str_replace("'", '', $string);
-        $string = str_replace('"', '', $string);
         $string = str_replace(';', '', $string);
         $string = str_replace('<', '&lt;', $string);
         $string = str_replace('>', '&gt;', $string);
@@ -231,7 +306,6 @@ if ( ! function_exists('safe_remove'))
         $string = str_replace('*', '', $string);
         $string = str_replace('"', '', $string);
         $string = str_replace("'", '', $string);
-        $string = str_replace('"', '', $string);
         $string = str_replace(';', '', $string);
         $string = str_replace('<', '', $string);
         $string = str_replace('>', '', $string);
@@ -242,6 +316,79 @@ if ( ! function_exists('safe_remove'))
         $string = str_replace('[', '', $string);
         $string = str_replace(']', '', $string);
         return $string;
+    }
+}
+
+if ( ! function_exists('simple_remove_xss'))
+{
+    /**
+     * XSS（跨站脚本攻击）可以用于窃取其他用户的Cookie信息，要避免此类问题，可以采用如下解决方案：
+        1.直接过滤所有的JavaScript脚本；
+        2.转义Html元字符，使用htmlentities、htmlspecialchars等函数；
+        3.系统的扩展函数库提供了XSS安全过滤的remove_xss方法；
+        4.对URL访问的一些系统变量做XSS处理。
+     *
+     * 移除Html代码中的XSS攻击
+     *
+     * @param $val
+     * @return string
+     */
+    function simple_remove_xss($val)
+    {
+        // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed
+        // this prevents some character re-spacing such as <javascript>
+        // note that you have to handle splits with
+        $val = preg_replace('/([\x00-\x08,\x0b-\x0c,\x0e-\x19])/', '', $val);
+
+        // straight replacements, the user should never need these since they're normal characters
+        // this prevents like <IMG SRC=@avascript:alert('XSS')>
+        $search = 'abcdefghijklmnopqrstuvwxyz';
+        $search .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $search .= '1234567890!@#$%^&*()';
+        $search .= '~`";:?+/={}[]-_|\'\\';
+
+        for ($i = 0; $i < strlen($search); $i++) {
+            // ;? matches the ;, which is optional
+            // 0{0,7} matches any padded zeros, which are optional and go up to 8 chars
+
+            // @ @ search for the hex values
+            $val = preg_replace('/(&#[xX]0{0,8}' . dechex(ord($search[$i])) . ';?)/i', $search[$i], $val);
+            // @ @ 0{0,7} matches '0' zero to seven times
+            $val = preg_replace('/(&#0{0,8}' . ord($search[$i]) . ';?)/', $search[$i], $val);
+        }
+
+        // now the only remaining whitespace attacks are, and later since they *are* allowed in some inputs
+        $ra1 = array('expression', 'applet', 'meta', 'xml', 'blink', 'link', 'style', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base');
+        $ra2 = array('onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut', 'onbeforedeactivate', 'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate', 'onblur', 'onbounce', 'oncellchange', 'onchange', 'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut', 'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick', 'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate', 'onfilterchange', 'onfinish', 'onfocus', 'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete', 'onload', 'onlosecapture', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel', 'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart', 'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop', 'onsubmit', 'onunload');
+        $ra = array_merge($ra1, $ra2);
+
+        $found = true; // keep replacing as long as the previous round replaced something
+
+        while ($found == true) {
+            $val_before = $val;
+            for ($i = 0; $i < sizeof($ra); $i++) {
+                $pattern = '/';
+                for ($j = 0; $j < strlen($ra[$i]); $j++) {
+                    if ($j > 0) {
+                        $pattern .= '(';
+                        $pattern .= '(&#[xX]0{0,8}([9ab]);)';
+                        $pattern .= '|';
+                        $pattern .= '|(&#0{0,8}([9|10|13]);)';
+                        $pattern .= ')*';
+                    }
+                    $pattern .= $ra[$i][$j];
+                }
+                $pattern .= '/i';
+                $replacement = substr($ra[$i], 0, 2) . '<x>' . substr($ra[$i], 2); // add in <> to nerf the tag
+                $val = preg_replace($pattern, $replacement, $val); // filter out the hex tags
+                if ($val_before == $val) {
+                    // no replacements were made, so exit the loop
+                    $found = false;
+                }
+            }
+        }
+
+        return $val;
     }
 }
 
@@ -2450,6 +2597,36 @@ if (! function_exists('remove_route_var')) {
         unset($_GET[$action]);
     }
     
+}
+
+if (! function_exists('map_deep')) {
+    /**
+     * Maps a function to all non-iterable elements of an array or an object.
+     *
+     * This is similar to `array_walk_recursive()` but acts upon objects too.
+     *
+     * @since 5.16.0
+     *
+     * @param mixed    $value    The array, object, or scalar.
+     * @param callable $callback The function to map onto $value.
+     * @return mixed The value with the callback applied to all non-arrays and non-objects inside it.
+     */
+    function map_deep( $value, $callback ) {
+        if ( is_array( $value ) ) {
+            foreach ( $value as $index => $item ) {
+                $value[ $index ] = map_deep( $item, $callback );
+            }
+        } elseif ( is_object( $value ) ) {
+            $object_vars = get_object_vars( $value );
+            foreach ( $object_vars as $property_name => $property_value ) {
+                $value->$property_name = map_deep( $property_value, $callback );
+            }
+        } else {
+            $value = call_user_func( $callback, $value );
+        }
+
+        return $value;
+    }
 }
 
 // end

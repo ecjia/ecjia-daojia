@@ -154,8 +154,10 @@ return [
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/Support/Providers/EventServiceProvider.php',
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/AliasLoader.php',
     $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/ProviderRepository.php',
-    $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/Uri.php',
-    $basePath.'/vendor/royalcms/foundation/Royalcms/Component/Foundation/Theme.php',
+
+    $basePath.'/vendor/royalcms/url/Royalcms/Component/Url/Facades/Uri.php',
+    $basePath.'/vendor/royalcms/theme/Royalcms/Component/Theme/Facades/Theme.php',
+    $basePath.'/vendor/royalcms/plugin/Royalcms/Component/Plugin/Facades/Plugin.php',
 
     //support
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/ServiceProvider.php',

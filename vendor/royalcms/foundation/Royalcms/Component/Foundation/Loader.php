@@ -1,6 +1,7 @@
 <?php namespace Royalcms\Component\Foundation;
 
 use Royalcms\Component\Support\Facades\Config;
+use RC_Theme;
 
 /**
  * RC Loader Class or Function
@@ -543,7 +544,7 @@ class Loader extends RoyalcmsObject
                 return array();
             }
         } elseif ($type == 'theme') {
-            $plugin_path = Theme::get_template_directory() . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $filename . '.lang.php';
+            $plugin_path = RC_Theme::get_template_directory() . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $filename . '.lang.php';
             if (file_exists($plugin_path)) {
                 $LANG = array();
                 include_once $plugin_path;
@@ -755,7 +756,7 @@ class Loader extends RoyalcmsObject
         $filename = ltrim($filename, '/');
 
         static $files = array();
-        $key = md5(Theme::get_template_directory() . DIRECTORY_SEPARATOR . $filename);
+        $key = md5(RC_Theme::get_template_directory() . DIRECTORY_SEPARATOR . $filename);
         if (isset($files[$key])) {
             if (! empty($files[$key])) {
                 return $files[$key];
@@ -763,7 +764,7 @@ class Loader extends RoyalcmsObject
                 return true;
             }
         }
-        $filepath = Theme::get_template_directory() . DIRECTORY_SEPARATOR . $filename;
+        $filepath = RC_Theme::get_template_directory() . DIRECTORY_SEPARATOR . $filename;
         if (file_exists($filepath)) {
             include_once $filepath;
             $files[$key] = true;
