@@ -3,7 +3,7 @@
 namespace Royalcms\Component\HttpRequest;
 
 use RC_Hook;
-use Royalcms\Component\Foundation\Uri as RC_Uri;
+use RC_Uri;
 
 /**
  * Core class used to implement HTTP API proxy support.

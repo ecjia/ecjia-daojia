@@ -5,7 +5,7 @@ namespace Royalcms\Component\HttpRequest;
 use RC_Error;
 use RC_Hook;
 use Royalcms\Component\Foundation\Kses as RC_Kses;
-use Royalcms\Component\Foundation\Uri as RC_Uri;
+use RC_Uri;
 
 /**
  * Core HTTP Request API
