@@ -8,6 +8,17 @@ use UnexpectedValueException;
 
 /**
  * Basic class for php enum.
+ *
+ * @method bool hasName($constName)
+ * @method bool hasValue($value, $strict = true)
+ * @method string nameToValue($constName)
+ * @method string valueToName($value)
+ * @method string transName($constName)
+ * @method string transValue($value)
+ * @method array getMap()
+ * @method array|null getNameMap()
+ * @method array getDict()
+ * @method array getNameDict()
  */
 abstract class Enum
 {
