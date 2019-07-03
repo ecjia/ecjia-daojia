@@ -2,7 +2,11 @@
 
 namespace Royalcms\Component\Page;
 
-use Royalcms\Component\Support\Facades\Config;
+use Royalcms\Component\Page\Rendering\PageRenderStyle1;
+use Royalcms\Component\Page\Rendering\PageRenderStyle2;
+use Royalcms\Component\Page\Rendering\PageRenderStyle3;
+use Royalcms\Component\Page\Rendering\PageRenderStyle4;
+use Royalcms\Component\Page\Rendering\PageRenderStyle5;
 
 /**
  * 分页处理类
@@ -20,9 +24,9 @@ class DefaultPage extends Page
     public function pre()
     {
         if ($this->current_page > 1 && $this->current_page <= $this->total_pages) {
-            return "<a href='" . $this->get_url($this->current_page - 1) . "' class='pre'>{$this->desc['pre']}</a>";
+            return "<a href='" . $this->get_url($this->current_page - 1) . "' class='pre'>{$this->desc['prev']}</a>";
         }
-        return "<span class='close'>{$this->desc['pre']}</span>";
+        return "<span class='close'>{$this->desc['prev']}</span>";
     }
 
     /**
@@ -152,7 +156,7 @@ class DefaultPage extends Page
      */
     public function end()
     {
-        $end = $this->desc['end'];
+        $end = $this->desc['last'];
         return $this->current_page < $this->total_pages - $this->page_row ? "<a href='" . $this->get_url($this->total_pages) . "' class='end'>{$end}</a>" : "";
     }
 
@@ -188,22 +192,28 @@ class DefaultPage extends Page
     public function show($style = '', $page_row = null)
     {
         if (empty($style)) {
-            $style = Config::get('system.page_style');
+            $style = config('system.page_style');
         }
         // 页码显示行数
         $this->page_row = is_null($page_row) ? $this->page_row : $page_row - 1;
+
         switch ($style) {
             case 1:
+//                return new PageRenderStyle1($this->paginator);
                 return "{$this->count()}{$this->first()}{$this->pre()}{$this->pres()}{$this->text_list()}{$this->nexts()}{$this->next()}{$this->end()}
     			{$this->now_page()}{$this->select()}{$this->input()}{$this->pic_list()}";
             case 2:
+//                return new PageRenderStyle2($this->paginator);
                 return $this->pre() . $this->text_list() . $this->next() . $this->count();
             case 3:
+//                return new PageRenderStyle3($this->paginator);
                 return $this->pre() . $this->text_list() . $this->next();
             case 4:
+//                return new PageRenderStyle4($this->paginator);
                 return "<span class='total'>总计:{$this->total_records}
     				{$this->desc['unit']}</span>" . $this->pic_list() . $this->select();
             case 5:
+//                return new PageRenderStyle5($this->paginator);
                 return $this->first() . $this->pre() . $this->text_list() . $this->next() . $this->end();
         }
     }
