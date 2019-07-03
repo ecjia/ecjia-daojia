@@ -5,7 +5,7 @@ namespace Royalcms\Component\WeChat\Js;
 use Royalcms\Component\Cache\CacheManager as Cache;
 use Royalcms\Component\WeChat\Core\AbstractAPI;
 use Royalcms\Component\Support\Str;
-use Royalcms\Component\Foundation\Uri as RC_Uri;
+use RC_Uri;
 
 /**
  * Class Js.
