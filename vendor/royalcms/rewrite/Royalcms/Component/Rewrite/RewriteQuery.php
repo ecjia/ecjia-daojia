@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Rewrite;
 
 use RC_Hook;
-use Royalcms\Component\Foundation\Uri;
+use RC_Uri;
 
 class RewriteQuery
 {
@@ -280,7 +280,7 @@ class RewriteQuery
             }
             
             $self = $_SERVER['PHP_SELF'];
-            $home_path = trim( parse_url( Uri::home_url(), PHP_URL_PATH ), '/' );
+            $home_path = trim( parse_url( RC_Uri::home_url(), PHP_URL_PATH ), '/' );
             $home_path_regex = sprintf( '|^%s|i', preg_quote( $home_path, '|' ) );
     
             // Trim path info from the end and the leading home path from the
