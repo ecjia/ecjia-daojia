@@ -6,7 +6,7 @@
  * Time: 18:20
  */
 
-namespace Ecjia\App\Goodslib\GoodsSearch;
+namespace Ecjia\App\Store\StoreSearch;
 
 use Ecjia\App\Store\Models\StoreFranchiseeModel;
 use Ecjia\System\Frameworks\SuperSearch\SuperSearch;

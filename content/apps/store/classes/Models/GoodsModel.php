@@ -48,11 +48,11 @@ namespace Ecjia\App\Store\Models;
 
 use Royalcms\Component\Database\Eloquent\Model;
 
-class StoreFranchiseeModel extends Model
+class GoodsModel extends Model
 {
-    protected $table = 'store_franchisee';
+    protected $table = 'goods';
 
-    protected $primaryKey = 'store_id';
+    protected $primaryKey = 'goods_id';
 
     /**
      * 可以被批量赋值的属性。
@@ -70,34 +70,6 @@ class StoreFranchiseeModel extends Model
      */
     public $timestamps = false;
 
-    /**
-     * 一对多
-     * 店铺设置集合
-     */
-    public function merchants_config_collection()
-    {
-    	return $this->hasMany('Ecjia\App\Store\Models\MerchantConfigModel', 'store_id', 'store_id');
-    }
-    
-    /**
-     * 一对多
-     * 店铺商品集合
-     */
-    public function goods_collection()
-    {
-    	return $this->hasMany('Ecjia\App\Store\Models\GoodsModel', 'store_id', 'store_id');
-    }
-    
-    /**
-     * 一对多
-     * 店铺优惠活动集合
-     */
-    public function favourable_activity_collection()
-    {
-    	return $this->hasMany('Ecjia\App\Store\Models\FavourableActivityModel', 'store_id', 'store_id');
-    }
-    
-    
 }
 
 // end
