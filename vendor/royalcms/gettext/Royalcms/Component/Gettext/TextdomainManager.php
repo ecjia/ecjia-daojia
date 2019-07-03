@@ -3,7 +3,7 @@
 namespace Royalcms\Component\Gettext;
 
 use RC_Hook;
-use Royalcms\Component\Foundation\Theme;
+use RC_Theme;
 use Royalcms\Component\Support\Facades\File;
 use Royalcms\Component\Gettext\Translations\NoopTranslations;
 
@@ -228,7 +228,7 @@ class TextdomainManager
         $locale = RC_Hook::apply_filters('theme_locale', $locale, $domain);
     
         if (! $path) {
-            $path = Theme::get_template_directory();
+            $path = RC_Theme::get_template_directory();
         }
     
         $path = rtrim($path, '/');
@@ -261,7 +261,7 @@ class TextdomainManager
     public function loadChildThemeTextdomain($domain, $path = false)
     {
         if (! $path) {
-            $path = Theme::get_template_directory();
+            $path = RC_Theme::get_template_directory();
         }
     
         return $this->loadThemeTextdomain($domain, $path);
