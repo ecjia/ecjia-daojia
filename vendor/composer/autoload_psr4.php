@@ -50,5 +50,6 @@ return array(
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'Psy\\' => array($vendorDir . '/psy/psysh/src/Psy'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
+    'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 
 );
