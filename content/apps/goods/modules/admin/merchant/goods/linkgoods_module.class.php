@@ -73,7 +73,7 @@ class admin_merchant_goods_linkgoods_module extends api_admin implements api_int
 		if (!empty($goods_linkgoods)) {
     		$result = $goods_linkgoods->map(function($item){
     			$arr = [
-    				'goods_id' 				=> intval($item->goods_id),
+    				'goods_id' 				=> intval($item->link_goods_id),
     				'goods_name'			=> trim($item->goods_model->goods_name),
     				'is_double'				=> intval($item->is_double),	
     			];

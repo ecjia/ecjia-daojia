@@ -107,9 +107,9 @@ class admin_merchant_goods_product_detail_module extends api_admin implements ap
     		'product_bar_code'		=> empty($product->product_bar_code) ? '' : $product->product_bar_code,
     		'label_product_attr'	=> $label_product_attr,
     		'img'					=> array(
-    										'thumb'	=> $product->product_thumb,
-    										'url'	=> $product->product_original_img,
-    										'small'	=> $product->product_img,
+    										'thumb'	=> empty($product->product_thumb) ? '' : RC_Upload::upload_url($product->product_thumb),
+    										'url'	=> empty($product->product_original_img) ? '' : RC_Upload::upload_url($product->product_original_img),
+    										'small'	=> empty($product->product_img) ? '' : RC_Upload::upload_url($product->product_img),
     									),
     		'product_gallery'		=> $product_gallery,
     	];

@@ -89,12 +89,12 @@ class admin_merchant_goods_product_desc_update_module extends api_admin implemen
     	);
     	
     	/*如果设有审核商家商品，商家账号修改商品信息后，商品下架，状态改为待审核*/
-    	$review_goods = Ecjia\App\Goods\GoodsFunction::get_review_status($_SESSION['store_id']);
+//     	$review_goods = Ecjia\App\Goods\GoodsFunction::get_review_status($_SESSION['store_id']);
     	
-    	if ($_SESSION['store_id'] > 0 && $review_goods == 1) {
-    		$data['is_on_sale'] = 0;
-    		$data['review_status'] = 1;
-    	}
+//     	if ($_SESSION['store_id'] > 0 && $review_goods == 1) {
+//     		$data['is_on_sale'] = 0;
+//     		$data['review_status'] = 1;
+//     	}
     	
     	Ecjia\App\Goods\Models\ProductsModel::where('goods_id', $goods_id)->where('product_id', $product_id)->update($data);
     	

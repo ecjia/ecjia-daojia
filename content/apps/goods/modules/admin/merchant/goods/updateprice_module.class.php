@@ -86,16 +86,22 @@ class admin_merchant_goods_updateprice_module extends api_admin implements api_i
     	$promote_start_date		= $this->requestData('promote_start_date');
     	$promote_end_date  		= $this->requestData('promote_end_date');
     	
-		if ($is_promote && !empty($promote_start_date) && !empty($promote_end_date)) {
+		if ($is_promote && !empty($promote_start_date) && !empty($promote_end_date) && $promote_price > 0) {
 			$start_date = RC_Time::local_strtotime($promote_start_date);
 			$end_date	= RC_Time::local_strtotime($promote_end_date);
 			if ($start_date >= $end_date) {
 				return new ecjia_error('time_error', __('促销开始时间不能大于结束时间', 'goods'));
 			}
+			if ($promote_price > $shop_price) {
+				return new ecjia_error('promote_price_error', __('您设置的活动价不能超过商品原价，请重新设置', 'goods'));
+			}
+			
+			$promote_start_date     = ($is_promote && !empty($promote_start_date)) ? RC_Time::local_strtotime($promote_start_date) : 0;
+			$promote_end_date      	= ($is_promote && !empty($promote_end_date)) ? RC_Time::local_strtotime($promote_end_date) + 86399 : 0;
+		} else {
+			$promote_start_date = '';
+			$promote_end_date	= '';
 		}
-    	
-    	$promote_start_date     = ($is_promote && !empty($promote_start_date)) ? RC_Time::local_strtotime($promote_start_date) : 0;
-    	$promote_end_date      	= ($is_promote && !empty($promote_end_date)) ? RC_Time::local_strtotime($promote_end_date) + 86399 : 0;
 
 	 	//优惠价格、等级价格
     	$volume_number_list 	= $this->requestData('volume_number');

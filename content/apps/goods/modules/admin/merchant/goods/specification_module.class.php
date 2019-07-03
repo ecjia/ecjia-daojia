@@ -100,14 +100,9 @@ class admin_merchant_goods_specification_module extends api_admin implements api
 		if (!empty($data)) {
 			  $data = collect($data);
 		      $result = $data->map(function($item){
-		          if ($item['store_id'] > 0) {
-		              $title = '[商家]';
-		          } else {
-		              $title = '[平台]';
-		          }
 		          return [
 		              'specification_id'      => intval($item['cat_id']),
-		              'specification_name'    => $item['cat_name'].$title,
+		              'specification_name'    => $item['cat_name'],
 		              'store_id'              => intval($item['store_id']),
 		              'enabled'				  => intval($item['enabled'])
 		          ];

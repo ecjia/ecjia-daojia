@@ -100,14 +100,9 @@ class admin_merchant_goods_parameter_module extends api_admin implements api_int
 		if (!empty($data)) {
 			  $data = collect($data);
 		      $result = $data->map(function($item){
-		          if ($item['store_id'] > 0) {
-		              $title = '[商家]';
-		          } else {
-		              $title = '[平台]';
-		          }
 		          return [
 		              'parameter_id'      	=> intval($item['cat_id']),
-		              'parameter_name'    	=> $item['cat_name'].$title,
+		              'parameter_name'    	=> $item['cat_name'],
 		              'parameter_group'		=> !empty($item['attr_group']) ? explode(',', str_replace("\n", ",", $item['attr_group'])) : [],
 		              'store_id'            => intval($item['store_id']),
 		              'enabled'				=> intval($item['enabled'])

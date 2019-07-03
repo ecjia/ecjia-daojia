@@ -95,7 +95,11 @@ class admin_merchant_goods_update_module extends api_admin implements api_interf
     	}
     	
     	//审核状态
-    	$review_status = Ecjia\App\Goods\GoodsFunction::get_review_status($_SESSION['store_id']);
+        if (empty($goods->extension_code)) {
+            $review_status = Ecjia\App\Goods\GoodsFunction::get_review_status($_SESSION['store_id']);
+        } else {
+            $review_status = 3;
+        }
     	//市场价处理market_price
     	if (ecjia::config('market_price_rate') > 0) {
     		$market_price = $goods_price*ecjia::config('market_price_rate');
@@ -171,6 +175,16 @@ class admin_merchant_goods_update_module extends api_admin implements api_interf
 
     	//商品重量存在，重量单位是0的情况
     	$goods_weight_string = $this->get_goods_weight_string($goods->goods_weight, $goods->weight_unit);
+
+        /* 分享链接*/
+        $share_link = '';
+        $mobile_touch_url = ecjia::config('mobile_touch_url');
+        if (!empty($mobile_touch_url)) {
+            /*商品分享链接*/
+            $share_link = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
+        } else {
+            $share_link = null;
+        }
     	
     	$goods_detail = [
 	    	'goods_id'					=> intval($goods->goods_id),
@@ -218,6 +232,7 @@ class admin_merchant_goods_update_module extends api_admin implements api_interf
 	    	'rank_integral'				=> $goods->rank_integral,
 	    	'integral'					=> $goods->integral,
 	    	'extension_code'			=> empty($goods->extension_code) ? 'common' : $goods->extension_code,
+            'share_link'                => $share_link,
     	];
     
 	    //会员等级价
@@ -241,10 +256,7 @@ class admin_merchant_goods_update_module extends api_admin implements api_interf
     private function processGoodsImage($file_goods_image, $goods_id)
     {
     	RC_Loader::load_app_class('goods_image_data', 'goods', false);
-    	$goods_img		= ''; // 初始化商品图片
-    	$goods_thumb	= ''; // 初始化商品缩略图
-    	$img_original	= ''; // 初始化原始图片
-    	 
+    	
     	$upload = RC_Upload::uploader('image', array('save_path' => 'images', 'auto_sub_dirs' => true));
     	$upload->add_saving_callback(function ($file, $filename) {
     		return true;

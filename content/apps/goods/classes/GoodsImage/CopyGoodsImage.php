@@ -118,6 +118,8 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
 
         if (!empty($original_path)) {
             try {
+                //去除路径后面?999
+                $original_path = str_before($original_path, '?');
                 $disk->copy($original_path, $new_original_path);
             }
             catch (FileNotFoundException $e) {

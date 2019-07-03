@@ -3191,7 +3191,7 @@ class merchant extends ecjia_merchant {
 			$use_storage = ecjia::config('use_storage');
 			foreach($product['product_id'] as $key => $value) {
 				$product['product_bar_code'][$key]   = empty($product['product_bar_code'][$key]) ? ''   : trim($product['product_bar_code'][$key]); 
-				$product['product_shop_price'][$key] = empty($product['product_shop_price'][$key]) ?  : trim($product['product_shop_price'][$key]); 
+				$product['product_shop_price'][$key] = empty($product['product_shop_price'][$key]) ? null  : trim($product['product_shop_price'][$key]);
 				$product['product_number'][$key]     = empty($product['product_number'][$key]) ? (empty($use_storage) ? 0 : ecjia::config('default_storage')) : trim($product['product_number'][$key]); 
 				
 				$data = array(
