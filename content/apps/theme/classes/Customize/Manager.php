@@ -1927,7 +1927,7 @@ final class Manager
 			if ( $this->messenger_channel ) {
 				$query_params['customize_messenger_channel'] = $this->messenger_channel;
 			}
-			$url = add_query_arg( $query_params, $url );
+			$url = \RC_Uri::add_query_arg( $query_params, $url );
 		}
 
 		return $url;
@@ -4577,7 +4577,7 @@ final class Manager
 	 */
 	public function customize_pane_settings() {
 
-		$login_url = add_query_arg( array(
+		$login_url = \RC_Uri::add_query_arg( array(
 			'interim-login' => 1,
 			'customize-login' => 1,
 		), wp_login_url() );
@@ -5468,7 +5468,7 @@ final class Manager
 
 			// Set up properties for themes available on WordPress.org.
 			foreach ( $themes->themes as &$theme ) {
-				$theme->install_url = add_query_arg( array(
+				$theme->install_url = \RC_Uri::add_query_arg( array(
 					'theme'    => $theme->slug,
 					'_wpnonce' => wp_create_nonce( 'install-theme_' . $theme->slug ),
 				), $update_php );
