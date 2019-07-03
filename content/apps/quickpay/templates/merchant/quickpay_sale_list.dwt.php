@@ -46,7 +46,7 @@
 						<input type="submit" name="search_sale_data" value='{t domain="quickpay"}查询{/t}' class="btn btn-primary screen-btn"/>
 					</form>
 				</div><br>
-				<div class="sale_desc">订单共计：<span>{if $order_count}{$order_count}{else}0{/if}</span>&nbsp;{t domain="quickpay"}单{/t}&nbsp;&nbsp;&nbsp;{t domain="quickpay"}实际总金额共计：{/t}<span>¥{if $order_amount}{$order_amount}{else}0{/if}</span>&nbsp;{t domain="quickpay"}元{/t}</div>
+				<div class="sale_desc">订单共计：<span>{if $order_count}{$order_count}{else}0{/if}</span>&nbsp;{t domain="quickpay"}单{/t}&nbsp;&nbsp;&nbsp;{t domain="quickpay"}实际总金额共计：{/t}<span>{$order_amount}</span>&nbsp;{t domain="quickpay"}元{/t}</div>
 			</header>
 		</section>
 		

@@ -43,25 +43,25 @@ var templateCounts = '{$data}';
 	  <div class="row state-overview">
 	    	<div class="col-lg-3 col-sm-3">
                 <div class="value">
-                    <h3>{if $data_count.order_count}{$data_count.order_count}{else}0{/if}</h3>
+                    <h3>{$data_count.order_count}</h3>
                     <p>{t domain="quickpay"}订单总数量（单）{/t}</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-3">
                 <div class="value">
-                    <h3>¥{if $data_count.goods_amount}{$data_count.goods_amount}{else}0{/if}</h3>
+                    <h3>{$data_count.goods_amount}</h3>
                     <p>{t domain="quickpay"}消费总金额（元）{/t}</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-3">
                 <div class="value">
-                    <h3>¥{if $data_count.favorable_amount}{$data_count.favorable_amount}{else}0{/if}</h3>
+                    <h3>{$data_count.favorable_amount}</h3>
                     <p>{t domain="quickpay"}惠总金额（元）{/t}</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-3">
                 <div class="value">
-                    <h3>¥{if $data_count.order_amount}{$data_count.order_amount}{else}0{/if}</h3>
+                    <h3>{$data_count.order_amount}</h3>
                     <p>{t domain="quickpay"}实付总金额（元）{/t}</p>
                 </div>
             </div>

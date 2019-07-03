@@ -84,7 +84,10 @@ class mh_sale_general extends ecjia_merchant {
         		->where('store_id', $_SESSION['store_id'])
         		->where('pay_status',1)
         		->first();
-        
+        $data_count['order_count'] = ecjia_price_format($data_count['order_count']);
+        $data_count['goods_amount'] = ecjia_price_format($data_count['goods_amount']);
+        $data_count['order_amount'] = ecjia_price_format($data_count['order_amount']);
+        $data_count['favorable_amount'] = ecjia_price_format($data_count['favorable_amount']);
         $this->assign('data_count', $data_count);
 	}
 	

@@ -83,7 +83,7 @@ class mh_sale_list extends ecjia_merchant {
 		$sale_list_data = $this->get_sale_list();
         $this->assign('sale_list_data', $sale_list_data);
         $this->assign('order_count', $sale_list_data['count_data'][0]['order_count']);
-        $this->assign('order_amount', $sale_list_data['count_data'][0]['order_amount']);
+        $this->assign('order_amount', ecjia_price_format($sale_list_data['count_data'][0]['order_amount']));
         $this->assign('filter', $sale_list_data['filter']);
 
         $this->assign('search_action', RC_Uri::url('quickpay/mh_sale_list/init'));
