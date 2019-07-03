@@ -529,6 +529,7 @@ class merchant extends ecjia_merchant {
 	    $goods_attr_store_formate = array_change_key($goods_attr_store, array('goods_id', 'attr_id', 'attr_value'));
 	    
 	    if($goodslib_products) {
+            $time = RC_Time::gmtime();
 	        foreach ($goodslib_products as $key => $product) {
 	            unset($goodslib_products[$key]['product_id']);
 	            $goodslib_products[$key]['goods_id'] = $goods['goods_id'];
@@ -545,6 +546,8 @@ class merchant extends ecjia_merchant {
 	            $goodslib_products[$key]['goods_attr'] = implode('|', $new_attr_id);
 	            $goodslib_products[$key]['product_sn'] = '';
 	            $goodslib_products[$key]['product_number'] = ecjia::config('default_storage');
+                $goodslib_products[$key]['goodslib_product_id'] = $product['product_id'];
+                $goodslib_products[$key]['goodslib_update_time'] = $time;
 
                 if($product['product_name']) {
                     $goodslib_products[$key]['product_name'] = $product['product_name'];
