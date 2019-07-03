@@ -1416,6 +1416,9 @@ class cart_controller
         $address_id = empty($_GET['address_id']) ? 0 : intval($_GET['address_id']);
         $rec_id     = empty($_GET['rec_id']) ? 0 : trim($_GET['rec_id']);
 
+        $pay_id = $_GET['pay_id'];
+        ecjia_front::$controller->assign('pay_id', $pay_id);
+
         $url = RC_Uri::site_url() . substr($_SERVER['REQUEST_URI'], strripos($_SERVER['REQUEST_URI'], '/'));
         if (empty($rec_id)) {
             return ecjia_front::$controller->showmessage(__('请选择商品再进行结算', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('cart/index/init')));
@@ -1478,6 +1481,9 @@ class cart_controller
 
         $address_id = empty($_GET['address_id']) ? 0 : intval($_GET['address_id']);
         $rec_id     = empty($_GET['rec_id']) ? 0 : trim($_GET['rec_id']);
+
+        $shipping_id = $_GET['shipping_id'];
+        ecjia_front::$controller->assign('shipping_id', $shipping_id);
 
         $url = RC_Uri::site_url() . substr($_SERVER['REQUEST_URI'], strripos($_SERVER['REQUEST_URI'], '/'));
         if (empty($rec_id)) {

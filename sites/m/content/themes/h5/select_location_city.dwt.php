@@ -24,16 +24,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </div>
 {/if}
 
-{if $smarty.get.type eq 'addcity'}
+{if $type eq 'addcity'}
 <div class="cityall" id="cityall" data-url='{url path="user/address/add_address" args="{if $referer_url}&referer_url={$referer_url|escape:"url"}{/if}"}'>
-{else if $smarty.get.type eq 'editcity'}
+{else if $type eq 'editcity'}
 <div class="cityall" id="cityall" data-url="{url path='user/address/edit_address'}">
-{else if $smarty.get.type eq 'search'}
+{else if $type eq 'search'}
 <div class="cityall" id="cityall" data-url="{url path='touch/location/select_location'}">
 {else}
 <div class="cityall" id="cityall" data-url="{url path='touch/location/select_location'}">
 {/if}
-	<input type="hidden" name="address_id" value="{$smarty.get.address_id}">
+	<input type="hidden" name="address_id" value="{$address_id}">
 
 	<div class="ecjia-history-city">
 		

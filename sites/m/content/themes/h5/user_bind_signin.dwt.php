@@ -48,7 +48,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	    <div class="around">
 	        <input type="hidden" name="connect_code" value="{$connect_code}">
 	        <input type="hidden" name="open_id" value="{$open_id}">
-            <input type="hidden" name="referer" value="{$smarty.get.referer}" />
+            <input type="hidden" name="referer" value="{$referer}" />
             <input type="submit" class="btn btn-info login-btn" value='{t domain="h5"}关联{/t}' />
 	    </div>	
 	</div>

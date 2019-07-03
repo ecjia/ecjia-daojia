@@ -177,6 +177,9 @@ class user_order_controller
                 return ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
             }
         } else {
+            $type = $_GET['type'];
+            ecjia_front::$controller->assign('type', $type);
+
             $express_id = $data['express_id'];
             if (!empty($express_id)) {
                 $params_express = array('token' => $token, 'order_id' => $order_id, 'express_id' => $express_id);
@@ -997,6 +1000,9 @@ class user_order_controller
                 return ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
             }
         } else {
+            $type = $_GET['type'];
+            ecjia_front::$controller->assign('type', $type);
+
             if (!ecjia_front::$controller->is_cached('user_order_status.dwt', $cache_id)) {
                 ecjia_front::$controller->assign('order', $data);
                 ecjia_front::$controller->assign('title', __('订单状态', 'h5'));

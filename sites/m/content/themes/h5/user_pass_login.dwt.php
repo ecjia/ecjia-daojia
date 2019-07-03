@@ -31,7 +31,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/init'}">{t domain="h5"}忘记密码？{/t}</a>
 	</div>
     <div class="around">
-        <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
+        <input type="hidden" name="referer_url" value="{$referer_url}" />
         <input type="button" class="btn btn-info login-btn" name="ecjia-login" value='{t domain="h5"}登录{/t}' data-url="{url path='user/privilege/signin'}"/>
     </div>
     {if $sns_qq eq 1 || $sns_wechat eq 1}

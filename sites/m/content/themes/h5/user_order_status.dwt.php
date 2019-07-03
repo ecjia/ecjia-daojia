@@ -50,7 +50,7 @@ if ('{$arr}'.length != 0) {
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-order-detail">
-	<div class="goods-describe order-log-list {if $smarty.get.type neq 'detail'} active{/if}" id="one">
+	<div class="goods-describe order-log-list {if $type neq 'detail'} active{/if}" id="one">
 		<!-- {foreach from=$order.order_status_log item=info} -->
 		<div class='order-log-item {$info.status} {if count($order.order_status_log) lt 2} item-only{/if} {if $express_info}express-status-icon{/if}'>
 			<div class="order-log">

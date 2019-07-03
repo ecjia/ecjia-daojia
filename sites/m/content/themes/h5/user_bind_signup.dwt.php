@@ -34,7 +34,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				</label>
 			</div>
 			<div class="small-submit ecjia-margin-t">
-                    <input type="hidden" name="referer" value="{$smarty.get.referer}" />
+                    <input type="hidden" name="referer" value="{$referer}" />
                     <span><input type="button" class="btn btn-info login-btn" value='{t domain="h5"}获取验证码{/t}' data-url="{url path='user/privilege/signup'}" id="get_code"  /></span>
         	</div>
 			<div class="form-group bf margin-right-left five-margin-top">

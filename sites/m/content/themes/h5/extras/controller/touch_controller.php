@@ -367,6 +367,9 @@ class touch_controller
         ecjia_front::$controller->assign('title', __('定位', 'h5'));
         ecjia_front::$controller->assign_title(__('定位', 'h5'));
 
+        $city_id = $_GET['city_id'];
+        ecjia_front::$controller->assign('city_id', $city_id);
+
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 
         if (ecjia_touch_user::singleton()->isSignin()) {
@@ -388,7 +391,7 @@ class touch_controller
         }
 
         if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
-            $referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
+            $referer_url = !empty($_GET['referer_url']) ? htmlspecialchars_decode($_GET['referer_url']) : '';
 
             if (!empty($referer_url)) {
                 ecjia_front::$controller->assign('referer_url', $referer_url);
@@ -428,6 +431,11 @@ class touch_controller
     {
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 
+        $address_id = $_GET['address_id'];
+        $type = $_GET['type'];
+        ecjia_front::$controller->assign('address_id', $address_id);
+        ecjia_front::$controller->assign('type', $type);
+
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::STORE_BUSINESS_CITY)->run();
         if (is_ecjia_error($rs)) {
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
@@ -443,7 +451,7 @@ class touch_controller
         ecjia_front::$controller->assign('rs', $arr);
 
         if (!ecjia_front::$controller->is_cached('select_location_city.dwt', $cache_id)) {
-            $referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
+            $referer_url = !empty($_GET['referer_url']) ? htmlspecialchars_decode($_GET['referer_url']) : '';
             if (!empty($referer_url)) {
                 ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
             }
@@ -489,7 +497,7 @@ class touch_controller
         } else {
             $city_id = !empty($rs['region_id']) ? $rs['region_id'] : '';
         }
-        $referer_url = empty($_SERVER['HTTP_REFERER']) ? RC_Uri::current_url() : $_SERVER['HTTP_REFERER'];
+        $referer_url = empty($_SERVER['HTTP_REFERER']) ? RC_Uri::current_url() : htmlspecialchars_decode($_SERVER['HTTP_REFERER']);
         setcookie("referer_url", $referer_url, RC_Time::gmtime() + 3600 * 24 * 7);
 
         $href_url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));

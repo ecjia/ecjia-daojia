@@ -27,7 +27,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 <li>
                     <span class="slect-title">{$rs.pay_name}</span>
                     <span class="ecjiaf-fr">
-                        <label class="ecjia-check"><input type="radio" id="{$rs.pay_code}" name="payment" value="{$rs.pay_id}" {if $smarty.get.pay_id eq $rs.pay_id}checked="true"{/if}></label>
+                        <label class="ecjia-check"><input type="radio" id="{$rs.pay_code}" name="payment" value="{$rs.pay_id}" {if $pay_id eq $rs.pay_id}checked="true"{/if}></label>
                     </span>
                 </li>
             </label>
@@ -43,7 +43,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 <li>
                     <span class="slect-title">{$rs.pay_name}</span>
                     <span class="ecjiaf-fr">
-                        <label class="ecjia-check"><input type="radio" id="{$rs.pay_code}" name="payment" value="{$rs.pay_id}" {if $smarty.get.pay_id eq $rs.pay_id}checked="true"{/if}></label>
+                        <label class="ecjia-check"><input type="radio" id="{$rs.pay_code}" name="payment" value="{$rs.pay_id}" {if $pay_id eq $rs.pay_id}checked="true"{/if}></label>
                     </span>
                 </li>
             </label>

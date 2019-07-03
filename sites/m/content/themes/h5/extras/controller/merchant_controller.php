@@ -603,6 +603,11 @@ class merchant_controller
     {
         $store_id = intval($_GET['store_id']);
 
+        $from = $_GET['from'];
+        $out = $_GET['out'];
+        ecjia_front::$controller->assign('from', $from);
+        ecjia_front::$controller->assign('out', $out);
+
         //店铺信息
         $parameter_list = array(
             'seller_id' => $store_id,

@@ -25,7 +25,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     	<p class="modify-username-info" id="modify-username-info">{if $user.update_username_time eq ''}{t domain="h5"}注：用户名一个月只能修改一次{/t}{else}{t domain="h5"}注：用户名一个月只能修改一次，上次修改时间为：{/t}{$update_username_time}{/if}</p>
     	<div class="ecjia-login-b ecjia-button-top-list">
     	    <div class="p-top3">
-                <input type="hidden" name="referer" value="{$smarty.get.referer}" />
+                <input type="hidden" name="referer" value="{$referer}" />
                 <input name="modify_username" {if $limit_time}type="reset"{else}type="submit"{/if} class="btn btn-info nopjax {if $limit_time}not_submit{/if} external" data-url="{url path='user/profile/modify_username_account'}" value='{t domain="h5"}确定{/t}' />
     	    </div>	
     	</div>

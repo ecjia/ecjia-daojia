@@ -56,6 +56,10 @@ class user_get_password_controller
     {
         unset($_SESSION['user_temp']);
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        $referer_url = htmlspecialchars_decode($_GET['referer_url']);
+        ecjia_front::$controller->assign('referer_url', $referer_url);
+
         if (!ecjia_front::$controller->is_cached('user_mobile_register.dwt', $cache_id)) {
             ecjia_front::$controller->assign_lang();
             ecjia_front::$controller->assign('title', __('找回密码', 'h5'));
@@ -89,6 +93,8 @@ class user_get_password_controller
         if (empty($mobile_phone)) {
             return ecjia_front::$controller->redirect(RC_Uri::url('user/get_password/init'));
         }
+        $referer_url = htmlspecialchars_decode($_GET['referer_url']);
+        ecjia_front::$controller->assign('referer_url', $referer_url);
 
         $token = ecjia_touch_user::singleton()->getShopToken();
         $res   = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();

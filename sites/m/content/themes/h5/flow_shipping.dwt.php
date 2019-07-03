@@ -26,7 +26,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     <span class="slect-title">{$list.shipping_name}</span>
                     <span class="ecjiaf-fr ecjia-margin-l">
                         <label class="ecjia-check"><input type="radio" id="shipping_{$list.shipping_code}" name="shipping" value="{$list.shipping_id}"
-                        {if $smarty.get.shipping_id eq $list.shipping_id} checked="true"{/if}>
+                        {if $shipping_id eq $list.shipping_id} checked="true"{/if}>
                         </label>
                     </span>
                     <span class="ecjiaf-fr">{$list.format_shipping_fee}</span>

@@ -18,7 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <div class="ecjia-zs" id="ecjia-zs" data-type="index" data-url="{url path='touch/index/init'}">
 	<div class="ecjia-zt a1">
-		<a href="{url path='touch/location/select_city' args="type=search{if $smarty.get.city_id}&city_id={$smarty.get.city_id}{else}&city_id={$smarty.cookies.city_id}{/if}"}">
+		<a href="{url path='touch/location/select_city' args="type=search{if $city_id}&city_id={$city_id}{else}&city_id={$smarty.cookies.city_id}{/if}"}">
 			<h2 class="ecjia-zu"><span class="city-name">{if $smarty.cookies.city_name}{$smarty.cookies.city_name}{else}{t domain="h5"}请选择{/t}{/if}</span></h2>
  		</a>
 		<input class="ecjia-zv" type="text" id="search_location_list" data-toggle="search-address" data-url="{url path='touch/location/search_list'}"  name="address" placeholder='{t domain="h5"}选择城市、小区、写字楼、学校{/t}' maxlength="50" >

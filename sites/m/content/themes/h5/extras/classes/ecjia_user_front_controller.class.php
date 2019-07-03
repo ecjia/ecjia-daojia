@@ -63,7 +63,7 @@ class ecjia_user_front_controller extends ecjia_theme_controller
             $url       = RC_Uri::site_url() . substr($_SERVER['REQUEST_URI'], strripos($_SERVER['REQUEST_URI'], '/'));
             $login_str = user_function::return_login_str();
             if (isset($_GET['referer_url'])) {
-                $url = $_GET['referer_url'];
+                $url = htmlspecialchars_decode($_GET['referer_url']);
             }
 
             ecjia_front::$controller->redirectWithExited(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));

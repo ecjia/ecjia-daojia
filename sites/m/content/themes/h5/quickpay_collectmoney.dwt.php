@@ -31,7 +31,7 @@ body { background: #fff; }
 	</div>
 </div>
 
-<input type="hidden" name="from" value="{$smarty.get.from}" class="ecjia-from-page {if $smarty.get.out eq 1}out-range{/if}" />
+<input type="hidden" name="from" value="{$from}" class="ecjia-from-page {if $out eq 1}out-range{/if}" />
 
 <div class="ecjia-quickpay-form">
 	{if $store_info.shop_closed eq 1}

@@ -56,6 +56,9 @@ class user_bonus_controller
      */
     public static function init()
     {
+        $status = $_GET['status'];
+        ecjia_front::$controller->assign('status', $status);
+
         $shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
         $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
         ecjia_front::$controller->assign('bonus_readme_url', $shop_config['bonus_readme_url']);

@@ -313,6 +313,8 @@ class user_account_controller
      */
     public static function record()
     {
+        $status = $_GET['status'];
+        ecjia_front::$controller->assign('status', $status);
         ecjia_front::$controller->assign_title(__('交易记录', 'h5'));
         return ecjia_front::$controller->display('user_record.dwt');
     }

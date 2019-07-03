@@ -25,7 +25,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <input class="input-captcha" name="code_captcha" placeholder='{t domain="h5"}请输入图形验证码 {/t}' type="text" /><br>
     </div>
     <div class="around">
-        <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
+        <input type="hidden" name="referer_url" value="{$referer_url}" />
         <input type="button" class="btn btn-info login-btn" name="ecjia-captcha-validate" value='{t domain="h5"}验证{/t}' data-url="{$url}"/>
     </div>
 </div>

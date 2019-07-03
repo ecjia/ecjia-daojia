@@ -107,6 +107,9 @@ class user_profile_controller
 
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name']));
 
+        $referer = $_GET['referer'];
+        ecjia_front::$controller->assign('referer', $referer);
+
         if (!ecjia_front::$controller->is_cached('user_modify_username.dwt', $cache_id)) {
             $user       = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
             $user       = is_ecjia_error($user) ? array() : $user;

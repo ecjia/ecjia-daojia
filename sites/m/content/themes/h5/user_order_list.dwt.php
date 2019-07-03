@@ -31,7 +31,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <div class="ecjia-order-list ">
     {if $order_list}
-	<ul class="ecjia-margin-b" id="J_ItemList" data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='order/async_order_list'}&keywords={$keywords}" data-size="10" data-page="1" data-type="{$type}">
+	<ul class="ecjia-margin-b" id="J_ItemList" data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='#order/async_order_list'}&keywords={$keywords}" data-size="10" data-page="1" data-type="{$type}">
 		<!-- 订单异步加载 -->
 	</ul>
 	{else}
