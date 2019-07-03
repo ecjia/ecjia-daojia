@@ -55,6 +55,7 @@ RC_Hook::add_action('main/index/search', array('pc_controller', 'search'));//搜
 RC_Loader::load_theme('extras/controller/goods_controller.php');
 RC_Hook::add_action('goods/index/init', array('goods_controller', 'init'));//商品列表
 RC_Hook::add_action('goods/index/show', array('goods_controller', 'show'));//商品详情
+RC_Hook::add_action('goods/index/check_spec', array('goods_controller', 'check_spec'));//切换规格
 
 RC_Loader::load_theme('extras/controller/merchant_controller.php');
 RC_Hook::add_action('merchant/goods/init', array('merchant_controller', 'init'));//商家商品列表

@@ -382,5 +382,142 @@ class pc_function
         }
         return $i;
     }
+
+
+
+    /**
+     * 获取线上数据
+     * @return array|ecjia_error
+     */
+    public static function getServerCartData($goods_id)
+    {
+        $arr = array(
+            'goods_id' => $goods_id,
+        );
+
+        $goods_list = ecjia_api_manager::make()->api(ecjia_api_const::GOODS_PRODUCT_SPECIFICATION)->data($arr)->run();
+        if (is_ecjia_error($goods_list)) {
+            $goods_list = array();
+        }
+
+        return $goods_list;
+    }
+
+    public static function findDefaultProductGoodsAttrId($specification = null, $good_id)
+    {
+        if (is_null($specification)) {
+            $goods_specification = self::getServerCartData($good_id);
+            $specification = $goods_specification['specification'];
+        }
+
+        $product_goods_attr_label = collect($specification)
+            ->pluck('value')
+            ->map(function($item) {
+                return $item[0];
+            })
+            ->pluck('id')
+            ->implode(',');
+
+        return $product_goods_attr_label;
+    }
+
+    /**
+     * 通过规格参数查找货品规格
+     * @param $spec
+     */
+    public static function findProductSpecificationBySpec($spec, $good_id)
+    {
+        $goods_specification = self::getServerCartData($good_id);
+        $product_specification = $goods_specification['product_specification'];
+
+        //判断是否是数组，转换为竖线分隔的字符串
+        if (is_array($spec)) {
+            asort($spec);
+            $spec = implode('|', $spec);//123|124
+        }
+
+        //判断逗号分隔是否存在，转换为竖线分隔
+        if (strpos($spec, ',') !== false) {
+            $spec = str_replace(',', '|', $spec);
+        }
+
+        $specification_item = collect($product_specification)->filter(function($item) use ($spec) {
+            if (!empty($item['product_goods_attr'])) {
+                if ($spec == $item['product_goods_attr']) {
+                    return true;
+                }
+            }
+
+            return false;
+        })->first();
+
+        if ($specification_item['is_promote'] == 1) {
+            $specification_item['product_shop_price'] = min($specification_item['product_shop_price'], $specification_item['promote_price']);
+        }
+
+        $specification_item['product_goods_attr_label'] = self::convertProductGoodsAttrLabel($spec, $good_id);
+        $specification_item['product_shop_price_label'] = ecjia_price_format($specification_item['product_shop_price']);
+
+        return $specification_item;
+    }
+
+    /**
+     * 通过product_id查找货品规格
+     * @param $spec
+     */
+    public function findProductSpecificationByProductId($product_id, $product_specification = null)
+    {
+        if (is_null($product_specification)) {
+            $goods_specification = self::getServerCartData();
+            $product_specification = $goods_specification['product_specification'];
+        }
+
+        $specification_item = collect($product_specification)->filter(function($item) use ($product_id) {
+            if ($item['product_id'] == $product_id) {
+                return true;
+            }
+
+            return false;
+        })->first();
+
+        if (empty($specification_item)) {
+            $specification_item = $product_specification[0];
+        }
+
+        if ($specification_item) {
+            if ($specification_item['is_promote'] == 1) {
+                $specification_item['product_shop_price'] = min($specification_item['product_shop_price'], $specification_item['promote_price']);
+            }
+
+            $specification_item['product_goods_attr_label'] = self::convertProductGoodsAttrLabel($specification_item['product_goods_attr'], $goods_id);
+            $specification_item['product_shop_price_label'] = ecjia_price_format($specification_item['product_shop_price']);
+
+            return $specification_item;
+        }
+
+        return null;
+    }
+
+    /**
+     * 转换spec id 为 字符串名字
+     * @param $spec
+     * @return mixed
+     */
+    public static function convertProductGoodsAttrLabel($spec, $good_id)
+    {
+        $spec = explode('|', $spec);
+
+        $goods_specification = self::getServerCartData($good_id);
+
+        $specification = $goods_specification['specification'];
+        $product_goods_attr_label = collect($specification)
+            ->pluck('value')
+            ->collapse()
+            ->whereIn('id', $spec)
+            ->pluck('label')
+            ->implode('/');
+
+        return $product_goods_attr_label;
+    }
 }
 //end

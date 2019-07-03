@@ -211,6 +211,8 @@ class goods_controller
                 /*商品信息*/
                 $goods_info_api = ecjia_api_manager::make()->api(ecjia_api_const::GOODS_DETAIL)->data($par)->run();
                 $goods_info['properties_new'] = $goods_info_api['properties'];
+                $goods_info['product_specification'] = $goods_info_api['product_specification'];
+
 
                 $num = 1;
                 if (!empty($properties['pro'])) {
@@ -228,7 +230,7 @@ class goods_controller
                     }
                 }
 
-                $goods_info['f_price'] = $f_price;
+                $goods_info['f_price'] = ecjia_price_format($f_price);
                 $store_id              = $goods_info['store_id'];
 
                 $favourable_result = RC_Api::api('favourable', 'store_favourable_list', array('store_id' => $store_id));
@@ -288,6 +290,10 @@ class goods_controller
                     ->first();
                 $goods_info['order_amount'] = !empty($sale_num['goods_num']) ? $sale_num['goods_num'] : 0;
 
+                $check_spec_url = RC_Uri::url('goods/index/check_spec');
+                ecjia_front::$controller->assign('check_spec_url', $check_spec_url);
+
+
                 ecjia_front::$controller->assign('shop_info', $shop_info);
                 ecjia_front::$controller->assign('goods_info', $goods_info);
                 ecjia_front::$controller->assign('pc_keywords', $goods_info['keywords']);
@@ -295,7 +301,49 @@ class goods_controller
                 ecjia_front::$controller->assign_title($goods_info['goods_name']);
             }
         }
+
         return ecjia_front::$controller->display('goods_show.dwt', $cache_id);
+    }
+
+    public static function check_spec()
+    {
+        /**
+         * @var \Royalcms\Component\Http\Request $request
+         */
+        $request = royalcms('request');
+        $spec    = $request->input('spec');
+        $goods_id = trim($request->input('goods_id', 0));
+
+        if (empty($spec)) {
+            $spec = pc_function::findDefaultProductGoodsAttrId($goods_id);
+        }
+
+        if (!is_array($spec)) {
+            $spec = explode(',', $spec);
+        }
+
+        if (!empty($spec)) {
+            asort($spec);
+            $spec = implode('|', $spec);//123|124
+        }
+
+        list($goods_id, $product_id) = explode('_', $goods_id);
+        $goods_id   = intval($goods_id);
+
+
+        $product_spec = pc_function::findProductSpecificationBySpec($spec,$goods_id);
+
+        $product_id = $product_spec['product_id'];
+        $id = $goods_id . '_' . $product_id;
+
+        $data = array(
+            'product_id'   => $product_id,
+            'product_spec' => $product_spec,
+            'goods_id'     => $goods_id,
+            'id'           => $id,
+        );
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $data);
     }
 }
 // end
