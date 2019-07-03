@@ -35,11 +35,8 @@ class LogViewerServiceProvider extends ServiceProvider {
 	 */
 	protected function loadAlias()
 	{
-	    $this->royalcms->booting(function()
-	    {
-	        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-	        $loader->alias('RC_LogViewer', 'Royalcms\Component\LogViewer\Facades\LogViewer');
-	    });
+        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+        $loader->alias('RC_LogViewer', 'Royalcms\Component\LogViewer\Facades\LogViewer');
 	}
 	
 	/**
