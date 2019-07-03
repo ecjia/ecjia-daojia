@@ -2,9 +2,10 @@
 
 namespace Royalcms\Component\Upload\Facades;
 
+use RC_Storage;
 use Royalcms\Component\Support\Facades\Facade;
 use RC_Hook;
-use Royalcms\Component\Foundation\Uri;
+use RC_Uri;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\DateTime\Time;
 use Royalcms\Component\Support\Facades\Config;
@@ -64,19 +65,16 @@ class Upload extends Facade {
      *
      * @return string Admin url link with optional path appended.
      */
-    public static function upload_path($path = '', $disk = null)
+    public static function custom_upload_path($path = '', $disk = null)
     {
-        //统一使用Storage来获取上传存储路径
-//        $upload_root = SITE_UPLOAD_PATH;
-        $upload_root = \RC_Storage::disk($disk)->path('');
-
+        $upload_root = SITE_UPLOAD_PATH;
         if ($path && is_string($path)) {
             $upload_root = rtrim($upload_root, DIRECTORY_SEPARATOR);
             $upload_root .= DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
         }
 
         /**
-         * Filter the upload area URL.
+         * Filter the upload area PATH.
          *
          * @since 3.0.0
          *
@@ -85,7 +83,9 @@ class Upload extends Facade {
          * @param string $path
          *            Path relative to the admin area URL. Blank string if no path is specified.
          */
-        return RC_Hook::apply_filters('upload_path', $upload_root, $path);
+        $upload_path = RC_Hook::apply_filters('upload_path', $upload_root, $path);
+
+        return $upload_path;
     }
 
     /**
@@ -97,12 +97,10 @@ class Upload extends Facade {
      *
      * @return string Admin url link with optional path appended.
      */
-    public static function upload_url($path = '', $disk = null)
+    public static function custom_upload_url($path = '', $disk = null)
     {
         //统一使用Storage来获取上传存储地址
-//        $url = rtrim(SITE_UPLOAD_URL, '/');
-        $url = \RC_Storage::disk($disk)->url('');
-
+        $url = rtrim(SITE_UPLOAD_URL, '/');
         $url = rtrim($url, '/');
 
         if ($path && is_string($path)) {
@@ -119,7 +117,46 @@ class Upload extends Facade {
          * @param string $path
          *            Path relative to the admin area URL. Blank string if no path is specified.
          */
-        return RC_Hook::apply_filters('upload_url', $url, $path);
+        $upload_url = RC_Hook::apply_filters('upload_url', $url, $path);
+
+        return $upload_url;
+    }
+
+
+    /**
+     * Retrieve the url to the upload area for the current site.
+     *
+     * @since 3.0.0
+     *
+     * @param string $path Optional path relative to the upload url.
+     *
+     * @return string Admin url link with optional path appended.
+     */
+    public static function upload_path($path = '', $disk = null)
+    {
+        //统一使用Storage来获取上传存储路径
+//        $upload_root = SITE_UPLOAD_PATH;
+        $path = RC_Storage::disk($disk)->path($path);
+        
+        return $path;
+    }
+
+    /**
+     * Retrieve the url to the admin area for the current site.
+     *
+     * @since 3.0.0
+     *
+     * @param string $path Optional path relative to the admin url.
+     *
+     * @return string Admin url link with optional path appended.
+     */
+    public static function upload_url($path = '', $disk = null)
+    {
+        //统一使用Storage来获取上传存储地址
+//        $url = rtrim(SITE_UPLOAD_URL, '/');
+        $url = RC_Storage::disk($disk)->url($path);
+
+        return $url;
     }
 
     /**
@@ -189,7 +226,7 @@ class Upload extends Facade {
      */
     public static function upload_dir($type = '', $time = null)
     {
-        $siteurl = Uri::site_url();
+        $siteurl = RC_Uri::site_url();
         $upload_path = trim(Config::get('upload.path'));
 
         if (empty($upload_path) || 'content/uploads' == $upload_path) {
