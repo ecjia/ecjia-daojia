@@ -1032,10 +1032,12 @@ class cart {
 				} else {
 					$goodsWeight = 0;
 				}
-				$packages_row['weight'] = floatval($goodsWeight)*$val['goods_number'];
+				//取出每件商品重量
+				$goods_weight[] = floatval($goodsWeight)*$val['goods_number'];
 			}
 		}
-		
+		//计算多件商品总重量
+		$packages_row['weight'] = array_sum($goods_weight);
 		/* 格式化重量 */
 		$packages_row['formated_weight'] = self::formated_weight($packages_row['weight']);
 		return $packages_row;

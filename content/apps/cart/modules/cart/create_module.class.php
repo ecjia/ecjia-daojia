@@ -112,6 +112,9 @@ class cart_create_module extends api_front implements api_interface {
     		$geohash         = RC_Loader::load_app_class('geohash', 'store');
     		$geohash_code    = $geohash->encode($location['latitude'] , $location['longitude']);
     		$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+    		if (!empty($seller_id)) {
+    			$store_id_group = array($seller_id);
+    		}
     	} else {
     		return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
     	}
@@ -147,7 +150,12 @@ class cart_create_module extends api_front implements api_interface {
 	        return $result;
 	    } 
 
-	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => $flow_type));
+	    if ($seller_id) {
+	    	$cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => array($seller_id), 'flow_type' => $flow_type));
+	    } else {
+	    	$cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => $flow_type));
+	    }
+	   
 	    
 	    return formated_cart_list($cart_result, $store_id_group);
 	}
