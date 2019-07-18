@@ -196,7 +196,7 @@ class admin_gallery extends ecjia_admin {
         }
         $url = RC_Uri::url('goodslib/admin_gallery/init', $arr);
 
-        return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+        return $this->showmessage(__('上传成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
 
 	/**
