@@ -68,6 +68,6 @@ class RC_Locale extends Royalcms\Component\Gettext\Facades\Gettext
      * @param string $domain Unique identifier for retrieving translated strings
      * @param string $plugin_rel_path Optional. Relative path to SITE_PLUGIN_PATH where the .mo file resides.
      */
-    public static function loadPluginTextdomain($domain, $plugin_rel_path = false) {}
+    public static function loadPluginTextdomain($domain, $plugin_rel_path = false, $domain_path = null) {}
 
 }
