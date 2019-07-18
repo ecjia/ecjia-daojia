@@ -47,7 +47,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<!-- {/if} -->
 		</li>
 	</ul>
-	<ul class="ecjia-promotion-list" data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='index/ajax_goods' args='type=promotion'}&promotion_type={$promotion_type}">
+	<ul class="ecjia-promotion-list" data-toggle="asynclist" data-url="{url path='#index/ajax_goods' args='type=promotion'}&promotion_type={$promotion_type}" data-loadimg="{$theme_url}dist/images/loader.gif">
 	</ul>
 </div>
 <!-- {/block} -->
