@@ -127,18 +127,18 @@ class admin_sale_list extends ecjia_admin {
 		$title4 = __('消费总金额（元）', 'quickpay');
 		$title5 = __('优惠总金额（元）', 'quickpay');
 		$title6 = __('实付总金额（元）', 'quickpay');
-		echo mb_convert_encoding($title1,'UTF-8', 'UTF-8') . "\t\n";
-		echo mb_convert_encoding($title2,'UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding($title3,'UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding($title4,'UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding($title5,'UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding($title6,'UTF-8', 'UTF-8') . "\t\n";
+		echo mb_convert_encoding($title1,'GBK', 'UTF-8') . "\t\n";
+		echo mb_convert_encoding($title2,'GBK', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title3,'GBK', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title4,'GBK', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title5,'GBK', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title6,'GBK', 'UTF-8') . "\t\n";
 		foreach ($sale_list_data AS $data) {
-			echo mb_convert_encoding($data['period'],'UTF-8', 'UTF-8') . "\t";
-			echo mb_convert_encoding($data['order_count'],'UTF-8', 'UTF-8') . "\t";
-			echo mb_convert_encoding($data['goods_amount'],'UTF-8', 'UTF-8') . "\t";
-			echo mb_convert_encoding($data['favorable_amount'],'UTF-8', 'UTF-8') . "\t";
-			echo mb_convert_encoding($data['order_amount'],'UTF-8', 'UTF-8') . "\t";
+			echo mb_convert_encoding($data['period'],'GBK', 'UTF-8') . "\t";
+			echo mb_convert_encoding($data['order_count'],'GBK', 'UTF-8') . "\t";
+			echo mb_convert_encoding($data['goods_amount'],'GBK', 'UTF-8') . "\t";
+			echo mb_convert_encoding($data['favorable_amount'],'GBK', 'UTF-8') . "\t";
+			echo mb_convert_encoding($data['order_amount'],'GBK', 'UTF-8') . "\t";
 			echo "\n";
 		}
 		exit;

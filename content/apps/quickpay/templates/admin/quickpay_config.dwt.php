@@ -28,7 +28,7 @@
 			<div class="control-group formSep">
 				<label class="control-label">{t domain="quickpay"}收款手续费：{/t}</label>
 				<div class="controls">
-					<input type="text" class="span7" name="quickpay_fee" value="{$quickpay_fee}"/>
+					<input type="text" class="span7" name="quickpay_fee" value="{$quickpay_fee}"/> %
 					<span class="input-must"><span class="require-field">*</span></span>
 				</div>
 			</div>
