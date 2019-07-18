@@ -65,10 +65,10 @@ class admin_merchant_validate_module extends api_admin implements api_interface 
 		}
 
 		if (version_compare($api_version, '1.14', '>=')) {
-			$captcha_code = $this->requestData('captcha_code');
-			if (empty($captcha_code)) {
-				return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
-			}
+// 			$captcha_code = $this->requestData('captcha_code');
+// 			if (empty($captcha_code)) {
+// 				return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
+// 			}
 			//判断验证码是否正确
 			if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
 				return new ecjia_error( 'captcha_code_error', __('验证码错误', 'merchant'));

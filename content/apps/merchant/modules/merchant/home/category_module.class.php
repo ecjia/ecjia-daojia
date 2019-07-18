@@ -72,54 +72,127 @@ class merchant_home_category_module extends api_front implements api_interface {
 		foreach ($cat_list as $cat) {
 		    //微信小程序首页6个商品，默认普通商品顺序
 		    if ($device_client == 'weapp') {
-	            $options_goods = array(
-	                'store_id' => $store_id,
-	                'merchant_cat_id' => $cat['cat_id'],
-	                'size' => 6,
-	                'page' => 1,
-	            );
-	            $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+// 	            $options_goods = array(
+// 	                'store_id' => $store_id,
+// 	                'merchant_cat_id' => $cat['cat_id'],
+// 	                'size' => 6,
+// 	                'page' => 1,
+// 	            );
+// 	            $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+		    	//用户端商品展示基础条件
+		    	$filters = [
+			    	'store_unclosed' 		=> 0,    //店铺未关闭的
+			    	'is_delete'		 		=> 0,	 //未删除的
+			    	'is_on_sale'	 		=> 1,    //已上架的
+			    	'is_alone_sale'	 		=> 1,	 //单独销售的
+			    	'review_status'  		=> 2,    //审核通过的
+			    	'no_need_cashier_goods'	=> true, //不需要收银台商品
+		    	];
+		    	//是否展示货品
+		    	if (ecjia::config('show_product') == 1) {
+		    		$filters['product'] = true;
+		    	}
+		    	$filters['store_id'] = $store_id;
+		    	//商家商品分类
+		    	if ($cat['cat_id'] > 0 && !empty($store_id)) {
+		    		$filters['store_id_and_merchant_cat_id'] = [$cat['cat_id'], $store_id];
+		    	}
+		    	//分页信息
+		    	$filters['size'] = 6;
+		    	$filters['page'] = 1;
+		    	$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+		    	$goods = $collection['goods_list'];
 		    } else {
-		        $options_goods = array(
-		            'store_id' => $store_id,
-		            'merchant_cat_id' => $cat['cat_id'],
-		            'store_intro' => 'hot',
-		            'size' => 3,
-		            'page' => 1,
-		        );
-		        $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+// 		        $options_goods = array(
+// 		            'store_id' => $store_id,
+// 		            'merchant_cat_id' => $cat['cat_id'],
+// 		            'store_intro' => 'hot',
+// 		            'size' => 3,
+// 		            'page' => 1,
+// 		        );
+// 		        $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+				
+		    	//用户端商品展示基础条件
+		    	$filters = [
+			    	'store_unclosed' 		=> 0,    //店铺未关闭的
+			    	'is_delete'		 		=> 0,	 //未删除的
+			    	'is_on_sale'	 		=> 1,    //已上架的
+			    	'is_alone_sale'	 		=> 1,	 //单独销售的
+			    	'review_status'  		=> 2,    //审核通过的
+			    	'no_need_cashier_goods'	=> true, //不需要收银台商品
+		    	];
+		    	//是否展示货品
+		    	if (ecjia::config('show_product') == 1) {
+		    		$filters['product'] = true;
+		    	}
+		    	$filters['store_id'] = $store_id;
+		    	$filters['store_hot']   = 1;
+		    	//商家商品分类
+		    	if ($cat['cat_id'] > 0 && !empty($store_id)) {
+		    		$filters['store_id_and_merchant_cat_id'] = [$cat['cat_id'], $store_id];
+		    	}
+		    	$filters['size'] = 3;
+		    	$filters['page'] = 1;
+		    	
+		    	$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+		    	$goods = $collection['goods_list'];
+		    	
 		        //热销没有商品使用默认商品
-		        if (empty($goods['list'])) {
-		            $options_goods = array(
-		                'store_id' => $store_id,
-		                'merchant_cat_id' => $cat['cat_id'],
-		                'size' => 3,
-		                'page' => 1,
-		            );
-		            $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+		        if (empty($goods)) {
+// 		            $options_goods = array(
+// 		                'store_id' => $store_id,
+// 		                'merchant_cat_id' => $cat['cat_id'],
+// 		                'size' => 3,
+// 		                'page' => 1,
+// 		            );
+// 		            $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+
+		        	//用户端商品展示基础条件
+		        	$filters = [
+			        	'store_unclosed' 		=> 0,    //店铺未关闭的
+			        	'is_delete'		 		=> 0,	 //未删除的
+			        	'is_on_sale'	 		=> 1,    //已上架的
+			        	'is_alone_sale'	 		=> 1,	 //单独销售的
+			        	'review_status'  		=> 2,    //审核通过的
+			        	'no_need_cashier_goods'	=> true, //不需要收银台商品
+		        	];
+		        	//是否展示货品
+		        	if (ecjia::config('show_product') == 1) {
+		        		$filters['product'] = true;
+		        	}
+		        	$filters['store_id'] = $store_id;
+		        	//商家商品分类
+		        	if ($cat['cat_id'] > 0 && !empty($store_id)) {
+		        		$filters['store_id_and_merchant_cat_id'] = [$cat['cat_id'], $store_id];
+		        	}
+		        	$filters['size'] = 3;
+		        	$filters['page'] = 1;
+		        	 
+		        	$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+		        	$goods = $collection['goods_list'];
 		        }
 		    }
 		    
-		    $formate_goods = array();
-		    foreach ($goods['list'] as $val) {
-		        $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
-		        $formate_goods[] = array(
-		            'id'                  => $val['goods_id'],
-		            'name'                      => $val['name'],
-		            'market_price'              => $val['market_price'],
-		            'shop_price'                => $val['shop_price'],
-		            'promote_price'             => $val['promote_price'],
-	        		'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
-	        		'unformatted_promote_price' => $val['unformatted_promote_price'],
-		            'img' => array(
-		                'thumb'   => $val['goods_img'],
-		                'url'     => $val['original_img'],
-		                'small'   => $val['goods_thumb']
-		            ),
-		            'properties'      => $properties['pro'],
-		            'specification'   => $properties['spe'],
-		        );
-	        }
+		    $formate_goods = $goods;
+// 		    foreach ($goods['list'] as $val) {
+// 		        $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
+// 		        $formate_goods[] = array(
+// 		            'id'                  => $val['goods_id'],
+// 		            'name'                      => $val['name'],
+// 		            'market_price'              => $val['market_price'],
+// 		            'shop_price'                => $val['shop_price'],
+// 		            'promote_price'             => $val['promote_price'],
+// 	        		'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
+// 	        		'unformatted_promote_price' => $val['unformatted_promote_price'],
+// 		            'img' => array(
+// 		                'thumb'   => $val['goods_img'],
+// 		                'url'     => $val['original_img'],
+// 		                'small'   => $val['goods_thumb']
+// 		            ),
+// 		            'properties'      => $properties['pro'],
+// 		            'specification'   => $properties['spe'],
+// 		        );
+// 	        }
 		    $out[] = array(
 		        'id' 	=> $cat['cat_id'],
 		        'name' 	=> $cat['cat_name'],

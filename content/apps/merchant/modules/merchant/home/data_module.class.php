@@ -359,44 +359,67 @@ class merchant_home_data_module extends api_front implements api_interface {
 	public function promote_goods_data($response, $request) {
 	
 		$promote_goods_data = array();
-		$order_sort         = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
-		$filter = array(
-				'intro'	  => 'promotion',
-				'sort'	  => $order_sort,
-				'page'	  => 1,
-				'size'	  => 6,
-				'store_id' => $request['seller_id'],
-		);
+		$order_sort         = array('goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
+		// $filter = array(
+		// 		'intro'	  => 'promotion',
+		// 		'sort'	  => $order_sort,
+		// 		'page'	  => 1,
+		// 		'size'	  => 6,
+		// 		'store_id' => $request['seller_id'],
+		// );
 	
-		$result = RC_Api::api('goods', 'goods_list', $filter);
+		// $result = RC_Api::api('goods', 'goods_list', $filter);
 		
-		if ( !empty($result['list']) ) {
-			RC_Loader::load_app_func('admin_goods', 'goods');
-			foreach ( $result['list'] as $key => $val ) {
-				$properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
-				$promote_goods_data[] = array(
-						'id'		                => intval($val['goods_id']),
-						'goods_id'	                => intval($val['goods_id']),
-						'name'		                => $val['goods_name'],
-						'market_price'	            => $val['market_price'],
-						'shop_price'	            => $val['shop_price'],
-						'promote_price'	            => $val['promote_price'],
-						'manage_mode'               => $val['manage_mode'],
-						'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
-						'unformatted_promote_price' => $val['unformatted_promote_price'],
-						'promote_start_date'        => $val['promote_start_date'],
-						'promote_end_date'          => $val['promote_end_date'],
-						'img'                       => array(
-								'small' => $val['goods_thumb'],
-								'thumb' => $val['goods_img'],
-								'url'	=> $val['original_img'],
-						),
-						'properties'      => $properties['pro'],
-						'specification'   => $properties['spe'],
-				);
-			}
+		// if ( !empty($result['list']) ) {
+		// 	RC_Loader::load_app_func('admin_goods', 'goods');
+		// 	foreach ( $result['list'] as $key => $val ) {
+		// 		$properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
+		// 		$promote_goods_data[] = array(
+		// 				'id'		                => intval($val['goods_id']),
+		// 				'goods_id'	                => intval($val['goods_id']),
+		// 				'name'		                => $val['goods_name'],
+		// 				'market_price'	            => $val['market_price'],
+		// 				'shop_price'	            => $val['shop_price'],
+		// 				'promote_price'	            => $val['promote_price'],
+		// 				'manage_mode'               => $val['manage_mode'],
+		// 				'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
+		// 				'unformatted_promote_price' => $val['unformatted_promote_price'],
+		// 				'promote_start_date'        => $val['promote_start_date'],
+		// 				'promote_end_date'          => $val['promote_end_date'],
+		// 				'img'                       => array(
+		// 						'small' => $val['goods_thumb'],
+		// 						'thumb' => $val['goods_img'],
+		// 						'url'	=> $val['original_img'],
+		// 				),
+		// 				'properties'      => $properties['pro'],
+		// 				'specification'   => $properties['spe'],
+		// 		);
+		// 	}
+		// }
+		//用户端商品展示基础条件
+		$filters = [
+	    	'store_unclosed' 		=> 0,    //店铺未关闭的
+	    	'is_delete'		 		=> 0,	 //未删除的
+	    	'is_on_sale'	 		=> 1,    //已上架的
+	    	'is_alone_sale'	 		=> 1,	 //单独销售的
+	    	'review_status'  		=> 2,    //审核通过的
+	    	'no_need_cashier_goods'	=> true, //不需要收银台商品
+    	];
+    	
+    	$filters['store_id'] = $request['seller_id'];
+    	$filters['product'] = true;
+    	$filters['goods_and_product_promotion_type'] = 'today';
+		//排序
+		if (!empty($order_sort)) {
+			$filters['sort_by'] = $order_sort;
 		}
-	
+		//分页信息
+		$filters['size'] = 6;
+		$filters['page'] = 1;
+
+		$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+		$promote_goods_data = $collection['goods_list'];
+
 		$response['promote_goods'] = $promote_goods_data;
 		return $response;
 	}
@@ -405,42 +428,68 @@ class merchant_home_data_module extends api_front implements api_interface {
 	public function new_goods_data($response, $request) {
 		$new_goods_data = array();
 	
-		$order_sort = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
-		$filter     = array(
-				'store_intro'	=> 'new',
-				'store_id' => $request['seller_id'],
-				'sort'	=> $order_sort,
-				'page'	=> 1,
-				'size'	=> 6,
+		$order_sort = array('goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
+		// $filter     = array(
+		// 		'store_intro'	=> 'new',
+		// 		'store_id' => $request['seller_id'],
+		// 		'sort'	=> $order_sort,
+		// 		'page'	=> 1,
+		// 		'size'	=> 6,
 	
-		);
+		// );
 	
-		$result = RC_Api::api('goods', 'goods_list', $filter);
-		if ( !empty($result['list']) ) {
-			RC_Loader::load_app_func('admin_goods', 'goods');
-			foreach ( $result['list'] as $key => $val ) {
-				$properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
-				$new_goods_data[] = array(
-						'id'            => intval($val['goods_id']),
-						'goods_id'      => intval($val['goods_id']),           //多商铺中不用，后期删除
-						'name'          => $val['goods_name'],
-						'manage_mode'   => $val['manage_mode'],
-						'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
-						'unformatted_promote_price' => $val['unformatted_promote_price'],
-						'market_price'	=> $val['market_price'],
-						'shop_price'	=> $val['shop_price'],
-						'promote_price'	=> $val['promote_price'],
-						'img'           => array(
-								'small' => $val['goods_thumb'],
-								'thumb' => $val['goods_img'],
-								'url'	=> $val['original_img'],
-						),
-						'properties'      => $properties['pro'],
-						'specification'   => $properties['spe'],
-				);
-			}
+		// $result = RC_Api::api('goods', 'goods_list', $filter);
+		// if ( !empty($result['list']) ) {
+		// 	RC_Loader::load_app_func('admin_goods', 'goods');
+		// 	foreach ( $result['list'] as $key => $val ) {
+		// 		$properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
+		// 		$new_goods_data[] = array(
+		// 				'id'            => intval($val['goods_id']),
+		// 				'goods_id'      => intval($val['goods_id']),           //多商铺中不用，后期删除
+		// 				'name'          => $val['goods_name'],
+		// 				'manage_mode'   => $val['manage_mode'],
+		// 				'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
+		// 				'unformatted_promote_price' => $val['unformatted_promote_price'],
+		// 				'market_price'	=> $val['market_price'],
+		// 				'shop_price'	=> $val['shop_price'],
+		// 				'promote_price'	=> $val['promote_price'],
+		// 				'img'           => array(
+		// 						'small' => $val['goods_thumb'],
+		// 						'thumb' => $val['goods_img'],
+		// 						'url'	=> $val['original_img'],
+		// 				),
+		// 				'properties'      => $properties['pro'],
+		// 				'specification'   => $properties['spe'],
+		// 		);
+		// 	}
+		// }
+	
+		$filters = [
+	    	'store_unclosed' 		=> 0,    //店铺未关闭的
+	    	'is_delete'		 		=> 0,	 //未删除的
+	    	'is_on_sale'	 		=> 1,    //已上架的
+	    	'is_alone_sale'	 		=> 1,	 //单独销售的
+	    	'review_status'  		=> 2,    //审核通过的
+	    	'no_need_cashier_goods'	=> true, //不需要收银台商品
+    	];
+    	$filters['store_id'] = $request['seller_id'];
+    	//是否展示货品
+		if (ecjia::config('show_product') == 1) {
+			$filters['product'] = true;
 		}
-	
+		$filters['store_new'] = 1;
+		//排序
+		if (!empty($order_sort)) {
+			$filters['sort_by'] = $order_sort;
+		}
+		//分页信息
+		$filters['size'] = 6;
+		$filters['page'] = 1;
+
+		$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+		$new_goods_data = $collection['goods_list'];
+
+
 		$response['new_goods'] = $new_goods_data;
 		return $response;
 	}

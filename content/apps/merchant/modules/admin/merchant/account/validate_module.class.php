@@ -168,6 +168,9 @@ class admin_merchant_account_validate_module extends api_admin implements api_in
 		unset($merchant_info['manage_mode']);unset($merchant_info['status']);unset($merchant_info['shop_close']);unset($merchant_info['apply_time']);
 		unset($merchant_info['confirm_time']);unset($merchant_info['identity_status']);unset($merchant_info['percent_id']);unset($merchant_info['sort_order']);
 		unset($merchant_info['expired_time']);
+		unset($merchant_info['account_status']);
+		unset($merchant_info['delete_time']);
+		unset($merchant_info['activate_time']);
 		$data = array_merge($data, $merchant_info);
 
 		if ($store_preaudit_info) {

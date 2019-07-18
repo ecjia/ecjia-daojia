@@ -66,12 +66,16 @@ class merchant_goods_list_module extends api_front implements api_interface {
 			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
 		
-		$promotion_type = $this->requestData('promotion_type', '');
-		$promotion_type_arr = array('today', 'tomorrow', 'aftertheday');//促销类型（实际为促销开始时间）
-		
-		if (!empty($promotion_type) && !in_array($promotion_type, $promotion_type_arr)) {
-			return new ecjia_error('invalid_parameter', __('促销类型参数错误', 'goods'));
+		if ($action_type == 'promotion') {
+			$promotion_type = $this->requestData('promotion_type', '');
+			$promotion_type = empty($promotion_type) ? 'today' : $promotion_type;
+			$promotion_type_arr = array('today', 'tomorrow', 'aftertheday');//促销类型（实际为促销开始时间）
+				
+			if (!empty($promotion_type) && !in_array($promotion_type, $promotion_type_arr)) {
+				return new ecjia_error('invalid_parameter', __('促销类型参数错误', 'merchant'));
+			}
 		}
+		
 		
 		switch ($sort_type) {
 			case 'new' :
