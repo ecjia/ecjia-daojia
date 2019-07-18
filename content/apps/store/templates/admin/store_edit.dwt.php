@@ -172,7 +172,7 @@
         					    <label class="ecjiafd-iblock"><div class="uni-radio"><input name="shop_review_goods" type="radio" value="0" {if  $store.shop_review_goods eq '' || $store.shop_review_goods eq 0 }checked="checked" {/if}/></div><span>{t domain="store"}关闭{/t}</span></label>
 								<label class="ecjiafd-iblock"><div class="uni-radio"><input name="shop_review_goods" type="radio" value="1" {if  $store.shop_review_goods eq '1'}checked="checked" {/if}/></div><span>{t domain="store"}开启{/t}</span></label>
         					</div>
-        					<div class="controls help-block">{t domain="store"}当商店设置中商品审核关闭时，对单个店铺设置失效。{/t}</div>
+        					<div class="controls help-block">{t domain="store"}当商店设置中商品审核关闭时，对单个店铺设置失效。自营店铺无需审核，此开关无效。{/t}</div>
         				</div>
         				<div class="control-group formSep">
         					<label class="control-label">{t domain="store"}店铺开关：{/t}</label>
