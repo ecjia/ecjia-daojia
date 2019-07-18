@@ -5,6 +5,7 @@ namespace Royalcms\Component\Editor;
 use RC_Uri;
 use RC_Hook;
 use RC_Locale;
+use RC_Script;
 
 
 /**
