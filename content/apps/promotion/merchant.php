@@ -182,10 +182,10 @@ class merchant extends ecjia_merchant
             if (empty($checkbox)) {
                 return $this->showmessage(__('请选择SKU商品参与活动', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
-            $promote_price        = floatval($_POST['promote_price']);
-            $promote_limited      = remove_xss($_POST['promote_limited']);
-            $promote_user_limited = remove_xss($_POST['promote_user_limited']);
-            $product_ids          = remove_xss($_POST['product_id']);
+            $promote_price        = $_POST['promote_price'];
+            $promote_limited      = $_POST['promote_limited'];
+            $promote_user_limited = $_POST['promote_user_limited'];
+            $product_ids          = $_POST['product_id'];
 
             $data = [];
             foreach ($checkbox as $k => $v) {
@@ -345,10 +345,10 @@ class merchant extends ecjia_merchant
             if (empty($checkbox)) {
                 return $this->showmessage(__('请选择SKU商品参与活动', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
-            $promote_price        = floatval($_POST['promote_price']);
-            $promote_limited      = remove_xss($_POST['promote_limited']);
-            $promote_user_limited = remove_xss($_POST['promote_user_limited']);
-            $product_ids          = remove_xss($_POST['product_id']);
+            $promote_price        = $_POST['promote_price'];
+            $promote_limited      = $_POST['promote_limited'];
+            $promote_user_limited = $_POST['promote_user_limited'];
+            $product_ids          = $_POST['product_id'];
 
             $data = [];
             foreach ($checkbox as $k => $v) {
