@@ -576,19 +576,28 @@ return array(
 	'admin/cashier/refund/summary/records'		  	  => 'refund::admin/cashier/refund/summary/records',    	//资金流水退款列表（退款完成的）
 	'admin/cashier/user/account/deposit/records'	  => 'user::admin/cashier/user/account/deposit/records',	//收银员查看会员充值记录
 	'admin/cashier/validate/integral'             	  => 'user::admin/cashier/validate/integral',               //收银台验证积分
-		
+
 	//1.30小程序
 	'medialibrary/image/temp/upload'                  => 'setting::medialibrary/image/temp/upload',             //图片临时上传，通用接口
-	'connect/user/bind'								  => 'connect::connect/user/bind',             				//用户绑定第三方账号	
+	'connect/user/bind'								  => 'connect::connect/user/bind',             				//用户绑定第三方账号
 	'user/connect/binded/status'					  => 'user::user/connect/binded/status',             		//用户绑定的第三方账号
 	'user/orders/summary'					  		  => 'user::user/orders/summary',             				//用户订单数量统计概况
-		
+
 
 	'bbc/test/flow/done'							  => 'cart::bbc/test/flow/done',							//到家商城，购物流订单结算提交测试接口
-	
+
 	'goods/product/specification'					  => 'goods::goods/product/specification',					//获取商品的货品和规格信息
 
     'admin/cashier/goods/product/specification'       => 'goods::admin/cashier/goods/product/specification',    //收银台获取商品的货品和规格信息
+
+
+    /* 代理商1.32 1.33 */
+    'invite/store/agent/user'     => 'affiliate::invite/store/agent/user',                                      //代理商招募信息（邀请链接，二维码，邀请码）
+    'invite/store/agent/inviter'  => 'affiliate::invite/store/agent/inviter',                                   //代理商信息
+    'invite/store/agent/join'     => 'affiliate::invite/store/agent/join',                                      //代理商招募校验
+    'invite/store'                => 'affiliate::invite/store',                                                 //推广店铺信息（邀请链接，二维码，邀请码）
+    //admin/merchant/signup 1.32新增 推广邀请码
+    'user/agent/info'             => 'user::user/agent/info',                                                   //用户代理商信息（是否代理商，代理商等级）
 	
     //1.33掌柜商品管理
     //规格管理
@@ -650,7 +659,8 @@ return array(
 	'admin/merchant/goods/product/gallery/sort'					=> 'goods::admin/merchant/goods/product/gallery/sort',					//货品相册排序	
 	'admin/merchant/goods/product/price/update'					=> 'goods::admin/merchant/goods/product/price/update',					//快速修改货品价格（支持批量修改）
 	'admin/merchant/goods/product/stock/update'					=> 'goods::admin/merchant/goods/product/stock/update',					//快速修改货品库存（支持批量修改）
-		
+
+	
     /**
      * 1.0 已经废弃
      *
