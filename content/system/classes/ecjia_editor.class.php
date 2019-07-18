@@ -44,6 +44,9 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Royalcms\Component\Editor\Quicktags;
+use Royalcms\Component\Editor\Tinymce;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
@@ -54,7 +57,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  *
  */
 
-final class ecjia_editor {
+class ecjia_editor {
 
 	private static $this_tinymce = null;
 	private static $this_quicktags = null;
@@ -117,22 +120,32 @@ final class ecjia_editor {
 		) );
 
 		if ( (bool) $set['tinymce'] )
-			self::$has_tinymce = true;
+        {
+            self::$has_tinymce = true;
+        }
 
 		if ( (bool) $set['quicktags'] )
-			self::$has_quicktags = true;
+        {
+            self::$has_quicktags = true;
+        }
 
 		if ( empty( $set['editor_height'] ) )
-			return $set;
+        {
+            return $set;
+        }
 
-		if ( 'content' === $editor_id ) {
-
-		}
+//		if ( 'content' === $editor_id ) {
+//
+//		}
 
 		if ( $set['editor_height'] < 50 )
-			$set['editor_height'] = 50;
+        {
+            $set['editor_height'] = 50;
+        }
 		elseif ( $set['editor_height'] > 5000 )
-			$set['editor_height'] = 5000;
+        {
+            $set['editor_height'] = 5000;
+        }
 
 		return $set;
 	}
@@ -141,12 +154,12 @@ final class ecjia_editor {
 
 	private static function editor_settings($editor_id, $set) {
 		if ( self::$has_quicktags ) {
-		    self::$this_quicktags = new Component_Editor_Quicktags(); //(bool) $set['quicktags'];
+		    self::$this_quicktags = new Quicktags(); //(bool) $set['quicktags'];
 // 			self::$this_quicktags->editor_settings($editor_id, $set);
 		}
 		
 		if ( self::$has_tinymce ) {
-		    self::$this_tinymce = RC_Hook::apply_filters('the_editor_instance', new Component_Editor_Tinymce()); // $set['tinymce'];
+		    self::$this_tinymce = RC_Hook::apply_filters('the_editor_instance', new Tinymce()); // $set['tinymce'];
 			self::$this_tinymce->editor_settings($editor_id, $set);
 		}
 	}
@@ -209,7 +222,9 @@ final class ecjia_editor {
 		echo '<div id="admin-' . $editor_id . '-wrap" class="' . $wrap_class . '">';
 	
 		if ( !empty($set['editor_css']) )
-			echo $set['editor_css'] . "\n";
+        {
+            echo $set['editor_css'] . "\n";
+        }
 	
 		if ( !empty($buttons) || $set['media_buttons'] ) {
 			echo '<div id="admin-' . $editor_id . '-editor-tools" class="admin-editor-tools hide-if-no-js">';
