@@ -1465,6 +1465,7 @@ class merchant extends ecjia_merchant {
 		}
 
 		$review_status = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('review_status');
+		//2审核未通过,重新审核
 		if($review_status === 2) {
 			$review_status = 1;
 		} 

@@ -388,7 +388,7 @@ class GoodsBasicInfo
     			$arr [$row ['attr_id']] ['value'] [] = array (
     					'label' => $row ['attr_value'],
     					'price' => $row ['attr_price'],
-    					'format_price' => price_format ( abs ( $row ['attr_price'] ), false ),
+    					'format_price' => $row['attr_price'] > 0 || $row['attr_price'] == '0' ? ecjia_price_format(abs($row['attr_price']), false) : '',
     					'id' => $row ['goods_attr_id']
     			);
     		}
