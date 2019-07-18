@@ -75,7 +75,7 @@ class user_add_user_api extends Component_Event_Api
         $email    = array_get($options, 'email');
         $gender   = array_get($options, 'gender');
         $birthday = array_get($options, 'birthday');
-        $reg_date = array_get($options, 'reg_date');
+        $reg_date = empty(array_get($options, 'reg_date')) ? RC_Time::gmtime() : array_get($options, 'reg_date');
 
         /**
          * @debug royalwang
@@ -95,6 +95,18 @@ class user_add_user_api extends Component_Event_Api
         $result = ecjia_integrate::addUser($username, $password, $email, $mobile, $gender, $birthday, $reg_date);
         if ($result) {
             $profile = ecjia_integrate::getProfileByName($username);
+            
+            /* 注册送积分 */
+            if (ecjia_config::has('register_points')) {
+            	$options = array(
+            			'user_id'     => $profile['user_id'],
+            			'rank_points' => ecjia::config('register_points'),
+            			'pay_points'  => ecjia::config('register_points'),
+            			'change_desc' => __('注册送积分', 'user')
+            	);
+            	$result  = RC_Api::api('user', 'account_change_log', $options);
+            }
+            
             return $profile;
         } else {
             return new ecjia_error('create_user_failed', sprintf(__('创建用户失败%s', 'user'), ecjia_integrate::getError()));
