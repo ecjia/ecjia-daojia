@@ -9755,14 +9755,14 @@ class Theme extends RoyalcmsObject
 }
 
 namespace Royalcms\Component\Plugin\Facades {
+use RC_File;
 use RC_Hook;
 use Royalcms\Component\Foundation\Kses;
 use Royalcms\Component\Foundation\RoyalcmsObject;
 use RC_Format;
-use Royalcms\Component\Support\Facades\File;
 use RC_Cache;
 use RC_Locale;
-use Royalcms\Component\Url\Facades\Uri;
+use RC_Uri;
 class Plugin extends RoyalcmsObject
 {
     public static function get_plugins($plugin_folder = '')
@@ -9833,7 +9833,7 @@ class Plugin extends RoyalcmsObject
     public static function get_plugin_data($plugin_file, $markup = true, $translate = true)
     {
         $default_headers = array('Name' => 'Plugin Name', 'PluginURI' => 'Plugin URI', 'Version' => 'Version', 'Description' => 'Description', 'Author' => 'Author', 'AuthorURI' => 'Author URI', 'TextDomain' => 'Text Domain', 'DomainPath' => 'Domain Path', 'PluginApp' => 'Plugin App');
-        $plugin_data = File::get_file_data($plugin_file, $default_headers, 'plugin');
+        $plugin_data = RC_File::get_file_data($plugin_file, $default_headers, 'plugin');
         if (empty($plugin_data['PluginApp'])) {
             $plugin_data['PluginApp'] = 'system';
         }
@@ -9851,9 +9851,9 @@ class Plugin extends RoyalcmsObject
         if ($translate) {
             if (($textdomain = $plugin_data['TextDomain']) == true) {
                 if ($plugin_data['DomainPath']) {
-                    RC_Locale::load_plugin_textdomain($textdomain, false, dirname($plugin_file) . $plugin_data['DomainPath']);
+                    RC_Locale::loadPluginTextdomain($textdomain, false, dirname($plugin_file) . $plugin_data['DomainPath']);
                 } else {
-                    RC_Locale::load_plugin_textdomain($textdomain, false, dirname($plugin_file));
+                    RC_Locale::loadPluginTextdomain($textdomain, false, dirname($plugin_file));
                 }
             } elseif (in_array(basename($plugin_file), array('hello.php', 'akismet.php'))) {
                 $textdomain = 'default';
@@ -9897,11 +9897,11 @@ class Plugin extends RoyalcmsObject
     public static function plugins_url($path = '', $plugin = '')
     {
         if (defined('RC_SITE') && strpos($plugin, 'sites' . DS . RC_SITE)) {
-            $url = Uri::content_url() . '/plugins';
+            $url = RC_Uri::content_url() . '/plugins';
         } else {
-            $url = Uri::home_content_url() . '/plugins';
+            $url = RC_Uri::home_content_url() . '/plugins';
         }
-        $url = Uri::set_url_scheme($url);
+        $url = RC_Uri::set_url_scheme($url);
         if (!empty($plugin) && is_string($plugin)) {
             $folder = dirname(self::plugin_basename($plugin));
             if ('.' != $folder) {
