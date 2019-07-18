@@ -319,7 +319,7 @@ class merchant extends ecjia_merchant {
 			'act_name'      => $act_name,
 			'start_time'    => $start_time,
 			'end_time'      => $end_time,
-			'user_rank'     => isset($_POST['user_rank']) ? join(',', remove_xss($_POST['user_rank'])) : '0',
+			'user_rank'     => isset($_POST['user_rank']) ? join(',', $_POST['user_rank']) : '0',
 			'act_range'     => intval($_POST['act_range']),
 			'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', remove_xss($_POST['act_range_ext'])),
 			'min_amount'    => $min_amount,
