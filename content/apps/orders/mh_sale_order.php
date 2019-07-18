@@ -136,13 +136,13 @@ class mh_sale_order extends ecjia_merchant
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename=$filename.xls");
 
-        echo mb_convert_encoding(sprintf(__('%s销售排行报表', 'orders'), $filename), 'UTF-8', 'UTF-8') . "\t\n";
+        echo mb_convert_encoding(sprintf(__('%s销售排行报表', 'orders'), $filename), 'GBK', 'UTF-8') . "\t\n";
         $data = __('排行', 'orders') . "\t" . __('商品名称', 'orders') . "\t" . __('货号', 'orders') . "\t" . __('销售量', 'orders') . "\t" . __('销售额', 'orders') . "\t" . __('均价', 'orders') . "\n";
         foreach ($goods_order_data['item'] as $k => $v) {
             $order_by = $k + 1;
             $data     .= "$order_by\t$v[goods_name]\t$v[goods_sn]\t$v[goods_num]\t$v[turnover]\t$v[wvera_price]\n";
         }
-        echo mb_convert_encoding($data . "\t", 'UTF-8', 'auto');
+        echo mb_convert_encoding($data . "\t", 'GBK', 'UTF-8');
         exit;
     }
 

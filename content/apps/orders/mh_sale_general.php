@@ -279,16 +279,16 @@ class mh_sale_general extends ecjia_merchant
         header("Content-Disposition: attachment; filename=$filename.xls");
 
         /* 文件标题 */
-        echo mb_convert_encoding(sprintf(__('%s销售统计', 'orders'), $filename), 'UTF-8', 'UTF-8') . "\t\n";
+        echo mb_convert_encoding(sprintf(__('%s销售统计', 'orders'), $filename), 'GBK', 'UTF-8') . "\t\n";
 
         /* 订单数量, 销售出商品数量, 销售金额 */
-        echo mb_convert_encoding(__('时间段', 'orders'), 'UTF-8', 'UTF-8') . "\t";
-        echo mb_convert_encoding(__('订单数(单位：个)', 'orders'), 'UTF-8', 'UTF-8') . "\t";
-        echo mb_convert_encoding(__('营业额(单位：元)', 'orders'), 'UTF-8', 'UTF-8') . "\t\n";
+        echo mb_convert_encoding(__('时间段', 'orders'), 'GBK', 'UTF-8') . "\t";
+        echo mb_convert_encoding(__('订单数(单位：个)', 'orders'), 'GBK', 'UTF-8') . "\t";
+        echo mb_convert_encoding(__('营业额(单位：元)', 'orders'), 'GBK', 'UTF-8') . "\t\n";
         foreach ($data_list AS $data) {
-            echo mb_convert_encoding($data['period'], 'UTF-8', 'UTF-8') . "\t";
-            echo mb_convert_encoding($data['order_count'], 'UTF-8', 'UTF-8') . "\t";
-            echo mb_convert_encoding($data['order_amount'], 'UTF-8', 'UTF-8') . "\t";
+            echo mb_convert_encoding($data['period'], 'GBK', 'UTF-8') . "\t";
+            echo mb_convert_encoding($data['order_count'], 'GBK', 'UTF-8') . "\t";
+            echo mb_convert_encoding($data['order_amount'], 'GBK', 'UTF-8') . "\t";
             echo "\n";
         }
         exit;
