@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+
+define('IN_ECJIA', true);
+define('NO_CHECK_INSTALL', true);
+
+// 站点根目录
+define('SITE_ROOT', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+
+require SITE_ROOT . 'content/bootstrap/console.php';
