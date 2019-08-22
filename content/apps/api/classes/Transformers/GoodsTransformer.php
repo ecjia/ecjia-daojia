@@ -90,9 +90,9 @@ class GoodsTransformer extends Transformer
             "is_shipping"   => $data['is_shipping'],
         	"add_time"   	=> $data['add_time'],
             "img"           => array(
-                'thumb'     => $photoTransformer->transformer($data['goods_img']),
-                'url'       => $photoTransformer->transformer($data['original_img']),
-                'small'     => $photoTransformer->transformer($data['goods_thumb'])
+                'thumb'     => !empty($data['goods_img']) ? $photoTransformer->transformer($data['goods_img']) : '',
+                'url'       => !empty($data['original_img']) ? $photoTransformer->transformer($data['original_img']) : '',
+                'small'     => !empty($data['goods_thumb']) ? $photoTransformer->transformer($data['goods_thumb']) : ''
             ),
             "is_on_sale"    => $data['is_on_sale'],
             "rank_prices"   => array(),
