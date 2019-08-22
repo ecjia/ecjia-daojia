@@ -66,7 +66,7 @@ class admin_home_data_module extends api_admin implements api_interface {
 		
 		/* 分组统计订单数和销售额：已发货时间为准 */
 		$order_amount_where   = array();
-		$order_amount_where[] = "(oi.pay_status = '" . PS_PAYED . "' OR oi.pay_status = '" . PS_PAYING . "')";
+		$order_amount_where[] = "(oi.pay_status = '" . PS_PAYED . "' OR oi.pay_status = '" . PS_PAYING . "') and oi.order_status != ".OS_RETURNED." ";
 		
 		$fields = "COUNT(*) AS order_count, SUM(oi.goods_amount + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee - oi.discount) AS order_amount";
 		
@@ -157,11 +157,11 @@ class admin_home_data_module extends api_admin implements api_interface {
 		
 		$time                 = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 		//$stats_result         = $stats_db->field('FROM_UNIXTIME(access_time, "%Y-%m-%m") as time')->group('ip_address')->having("time = $time")->select();
-		$stats_result		  = RC_DB::table('stats')->select(RC_DB::raw('FROM_UNIXTIME(access_time, "%Y-%m-%m") as time'))->groupBy(RC_DB::raw('ip_address'))->having('time', '=', $time)->get();
+		$stats_result		  = RC_DB::table('stats')->select(RC_DB::raw('FROM_UNIXTIME(access_time, "%Y-%m-%d") as time'))->groupBy(RC_DB::raw('ip_address'))->having('time', '=', $time)->get();
 		
 		$nexttime             = RC_Time::local_date('Y-m-d', RC_Time::gmtime()+24*60*60);
 		//$next_stats_result    = $stats_db->field('FROM_UNIXTIME(access_time, "%Y-%m-%m") as time')->group('ip_address')->having("time = $nexttime")->select();
-		$next_stats_result	  = RC_DB::table('stats')->select(RC_DB::raw('FROM_UNIXTIME(access_time, "%Y-%m-%m") as time'))->groupBy(RC_DB::raw('ip_address'))->having('time', '=', $nexttime)->get();
+		$next_stats_result	  = RC_DB::table('stats')->select(RC_DB::raw('FROM_UNIXTIME(access_time, "%Y-%m-%d") as time'))->groupBy(RC_DB::raw('ip_address'))->having('time', '=', $nexttime)->get();
 		
 		$total_visitors       = round(count($stats_result)*1.2);
 		$next_total_visitors  = round(count($next_stats_result)*1.2);
