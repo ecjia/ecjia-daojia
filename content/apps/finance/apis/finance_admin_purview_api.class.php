@@ -57,8 +57,9 @@ class finance_admin_purview_api extends Component_Event_Api
     {
         $purviews = array(
             array('action_name' => __('会员账户管理', 'finance'), 'action_code' => 'account_manage', 'relevance' => ''),
-            array('action_name' => __('会员余额管理', 'finance'), 'action_code' => 'surplus_manage', 'relevance' => 'account_manage'),
+            array('action_name' => __('会员资金管理', 'finance'), 'action_code' => 'surplus_manage', 'relevance' => 'account_manage'),
             array('action_name' => __('发票管理', 'finance'), 'action_code' => 'invoice_manage', 'relevance' => ''),
+        	array('action_name' => __('充值订单', 'finance'), 'action_code' => 'surplus_manage', 'relevance' => ''),
         );
         return $purviews;
     }
