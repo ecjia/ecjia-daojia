@@ -123,6 +123,16 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 			if ($quickpay_activity_info['enabled'] == '0') {
 				return new ecjia_error('activity_closed', __('此活动已关闭！', 'cashier'));
 			}
+			//活动不允许使用积分
+			if ($quickpay_activity_info['use_integral'] == 'close') {
+				$integral = 0;
+				$order['integral'] = 0;
+			}
+			if ($quickpay_activity_info['use_bonus'] == 'close') {
+				$bonus_id = 0;
+				$order['bonus_id'] = 0;
+			}
+			
 			$order['activity_type'] = $quickpay_activity_info['activity_type'];
 			$order['activity_id'] = $quickpay_activity_info['id'];
 			$order['store_id'] = $quickpay_activity_info['store_id'];
