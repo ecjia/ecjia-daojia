@@ -89,6 +89,14 @@ class quickpay_order_pay_module extends api_front implements api_interface {
 		}
 		
 		$payment_info = RC_DB::table('payment')->where('pay_code', $pay_code)->first();
+		//0元订单支付处理
+		if ($order['order_amount'] <= 0) {
+			$payment_info = RC_DB::table('payment')->where('pay_code', 'pay_balance')->first();
+			if (empty($payment_info)) {
+				return new ecjia_error('pay_balance_plugin_error', __('0元订单暂不支持该支付方式！', 'quickpay'));
+			}
+		}
+		
 		$order['pay_id'] = $payment_info['pay_id'];
 		
 		//支付方式信息

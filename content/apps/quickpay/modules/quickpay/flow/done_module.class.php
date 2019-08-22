@@ -117,9 +117,17 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 			if (empty($quickpay_activity_info)) {
 				return new ecjia_error('activity_not_exists', '活动信息不存在');
 			}
-			
 			if ($quickpay_activity_info['enabled'] == '0') {
 				return new ecjia_error('activity_closed', '此活动已关闭！');
+			}
+			//活动不允许使用积分
+			if ($quickpay_activity_info['use_integral'] == 'close') {
+				$integral = 0;
+				$order['integral'] = 0;
+			}
+			if ($quickpay_activity_info['use_bonus'] == 'close') {
+				$bonus_id = 0;
+				$order['bonus_id'] = 0;
 			}
 			$order['activity_type'] = $quickpay_activity_info['activity_type'];
 			$order['activity_id'] = $quickpay_activity_info['id'];
