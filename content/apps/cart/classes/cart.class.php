@@ -1774,8 +1774,11 @@ class cart {
 			$products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
 		} else {
 			$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
-			if ($goods_number < abs($number) ) {
-				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+			//下单减库存时判断
+			if($number < 0){
+				if ($goods_number < abs($number) ) {
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+				}
 			}
 			/* 处理商品库存 */
 			$query = RC_DB::table('goods')->where('goods_id',$goods_id)->increment('goods_number', $number);
