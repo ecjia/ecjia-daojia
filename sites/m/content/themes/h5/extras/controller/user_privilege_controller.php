@@ -89,10 +89,11 @@ class user_privilege_controller
             $url              = RC_Uri::url('user/privilege/pass_login');
             $wechat_login_url = RC_Uri::url('user/privilege/wechat_login');
             if (!empty($_GET['referer_url'])) {
-                $url              = RC_Uri::url('user/privilege/pass_login', array('referer_url' => urlencode($_GET['referer_url'])));
-                $wechat_login_url = RC_Uri::url('user/privilege/wechat_login', array('referer_url' => urlencode($_GET['referer_url'])));
+                $referer_url = htmlspecialchars_decode(urlencode($_GET['referer_url']));
+                $url              = RC_Uri::url('user/privilege/pass_login', array('referer_url' => $referer_url));
+                $wechat_login_url = RC_Uri::url('user/privilege/wechat_login', array('referer_url' => $referer_url));
 
-                $_SESSION['user_temp']['referer_url'] = urlencode($_GET['referer_url']);
+                $_SESSION['user_temp']['referer_url'] = $referer_url;
             } else {
                 $_SESSION['user_temp']['referer_url'] = $GLOBALS['_SERVER']['HTTP_REFERER'];
             }
@@ -144,9 +145,10 @@ class user_privilege_controller
             $pass_login_url = RC_Uri::url('user/privilege/pass_login');
             $login_url      = RC_Uri::url('user/privilege/login');
             if (!empty($_GET['referer_url'])) {
-                $pass_login_url                       = RC_Uri::url('user/privilege/pass_login', array('referer_url' => urlencode($_GET['referer_url'])));
-                $login_url                            = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($_GET['referer_url'])));
-                $_SESSION['user_temp']['referer_url'] = urlencode($_GET['referer_url']);
+                $referer_url = htmlspecialchars_decode(urlencode($_GET['referer_url']));
+                $pass_login_url                       = RC_Uri::url('user/privilege/pass_login', array('referer_url' => $referer_url));
+                $login_url                            = RC_Uri::url('user/privilege/login', array('referer_url' => $referer_url));
+                $_SESSION['user_temp']['referer_url'] = $referer_url;
             } else {
                 $_SESSION['user_temp']['referer_url'] = $GLOBALS['_SERVER']['HTTP_REFERER'];
             }
@@ -189,10 +191,11 @@ class user_privilege_controller
             $wechat_login_url = RC_Uri::url('user/privilege/wechat_login');
 
             if (!empty($_GET['referer_url'])) {
-                $url              = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($_GET['referer_url'])));
-                $wechat_login_url = RC_Uri::url('user/privilege/wechat_login', array('referer_url' => urlencode($_GET['referer_url'])));
+                $referer_url = htmlspecialchars_decode(urlencode($_GET['referer_url']));
+                $url              = RC_Uri::url('user/privilege/login', array('referer_url' => $referer_url));
+                $wechat_login_url = RC_Uri::url('user/privilege/wechat_login', array('referer_url' => $referer_url));
 
-                $_SESSION['user_temp']['referer_url'] = urlencode($_GET['referer_url']);
+                $_SESSION['user_temp']['referer_url'] = $referer_url;
             } else {
                 $_SESSION['user_temp']['referer_url'] = $GLOBALS['_SERVER']['HTTP_REFERER'];
             }
@@ -290,7 +293,7 @@ class user_privilege_controller
         $mobile_phone = $_SESSION['user_temp']['mobile'];
 
         if (empty($mobile_phone)) {
-            return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            return ecjia_front::$controller->redirectWithExited(RC_Uri::url('user/privilege/login'));
         }
 
         $referer_url = htmlspecialchars_decode($_GET['referer_url']);
@@ -329,7 +332,10 @@ class user_privilege_controller
     {
         $token  = ecjia_touch_user::singleton()->getShopToken();
         $mobile = $_SESSION['user_temp']['mobile'];
-
+        $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+        if (is_ecjia_error($check_mobile)) {
+            return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         $type = trim($_POST['type']);
         if ($type == 'resend') {
             $code_captcha = $_SESSION['user_temp']['captcha_code'];
@@ -415,6 +421,7 @@ class user_privilege_controller
         $registered = $_SESSION['user_temp']['registered'];
         $invited    = $_SESSION['user_temp']['invited'];
 
+        $session_referer_url = htmlspecialchars_decode(urldecode($_SESSION['user_temp']['referer_url']));
         //已经注册 走登录接口
         if ($registered == 1) {
             $data = ecjia_touch_user::singleton()->signin($type, $mobile, $password);
@@ -424,7 +431,7 @@ class user_privilege_controller
 
             $url = RC_Uri::url('touch/my/init');
 
-            $referer_url = !empty($_POST['referer_url']) ? htmlspecialchars_decode(urldecode($_POST['referer_url'])) : urldecode($_SESSION['user_temp']['referer_url']);
+            $referer_url = !empty($_POST['referer_url']) ? htmlspecialchars_decode(urldecode($_POST['referer_url'])) : $session_referer_url;
             if (!empty($referer_url) && $referer_url != 'undefined' && !strpos($referer_url, 'user')) {
                 $url = $referer_url;
             }
@@ -442,7 +449,7 @@ class user_privilege_controller
             if (!is_ecjia_error($res)) {
                 $url = RC_Uri::url('touch/my/init');
 
-                $referer_url = isset($_SESSION['user_temp']['referer_url']) ? urldecode($_SESSION['user_temp']['referer_url']) : '';
+                $referer_url = isset($_SESSION['user_temp']['referer_url']) ? $session_referer_url : '';
                 if (!empty($referer_url) && $referer_url != 'undefined' && !strpos($referer_url, 'user')) {
                     $url = $referer_url;
                 }

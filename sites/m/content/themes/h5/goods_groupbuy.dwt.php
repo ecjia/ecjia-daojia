@@ -15,7 +15,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-groupbuy-model">
-	<ul class="ecjia-groupbuy-list" data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='index/ajax_goods' args='type=groupbuy'}">
+	<ul class="ecjia-groupbuy-list" data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='#index/ajax_goods' args='type=groupbuy'}">
 	</ul>
 </div>
 <!-- {/block} -->

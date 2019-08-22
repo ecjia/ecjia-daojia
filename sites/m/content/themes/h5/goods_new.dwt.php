@@ -19,7 +19,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-mod ecjia-margin-b goods-index-list ecjia-new-goods" style="border-bottom:none;">
 	<div class="bd">
 		<ul class="ecjia-margin-b ecjia-list ecjia-list-two list-page-two" id="J_ItemList" data-toggle="asynclist"
-		 data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='index/ajax_goods' args='type=new'}">
+		 data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='#index/ajax_goods' args='type=new'}">
 		</ul>
 	</div>
 </div>

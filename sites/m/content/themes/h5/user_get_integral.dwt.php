@@ -11,7 +11,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <div class="ecjia-spread ecjia-spread-get_integral">
     <div class="ecjia-margin-b ecjia-user-head">
-    	<a href="{url path='user/index/spread'}">
+    	<a href="{url path='user/index/spread'}&name={$user.name}">
             <div class="qrcode_image">
                 <img src="{$theme_url}images/wallet/540x200_1.png">
             </div>

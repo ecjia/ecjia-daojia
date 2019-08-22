@@ -215,7 +215,10 @@ class user_bonus_controller
     public static function get_integral()
     {
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
-
+        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        $user = is_ecjia_error($user) ? array() : $user;
+        ecjia_front::$controller->assign('user', $user);
+        
         if (!ecjia_front::$controller->is_cached('user_get_integral.dwt', $cache_id)) {
             $integral_name = !empty(ecjia::config('integral_name')) ? ecjia::config('integral_name') : '积分';
             ecjia_front::$controller->assign_title(sprintf(__("赚%s", 'h5'), $integral_name));
