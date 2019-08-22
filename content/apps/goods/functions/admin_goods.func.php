@@ -669,9 +669,9 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 
 		RC_Loader::load_app_class('goods_imageutils', 'goods', false);
 		/* 修正商品图片 */
-		$row ['goods_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_img']);
-		$row ['goods_thumb'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_thumb']);
-		$row ['original_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['original_img']);
+		$row ['goods_img'] = empty($row ['goods_img']) ? '' : RC_Upload::upload_url($row ['goods_img']);
+		$row ['goods_thumb'] = empty($row ['goods_img']) ? '' : RC_Upload::upload_url($row ['goods_thumb']);
+		$row ['original_img'] = empty($row ['goods_img']) ? '' : RC_Upload::upload_url($row ['original_img']);
 
 		return $row;
 	} else {

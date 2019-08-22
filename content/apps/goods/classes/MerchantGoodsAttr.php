@@ -531,6 +531,7 @@ class MerchantGoodsAttr {
 	 */
 	public static function product_list($goods_id, $conditions = '') {
 	
+	
 		$filter ['goods_id'] 		= $goods_id;
 		$filter ['keyword'] 		= empty ($_REQUEST ['keyword']) ? '' : trim($_REQUEST ['keyword']);
 		$filter ['stock_warning'] 	= empty ($_REQUEST ['stock_warning']) ? 0 : intval($_REQUEST ['stock_warning']);
@@ -570,9 +571,11 @@ class MerchantGoodsAttr {
 				if (is_array($_goods_attr_array)) {
 					$_temp = [];
 					foreach ($_goods_attr_array as $_goods_attr_value) {
-						$_temp[] = $goods_attr [$_goods_attr_value];
+						$attr_id = RC_DB::table('goods_attr')->where('goods_attr_id', $_goods_attr_value)->pluck('attr_id');
+						$_temp[$attr_id] = $goods_attr[$_goods_attr_value];
 					}
-					$row [$key] ['goods_attr'] = $_temp;
+					ksort($_temp);
+					$row[$key]['goods_attr'] = $_temp;
 				}
 			}
 		}
@@ -582,6 +585,7 @@ class MerchantGoodsAttr {
 			'page_count'	=> $filter ['page_count'],
 			'record_count'	=> $filter ['record_count']
 		);
+	
 	}
 	
 	/**

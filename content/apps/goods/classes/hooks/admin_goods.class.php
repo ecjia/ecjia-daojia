@@ -133,6 +133,7 @@ class goods_admin_hooks
         $factories['goods_spec_parameter_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsSpecParameterCompatible';
         $factories['goods_parameter_attrgroup_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsParameterAttrgroupCompatible';
         $factories['goods_up_levels_catid_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsUpLevelsCatidCompatible';
+        $factories['products_attr_id_sort_compatible'] = 'Ecjia\App\Goods\Maintains\ProductsAttrIdSortCompatible';
         return $factories;
     }
 }

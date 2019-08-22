@@ -26,7 +26,22 @@ class ProductsModel extends Model
         'goods_id',
         'goods_attr',
         'product_sn',
-        'product_number'
+        'product_number',
+        'is_promote',
+        'promote_price',
+        'promote_start_date',
+        'promote_end_date',
+        'promote_user_limited',
+        'product_name',
+        'product_shop_price',
+        'product_bar_code',
+        'product_thumb',
+        'product_img',
+        'product_original_img',
+        'product_desc',
+        'goodslib_product_id',
+        'goodslib_update_time',
+        'supplier_product_id',
     ];
 
     /**

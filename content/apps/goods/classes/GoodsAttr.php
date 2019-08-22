@@ -517,12 +517,15 @@ class GoodsAttr {
     			if (is_array($_goods_attr_array)) {
     				$_temp = [];
     				foreach ($_goods_attr_array as $_goods_attr_value) {
-    					$_temp[] = $goods_attr [$_goods_attr_value];
+						$attr_id = RC_DB::table('goodslib_attr')->where('goods_attr_id', $_goods_attr_value)->pluck('attr_id');
+    					$_temp[$attr_id] = $goods_attr[$_goods_attr_value];
     				}
-    				$row [$key] ['goods_attr'] = $_temp;
+					ksort($_temp);
+    				$row[$key]['goods_attr'] = $_temp;
     			}
     		}
     	}
+
     	return array(
     		'product'		=> $row,
     		'filter'		=> $filter,

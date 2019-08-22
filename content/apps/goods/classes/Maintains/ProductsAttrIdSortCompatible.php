@@ -44,51 +44,100 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Goods\Maintains;
 
-/**
- * 单个商品的详情描述
- * @author royalwang
- */
-class goods_desc_module extends api_front implements api_interface {
+use Ecjia\App\Goods\Models\ProductsModel;
+use Ecjia\App\Goodslib\Models\GoodslibProductsModel;
+use Ecjia\App\Maintain\AbstractCommand;
 
-     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-        /* 获得商品的信息 */
-     	$this->authSession();
-    	$goods_id = $this->requestData('goods_id', 0);
-    	
-    	$product_id = $this->requestData('product_id', 0);
-    	
-		RC_Loader::load_app_func('admin_goods', 'goods');
-		if ($goods_id < 1) {
-		    return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
-		}
-        $goods = get_goods_info($goods_id);
-        if ($goods === false) {
-        	/* 如果没有找到任何记录则跳回到首页 */
-        	return new ecjia_error('does not exist', __('不存在的信息', 'goods'));
-        } else {
-        	$goods = str_replace('\\"', '"', $goods);
-        	$data = $goods;
-        	
-        	if (!empty($product_id)) {
-        		$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
-        		if (!empty($product_info['product_name'])) {
-        			$data['goods_name'] = $product_info['product_name'];
-        		}
-        		if (!empty($product_info['product_desc'])) {
-                    $product_desc = str_replace('\\"', '"', $product_info['product_desc']);
-        			$data['goods_desc'] = $product_desc;
-        		}
-        	}
-        	
-        	$base = sprintf('<base href="%s/" />', dirname(SITE_URL));
-        	$style = RC_App::apps_url('goods/statics/styles/goodsapi.css');
-        	$html = '<!DOCTYPE html><html><head><title>' . $data['goods_name'] . '</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="initial-scale=1.0"><meta name="viewport" content="initial-scale = 1.0 , minimum-scale = 1.0 , maximum-scale = 1.0" /><link href="'.$style.'" rel="stylesheet">' . $base . '</head><body>' . $data['goods_desc'] . '</body></html>';
-        	 
-        	return array('data' => $html);
-        }
+class ProductsAttrIdSortCompatible extends AbstractCommand
+{
+
+
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'products_attr_id_sort_compatible';
+    
+    /**
+     * 图标
+     * @var string
+     */
+    protected $icon = '/statics/images/setting_shop.png';
+	
+    /**
+     * 名称
+     * @var string
+     * 描述
+     * @var string
+     */
+    public function __construct()
+    {
+    	$this->name = __('货品属性ID排序修复', 'goods');
+    	$this->description = __('更新货品属性ID老数据兼容，按照从小到大排序', 'goods');
     }
+
+
+    public function run()
+    {
+        //忽略内存大小限制
+        ini_set('memory_limit',-1);
+        set_time_limit(0);
+
+
+        $this->processProductsTable();
+
+        $this->processGoodslibProductsTable();
+        
+        return true;
+    }
+
+    private function processProductsTable()
+    {
+
+        ProductsModel::where('goods_attr', 'like', '%|%')->chunk(50, function ($items) {
+
+            $items->map(function ($model) {
+
+                $model->goods_attr = $this->sortGoodsAttrId($model->goods_attr);
+
+                $model->save();
+            });
+
+        });
+
+    }
+
+
+    private function processGoodslibProductsTable()
+    {
+        GoodslibProductsModel::where('goods_attr', 'like', '%|%')->chunk(50, function ($items) {
+
+            $items->map(function ($model) {
+
+                $model->goods_attr = $this->sortGoodsAttrId($model->goods_attr);
+
+                $model->save();
+            });
+
+        });
+    }
+
+
+    /**
+     * 给goods_attr排序
+     * @param $goods_attr
+     */
+    private function sortGoodsAttrId($goods_attr) {
+
+        $attr_ids = explode('|', $goods_attr);
+
+        sort($attr_ids);
+
+        return implode('|', $attr_ids);
+    }
+    
 }
 
 // end

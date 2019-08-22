@@ -3347,6 +3347,8 @@ class merchant extends ecjia_merchant {
 		} 
 		
 		$goods = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_sn', 'goods_number', 'goods_name', 'goods_type', 'shop_price')->first();
+		
+		asort($product_value);
 		$goods_attr = implode('|', $product_value);
 		if (Ecjia\App\Goods\MerchantGoodsAttr::check_goods_attr_exist($goods_attr, $goods_id)) {
 			return $this->showmessage(__('所匹配的属性已存在相应的货品,请更换组合', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
