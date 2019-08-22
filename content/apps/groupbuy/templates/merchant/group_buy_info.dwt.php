@@ -50,7 +50,7 @@
                            <div class="col-lg-6">
                               <input class="form-control" type="text" name="keywords" {if $group_buy.status neq 0}disabled{/if}/>
                           </div>
-                           <button class="btn btn-primary searchGoods" data-url='{url path="/merchant/search_goods"}' type="button" {if $group_buy.status neq 0}disabled{/if}><i class='fa fa-search'></i> 搜索</button>
+                           <button class="btn btn-primary searchGoods" data-url='{url path="#merchant/search_goods"}' type="button" {if $group_buy.status neq 0}disabled{/if}><i class='fa fa-search'></i> 搜索</button>
                		</div>
 
 					<div class="form-group">
