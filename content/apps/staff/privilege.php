@@ -185,7 +185,8 @@ class privilege extends ecjia_merchant
     {
         $authcode     = trim($_GET['authcode']);
         $redirect_url = trim($_GET['redirect_url']);
-
+        $redirect_url = htmlspecialchars_decode($_GET['redirect_url']);
+        
         if ($authcode) {
             $authcode_decrypt = RC_Crypt::decrypt($authcode);
             $authcode_array   = array();
