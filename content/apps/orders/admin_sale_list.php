@@ -137,32 +137,27 @@ class admin_sale_list extends ecjia_admin
     {
         /* 检查权限 */
         $this->admin_priv('sale_list_stats', ecjia::MSGTYPE_JSON);
-
-        /* 时间参数 */
-        $start_date = !empty($_GET['start_date']) ? $_GET['start_date'] : RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('-7 days'));
-        $end_date   = !empty($_GET['end_date']) ? $_GET['end_date'] : RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('today'));
-        if (!empty($_GET['store_id'])) {
-            $store_info = RC_DB::table('store_franchisee')->where('store_id', $_GET['store_id'])->first();
-            $file_name  = mb_convert_encoding(sprintf(__('销售明细报表' . '_%s_%s-%s', 'orders'), $store_info['merchants_name'], $_GET['start_date'], $_GET['end_date']), "GBK", "UTF-8");
-        } else {
-            $file_name = mb_convert_encoding(sprintf(__('销售明细报表' . '_%s-%s', 'orders'), $_GET['start_date'], $_GET['end_date']), "GBK", "UTF-8");
-        }
-
-        /*文件名*/
-        $goods_sales_list = $this->get_sale_list(false);
-
-        /*强制下载,下载类型EXCEL*/
-        header("Content-type: application/vnd.ms-excel; charset=utf-8");
-        header("Content-Disposition: attachment; filename=$file_name.xls");
-
-        $data = __('商品名称', 'orders') . __("\t商家名称\t", 'orders') . __('订单号', 'orders') . "\t" . __('数量', 'orders') . "\t" . __('售价', 'orders') . "\t" . __('售出日期', 'orders') . "\n";
-        if (!empty($goods_sales_list['item'])) {
-            foreach ($goods_sales_list['item'] as $v) {
-                $data .= $v['goods_name'] . "\t" . $v['merchants_name'] . "\t" . $v['order_sn'] . "\t" . $v['goods_num'] . "\t" . $v['sales_price'] . "\t" . $v['sales_time'] . "\n";
+        
+        $data = $this->get_sale_list(false);
+        $arr = [];
+        if (!empty($data)) {
+            foreach ($data['item'] as $k => $v) {
+                $arr[$k]['goods_name']     = $v['goods_name'];
+                $arr[$k]['merchants_name'] = $v['merchants_name'];
+                $arr[$k]['order_sn']       = $v['order_sn'];
+                $arr[$k]['goods_num']      = $v['goods_num'];
+                $arr[$k]['sales_price']    = $v['sales_price'];
+                $arr[$k]['sales_time'] = $v['sales_time'];
             }
         }
-        echo mb_convert_encoding($data . "\t", "GBK", "UTF-8");
-        exit;
+        
+        RC_Excel::load(RC_APP_PATH . 'stats' . DIRECTORY_SEPARATOR .'statics/files/sales_details.xls', function($excel) use ($arr){
+            $excel->sheet('First sheet', function($sheet) use ($arr) {
+                foreach ($arr as $key => $item) {
+                    $sheet->appendRow($key+2, $item);
+                }
+            });
+        })->download('xls');
     }
 
     /**

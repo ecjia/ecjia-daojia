@@ -151,7 +151,7 @@
 													<td>{$order_stats.storepickup_count_data.total_fee}</td>
 												</tr>
 												<tr>
-													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="_blank">{t domain="orders"}收银台型订单{/t}</a></td>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=cashdesk" target="_blank">{t domain="orders"}收银台型订单{/t}</a></td>
 													<td>{$order_stats.cashdesk_count_data.order_count}</td>
 													<td>{$order_stats.cashdesk_count_data.total_fee}</td>
 												</tr>

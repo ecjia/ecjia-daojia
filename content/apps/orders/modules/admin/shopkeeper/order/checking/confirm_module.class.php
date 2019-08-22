@@ -300,7 +300,7 @@ class admin_shopkeeper_order_checking_confirm_module extends api_admin implement
                     $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->pluck('goods_number');
                 } else {
                     /* （货品） */
-                    $num = $this->db_products->where(array('goods_id' => $value['goods_id'], 'product_id' => $value['product_id']))->get_field('product_number');
+                	$num = RC_DB::table('products')->where(array('goods_id' => $value['goods_id'], 'product_id' => $value['product_id']))->pluck('product_number');
                 }
 
                 if (($num < $goods_no_package[$_key]) && ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
