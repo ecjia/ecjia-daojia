@@ -123,7 +123,7 @@
 								<td><div align="right"><strong>{t domain="commission"}操作人：{/t}</strong></div></td>
 								<td>{$data.admin_name}</td>
 								<td><div align="right"><strong>{t domain="commission"}审核时间：{/t}</strong></div></td>
-								<td>{$data.add_time}</td>
+								<td>{$data.audit_time}</td>
 							</tr>
 							<tr>
 								<td><div align="right"><strong>{t domain="commission"}审核备注：{/t}</strong></div></td>
