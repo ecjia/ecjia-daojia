@@ -45,7 +45,10 @@
 //  ---------------------------------------------------------------------------------
 //
 
+use Ecjia\App\Platform\Frameworks\Platform\Account;
 use Ecjia\App\Wechat\Controllers\EcjiaWechatUserController;
+use Ecjia\App\Wechat\Exceptions\WechatUserNotFoundException;
+use Ecjia\App\Wechat\WechatUser;
 
 class mobile_userbind extends EcjiaWechatUserController
 {
@@ -162,8 +165,13 @@ class mobile_userbind extends EcjiaWechatUserController
             return $this->showmessage(__('验证码输入有误，请重新输入', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('type' => 'error'));
         }
 
-        $wechat_id   = with(new Ecjia\App\Platform\Frameworks\Platform\Account($uuid))->getAccountID();
-        $wechat_user = new Ecjia\App\Wechat\WechatUser($wechat_id, $openid);
+        try {
+            $wechat_id   = with(new Ecjia\App\Platform\Frameworks\Platform\Account($uuid))->getAccountID();
+            $wechat_user = new Ecjia\App\Wechat\WechatUser($wechat_id, $openid);
+        } catch (WechatUserNotFoundException $e) {
+            return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
 
         //判断用户是否存在
         $row = RC_DB::table('users')->where('mobile_phone', $mobile)->first();

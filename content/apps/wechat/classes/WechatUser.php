@@ -2,6 +2,7 @@
 
 namespace Ecjia\App\Wechat;
 
+use Ecjia\App\Wechat\Exceptions\WechatUserNotFoundException;
 use Ecjia\App\Wechat\Models\WechatUserModel;
 use Royalcms\Component\Support\Collection;
 
@@ -62,10 +63,18 @@ class WechatUser
         return $this->user;
     }
 
+    /**
+     * @return mixed
+     * @throws WechatUserNotFoundException
+     */
     protected function findOpenidUser()
     {
         $user = WechatUserModel::wechat($this->wechat_id)->openid($this->open_id)->first();
-        return $user;
+        if (! empty($user)) {
+            return $user;
+        }
+
+        throw new WechatUserNotFoundException('微信关注用户获取失败，请重新关注公众号再试。');
     }
 
     public function findUnionidUser($unionid)
