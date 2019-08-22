@@ -66,10 +66,23 @@ class payment_pay_balance_module extends api_front implements api_interface {
     	$record_id 	= $this->requestData('record_id');
     	$paypasword = $this->requestData('paypassword');
     	
-    	if (empty($record_id) || empty($paypasword)) {
+    	if (empty($record_id)) {
     		return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'payment'), __CLASS__));
     	}
-		
+    	
+    	$paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
+    	$record_model = $paymentRecordRepository->find($record_id);
+    	if (empty($record_model)) {
+    		return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'payment'));
+    	}
+    	
+    	//支付金额为0的情况，可以不输入支付密码
+    	if ($record_model->total_fee > 0) {
+    		if (empty($paypasword)) {
+    			return new ecjia_error('paypasword_need', __('请输入支付密码', 'payment'));
+    		}
+    	} 
+    	
     	//支付密码检验
     	if (!empty($paypasword)) {
     		//用户信息
@@ -79,13 +92,6 @@ class payment_pay_balance_module extends api_front implements api_interface {
     		if ($md5_pay_password != $user_info['pay_password']) {
     			return new ecjia_error( 'pay_password_error', __('支付密码错误！', 'payment'));
     		}
-    	}
-    	
-    	$paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
-    	
-    	$record_model = $paymentRecordRepository->find($record_id);
-    	if (empty($record_model)) {
-    		return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'payment'));
     	}
     	
     	$result = (new Ecjia\App\Payment\Pay\PayManager($record_model->order_sn))->pay();
