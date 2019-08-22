@@ -44,6 +44,8 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\App\Maintain\Factory;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
@@ -118,26 +120,33 @@ class admin extends ecjia_admin {
 		$this->admin_priv('maintain_manage');
 		
 		$code = trim($_GET['code']);
-		if (!empty($code)) {
-			try {
-				$factory = new Ecjia\App\Maintain\Factory();
-				$maintain = $factory->command($code);
-			} catch (InvalidArgumentException $e) {
-				return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			$result = $maintain->run();
-			if (is_ecjia_error($result)) {
-				return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));
-			}
-
-			if ($result instanceof \Ecjia\App\Maintain\CommandOutput) {
-			    $message = $result->getMessage();
-            } else {
-                $message = __('运行成功', 'maintain');
-            }
-
-            return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));
+		if (empty($code)) {
+            return $this->showmessage(__('参数缺少', 'maintain'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+
+        try {
+            $factory = new Ecjia\App\Maintain\Factory();
+            $maintain = $factory->command($code);
+            $result = $maintain->run();
+        }
+        catch (\Royalcms\Component\Database\QueryException $e) {
+            return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        catch (InvalidArgumentException $e) {
+            return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        if (is_ecjia_error($result)) {
+            return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));
+        }
+
+        if ($result instanceof \Ecjia\App\Maintain\CommandOutput) {
+            $message = $result->getMessage();
+        } else {
+            $message = __('运行成功', 'maintain');
+        }
+
+        return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));
 	}
 	
 
