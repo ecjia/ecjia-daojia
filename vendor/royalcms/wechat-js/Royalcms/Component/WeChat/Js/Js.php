@@ -91,7 +91,7 @@ class Js extends AbstractAPI
 
         $result = $this->parseJSON('get', [self::API_TICKET, ['type' => 'jsapi']]);
 
-        $this->getCache()->put($key, $result['ticket'], $result['expires_in'] - 500);
+        $this->getCache()->put($key, $result['ticket'], ($result['expires_in'] - 600) / 60);
 
         return $result['ticket'];
     }
