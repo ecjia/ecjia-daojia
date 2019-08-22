@@ -46,14 +46,8 @@
 //
 namespace Ecjia\System\Frameworks\Site;
 
-class Site
+class BaseSite extends SiteAbstract
 {
-    
-    protected $name;
-    
-    protected $code;
-    
-    protected $shopType;
     
     public function __construct()
     {

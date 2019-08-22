@@ -190,7 +190,7 @@ class MysqlSessionHandler implements \SessionHandlerInterface, EcjiaSessionInter
         $sessionData = Serialize::unserialize($data);
 
         if (! isset($sessionData['session_user_id'])) {
-            $sessionData['session_user_id'] = '';
+            $sessionData['session_user_id'] = null;
         }
 
         if (! isset($sessionData['session_user_type'])) {

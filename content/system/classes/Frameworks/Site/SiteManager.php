@@ -46,8 +46,6 @@
 //
 namespace Ecjia\System\Frameworks\Site;
 
-use ecjia;
-use RC_Hook;
 use Royalcms\Component\Support\Manager;
 
 class SiteManager extends Manager
@@ -82,7 +80,6 @@ class SiteManager extends Manager
     public function getDefaultDriver()
     {
         return RC_SITE;
-//         return 'merchant';
     }
     
     
