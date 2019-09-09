@@ -363,7 +363,7 @@ class cart_cashdesk {
 	
 		/* 初始化要插入购物车的基本件数据 */
 		$parent = array(
-				'user_id'       => $_SESSION['user_id'],
+				'user_id'       => empty($_SESSION['user_id']) ? 0 : $_SESSION['user_id'],
 				'session_id'	=> $_SESSION['device_id'],  //收银台购物车，此字段存储的值为设备收银设备id
 				'goods_id'      => $goods_id,
 				'goods_sn'      => $product_info['product_id'] > 0 ? addslashes($product_info['product_sn']) : addslashes($goods['goods_sn']),

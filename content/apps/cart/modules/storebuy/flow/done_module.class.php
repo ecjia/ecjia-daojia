@@ -207,7 +207,7 @@ class storebuy_flow_done_module extends api_front implements api_interface
         /* 扩展信息 */
         if ($flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS) {
             $order['extension_code']	= 'storebuy';
-            $order['extension_id']		= $_SESSION['extension_id'];
+            $order['extension_id']		= 0;
         } else {
             $order['extension_code']	= '';
             $order['extension_id']		= 0;

@@ -201,7 +201,7 @@ function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = arr
     $total['shipping_insure_formated'] = price_format($total['shipping_insure'], false);
 
     // 活动优惠总金额
-    $discount_amount = compute_discount_amount();
+    $discount_amount = cart::compute_discount_amount();
     // 红包和积分最多能支付的金额为商品总额
     //$max_amount 还需支付商品金额=商品金额-红包-优惠-积分
     $max_amount = $total['goods_price'] == 0 ? $total['goods_price'] : $total['goods_price'] - $discount_amount;
@@ -263,7 +263,7 @@ function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = arr
 
     /* 支付费用 */
     if (!empty($order['pay_id']) && ($total['real_goods_count'] > 0 || $se_flow_type != \Ecjia\App\Cart\Enums\CartEnum::CART_EXCHANGE_GOODS)) {
-        $total['pay_fee']      	= pay_fee($order['pay_id'], $total['amount'], $shipping_cod_fee);
+        $total['pay_fee']      	= pay_fee($order['pay_id'], $total['amount'], $total['shipping_fee']);
     }
     $total['pay_fee_formated'] 	= price_format($total['pay_fee'], false);
     $total['amount']           += $total['pay_fee']; // 订单总额累加上支付费用

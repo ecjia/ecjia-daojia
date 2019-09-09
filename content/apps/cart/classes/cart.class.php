@@ -60,10 +60,15 @@ class cart {
 	 */
 	public static function flow_update_cart($arr) {
 		$db_cart	  = RC_Model::model('cart/cart_model');
-		$dbview		  = RC_Model::model('goods/goods_cart_viewmodel');
+		//$dbview		  = RC_Model::model('goods/goods_cart_viewmodel');
 
 		$db_cart_view = RC_Model::model('cart/cart_cart_viewmodel');
 		$db_products  = RC_Model::model('goods/products_model');
+		
+		$dbview = RC_DB::table('cart as c')
+						->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('c.goods_id'))
+						->leftJoin('products as p', RC_DB::raw('p.product_id'), '=', RC_DB::raw('c.product_id'));
+		
 
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
@@ -89,26 +94,33 @@ class cart {
 			$cart_w = array('rec_id' => $key, 'user_id' => $_SESSION['user_id']);
 			$goods = $db_cart->field(array('goods_id', 'goods_attr_id', 'product_id', 'extension_code'))->find($cart_w);
 
-			$row   = $dbview->join('cart')->find(array('c.rec_id' => $key));
-			//查询：系统启用了库存，检查输入的商品数量是否有效
-			if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
-				if ($row['goods_number'] < $val) {
-					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
-				}
-				/* 是货品 */
-				$goods['product_id'] = trim($goods['product_id']);
-				if (!empty($goods['product_id'])) {
-					$product_number = $db_products->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
-					if ($product_number < $val) {
+			//$row   = $dbview->join('cart')->find(array('c.rec_id' => $key));
+			$row	 = $dbview->where(RC_DB::raw('c.rec_id'), $key)->select(RC_DB::raw('g.goods_name, g.goods_number, c.product_id, p.product_number, c.goods_number as c_goods_number, c.rec_id'))->first();
+			//判断当前更新购物车的动作是加还是减（如果新修改的数量小于之前购物车已添加的数量视此动作为减，反之为加）;减的动作不判断库存
+			if ($row['product_id'] > 0) {
+				$row['goods_number'] = $row['product_number'];
+			}
+			if (($val > $row['goods_number'] && $val > $row['c_goods_number'])) { //新修改的数量大于之前购物车已添加的数量，且新修改的数量大于商品现有的库存时检查库存
+				//查询：系统启用了库存，检查输入的商品数量是否有效
+				if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
+					if ($row['goods_number'] < $val) {
+						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+					}
+					/* 是货品 */
+					$goods['product_id'] = trim($goods['product_id']);
+					if (!empty($goods['product_id'])) {
+						$product_number = $db_products->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
+						if ($product_number < $val) {
+							return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+						}
+					}
+				}  elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
+					if (self::judge_package_stock($goods['goods_id'], $val)) {
 						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 					}
 				}
-			}  elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
-				if (self::judge_package_stock($goods['goods_id'], $val)) {
-					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
-				}
 			}
-
+			
 			/* 查询：检查该项是否为基本件 以及是否存在配件 */
 			/* 此处配件是指添加商品时附加的并且是设置了优惠价格的配件 此类配件都有parent_id goods_number为1 */
 			$offer_w = array(
