@@ -85,7 +85,7 @@ class plugin extends ecjia_front
         $handle = new $action_class();
 
         if ($handle && ($handle instanceof PluginPageInterface)) {
-            $handle->action();
+            return $handle->action();
         } else {
             _404();
         }
