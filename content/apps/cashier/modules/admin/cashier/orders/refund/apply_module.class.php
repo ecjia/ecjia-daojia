@@ -460,6 +460,10 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
     		$money_paid 			= $refund_info['money_paid'] + $refund_info['surplus'];
     		$refund_total_amount	= Ecjia\App\Refund\RefundOrder::get_back_total_money($refund_info, $refund_way);
     		
+    		if ($refund_way == 'cash') {
+    			$refund_total_amount = $refund_payrecord_info['back_money_total'];
+    		}
+    		
     		$user_info = [];
     		//有没用户
     		if ($refund_info['user_id'] > 0) {
