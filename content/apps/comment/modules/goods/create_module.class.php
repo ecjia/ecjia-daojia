@@ -128,7 +128,7 @@ class goods_create_module extends api_front implements api_interface {
 		    $message = '';
 		    $comment_award = 0;
 		    
-		    if (ecjia::config('comment_award_open') && ecjia::config('comment_check') == 0) {
+		    if (ecjia::config('comment_award_open') && ecjia::config('comment_check') != 1) {
 		        $comment_award_rules = ecjia::config('comment_award_rules');
 		        $comment_award_rules = unserialize($comment_award_rules);
 		        $comment_award = isset($comment_award_rules[$_SESSION['user_rank']]) ? $comment_award_rules[$_SESSION['user_rank']] : ecjia::config('comment_award');
@@ -138,7 +138,7 @@ class goods_create_module extends api_front implements api_interface {
 		    }
 		    
 		    //更新商品评分,商品审核开启时
-		    if (ecjia::config('comment_check') == -1) {
+		    if (ecjia::config('comment_check') != 1) {
 		        RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $order_info['goods_id']));
 		    }
 		    
