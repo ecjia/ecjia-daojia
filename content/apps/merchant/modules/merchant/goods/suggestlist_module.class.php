@@ -65,7 +65,7 @@ class merchant_goods_suggestlist_module extends api_front implements api_interfa
 		if (!in_array($action_type, $type) || empty($store_id)) {
 			return new ecjia_error( 'invalid_parameter', sprintf(__('请求接口%s参数无效', 'merchant'), __CLASS__));
 		}
-		
+
     	if ($action_type == 'promotion') {
 			$promotion_type = $this->requestData('promotion_type', '');
 			$promotion_type = empty($promotion_type) ? 'today' : $promotion_type;

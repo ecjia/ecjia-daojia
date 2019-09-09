@@ -55,7 +55,9 @@ class merchant_goods_list_module extends api_front implements api_interface {
     		
 		$filter = $this->requestData('filter', array());
 		
-		$keyword = RC_String::unicode2string($filter['keywords']);
+		$keyword = isset($filter['keywords']) ? RC_String::unicode2string($filter['keywords']): '';
+		$keyword = ! empty($keyword) ? htmlspecialchars(trim($keyword)) : '';
+		
 		$category = $filter['category_id'];  //商家商品分类id
 		$sort_type = $filter['sort_by'];
 		$store_id = $this->requestData('seller_id');

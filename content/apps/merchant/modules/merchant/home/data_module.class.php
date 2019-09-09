@@ -60,6 +60,7 @@ class merchant_home_data_module extends api_front implements api_interface {
 		RC_Hook::add_filter('api_merchant_home_data_runloop', [$this , 'mobile_menu_data'], 10, 2);
 		RC_Hook::add_filter('api_merchant_home_data_runloop', [$this , 'promote_goods_data'], 10, 2);
 		RC_Hook::add_filter('api_merchant_home_data_runloop', [$this , 'new_goods_data'], 10, 2);
+		RC_Hook::add_filter('api_merchant_home_data_runloop', [$this , 'best_goods_data'], 10, 2);
 		RC_Hook::add_filter('api_merchant_home_data_runloop', [$this , 'group_goods_data'], 10, 2);
 		RC_Hook::add_filter('api_merchant_home_data_runloop', [$this , 'mobile_home_adsense_group'], 10, 2);
 		RC_Hook::add_filter('api_merchant_home_data_runloop', [$this , 'store_fans_visit'], 10, 2);
@@ -413,6 +414,9 @@ class merchant_home_data_module extends api_front implements api_interface {
 		if (!empty($order_sort)) {
 			$filters['sort_by'] = $order_sort;
 		}
+		//会员等级价格
+		$filters['user_rank'] = $_SESSION['user_rank'];
+		$filters['user_rank_discount'] = $_SESSION['discount'];
 		//分页信息
 		$filters['size'] = 6;
 		$filters['page'] = 1;
@@ -482,6 +486,9 @@ class merchant_home_data_module extends api_front implements api_interface {
 		if (!empty($order_sort)) {
 			$filters['sort_by'] = $order_sort;
 		}
+		//会员等级价格
+		$filters['user_rank'] = $_SESSION['user_rank'];
+		$filters['user_rank_discount'] = $_SESSION['discount'];
 		//分页信息
 		$filters['size'] = 6;
 		$filters['page'] = 1;
@@ -493,6 +500,47 @@ class merchant_home_data_module extends api_front implements api_interface {
 		$response['new_goods'] = $new_goods_data;
 		return $response;
 	}
+	
+	
+	
+	public function best_goods_data($response, $request) {
+		$new_goods_data = array();
+	
+		$order_sort = array('goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
+	
+		$filters = [
+			'store_unclosed' 		=> 0,    //店铺未关闭的
+			'is_delete'		 		=> 0,	 //未删除的
+			'is_on_sale'	 		=> 1,    //已上架的
+			'is_alone_sale'	 		=> 1,	 //单独销售的
+			'review_status'  		=> 2,    //审核通过的
+			'no_need_cashier_goods'	=> true, //不需要收银台商品
+		];
+		$filters['store_id'] = $request['seller_id'];
+		//是否展示货品
+		if (ecjia::config('show_product') == 1) {
+			$filters['product'] = true;
+		}
+		$filters['store_best'] = 1;
+		//排序
+		if (!empty($order_sort)) {
+			$filters['sort_by'] = $order_sort;
+		}
+		//会员等级价格
+		$filters['user_rank'] = $_SESSION['user_rank'];
+		$filters['user_rank_discount'] = $_SESSION['discount'];
+		//分页信息
+		$filters['size'] = 6;
+		$filters['page'] = 1;
+	
+		$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+		$new_goods_data = $collection['goods_list'];
+	
+	
+		$response['best_goods'] = $new_goods_data;
+		return $response;
+	}
+	
 	
 	public function group_goods_data($response, $request) {
 		$api_version = royalcms('request')->header('api-version');
