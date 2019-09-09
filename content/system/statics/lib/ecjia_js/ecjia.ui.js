@@ -281,11 +281,9 @@
 				type: option.type,
 				dataType: "json",
 				success: function(data){
-					if(data.state == 'error'){
-						ecjia.admin.showmessage(data);
-					}else{
+					ecjia.admin.showmessage(data);
+					if (data.state == 'success') {
 						data.content ? option.obj.removeClass('toggleOff').addClass('toggleOn') : option.obj.removeClass('toggleOn').addClass('toggleOff');
-						data.pjaxurl ? ecjia.admin.showmessage(data) : ecjia.admin.showmessage(admin_lang.status_success);
 					}
 				}
 			});
