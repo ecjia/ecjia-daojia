@@ -102,6 +102,8 @@ class Helper
 
         ecjia_admin_log::instance()->add_object('user_invitee_record', __('用户邀请记录', 'user'));
 
+        ecjia_admin_log::instance()->add_object('user_store_user', __('商家会员粉丝记录', 'user'));
+
         ecjia_admin_log::instance()->add_action('clean', __('清空', 'user'));
     }
 
