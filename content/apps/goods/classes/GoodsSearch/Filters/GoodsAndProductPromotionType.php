@@ -30,7 +30,7 @@ class GoodsAndProductPromotionType implements FilterInterface
     public static function apply(Builder $builder, $value)
     {
     	if ($value) {
-    		if ($value == 'today') {
+    		if ($value == 'today') {//实际为正在进行中的促销
     			$time = \RC_Time::gmtime();
     		} elseif ($value == 'tomorrow') {
     			$date = \RC_Time::local_date("Y-m-d",\RC_Time::local_strtotime("+1 day"));

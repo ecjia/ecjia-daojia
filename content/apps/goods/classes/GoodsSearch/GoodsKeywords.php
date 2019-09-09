@@ -98,7 +98,10 @@ class GoodsKeywords
                     $subQuery =  function ($query) use ($item) {
                         $query->where('goods_name', 'like', "%{$item}%")
                             ->orWhere('goods_sn', 'like', "%{$item}%")
-                            ->orWhere('keywords', 'like', "%{$item}%");
+                            ->orWhere('keywords', 'like', "%{$item}%")
+                            ->orWhereHas('products_collection', function($query) use ($item) {
+                            	$query->where('product_name', 'like', '%' . ecjia_mysql_like_quote($item) . '%');
+                            });
                     };
 
                     if ($key === 0) {
@@ -124,7 +127,10 @@ class GoodsKeywords
                     $subQuery =  function ($query) use ($item) {
                         $query->where('goods_name', 'like', "%{$item}%")
                             ->orWhere('goods_sn', 'like', "%{$item}%")
-                            ->orWhere('keywords', 'like', "%{$item}%");
+                            ->orWhere('keywords', 'like', "%{$item}%")
+                            ->orWhereHas('products_collection', function($query) use ($item) {
+                            	$query->where('product_name', 'like', '%' . ecjia_mysql_like_quote($item) . '%');
+                            });
                     };
 
                     $query->where($subQuery);

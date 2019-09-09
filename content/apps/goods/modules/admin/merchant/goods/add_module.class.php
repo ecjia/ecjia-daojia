@@ -211,7 +211,7 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
     		'brand_name'				=> !empty($goods->brand_model) ? $goods->brand_model->brand_name : '',
     		'category_id'				=> intval($goods->cat_id),
     		'category_name'				=> !empty($goods->category_model) ? $goods->category_model->cat_name : '',
-    		'category'					=> $goods->cat_id > 0 ? Ecjia\App\Goods\GoodsFunction::get_parent_cats($goods->cat_id, 1, $_SESSION['store_id']) : [],
+    		'category'					=> $goods->cat_id > 0 ? Ecjia\App\Goods\GoodsFunction::get_parent_cats($goods->cat_id, 0, 0) : [],
     		'merchant_category_id'		=> intval($goods->merchant_cat_id),
     		'merchant_category_name'	=> !empty($goods->merchants_category_model) ? $goods->merchants_category_model->cat_name : '',
     		'merchant_category'			=> $goods->merchant_cat_id > 0 ? Ecjia\App\Goods\GoodsFunction::get_parent_cats($goods->merchant_cat_id, 1, $_SESSION['store_id']) : [],
