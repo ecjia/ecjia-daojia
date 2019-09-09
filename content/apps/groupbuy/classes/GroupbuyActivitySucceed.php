@@ -163,9 +163,9 @@ class GroupbuyActivitySucceed
             //处理付款订单
             $this->processPayedOrders($order);
 
-            $this->sendSmsMessageNotice($order);
+            $this->sendSmsMessageNotice($order, $group_buy);
 
-            $this->sendDatabaseMessageNotice($order);
+            $this->sendDatabaseMessageNotice($order, $group_buy);
 
         } else {
             $this->closeUnpayOrders($order);
@@ -262,7 +262,7 @@ class GroupbuyActivitySucceed
     /**
      * 发送短信消息通知
      */
-    protected function sendSmsMessageNotice($order)
+    protected function sendSmsMessageNotice($order, $group_buy)
     {
         $store_name = $this->getStoreName($order['store_id']);
 
@@ -272,7 +272,7 @@ class GroupbuyActivitySucceed
             'value'  => array(
                 'user_name'  => $order['consignee'],
                 'store_name' => $store_name,
-                'goods_name' => $order['goods_name']
+                'goods_name' => $group_buy['goods_name']
             )
         );
         $response = RC_Api::api('sms', 'send_event_sms', $options);
@@ -281,7 +281,7 @@ class GroupbuyActivitySucceed
     /**
      * 发送数据库消息通知
      */
-    protected function sendDatabaseMessageNotice($order)
+    protected function sendDatabaseMessageNotice($order, $group_buy)
     {
         $store_name = $this->getStoreName($order['store_id']);
 
@@ -298,7 +298,7 @@ class GroupbuyActivitySucceed
                 'user_id'    => $order['user_id'],
                 'user_name'  => $user_name,
                 'store_name' => $store_name,
-                'goods_name' => $order['goods_name'],
+                'goods_name' => $group_buy['goods_name'],
                 'order_id'   => $order['order_id'],
             ),
         );
