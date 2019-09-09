@@ -48,7 +48,7 @@ use Ecjia\System\Version\Version;
 use Ecjia\System\Database\Migrate;
 use Ecjia\System\Database\Seeder;
 
-class Version_13400 extends Version
+class Version_13401 extends Version
 {
 
     /**
