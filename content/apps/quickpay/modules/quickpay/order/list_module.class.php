@@ -67,7 +67,9 @@ class quickpay_order_list_module extends api_front implements api_interface {
     			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
     		}
     	}
-    	
+
+        $store_id = $this->requestData('store_id', 0);
+
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
@@ -75,7 +77,8 @@ class quickpay_order_list_module extends api_front implements api_interface {
 		$options = array(
 			'size'			=> $size,
 			'page'			=> $page,
-			'user_id'		=> $_SESSION['user_id']
+			'user_id'		=> $_SESSION['user_id'],
+            'store_id'      => $store_id,
 		);
 		
 		$quickpay_order_data = RC_Api::api('quickpay', 'quickpay_order_list', $options);
