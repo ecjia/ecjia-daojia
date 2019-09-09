@@ -46,7 +46,7 @@ ecjia.merchant.mh_shortcut.shortcut_info();
 										<label class="control-label col-lg-2">{t domain="adsense"}图片预览：{/t}</label>
 										<div class="col-lg-6">
 											 <div class="fileupload fileupload-{if $data.ad_code}exists{else}new{/if}" data-provides="fileupload">
-												<img class="w600 h300"  class="img-polaroid" src="{RC_Upload::upload_url()}/{$data.ad_code}"><br><br>
+												<img class=""  class="img-polaroid" src="{RC_Upload::upload_url()}/{$data.ad_code}" width="{$data.ad_width}" height="{$data.ad_height}"><br><br>
                                                  {t domain="adsense"}图片地址：{/t} {$data.ad_code}<br><br>
 												<div class="fileupload-preview fileupload-{if $data.ad_code}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
 												<span class="btn btn-primary btn-file btn-sm">

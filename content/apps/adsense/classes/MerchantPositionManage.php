@@ -50,6 +50,7 @@ use Ecjia\App\Adsense\Repositories\MerchantCycleImageRepository;
 use Ecjia\App\Adsense\Repositories\MerchantAdPositionRepository;
 use Ecjia\App\Adsense\Repositories\MerchantAdGroupRepository;
 use Ecjia\App\Adsense\Repositories\MerchantShortcutMenuRepository;
+use Royalcms\Component\Database\Eloquent\Collection;
 
 class MerchantPositionManage
 {
@@ -199,7 +200,7 @@ class MerchantPositionManage
             
             $time = \RC_Time::gmtime();
             
-            $result = $result->map(function($item, $key) use ($client, $time) {
+            $result = $result->map(function($item, $key) use ($model, $client, $time) {
                 $adsModel = $item->ads();
                 $adsModel->where('show_client', '&', $client);
                 $adsModel->where('start_time', '<=', $time)->where('end_time', '>=', $time);
@@ -208,14 +209,22 @@ class MerchantPositionManage
                 if ($model->max_number) {
                     $adsModel->take($model->max_number);
                 }
-                
+
+                /**
+                 * @var Collection $result
+                 */
                 $result = $adsModel->get(['ad_id', 'ad_name', 'ad_code', 'ad_link', 'start_time', 'end_time', 'sort_order']);
-                
+
                 $result = \RC_Hook::apply_filters('filter_merchant_adsense_group_data', $result->toArray());
-                
-                return ['title' => $item->position_desc, 'adsense' => $result];
-            });
-            
+
+                if (count($result) > 0) {
+                    return ['title' => $item->position_desc, 'adsense' => $result];
+                }
+                else {
+                    return null;
+                }
+            })->filter();
+
             return $result->toArray();
         }
 
