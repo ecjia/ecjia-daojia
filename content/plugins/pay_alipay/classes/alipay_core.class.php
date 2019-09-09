@@ -57,7 +57,7 @@ class alipay_core {
      */
     public static function getHttpResponseGET($url,$cacert_url) {
         $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
+        curl_setopt($curl, CURLOPT_HEADER, FALSE); // 过滤HTTP头
         curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);//SSL证书认证
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);//严格认证
@@ -85,7 +85,7 @@ class alipay_core {
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);//SSL证书认证
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);//严格认证
         curl_setopt($curl, CURLOPT_CAINFO, $cacert_url);//证书地址
-        curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
+        curl_setopt($curl, CURLOPT_HEADER, FALSE); // 过滤HTTP头
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
         curl_setopt($curl, CURLOPT_POST, true); // post传输数据
         curl_setopt($curl, CURLOPT_POSTFIELDS, $param);// post传输数据
