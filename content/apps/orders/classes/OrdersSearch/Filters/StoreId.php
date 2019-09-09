@@ -6,7 +6,7 @@
  * Time: 18:24
  */
 
-namespace Ecjia\App\Goods\GoodsSearch\Filters;
+namespace Ecjia\App\Orders\OrdersSearch\Filters;
 
 
 use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
