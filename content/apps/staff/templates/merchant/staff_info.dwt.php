@@ -59,7 +59,7 @@
         <section class="panel">
             <div class="panel-body">
                 {if $step eq 1}
-                  <form class="cmxform form-horizontal" name="theForm" action="{$form_action}"  method="post" >
+                <form class="cmxform form-horizontal" name="OneForm" action="{$form_action}"  method="post" >
                       <div class="form-group">
                           <label class="control-label col-lg-2">{t domain="staff"}员工手机号：{/t}</label>
                           <div class="col-lg-6">
@@ -77,7 +77,7 @@
 
                       <div class="form-group ">
                           <div class="col-lg-6 col-md-offset-2">
-                             <input class="btn btn-primary" type="submit" value='{t domain="staff"}下一步{/t}'>
+                              <input class="btn btn-primary" type="button"  id="staff_next" data-url="{$form_action}"  value='{t domain="staff"}下一步{/t}'>
                           </div>
                       </div>
                   </form>

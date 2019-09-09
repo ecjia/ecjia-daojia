@@ -183,7 +183,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
              [ip] => 0.0.0.0
               */
 
-            $this->admin_session($row['user_id'], $row['name'], $row['action_list'], $row['mobile'], $row['email']);
+            $this->admin_session($row['user_id'], $row['name'], $row['action_list'], $row['last_login'], $row['mobile'], $row['email']);
         
             $_SESSION['admin_id']       = 0;
             $_SESSION['admin_name']     = null;

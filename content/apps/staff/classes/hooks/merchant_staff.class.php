@@ -73,6 +73,27 @@ class merchant_staff_hooks
         );
     }
 
+    public static function merchant_order_list()
+    {
+        $statics_url = ecjia_merchant::$controller->get_main_static_url();
+
+        $list = array(
+            array('title' => '当日订单', 'url' => RC_Uri::url('orders/merchant/today_order'), 'img' => $statics_url.'img/merchant_dashboard/today_order.png'),
+            array('title' => '核销订单', 'url' => RC_Uri::url('orders/mh_validate_order/init'), 'img' => $statics_url.'img/merchant_dashboard/mh_validate_order.png'),
+            array('title' => '配送订单', 'url' => RC_Uri::url('orders/merchant/init'), 'img' => $statics_url.'img/merchant_dashboard/order.png'),
+            array('title' => '到店订单', 'url' => RC_Uri::url('orders/merchant/init', array('extension_code' => 'storebuy')), 'img' => $statics_url.'img/merchant_dashboard/storebuy_order.png'),
+            array('title' => '自提订单', 'url' => RC_Uri::url('orders/merchant/init', array('extension_code' => 'storepickup')), 'img' => $statics_url.'img/merchant_dashboard/storepickup_order.png'),
+            array('title' => '团购订单', 'url' => RC_Uri::url('orders/merchant/init', array('extension_code' => 'group_buy')), 'img' => $statics_url.'img/merchant_dashboard/group_buy_order.png'),
+            array('title' => '收银台订单', 'url' => RC_Uri::url('orders/merchant/init', array('extension_code' => 'cashdesk')), 'img' => $statics_url.'img/merchant_dashboard/cashdesk_order.png'),
+            array('title' => '售后订单', 'url' => RC_Uri::url('refund/merchant/init'), 'img' => $statics_url.'img/merchant_dashboard/refund_order.png'),
+        );
+
+        ecjia_merchant::$controller->assign('list', $list);
+        echo ecjia_merchant::$controller->fetch(
+            RC_Package::package('app::staff')->loadTemplate('merchant/library/widget_merchant_dashboard_order_list.lbi', true)
+        );
+    }
+
     //个人信息
     public static function merchant_dashboard_right_4_1()
     {
@@ -223,6 +244,8 @@ class merchant_staff_hooks
 }
 
 RC_Hook::add_action('merchant_dashboard_top', array('merchant_staff_hooks', 'merchant_dashboard_information'));
+
+RC_Hook::add_action('merchant_dashboard_top', array('merchant_staff_hooks', 'merchant_order_list'));
 
 RC_Hook::add_action('merchant_dashboard_right4', array('merchant_staff_hooks', 'merchant_dashboard_right_4_1'), 1);
 RC_Hook::add_filter('merchant_dashboard_right4', array('merchant_staff_hooks', 'merchant_dashboard_right_4_2'), 2);
