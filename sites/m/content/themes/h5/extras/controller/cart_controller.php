@@ -343,7 +343,7 @@ class cart_controller
         $checked           = isset($_POST['checked']) ? $_POST['checked'] : '';
         $response          = isset($_POST['response']) ? true : false;
         $spec              = isset($_POST['spec']) ? $_POST['spec'] : '';
-
+        
         /**
          * 如果是团购活动，转到新方法，专门处理团购
          */
@@ -643,6 +643,10 @@ class cart_controller
         $url = RC_Uri::url('cart/index/init');
         $rs  = ecjia_touch_manager::make()->api(ecjia_touch_api::FLOW_CHECKORDER)->data($params_cart)->run();
         if (is_ecjia_error($rs)) {
+            if($rs->get_error_code() == 'not_found_cart_goods')
+            {
+                return rc_redirect($url);
+            }
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $url));
         }
 

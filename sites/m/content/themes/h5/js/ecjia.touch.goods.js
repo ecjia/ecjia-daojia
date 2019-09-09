@@ -31,7 +31,7 @@
 			ecjia.touch.category.remove_goods();
 			ecjia.touch.category.check_groupbuy_cart();
 
-			//分类列表 点击分类切换 滚动到顶部
+            //分类列表 点击分类切换 滚动到顶部
 			$('.category_left li').on('click', function () {
 				$(window).scrollTop(0);
 			});
@@ -257,6 +257,7 @@
 					$this.parents('.ecjia-attr-modal').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 					var store_id = $('input[name="store_id"]').val();
 					var val = parseInt($this.siblings('label').html()) - 1;
+					if(val <= 0) {val = 0;}
 					var goods_id = $this.attr('goods_id');
                     if (spec.length == 0) {
                         spec = [0];
@@ -381,7 +382,7 @@
 					return false;
 				}
 				$this.addClass('disabled');
-				if (num == 0 || isNaN(num) || num == undefined) {
+				if (num <= 0 || isNaN(num) || num == undefined) {
 					$this.removeClass('disabled');
 					alert(js_lang.quantity_out_range);
 					return false;

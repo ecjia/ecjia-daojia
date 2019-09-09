@@ -449,7 +449,7 @@ class user_profile_controller
                 $user_info = ecjia_touch_user::singleton()->getUserinfo();
 
                 $_SESSION[$key][$user_info['id']]['smscode'] = $code;
-                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+                return ecjia_front::$controller->showmessage(__('验证码已发送', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
             }
         }
 
@@ -458,7 +458,7 @@ class user_profile_controller
             if (is_ecjia_error($data)) {
                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
-                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/profile/init')));
+                return ecjia_front::$controller->showmessage(__('绑定手机号成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/profile/init')));
             }
         }
     }

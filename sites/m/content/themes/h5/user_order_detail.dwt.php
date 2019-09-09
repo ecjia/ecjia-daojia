@@ -209,7 +209,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<li><span class="ecjiaf-fl width-25-p">{t domain="h5"}支付方式：{/t}</span><span class="ecjiaf-fr width-75-p">{$order.pay_name}</span></li>
 				<li><span class="ecjiaf-fl width-25-p">{t domain="h5"}发票抬头：{/t}</span><span class="ecjiaf-fr width-75-p">{if $order.inv_payee}{$order.inv_payee}{else if $order.inv_type neq ''}{t domain="h5"}个人{/t}{else}{t domain="h5"}暂无{/t}{/if}</span></li>
 				<li><span class="ecjiaf-fl width-25-p">{t domain="h5"}发票识别码：{/t}</span><span class="ecjiaf-fr width-75-p">{if $order.inv_tax_no}{$order.inv_tax_no}{else}{t domain="h5"}暂无{/t}{/if}</span></li>
-				<li class="remark"><span class="ecjiaf-fl width-25-p">{t domain="h5"}订单备注：{/t}</span><span class="ecjiaf-fr width-75-p">{if $order.postscript}{$order.postscript}{else}{t domain="h5"}暂无{/t}{/if}</span></li>
+                <li><span class="ecjiaf-fl width-25-p">{t domain="h5"}发票内容：{/t}</span><span class="ecjiaf-fr width-75-p">{if $order.inv_content}{$order.inv_content}{else}{t domain="h5"}暂无{/t}{/if}</span></li>
+                <li class="remark"><span class="ecjiaf-fl width-25-p">{t domain="h5"}订单备注：{/t}</span><span class="ecjiaf-fr width-75-p">{if $order.postscript}{$order.postscript}{else}{t domain="h5"}暂无{/t}{/if}</span></li>
 			</ul>
 			<div class="order-ft-link">
 				<a class="btn btn-small btn-hollow external" href="{if $order.service_phone}tel://{$order.service_phone}{else}javascript:alert('{t domain='h5'}无法联系卖家{/t}');{/if}">{t domain="h5"}联系卖家{/t}</a>

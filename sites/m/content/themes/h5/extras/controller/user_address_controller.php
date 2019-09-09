@@ -571,7 +571,7 @@ class user_address_controller
     {
         $id = empty($_GET['id']) ? 0 : intval($_GET['id']);
 
-        $pjax_url = RC_Uri::url('address_list');
+        $pjax_url = RC_Uri::url('user/address/address_list');
         if (!empty($_SESSION['order_address_temp'])) {
             $array = array(
                 'store_id' => $_SESSION['order_address_temp']['store_id'],

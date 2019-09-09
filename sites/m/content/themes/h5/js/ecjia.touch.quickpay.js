@@ -5,6 +5,18 @@
 (function (ecjia, $) {
 	ecjia.touch.quickpay = {
 		init: function () {
+			//解决IOS12并且微信版本6.7.4页面,键盘弹出bug
+			jQuery(document).delegate('input, textarea', 'blur', function(){
+				setTimeout(function(){
+					// did not work for me straight away without a small timeout ಠ_ಠ
+					jQuery('html').animate({height: '100.1vh'}, 100, function(){
+						// did not work for me with just one instruction with 100vh ಠ_ಠ
+						// the easing smooth doesn't work all the time properly ಠ_ಠ
+						jQuery(this).animate({height: '100vh'}, 1);
+					});
+				},10);
+			});
+
 			$("body").greenCheck();
 			ecjia.touch.quickpay.checkbtn();
 			ecjia.touch.quickpay.order_money();

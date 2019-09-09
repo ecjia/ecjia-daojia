@@ -35,12 +35,12 @@ ecjia.touch.index.init();
 			<!-- {foreach from=$data.article_related_goods item=goods} -->
 			<div class="article-content clearfix goods-list"> 
 				<div class="article-content-sku clearfix" data-lazy="false"> 
-					<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}'><img class="content-sku-img lazy-img" src="{$goods.img.thumb}"></a>
+					<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}&product_id={$goods.product_id}'><img class="content-sku-img lazy-img" src="{$goods.img.thumb}"></a>
 					<div class="content-sku-right"> 
-						<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}'><p class="content-sku-name line-clamp2">{$goods.name}</p></a>
+						<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}&product_id={$goods.product_id}'><p class="content-sku-name line-clamp2">{$goods.name}</p></a>
 						<div class="content-sku-bottom clearfix"> 
 							<span class="sku-price ellipsis">{$goods.shop_price}</span>  
-							<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}'><span class="buy-btn">{t domain="h5"}去购买{/t}</span></a>
+							<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}&product_id={$goods.product_id}'><span class="buy-btn">{t domain="h5"}去购买{/t}</span></a>
 						</div> 
 					</div> 
 				</div>  
