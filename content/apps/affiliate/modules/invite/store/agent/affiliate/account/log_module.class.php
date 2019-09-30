@@ -46,22 +46,77 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+use Ecjia\App\Affiliate\Models\AccountLogModel;
+use Ecjia\App\Finance\AccountConstant;
+
 /**
- * 后台菜单API
- * @author wutifang
+ * 代理商推广分佣资金变动明细记录
+ * @author zrl
  */
-class affiliate_admin_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('11_affiliate', __('推荐管理', 'affiliate'), '', 11);
-		
-		$submenus = array(
-			ecjia_admin::make_admin_menu('affiliate', __('分成比例', 'affiliate'), RC_Uri::url('affiliate/admin/init'), 1)->add_purview('affiliate_percent_manage'),
-			ecjia_admin::make_admin_menu('affiliate_ck', __('分成订单', 'affiliate'), RC_Uri::url('affiliate/admin_separate/init'), 2)->add_purview('affiliate_ck_manage')
-		);
-		$menus->add_submenu($submenus);
-		return $menus;
-	}
+class invite_store_agent_affiliate_account_log_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authSession();
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+       	
+        $size = $this->requestData('pagination.count', '15');
+        $page = $this->requestData('pagination.page', '1');
+
+        $page = empty($page) ? 1 : $page;
+        $size = empty($size) ? '15' : $size;
+        
+        $query = AccountLogModel::where('user_id', $_SESSION['user_id'])->whereIn('change_type', [AccountConstant::BALANCE_AFFILIATE, AccountConstant::BALANCE_AFFILIATE_REFUND, AccountConstant::BALANCE_AGENCYSALE_AFFILIATE, AccountConstant::BALANCE_AGENCYSALE_AFFILIATE_REFUND]);
+        
+        $count = $query->count();
+        
+        $ecjia_page = new ecjia_page($count, $size, 6, '', $page);
+        
+        $pager = array(
+        		'total' => $ecjia_page->total_records,
+        		'count' => $ecjia_page->total_records,
+        		'more'  => $ecjia_page->total_pages <= $page ? 0 : 1,
+        );
+        
+        $account_log = $query->skip($ecjia_page->start_id - 1)->take($ecjia_page->page_size)->orderBy('change_time', 'desc')->get();
+
+        if ($account_log) {
+        	$list = $account_log->map(function($val){
+        		$type = $label_type = '';
+        		if (in_array($val->change_type, [AccountConstant::BALANCE_AFFILIATE, AccountConstant::BALANCE_AFFILIATE_REFUND])) {
+        			$type 		= 'affiliate';
+        			$label_type = '推广';
+        		} elseif (in_array($val->change_type, [AccountConstant::BALANCE_AGENCYSALE_AFFILIATE, AccountConstant::BALANCE_AGENCYSALE_AFFILIATE_REFUND])) {
+        			$type 		= 'agencysale';
+        			$label_type = '买赠';
+        		}
+        		$arr = array(
+        			'log_id' 					=> intval($val->log_id),
+        			'order_sn' 					=> trim($val->from_value),
+        			'change_amount'				=> $val->user_money,
+        			'formatted_change_amount'	=> ecjia_price_format($val->user_money, false),
+        			'type'						=> $type,
+        			'label_type'				=> $label_type,
+        			'formatted_change_time'		=> RC_Time::local_date('Y-m-d H:i:s', $val->change_time),
+        			'status'					=> 'finished',
+        			'label_status'				=> '已完成',
+        		);
+        		return $arr;
+        	});
+        	$list = $list->toArray();
+        	
+        	return ['data' => $list, 'pager' => $pager];
+        } else {
+        	$pager = array(
+        			'total' => 0,
+        			'count' => 0,
+        			'more'  => 0,
+        	);
+        	return ['data' => [], 'pager' => $pager];
+        }
+    }
 }
 
 // end

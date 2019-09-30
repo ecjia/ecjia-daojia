@@ -46,22 +46,55 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+use Ecjia\App\Affiliate\Models\AccountLogModel;
+use Ecjia\App\Finance\AccountConstant;
+
 /**
- * 后台菜单API
- * @author wutifang
+ * 代理商推广分佣资金变动明细记录详情
+ * @author zrl
  */
-class affiliate_admin_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('11_affiliate', __('推荐管理', 'affiliate'), '', 11);
-		
-		$submenus = array(
-			ecjia_admin::make_admin_menu('affiliate', __('分成比例', 'affiliate'), RC_Uri::url('affiliate/admin/init'), 1)->add_purview('affiliate_percent_manage'),
-			ecjia_admin::make_admin_menu('affiliate_ck', __('分成订单', 'affiliate'), RC_Uri::url('affiliate/admin_separate/init'), 2)->add_purview('affiliate_ck_manage')
-		);
-		$menus->add_submenu($submenus);
-		return $menus;
-	}
+class invite_store_agent_affiliate_account_logdetail_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authSession();
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+       	
+        $log_id = intval($this->requestData('log_id', 0));
+        if (empty($log_id)) {
+        	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
+        }
+        
+        $agent_info = Ecjia\App\Affiliate\Models\AffiliateStoreModel::where('user_id', $_SESSION['user_id'])->first();
+        if (!$agent_info) {
+        	return new ecjia_error('invalid_parameter', __('非代理角色不可查看此销售奖励', 'affiliate'));
+        }
+        
+        
+        $info = AccountLogModel::where('user_id', $_SESSION['user_id'])
+        						->where('log_id', $log_id)
+        						->whereIn('change_type', [AccountConstant::BALANCE_AFFILIATE, AccountConstant::BALANCE_AFFILIATE_REFUND])
+        						->first();
+        if (empty($info)) {
+        	return new ecjia_error('not_exist_info', __('分佣资金变动记录信息不存在', 'affiliate'));
+        }
+        
+        $arr = array(
+        		'log_id' 					=> intval($info->log_id),
+        		'order_sn' 					=> trim($info->from_value),
+        		'change_amount'				=> $info->user_money,
+        		'formatted_change_amount'	=> ecjia_price_format($info->user_money, false),
+        		'type'						=> 'affiliate',
+        		'label_type'				=> '推广',
+        		'formatted_change_time'		=> RC_Time::local_date('Y-m-d H:i:s', $info->change_time),
+        		'status'					=> 'finished',
+        		'label_status'				=> '已完成',
+        );
+        
+        return $arr;
+    }
 }
 
 // end
