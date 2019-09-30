@@ -24,6 +24,14 @@ class AccountConstant
 
     const BALANCE_REFUND = 3; // 退款
 
+    const BALANCE_AFFILIATE = 4; // 推荐分佣
+
+    const BALANCE_AFFILIATE_REFUND = 5; // 推荐分佣退款扣除
+
+    const BALANCE_AGENCYSALE_AFFILIATE = 6; // 买赠分佣
+
+    const BALANCE_AGENCYSALE_AFFILIATE_REFUND = 7; // 买赠分佣退款扣除
+
 
     /**
      * 账户消费积分
