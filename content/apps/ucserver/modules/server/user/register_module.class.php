@@ -95,6 +95,12 @@ class server_user_register_module extends ApiBase implements ApiHandler
             } else {
                 $ucenterOpenidsModel->createOpenId($this->app['appid'], $uid, $username);
             }
+
+            //返回openid
+            if ($this->app['type'] == 'DSCMALL' || $this->app['type'] == 'ECJIA') {
+                $openid = $ucenterOpenidsModel->getOpenIdByUserId($this->app['appid'], $uid);
+                return $openid;
+            }
         }
 
         return $uid;
