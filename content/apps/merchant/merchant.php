@@ -172,7 +172,7 @@ class merchant extends ecjia_merchant
         $store_id                   = $_SESSION['store_id'];
         $shop_kf_mobile             = ($_POST['shop_kf_mobile'] == get_merchant_config('shop_kf_mobile')) ? '' : htmlspecialchars(remove_xss($_POST['shop_kf_mobile']));
         $shop_description           = ($_POST['shop_description'] == get_merchant_config('shop_description')) ? '' : htmlspecialchars(remove_xss($_POST['shop_description']));
-        $shop_trade_time            = empty($_POST['shop_trade_time']) ? '' : htmlspecialchars(remove_xss($_POST['shop_trade_time']));
+        $shop_trade_time             = empty($_POST['shop_trade_time']) ? '' : htmlspecialchars(remove_xss($_POST['shop_trade_time']));
         $shop_notice                = ($_POST['shop_notice'] == get_merchant_config('shop_notice')) ? '' : htmlspecialchars(remove_xss($_POST['shop_notice']));
         $express_assign_auto        = isset($_POST['express_assign_auto']) ? intval($_POST['express_assign_auto']) : 0;
         $min_goods_amount           = isset($_POST['min_goods_amount']) ? intval($_POST['min_goods_amount']) : 0;
@@ -294,7 +294,7 @@ class merchant extends ecjia_merchant
      */
     public function drop_file()
     {
-        $code     = remove_xss($_GET['code']);
+        $code     = $_GET['code'];
         $img      = get_merchant_config($code);
         $merchant = set_merchant_config($code, '');
         $file     = !empty($img) ? RC_Upload::upload_path($img) : '';
@@ -487,8 +487,8 @@ class merchant extends ecjia_merchant
 
     public function get_code_value()
     {
-        $mobile = isset($_GET['mobile']) ? remove_xss($_GET['mobile']) : '';
-        $type   = remove_xss($_GET['type']);
+        $mobile = isset($_GET['mobile']) ? $_GET['mobile'] : '';
+        $type   = $_GET['type'];
         if (empty($mobile)) {
             return $this->showmessage(__('请输入手机号码', 'merchant'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('type' => $type));
         }
@@ -561,7 +561,7 @@ class merchant extends ecjia_merchant
      */
     public function download()
     {
-        $type = remove_xss($_GET['type']);
+        $type = $_GET['type'];
         $file = '';
 
         $disk = RC_Filesystem::disk();
