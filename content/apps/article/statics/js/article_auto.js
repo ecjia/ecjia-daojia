@@ -95,9 +95,15 @@
                 }
  
                 if (id.length == 0) {
-                    smoke.alert(noSelectMsg);
+                    smoke.alert(noSelectMsg,{
+                        ok: js_lang.ok,
+                        cancel: js_lang.cancel
+                    });
                 } else if (time_val == '') {
-                    smoke.alert(js_lang.select_time);
+                    smoke.alert(js_lang.select_time,{
+                        ok: js_lang.ok,
+                        cancel: js_lang.cancel
+                    });
                 } else {
                     app.article_auto.batch(option);
                 }

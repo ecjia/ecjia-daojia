@@ -58,8 +58,8 @@ return array(
 		'article_title_required'	=> __('请输入文章标题', 'article'),
 		'back_select_term'			=> __('返回选择栏目', 'article'),
 		'select_goods_empty'		=> __('未搜索到商品信息', 'article'),
-		'ok'						=> __('确定', 'article'),
-		'cancel'					=> __('取消', 'article'),
+        'ok'		=> __('确定', 'article'),
+        'cancel'		=> __('取消', 'article' ),
 		'no_select_cat'				=> __('请选择文章分类', 'article'),
 	),
 		
@@ -71,7 +71,9 @@ return array(
 		'noSelectMsg'				=> __('请先选中操作项', 'article'),
 		'select_time'   		    => __('请选择时间', 'article'),
 		'batch_miss_parameters'		=> __('批量操作缺少参数', 'article'),
-	),
+        'ok'		=> __('确定', 'article'),
+        'cancel'		=> __('取消', 'article' ),
+    ),
 		
 	//文章分类
 	'article_cat_page' => array(

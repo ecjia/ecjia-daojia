@@ -74,7 +74,7 @@ class admin_article_auto extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		
-		RC_Script::enqueue_script('article_auto', RC_App::apps_url('statics/js/article_auto.js', __FILE__));
+		RC_Script::enqueue_script('article_auto', RC_App::apps_url('statics/js/article_auto.js', __FILE__), array(), false, 1);
 		
 		RC_Script::localize_script('article_auto', 'js_lang', config('app-article::jslang.article_auto_page'));
 	}
@@ -231,12 +231,13 @@ class admin_article_auto extends ecjia_admin {
 	 */
 	private function get_auto_articles() {
 		$db_article_view = RC_DB::table('article as a')
-			->leftJoin('article_cat as ac', RC_DB::raw('ac.cat_id'), '=', RC_DB::raw('a.cat_id'))
-			->leftJoin('auto_manage as am', function($join) {
-				$join->where(RC_DB::raw('a.article_id'), '=', RC_DB::raw('am.item_id'))
-				->where(RC_DB::raw('am.type'), '=', 'article');
-		});		
-		
+			->leftJoin('article_cat as ac', RC_DB::raw('ac.cat_id'), '=', RC_DB::raw('a.cat_id')
+		);
+
+        $db_article_view = $db_article_view
+            ->leftJoin('auto_manage as am', RC_DB::raw('a.article_id'), '=', RC_DB::raw('am.item_id'))
+            ->where(RC_DB::raw('am.type'), '=', 'article');
+
 		$keywords = !empty($_GET['keywords']) ? trim(htmlspecialchars($_GET['keywords'])) : '';
 		$where = '';
 	
@@ -246,7 +247,7 @@ class admin_article_auto extends ecjia_admin {
 		}
 		//不获取系统帮助文章的过滤
 		$db_article_view->where(RC_DB::raw('a.cat_id'), '!=', 0)->where(RC_DB::raw('ac.cat_type'), 'article');
-		
+
 		$count = $db_article_view->select('article_cat')->count();
 		
 		$page = new ecjia_page($count, 10, 5);
