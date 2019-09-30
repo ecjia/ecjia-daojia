@@ -74,7 +74,8 @@ class WechatUser
             return $user;
         }
 
-        throw new WechatUserNotFoundException('微信关注用户获取失败，请重新关注公众号再试。');
+        //throw new WechatUserNotFoundException('微信关注用户获取失败，请重新关注公众号再试。');
+        return null;
     }
 
     public function findUnionidUser($unionid)
