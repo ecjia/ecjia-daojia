@@ -1023,6 +1023,17 @@ if (! function_exists('ecjia_order_deposit_sn')) {
     }
 }
 
+
+if (! function_exists('ecjia_order_affiliate_sn')) {
+    /**
+     * 获取会员分佣的订单号
+     */
+    function ecjia_order_affiliate_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_AFFILIATE))->generation();
+    }
+}
+
 if (! function_exists('ecjia_order_refund_sn'))
 {
     /**

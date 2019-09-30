@@ -148,6 +148,7 @@ define('OOS_CONSULT',               2); // 与店主协商
 /* 帐户明细类型 */
 define('SURPLUS_SAVE',              0); // 为帐户冲值
 define('SURPLUS_RETURN',            1); // 从帐户提款
+define('SURPLUS_AFFILIATE',         2); // 推广分佣
 
 /* 评论状态 */
 define('COMMENT_UNCHECKED',         0); // 未审核

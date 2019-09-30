@@ -47,6 +47,11 @@ class OrderSnGeneration
      */
     const ORDER_SUPPLIER_DELIVERY   = 47;
 
+    /**
+     * 会员分佣订单
+     */
+    const ORDER_AFFILIATE         = 31;
+
 
     /**
      * 退款订单
