@@ -23,9 +23,9 @@ ecjia.admin.commission.init();
         <div class="tab-content tab_merchants">
             <div class="tab-pane active" style="min-height:300px;">
                 <form class="form-horizontal" method="post" action='{$form_action}' name="theForm">
-                    <h3 class="heading">{t domain="store"}佣金比例{/t}</h3>
+                    <h3 class="heading">{t domain="store"}订单结算比例{/t}</h3>
                     <div class="control-group formSep">
-                        <label class="control-label">{t domain="store"}佣金比例：{/t}</label>
+                        <label class="control-label">{t domain="store"}订单结算比例：{/t}</label>
                         <div class="controls">
                             <select name="percent_id">
                                 <option value="0">{t domain="store"}请选择{/t}</option>

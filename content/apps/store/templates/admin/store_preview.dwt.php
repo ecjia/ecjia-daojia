@@ -75,7 +75,7 @@
         							<td colspan="3">{$store.shop_keyword}</td>
         						</tr>
         						<tr>
-        							<td><div align="right"><strong>{t domain="store"}分成比例：{/t}</strong></div></td>
+        							<td><div align="right"><strong>{t domain="store"}订单结算比例：{/t}</strong></div></td>
         							<td colspan="3">{if $store.percent_value}{$store.percent_value}%{else}{t domain="store"}未设置，默认{/t}100%{/if}&nbsp;&nbsp;<a href='{RC_Uri::url("store/admin_commission/edit","store_id={$smarty.get.store_id}")}' title='{t domain="store"}编辑{/t}'>{t domain="store"}编辑{/t}</a></td>
         						</tr>
         						<tr>

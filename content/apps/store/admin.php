@@ -632,11 +632,11 @@ class admin extends ecjia_admin
         }
 
         if (isset($store['duplicate_store_status']) && $store['duplicate_store_status'] == 'processing') { //processing|finished
-            $help_url = RC_Uri::url('store/admin/duplicate_processing', ['store_id' => $store_id]);
+            $help_url = RC_Uri::url('store/admin/duplicate_processing', array('store_id' => $store_id));
             $warning = sprintf(__('<strong>温馨提示：</strong> 当前店铺数据还未复制全，您可以选择右上角【复制店铺】按钮，继续复制店铺数据。<strong><a href="%s"> 请点击此处去复制 >></a></strong>', 'store'), $help_url);
             ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning, 'alert-error'));
             $this->assign('duplicate', [
-                'href' => RC_Uri::url($help_url, ['store_id' => $store_id]),
+                'href' => $help_url,
                 'text' => __('继续复制', 'store')
             ]);
         } else {
