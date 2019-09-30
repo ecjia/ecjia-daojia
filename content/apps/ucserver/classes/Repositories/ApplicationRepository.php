@@ -87,7 +87,7 @@ class ApplicationRepository extends AbstractRepository
 	    if ($data) {
 	        $data['extra'] = unserialize($data['extra']);
 	         
-	        $tmp = AuthCode::decod($data['authkey'], UC_MYKEY);
+	        $tmp = AuthCode::decode($data['authkey'], UC_MYKEY);
 	        if ($tmp) {
 	            $data['authkey'] = $tmp;
 	        }
