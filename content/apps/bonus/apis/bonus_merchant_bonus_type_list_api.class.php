@@ -63,7 +63,7 @@ class bonus_merchant_bonus_type_list_api extends Component_Event_Api {
     		$bonus_type_db->where(RC_DB::raw('store_id'), '=', $_SESSION['store_id']);
     	}
     	
-    	if(!empty($options['bonustype_id']) || (isset($options['bonustype_id']) && trim($options['bonustype_id'])==='0' )){
+    	if(!empty($options['bonustype_id']) || trim($options['bonustype_id']) === 0){
     		$bonus_type_db->where(RC_DB::raw('send_type'), '=', $options['bonustype_id']);
     	}
     	

@@ -1015,13 +1015,13 @@ class merchant extends ecjia_merchant {
 
 		$bonustype_id = empty($_GET['bonustype_id']) ? 0 : intval($_GET['bonustype_id']);
 		$filter['send_type'] = '';
-		if(!empty($_GET['bonustype_id']) || (isset($_GET['bonustype_id']) && intval($_GET['bonustype_id'])==='0' )){
+		if(!empty($_GET['bonustype_id']) || intval($_GET['bonustype_id']) === 0 ){
 			$filter['send_type']	= $bonustype_id;
 
 		}
 		/* 查询条件 */
-		$filter['sort_by']    = empty($_GET['sort_by']) ? 'type_id' : remove_xss($_GET['sort_by']);
-		$filter['sort_order'] = empty($_GET['sort_order']) ? 'DESC' : remove_xss($_GET['sort_order']);
+		$filter['sort_by']    = empty($_GET['sort_by']) ? 'type_id' : $_GET['sort_by'];
+		$filter['sort_order'] = empty($_GET['sort_order']) ? 'DESC' : $_GET['sort_order'];
 
 		/*初始化红包类型数量*/
 		$bonus_type_count = array(
