@@ -149,7 +149,7 @@ class mh_cashier_goods extends ecjia_merchant {
 				if (empty($_GET['target_cat'])) {
 					return $this->showmessage(__('请先选择要转移的分类', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
-				Ecjia\App\Cashier\BulkGoods::update_goods($goods_id, 'merchant_cat_id', remove_xss($_GET['target_cat']));
+				Ecjia\App\Cashier\BulkGoods::update_goods($goods_id, 'merchant_cat_id', $_GET['target_cat']);
 				$action = 'batch_move_cat';
 			}
 		}
