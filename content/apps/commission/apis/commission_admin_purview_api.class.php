@@ -62,7 +62,7 @@ class commission_admin_purview_api extends Component_Event_Api {
             array('action_name' => __('月账单详情', 'commission'), 'action_code' => 'commission_detail', 'relevance'   => ''),
             array('action_name' => __('日账单', 'commission'), 'action_code' => 'commission_day_manage', 'relevance'   => ''),
             array('action_name' => __('日账单生成', 'commission'), 'action_code' => 'commission_day_update', 'relevance'   => ''),
-            array('action_name' => __('订单分成', 'commission'), 'action_code' => 'commission_order', 'relevance'   => ''),
+            array('action_name' => __('订单结算', 'commission'), 'action_code' => 'commission_order', 'relevance'   => ''),
             array('action_name' => __('订单重新结算', 'commission'), 'action_code' => 'commission_order_again', 'relevance'   => ''),
         	//资金管理权限
         	array('action_name' => __('商家提现', 'commission'), 'action_code' => 'commission_withdraw', 'relevance'   => ''),

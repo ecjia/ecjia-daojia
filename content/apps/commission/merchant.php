@@ -187,9 +187,9 @@ class merchant extends ecjia_merchant {
 	    $this->admin_priv('commission_order');
 	    
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单分成', 'commission')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单结算', 'commission')));
 	    
-	    $this->assign('ur_here', __('订单分成', 'commission'));
+	    $this->assign('ur_here', __('订单结算', 'commission'));
 	    $this->assign('search_action', RC_Uri::url('commission/merchant/record'));
 	    
 	    /* 时间参数 */

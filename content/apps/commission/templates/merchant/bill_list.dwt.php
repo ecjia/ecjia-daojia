@@ -9,7 +9,7 @@ ecjia.merchant.bill.init()
 <!-- {block name="home-content"} -->
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-	<strong>{t domain="commission"}温馨提示：{/t}</strong>{t domain="commission"}当月账单未出请查看日账单和订单分成{/t}
+	<strong>{t domain="commission"}温馨提示：{/t}</strong>{t domain="commission"}当月账单未出请查看日账单和订单结算{/t}
 </div>
 <div class="page-header">
 	<div class="pull-left">

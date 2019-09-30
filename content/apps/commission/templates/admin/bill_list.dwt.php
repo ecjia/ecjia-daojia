@@ -10,7 +10,7 @@ ecjia.admin.bill_list.init();
 <!-- {block name="main_content"} -->
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-	<strong>{t domain="commission"}温馨提示：{/t}</strong>{t domain="commission"}每月1日生成上月账单，当月账单未出请查看每日账单和订单分成{/t}
+	<strong>{t domain="commission"}温馨提示：{/t}</strong>{t domain="commission"}每月1日生成上月账单，当月账单未出请查看每日账单和订单结算{/t}
 </div>
 <div>
 	<h3 class="heading">

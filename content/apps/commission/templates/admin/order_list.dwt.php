@@ -60,7 +60,7 @@
 						</td>
 					    <td>
 					  		{assign var=store_url value=RC_Uri::url('store/admin/preview',"store_id={$list.store_id}")}
-					     	<a href='{RC_Uri::url("commission/admin/order","store_id={$list.store_id}")}' title="{t domain="commission"}查看此商家订单分成{/t}">{$list.merchants_name}</a>
+					     	<a href='{RC_Uri::url("commission/admin/order","store_id={$list.store_id}")}' title="{t domain="commission"}查看此商家订单结算{/t}">{$list.merchants_name}</a>
 					     	<a href='{$store_url}' title="{t domain="commission"}查看商家资料{/t}" target="_blank"><i class="fontello-icon-info-circled"></i></a>
 					    </td>
 					    <td>{$list.total_fee_formatted}</td>

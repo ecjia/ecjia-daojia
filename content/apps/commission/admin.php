@@ -432,8 +432,8 @@ class admin extends ecjia_admin {
 	    /* 检查权限 */
 	    $this->admin_priv('commission_order');
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/admin/init')));
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单分成', 'commission')));
-	    $this->assign('ur_here', __('订单分成列表', 'commission'));
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单结算', 'commission')));
+	    $this->assign('ur_here', __('订单结算列表', 'commission'));
 	    $this->assign('search_action', RC_Uri::url('commission/admin/order'));
 	    
 	    //明细
@@ -445,7 +445,7 @@ class admin extends ecjia_admin {
 	    
 	    if ($store_id) {
 	        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
-	        $this->assign('ur_here', $merchants_name.' - ' . __('订单分成列表', 'commission'));
+	        $this->assign('ur_here', $merchants_name.' - ' . __('订单结算列表', 'commission'));
 	    }
 	     
 	    $record_list = $this->db_store_bill_detail->get_bill_record($store_id, $_GET['page'], 20, $filter, 1);
@@ -464,9 +464,9 @@ class admin extends ecjia_admin {
 	    }
 	    
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/admin/init')));
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单分成', 'commission'), RC_Uri::url('commission/admin/order')));
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单结算', 'commission'), RC_Uri::url('commission/admin/order')));
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单结算', 'commission')));
-	    $this->assign('action_link', array('href' => RC_Uri::url('commission/admin/order'), 'text' => __('订单分成', 'commission')));
+	    $this->assign('action_link', array('href' => RC_Uri::url('commission/admin/order'), 'text' => __('订单结算', 'commission')));
 	    $this->assign('ur_here', __('订单结算', 'commission'));
 	    $this->assign('form_action', RC_Uri::url('commission/admin/order_update'));
 	    

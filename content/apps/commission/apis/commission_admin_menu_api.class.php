@@ -64,7 +64,7 @@ class commission_admin_menu_api extends Component_Event_Api {
 
             ecjia_admin::make_admin_menu('02_commission_list', __('月账单', 'commission'), RC_Uri::url('commission/admin/init'), 4)->add_purview('commission_manage'),
 		    ecjia_admin::make_admin_menu('03_commission_list_day', __('日账单', 'commission'), RC_Uri::url('commission/admin/day'), 5)->add_purview('commission_day_manage'),
-		    ecjia_admin::make_admin_menu('04_commission_order_list', __('订单分成', 'commission'), RC_Uri::url('commission/admin/order'), 6)->add_purview('commission_order'),
+		    ecjia_admin::make_admin_menu('04_commission_order_list', __('订单结算', 'commission'), RC_Uri::url('commission/admin/order'), 6)->add_purview('commission_order'),
 		);
 		$menus->add_submenu($submenus);
 		
