@@ -158,15 +158,15 @@ class platform_prize extends ecjia_platform
     			return $this->showmessage(__('奖品信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     		
-    		if ($prize_info['prize_number'] == 0) {
-    			return $this->showmessage(__('奖品数量不足！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
+//    		if ($prize_info['prize_number'] == 0) {
+//    			return $this->showmessage(__('奖品数量不足！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//    		}
     		
     		RC_DB::table('market_activity_log')->where('id', $id)->update(array('issue_status' => 1, 'issue_time' => RC_Time::gmtime()));
-    		if ($prize_info['prize_number'] > 0) {
-    			/*减奖品数量*/
-    			RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
-    		}
+//    		if ($prize_info['prize_number'] > 0) {
+//                /*减奖品数量*/
+//                RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
+//            }
 //    		$this->admin_log('发放奖品' . $info['prize_name'] . '给' . $info['user_name'], 'issue', 'prize');
             $this->admin_log(sprintf(__('发放奖品%s给%s', 'market'), $info['prize_name'], $info['user_name']), 'issue', 'prize');
 

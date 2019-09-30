@@ -174,6 +174,8 @@ textarea{
  */
 .ecjia-margin-t {
 	margin-top: 1em;
+	border-radius: .8rem;
+	margin: .5rem;
 }
 .ecjia-margin-b {
 	margin-bottom: 1em;

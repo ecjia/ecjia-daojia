@@ -107,7 +107,7 @@ class market_shake_module extends api_front implements api_interface {
 		
 		if ($prize_num == 0) {
 			//规定时间抽奖次数超过设定的次数;
-			return new ecjia_error('activity_limit', '活动次数太频繁，请稍后再来！');
+			return new ecjia_error('activity_limit', '活动次数已用完，请稍后再试！');
 		}
 		
 		//填写参与记录
@@ -285,7 +285,7 @@ class market_shake_module extends api_front implements api_interface {
 		//规定时间未超出设定的次数；更新抽奖次数，更新抽奖时间
 		if (! empty($model)) {
 			$time = RC_Time::gmtime();
-			$limit_count_new = $model->lottery_num + 1;
+			$limit_count_new = $model['lottery_num'] + 1;
 			RC_DB::table('market_activity_lottery')->update(['update_time' => $time, 'lottery_num' => $limit_count_new]);
 		} else {
 			$this->_resetLotteryOverCount($user_id, $market_activity_info);

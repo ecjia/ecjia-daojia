@@ -292,9 +292,9 @@ class admin extends ecjia_admin
         $this->admin_priv('activity_record_manage');
 
         $this->assign('action_link', array('text' => __('返回营销活动', 'market'), 'href' => RC_Uri::url('market/admin/init')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('查看活动记录', 'market')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('抽奖记录', 'market')));
 
-        $this->assign('ur_here', __('添加活动', 'market'));
+        $this->assign('ur_here', __('抽奖记录', 'market'));
 
         $activity_code = trim($_GET['code']);
         $this->assign('action_link', array('href' => RC_Uri::url('market/admin/activity_detail', array('code' => $activity_code)), 'text' => __('返回活动详情', 'market')));
