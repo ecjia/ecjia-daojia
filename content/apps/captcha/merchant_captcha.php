@@ -56,7 +56,7 @@ class merchant_captcha extends ecjia_merchant {
 	}
 
 	public function init() {
-		$code = isset($_GET['code']) ? remove_xss($_GET['code']) : '';
+		$code = isset($_GET['code']) ? $_GET['code'] : '';
 
 		$captcha = RC_Loader::load_app_class('captcha_method');
 		$captcha->captcha_style_image($code);
