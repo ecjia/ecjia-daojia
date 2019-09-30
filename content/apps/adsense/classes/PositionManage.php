@@ -215,7 +215,7 @@ class PositionManage
                 }
                 
                 $result = $adsModel->get(['ad_id', 'ad_name', 'ad_code', 'ad_link', 'start_time', 'end_time', 'sort_order']);
-
+				
                 $result = \RC_Hook::apply_filters('filter_adsense_group_data', $result->toArray());
 
                 if (count($result) > 0) {
@@ -226,7 +226,11 @@ class PositionManage
                 }
             })->filter();
             
-            return $result->toArray();
+            $result = $result->toArray();
+
+            $result = array_merge($result);
+
+            return $result;
         }
 
     }

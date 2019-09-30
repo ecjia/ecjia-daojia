@@ -224,8 +224,10 @@ class MerchantPositionManage
                     return null;
                 }
             })->filter();
-
-            return $result->toArray();
+			
+            $result = $result->toArray();
+            $result = array_merge($result);
+            return $result;
         }
 
     }
