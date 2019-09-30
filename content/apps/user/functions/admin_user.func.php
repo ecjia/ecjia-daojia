@@ -288,6 +288,7 @@ function get_user_surplus($user_id)
     return RC_DB::table('account_log')->where('user_id', $user_id)->sum('user_money');
 }
 
+
 /**
  * 查询会员余额的操作记录
  *
@@ -306,8 +307,10 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '', $is_pa
     if (!empty($process_type)) {
         if ($process_type == 'deposit') {
             $db->where('process_type', SURPLUS_SAVE);
-        } else {
+        } elseif ($process_type == 'raply') {
             $db->where('process_type', SURPLUS_RETURN);
+        } elseif ($process_type == 'affiliate') {
+            $db->where('process_type', SURPLUS_AFFILIATE);
         }
     } else {
         $db->whereIn('process_type', array(SURPLUS_SAVE, SURPLUS_RETURN));
@@ -343,10 +346,12 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '', $is_pa
             $rows['formatted_pay_fee']     = price_format($rows['pay_fee'], false);
 
             /* 会员的操作类型： 冲值，提现 */
-            if ($rows['process_type'] == 0) {
+            if ($rows['process_type'] == SURPLUS_SAVE) {
                 $rows['type'] = __('充值', 'user');
-            } else {
+            } else if ($rows['process_type'] == SURPLUS_RETURN) {
                 $rows['type'] = __('提现', 'user');
+            } else if ($rows['process_type'] == SURPLUS_AFFILIATE) {
+                $rows['type'] = __('推广', 'user');
             }
 
             /* 支付方式的ID */

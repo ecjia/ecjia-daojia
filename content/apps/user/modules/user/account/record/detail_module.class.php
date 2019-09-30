@@ -107,8 +107,22 @@ class user_account_record_detail_module extends api_front implements api_interfa
                 $pay_name = $account_info['bank_name'] . ' (' . $account_info['cardholder'] . ')';
             } else {
                 $bank_card_str = substr($account_info['bank_card'], -4);
-                $pay_name      = $account_info['bank_name'] . ' (' . $bank_card_str . ')';
+                if($bank_card_str) {
+                    $pay_name      = $account_info['bank_name'] . ' (' . $bank_card_str . ')';
+                }
             }
+
+            $process_type_list = [
+                SURPLUS_SAVE => 'deposit',
+                SURPLUS_RETURN => 'withdraw',
+                SURPLUS_AFFILIATE => 'affiliate',
+            ];
+
+            $process_type_label_list = [
+                SURPLUS_SAVE => '充值',
+                SURPLUS_RETURN => '提现',
+                SURPLUS_AFFILIATE => '推广',
+            ];
 
             $format_data = array(
                 'account_id'       => intval($account_info['id']),
@@ -116,10 +130,10 @@ class user_account_record_detail_module extends api_front implements api_interfa
                 'user_id'          => intval($account_info['user_id']),
                 'admin_user'       => !empty($account_info['admin_user']) ? trim($account_info['admin_user']) : '',
                 'amount'           => $account_info['amount'],
-                'formatted_amount' => price_format(abs($account_info['amount']), false),
+                'formatted_amount' => price_format(($account_info['amount']), false),
                 'user_note'        => empty($account_info['user_note']) ? '' : $account_info['user_note'],
-                'type'             => $account_info['process_type'] == 0 ? 'deposit' : 'withdraw',
-                'lable_type'       => $account_info['process_type'] == 0 ? __('充值', 'user') : __('提现', 'user'),
+                'type'             => array_get($process_type_list, $account_info['process_type']),
+                'lable_type'       => array_get($process_type_label_list, $account_info['process_type']),
                 'pay_name'         => $account_info['process_type'] == 0 ? (empty($payment_info['pay_name']) ? '' : $payment_info['pay_name']) : $pay_name,
 
                 'pay_id'                => empty($payment_info['pay_id']) ? '' : intval($payment_info['pay_id']),

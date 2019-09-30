@@ -93,7 +93,7 @@
                 },
                 messages: {
                     username: {
-                        required: js_lang.username_required
+                        required: js_lang.username_required,
                     },
                     mobile_phone: {
                         required: js_lang.mobile_phone_required,
@@ -172,16 +172,16 @@
                 },
                 messages: {
                     rank_name: {
-                        required: js_lang.rank_name_required
+                        required: js_lang.username_required
                     },
                     min_points: {
-                        required: js_lang.min_points_required
+                        required: js_lang.min_points_confirm
                     },
                     max_points: {
-                        required: js_lang.max_points_required
+                        required: js_lang.max_points_confirm
                     },
                     discount: {
-                        required: js_lang.discount_required
+                        required: js_lang.discount_required_confirm
                     }
                 },
                 submitHandler: function () {
@@ -217,10 +217,10 @@
                 },
                 messages: {
                     reg_field_name: {
-                        required: js_lang.reg_field_name_required
+                        required: js_lang.reg_field_name_confirm
                     },
                     reg_field_order: {
-                        required: js_lang.reg_field_order_required
+                        required: js_lang.reg_field_order_confirm
                     }
                 },
                 submitHandler: function () {

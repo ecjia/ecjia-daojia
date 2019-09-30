@@ -72,7 +72,7 @@ class user_account_record_module extends api_front implements api_interface
         $size         = $this->requestData('pagination.count', 15);
         $page         = $this->requestData('pagination.page', 1);
         $process_type = $this->requestData('type');
-        $type         = array('', 'deposit', 'raply');
+        $type         = array('', 'deposit', 'raply', 'affiliate');
         if (!in_array($process_type, $type)) {
             return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
         }
