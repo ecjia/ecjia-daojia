@@ -138,7 +138,6 @@ class mp_dzp_init extends PluginPageController implements PluginPageInterface
         		'just_little'	=> __('就差一点', 'mp_dzp'),
         		'congratulations'	=> __('恭喜中了', 'mp_dzp'),
         		'get_award'			=> __('快去领奖吧', 'mp_dzp'),
-        		'no_pumping'		=> __('没有抽中', 'mp_dzp'),
         		'ok'				=> __('确定', 'mp_dzp'),
         		'tip'				=> __('提示', 'mp_dzp'),
         		'go_to_award'		=> __('去领奖', 'mp_dzp'),
