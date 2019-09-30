@@ -297,8 +297,8 @@ class merchant extends ecjia_merchant {
 		$order_info = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->select('shipping_status', 'pay_status')->first();
 		
 		order_refund::order_action($refund_info['order_id'], OS_RETURNED, $order_info['shipping_status'], $order_info['pay_status'], $action_note, '商家');
-		
-		ecjia_admin::admin_log(sprintf(__('[%s]结果为 %s', 'refund'), $refund_info['refund_sn'], $log_msg), 'check', 'refund_order');
+
+        ecjia_merchant::admin_log(sprintf(__('[%s]结果为 %s', 'refund'), $refund_info['refund_sn'], $log_msg), 'check', 'refund_order');
 		
 		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('refund/merchant/refund_detail', array('refund_id' => $refund_id))));
 	}
@@ -597,7 +597,7 @@ class merchant extends ecjia_merchant {
 		OrderStatusLog::return_confirm_receive(array('order_id' => $order_id, 'status' => $return_status));
 		
 		$refund_sn = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('refund_sn');
-		ecjia_admin::admin_log(sprintf(__('[%s]结果为 %s', 'refund'), $refund_sn, $log_msg), 'check', 'refund_order');
+		ecjia_merchant::admin_log(sprintf(__('[%s]结果为 %s', 'refund'), $refund_sn, $log_msg), 'check', 'refund_order');
 		
 		return $this->showmessage(__('操作成功', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/merchant/return_detail', array('refund_id' => $refund_id))));
 	}
