@@ -125,11 +125,11 @@ class admin extends ecjia_admin {
 		
 		$list 			  = !empty($_GET['list']) ? $_GET['list'] : 1;
 		$comment_id 	  = $_GET['comment_id'];
-		$reply_content    = $_GET['reply_content'];
+		$reply_content    = trim($_GET['reply_content']);
 		$status			  = $_GET['status'];
 		$db_comment_reply = RC_DB::table('comment_reply');
 		if(empty($reply_content)){
-			$reply_content=__('感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。', 'comment');
+			$reply_content = __('感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。', 'comment');
 		}
 		$data = array(
 				'comment_id' 	=> $comment_id,
@@ -154,7 +154,7 @@ class admin extends ecjia_admin {
 				$pjaxurl = RC_Uri::url('comment/admin/init');
 			}
 		}
-		return $this->showmessage(__('回复成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $pjaxurl);
+		return $this->showmessage(__('回复成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 	}
 	
 	/**

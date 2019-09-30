@@ -103,8 +103,8 @@ class mh_comment extends ecjia_merchant {
 	    	$this->assign('goods_id',  $goods_id);
 	    }
 
-	    $this->assign('select_rank', remove_xss($_GET['select_rank']));
-	    $this->assign('select_img',  remove_xss($_GET['select_img']));
+	    $this->assign('select_rank', $_GET['select_rank']);
+	    $this->assign('select_img',  $_GET['select_img']);
 
         return $this->display('mh_comment_list.dwt');
 	}
@@ -116,7 +116,7 @@ class mh_comment extends ecjia_merchant {
 	    $this->admin_priv('mh_comment_manage', ecjia::MSGTYPE_JSON);
 	    
 	    $comment_id 	= intval($_GET['comment_id']);
-	    $reply_content  = remove_xss($_GET['reply_content']);
+	    $reply_content  = $_GET['reply_content'];
 	    if(empty($reply_content)){
 	    	$reply_content=__('感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。', 'comment');
 	    }
@@ -285,7 +285,7 @@ class mh_comment extends ecjia_merchant {
 		
 		//有无晒图
 		if (isset($_GET['has_img']) && (!empty($_GET['has_img']) || $_GET['has_img'] == '0')) {
-		    $db_comment->where(RC_DB::raw('has_image'), '=', remove_xss($_GET['has_img']));
+		    $db_comment->where(RC_DB::raw('has_image'), '=', $_GET['has_img']);
 		    $filter['has_img'] = remove_xss($_GET['has_img']);
 		}
 		

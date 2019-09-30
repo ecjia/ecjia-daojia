@@ -161,7 +161,7 @@
         					   </div>
         					</div>
         					{if $comment_info.store_id neq 0}
-						          <a class="data-pjax btn btn-gebo" href="{$store_url}" class="btn btn-gebo" type="submit">{t domain="comment"}进入店铺评价{/t}</a>
+						          <button class="data-pjax btn" href="{$store_url}" class="btn btn-gebo" type="submit">{t domain="comment"}进入店铺评价{/t}</button>
 						    {/if}
 						</div>
 					</div>
