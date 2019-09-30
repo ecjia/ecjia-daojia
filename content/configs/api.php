@@ -660,18 +660,9 @@ return array(
 	'admin/merchant/goods/product/price/update'					=> 'goods::admin/merchant/goods/product/price/update',					//快速修改货品价格（支持批量修改）
 	'admin/merchant/goods/product/stock/update'					=> 'goods::admin/merchant/goods/product/stock/update',					//快速修改货品库存（支持批量修改）
 
-	
-    /**
-     * 1.0 已经废弃
-     *
-     * article 
-     * goods
-     * 'brand'					=> 'goods::goods/brand',
-     * 'category'               => 'goods::goods/category',
-     * 'comments'				=> 'comment::goods/comments',
-     * 'goods'					=> 'goods::goods/detail',
-     * 'price_range'			=> 'goods::goods/price_range',
-     */
+    //邀请店铺
+    'invite/store/agent/affiliate/account/log'					=> 'affiliate::invite/store/agent/affiliate/account/log',				//代理商推广分佣资金变动明细记录
+    'invite/store/agent/affiliate/account/logdetail'			=> 'affiliate::invite/store/agent/affiliate/account/logdetail',			//代理商推广分佣资金变动明细记录详情
     
 );
 
