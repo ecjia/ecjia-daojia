@@ -254,6 +254,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
             /*返回connect_user表中open_id和access_token*/
             $out['userinfo'] = array(
                 'seller_id'     => $row['store_id'],
+            	'store_id'		=> $row['store_id'],
                 'id'            => $row['user_id'],
                 'username'      => $row['name'],
                 'mobile'        => $row['mobile'],
