@@ -7071,7 +7071,8 @@ footer {
 }
 
 .ecjia-like-goods-list li img {
-    width: 100%;
+    border: 1px solid #eee;
+    width: 100%
 }
 
 .ecjia-goods-name-new {

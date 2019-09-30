@@ -27,22 +27,29 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <p class="record-val">{$sur_amount.order_sn}</p>
         <p class="record-key">{t domain="h5"}订单编号{/t}</p>
 
-        <p class="record-val">{$sur_amount.lable_type}</p>
+        <p class="record-val">{$sur_amount.lable_type}{if $sur_amount.type eq 'affiliate' && $sur_amount.user_note}（{$sur_amount.user_note}）{/if}</p>
         <p class="record-key">{t domain="h5"}交易类型{/t}</p>
 
+        {if $sur_amount.type eq 'affiliate'}
+        <p class="record-val">{$sur_amount.formatted_amount}</p>
+        <p class="record-key">{t domain="h5"}到账金额{/t}</p>
+        {else}
         <p class="record-val">{$sur_amount.formatted_real_amount}</p>
         <p class="record-key">{t domain="h5"}到账金额{/t}</p>
+        {/if}
 
         {if $sur_amount.type eq 'withdraw'}
         <p class="record-val">{$sur_amount.formatted_pay_fee}</p>
         <p class="record-key">{t domain="h5"}手续费用{/t}</p>
         {/if}
 
+        {if $sur_amount.pay_name}
         <p class="record-val">{$sur_amount.pay_name}</p>
         <p class="record-key">{if $sur_amount.type eq 'withdraw'}{t domain="h5"}提现方式{/t}{else}{t domain="h5"}充值方式{/t}{/if}</p>
+        {/if}
 
         <p class="record-val">{$sur_amount.add_time}</p>
-        <p class="record-key">{if $sur_amount.type eq 'withdraw'}{t domain="h5"}申请时间{/t}{else}{t domain="h5"}充值时间{/t}{/if}</p>
+        <p class="record-key">{if $sur_amount.type eq 'withdraw'}{t domain="h5"}申请时间{/t}{elseif $sur_amount.type eq 'deposit'}{t domain="h5"}充值时间{/t}{else}到账时间{/if}</p>
 
     </div>
     {if $sur_amount.pay_status neq '已完成' && $sur_amount.pay_status neq '已取消'}
@@ -60,7 +67,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
             <a class="btn ecjiaf-fr ecjia-fl nopjax external" href="{RC_Uri::url('user/account/recharge_again')}&format_amount={$sur_amount.format_amount}&order_sn={$sur_amount.order_sn}&account_id={$sur_amount.account_id}&payment_id={$sur_amount.payment_id}">{t domain="h5"}继续充值{/t}</a>
         </div>
-        {else}
+        {elseif $sur_amount.type eq 'withdraw'}
         <div class="two-btn btn-bottom">
             <div class="info">
                 <p class="apply-img"></p>

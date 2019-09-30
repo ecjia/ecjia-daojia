@@ -43,6 +43,13 @@ if ('{$arr}'.length != 0) {
 	} else {
 		$('.ecjia-express-user-position').hide();
 	}
+
+    $('.express_mobile').off('click').on('click', function () {
+        let $this = $(this);
+        let tel = $this.attr('tel');
+
+        window.location.href = "tel:" + tel;
+    });
 }
 
 </script>
@@ -59,7 +66,7 @@ if ('{$arr}'.length != 0) {
 					<p>{$info.message}</p>
 				</a>
 				{if $info.status eq 'express_user_pickup' && $order.express_mobile}
-				<a class="tel" href="tel://{$order.express_mobile}"></a>
+                <a class="tel express_mobile" data-tel="{$order.express_mobile}"></a>
 				{/if}
 				{if $express_info && $info.status eq 'express_user_pickup'}
 				<div class="ecjia-express-user-position">

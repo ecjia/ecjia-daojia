@@ -25,7 +25,6 @@
 			ecjia.touch.user.account_bind();
 			ecjia.touch.user.cancel_order();
 			ecjia.touch.user.return_order();
-			ecjia.touch.user.affiliate();
 			ecjia.touch.user.resend_sms();
 			ecjia.touch.user.cancel_account();
             ecjia.touch.user.choose_bank();
@@ -735,6 +734,7 @@
 				}
 			});
 		},
+
 
         delete_withdraw: function () {
             $('.delete_withdraw').off('click').on('click', function (e) {

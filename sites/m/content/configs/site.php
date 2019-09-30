@@ -53,6 +53,7 @@ return array(
 	'use_sub_domain' => false,
     // 站点目录
     'web_path' => '/sites/m/',
-);
+
+    );
 
 // end

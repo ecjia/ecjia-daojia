@@ -117,18 +117,18 @@ var releated_goods = {$releated_goods};
 				</dl>
 			</a>
 			{if $store_info.shop_closed neq 1}
-			<div class="box" id="goods_{$val.id}">
-				<!-- {if $val.specification} -->
-				<div class="goods_attr goods_spec_{$val.id}">
-					<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">{t domain="h5"}选规格{/t}</span>
-					{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
-				</div>
-				<!-- {else} -->
-				<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">{t domain="h5"}减{/t}</span>
-				<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
-				<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">{t domain="h5"}加{/t}</span>
-				<!-- {/if} -->
-			</div>
+				{if $val.specification}
+					<div class="goods_attr goods_spec_{$val.id}">
+						<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">{t domain="h5"}选规格{/t}</span>
+						{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
+					</div>
+				{else}
+					<div class="box" id="goods_{$val.id}">
+						<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">{t domain="h5"}减{/t}</span>
+						<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
+						<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">{t domain="h5"}加{/t}</span>
+					</div>
+				{/if}
 			{/if}
 		</li>
 		<!-- {/if} -->
@@ -230,10 +230,10 @@ var releated_goods = {$releated_goods};
 								</tr>
 							</tbody>
 						</table>
-						<div class="box" id="goods_cart_{$cart.goods_id}">
-							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
+						<div class="box" id="goods_cart_{$cart.goods_id}_{$cart.product_id}">
+							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}" product_id="{$cart.product_id}"></span>
 							<lable class="a5x" {if $cart.is_disabled neq 1}data-toggle="change-number"{/if} rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}" goods_num="{$cart.goods_number}">{$cart.goods_number}</lable>
-							<span class="a5v {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="add-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
+							<span class="a5v {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="add-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}" product_id="{$cart.product_id}"></span>
 						</div>
 					</li>
 					<input type="hidden" name="rec_id" value="{$cart.rec_id}" />
