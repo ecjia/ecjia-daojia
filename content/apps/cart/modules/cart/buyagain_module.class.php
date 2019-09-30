@@ -97,6 +97,7 @@ class cart_buyagain_module extends api_front implements api_interface {
     	$goods_list = array();
     	$goods_list = EM_order_goods($order_id);
     	if($goods_list) {
+    	    $error = 0;
     	    foreach ($goods_list as $goods) {
     	        $goods_spec = explode(',', $goods['goods_attr_id']);
     	        $goods_spec = !empty($goods_spec) ? $goods_spec : array();
@@ -104,9 +105,14 @@ class cart_buyagain_module extends api_front implements api_interface {
     	        
     	        // 更新：添加到购物车
     	        if (is_ecjia_error($result)){
-    	            return $result;
-    	        } 
+                    $error++;
+//    	            return $result;
+    	        }
     	    }
+    	    //成功商品大于1件就 错误忽略 -190918
+            if($error == count($goods_list)) {
+                return $result;
+            }
     	}
     	
 	     
