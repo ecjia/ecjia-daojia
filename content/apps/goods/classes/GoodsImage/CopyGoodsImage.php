@@ -120,6 +120,8 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
             try {
                 //去除路径后面?999
                 $original_path = str_before($original_path, '?');
+                $new_original_path = str_before($new_original_path, '?');
+
                 $disk->copy($original_path, $new_original_path);
             }
             catch (FileNotFoundException $e) {
@@ -132,7 +134,10 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
 
         if (!empty($img_path)) {
             try {
-                $disk->copy($original_path, $new_img_path);
+                $img_path = str_before($img_path, '?');
+                $new_img_path = str_before($new_img_path, '?');
+
+                $disk->copy($img_path, $new_img_path);
             }
             catch (FileNotFoundException $e) {
                 $new_img_path = '';
@@ -144,7 +149,10 @@ class CopyGoodsImage implements GoodsImageFormattedInterface
 
         if (!empty($thumb_path)) {
             try {
-                $disk->copy($original_path, $new_thumb_path);
+                $thumb_path = str_before($thumb_path, '?');
+                $new_thumb_path = str_before($new_thumb_path, '?');
+
+                $disk->copy($thumb_path, $new_thumb_path);
             }
             catch (FileNotFoundException $e) {
                 $new_thumb_path = '';
