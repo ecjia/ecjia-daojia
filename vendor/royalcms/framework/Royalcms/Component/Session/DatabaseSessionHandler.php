@@ -1,0 +1,148 @@
+<?php
+
+namespace Royalcms\Component\Session;
+
+use Royalcms\Component\DateTime\Carbon;
+use SessionHandlerInterface;
+use Royalcms\Component\Database\ConnectionInterface;
+
+class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareInterface
+{
+    /**
+     * The database connection instance.
+     *
+     * @var \Royalcms\Component\Database\ConnectionInterface
+     */
+    protected $connection;
+
+    /**
+     * The name of the session table.
+     *
+     * @var string
+     */
+    protected $table;
+
+    /**
+     * The number of minutes the session should be valid.
+     *
+     * @var int
+     */
+    protected $minutes;
+
+    /**
+     * The existence state of the session.
+     *
+     * @var bool
+     */
+    protected $exists;
+
+    /**
+     * Create a new database session handler instance.
+     *
+     * @param  \Royalcms\Component\Database\ConnectionInterface  $connection
+     * @param  string  $table
+     * @param  int  $minutes
+     * @return void
+     */
+    public function __construct(ConnectionInterface $connection, $table, $minutes)
+    {
+        $this->table = $table;
+        $this->minutes = $minutes;
+        $this->connection = $connection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function open($savePath, $sessionName)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function read($sessionId)
+    {
+        $session = (object) $this->getQuery()->find($sessionId);
+
+        if (isset($session->last_activity)) {
+            if ($session->last_activity < Carbon::now()->subMinutes($this->minutes)->getTimestamp()) {
+                $this->exists = true;
+
+                return;
+            }
+        }
+
+        if (isset($session->payload)) {
+            $this->exists = true;
+
+            return base64_decode($session->payload);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function write($sessionId, $data)
+    {
+        if ($this->exists) {
+            $this->getQuery()->where('id', $sessionId)->update([
+                'payload' => base64_encode($data), 'last_activity' => time(),
+            ]);
+        } else {
+            $this->getQuery()->insert([
+                'id' => $sessionId, 'payload' => base64_encode($data), 'last_activity' => time(),
+            ]);
+        }
+
+        $this->exists = true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function destroy($sessionId)
+    {
+        $this->getQuery()->where('id', $sessionId)->delete();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function gc($lifetime)
+    {
+        $this->getQuery()->where('last_activity', '<=', time() - $lifetime)->delete();
+    }
+
+    /**
+     * Get a fresh query builder instance for the table.
+     *
+     * @return \Royalcms\Component\Database\Query\Builder
+     */
+    protected function getQuery()
+    {
+        return $this->connection->table($this->table);
+    }
+
+    /**
+     * Set the existence state for the session.
+     *
+     * @param  bool  $value
+     * @return $this
+     */
+    public function setExists($value)
+    {
+        $this->exists = $value;
+
+        return $this;
+    }
+}
