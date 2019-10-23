@@ -169,7 +169,7 @@ class merchant extends ecjia_merchant {
                 $list[$key]['add_time_format'] = $value['add_time_format'];
 
             }
-            $file = '商家会员列表.xls';
+            $file = 'customer_list.xls';
         }
 
         $item = $list;
@@ -354,6 +354,7 @@ class merchant extends ecjia_merchant {
                 $users[] = $rows;
             }
         }
+
         return array('list' => $users, 'filter' => $filter, 'count' => $type_count, 'page' => $page->show(2), 'desc' => $page->page_desc());
     }
 
