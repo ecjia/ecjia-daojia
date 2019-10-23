@@ -539,6 +539,7 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
     {
         $file = str_replace(\RC_Upload::upload_path(), '', $file);
         $file = str_replace(DS, '/', $file);
+        $file = ltrim($file, '/');
         return $file;
     }
 
