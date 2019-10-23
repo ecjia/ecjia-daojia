@@ -193,6 +193,7 @@ class ApiConst
     const INVITE_STORE_AGENT_AFFILIATE_ACCOUNT_LOG   = 'invite/store/agent/affiliate/account/log';//加入二级代理商
     const INVITE_STORE_AGENT_AFFILIATE_ACCOUNT_LOGDETAIL   = 'invite/store/agent/affiliate/account/logdetail';//加入二级代理商
 
+    const INVITE_STORE_AGENT_AFFILIATE_RECORDS   = 'invite/store/agent/affiliate/records';
 
     //==============================================
     // 关联
@@ -306,6 +307,11 @@ class ApiConst
     //订单分成
     const AFFILIATE_ORDER_RECORDS = 'affiliate/order/records';
     const AFFILIATE_ORDER_DETAIL  = 'affiliate/order/detail';
+
+    const USER_AGENT_USERINFO               = 'user/agent/userinfo'; //推广员推广中心信息
+    const INVITE_STORE_AGENT_INVITE_STORE   = 'invite/store/agent/invite/store';//加入二级代理商
+
+
 }
 
 // end
