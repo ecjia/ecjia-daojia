@@ -297,8 +297,8 @@
         	});
         	
         	$('.edit_shipping').off('click').on('click', function() {
-        		var length = $('.content-area-list').find('input').length;
-        		if (length == 0) {
+        		let length = $('.content-area-list').find('input').length;
+        		if (length === 0) {
         			smoke.alert(js_lang.select_region);
         			return false;
         		}
@@ -307,15 +307,18 @@
         			shipping_id = $this.attr('data-shipping'),
         			shipping_area_id = $this.attr('data-area');
         		$('.add-shipping-btn').attr('data-type', 'edit');
-        		$('form[name="shippingForm"]').find('input[name="regions[]"]').remove();
+        		let shippingForm = $('form[name="shippingForm"]');
+        		let theForm = $('form[name="theForm"]');
+
+                shippingForm.find('input[name="regions[]"]').remove();
         		
-        		var shipping_name = $('form[name="theForm"]').find('input[name="temp_name"]').val();
-            	$('form[name="shippingForm"]').find('input[name="temp_name"]').val(shipping_name);
-        		$('form[name="shippingForm"]').find('input[name="shipping_area_id"]').val(shipping_area_id);
-        		$('form[name="shippingForm"]').find('input[name="shipping"]').val(shipping_id);
+        		var shipping_name = theForm.find('input[name="temp_name"]').val();
+                shippingForm.find('input[name="temp_name"]').val(shipping_name);
+                shippingForm.find('input[name="shipping_area_id"]').val(shipping_area_id);
+                shippingForm.find('input[name="shipping"]').val(shipping_id);
         		
-        		var $temp = $('form[name="theForm"]').find('input[name="regions[]"]');
-            	$('form[name="shippingForm"]').append($temp.clone(true));
+        		var $temp = theForm.find('input[name="regions[]"]');
+                shippingForm.append($temp.clone(true));
             	
             	$('select[name="shipping_id"] option[value='+ shipping_id +']').attr('selected', true);
         		$('select[name="shipping_id"]').trigger("liszt:updated").trigger("change");
