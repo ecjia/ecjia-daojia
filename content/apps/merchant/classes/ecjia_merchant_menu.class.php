@@ -155,7 +155,8 @@ class ecjia_merchant_menu extends RC_Object {
      * 清除后台菜单缓存
      */
     public function clean_admin_menu_cache() {
-        RC_Cache::app_cache_delete($this->cacheKey, 'merchant');
+        $staff_id = $_SESSION['staff_id'];
+        RC_Cache::userdata_cache_delete($this->cacheKey, $staff_id, 'merchant');
     }
 
     /**
@@ -163,7 +164,8 @@ class ecjia_merchant_menu extends RC_Object {
      */
     protected function load_menu()
     {
-        $cache_menus = RC_Cache::app_cache_get($this->cacheKey, 'merchant');
+        $staff_id = $_SESSION['staff_id'];
+        $cache_menus = RC_Cache::userdata_cache_get($this->cacheKey, $staff_id, 'merchant');
         if (! empty($cache_menus)) {
             return $cache_menus;
         }
@@ -172,7 +174,7 @@ class ecjia_merchant_menu extends RC_Object {
 
         $menus['merchant'] = $this->_request_admin_menu($apps, 'merchant_menu');
 
-        RC_Cache::app_cache_set($this->cacheKey, $menus, 'merchant');
+        RC_Cache::userdata_cache_set($this->cacheKey, $menus, $staff_id, 'merchant');
 
         return $menus;
     }
