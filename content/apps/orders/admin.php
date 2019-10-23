@@ -200,6 +200,7 @@ class admin extends ecjia_admin
         } elseif (isset($_GET['order_sn'])) {
             $order_sn = trim($_GET['order_sn']);
             $order    = order_info(0, $order_sn);
+            $order_id = $order['order_id'];
         }
         if (empty($order)) {
             return $this->showmessage(__('该订单不存在', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回订单列表', 'orders'), 'href' => RC_Uri::url('orders/admin/init')))));

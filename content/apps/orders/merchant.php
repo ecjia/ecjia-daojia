@@ -110,12 +110,12 @@ class merchant extends ecjia_merchant
         RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
-        RC_Script::enqueue_script('order_list', RC_App::apps_url('statics/js/merchant_orders.js', __FILE__));
+        RC_Script::enqueue_script('order_list', RC_App::apps_url('statics/js/merchant_orders.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('aristo', RC_Uri::admin_url('statics/lib/jquery-ui/css/Aristo/Aristo.css'), array(), false, false);
 
         RC_Script::enqueue_script('jq_quicksearch', RC_Uri::admin_url('statics/lib/multi-select/js/jquery.quicksearch.js'), array('jquery'), false, true);
         RC_Style::enqueue_style('merchant_orders', RC_App::apps_url('statics/css/merchant_orders.css', __FILE__), array(), false, false);
-        RC_Script::enqueue_script('order_delivery', RC_App::apps_url('statics/js/merchant_order_delivery.js', __FILE__));
+        RC_Script::enqueue_script('order_delivery', RC_App::apps_url('statics/js/merchant_order_delivery.js', __FILE__), array(), false, 1);
 
         RC_Script::enqueue_script('js-sprintf');
         RC_Script::localize_script('order_list', 'js_lang', config('app-orders::jslang.merchant_page'));
@@ -399,11 +399,14 @@ class merchant extends ecjia_merchant
         if ($order_model == 'default') {
             $url = RC_Uri::url('orders/merchant/init');
         }
+
         $extension_code_label = Ecjia\App\Orders\OrderExtensionCode::getExtensionCodeLabel($order_model);
         $nav_here             = in_array($order_model, array('default', 'storebuy', 'storepickup', 'group_buy', 'cashdesk')) ? $extension_code_label : __('配送订单', 'orders');
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, $url));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单信息', 'orders')));
+
+        $this->assign('extension_code', $order['extension_code']);
 
         /*发票抬头和发票识别码处理*/
         if (!empty($order['inv_payee'])) {
@@ -1038,11 +1041,32 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('order_view', ecjia::MSGTYPE_JSON);
         $keywords   = is_numeric($_POST['keywords']) ? $_POST['keywords'] : 0;
-        $ordercount = "order_id = " . $keywords . " OR order_sn = " . $keywords . "";
-        $query      = RC_DB::table('order_info')->whereRaw($ordercount)->first();
+        $extension_code = remove_xss($_POST['extension_code']);
+
+        $db = RC_DB::table('order_info')
+            ->whereRaw("order_id = " . $keywords . " OR order_sn = " . $keywords . "");
+
+        if(! empty($extension_code))
+        {
+            $db = $db->where('extension_code', $extension_code);
+        }
+
+        $query = $db->first();
+
+        if ($extension_code == 'storebuy') {
+            $extension_name = __('到店订单信息', 'orders');
+        } elseif ($extension_code == 'cashdesk') {
+            $extension_name = __('收银台订单信息', 'orders');
+        } elseif ($extension_code == 'storepickup') {
+            $extension_name = __('自提订单信息', 'orders');
+        } elseif ($extension_code == 'group_buy') {
+            $extension_name = __('团购订单信息', 'orders');
+        } else {
+            $extension_name = __('配送订单信息', 'orders');
+        }
 
         if ($query['store_id'] != $_SESSION['store_id']) {
-            return $this->showmessage(__('无法找到对应的订单！', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('无法找到对应的' . $extension_name . '！', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (!empty($query)) {
             $url = RC_Uri::url('orders/merchant/info', array('order_id' => $query['order_id']));
@@ -2297,12 +2321,12 @@ class merchant extends ecjia_merchant
         }
 
         /* 取得订单id（可能是多个，多个sn）和操作备注（可能没有） */
-        if (isset($_GET['order_id'])) {
+        if (isset($_REQUEST['order_id'])) {
             /* 判断是一个还是多个 */
-            if (is_array($_GET['order_id'])) {
-                $order_id = implode(',', $_GET['order_id']);
+            if (is_array($_REQUEST['order_id'])) {
+                $order_id = implode(',', $_REQUEST['order_id']);
             } else {
-                $order_id = $_GET['order_id'];
+                $order_id = $_REQUEST['order_id'];
             }
         }
         /* 确认 */
@@ -2402,12 +2426,12 @@ class merchant extends ecjia_merchant
         $this->admin_priv('order_os_edit', ecjia::MSGTYPE_JSON);
         $order_id = '';
         /* 取得订单id（可能是多个，多个sn）和操作备注（可能没有） */
-        if (isset($_POST['order_id'])) {
+        if (isset($_REQUEST['order_id'])) {
             /* 判断是一个还是多个 */
-            if (is_array($_POST['order_id'])) {
-                $order_id = implode(',', $_POST['order_id']);
+            if (is_array($_REQUEST['order_id'])) {
+                $order_id = implode(',', $_REQUEST['order_id']);
             } else {
-                $order_id = $_POST['order_id'];
+                $order_id = $_REQUEST['order_id'];
             }
         }
 
@@ -2415,8 +2439,8 @@ class merchant extends ecjia_merchant
         $action_note = isset($_POST['action_note']) ? trim($_POST['action_note']) : '';
         $operation   = isset($_POST['operation']) ? $_POST['operation'] : ''; // 订单操作
 
-        if (!empty($_POST['order_id'])) {
-            $order_id = $_POST['order_id'];
+        if (!empty($_REQUEST['order_id'])) {
+            $order_id = $_REQUEST['order_id'];
 
             $db_order_info = RC_DB::table('order_info');
             if (is_array($order_id) || strpos($order_id, ',')) {

@@ -56,15 +56,14 @@ class orders_admin_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => __('编辑发货状态', 'orders'), 'action_code' => 'order_ss_edit', 'relevance' => ''),
-            array('action_name' => __('编辑付款状态', 'orders'), 'action_code' => 'order_ps_edit', 'relevance' => ''),
-            array('action_name' => __('编辑订单状态', 'orders'), 'action_code' => 'order_os_edit', 'relevance' => ''),
-            array('action_name' => __('添加编辑订单', 'orders'), 'action_code' => 'order_edit', 'relevance' => ''),
+            // array('action_name' => __('编辑发货状态', 'orders'), 'action_code' => 'order_ss_edit', 'relevance' => ''),
+            // array('action_name' => __('编辑订单状态', 'orders'), 'action_code' => 'order_os_edit', 'relevance' => ''),
+            // array('action_name' => __('添加编辑订单', 'orders'), 'action_code' => 'order_edit', 'relevance' => ''),
             array('action_name' => __('订单管理', 'orders'), 'action_code' => 'order_manage', 'relevance' => ''),
 
             array('action_name' => __('查看已完成订单', 'orders'), 'action_code' => 'order_view_finished', 'relevance' => ''),
             array('action_name' => __('退款申请管理', 'orders'), 'action_code' => 'repay_manage', 'relevance' => ''),
-            array('action_name' => __('缺货登记管理', 'orders'), 'action_code' => 'booking', 'relevance' => ''),
+            // array('action_name' => __('缺货登记管理', 'orders'), 'action_code' => 'booking', 'relevance' => ''),
 
             array('action_name' => __('客户流量统计', 'orders'), 'action_code' => 'client_flow_stats', 'relevance' => ''),
             array('action_name' => __('查看发货单', 'orders'), 'action_code' => 'delivery_view', 'relevance' => ''),

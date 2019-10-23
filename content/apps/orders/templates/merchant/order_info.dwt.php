@@ -281,7 +281,9 @@ ecjia.merchant.order.info();
 
 		<div class="form-group order-info-search">
 			<input type="text" name="keywords" class="form-control" placeholder='{t domain="orders"}请输入订单号或者订单id{/t}' />
-			<button class="btn btn-primary queryinfo" type="button" data-url='{url path="orders/merchant/query_info"}'>{t domain="orders"}搜索{/t}</button>
+            <input type="hidden" name="extension_code" value="{$extension_code}"/>
+
+            <button class="btn btn-primary queryinfo" type="button" data-url='{url path="orders/merchant/query_info"}'>{t domain="orders"}搜索{/t}</button>
 
 		</div>
 		<div class="form-group pull-right">

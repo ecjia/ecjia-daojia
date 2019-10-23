@@ -189,7 +189,7 @@
 							<!-- {/foreach} -->
 						</tbody>
 					</table>
-				</div>11
+				</div>
 			</div>
 			
 			<div id="accordion2" class="panel panel-default">
