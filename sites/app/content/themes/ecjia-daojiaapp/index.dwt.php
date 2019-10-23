@@ -81,6 +81,11 @@
                             <span class="mr-20">
                                 <img src="{$mobile_iphone_qrcode}" alt="" width="200" height="200">{t domain="ecjia-daojiaapp"}扫一扫，体验APP{/t}
                             </span>
+                            {elseif $mobile_android_qrcode}
+                            <span class="mr-20">
+                                <img src="{$mobile_android_qrcode}" alt="" width="200" height="200">{t domain="ecjia-daojiaapp"}扫一扫，体验APP{/t}
+                            </span>
+                            {else}
                             {/if}
                             {if $touch_qrcode}
                             <span style="margin-right:32px;">
