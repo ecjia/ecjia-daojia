@@ -122,6 +122,10 @@ class user_signin_module extends api_front implements api_interface
                 }
             }
         } else {
+        	if (empty($name) || empty($password)) {
+        		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'user'), __CLASS__));
+        	}
+        	
             $is_mobile = false;
 
             /* 判断是否为手机号*/
@@ -137,7 +141,7 @@ class user_signin_module extends api_front implements api_interface
                 if (!empty($check_user)) {
                     if (ecjia_integrate::login($check_user, $password)) {
                         $is_mobile = true;
-                    }
+                    } 
                 }
             }
 

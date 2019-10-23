@@ -788,8 +788,8 @@ function EM_user_info($user_id, $mobile = '')
         $now_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
     }
 
-    $user_info['user_rank_name'] = $now_rank['rank_name'];
-    $user_info['user_rank_id']   = $now_rank['rank_id'];
+    $user_info['user_rank_name'] = empty($now_rank['rank_name']) ? '注册用户' : $now_rank['rank_name'];
+    $user_info['user_rank_id']   = empty($now_rank['rank_id']) ? 0 : $now_rank['rank_id'];
     $level                       = 1;
     if ($now_rank['special_rank'] == 0 && $now_rank['min_points'] == 0) {
         $level = 0;
