@@ -45,7 +45,7 @@ class WeChatServiceProvider extends ServiceProvider {
 	 */
 	protected function registerWeChat()
 	{
-	    $this->royalcms->bindShared('wechat', function($royalcms)
+	    $this->royalcms->singleton('wechat', function($royalcms)
 	    {
             return new WeChatContainer();
 	    });
