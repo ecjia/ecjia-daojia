@@ -6257,6 +6257,44 @@ class Container implements ArrayAccess, ContainerContract
 }
 }
 
+namespace Royalcms\Component\ClassLoader {
+class ClassManager
+{
+    protected static $loader;
+    public static function import($class)
+    {
+        $loader = self::auto_loader_class();
+        if (!$loader->loadClass($class)) {
+            rc_throw_exception($class . __('加载失败'));
+        }
+    }
+    public static function auto_loader_class()
+    {
+        if (!isset(self::$loader)) {
+            $dirname = dirname(ROYALCMS_PATH) . DS . 'framework' . DS;
+            require_once $dirname . 'Royalcms/Component/ClassLoader/ClassLoader.php';
+            $dir = rtrim(ROYALCMS_PATH, DIRECTORY_SEPARATOR);
+            self::$loader = new ClassLoader();
+            self::$loader->registerPrefix('Component', $dir . '/Royalcms');
+            self::$loader->register();
+        }
+        return self::$loader;
+    }
+    public static function addNamespace($namespace, $directorie)
+    {
+        self::$loader->registerNamespace($namespace, $directorie);
+    }
+    public static function addNamespaces(array $namespaces)
+    {
+        self::$loader->registerNamespaces($namespaces);
+    }
+    public static function getNamespaces()
+    {
+        return self::$loader->getNamespaces();
+    }
+}
+}
+
 namespace Royalcms\Component\Contracts\Container {
 use Closure;
 interface Container
@@ -24802,7 +24840,7 @@ class WeChatServiceProvider extends ServiceProvider
     }
     protected function registerWeChat()
     {
-        $this->royalcms->bindShared('wechat', function ($royalcms) {
+        $this->royalcms->singleton('wechat', function ($royalcms) {
             return new WeChatContainer();
         });
     }
@@ -24906,44 +24944,6 @@ class Ip
             $serverip = getenv('SERVER_ADDR');
         }
         return $serverip;
-    }
-}
-}
-
-namespace Royalcms\Component\ClassLoader {
-class ClassManager
-{
-    protected static $loader;
-    public static function import($class)
-    {
-        $loader = self::auto_loader_class();
-        if (!$loader->loadClass($class)) {
-            rc_throw_exception($class . __('加载失败'));
-        }
-    }
-    public static function auto_loader_class()
-    {
-        if (!isset(self::$loader)) {
-            $dirname = dirname(ROYALCMS_PATH) . DS . 'class-loader' . DS;
-            require_once $dirname . 'Royalcms/Component/ClassLoader/ClassLoader.php';
-            $dir = rtrim(ROYALCMS_PATH, DIRECTORY_SEPARATOR);
-            self::$loader = new ClassLoader();
-            self::$loader->registerPrefix('Component', $dir . '/Royalcms');
-            self::$loader->register();
-        }
-        return self::$loader;
-    }
-    public static function addNamespace($namespace, $directorie)
-    {
-        self::$loader->registerNamespace($namespace, $directorie);
-    }
-    public static function addNamespaces(array $namespaces)
-    {
-        self::$loader->registerNamespaces($namespaces);
-    }
-    public static function getNamespaces()
-    {
-        return self::$loader->getNamespaces();
     }
 }
 }
@@ -25173,7 +25173,7 @@ class MiniProgramServiceProvider extends ServiceProvider
     public function register()
     {
         $wechat = $this->royalcms['wechat'];
-        $wechat->bindShared('weapp', function ($wechat) {
+        $wechat->singleton('weapp', function ($wechat) {
             return new MiniProgram($wechat);
         });
     }
@@ -32175,139 +32175,6 @@ class Options implements OptionsInterface
 }
 }
 
-namespace Royalcms\Component\Redis\Connections {
-use Closure;
-abstract class Connection
-{
-    protected $client;
-    public abstract function createSubscription($channels, Closure $callback, $method = 'subscribe');
-    public function client()
-    {
-        return $this->client;
-    }
-    public function subscribe($channels, Closure $callback)
-    {
-        return $this->createSubscription($channels, $callback, __FUNCTION__);
-    }
-    public function psubscribe($channels, Closure $callback)
-    {
-        return $this->createSubscription($channels, $callback, __FUNCTION__);
-    }
-    public function command($method, array $parameters = [])
-    {
-        return call_user_func_array([$this->client, $method], $parameters);
-    }
-    public function __call($method, $parameters)
-    {
-        return $this->command($method, $parameters);
-    }
-}
-}
-
-namespace Royalcms\Component\Redis\Connections {
-use Closure;
-class PredisConnection extends Connection
-{
-    public function __construct($client)
-    {
-        $this->client = $client;
-    }
-    public function createSubscription($channels, Closure $callback, $method = 'subscribe')
-    {
-        $loop = $this->pubSubLoop();
-        call_user_func_array([$loop, $method], (array) $channels);
-        foreach ($loop as $message) {
-            if ($message->kind === 'message' || $message->kind === 'pmessage') {
-                call_user_func($callback, $message->payload, $message->channel);
-            }
-        }
-        unset($loop);
-    }
-}
-}
-
-namespace Royalcms\Component\Redis\Connectors {
-use Predis\Client;
-use Royalcms\Component\Support\Arr;
-use Royalcms\Component\Redis\Connections\PredisConnection;
-use Royalcms\Component\Redis\Connections\PredisClusterConnection;
-class PredisConnector
-{
-    public function connect(array $config, array $options)
-    {
-        $formattedOptions = array_merge(['timeout' => 10.0], $options, Arr::pull($config, 'options', []));
-        return new PredisConnection(new Client($config, $formattedOptions));
-    }
-    public function connectToCluster(array $config, array $clusterOptions, array $options)
-    {
-        $clusterSpecificOptions = Arr::pull($config, 'options', []);
-        return new PredisClusterConnection(new Client(array_values($config), array_merge($options, $clusterOptions, $clusterSpecificOptions)));
-    }
-}
-}
-
-namespace Royalcms\Component\Redis\Contracts {
-interface Factory
-{
-    public function connection($name = null);
-}
-}
-
-namespace Royalcms\Component\Redis {
-use Royalcms\Component\Support\Arr;
-use InvalidArgumentException;
-use Royalcms\Component\Redis\Contracts\Factory;
-class RedisManager implements Factory
-{
-    protected $driver;
-    protected $config;
-    protected $connections;
-    public function __construct($driver, array $config)
-    {
-        $this->driver = $driver;
-        $this->config = $config;
-    }
-    public function connection($name = null)
-    {
-        $name = $name ?: 'default';
-        if (isset($this->connections[$name])) {
-            return $this->connections[$name];
-        }
-        return $this->connections[$name] = $this->resolve($name);
-    }
-    public function resolve($name = null)
-    {
-        $name = $name ?: 'default';
-        $options = Arr::get($this->config, 'options', []);
-        if (isset($this->config[$name])) {
-            return $this->connector()->connect($this->config[$name], $options);
-        }
-        if (isset($this->config['clusters'][$name])) {
-            return $this->resolveCluster($name);
-        }
-        throw new InvalidArgumentException("Redis connection [{$name}] not configured.");
-    }
-    protected function resolveCluster($name)
-    {
-        $clusterOptions = Arr::get($this->config, 'clusters.options', []);
-        return $this->connector()->connectToCluster($this->config['clusters'][$name], $clusterOptions, Arr::get($this->config, 'options', []));
-    }
-    protected function connector()
-    {
-        switch ($this->driver) {
-            case 'predis':
-                return new Connectors\PredisConnector();
-            case 'phpredis':
-                return new Connectors\PhpRedisConnector();
-        }
-    }
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array([$this->connection(), $method], $parameters);
-    }
-}
-}
-
 namespace Royalcms\Component\Gettext\Facades {
 use Royalcms\Component\Support\Facades\Facade;
 class Gettext extends Facade
@@ -36840,6 +36707,7 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
     {
         $file = str_replace(\RC_Upload::upload_path(), '', $file);
         $file = str_replace(DS, '/', $file);
+        $file = ltrim($file, '/');
         return $file;
     }
     public function getBucketAcl()
