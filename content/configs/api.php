@@ -663,7 +663,10 @@ return array(
     //邀请店铺
     'invite/store/agent/affiliate/account/log'					=> 'affiliate::invite/store/agent/affiliate/account/log',				//代理商推广分佣资金变动明细记录
     'invite/store/agent/affiliate/account/logdetail'			=> 'affiliate::invite/store/agent/affiliate/account/logdetail',			//代理商推广分佣资金变动明细记录详情
-    
+    'invite/store/agent/affiliate/records'     					=> 'affiliate::invite/store/agent/affiliate/records',					//代理商分佣列表
+    'user/agent/userinfo'            	=> 'affiliate::affiliate/user/userinfo',
+    'invite/store/agent/invite/store'							=> 'affiliate::invite/store/agent/invite/store',						//代理商推广的店铺列表
+
 );
 
 // end
