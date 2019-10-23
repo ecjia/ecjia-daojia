@@ -641,7 +641,7 @@ function delete_goodslib($goods_id) {
     $data = RC_DB::table('goodslib')->select('goods_thumb', 'goods_img', 'original_img')->whereIn('goods_id', $goods_id)->get();
     
     if (!empty($data)) {
-        $disk = RC_Filesystem::disk();
+        $disk = RC_Storage::disk();
         foreach ($data as $goods) {
             if (!empty($goods['goods_thumb'])) {
                 $disk->delete(RC_Upload::upload_path() . $goods['goods_thumb']);
@@ -664,7 +664,7 @@ function delete_goodslib($goods_id) {
     $data = RC_DB::table('goodslib_gallery')->select('img_url', 'thumb_url', 'img_original')->whereIn('goods_id', $goods_id)->get();
     
     if (!empty($data)) {
-        $disk = RC_Filesystem::disk();
+        $disk = RC_Storage::disk();
         foreach ($data as $row) {
             if (!empty($row ['img_url'])) {
                 $disk->delete(RC_Upload::upload_path() . $row['img_url']);

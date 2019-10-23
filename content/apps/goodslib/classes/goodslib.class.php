@@ -147,7 +147,7 @@ class goodslib {
         	
         $filter ['keyword'] = stripslashes($filter ['keyword']);
         $filter ['count'] 	= $count;
-        $disk = RC_Filesystem::disk();
+        $disk = RC_Storage::disk();
         if (!empty($rows)) {
             foreach ($rows as $k => $v) {
         		if (!empty($v['goods_thumb']) && $disk->exists(RC_Upload::upload_path($v['goods_thumb']))) {

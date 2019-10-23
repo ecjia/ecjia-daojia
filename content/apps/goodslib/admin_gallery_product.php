@@ -132,7 +132,7 @@ class admin_gallery_product extends ecjia_admin {
 
          /* 格式化相册图片路径 */
         if (!empty($img_list)) {
-        	$disk = RC_Filesystem::disk();
+        	$disk = RC_Storage::disk();
         	foreach ($img_list as $key => $gallery_img) {
         		$desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
         		!empty($desc_index) && $img_list[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);

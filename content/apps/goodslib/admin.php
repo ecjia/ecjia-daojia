@@ -238,9 +238,8 @@ class admin extends ecjia_admin {
         }
 
         $upload = RC_Upload::uploader('newimage', array('save_path' => 'goodslib', 'auto_sub_dirs' => true));
-        $upload->add_saving_callback(function ($file, $filename) {
-            return true;
-        });
+        $upload->add_saving_callback('__return_true');
+
         /* 是否处理商品图 */
         $proc_goods_img = $this->request->hasFile('goods_img');
         $proc_thumb_img = $this->request->hasFile('thumb_img');
@@ -251,6 +250,7 @@ class admin extends ecjia_admin {
                 return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
+
         if ($proc_thumb_img) {
             $thumb_info = $upload->upload('thumb_img');
             if (empty($thumb_info)) {
@@ -863,19 +863,19 @@ class admin extends ecjia_admin {
 
 
         $upload = RC_Upload::uploader('newimage', array('save_path' => 'images', 'auto_sub_dirs' => true));
-        $upload->add_saving_callback(function ($file, $filename) {
-            return true;
-        });
+        $upload->add_saving_callback('__return_true');
+
         /* 是否处理商品图 */
         $proc_goods_img = $this->request->hasFile('goods_img');
         $proc_thumb_img = $this->request->hasFile('thumb_img');
-        
+
         if ($proc_goods_img) {
             $image_info = $upload->upload('goods_img');
             if (empty($image_info)) {
                 return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
+
         if ($proc_thumb_img) {
             $thumb_info = $upload->upload('thumb_img');
             if (empty($thumb_info)) {

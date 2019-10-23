@@ -205,6 +205,7 @@ class goods_image_data {
 	    goods_imageutils::copyImage($this->file_path, $thumb_path);
 
 	    $goods_thumb = $this->goods_format->getThumbPostion();
+
 	    if (!$goods_thumb) {
 	        return new ecjia_error('upload_thumb_error', __('商品缩略图路径无效', 'goodslib'));
 	    }

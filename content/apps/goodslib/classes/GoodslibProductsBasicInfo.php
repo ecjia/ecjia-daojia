@@ -87,7 +87,7 @@ class GoodslibProductsBasicInfo
     {
     	$gallery = [];
     	if ($this->model->goodslib_gallery_collection) {
-    		$disk = \RC_Filesystem::disk();
+    		$disk = \RC_Storage::disk();
     		$gallery = $this->model->goodslib_gallery_collection->map(function ($item) use ($disk) {
     			if (!$disk->exists(\RC_Upload::upload_path($item['img_url'])) || empty($item['img_url'])) {
     				$item['img_url'] = \RC_Uri::admin_url('statics/images/nopic.png');
