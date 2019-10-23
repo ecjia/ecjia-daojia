@@ -62,20 +62,25 @@ class cron_auto_manage extends CronAbstract
         $time = RC_Time::gmtime();
         $limit = !empty($this->config['auto_manage_count']) ? $this->config['auto_manage_count'] : 5;
         $autodb = RC_DB::TABLE('auto_manage')
-	    ->where(RC_DB::raw('starttime'), '>', 0)
-	    ->where(RC_DB::raw('starttime'), '<=', $time)
-	    ->orWhere(RC_DB::raw('endtime'), '>', 0)
-	    ->where(RC_DB::raw('endtime'), '<=', $time)
-        ->get();
+            ->where(function ($query) use ($time) {
+                $query->where(RC_DB::raw('starttime'), '>', 0)
+                    ->where(RC_DB::raw('starttime'), '<=', $time);
+            })
+            ->orWhere(function ($query) use ($time) {
+                $query->where(RC_DB::raw('endtime'), '>', 0)
+                    ->where(RC_DB::raw('endtime'), '<=', $time);
+            })
+            ->get();
         
         foreach ($autodb as $key => $val) {
+            if(empty($val['item_id'])) {
+                break;
+            }
             $del = $up = false;
             if ($val['type'] == 'goods') {
                 $goods = true;
-                $where = "goods_id = '$val[item_id]'";
             } else {
                 $goods = false;
-                $where = "article_id = '$val[item_id]'";
             }
             //上下架判断
             if(!empty($val['starttime']) && !empty($val['endtime'])) {
@@ -91,7 +96,7 @@ class cron_auto_manage extends CronAbstract
                 }
                 elseif($val['starttime'] == $time && $time == $val['endtime']) {
                     //下架时间 == 当前时间 == 上架时间
-                    RC_DB::table('auto_manage')->where('item_id', $val[item_id])->where('type', $val[type])->delete();
+                    RC_DB::table('auto_manage')->where('item_id', $val['item_id'])->where('type', $val['type'])->delete();
                     continue;
                 } elseif($val['starttime'] > $val['endtime']) {
                     // 下架时间 < 上架时间 < 当前时间
@@ -103,7 +108,7 @@ class cron_auto_manage extends CronAbstract
                     $del = true;
                 } else {
                     // 上架时间 = 下架时间 < 当前时间
-                    RC_DB::table('auto_manage')->where('item_id', $val[item_id])->where('type', $val[type])->delete();
+                    RC_DB::table('auto_manage')->where('item_id', $val['item_id'])->where('type', $val['type'])->delete();
                     continue;
                 }
             }
@@ -119,25 +124,24 @@ class cron_auto_manage extends CronAbstract
         
             if ($goods) {
                 if ($up) {
-                    RC_DB::table('goods')->whereRaw($where)->update(array('is_on_sale' => 1));
+                    RC_DB::table('goods')->where('goods_id', $val['item_id'])->update(array('is_on_sale' => 1));
                 } else {
-                    RC_DB::table('goods')->whereRaw($where)->update(array('is_on_sale' => 0));
-                    
+                    RC_DB::table('goods')->where('goods_id', $val['item_id'])->update(array('is_on_sale' => 0));
                 }
             } else {
                 if ($up) {
-                    RC_DB::table('article')->whereRaw($where)->update(array('article_approved' => 1));
+                    RC_DB::table('article')->where('article_id', $val['item_id'])->update(array('article_approved' => 1));
                 } else {
-                    RC_DB::table('article')->whereRaw($where)->update(array('article_approved' => 0));
+                    RC_DB::table('article')->where('article_id', $val['item_id'])->update(array('article_approved' => 0));
                 }
             }
             if ($del) {
-                RC_DB::table('auto_manage')->where('item_id', $val[item_id])->where('type', $val[type])->delete();
+                RC_DB::table('auto_manage')->where('item_id', $val['item_id'])->where('type', $val['type'])->delete();
             } else {
                 if($up) {
-                    RC_DB::table('auto_manage')->where('item_id', $val[item_id])->where('type', $val[type])->update(array('starttime' => 0));
+                    RC_DB::table('auto_manage')->where('item_id', $val['item_id'])->where('type', $val['type'])->update(array('starttime' => 0));
                 } else {
-                    RC_DB::table('auto_manage')->where('item_id', $val[item_id])->where('type', $val[type])->update(array('endtime' => 0));
+                    RC_DB::table('auto_manage')->where('item_id', $val['item_id'])->where('type', $val['type'])->update(array('endtime' => 0));
                 }
             }
         }
