@@ -76,45 +76,48 @@ class admin extends ecjia_admin {
 	/**
 	 * 推荐设置
 	 */
-	public function init() {
-		$this->admin_priv('affiliate_percent_manage');
-		
-		RC_Style::enqueue_style('affiliate-css', RC_App::apps_url('statics/css/affiliate.css', __FILE__));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('分成比例列表', 'affiliate')));
-		
-		$this->assign('ur_here', __('分成比例列表', 'affiliate'));
-		
-		$config = unserialize(ecjia::config('affiliate'));
+    /**
+     * 推荐设置
+     */
+    public function init() {
+        $this->admin_priv('affiliate_percent_manage');
 
-		if (count($config['item']) < 5) {
-			$this->assign('add_percent', array('href' => RC_Uri::url('affiliate/admin/add'), 'text' => __('添加分成比例', 'affiliate')));
-		}
-		
-		$this->assign('config', $config);
-		$this->assign('form_action', RC_Uri::url('affiliate/admin/update'));
+        RC_Style::enqueue_style('affiliate-css', RC_App::apps_url('statics/css/affiliate.css', __FILE__));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('分成比例列表', 'affiliate')));
+
+        $this->assign('ur_here', __('分成比例列表', 'affiliate'));
+
+        $config = unserialize(ecjia::config('affiliate'));
+
+        if (count($config['item']) < 3) {
+            $this->assign('add_percent', array('href' => RC_Uri::url('affiliate/admin/add'), 'text' => __('添加分成比例', 'affiliate')));
+        }
+
+        $this->assign('config', $config);
+        $this->assign('form_action', RC_Uri::url('affiliate/admin/update'));
 
         return $this->display('affiliate_list.dwt');
-	}
-	
-	public function add() {
-		$this->admin_priv('affiliate_percent_manage');
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加分成比例', 'affiliate')));
-		
-		$this->assign('ur_here', __('添加分成比例', 'affiliate'));
-		$this->assign('action_link', array('href' =>RC_Uri::url('affiliate/admin/init'), 'text' => __('分成比例列表', 'affiliate')));
-		$config = unserialize(ecjia::config('affiliate'));
-		
-		if (count($config['item']) >= 5) {
-			return $this->showmessage(__('最多可以设5个级别！', 'affiliate'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
-			
-		}
-		
-		$this->assign('level', count($config['item'])+1);
-		
-		$this->assign('form_action', RC_Uri::url('affiliate/admin/insert'));
+    }
+
+    public function add() {
+        $this->admin_priv('affiliate_percent_manage');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加分成比例', 'affiliate')));
+
+        $this->assign('ur_here', __('添加分成比例', 'affiliate'));
+        $this->assign('action_link', array('href' =>RC_Uri::url('affiliate/admin/init'), 'text' => __('分成比例列表', 'affiliate')));
+        $config = unserialize(ecjia::config('affiliate'));
+
+        if (count($config['item']) >= 3) {
+            return $this->showmessage(__('最多可以设3个级别！', 'affiliate'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+
+        }
+
+        $this->assign('level', count($config['item'])+1);
+
+        $this->assign('form_action', RC_Uri::url('affiliate/admin/insert'));
         return $this->display('affiliate_info.dwt');
-	}
+    }
 	
 	/**
 	 * 增加下线分配方案
@@ -151,7 +154,7 @@ class admin extends ecjia_admin {
 		
 		$config = unserialize(ecjia::config('affiliate'));
 		//下线不能超过5层
-		if (count($config['item']) < 5) {
+		if (count($config['item']) < 3) {
 			$_POST['level_point'] = (float)$_POST['level_point'];
 			$_POST['level_money'] = (float)$_POST['level_money'];
 			$maxpoint = $maxmoney = 100;
@@ -178,7 +181,7 @@ class admin extends ecjia_admin {
 			return $this->showmessage(__('添加成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin/init')));
 			
 		} else {
-			return $this->showmessage(__('最多可以设5个级别！', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('最多可以设3个级别！', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	

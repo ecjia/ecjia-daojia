@@ -30,13 +30,6 @@
 					</div>	
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{t domain="affiliate"}积分分成百分比：{/t}</label>
-					<div class="controls">
-		 				<input type="text" name="level_point" value="{$affiliate_percent.level_point}" />&nbsp;%
-		 				<label class="input-must">*</label>
-					</div>	
-				</div>
-				<div class="control-group formSep">
 					<label class="control-label">{t domain="affiliate"}现金分成百分比：{/t}</label>
 					<div class="controls">
 		 				<input type="text" name="level_money" value="{$affiliate_percent.level_money}" />&nbsp;%

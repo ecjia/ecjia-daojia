@@ -111,95 +111,70 @@ class admin_config extends ecjia_admin {
 	/**
 	 * 修改配置
 	 */
-	public function update() {
-		$this->admin_priv('affiliate_config', ecjia::MSGTYPE_JSON);
+    public function update()
+    {
+        $this->admin_priv('affiliate_config', ecjia::MSGTYPE_JSON);
 
-		$config = unserialize(ecjia::config('affiliate'));
+        $config = unserialize(ecjia::config('affiliate'));
 
-		$separate_by 		= isset($_POST['separate_by']) 		? intval($_POST['separate_by']) 	: $config['config']['separate_by'];
-		$expire_unit 		= isset($_POST['expire_unit']) 		? $_POST['expire_unit'] 			: $config['config']['expire_unit'];
-		$invite_template	= isset($_POST['invite_template']) 	? trim($_POST['invite_template']) 	: '';
-		$invite_explain		= isset($_POST['invite_explain']) 	? $_POST['invite_explain'] 			: '';
-		$invitee_rule_explain = isset($_POST['invitee_rule_explain']) ? $_POST['invitee_rule_explain'] : '';
+        $expire_unit = isset($_POST['expire_unit']) ? $_POST['expire_unit'] : $config['config']['expire_unit'];
+        $invite_template = isset($_POST['invite_template']) ? trim($_POST['invite_template']) : '';
+        $invite_explain = isset($_POST['invite_explain']) ? $_POST['invite_explain'] : '';
+        $invitee_rule_explain = isset($_POST['invitee_rule_explain']) ? $_POST['invitee_rule_explain'] : '';
 
-		$_POST['expire'] 			= (float)$_POST['expire'];
-		$_POST['level_point_all'] 	= (float)$_POST['level_point_all'];
-		$_POST['level_money_all'] 	= (float)$_POST['level_money_all'];
-		$_POST['level_money_all'] 	> 100 && $_POST['level_money_all'] = 100;
-		$_POST['level_point_all'] 	> 100 && $_POST['level_point_all'] = 100;
-		
-		if (!empty($_POST['level_point_all']) && strpos($_POST['level_point_all'], '%') === false) {
-			$_POST['level_point_all'] .= '%';
-		}
-		if (!empty($_POST['level_money_all']) && strpos($_POST['level_money_all'], '%') === false) {
-			$_POST['level_money_all'] .= '%';
-		}
-		$_POST['level_register_all']			= intval($_POST['level_register_all']);
-		$_POST['level_register_up']				= intval($_POST['level_register_up']);
+        $_POST['expire'] = (float)$_POST['expire'];
+        $_POST['level_money_all'] = (float)$_POST['level_money_all'];
+        $_POST['level_money_all'] > 100 && $_POST['level_money_all'] = 100;
 
-		$temp = array();
-		$temp['on'] = (intval($_POST['on']) == 1) ? 1 : 0;
-		
-		if ($temp['on'] == 1) {
-			$temp['config'] = array(
-				'expire'                		=> $_POST['expire'],             //COOKIE过期数字
-				'expire_unit'           		=> $expire_unit,        		 //单位：小时、天、周
-				'separate_by'           		=> $separate_by,                 //分成模式：0、注册 1、订单
-				'level_point_all'       		=> $_POST['level_point_all'],    //积分分成比
-				'level_money_all'       		=> $_POST['level_money_all'],    //金钱分成比
-				'level_register_all'    		=> intval($_POST['level_register_all']), //推荐注册奖励积分
-				'level_register_up'     		=> intval($_POST['level_register_up']),  //推荐注册奖励积分上限
-			);
-			
-			/* 邀请人奖励*/
-			$intive_reward_by	= trim($_POST['intive_reward_by']) == 'orderpay' ? 'orderpay' : 'signup';
-			$intive_reward_type = trim($_POST['intive_reward_type']);
-			if ($intive_reward_type == 'bonus') {
-				$intive_reward_value = intval($_POST['intive_reward_type_bonus']);
-			} elseif ($intive_reward_type == 'integral') {
-				$intive_reward_value = intval($_POST['intive_reward_type_integral']);
-			} else {
-				$intive_reward_value = trim($_POST['intive_reward_type_balance']);
-			}
-			
-			/* 受邀人奖励*/
-			$intivee_reward_by	= trim($_POST['intivee_reward_by']) == 'orderpay' ? 'orderpay' : 'signup';
-			$intivee_reward_type = trim($_POST['intivee_reward_type']);
-			if ($intivee_reward_type == 'bonus') {
-				$intivee_reward_value = intval($_POST['intivee_reward_type_bonus']);
-			} elseif ($intivee_reward_type == 'integral') {
-				$intivee_reward_value = intval($_POST['intivee_reward_type_integral']);
-			} else {
-				$intivee_reward_value = trim($_POST['intivee_reward_type_balance']);
-			}
-			
-			$temp['intvie_reward'] = array(
-				'intive_reward_by'		=> $intive_reward_by,
-				'intive_reward_type'	=> $intive_reward_type,
-				'intive_reward_value'	=> $intive_reward_value
-			);
-			
-			$temp['intviee_reward'] = array(
-				'intivee_reward_by'		=> $intivee_reward_by,
-				'intivee_reward_type'	=> $intivee_reward_type,
-				'intivee_reward_value'	=> $intivee_reward_value
-			);
-			
-		} else {
-			$temp['config'] = !empty($config['config']) ? $config['config'] : '';
-		}
-		
-		$temp['item'] = !empty($config['item']) ? $config['item'] : array();
-		
-		ecjia_config::instance()->write_config('affiliate', serialize($temp));
-		ecjia_config::instance()->write_config('invite_template', $invite_template);
-		ecjia_config::instance()->write_config('invite_explain', $invite_explain);
-		ecjia_config::instance()->write_config('invitee_rule_explain', $invitee_rule_explain);
+        if (!empty($_POST['level_money_all']) && strpos($_POST['level_money_all'], '%') === false) {
+            $_POST['level_money_all'] .= '%';
+        }
 
-		ecjia_admin::admin_log(__('推荐设置', 'affiliate'), 'edit', 'config');
-		
-		return $this->showmessage(__('编辑成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin_config/init')));
-	}
+        $temp = array();
+        $temp['on'] = (intval($_POST['on']) == 1) ? 1 : 0;//是否开启邀请订单奖励
+//        $temp['vip_on'] = (intval($_POST['vip_on']) == 1) ? 1 : 0;//是否开启VIP邀请订单奖励
+        $temp['signup_on'] = (intval($_POST['signup_on']) == 1) ? 1 : 0;//是否开启邀请注册奖励
+        $temp['affiliate_order_pass_days'] = isset($_POST['affiliate_order_pass_days']) ? intval($_POST['affiliate_order_pass_days']) : 7;
+
+        $temp['config'] = array(
+            'expire'          => $_POST['expire'],             //COOKIE过期数字
+            'expire_unit'     => $expire_unit,                 //单位：小时、天、周
+            'level_money_all' => $_POST['level_money_all'],    //金钱分成比
+        );
+
+        $intive_reward_by = trim($_POST['intive_reward_by']) == 'orderpay' ? 'orderpay' : 'signup';//奖励机制
+        /* 邀请人奖励*/
+        $intive_reward_value = trim($_POST['intive_reward_type_balance']);
+        /* 受邀人奖励*/
+        $intivee_reward_value = trim($_POST['intivee_reward_type_balance']);
+
+        $temp['intvie_reward'] = array(
+            'intive_reward_by'    => $intive_reward_by,
+            'intive_reward_type' => 'balance',
+            'intive_reward_value' => $intive_reward_value
+        );
+
+        $temp['intviee_reward'] = array(
+            'intivee_reward_by'    => $intive_reward_by,
+            'intivee_reward_type' => 'balance',
+            'intivee_reward_value' => $intivee_reward_value
+        );
+
+        $temp['config'] = !empty($temp['config']) ? $temp['config'] : [];
+
+        $temp['item'] = !empty($config['item']) ? $config['item'] : array();
+
+//        _dump($temp,1);
+
+        ecjia_config::instance()->write_config('affiliate', serialize($temp));
+        ecjia_config::instance()->write_config('invite_template', $invite_template);
+        ecjia_config::instance()->write_config('invite_explain', $invite_explain);
+        ecjia_config::instance()->write_config('invitee_rule_explain', $invitee_rule_explain);
+
+        ecjia_admin::admin_log(__('分销推广设置', 'affiliate'), 'edit', 'config');
+
+        return $this->showmessage(__('编辑成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin_config/init')));
+    }
 }
 
 //end

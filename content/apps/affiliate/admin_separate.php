@@ -442,6 +442,31 @@ class admin_separate extends ecjia_admin {
         }
         return array('item' => $logdb, 'page' => $page->show(5), 'type_count' => $type_count, 'filter' => $filter, 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
     }
+
+    public function download() {
+        $this->admin_priv('affiliate_ck_manage');
+
+        $logdb = $this->get_affiliate_ck('all');
+        $list = [];
+        if($logdb['item']) {
+            foreach ($logdb['item'] as $row) {
+//              订单编号	商家名称	购买人	订单金额	佣金	付款时间	操作状态	操作信息
+                $list[] = [
+                    $row['order_sn'] . "\t",$row['merchants_name'],$row['consignee'],$row['total_fee_formatted']
+                    ,$row['money_formatted'],$row['pay_time_formatted'],$row['separate_type_label'],$row['info']
+                ];
+            }
+        }
+
+        RC_Excel::load(RC_APP_PATH . 'affiliate' . DIRECTORY_SEPARATOR .'statics/files/order_affiliate.xls', function($excel) use ($list){
+            $excel->sheet('Sheet1', function($sheet) use ($list) {
+                foreach ($list as $key => $item) {
+                    $sheet->appendRow($key+3, $item);
+                }
+            });
+        })->download('xls');
+
+    }
 	
 	
 	/**
