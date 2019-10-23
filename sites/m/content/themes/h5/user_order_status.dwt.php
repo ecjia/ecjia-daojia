@@ -46,7 +46,7 @@ if ('{$arr}'.length != 0) {
 
     $('.express_mobile').off('click').on('click', function () {
         let $this = $(this);
-        let tel = $this.attr('tel');
+        let tel = $this.data('tel');
 
         window.location.href = "tel:" + tel;
     });

@@ -216,39 +216,33 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <div class="ecjia-user-head ecjia-user ecjia-user-marg-t">
     <ul class="ecjia-list list-short">
-       <li>
-        	<a class="nopjax external" href="{url path='user/index/spread'}&name={$user.name}">
-        		<div class="icon-wallet"><img src="{$theme_url}images/user_center/expand.png"></div>
-        		<span class="icon-name">{t domain="h5"}我的推广{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
+        <li>
+            <a class="nopjax external" href="{url path='user/index/spread'}&name={$user.name}">
+                <div class="icon-wallet"><img src="{$theme_url}images/user_center/expand.png"></div>
+                <span class="icon-name">{t domain="h5"}我的推广{/t}</span>
+                <i class="iconfont icon-jiantou-right"></i>
+            </a>
         </li>
     </ul>
 </div>
 <div class="ecjia-user-border-b">
-    <ul class="ecjia-user ecjia-list bonus ecjia-nav-child-f ecjia-list-five ecjia-login-nav-bottom">
-    	<li>
-    		<a href="{url path='user/bonus/my_reward'}">
-    		    <p><img src="{$theme_url}images/user_center/my_reward.png" /></p>
-    			<p>{t domain="h5"}查看奖励{/t}</p>
-    		</a>
-    	</li>
-    	<li>
-    		<a href="{url path='user/bonus/reward_detail'}">
-    		    <p><img src="{$theme_url}images/user_center/reward_detail.png" /></p>
-    			<p>{t domain="h5"}奖励明细{/t}</p>
-    		</a>
-    	</li>
-    	<li>
-    	    <a href="{url path='user/bonus/get_integral'}">
-        		<p><img src="{$theme_url}images/user_center/get_integral.png" /></p>
-        		<p>{t domain="h5"}赚{/t}{$integral_name}</p>
-    		</a>
-    	</li>
+    <ul class="ecjia-user ecjia-list bonus ecjia-nav-child-f ecjia-list-four ecjia-login-nav-bottom">
+        <li>
+            <a href="{url path='user/index/spread_center_normal'}">
+                <p><img src="{$theme_url}images/user_center/get_integral.png" /></p>
+                <p>{t domain="h5"}推广中心{/t}</p>
+            </a>
+        </li>
+        <li>
+            <a href="{url path='user/bonus/reward_detail'}">
+                <p><img src="{$theme_url}images/user_center/my_reward.png" /></p>
+                <p>{t domain="h5"}注册奖励{/t}</p>
+            </a>
+        </li>
         <li>
             <a href="{url path='user/order/affiliate'}">
                 <p><img src="{$theme_url}images/user_center/order_affiliate.png" /></p>
-                <p>{t domain="h5"}订单分成{/t}</p>
+                <p>{t domain="h5"}销售奖励{/t}</p>
             </a>
         </li>
         <li>

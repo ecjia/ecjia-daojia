@@ -420,6 +420,7 @@ class user_privilege_controller
 
         $registered = $_SESSION['user_temp']['registered'];
         $invited    = $_SESSION['user_temp']['invited'];
+        $store_id = $_SESSION['user_temp']['store_id'];
 
         $session_referer_url = htmlspecialchars_decode(urldecode($_SESSION['user_temp']['referer_url']));
         //已经注册 走登录接口
@@ -447,6 +448,10 @@ class user_privilege_controller
 
             $res = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => '', 'mobile' => $mobile, 'password' => ''))->run();
             if (!is_ecjia_error($res)) {
+                $ecjia_add_storeuser =  new ecjia_add_storeuser();
+                $ecjia_add_storeuser->add_store_user(array('user_id' => $res['id'], 'store_id' => $store_id));
+
+                
                 $url = RC_Uri::url('touch/my/init');
 
                 $referer_url = isset($_SESSION['user_temp']['referer_url']) ? $session_referer_url : '';

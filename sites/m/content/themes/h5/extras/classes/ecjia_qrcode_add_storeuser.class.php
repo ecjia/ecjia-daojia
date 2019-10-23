@@ -44,48 +44,44 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
- * 加载手动加载的类
+ * 添加商家会员
  */
-return [
-    'touch_function'    => 'extras/classes/utility/touch_function.class.php',
-    'article_function'  => 'extras/classes/utility/article_function.class.php',
-    'cart_function'     => 'extras/classes/utility/cart_function.class.php',
-    'goods_function'    => 'extras/classes/utility/goods_function.class.php',
-    'orders_function'   => 'extras/classes/utility/orders_function.class.php',
-    'user_function'     => 'extras/classes/utility/user_function.class.php',
-    'merchant_function' => 'extras/classes/utility/merchant_function.class.php',
+class ecjia_qrcode_add_storeuser {
+    /**
+     * 添加商家会员
+     *
+     */
 
-    'user_front' => 'extras/classes/user/user_front.class.php',
+    public static function add_store_user($options) {
 
-    'touch_controller'             => 'extras/controller/touch_controller.php',
-    'goods_controller'             => 'extras/controller/goods_controller.php',    //商品
-    'merchant_controller'          => 'extras/controller/merchant_controller.php', //店铺
-    'article_controller'           => 'extras/controller/article_controller.php',  //文章
-    'cart_controller'              => 'extras/controller/cart_controller.php',     //购物车
-    'user_controller'              => 'extras/controller/user_controller.php',     //会员
-    'affiliate_controller'         => 'extras/controller/affiliate_controller.php',//推荐
-    'franchisee_controller'        => 'extras/controller/franchisee_controller.php',   //商家入驻申请
-    'user_privilege_controller'    => 'extras/controller/user_privilege_controller.php',   //登录注册
-    'user_get_password_controller' => 'extras/controller/user_get_password_controller.php',//找回密码
-    'user_account_controller'      => 'extras/controller/user_account_controller.php',
-    'user_address_controller'      => 'extras/controller/user_address_controller.php', //用户收货地址
-    'user_bonus_controller'        => 'extras/controller/user_bonus_controller.php',   //用户红包
-    'user_order_controller'        => 'extras/controller/user_order_controller.php',   //订单
-    'user_profile_controller'      => 'extras/controller/user_profile_controller.php', //用户资料
-    'connect_controller'           => 'extras/controller/connect_controller.php',      //授权登录
-    'mobile_controller'            => 'extras/controller/mobile_controller.php',
-    'quickpay_controller'          => 'extras/controller/quickpay_controller.php',     //闪惠
-    'payment_controller'           => 'extras/controller/payment_controller.php',     //支付
+        if (!empty($options['store_id']) && !empty($options['user_id'])) {
+            $is_exist_store_user = RC_DB::table('store_users')->where('store_id', $options['store_id'])->where('user_id', $options['user_id'])->first();
+            if (empty($is_exist_store_user)) {
+                $store_name = self::get_store_name($options['store_id']);
+                $data = array(
+                    'store_id' => $options['store_id'],
+                    'user_id' => $options['user_id'],
+                    'store_name' => $store_name,
+                    'join_scene' => 'qrcode',
+                    'add_time' => RC_Time::gmtime()
+                );
+                RC_DB::table('store_users')->insert($data);
+            }
+        }
+    }
 
-    'ecjia_location'            => 'extras/classes/ecjia_location.class.php',
-    'ecjia_map'                 => 'extras/classes/ecjia_map.class.php',
-    'ecjia_cart'                => 'extras/classes/ecjia_cart.class.php',
-    'ecjia_cart_groupbuy'       => 'extras/classes/ecjia_cart_groupbuy.class.php',
-    'ecjia_goods_specification' => 'extras/classes/ecjia_goods_specification.class.php',
-    'ecjia_open_handler'        => 'extras/classes/ecjia_open_handler.class.php',
-    'ecjia_theme_controller'    => 'extras/classes/ecjia_theme_controller.class.php',
-    'ecjia_user_front_controller'    => 'extras/classes/ecjia_user_front_controller.class.php',
-    'ecjia_add_storeuser'    => 'extras/classes/ecjia_add_storeuser.class.php',
+    /**
+     * @param int  $store_id
+     */
+    public static function get_store_name($store_id = 0) {
+        $store_name = '';
+        $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+        return $store_name;
+    }
+}
 
-];
+
+// end

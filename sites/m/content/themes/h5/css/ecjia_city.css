@@ -9035,22 +9035,17 @@ footer {
 }
 
 /*======================== 推广 ===========================*/
+/*======================== 推广 ===========================*/
 .ecjia-spread .ecjia-my-reward {
     width: 100%;
     padding-left: 1em;
-    padding-right: 1em;
-    padding-bottom: 1em
+    padding-right: 2em;
 }
 
 .ecjia-spread .ecjia-my-reward .my_reward {
-    font-size: 18px;
-    border-radius: 7px;
-    height: 42px;
-    line-height: 42px;
-    color: #47aa4d;
+    font-size: 16px;
     text-align: center;
-    background: #fff none repeat scroll 0 0;
-    border: 1px solid #47aa4d
+    line-height: 42px;
 }
 
 .ecjia-spread {
@@ -9063,14 +9058,15 @@ footer {
     padding-top: 0 !important
 }
 
-.ecjia-spread .bg-img {
-    background-image: url(../images/spread-bg.png);
+.ecjia-spread .ecjia-bg-qr-code {
+    background-image: url(../images/affiliate/bg.png);
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    height: 5em;
+    background-position: top center;
+    background-size: 100% ;
     width: 100%;
     position: relative;
-    background-origin: content-box
+    background-origin: content-box;
+    overflow: hidden;
 }
 
 .ecjia-spread .ecjia-list .reward-title {
@@ -9148,6 +9144,12 @@ footer {
     vertical-align: middle;
     text-align: center
 }
+.ecjia-spread .qrcode_image_spread {
+    width: 18em;
+    margin: 8em auto 4em;
+    padding-bottom: 1em;
+    background-color: #fff;
+}
 
 .ecjia-spread .qrcode_image3 {
     height: auto;
@@ -9201,19 +9203,13 @@ footer {
 
 .ecjia-spread .my-invite-code p {
     text-align: center;
-    position: relative;
     font-size: 16px;
-    padding-top: 1em;
-    width: 30%;
-    left: 35%
+    padding: 1em 0 .5em;
 }
 
 .ecjia-spread .my-invite-code .code-style {
     text-align: center;
-    position: relative;
     font-size: 22px;
-    width: 30%;
-    left: 35%;
     color: #ff3434
 }
 
@@ -9244,7 +9240,8 @@ footer {
     line-height: 42px;
     color: #fff;
     text-align: center;
-    background: #47aa4d none repeat scroll 0 0
+    background: #47aa4d none repeat scroll 0 0;
+    margin-top: 1em;
 }
 
 .ecjia-spread .invite_explain {
@@ -9255,7 +9252,7 @@ footer {
 .ecjia-spread .invite_explain .invite_explain-literal {
     font-weight: 700;
     font-size: 16px;
-    padding-left: 1em
+    margin-bottom: 0.5em;
 }
 
 .ecjia-spread .invite_explain .invite_explain-content {
@@ -9434,6 +9431,229 @@ footer {
     margin: 0 auto;
     max-width: 640px;
     background-size: 10em
+}
+
+.ecjia-user-bonus {
+    position: relative;
+    margin-top: 5em
+}
+
+.ecjia-user-bonus .ecjia-nolist {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 165px;
+    font-size: 16px;
+    color: #aaa;
+    line-height: 26px;
+    text-align: center;
+    background: url(../images/wallet/null280.png) center 0 no-repeat;
+    margin: 0 auto;
+    max-width: 640px;
+    background-size: 10em
+}
+
+.ecjia-account-record .ecjia-nolist .img-norecord {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 330px;
+    font-size: 16px;
+    color: #aaa;
+    line-height: 26px;
+    text-align: center;
+    background: url(../images/wallet/null280.png) center 170px no-repeat;
+    margin: 0 auto;
+    max-width: 640px;
+    background-size: 10em
+}
+
+.ecjia-spread-detail .ecjia-list.list-short li .record-label {
+    color: #555;
+    font-size: 1.1em;
+    width: auto;
+    margin-bottom: 5px
+}
+
+.ecjia-spread-detail .ecjia-list.list-short li .record-time {
+    color: #7b7b7b;
+    font-size: 1em;
+    width: auto
+}
+
+.ecjia-spread-detail .ecjia-list.list-short li .icon-price-red {
+    font-size: 1.1em;
+    width: auto;
+    float: none;
+    margin-bottom: 5px;
+    font-weight: bold
+}
+
+.ecjia-spread-detail .ecjia-list.list-short li + li::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    left: 5%;
+    top: 0;
+    border-bottom: 1px solid #eee
+}
+/* 推广中心 */
+.ecjia-spread-center {
+    position: relative;
+    padding: 0;
+    width: 100%;
+    background: #f7f7f7;
+}
+
+.ecjia-spread-background {
+    height: 7em;
+    background-color: #47aa4d;
+    width: 100%;
+}
+
+.ecjia-spread-center .spread-container {
+    position: absolute;
+    top: 1em;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    overflow: hidden;
+    padding: 1em;
+}
+
+.ecjia-spread-center .spread-container .user-info {
+    background-color: #fff;
+    z-index: 2;
+    border-radius: 8px;
+    padding-bottom: .5em;
+    color: #774d10;
+}
+
+.ecjia-spread-center .user-info-top {
+    padding: 1em 2em;
+    overflow: hidden;
+}
+
+.ecjia-spread-center .user-info-top img {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    float: left;
+    margin-top: .5em;
+}
+
+.ecjia-spread-center .user-info-top .top-right {
+    float: left;
+    margin-left: 1em;
+}
+
+.ecjia-spread-center .user-info-top .top-right .name {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.ecjia-spread-center .user-info-top .top-right .rank {
+    margin-top: .5em;
+    background-color: #FFBF27;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.ecjia-spread-center .user-info-bottom {
+    /*background-color: #E5C58F;*/
+    margin: .5em;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-top: 0;
+    padding-bottom: 1em;
+    background-image: url(../images/spread/background.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-top {
+    padding: 1em;
+    overflow: hidden;
+}
+
+.ecjia-spread-center .user-info-bottom .top-left {
+    float: left;
+    font-size: 1.1em;
+}
+
+.ecjia-spread-center .user-info-bottom .top-left .title {
+    font-size: 1em;
+}
+
+.ecjia-spread-center .user-info-bottom .top-left .price {
+    margin-top: .5em;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.ecjia-spread-center .user-info-bottom .top-right {
+    float: right;
+    margin-top: 1.5em;
+}
+
+.ecjia-spread-center .user-info-bottom .top-right a {
+    background-color: #fff;
+    padding: 5px 20px;
+    border-radius: 20px;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-bottom {
+    padding: 0;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-bottom .bottom-item {
+    width: 33.3%;
+    float: left;
+    font-size: 1.1em;
+    line-height: 2em;
+    text-align: center;
+    position: relative;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-bottom .bottom-item .bottom-border {
+    height: 1em;
+    position: absolute;
+    left: 100%;
+    top: 1.5em;
+    width: .1em;
+    background: #c49953;
+}
+
+.ecjia-spread-center .spread-info {
+    background-color: #fff;
+    border-radius: 8px;
+    margin-top: 1em;
+    overflow: hidden;
+    padding-top: 1em;
+}
+
+.ecjia-spread-center .spread-info .info-item {
+    float: left;
+    width: 25%;
+    text-align: center;
+    line-height: 1em;
+}
+
+.ecjia-spread-center .spread-info .info-item img {
+    width: 4em;
+    height: 4em;
+}
+
+.ecjia-spread-center .spread-info .info-item .title {
+    margin: 1em 0;
 }
 
 .ecjia-user-bonus {
@@ -15542,7 +15762,6 @@ body,
     color: #ff3434;
     font-size: 1.1em;
 }
-
 /* 订单分成 */
 .ecjia-reward-list .reward-head {
     height: 3.5em;
@@ -15701,4 +15920,488 @@ body,
 
 .ecjia-reward-detail .reward-detail-bottom .detail-list {
     border-top: 1px solid #eee
+}
+
+
+/* 推广中心 */
+.ecjia-spread-center {
+    position: relative;
+    padding: 0;
+    width: 100%;
+    background: #f7f7f7;
+}
+
+.ecjia-spread-background {
+    height: 7em;
+    background-color: #1ca74e;
+    width: 100%;
+}
+
+.ecjia-spread-center .spread-container {
+    position: absolute;
+    top: 1em;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    overflow: hidden;
+    padding: 1em;
+}
+
+.ecjia-spread-center .spread-container .user-info {
+    background-color: #fff;
+    z-index: 2;
+    border-radius: 8px;
+    padding-bottom: .5em;
+    color: #774d10;
+}
+
+.ecjia-spread-center .user-info-top {
+    padding: 1em 2em;
+    overflow: hidden;
+}
+
+.ecjia-spread-center .user-info-top img {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    float: left;
+    margin-top: .5em;
+}
+
+.ecjia-spread-center .user-info-top .top-right {
+    float: left;
+    margin-left: 1em;
+}
+
+.ecjia-spread-center .user-info-top .top-right .name {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.ecjia-spread-center .user-info-top .top-right .rank {
+    margin-top: .5em;
+    background-color: #FFBF27;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.ecjia-spread-center .user-info-bottom {
+    /*background-color: #E5C58F;*/
+    margin: .5em;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-top: 0;
+    padding-bottom: 1em;
+    background-image: url(../images/spread/background.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-top {
+    padding: 1em;
+    overflow: hidden;
+}
+
+.ecjia-spread-center .user-info-bottom .top-left {
+    float: left;
+    font-size: 1.1em;
+}
+
+.ecjia-spread-center .user-info-bottom .top-left .title {
+    font-size: 1em;
+}
+
+.ecjia-spread-center .user-info-bottom .top-left .price {
+    margin-top: .5em;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.ecjia-spread-center .user-info-bottom .top-right {
+    float: right;
+    margin-top: 1.5em;
+}
+
+.ecjia-spread-center .user-info-bottom .top-right a {
+    background-color: #fff;
+    padding: 5px 20px;
+    border-radius: 20px;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-bottom {
+    padding: 0;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-bottom .bottom-item {
+    width: 33.3%;
+    float: left;
+    font-size: 1.1em;
+    line-height: 2em;
+    text-align: center;
+    position: relative;
+}
+
+.ecjia-spread-center .user-info-bottom .bottom-bottom .bottom-item .bottom-border {
+    height: 1em;
+    position: absolute;
+    left: 100%;
+    top: 1.5em;
+    width: .1em;
+    background: #c49953;
+}
+
+.ecjia-spread-center .spread-info {
+    background-color: #fff;
+    border-radius: 8px;
+    margin-top: 1em;
+    overflow: hidden;
+    padding-top: 1em;
+}
+
+.ecjia-spread-center .spread-info .info-item {
+    float: left;
+    width: 25%;
+    text-align: center;
+    line-height: 1em;
+}
+
+.ecjia-spread-center .spread-info .info-item img {
+    width: 4em;
+    height: 4em;
+}
+
+.ecjia-spread-center .spread-info .info-item .title {
+    margin: 1em 0;
+}
+
+
+/* 我的奖励 */
+.ecjia-reward-list .reward-head {
+    height: 3.5em;
+    line-height: 3.5em;
+    background-color: #fff;
+    width: 100%;
+    border-bottom: 2px solid #eee;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    max-width: 640px;
+}
+
+/* 我的奖励 */
+.ecjia-reward-list .reward-store-head {
+    height: 3.5em;
+    line-height: 3.5em;
+    background-color: #fff;
+    width: 100%;
+    border-bottom: 2px solid #eee;
+    width: 100%;
+    max-width: 640px;
+}
+
+.ecjia-reward-list .reward-list {
+    margin-top: 3.5em;
+    overflow: hidden;
+}
+
+.ecjia-reward-list .reward-list.m_t0 {
+    margin-top: 0;
+}
+
+.ecjia-reward-list .reward-head .reward-head-item {
+    float: left;
+    width: 50%;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.ecjia-reward-list .reward-head .reward-head-item.active span {
+    color: #1ca74e;
+    border-bottom: 2px solid #1ca74e;
+    height: 3.2em;
+    display: inline-block;
+    width: 4em;
+}
+
+.ecjia-reward-list .reward-store-head .reward-head-item {
+    float: left;
+    width: 50%;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.ecjia-reward-list .reward-store-head .reward-head-item.active span {
+    color: #1ca74e;
+    border-bottom: 2px solid #1ca74e;
+    height: 3.2em;
+    display: inline-block;
+}
+
+.ecjia-reward-list .reward-item {
+    background: #fff;
+    overflow: hidden;
+}
+
+.ecjia-reward-list .reward-hd {
+    height: 3em;
+    line-height: 3em;
+    padding: 0 1em;
+}
+
+.ecjia-reward-list .flow-goods-list {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    position: relative;
+}
+
+.ecjia-reward-list .reward-ft {
+    height: 3em;
+    line-height: 3em;
+    padding: 0 1em;
+}
+
+.ecjia-reward-list .goods-item, .ecjia-reward-detail .goods-item {
+    overflow: hidden;
+    position: relative;
+    padding: 1em;
+    height: 7em;
+}
+
+.ecjia-reward-list .goods-item li, .ecjia-reward-detail .goods-item li {
+    margin-right: 0;
+}
+
+.ecjia-reward-list .goods-item .goods-img img, .ecjia-reward-detail .goods-item .goods-img img {
+    height: 5em;
+    width: 5em;
+    border: 1px solid #eee;
+}
+
+.ecjia-reward-list .goods-item .goods-right, .ecjia-reward-detail .goods-item .goods-right {
+    margin-left: 6em;
+    overflow: hidden;
+}
+
+.ecjia-reward-list .goods-item .goods-name, .ecjia-reward-detail .goods-item .goods-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ecjia-reward-list .goods-item .block, .ecjia-reward-detail .goods-item .block {
+    color: #838383;
+    margin-top: .5em;
+}
+
+/* 奖励详情 */
+.ecjia-reward-detail .reward-detail-top {
+    background-color: #fff;
+    margin: 1em 0;
+    text-align: center;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee
+}
+
+.ecjia-reward-detail .reward-detail-top .status {
+    padding-top: 2em
+}
+
+.ecjia-reward-detail .reward-detail-top .status img {
+    width: 4em;
+    height: 4em
+}
+
+.ecjia-reward-detail .reward-detail-top p {
+    line-height: 3em;
+    display: block;
+    overflow: hidden
+}
+
+.ecjia-reward-detail .reward-detail-top p.price {
+    line-height: 2em;
+    font-size: 1.2em;
+    color: #FF2500;
+    border-bottom: 2px dotted #eee;
+    padding-bottom: 1em
+}
+
+.ecjia-reward-detail .detail-list {
+    padding: 1em;
+    line-height: 2em
+}
+
+.ecjia-reward-detail .detail-list p {
+    line-height: 2em;
+    color: #838383;
+    display: block;
+    overflow: hidden
+}
+
+.ecjia-reward-detail .reward-detail-bottom {
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee
+}
+
+.ecjia-reward-detail .reward-detail-bottom .bottom-hd {
+    height: 3em;
+    line-height: 3em;
+    padding-left: 1em;
+    border-bottom: 1px solid #eee
+}
+
+.ecjia-reward-detail .reward-detail-bottom .bottom-hd img {
+    width: 1em;
+    height: 1em
+}
+
+.ecjia-reward-detail .reward-detail-bottom .detail-list {
+    border-top: 1px solid #eee
+}
+
+.ecjia-reward-team .reward-team-top {
+    background-color: #fff;
+    margin-top: 1em;
+    text-align: center;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.ecjia-reward-team .reward-team-top .total-num {
+    padding: 2em 0 1em 0;
+    font-size: 1.2em;
+}
+
+.ecjia-reward-team .reward-team-top .number {
+    padding-bottom: 3em;
+    font-size: 1.2em;
+    color: #FF2500;
+}
+
+.ecjia-reward-team .team-item .search-no-pro .ecjia-nolist {
+    padding-top: 100px;
+}
+
+.reward-team-bottom .bottom-hd {
+    line-height: 3em;
+    padding-left: 1em;
+    border-bottom: 1px solid #eee;
+}
+
+.reward-team-bottom .team-item {
+    overflow: hidden;
+    position: relative;
+    height: auto;
+    background-color: #fff;
+}
+
+.reward-team-bottom .team-item .team-item-li {
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    position: relative;
+    margin: 1em 0 0 1em;
+}
+
+.reward-team-bottom .team-item .team-item-li:first-child {
+    padding-top: 0;
+}
+
+.reward-team-bottom .team-item .team-item-li:last-child {
+    border-bottom: none;
+}
+
+.reward-team-bottom .team-item .team-img img {
+    height: 4em;
+    width: 4em;
+    border-radius: 50%;
+}
+
+.reward-team-bottom .team-item .team-right {
+    margin-left: 5em;
+}
+
+.reward-team-bottom .team-item .name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: .3em;
+}
+
+.reward-team-bottom .team-item .block {
+    color: #838383;
+    margin-top: .5em;
+    font-size: .9em;
+}
+
+.reward-team-bottom .team-item .next-user {
+    position: absolute;
+    right: 1em;
+    top: 2em;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.reward-team-bottom .team-item .team-item-li:first-child .next-user {
+    top: 1em;
+}
+
+.right-goods-list {
+    position: relative;
+}
+
+.right-goods-list .right-goods-content {
+    position: absolute;
+    top: 6em;
+    left: 2em;
+    right: 2em;
+}
+
+.right-goods-list .goods-item {
+    position: relative;
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+
+.right-goods-list .goods-item .left img {
+    width: 10em;
+    height: 10em;
+    float: left;
+    border-radius: 5px;
+}
+
+.right-goods-list .goods-item .right {
+    margin-left: 10em;
+}
+
+.right-goods-list .goods-item .right .name {
+    line-height: 3em;
+    font-size: 1.1em;
+    text-align: right;
+}
+
+.right-goods-list .goods-item .right .price {
+    margin-top: 1em;
+    text-align: right;
+    font-size: 1.5em;
+    color: #6A4699;
+}
+
+.right-goods-list .goods-item .right .buy-btn {
+    text-align: right;
+    font-size: 1.3em;
+    color: #fff;
+    border-radius: 20px;
+    background-color: #6A4699;
+    display: inline-block;
+    padding: .2em .5em;
+    float: right;
+    margin-top: .5em;
 }

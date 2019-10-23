@@ -126,6 +126,7 @@ return [
     'user/index/wxconfig'                        => 'user_controller@wxconfig',
     'user/follow/init'                           => 'user_controller@follow_list',
     'user/follow/ajax_follow_list'               => 'user_controller@ajax_follow_list',
+    'user/index/spread_center_normal'             => 'user_controller@spread_center_normal', //推广中心
 
     //推荐
     'affiliate/index/init'                       => 'affiliate_controller@init', //邀请注册
@@ -324,4 +325,37 @@ return [
     //优惠买单
     'quickpay/flow/flow_checkorder'              => 'quickpay_controller@flow_checkorder',
     'quickpay/flow/done'                         => 'quickpay_controller@done',
+
+    //推广中心
+    'user/index/spread_center'                   => 'user_controller@spread_center', //推广中心
+
+    'user/personal/reward'                       => 'user_controller@personal_reward', //销售个人奖励
+    'user/personal/reward_detail'                => 'user_controller@personal_reward_detail', //销售个人奖励详情
+
+    'user/franchisee/reward'                     => 'user_controller@franchisee_reward', //开店个人奖励
+    'user/franchisee/reward_detail'              => 'user_controller@franchisee_reward_detail', //开店个人奖励详情
+
+    'user/team/reward'                           => 'user_controller@team_reward', //团队销售奖励
+    'user/team/reward_detail'                    => 'user_controller@team_reward_detail', //团队销售奖励详情
+
+    'user/store/reward'                          => 'user_controller@store_reward', //团队销售奖励详情
+    'user/personal/ajax_store_list'              => 'user_controller@ajax_store_list',
+
+    'user/franchisee/team_reward'                => 'user_controller@franchisee_team_reward', //团队开店奖励
+    'user/franchisee/team_reward_detail'         => 'user_controller@franchisee_team_reward_detail', //团队开店奖励详情
+
+    'user/cityagent/order'                       => 'user_controller@cityagent_order', //城市合伙人订单交易列表
+    'user/cityagent/order_detail'                => 'user_controller@cityagent_order_detail', //城市合伙人订单交易详情
+    'user/cityagent/franchisee'                  => 'user_controller@cityagent_franchisee', //城市合伙人店铺推荐交易列表
+    'user/cityagent/franchisee_detail'           => 'user_controller@cityagent_franchisee_detail', //城市合伙人店铺推荐交易详情
+
+    'user/personal/ajax_personal_reward'         => 'user_controller@ajax_personal_reward', //获取个人奖励
+    'user/personal/ajax_franchisee_reward'       => 'user_controller@ajax_franchisee_reward',
+
+    'user/personal/ajax_team_reward'             => 'user_controller@ajax_team_reward',
+
+    'user/personal/ajax_franchisee_team_reward'  => 'user_controller@ajax_franchisee_team_reward',
+
+    'user/cityagent/ajax_cityagent_order'        => 'user_controller@ajax_cityagent_order',
+    'user/cityagent/ajax_cityagent_franchisee'   => 'user_controller@ajax_cityagent_franchisee',
 ];

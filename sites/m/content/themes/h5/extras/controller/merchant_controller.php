@@ -62,6 +62,22 @@ class merchant_controller
         $store_id    = intval($_GET['store_id']);
         $category_id = intval($_GET['category_id']);
 
+        $type = $_GET['type'];
+
+        if ($type == 'affiliate') {
+            $signin = ecjia_touch_user::singleton()->isSignin();
+            if (!$signin) {
+                $_SESSION['user_temp']['store_id'] = $store_id;
+                return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            }else{
+                $token             = ecjia_touch_user::singleton()->getToken();
+                $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+
+                $ecjia_add_storeuser =  new ecjia_add_storeuser();
+                $ecjia_add_storeuser->add_store_user(array('user_id' => $user['id'], 'store_id' => $store_id));
+            }
+        }
+
         $url = RC_Uri::url('merchant/index/init', array('store_id' => $store_id));
         $result = touch_function::redirect_referer_url($url);
         if (is_ecjia_error($result)) {
