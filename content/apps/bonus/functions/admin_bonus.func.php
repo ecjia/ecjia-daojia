@@ -383,12 +383,13 @@ function change_user_bonus($bonus_id, $order_id, $is_used = true) {
 	if ($is_used) {
 		$data = array(
 			'used_time'	=> RC_Time::gmtime(),
-			'order_id'	=> $order_id
+			'order_id'	=> $order_id,
 		);
 	} else {
 		$data = array(
 			'used_time'	=> 0,
-			'order_id'	=> 0
+			'order_id'	=> 0,
+            'order_sn'  => null
 		);
 	}
 	RC_DB::table('user_bonus')->where('bonus_id', $bonus_id)->update($data);
