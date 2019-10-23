@@ -138,6 +138,15 @@ class cart_flow_done_api extends Component_Event_Api {
 			return new ecjia_error('pls_single_shop_for_settlement', __('请单个店铺进行结算!', 'cart'));
 		}
 		$order['store_id'] = $store_group[0];
+		
+		//检查店铺是否已打烊，已打烊店铺订单不可提交（防止打烊前添加的商品打烊后再结算问题）
+		RC_Loader::load_app_func('merchant', 'merchant');
+		$store_shop_close = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('shop_close');
+		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_trade_time')->pluck('value');
+		$shop_closed = get_shop_close($store_shop_close, $shop_trade_time);
+		if ($shop_closed == '1') {
+			return new ecjia_error('shop_snoring', '当前店铺已打烊!');
+		}
 
 		/* 检查收货人信息是否完整 */
 		if (!cart::check_consignee_info($consignee, $options['flow_type'])) {
