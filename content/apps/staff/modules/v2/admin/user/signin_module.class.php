@@ -113,18 +113,22 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
 
     private function signin_merchant($username, $password, $device, $api_version, $login_type = '', $request = null) {
         /* 收银台请求判断处理*/
-        $codes = array('8001', '8011');
+        $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
         if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
             $staff_user_info = RC_DB::table('staff_user')->where('mobile', $username)->first();
             if (empty($staff_user_info)) {
                 $result = new ecjia_error('login_error', __('您输入的帐号信息不正确', 'staff'));
                 return $result;
             }
-            $device_sn = trim($device['sn']); 
-            //当前登录的收银设备是否是当前店铺的
-            $cashier_device_info = RC_DB::table('cashier_device')->where('store_id', $staff_user_info['store_id'])->where('device_sn', $device_sn)->first();
-            if (empty($cashier_device_info)) {
-            	return new ecjia_error('cashier_device_error', __('此设备不属于当前店铺设备，请使用当前店铺设备登录！', 'staff'));
+            //只有收银台和POS进行此验证限制
+            $cashier_pos_codes = array('8001', '8011');
+            if (in_array($device['code'], $cashier_pos_codes)) {
+            	$device_sn = trim($device['sn']);
+            	//当前登录的收银设备是否是当前店铺的
+            	$cashier_device_info = RC_DB::table('cashier_device')->where('store_id', $staff_user_info['store_id'])->where('device_sn', $device_sn)->first();
+            	if (empty($cashier_device_info)) {
+            		return new ecjia_error('cashier_device_error', __('此设备不属于当前店铺设备，请使用当前店铺设备登录！', 'staff'));
+            	}
             }
             $username   = $staff_user_info['mobile'];
             $salt       = $staff_user_info['salt'];
