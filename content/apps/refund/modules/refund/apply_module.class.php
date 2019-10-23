@@ -117,7 +117,7 @@ class refund_apply_module extends api_front implements api_interface {
 						->where('object_id', $order_refund_info['refund_id'])
 						->lists('file_path');
 				}
-				if (!empty($_FILES)) {
+				if (!empty($_FILES['refund_images'])) {
 					$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
 
 					//新传的售后图片处理
