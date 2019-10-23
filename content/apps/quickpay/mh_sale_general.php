@@ -186,7 +186,7 @@ class mh_sale_general extends ecjia_merchant {
 		$totext = __('至', 'quickpay');
 		$start_time = RC_Time::local_date('Y-m-d', $start_time);
 		$end_time = RC_Time::local_date('Y-m-d', $end_time);
-		$filename = mb_convert_encoding($filetitle . '_' . $start_time . $totext . $end_time, "GBK", "UTF-8");
+		$filename = mb_convert_encoding($filetitle . '_' . $start_time . $totext . $end_time, "UTF-8", "auto");
 	
 		header("Content-type: application/vnd.ms-excel; charset=utf-8");
 		header("Content-Disposition: attachment; filename=$filename.xls");
@@ -194,14 +194,14 @@ class mh_sale_general extends ecjia_merchant {
 		$title2 = __('时间段', 'quickpay');
 		$title3 = __('订单数（单位:个）', 'quickpay');
 		$title4 = __('营业额（单位:元）', 'quickpay');
-		echo mb_convert_encoding($title1,'GBK', 'UTF-8') . "\t\n";
-		echo mb_convert_encoding($title2,'GBK', 'UTF-8') . "\t";
-		echo mb_convert_encoding($title3,'GBK', 'UTF-8') . "\t";
-		echo mb_convert_encoding($title4,'GBK', 'UTF-8') . "\t\n";
+		echo mb_convert_encoding($title1,"UTF-8", "auto") . "\t\n";
+		echo mb_convert_encoding($title2,"UTF-8", "auto") . "\t";
+		echo mb_convert_encoding($title3,"UTF-8", "auto") . "\t";
+		echo mb_convert_encoding($title4,"UTF-8", "auto") . "\t\n";
 		foreach ($data_list AS $data) {
-			echo mb_convert_encoding($data['period'],'GBK', 'UTF-8') . "\t";
-			echo mb_convert_encoding($data['order_count'],'GBK', 'UTF-8') . "\t";
-			echo mb_convert_encoding($data['order_amount'],'GBK', 'UTF-8') . "\t";
+			echo mb_convert_encoding($data['period'],"UTF-8", "auto") . "\t";
+			echo mb_convert_encoding($data['order_count'],"UTF-8", "auto") . "\t";
+			echo mb_convert_encoding($data['order_amount'],"UTF-8", "auto") . "\t";
 			echo "\n";
 		}
 		exit;

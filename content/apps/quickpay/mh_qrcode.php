@@ -50,94 +50,111 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 收款二维码
  */
 class mh_qrcode extends ecjia_merchant {
-	public function __construct() {
-		parent::__construct();
+    public function __construct() {
+        parent::__construct();
         RC_Script::enqueue_script('jquery-form');
-		RC_Script::enqueue_script('smoke');
+        RC_Script::enqueue_script('smoke');
         RC_Style::enqueue_style('uniform-aristo');
-       
+
         // 页面css样式
         RC_Style::enqueue_style('merchant_qrcode', RC_App::apps_url('statics/css/merchant_qrcode.css', __FILE__), array());
         RC_Script::enqueue_script('merchant_qrcode', RC_App::apps_url('statics/js/merchant_qrcode.js', __FILE__));
-        
+
         RC_Loader::load_app_func('quickpay');
         Ecjia\App\Quickpay\Helper::assign_adminlog_content();
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('我的店铺', 'quickpay'), RC_Uri::url('merchant/merchant/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('store', 'store/merchant.php');
-	}
+    }
 
-	/**
-	 * 收款二维码
-	 */
-	public function init() {
-		$this->admin_priv('quickpay_collectmoney_qrcode');
+    /**
+     * 收款二维码
+     */
+    public function init() {
+        $this->admin_priv('quickpay_collectmoney_qrcode');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('收款二维码', 'quickpay')));
-		$this->assign('app_url', RC_App::apps_url('statics', __FILE__));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('店铺二维码', 'quickpay')));
+        $this->assign('app_url', RC_App::apps_url('statics', __FILE__));
 
-		$this->assign('ur_here', __('收款二维码', 'quickpay'));
+        $this->assign('ur_here', __('店铺二维码', 'quickpay'));
 
-		$merchant_info = RC_Api::api('store', 'store_info', ['store_id' => $_SESSION['store_id']]);
+        $merchant_info = RC_Api::api('store', 'store_info', ['store_id' => $_SESSION['store_id']]);
         $merchant_info['merchants_name'] = $_SESSION['store_name'];
 
         $this->assign('refresh_url', RC_Uri::url('quickpay/mh_qrcode/refresh'));
         $this->assign('download_url', RC_Uri::url('quickpay/mh_qrcode/download'));
         $this->assign('print_url', RC_Uri::url('quickpay/mh_qrcode/print_qrcode'));
-        
+
+        //收款二维码
         $merchant_info['shop_logo'] = RC_Upload::upload_url($merchant_info['shop_logo']);
         $merchant_info['collectmoney_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id'],  $merchant_info['shop_logo']))->getQrcodeUrl();
-        
+
+        //推广二维码
+        $merchant_info['member_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateAffiliate($_SESSION['store_id'],  $merchant_info['shop_logo']))->getQrcodeUrl();
+
         $this->assign('merchant_info', $merchant_info);
 
         return $this->display('quickpay_qrcode.dwt');
-	}
-	
-	/**
-	 * 刷新二维码
-	 */
-	public function refresh() {
-		$this->admin_priv('quickpay_collectmoney_qrcode', ecjia::MSGTYPE_JSON);
-		
-		$store_id = $_SESSION['store_id'];
-		//删除生成的收款二维码
-		with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id']))->removeQrcode();
-		
-		ecjia_merchant::admin_log(__('刷新收款二维码', 'quickpay'), 'edit', 'collectmoney_qrcode');
-		
-		return $this->showmessage(__('刷新成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/mh_qrcode/init')));
-	}
-	
-	/**
-	 * 下载素材
-	 */
-	public function download() {
-		$this->admin_priv('quickpay_collectmoney_qrcode', ecjia::MSGTYPE_HTML);
-		
-		$merchant_info = RC_Api::api('store', 'store_info', ['store_id' => $_SESSION['store_id']]);
-		$merchant_name = $_SESSION['store_name'];
-		$merchant_info['shop_logo'] = RC_Upload::upload_url($merchant_info['shop_logo']);
-		
-		$merchant_info['collectmoney_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id'],  $merchant_info['shop_logo']))->getQrcodeUrl();
+    }
 
-		with(new Ecjia\App\Quickpay\CollectMoneyPdf($merchant_name, $merchant_info['shop_logo'], $merchant_info['collectmoney_qrcode']))->make('D');
-	}
-	
-	/**
-	 * 打印素材
-	 */
-	public function print_qrcode() {
-	    $this->admin_priv('quickpay_collectmoney_qrcode', ecjia::MSGTYPE_HTML);
-	    
-	    $merchant_info = RC_Api::api('store', 'store_info', ['store_id' => $_SESSION['store_id']]);
-	    $merchant_name = $_SESSION['store_name'];
-	    $merchant_info['shop_logo'] = RC_Upload::upload_url($merchant_info['shop_logo']);
-	    
-	    $merchant_info['collectmoney_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id'],  $merchant_info['shop_logo']))->getQrcodeUrl();
-	    
-	    with(new Ecjia\App\Quickpay\CollectMoneyPdf($merchant_name, $merchant_info['shop_logo'], $merchant_info['collectmoney_qrcode']))->make('I');
-	}
-	
+    /**
+     * 刷新二维码
+     */
+    public function refresh() {
+        $this->admin_priv('quickpay_collectmoney_qrcode', ecjia::MSGTYPE_JSON);
+
+        $store_id = $_SESSION['store_id'];
+        //删除生成的收款二维码
+        with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id']))->removeQrcode();
+
+        ecjia_merchant::admin_log(__('刷新收款二维码', 'quickpay'), 'edit', 'collectmoney_qrcode');
+
+        return $this->showmessage(__('刷新成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/mh_qrcode/init')));
+    }
+
+    /**
+     * 下载素材
+     */
+    public function download() {
+        $this->admin_priv('quickpay_collectmoney_qrcode', ecjia::MSGTYPE_HTML);
+
+        $merchant_info = RC_Api::api('store', 'store_info', ['store_id' => $_SESSION['store_id']]);
+        $merchant_name = $_SESSION['store_name'];
+        $merchant_info['shop_logo'] = RC_Upload::upload_url($merchant_info['shop_logo']);
+
+        $type = $_GET['type'];
+        if($type == 'affiliate') {
+            $merchant_info['affiliate_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateAffiliate($_SESSION['store_id'],  $merchant_info['shop_logo']))->getQrcodeUrl();
+
+            with(new Ecjia\App\Quickpay\AffiliatePdf($merchant_name, $merchant_info['shop_logo'], $merchant_info['affiliate_qrcode']))->make('D');
+        } else {
+            $merchant_info['collectmoney_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id'],  $merchant_info['shop_logo']))->getQrcodeUrl();
+
+            with(new Ecjia\App\Quickpay\CollectMoneyPdf($merchant_name, $merchant_info['shop_logo'], $merchant_info['collectmoney_qrcode']))->make('D');
+        }
+    }
+
+    /**
+     * 打印素材
+     */
+    public function print_qrcode() {
+        $this->admin_priv('quickpay_collectmoney_qrcode', ecjia::MSGTYPE_JSON);
+
+        $store_id = $_SESSION['store_id'];
+        $type = $_GET['type'];
+        if($type == 'affiliate') {
+            //删除生成的收款二维码
+            with(new Ecjia\App\Mobile\Qrcode\GenerateAffiliate($store_id))->removeQrcode();
+        } else {
+            //删除生成的收款二维码
+            with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($store_id))->removeQrcode();
+        }
+
+        ecjia_merchant::admin_log(__('刷新收款二维码', 'quickpay'), 'edit', 'collectmoney_qrcode');
+
+        return $this->showmessage(__('刷新成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/mh_qrcode/init')));
+    }
+
 }
 
 //end
