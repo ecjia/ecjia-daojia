@@ -1119,6 +1119,7 @@ class merchant extends ecjia_merchant {
 
 		/* 记录日志 */
 		ecjia_merchant::admin_log($goods_name, 'add', 'goods');
+
 		/* 处理会员价格 */
 		if (isset($_POST['user_rank']) && isset($_POST['user_price'])) {
 			handle_member_price($goods_id, $_POST['user_rank'], $_POST['user_price']);
@@ -1158,7 +1159,6 @@ class merchant extends ecjia_merchant {
                 }
 
                 $result = $goods_image->updateToDatabase($goods_id);
-
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
@@ -1173,7 +1173,6 @@ class merchant extends ecjia_merchant {
 
                 $thumb_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsThumb($goods_id, 0, $thumb_info);
                 $result = $thumb_image->updateToDatabase();
-
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
@@ -1586,10 +1585,10 @@ class merchant extends ecjia_merchant {
                 }
 
                 $result = $goods_image->updateToDatabase();
-
                 if (is_ecjia_error($result)) {
                     return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
+
                 //删除生成的商品二维码
                 $disk = RC_Filesystem::disk();
                 $goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';
@@ -1607,10 +1606,10 @@ class merchant extends ecjia_merchant {
 
                 $thumb_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsThumb($goods_id, 0, $thumb_info);
                 $result = $thumb_image->updateToDatabase();
-
                 if (is_ecjia_error($result)) {
                     return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
+
                 //删除生成的商品二维码
                 $disk = RC_Filesystem::disk();
                 $goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';

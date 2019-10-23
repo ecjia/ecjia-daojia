@@ -101,6 +101,7 @@ class StorageDisk
             $makeWatermark->setWatermarkPlace($watermark_place);
         }
 
+
         if ($watermark_alpha) {
             $makeWatermark->setWatermarkAlpha($watermark_alpha);
         }

@@ -8,6 +8,7 @@
 
 namespace Ecjia\App\Goods\GoodsImage;
 
+use phpseclib\Crypt\Base;
 use RC_Image;
 use RC_File;
 use ecjia;
@@ -42,8 +43,8 @@ class MakeGoodsWatermarkImage
         $this->extension = $extension;
 
         $this->watermark = ecjia::config('watermark');
-        $this->watermark_place = $this->setWatermarkPlace(ecjia::config('watermark_place'));
-        $this->watermark_alpha = $this->setWatermarkAlpha(ecjia::config('watermark_alpha'));
+        $this->watermark_place = ecjia::config('watermark_place');
+        $this->watermark_alpha = ecjia::config('watermark_alpha');
 
         $this->image_width = ecjia::config('image_width');
         $this->image_height = ecjia::config('image_height');
@@ -141,6 +142,7 @@ class MakeGoodsWatermarkImage
     public function make()
     {
         $image = RC_Image::make($this->path);
+        $this->watermark = \RC_Upload::upload_path($this->watermark);
 
         //缩略图片大小
         $image->resize($this->image_width, $this->image_height, function ($constraint) {
@@ -148,8 +150,10 @@ class MakeGoodsWatermarkImage
         });
 
         if (!empty($this->watermark)) {
+
             // 插入水印, 水印位置在原图片的右下角
             $watermark = RC_Image::make($this->watermark)->opacity($this->watermark_alpha);
+
             $image->insert($watermark, $this->watermark_place);
         }
 
