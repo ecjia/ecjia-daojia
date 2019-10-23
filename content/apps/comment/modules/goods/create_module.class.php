@@ -151,7 +151,7 @@ class goods_create_module extends api_front implements api_interface {
 		    
 		    
 		    $image_info = null;
-		    if (!empty($_FILES)) {
+		    if (!empty($_FILES['picture'])) {
 		    	$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
 		        $picture = $_FILES['picture'];
 		        $image_info	= $upload->batchUpload($picture);
