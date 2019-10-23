@@ -687,6 +687,15 @@ class admin extends ecjia_admin
         }
         $this->assign('is_expired', $is_expired);
 
+        //会员数
+        $member_count = RC_DB::table('store_users as s')
+            ->where(RC_DB::raw('s.store_id'), $store_id)
+            ->leftJoin('users as u', RC_DB::raw('u.user_id'), '=', RC_DB::raw('s.user_id'))
+            ->count();
+        $member_count = !empty($member_count) ? intval($member_count) : 0;
+        $this->assign('member_count', $member_count);
+        $this->assign('store_id', $store_id);
+
         return $this->display('store_preview.dwt');
     }
 
