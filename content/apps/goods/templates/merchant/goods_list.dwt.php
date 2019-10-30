@@ -224,7 +224,7 @@
 									
 								{if $action neq 'check'}
 									<td>
-										<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/merchant/edit_goods_sn')}" data-name="goods_edit_goods_sn" data-pk="{$goods.goods_id}" data-title="{t domain='goods'}请输入商品货号{/t}">
+										<span class="cursor_pointer"  data-name="goods_edit_goods_sn" data-pk="{$goods.goods_id}" data-title="{t domain='goods'}请输入商品货号{/t}">
 											{$goods.goods_sn} 
 										</span>
 									</td>

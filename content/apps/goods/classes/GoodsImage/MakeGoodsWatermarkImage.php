@@ -142,7 +142,11 @@ class MakeGoodsWatermarkImage
     public function make()
     {
         $image = RC_Image::make($this->path);
-        $this->watermark = \RC_Upload::upload_path($this->watermark);
+
+        if(! empty($this->watermark))
+        {
+            $this->watermark = \RC_Upload::upload_path($this->watermark);
+        }
 
         //缩略图片大小
         $image->resize($this->image_width, $this->image_height, function ($constraint) {
