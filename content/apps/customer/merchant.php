@@ -116,7 +116,7 @@ class merchant extends ecjia_merchant {
         $rank_list = get_user_rank_list();
         $this->assign('rank_list', $rank_list);
 
-        $user_list = $this->get_store_user_list();
+        $user_list = $this->get_store_user_list(10);
 
         $this->assign('user_list', $user_list);
         $this->assign('form_action', RC_Uri::url('customer/merchant/init'));
@@ -140,34 +140,31 @@ class merchant extends ecjia_merchant {
             $list = array();
             foreach ($data['list'] as $key => $value)
             {
-                $list[$key]['user_name'] = $value['user_name'];
-                $list[$key]['mobile_phone'] = $value['mobile_phone'];
-                $list[$key]['buy_times'] = $value['buy_times'];
-                $list[$key]['buy_amount'] = $value['buy_amount'];
-                $list[$key]['rank_name'] = $value['rank_name'];
-                if ($value['join_scene'] == 'qrcode')
-                {
+                $user_name = json_encode($value['user_name']);
+                $user_name = preg_replace("/\\\u[ed][0-9a-f]{3}\\\u[ed][0-9a-f]{3}/","*",$user_name);//替换成*
+                $user_name = json_decode($user_name);
+
+                $list[$key]['user_name'] = !empty($value['user_name']) ? $user_name ."\t" : '/';
+                $list[$key]['mobile_phone'] = !empty($value['mobile_phone']) ? $value['mobile_phone'] . "\t" : '/';
+                $list[$key]['buy_times'] = !empty($value['buy_times']) ? $value['buy_times'] ."\t" : '/';
+                $list[$key]['buy_amount'] = !empty($value['buy_amount']) ? $value['buy_amount'] ."\t" : '0.00';
+                $list[$key]['rank_name'] = !empty($value['rank_name']) ? $value['rank_name'] ."\t" : '/';
+
+
+                if ($value['join_scene'] == 'qrcode') {
                     $list[$key]['join_scene'] = '推广二维码';
-                }
-                elseif ($value['join_scene'] == 'quickpay')
-                {
+                } elseif ($value['join_scene'] == 'quickpay') {
                     $list[$key]['join_scene'] = '门店买单';
-                }
-                elseif ($value['join_scene'] == 'cashier_suggest')
-                {
+                } elseif ($value['join_scene'] == 'cashier_suggest') {
                     $list[$key]['join_scene'] = '收银员推荐';
-                }
-                elseif ($value['join_scene'] == 'buy')
-                {
+                } elseif ($value['join_scene'] == 'buy') {
                     $list[$key]['join_scene'] = '店铺消费';
-                }
-                else{
+                } else{
                     $list[$key]['join_scene'] = '其他方式';
                 }
 
-                $list[$key]['last_buy_time_format'] = !empty($value['last_buy_time_format']) ? $value['last_buy_time_format'] : '无';
-                $list[$key]['add_time_format'] = $value['add_time_format'];
-
+                $list[$key]['last_buy_time_format'] = !empty($value['last_buy_time_format']) ? $value['last_buy_time_format'] ."\t": '/';
+                $list[$key]['add_time_format'] = !empty($value['add_time_format']) ? $value['add_time_format']."\t" : '/';
             }
             $file = 'customer_list.xls';
         }
@@ -270,18 +267,18 @@ class merchant extends ecjia_merchant {
     /**
      * 获取列表
      */
-    private function get_store_user_list($page_size=10) {
+    private function get_store_user_list($page_size) {
 
         $filter = array();
-        $filter['keywords']   = empty($_GET['keywords'])      ? ''                : remove_xss($_GET['keywords']);
-        $filter['rank_id']     = empty($_GET['rank_id'])        ? 0                 : intval($_GET['rank_id']);
+        $filter['keywords']   = empty($_GET['keywords'])      ? ''                : $_GET['keywords'];
+        $filter['rank_id']     = empty($_GET['rank_id'])        ? 0                 : $_GET['rank_id'];
 
         $filter['start_time']     = empty($_GET['start_time'])        ? 0                 : $_GET['start_time'];
         $filter['end_time']     = empty($_GET['end_time'])        ? 0                 : $_GET['end_time'];
 
 
-        $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : remove_xss($_GET['sort_order']);
-        $filter['type']   	  = empty($_GET['type'])      	  ? 'buy'             : remove_xss($_GET['type']);
+        $filter['sort_order'] = empty($_GET['sort_order'])    ? 'DESC'            : $_GET['sort_order'];
+        $filter['type']   	  = $_GET['type'];
         $filter['sort_by'] 	  = 's.add_time';
 
         if (!empty($_GET['sort_by'])) {
@@ -307,7 +304,6 @@ class merchant extends ecjia_merchant {
         if ($filter['start_time']) {
             $start_time = RC_Time::local_strtotime($filter['start_time']);
             $db_store_users->where('add_time', '>=', $start_time);
-
         }
 
         if ($filter['end_time']) {
@@ -322,8 +318,6 @@ class merchant extends ecjia_merchant {
         if ($filter['type']) {
             $db_store_users->where(RC_DB::raw('s.join_scene'), $filter['type']);
         }
-
-
 
 
         $count = $db_store_users->count();
@@ -346,6 +340,7 @@ class merchant extends ecjia_merchant {
                 } else {
                     $rank = RC_DB::table('user_rank')->select('rank_id', 'rank_name')->where('rank_id', $rows['user_rank'])->first();
                 }
+                $rows['user_name'] = !empty($rows['user_name']) ? $rows['user_name'] : '';
                 $rows['avatar_img'] = !empty($rows['avatar_img']) ? RC_Upload::upload_url($rows['avatar_img']) : '';
                 $rows['rank_name'] = $rank['rank_name'];
                 $rows['mobile_phone'] = !empty($rows['mobile_phone']) ? substr_replace($rows['mobile_phone'],'****',3,4) : '';

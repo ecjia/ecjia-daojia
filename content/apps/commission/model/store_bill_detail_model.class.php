@@ -46,26 +46,33 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+//use Ecjia\App\Agencysale\AgencysaleStoreBill;
+use Ecjia\App\Quickpay\QuickpayIntegralActivity;
+use Ecjia\App\Store\Models\StoreFranchiseeModel;
+//use Ecjia\App\Affiliate\AffiliateStoreCommission;
+//use Ecjia\App\Agencysale\AgencysaleVipAffiliate;
+use Ecjia\App\Affiliate\AffiliateStoreCommissionIntegral;
 /**
  * 账单
  */
 class store_bill_detail_model extends Component_Model_Model {
-	public $table_name = '';
-	public $view = array();
-	public function __construct() {
-		$this->table_name = 'store_bill_detail';
-		parent::__construct();
-	}
-	/*
-	 * brokerage_amount 订单入账时需校验金额是否和订单一致，退货为负数须校验该订单总退货次数所有金额是否超过订单金额
-	 * percent_value 根据storeid获取，退货获取订单入账时比例
-	 * order_type buy订单,quickpay买单,refund退款
-	 * TODO：订单入账时需校验金额是否和订单一致，退货为负数须校验该订单总退货次数所有金额是否超过订单金额
-	 * TODO：异常处理，记录
-	 * @update20180320:增加订单相关信息信息
-	 */
+    public $table_name = '';
+    public $view = array();
+    public function __construct() {
+        $this->table_name = 'store_bill_detail';
+        parent::__construct();
+    }
+    /*
+     * brokerage_amount 订单入账时需校验金额是否和订单一致，退货为负数须校验该订单总退货次数所有金额是否超过订单金额
+     * percent_value 根据storeid获取，退货获取订单入账时比例
+     * order_type buy订单,quickpay买单,refund退款
+     * TODO：订单入账时需校验金额是否和订单一致，退货为负数须校验该订单总退货次数所有金额是否超过订单金额
+     * TODO：异常处理，记录
+     * @update20180320:增加订单相关信息信息
+     * @update20191016:参与买单送积分活动，分佣减免
+     */
 
-	public function add_bill_detail($data) {
+    public function add_bill_detail($data) {
         if (!is_array($data) || !isset($data['order_type']) || empty($data['order_id']) ) {
             return false;
         }
@@ -95,7 +102,7 @@ class store_bill_detail_model extends Component_Model_Model {
             RC_Logger::getLogger('bill_order_error')->error('订单类型超出范围，order_id:'.$data['order_id']);
             return false;
         }
-        
+
         if (empty($order_info)) {
             RC_Logger::getLogger('bill_order_error')->error('订单信息空:');
             RC_Logger::getLogger('bill_order_error')->error($data);
@@ -106,11 +113,11 @@ class store_bill_detail_model extends Component_Model_Model {
             RC_Logger::getLogger('bill_order_error')->error($data);
             return false;
         }
-        
+
         if (!isset($data['store_id'])) {
             $data['store_id'] = $order_info['store_id'];
         }
-        
+
         $data['goods_amount'] = $order_info['goods_amount'];
         $data['shipping_fee'] = $order_info['shipping_fee'] ? $order_info['shipping_fee'] : 0;
         $data['insure_fee'] = $order_info['insure_fee'] ? $order_info['insure_fee'] : 0;
@@ -136,14 +143,23 @@ class store_bill_detail_model extends Component_Model_Model {
             } else {
                 $data['order_amount'] = $order_info['money_paid'] + $order_info['surplus'] + $order_info['integral_money'];
             }
-            
+
         }
         if ($data['order_type'] == 'buy') {
-            $data['percent_value'] = RC_Model::model('commission/store_franchisee_model')->get_store_commission_percent($data['store_id']);
+            //堂食使用单独分成比例
+            if($order_info['extension_code'] == 'storebuy') {
+                $StoreFranchiseeModel = StoreFranchiseeModel::where('store_id', $order_info['store_id'])->first();
+                $data['percent_value'] = $StoreFranchiseeModel->getMeta('storebuy_percent');
+                if(empty($data['percent_value'])) {
+                    $data['percent_value'] = ecjia::config('storebuy_percent');
+                }
+            } else {
+                $data['percent_value'] = RC_Model::model('commission/store_franchisee_model')->get_store_commission_percent($data['store_id']);
+            }
             if (empty($data['percent_value'])) {
                 $data['percent_value'] = 100; //未设置分成比例，默认100
             }
-            
+
             //众包配送，运费不参与商家结算 @update 20180606
             //支付手续费平台收取 @update 20190410
             if($order_info['shipping_code'] == 'ship_ecjia_express') {
@@ -164,7 +180,7 @@ class store_bill_detail_model extends Component_Model_Model {
                     $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
                 }
             }
-            
+
         } else if ($data['order_type'] == 'refund') {
             //退款时 $data['order_id']是 refund_id
             if ($data['brokerage_amount']) {
@@ -201,7 +217,11 @@ class store_bill_detail_model extends Component_Model_Model {
                 $data['platform_profit'] = $datail['platform_profit'] * -1;
             }
         } else if ($data['order_type'] == 'quickpay') {
-            $data['percent_value'] = 100 - ecjia::config('quickpay_fee');
+//            $data['percent_value'] = 100 - ecjia::config('quickpay_fee');
+
+            //判断当前订单是否参与买单送积分活动，返回结算比例
+            $quickpay_fee = Ecjia\App\Quickpay\QuickpayIntegralActivity::getCommissionPercentByOrder($order_info);
+            $data['percent_value'] = 100 - $quickpay_fee;
             if ($data['percent_value'] > 100) {
                 RC_Logger::getLogger('bill_order_error')->error('quickpay_fee超出范围：');
                 RC_Logger::getLogger('bill_order_error')->error($data);
@@ -219,11 +239,49 @@ class store_bill_detail_model extends Component_Model_Model {
         $data['add_time'] = RC_Time::gmtime();
 //         RC_Logger::getLogger('info')->info($data);
 
+        $db_store_user =  RC_DB::table('store_users as s')
+            ->where(RC_DB::raw('s.store_id'), '!=' , $order_info['store_id'])
+            ->where(RC_DB::raw('s.user_id'), $order_info['user_id']);
+        $store_user = $db_store_user->first();
+
+//        if (! empty($store_user))
+//        {
+//            $his_shop_data = array(
+//                'order_id' => $order_info['order_id'],
+//                'order_sn' => $order_info['order_sn'],
+//                'user_id' =>  $order_info['user_id'],
+//                'user_name' =>  $this->get_user_name($order_info['user_id']),
+//                'store_id' => $store_user['store_id'],
+//                'add_gmtime' => RC_Time::gmtime(),
+//                'money' => $this->calculate_his_shop_percent($store_user['store_id'], $data['platform_profit'])
+//            );
+//
+//            RC_DB::table('store_affiliate_log')->insert($his_shop_data);
+//        }
+
         $status = false;
-        RC_DB::transaction(function () use ($data, &$status){
-            
+        RC_DB::transaction(function () use ($data, &$status, $order_info){
+            //结算后代理分佣
             $datail_id = RC_DB::table('store_bill_detail')->insertGetId($data);
             if($datail_id) {
+                //买单积分分成
+                with(new AffiliateStoreCommissionIntegral($data['order_type'], $data['store_id'], $order_info))->run();
+
+                //结算后代理分佣
+//                $affiliate = array_merge($data, ['agencysale_store_id' => $order_info['agencysale_store_id']]);
+//                with(new AffiliateStoreCommission($data['store_id'], $affiliate))->run();
+
+                //代销商家结算
+//                if($order_info['agencysale_store_id']) {
+//                    if($data['order_type'] == 'refund') {
+//                        with(new AgencysaleStoreBill($affiliate, $order_info))->refund();
+//                    } else {
+//                        with(new AgencysaleStoreBill($affiliate, $order_info))->bill();
+//                    }
+//                    //vip
+//                    with(new AgencysaleVipAffiliate($order_info))->buy();
+//                }
+
                 //TODO每成功后结算一次
                 RC_Loader::load_app_class('store_account', 'commission');
                 $account = array(
@@ -246,36 +304,36 @@ class store_bill_detail_model extends Component_Model_Model {
             }
             $status = false;
         });
-        
-	    return $status;
-	}
 
-	//计算日账单,分批处理数据
-	public function count_bill_day($options) {
-	    
+        return $status;
+    }
+
+    //计算日账单,分批处理数据
+    public function count_bill_day($options) {
+
         $day_time = RC_Time::local_strtotime($options['day']);
-        
-	    $rs_order = RC_DB::table('store_bill_detail')->select("store_id", RC_DB::raw("'".$options['day']."' as day"), RC_DB::raw('COUNT(store_id) as order_count'), RC_DB::raw('SUM(brokerage_amount) as order_amount'),
-	        RC_DB::raw('0 as refund_count'), RC_DB::raw('0.00 as refund_amount'), 'percent_value')
-	    ->whereBetween('add_time', array($day_time, $day_time + 86399))
-	    ->where(function ($query) {
-	        $query->where('order_type', 'buy')
-	        ->orWhere('order_type', 'quickpay');
-	    })
-	    ->groupBy('store_id')
-	    ->get();
 
-	    $rs_refund = RC_DB::table('store_bill_detail')->groupBy('store_id')->select("store_id", RC_DB::raw("'".$options['day']."' as day"),RC_DB::raw('COUNT(store_id) as refund_count'), RC_DB::raw('SUM(brokerage_amount) as refund_amount'),
-	        RC_DB::raw('0 as order_count'), RC_DB::raw('0.00 as order_amount'), 'percent_value')
-	    ->whereBetween('add_time', array($day_time, $day_time + 86399))->where('order_type', 'refund')->get();
-	    
-	    $rs_refund = self::formate_array($rs_refund, 'store_id');
+        $rs_order = RC_DB::table('store_bill_detail')->select("store_id", RC_DB::raw("'".$options['day']."' as day"), RC_DB::raw('COUNT(store_id) as order_count'), RC_DB::raw('SUM(brokerage_amount) as order_amount'),
+            RC_DB::raw('0 as refund_count'), RC_DB::raw('0.00 as refund_amount'), 'percent_value')
+            ->whereBetween('add_time', array($day_time, $day_time + 86399))
+            ->where(function ($query) {
+                $query->where('order_type', 'buy')
+                    ->orWhere('order_type', 'quickpay');
+            })
+            ->groupBy('store_id')
+            ->get();
+
+        $rs_refund = RC_DB::table('store_bill_detail')->groupBy('store_id')->select("store_id", RC_DB::raw("'".$options['day']."' as day"),RC_DB::raw('COUNT(store_id) as refund_count'), RC_DB::raw('SUM(brokerage_amount) as refund_amount'),
+            RC_DB::raw('0 as order_count'), RC_DB::raw('0.00 as order_amount'), 'percent_value')
+            ->whereBetween('add_time', array($day_time, $day_time + 86399))->where('order_type', 'refund')->get();
+
+        $rs_refund = self::formate_array($rs_refund, 'store_id');
 // 	    _dump($rs_order);
 // 	    _dump($rs_refund,1);
 // 	    RC_Logger::getLogger('info')->info($val);
-	    //获取结算店铺列表
-	    if ($rs_order) {
-	        foreach ($rs_order as $key => $val) {
+        //获取结算店铺列表
+        if ($rs_order) {
+            foreach ($rs_order as $key => $val) {
                 if ($rs_refund && $rs_refund[$val['store_id']]) {
                     $rs_order[$key]['refund_count'] = $rs_refund[$val['store_id']]['refund_count'];
                     $rs_order[$key]['refund_amount'] = $rs_refund[$val['store_id']]['refund_amount'];
@@ -283,130 +341,162 @@ class store_bill_detail_model extends Component_Model_Model {
                 } else {
                     $rs_order[$key]['brokerage_amount'] = $val['order_amount'];
                 }
-	            $rs_order[$key]['add_time'] = RC_Time::gmtime();
-	        }
-	        return $rs_order;
-	    } else {
-	        if ($rs_refund) {
-	            foreach ($rs_refund as $key => $val) {
+                $rs_order[$key]['add_time'] = RC_Time::gmtime();
+            }
+            return $rs_order;
+        } else {
+            if ($rs_refund) {
+                foreach ($rs_refund as $key => $val) {
                     $rs_refund[$key]['brokerage_amount'] = $val['refund_amount'];
-	                $rs_refund[$key]['add_time'] = RC_Time::gmtime();
-	            }
-	            return $rs_refund;
-	        }
-	        return array();
-	    }
-	   
-	}
-	
-	public function get_bill_percent($order_id) {
-	    $rs = RC_DB::table('store_bill_detail')->where('order_id', $order_id)->where('order_type', 'buy')->first();
-	    return $rs['percent_value'];
-	}
-	
-	public function get_bill_detail($order_id) {
-	    $rs = RC_DB::table('store_bill_detail')->where('order_id', $order_id)->where('order_type', 'buy')->first();
-	    return $rs;
-	}
+                    $rs_refund[$key]['add_time'] = RC_Time::gmtime();
+                }
+                return $rs_refund;
+            }
+            return array();
+        }
 
-	public function get_bill_record($store_id = 0, $page = 1, $page_size = 15, $filter = array(), $is_admin = 0) {
-	    $db_bill_detail = RC_DB::table('store_bill_detail as bd')
-	    ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('bd.store_id'));
+    }
+
+    public function get_bill_percent($order_id) {
+        $rs = RC_DB::table('store_bill_detail')->where('order_id', $order_id)->where('order_type', 'buy')->first();
+        return $rs['percent_value'];
+    }
+
+    public function get_bill_detail($order_id) {
+        $rs = RC_DB::table('store_bill_detail')->where('order_id', $order_id)->where('order_type', 'buy')->first();
+        return $rs;
+    }
+
+    public function get_bill_record($store_id = 0, $page = 1, $page_size = 15, $filter = array(), $is_admin = 0) {
+        $db_bill_detail = RC_DB::table('store_bill_detail as bd')
+            ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('bd.store_id'));
 // 	    ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('bd.order_id'));
 
-	    if ($store_id) {
-	        $db_bill_detail->whereRaw('bd.store_id ='.$store_id);
-	    }
+        if ($store_id) {
+            $db_bill_detail->whereRaw('bd.store_id ='.$store_id);
+        }
 
-	    if (!empty($filter['order_sn'])) {
-	        $db_bill_detail->whereRaw('bd.order_sn ='.$filter['order_sn']);
-	    }
-	    if (!empty($filter['merchant_keywords'])) {
-	        $db_bill_detail->whereRaw("s.merchants_name like'%".$filter['merchant_keywords']."%'");
-	    }
-	    if (!empty($filter['start_date']) && !empty($filter['end_date'])) {
-	        $db_bill_detail->whereRaw("(bd.add_time BETWEEN ".$filter['start_date']." AND ".$filter['end_date'].')');
-	    } else {
-	        if (!empty($filter['start_date']) && empty($filter['end_date'])) {
-	            $db_bill_detail->whereRaw('bd.add_time >= '.$filter['start_date']);
-	        }
-	        if (empty($filter['start_date']) && !empty($filter['end_date'])) {
-	            $db_bill_detail->whereRaw('bd.add_time <='.$filter['end_date']);
-	        }
-	    }
-  
-	    $count = $db_bill_detail->count('detail_id');
-	    if($is_admin) {
-	        $page = new ecjia_page($count, $page_size, 3);
-	    } else {
-	        $page = new ecjia_merchant_page($count, $page_size, 3);
-	    }
-	    $fields = " bd.*,bd.order_amount as total_fee,s.merchants_name";
-	    $row = $db_bill_detail
-		    ->select(RC_DB::raw($fields))
-		    ->take($page_size)
-		    ->orderBy(RC_DB::raw('bd.add_time'), 'desc')
-		    ->skip($page->start_id-1)
-		    ->get();
-	    
-	    if ($row) {
-	        foreach ($row as $key => $val) {
-	            if(empty($val['order_sn'])) {
-	                //原有数据做兼容
-	                if($val['order_type'] == 'quickpay') {
-	                    //优惠买单订单
-	                    $order_info = RC_DB::table('quickpay_orders')->where('order_id', $val['order_id'])->
-	                    select('order_sn','order_amount as total_fee')->first();
-	                    $order_info['buyer'] = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('user_name as buyer');
-	                    $row[$key] = array_merge($row[$key], $order_info);
-	                } elseif ($val['order_type'] == 'buy' || $val['order_type'] == 'refund') {
-	                    //普通订单（含退款）
-	                    $db_order_info = RC_DB::table('order_info as oi');
-	                    $fields = " oi.order_sn, oi.order_amount, oi.money_paid,";
-	                    $fields .= " (money_paid + surplus + integral_money) AS total_fee ";
-	                    $order_info = $db_order_info->where('order_id', $val['order_id'])->select(RC_DB::raw($fields))->first();
-	                    $row[$key] = array_merge($row[$key], $order_info);
-	                } else {
-	                    RC_Logger::getLogger('info')->info('store_bill_error:');
-	                    RC_Logger::getLogger('info')->info($val);
-	                    continue;
-	                }
-	            }
-	            //分成金额=订单金额-运费-保价费
-	            $row[$key]['commission_fee'] = $row[$key]['total_fee'] - $row[$key]['shipping_fee'] - $row[$key]['insure_fee'] - $row[$key]['pay_fee'];
+        if (!empty($filter['order_sn'])) {
+            $db_bill_detail->whereRaw('bd.order_sn ='.$filter['order_sn']);
+        }
+        if (!empty($filter['merchant_keywords'])) {
+            $db_bill_detail->whereRaw("s.merchants_name like'%".$filter['merchant_keywords']."%'");
+        }
+        if (!empty($filter['start_date']) && !empty($filter['end_date'])) {
+            $db_bill_detail->whereRaw("(bd.add_time BETWEEN ".$filter['start_date']." AND ".$filter['end_date'].')');
+        } else {
+            if (!empty($filter['start_date']) && empty($filter['end_date'])) {
+                $db_bill_detail->whereRaw('bd.add_time >= '.$filter['start_date']);
+            }
+            if (empty($filter['start_date']) && !empty($filter['end_date'])) {
+                $db_bill_detail->whereRaw('bd.add_time <='.$filter['end_date']);
+            }
+        }
+
+        $count = $db_bill_detail->count('detail_id');
+        if($is_admin) {
+            $page = new ecjia_page($count, $page_size, 3);
+        } else {
+            $page = new ecjia_merchant_page($count, $page_size, 3);
+        }
+        $fields = " bd.*,bd.order_amount as total_fee,s.merchants_name";
+        $row = $db_bill_detail
+            ->select(RC_DB::raw($fields))
+            ->take($page_size)
+            ->orderBy(RC_DB::raw('bd.add_time'), 'desc')
+            ->skip($page->start_id-1)
+            ->get();
+
+        if ($row) {
+            foreach ($row as $key => $val) {
+                if(empty($val['order_sn'])) {
+                    //原有数据做兼容
+                    if($val['order_type'] == 'quickpay') {
+                        //优惠买单订单
+                        $order_info = RC_DB::table('quickpay_orders')->where('order_id', $val['order_id'])->
+                        select('order_sn','order_amount as total_fee')->first();
+                        $order_info['buyer'] = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('user_name as buyer');
+                        $row[$key] = array_merge($row[$key], $order_info);
+                    } elseif ($val['order_type'] == 'buy' || $val['order_type'] == 'refund') {
+                        //普通订单（含退款）
+                        $db_order_info = RC_DB::table('order_info as oi');
+                        $fields = " oi.order_sn, oi.order_amount, oi.money_paid,";
+                        $fields .= " (money_paid + surplus + integral_money) AS total_fee ";
+                        $order_info = $db_order_info->where('order_id', $val['order_id'])->select(RC_DB::raw($fields))->first();
+                        $row[$key] = array_merge($row[$key], $order_info);
+                    } else {
+                        RC_Logger::getLogger('info')->info('store_bill_error:');
+                        RC_Logger::getLogger('info')->info($val);
+                        continue;
+                    }
+                }
+                //分成金额=订单金额-运费-保价费
+                $row[$key]['commission_fee'] = $row[$key]['total_fee'] - $row[$key]['shipping_fee'] - $row[$key]['insure_fee'] - $row[$key]['pay_fee'];
                 $row[$key]['commission_fee_formatted'] = ecjia_price_format($row[$key]['commission_fee'], false);
                 $row[$key]['total_fee_formatted'] = ecjia_price_format($row[$key]['total_fee'], false);
                 $row[$key]['brokerage_amount_formatted'] = ecjia_price_format($row[$key]['brokerage_amount'], false);
                 $row[$key]['platform_profit_formatted'] = ecjia_price_format($row[$key]['platform_profit'], false);
 
-	        	$row[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['add_time']);
-	        	$row[$key]['bill_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['bill_time']);
+                $row[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['add_time']);
+                $row[$key]['bill_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['bill_time']);
 
-	        	if($val['order_type'] == 'buy') {
-	        		$row[$key]['order_type_name'] = __('购物订单', 'commission');
-	        	} elseif ($val['order_type'] == 'refund') {
-	        		$row[$key]['order_type_name'] = __('退款', 'commission');
+                if($val['order_type'] == 'buy') {
+                    $row[$key]['order_type_name'] = __('购物订单', 'commission');
+                } elseif ($val['order_type'] == 'refund') {
+                    $row[$key]['order_type_name'] = __('退款', 'commission');
 // 	        		$row[$key]['order_type_name_style'] = '<span class="ecjiafc-red">退款</span>';
-	        	} elseif ($val['order_type'] == 'quickpay'){
-	        		$row[$key]['order_type_name'] = __('优惠买单', 'commission');
-	        	} else {
-	        	    $row[$key]['order_type_name'] = __('未知', 'commission');
-	        	}
-	        }
-	    }
-	    return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
-	}
-	
-	public function formate_array($data, $newKey) {
-	    $newArray = array();
-	    if($data) {
-	        foreach ($data as $val) {
-	            $newArray[$val[$newKey]] = $val;
-	        }
-	        return $newArray;
-	    }
-	    return $data;
-	}
+                } elseif ($val['order_type'] == 'quickpay'){
+                    $row[$key]['order_type_name'] = __('优惠买单', 'commission');
+                } else {
+                    $row[$key]['order_type_name'] = __('未知', 'commission');
+                }
+            }
+        }
+        return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
+    }
+
+    public function formate_array($data, $newKey) {
+        $newArray = array();
+        if($data) {
+            foreach ($data as $val) {
+                $newArray[$val[$newKey]] = $val;
+            }
+            return $newArray;
+        }
+        return $data;
+    }
+
+    private function calculate_his_shop_percent($store_id, $amount)
+    {
+        //他店佣金比例
+        $StoreFranchiseeModel = StoreFranchiseeModel::where('store_id', $store_id)->first();
+        $his_shop_percent = $StoreFranchiseeModel->getMeta('his_shop_percent', 0);
+
+        if(empty($his_shop_percent)) {
+            $his_shop_percent = ecjia::config('his_shop_percent');
+        }
+
+        $res = $his_shop_percent / 100;
+
+        $his_shop_amount = $res * $amount;
+
+        return $his_shop_amount;
+    }
+
+    private function get_user_name($user_id)
+    {
+        $db_users = RC_DB::table('users')
+            ->where('user_id', $user_id);
+
+        $name = '';
+
+        if (! empty( $db_users->count()))
+        {
+            $name = $db_users->pluck('user_name');
+        }
+
+        return $name;
+    }
 }
 
 // end
