@@ -4,6 +4,7 @@ namespace Ecjia\App\Wechat;
 
 use Ecjia\App\Wechat\Models\WechatQrcodeModel;
 use RC_Time;
+use RC_DB;
 
 class WechatQrcode
 {
@@ -101,4 +102,50 @@ class WechatQrcode
     }
 
 
+    /**
+     * 获取店铺微信推广二维码
+     * @param string $openid
+     */
+    public function getStoreQrcodeUrl($store_id, $openid, $function = null)
+    {
+        $wechat_id = $this->wechat_uuid->getWechatID();
+
+        $model = WechatQrcodeModel::where('scene_id', $openid)->where('wechat_id', $wechat_id)->where('type', 1)->first();
+        //店铺已经存在，读取店铺推广码
+        if (!empty($model)) {
+            if (!is_null($function)) {
+                $data = [
+                    'function' => $function,
+                ];
+                $model->update($data);
+            }
+        } //店铺不存在，为店铺创建推广码
+        else {
+            try {
+                $ticket = $this->forever($openid);
+            } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
+                return new \ecjia_error('wechat_qrcode_error', $e->getMessage());
+            }
+            //$wechat_user = new WechatUser($wechat_id, $openid);
+            //$username    = $wechat_user->getNickname();
+
+            $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+
+            $data  = [
+                'type'           => 1,
+                'scene_id'       => $openid,
+                'username'       => $store_name,
+                'function'       => $function,
+                'status'         => 1,
+                'wechat_id'      => $wechat_id,
+                'endtime'        => RC_Time::gmtime(),
+                'expire_seconds' => 0,
+                'ticket'         => $ticket['ticket'],
+                'qrcode_url'     => "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $ticket['ticket'],
+            ];
+            $model = WechatQrcodeModel::create($data);
+        }
+
+        return $model->qrcode_url;
+    }
 }
