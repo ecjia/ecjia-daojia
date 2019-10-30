@@ -57,7 +57,7 @@ class GenerateAffiliate extends AbstractQrcode {
             'handle'        => 'ecjiaopen',
             'open_type'     => 'affiliate',
             'merchant_id'   => $this->id,
-            ];
+        ];
         $url = RC_Uri::url('mobile/redirect/init', $args);
         $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
         return $url;

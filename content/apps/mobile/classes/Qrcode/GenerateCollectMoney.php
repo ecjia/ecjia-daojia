@@ -50,31 +50,31 @@ use RC_Upload;
 use RC_Uri;
 
 class GenerateCollectMoney extends AbstractQrcode {
-        
+
     public function content()
     {
         $args = [
-            'handle'        => 'ecjiaopen', 
-            'open_type'     => 'collectmoney', 
+            'handle'        => 'ecjiaopen',
+            'open_type'     => 'collectmoney',
             'merchant_id'   => $this->id
         ];
         $url = RC_Uri::url('mobile/redirect/init', $args);
         $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
         return $url;
     }
-    
-    public function storeDir() 
+
+    public function storeDir()
     {
         $dir = RC_Upload::upload_path().'data/qrcodes/collectmoney/';
         return $dir;
     }
-    
-    
+
+
     public function fileName($size = 430)
     {
         return 'merchant_' . $this->id . '.png';
     }
-    
+
 }
 
 // end
