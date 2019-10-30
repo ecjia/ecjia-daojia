@@ -295,7 +295,16 @@
 					}
 				}, {ok:js_lang.confirmed, cancel:js_lang.canceled});
         	});
-        	
+
+            /**
+             * clone-obj触发器
+             * data-parent 		要复制的父级节点
+             */
+            $(document).on('click', '[data-toggle="clone-obj"]', function(e){
+                app.express.tpicker();
+                app.express.datepicker();
+            });
+
         	$('.edit_shipping').off('click').on('click', function() {
         		let length = $('.content-area-list').find('input').length;
         		if (length === 0) {
