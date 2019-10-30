@@ -57,7 +57,6 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
         if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-        //define('SESS_ID', RC_Session::session()->getSessionKey());
         define('SESS_ID', RC_Session::getId());
         
         
@@ -91,7 +90,6 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 				if ($row) {
 					/* 判断是否是特殊等级，可能后台把特殊会员组更改普通会员组 */
 					if ($row['user_rank'] > 0) {
-						//$special_rank = RC_Model::model('user/user_rank_model')->where(array('rank_id' => $row['user_rank']))->get_field('special_rank');
 						$special_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->pluck('special_rank');
 						if ($special_rank == '0' || $special_rank == null) {
 							$data = array(
@@ -105,7 +103,6 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 					/* 取得用户等级和折扣 */
 					if ($row['user_rank'] == 0) {
 						// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
-						//$row = RC_Model::model('user/user_rank_model')->field('rank_id, discount')->find('special_rank = "0" AND min_points <= "' . intval($row['rank_points']) . '" AND max_points > "' . intval($row['rank_points']) . '"');
 						$row = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', intval($row['rank_points']))->where('max_points', '>=', intval($row['rank_points']))->first();
 						if ($row) {
 							$_SESSION['user_rank']	= $row['rank_id'];
@@ -116,7 +113,6 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 						}
 					} else {
 						// 特殊等级
-						//$row = RC_Model::model('user/user_rank_model')->field('rank_id, discount')->find(array('rank_id' => $row['user_rank']));
 						$row = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
 						if ($row) {
 							$_SESSION['user_rank']	= $row['rank_id'];
@@ -145,24 +141,23 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 	    }
 		
 		if (!empty($addgoods)) {
-			$products_db = RC_Loader::load_app_model('products_model', 'goods');
-			$goods_db = RC_Loader::load_app_model('goods_model', 'goods');
 			$goods_spec = array();
 			
-			$products_goods = $products_db->where(array('product_sn' => $addgoods['goods_sn']))->find();
+			$products_goods = RC_DB::table('products')->where('product_sn', $addgoods['goods_sn'])->orWhere('product_bar_code', $addgoods['goods_sn'])->first();
 			if (!empty($products_goods)) {
+				$db_goods = RC_DB::table('goods');
 				$goods_spec = explode('|', $products_goods['goods_attr']);
-				$where = array('goods_id' => $products_goods['goods_id']);
+				$db_goods->where('goods_id', $products_goods['goods_id']);
 				if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-					$where['store_id'] = $_SESSION['store_id'];
+					$db_goods->where('store_id', $_SESSION['store_id']);
 				}
-				$goods = $goods_db->where($where)->find();
+				$goods = $db_goods->first();
 			} else {
-				$where = array('goods_sn' => $addgoods['goods_sn']);
+				$goods_db = RC_DB::table('goods');
 				if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-					$where['store_id'] = $_SESSION['store_id'];
+					$goods_db->where('store_id', $_SESSION['store_id']);
 				}
-				$goods = $goods_db->where($where)->find();
+				$goods = $goods_db->where('goods_sn', $addgoods['goods_sn'])->orWhere('goods_barcode', $addgoods['goods_sn'])->first();
 			}
 			if (empty($goods)) {
 				return new ecjia_error('addgoods_error', __('该商品不存在或已下架', 'cart'));
@@ -175,7 +170,6 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		}
 		//编辑购物车商品
 		if (!empty($updategoods)) {
-			//$result = updatecart($updategoods);
 			$result = flow_update_cart(array($updategoods['rec_id'] => $updategoods['number']));
 		}
 		//删除购物车商品
@@ -194,14 +188,8 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		/* 取得订单信息*/
 		$order = flow_order_info();
 		/* 计算订单的费用 */
-		//$total = cashdesk_order_fee($order, $cart_goods);
 		$total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, array(), array(), \Ecjia\App\Cart\Enums\CartEnum::CART_CASHDESK_GOODS);
 	
-// 		/* 取得支付列表 */
-// 		$cod_fee    = 0;
-// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-// 		// 给货到付款的手续费加<span id>，以便改变配送的时候动态显示
-// 		$payment_list = $payment_method->available_payment_list(1, $cod_fee);
 		if (!empty($_SESSION['user_id'])) {
 			$user_info = user_info($_SESSION['user_id']);
 			if (is_ecjia_error($user_info)) {
@@ -213,7 +201,6 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		$out = array();
 		$out['user_info'] = array();
 		if (isset($_SESSION['user_id']) && $_SESSION['user_id']) {
-			//$user_info = RC_Model::model('user/users_model')->find(array('user_id' => $_SESSION['user_id']));
 			$user_info = Ecjia\App\User\Users::UserInfo($_SESSION['user_id']);
 			
 			$out['user_info'] = array(
@@ -225,9 +212,6 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 		}
 		
 		$out['goods_list']		= $cart_goods;		//商品
-// 		$out['consignee']		= $consignee;		//收货地址
-// 		$out['shipping_list']	= $shipping_list;	//快递信息
-// 		$out['payment_list']	= $payment_list;
 		/* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
 		$rec_ids = array();
 		/*会员价处理*/
