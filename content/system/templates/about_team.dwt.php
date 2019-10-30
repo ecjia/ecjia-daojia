@@ -74,10 +74,12 @@
 					<div class="vcard-item">
 						<ul class="list_a">
 							<li>Zhengdong Wang</li>
-							<li>Qianqian Song</li>
-							<li>Yuyuan Huang</li>
-							<li>Ming Le</li>
-							<li>Chao Li</li>
+                            <li>Yuyuan Huang</li>
+                            <li>Chunchen Zhang</li>
+                            <li>Ruili Zhou</li>
+                            <li>Ming Le</li>
+                            <li>Dishan Fang</li>
+                            <li>Changhui Li</li>
 						</ul>
 					</div>
 				</li>
@@ -87,9 +89,10 @@
 					<div class="vcard-item">
 						<ul class="list_a">
 							<li>Tifang Wu</li>
-							<li>Ruili Zhou</li>
+                            <li>Qianqian Song</li>
 							<li>Xiang Jin</li>
 							<li>Wenbiao Xu</li>
+                            <li>Chao Li</li>
 						</ul>
 					</div>
 				</li>
@@ -117,7 +120,6 @@
 					<span class="item-key">{t}界面设计：{/t}</span>
 					<div class="vcard-item">
 						<ul class="list_a">
-							<li>Gaoxuan Xu</li>
 							<li>Dandan Xiang</li>
 							<li>Ting Yang</li>
 						</ul>
