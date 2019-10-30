@@ -51,102 +51,102 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author will.chen
  */
 class affiliate_invite_reward_api extends Component_Event_Api {
-	
+
     /**
      * @param  $options['invite_code'] 受邀码
      * @return array|ecjia_error
      */
-	public function call(&$options) {	
-	    if (!is_array($options) 
-	        || !isset($options['invite_type'])
-	    	|| !isset($options['user_id'])
-	    	) {
-	        return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
-	    }
-	    $user_info = RC_DB::table('users')->select(RC_DB::raw('user_name, parent_id'))->where('user_id', $options['user_id'])->first();
-	    $invite_id = $user_info['parent_id'];
-	    $invitee_name = $user_info['user_name'];
-	    /* 推荐处理 */
-	    $affiliate = unserialize(ecjia::config('affiliate'));
-	    if (isset($affiliate['on']) && $affiliate['on'] == 1 && $invite_id > 0) {
-	    	/* 是否允许奖励*/
-	    	$is_reward = true;
-	    	if ($options['invite_type'] == 'orderpay') {
-	    		$reward_record = RC_DB::table('invite_reward')->where('invite_id', $invite_id)->where('invitee_id', $options['user_id'])->first();
-	    		if (!empty($reward_record)) {
-	    			$is_reward = false;
-	    		}
-	    	}
-		    /* 邀请人奖励处理*/
-	    	$integral_name = ecjia::config('integral_name');
-	    	if (empty($integral_name)) {
-	    		$integral_name = __('积分', 'affiliate');
-	    	}
-		    if ($affiliate['intvie_reward']['intive_reward_by'] == $options['invite_type'] && $is_reward && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
-		    	if ($affiliate['intvie_reward']['intive_reward_type'] == 'bonus') {
-		    		RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intvie_reward']['intive_reward_value'], 'user_id' => $invite_id));
-		    		$reward_type = 'bonus';
-		    	} elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'integral' && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
-		    		$option = array(
-	    				'user_id'		=> $invite_id,
-	    				'pay_points'	=> $affiliate['intvie_reward']['intive_reward_value'],
-	    				'change_desc'	=> __('邀请送', 'affiliate').$integral_name
-		    		);
-		    		$result = RC_Api::api('user', 'account_change_log', $option);
-		    		$reward_type = 'integral';
-		    	} elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'balance' && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
-		    		$option = array(
-	    				'user_id'		=> $invite_id,
-	    				'user_money'	=> $affiliate['intvie_reward']['intive_reward_value'],
-	    				'change_desc'	=> __('邀请送余额', 'affiliate')
-		    		);
-		    		$result = RC_Api::api('user', 'account_change_log', $option);
-		    		$reward_type = 'balance';
-		    	}
-		    	 
-		    	if ($affiliate['intvie_reward']['intive_reward_value'] > 0) {
-		    		RC_DB::table('invite_reward')->insert(array(
-			    		'invite_id'		=> $invite_id,
-			    		'invitee_id'	=> $options['user_id'],
-			    		'invitee_name'	=> $invitee_name,
-			    		'reward_type'	=> $reward_type,
-			    		'reward_value'	=> $affiliate['intvie_reward']['intive_reward_value'],
-			    		'add_time'		=> RC_Time::gmtime(),
-		    		));
-		    	}
-		    }
-		    
-		    /* 是否允许奖励*/
-		    $invitee_is_reward = true;
-		    if ($options['invite_type'] == 'orderpay') {
-		    	$order_count = RC_DB::table('order_info')->where('user_id', $options['user_id'])->where('pay_status', PS_PAYED)->count();
-		    	if ($order_count > 1) {
-		    		$invitee_is_reward = false;
-		    	}
-		    }
-		    /* 受邀人奖励处理*/
-		    if ($affiliate['intviee_reward']['intivee_reward_by'] == $options['invite_type'] && $invitee_is_reward && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
-		    	if ($affiliate['intviee_reward']['intivee_reward_type'] == 'bonus') {
-		    		RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intviee_reward']['intivee_reward_value'], 'user_id' => $options['user_id']));
-		    	} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral' && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
-		    		$option = array(
-	    				'user_id'		=> $options['user_id'],
-	    				'pay_points'	=> $affiliate['intviee_reward']['intivee_reward_value'],
-	    				'change_desc'	=> __('邀请送', 'affiliate').$integral_name
-		    		);
-		    		$result = RC_Api::api('user', 'account_change_log', $option);
-		    	} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'balance' && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
-		    		$option = array(
-		    				'user_id'		=> $options['user_id'],
-		    				'user_money'	=> $affiliate['intviee_reward']['intivee_reward_value'],
-		    				'change_desc'	=> __('邀请送余额', 'affiliate')
-		    		);
-		    		$result = RC_Api::api('user', 'account_change_log', $option);
-		    	}
-		    }
-	    }
-	    return true;
-	}
+    public function call(&$options) {
+        if (!is_array($options)
+            || !isset($options['invite_type'])
+            || !isset($options['user_id'])
+        ) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
+        }
+        $user_info = RC_DB::table('users')->select(RC_DB::raw('user_name, parent_id'))->where('user_id', $options['user_id'])->first();
+        $invite_id = $user_info['parent_id'];
+        $invitee_name = $user_info['user_name'];
+        /* 推荐处理 */
+        $affiliate = unserialize(ecjia::config('affiliate'));
+        if (isset($affiliate['on']) && $affiliate['on'] == 1 && $invite_id > 0) {
+            /* 是否允许奖励*/
+            $is_reward = true;
+            if ($options['invite_type'] == 'orderpay') {
+                $reward_record = RC_DB::table('invite_reward')->where('invite_id', $invite_id)->where('invitee_id', $options['user_id'])->first();
+                if (!empty($reward_record)) {
+                    $is_reward = false;
+                }
+            }
+            /* 邀请人奖励处理*/
+            $integral_name = ecjia::config('integral_name');
+            if (empty($integral_name)) {
+                $integral_name = __('积分', 'affiliate');
+            }
+            if ($affiliate['intvie_reward']['intive_reward_by'] == $options['invite_type'] && $is_reward && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
+                if ($affiliate['intvie_reward']['intive_reward_type'] == 'bonus') {
+                    RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intvie_reward']['intive_reward_value'], 'user_id' => $invite_id));
+                    $reward_type = 'bonus';
+                } elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'integral' && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
+                    $option = array(
+                        'user_id'		=> $invite_id,
+                        'pay_points'	=> $affiliate['intvie_reward']['intive_reward_value'],
+                        'change_desc'	=> __('邀请送', 'affiliate').$integral_name
+                    );
+                    $result = RC_Api::api('user', 'account_change_log', $option);
+                    $reward_type = 'integral';
+                } elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'balance' && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
+                    $option = array(
+                        'user_id'		=> $invite_id,
+                        'user_money'	=> $affiliate['intvie_reward']['intive_reward_value'],
+                        'change_desc'	=> __('邀请送余额', 'affiliate')
+                    );
+                    $result = RC_Api::api('user', 'account_change_log', $option);
+                    $reward_type = 'balance';
+                }
+
+                if ($affiliate['intvie_reward']['intive_reward_value'] > 0) {
+                    RC_DB::table('invite_reward')->insert(array(
+                        'invite_id'		=> $invite_id,
+                        'invitee_id'	=> $options['user_id'],
+                        'invitee_name'	=> $invitee_name,
+                        'reward_type'	=> $reward_type,
+                        'reward_value'	=> $affiliate['intvie_reward']['intive_reward_value'],
+                        'add_time'		=> RC_Time::gmtime(),
+                    ));
+                }
+            }
+
+            /* 是否允许奖励*/
+            $invitee_is_reward = true;
+            if ($options['invite_type'] == 'orderpay') {
+                $order_count = RC_DB::table('order_info')->where('user_id', $options['user_id'])->where('pay_status', PS_PAYED)->count();
+                if ($order_count > 1) {
+                    $invitee_is_reward = false;
+                }
+            }
+            /* 受邀人奖励处理*/
+            if ($affiliate['intviee_reward']['intivee_reward_by'] == $options['invite_type'] && $invitee_is_reward && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
+                if ($affiliate['intviee_reward']['intivee_reward_type'] == 'bonus') {
+                    RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intviee_reward']['intivee_reward_value'], 'user_id' => $options['user_id']));
+                } elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral' && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
+                    $option = array(
+                        'user_id'		=> $options['user_id'],
+                        'pay_points'	=> $affiliate['intviee_reward']['intivee_reward_value'],
+                        'change_desc'	=> __('邀请送', 'affiliate').$integral_name
+                    );
+                    $result = RC_Api::api('user', 'account_change_log', $option);
+                } elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'balance' && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
+                    $option = array(
+                        'user_id'		=> $options['user_id'],
+                        'user_money'	=> $affiliate['intviee_reward']['intivee_reward_value'],
+                        'change_desc'	=> __('邀请送余额', 'affiliate')
+                    );
+                    $result = RC_Api::api('user', 'account_change_log', $option);
+                }
+            }
+        }
+        return true;
+    }
 }
 
 // end

@@ -66,104 +66,44 @@ class affiliate_order_records_module extends api_front implements api_interface
         $status = $this->requestData('status', '');
 
         $status_arr = array('await_separate', 'separated');
-        if (empty($status) || !in_array($status, $status_arr)) {
-            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
-        }
 
-        if ($status == 'await_separate') {
-            $log_list = $this->get_await_separate($user_id, $page, $size);
-        } else {
-            $log_list = $this->get_separated($user_id, $page, $size);
-        }
-
-        $list  = $log_list['list'];
-        $pager = $log_list['page'];
-
-        return array('data' => $list, 'pager' => $pager);
-    }
+//        if ($status == 'await_separate') {
+//            $log_list = $this->get_await_separate($user_id, $page, $size);
+//        } else if($status == 'separated') {
+//            $log_list = $this->get_separated($user_id, $page, $size);
+//        } else {
+//            $log_list = $this->get_orders($user_id, $page, $size);
+//        }
 
 
-    /**
-     * 待分佣订单记录
-     */
-    private function get_await_separate($user_id, $page, $size)
-    {
+        $db = RC_DB::table('affiliate_log as ag')->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('ag.order_id'));
 
-        $db = RC_DB::table('order_info as oi')->leftJoin('users as u', RC_DB::raw('oi.user_id'), '=', RC_DB::raw('u.user_id'));
+        $db->where(RC_DB::raw('ag.user_id'), $user_id);
 
-        $db->where(RC_DB::raw('u.parent_id'), $user_id)->where(RC_DB::raw('oi.is_separate'), \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::UNSEPARATE);
-
-        $count    = $db->count(RC_DB::raw('oi.order_id'));
-        $page_row = new ecjia_page($count, $size, 6, '', $page);
-        $log_list = $db->take($size)->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('add_time'), 'desc')->select(RC_DB::raw('oi.*'))->get();
-
-        //没有待分成订单
-        if (empty($count)) {
-            return array('list' => [], 'page' => array('total' => 0, 'count' => 0, 'more' => 0));
-        }
-        $list = [];
-        if (!empty($log_list)) {
-            foreach ($log_list as $val) {
-                $status           = 'await_separate';
-                $label_status     = '待分成';
-                $order_goods_list = $this->_get_order_goods($val['order_id']);
-                $list[]           = array(
-                    'order_id'                    => intval($val['order_id']),
-                    'order_sn'                    => trim($val['order_sn']),
-                    'formatted_order_time'        => RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
-                    'affiliated_amount'           => 0,
-                    'formatted_affiliated_amount' => '',
-                    'separate_status'             => $status,
-                    'label_separate_status'       => $label_status,
-                    'goods_list'                  => $order_goods_list
-                );
+        if (!empty($status)) {
+            if ($status == 'await_separate') {
+                $db->where(RC_DB::raw('ag.separate_type'), 0);
+            } elseif ($status == 'separated') {
+                $db->where(RC_DB::raw('ag.separate_type'), 1);
             }
         }
-        $pager = array(
-            'total' => $page_row->total_records,
-            'count' => $page_row->total_records,
-            'more'  => $page_row->total_pages <= $page ? 0 : 1,
-        );
 
-        return ['list' => $list, 'page' => $pager];
-    }
-
-    /**
-     * 已分佣订单记录
-     */
-    private function get_separated($user_id, $page, $size)
-    {
-        $db = RC_DB::table('order_info as oi')
-            ->leftJoin('users as u', RC_DB::raw('oi.user_id'), '=', RC_DB::raw('u.user_id'))
-            ->leftJoin('affiliate_log as ag', RC_DB::raw('ag.order_id'), '=', RC_DB::raw('oi.order_id'));
-
-        $db->where(RC_DB::raw('ag.user_id'), $user_id)//分成记录是自己的
-        ->whereNotIn(RC_DB::raw('ag.separate_type'), [\Ecjia\App\Affiliate\Enums\AffiliateLogEnum::AFFILIATE_REGISTER_CANCELED, \Ecjia\App\Affiliate\Enums\AffiliateLogEnum::AFFILIATE_ORDER_CANCELED])
-            ->where(RC_DB::raw('oi.is_separate'), \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::SEPARATED);
-
-        $count    = $db->count(RC_DB::raw('ag.log_id'));
+        $count = $db->count();
+        $filed = 'ag.*,oi.add_time, oi.order_sn, oi.user_id as buyer_id';
         $page_row = new ecjia_page($count, $size, 6, '', $page);
-        $log_list = $db->take($size)->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('oi.add_time'), 'desc')->select(RC_DB::raw('oi.*, u.user_name as buyer, ag.money'))->get();
-
-        //没有待分成订单
-        if (empty($count)) {
-            return array('list' => [], 'page' => array('total' => 0, 'count' => 0, 'more' => 0));
-        }
-
+        $log_list = $db->take($size)->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('time'), 'desc')->select(RC_DB::raw($filed))->get();
         $list = [];
         if (!empty($log_list)) {
             foreach ($log_list as $val) {
-                $status           = 'separated';
-                $label_status     = '已分成';
                 $order_goods_list = $this->_get_order_goods($val['order_id']);
                 $list[]           = array(
                     'order_id'                    => intval($val['order_id']),
                     'order_sn'                    => trim($val['order_sn']),
                     'formatted_order_time'        => RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
                     'affiliated_amount'           => $val['money'],
-                    'formatted_affiliated_amount' => ecjia_price_format($val['money'], false),
-                    'separate_status'             => $status,
-                    'label_separate_status'       => $label_status,
+                    'formatted_affiliated_amount' => ecjia_price_format($val['money']),
+                    'separate_status'             => self::get_status_code($val['separate_type']),
+                    'label_separate_status'       => self::get_status_label($val['separate_type']),
                     'goods_list'                  => $order_goods_list
                 );
             }
@@ -174,9 +114,30 @@ class affiliate_order_records_module extends api_front implements api_interface
             'more'  => $page_row->total_pages <= $page ? 0 : 1,
         );
 
-        return ['list' => $list, 'page' => $pager];
+//        _dump($list,1);
+
+        return array('data' => $list, 'pager' => $pager);
     }
 
+    private function get_status_code($status) {
+        $code = [
+            0 => 'await_separate',
+            1 => 'separated',
+            2 => 'cancel_separated',
+        ];
+
+        return array_get($code, $status);
+    }
+
+    private function get_status_label($status) {
+        $code = [
+            0 => '待分成',
+            1 => '已分成',
+            2 => '已取消',
+        ];
+
+        return array_get($code, $status);
+    }
 
     /**
      * 订单商品

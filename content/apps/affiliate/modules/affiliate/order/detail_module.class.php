@@ -61,7 +61,7 @@ class affiliate_order_detail_module extends api_front implements api_interface
             return new ecjia_error(100, 'Invalid session');
         }
         /* 获取订单id*/
-        $order_id = $this->requestData('order_id', '15');
+        $order_id = $this->requestData('order_id', 0);
 
         if (empty($order_id)) {
             return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
@@ -78,39 +78,58 @@ class affiliate_order_detail_module extends api_front implements api_interface
         }
 
         //订单已参与分成
-        if ($order_info['is_separate'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::SEPARATED) {
-            //获取分成记录信息
-            $affiliate_log = RC_DB::table('affiliate_log')->where('order_id', $order_id)->where('user_id', $user_id)->first();
+        //获取分成记录信息
+        $affiliate_log = RC_DB::table('affiliate_log')->where('order_id', $order_id)->where('user_id', $user_id)->first();
+        if(empty($affiliate_log)) {
+            return new ecjia_error('affiliate_order_error', __('分成记录不存在', 'affiliate'));
         }
 
         //订单商品
         $order_goods_list = $this->_get_order_goods($order_id);
 
         //下单用户信息
-        $user_info = RC_Api::api('user', 'user_info', ['user_id' => $order_info['user_id']]);
-        if (is_ecjia_error($user_info)) {
-            return $user_info;
-        }
+//        $user_info = RC_Api::api('user', 'user_info', ['user_id' => $order_info['user_id']]);
+//        if (is_ecjia_error($user_info)) {
+//            return $user_info;
+//        }
 
         $data = [
             'order_id'                    => intval($order_info['order_id']),
             'order_sn'                    => trim($order_info['order_sn']),
             'formatted_order_time'        => RC_Time::local_date(ecjia::config('time_format'), $order_info['add_time']),
-            'buyer'                       => $user_info['user_name'],
+            'buyer'                       => mb_substr($order_info['consignee'], 0, 1) . '*' . mb_substr($order_info['consignee'], -1),
             'total_amount'                => $order_info['total_fee'],
             'formatted_total_amount'      => $order_info['formated_total_fee'],
             'store_id'                    => $order_info['store_id'],
             'store_name'                  => Ecjia\App\Store\StoreFranchisee::StoreName($order_info['store_id']),
-            'affiliated_amount'           => $order_info['is_separate'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::UNSEPARATE ? 0 : $affiliate_log['money'],
-            'formatted_affiliated_amount' => $order_info['is_separate'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::UNSEPARATE ? '' : ecjia_price_format($affiliate_log['money'], false),
-            'separate_status'             => $order_info['is_separate'] == 1 ? 'separated' : 'await_separate',
-            'label_separate_status'       => $order_info['is_separate'] == 1 ? '已分成' : '待分成',
+            'affiliated_amount'           => $affiliate_log['separate_type'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::SEPARATED ? $affiliate_log['money'] : 0,
+            'formatted_affiliated_amount' => $affiliate_log['separate_type'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::SEPARATED ? ecjia_price_format($affiliate_log['money'], false) : '',
+            'separate_status'             => self::get_status_code($affiliate_log['separate_type']),
+            'label_separate_status'       => self::get_status_label($affiliate_log['separate_type']),
             'goods_list'                  => $order_goods_list,
         ];
-
         return $data;
     }
 
+    private function get_status_code($status) {
+        $code = [
+            0 => 'await_separate',
+            1 => 'separated',
+            2 => 'cancel_separated',
+        ];
+
+        return array_get($code, $status);
+    }
+
+    private function get_status_label($status) {
+        $code = [
+            0 => '待分成',
+            1 => '已分成',
+            2 => '已取消',
+        ];
+
+        return array_get($code, $status);
+    }
 
     /**
      * 订单商品

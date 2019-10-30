@@ -53,6 +53,7 @@ use RC_Api;
 use RC_Logger;
 use RC_Loader;
 use ecjia_admin;
+use Ecjia\App\Finance\AccountConstant;
 
 /**
  * 普通订单分成
@@ -95,14 +96,14 @@ class OrderAffiliate
 //            'line' => __LINE__,
 //            'distributor' => json_encode($distributor)
 //        ]);
-        if(!empty($distributor)) {
-            //vip分销商
-            $distributor['user_name'] = $parent_info['user_name'];
-            $handel = self::separate_vip($options, $distributor);
-        } else {
+//        if(!empty($distributor)) {
+//            //vip分销商
+//            $distributor['user_name'] = $parent_info['user_name'];
+//            $handel = self::separate_vip($options, $distributor);
+//        } else {
             //普通分销
             $handel = self::separate_normal($options, $user_info);
-        }
+//        }
         if(is_ecjia_error($handel)) {
             RC_Logger::getlogger('error')->error('orderAffiliate:'.$handel->get_error_message());
             return $handel;
@@ -382,7 +383,7 @@ class OrderAffiliate
      * 更新分成记录金额到账户余额（分成记录金额状态为0的）
      * @param array $affiliate_log
      */
-    public static function OrderAffiliateChangeAccount ($affiliate_log) {
+    public static function OrderAffiliateChangeAccount ($affiliate_log, $change_type = AccountConstant::BALANCE_AFFILIATE) {
         //账户变动
         if ($affiliate_log['money'] > 0 && !empty($affiliate_log['user_id']) && !empty($affiliate_log['order_id'])) {
             $change_desc = '推荐订单分成';
@@ -407,7 +408,7 @@ class OrderAffiliate
             $arrs = array(
                 'user_id'		=> $affiliate_log['user_id'],
                 'user_money'	=> $affiliate_log['money'],
-                'change_type'   => ACT_AFFILIATE,
+                'change_type'   => $change_type,
                 'change_desc'	=> $change_desc
             );
             RC_Api::api('finance', 'account_change_log', $arrs);

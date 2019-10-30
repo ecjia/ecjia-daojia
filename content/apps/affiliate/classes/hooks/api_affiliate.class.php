@@ -44,49 +44,24 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Affiliate;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use RC_Uri;
-use RC_QrCode;
+class affiliate_api_hooks {
+	
+	public static function insert_affiliate_log($order_info) {
+	    //付款后插入分佣记录
+        //普通订单支付成功后，先生成分成记录
+        Ecjia\App\Affiliate\OrderAffiliate::OrderAffiliateDo($order_info);
 
-class GenerateInviteCode
-{
-    /**
-     * invite code
-     *
-     * @var string
-     */
-    protected $code;
+	}
 
-    public function __construct($code)
-    {
-        $this->code = $code;
-    }
-
-    public function content()
-    {
-        $args = [
-            'invite_code'      => $this->code
-        ];
-        return RC_Uri::url('affiliate/index/init', $args);
-    }
-
-    /**
-     * 创建二维码
-     * @param number $size
-     */
-    public function createQrcode($size = 430)
-    {
-
-        $img = RC_QrCode::format('png')->size($size)->margin(1)
-            ->errorCorrection('L')
-            ->generate($this->content());
-
-
-        return $img;
-    }
-
-
+	//购买特殊商品成为vip分销商-重复调用问题
+//    public static function buy_vip_goods($order_info) {
+//        Ecjia\App\Affiliate\Distribution::buy_vip_goods($order_info);
+//    }
 }
+
+//RC_Hook::add_action( 'order_payed_do_something', array('affiliate_api_hooks', 'buy_vip_goods') );
+RC_Hook::add_action( 'order_payed_do_something', array('affiliate_api_hooks', 'insert_affiliate_log') );
 
 // end

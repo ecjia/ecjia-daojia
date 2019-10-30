@@ -126,18 +126,18 @@ class admin extends ecjia_admin {
 		$this->admin_priv('affiliate_percent_update', ecjia::MSGTYPE_JSON);
 		
 		//检查输入值是否正确
-		if (empty($_POST['level_point'])) {
-			return $this->showmessage(__('请输入积分分成百分比', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		} else {
-			if (substr($_POST['level_point'], -1, 1) == '%') {
-				$intval = substr($_POST['level_point'], 0, strlen($_POST['level_point'])-1);
-				if (!preg_match("/^[0-9]+$/", $intval)) {
-					return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				}
-			} elseif (!preg_match("/^[0-9]+$/", $_POST['level_point'])) {
-				return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-		}
+//		if (empty($_POST['level_point'])) {
+//			return $this->showmessage(__('请输入积分分成百分比', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//		} else {
+//			if (substr($_POST['level_point'], -1, 1) == '%') {
+//				$intval = substr($_POST['level_point'], 0, strlen($_POST['level_point'])-1);
+//				if (!preg_match("/^[0-9]+$/", $intval)) {
+//					return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//				}
+//			} elseif (!preg_match("/^[0-9]+$/", $_POST['level_point'])) {
+//				return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//			}
+//		}
 		
 		if (empty($_POST['level_money'])) {
 			return $this->showmessage(__('请输入现金分成百分比', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -155,30 +155,31 @@ class admin extends ecjia_admin {
 		$config = unserialize(ecjia::config('affiliate'));
 		//下线不能超过5层
 		if (count($config['item']) < 3) {
-			$_POST['level_point'] = (float)$_POST['level_point'];
+//			$_POST['level_point'] = (float)$_POST['level_point'];
 			$_POST['level_money'] = (float)$_POST['level_money'];
 			$maxpoint = $maxmoney = 100;
 			foreach ($config['item'] as $key => $val) {
-				$maxpoint -= $val['level_point'];
+//				$maxpoint -= $val['level_point'];
 				$maxmoney -= $val['level_money'];
 			}
-			$_POST['level_point'] > $maxpoint && $_POST['level_point'] = $maxpoint;
+//			$_POST['level_point'] > $maxpoint && $_POST['level_point'] = $maxpoint;
 			$_POST['level_money'] > $maxmoney && $_POST['level_money'] = $maxmoney;
 // 			if (!empty($_POST['level_point']) && strpos($_POST['level_point'], '%') === false) {
-				$_POST['level_point'] .= '%';
+//				$_POST['level_point'] .= '%';
 // 			}
-// 			if (!empty($_POST['level_money']) && strpos($_POST['level_money'], '%') === false) {
+ 			if (!empty($_POST['level_money']) && strpos($_POST['level_money'], '%') === false) {
 				$_POST['level_money'] .= '%';
-// 			}
+ 			}
 			$items = array('level_point' => $_POST['level_point'], 'level_money' => $_POST['level_money']);
 			$config['item'][] = $items;
 			$config['on'] = 1;
 			$config['config']['separate_by'] = 0;
 			
 			ecjia_config::instance()->write_config('affiliate', serialize($config));
-			ecjia_admin::admin_log(__('积分百分比为 ', 'affiliate').$_POST['level_point'].'，'.__('现金百分比为 ', 'affiliate').$_POST['level_money'], 'add', 'affiliate_percent');
-			
-			return $this->showmessage(__('添加成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin/init')));
+//			ecjia_admin::admin_log(__('积分百分比为 ', 'affiliate').$_POST['level_point'].'，'.__('现金百分比为 ', 'affiliate').$_POST['level_money'], 'add', 'affiliate_percent');
+            ecjia_admin::admin_log(__('现金百分比为 ', 'affiliate').$_POST['level_money'], 'add', 'affiliate_percent');
+
+            return $this->showmessage(__('添加成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin/init')));
 			
 		} else {
 			return $this->showmessage(__('最多可以设3个级别！', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -200,7 +201,7 @@ class admin extends ecjia_admin {
 		$id = intval($_GET['id']);
 		$this->assign('level', $id);
 		
-		$config['item'][$id-1]['level_point'] = str_replace('%', '', $config['item'][$id-1]['level_point']);
+//		$config['item'][$id-1]['level_point'] = str_replace('%', '', $config['item'][$id-1]['level_point']);
 		$config['item'][$id-1]['level_money'] = str_replace('%', '', $config['item'][$id-1]['level_money']);
 		$this->assign('affiliate_percent', $config['item'][$id-1]);
 		
@@ -216,18 +217,18 @@ class admin extends ecjia_admin {
 		$this->admin_priv('affiliate_percent_update', ecjia::MSGTYPE_JSON);
 
 		//检查输入值是否正确
-		if (empty($_POST['level_point'])) {
-			return $this->showmessage(__('请输入积分分成百分比', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		} else {
-			if (substr($_POST['level_point'], -1, 1) == '%') {
-				$intval = substr($_POST['level_point'], 0, strlen($_POST['level_point'])-1);
-				if (!preg_match("/^[0-9]+$/", $intval)) {
-					return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				}
-			} elseif (!preg_match("/^[0-9]+$/", $_POST['level_point'])) {
-				return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-		}
+//		if (empty($_POST['level_point'])) {
+//			return $this->showmessage(__('请输入积分分成百分比', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//		} else {
+//			if (substr($_POST['level_point'], -1, 1) == '%') {
+//				$intval = substr($_POST['level_point'], 0, strlen($_POST['level_point'])-1);
+//				if (!preg_match("/^[0-9]+$/", $intval)) {
+//					return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//				}
+//			} elseif (!preg_match("/^[0-9]+$/", $_POST['level_point'])) {
+//				return $this->showmessage(__('积分分成百分比格式不正确，应为数字类型', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//			}
+//		}
 		
 		if (empty($_POST['level_money'])) {
 			return $this->showmessage(__('请输入现金分成百分比', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -246,34 +247,36 @@ class admin extends ecjia_admin {
 		$config = unserialize(ecjia::config('affiliate'));
 		
 		$key = intval($_POST['id'])-1;
-		$level_point = (float)trim($_POST['level_point']);
+
+//		$level_point = (float)trim($_POST['level_point']);
 		$level_money = (float)trim($_POST['level_money']);
 		
 		$maxpoint = $maxmoney = 100;
 		foreach ($config['item'] as $k => $v) {
 			if ($k != $key) {
-				$maxpoint -= $v['level_point'];
+//				$maxpoint -= $v['level_point'];
 				$maxmoney -= $v['level_money'];
 			}
 		}
 
-		$level_point > $maxpoint && $level_point = $maxpoint;
+//		$level_point > $maxpoint && $level_point = $maxpoint;
 		$level_money > $maxmoney && $level_money = $maxmoney;
 		
-		if (!empty($level_point) && strpos($level_point,'%') === false) {
-			$level_point .= '%';
-		}
+//		if (!empty($level_point) && strpos($level_point,'%') === false) {
+//			$level_point .= '%';
+//		}
 		if (!empty($level_money) && strpos($level_money,'%') === false) {
 			$level_money .= '%';
 		}
 		
-		$config['item'][$key]['level_point'] = $level_point;
+//		$config['item'][$key]['level_point'] = $level_point;
 		$config['item'][$key]['level_money'] = $level_money;
-		
+
 		ecjia_config::instance()->write_config('affiliate', serialize($config));
-		ecjia_admin::admin_log(__('积分百分比为 ', 'affiliate').$level_point.'，'.__('现金百分比为 ', 'affiliate').$level_money, 'edit', 'affiliate_percent');
-		
-		return $this->showmessage(__('编辑成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin/init')));
+//		ecjia_admin::admin_log(__('积分百分比为 ', 'affiliate').$level_point.'，'.__('现金百分比为 ', 'affiliate').$level_money, 'edit', 'affiliate_percent');
+        ecjia_admin::admin_log(__('现金百分比为 ', 'affiliate').$level_money, 'edit', 'affiliate_percent');
+
+        return $this->showmessage(__('编辑成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin/init')));
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 // JavaScript Document
-;(function (app, $) {
+;
+(function (app, $) {
     app.affiliate = {
         init: function () {
             app.affiliate.submit_form();
@@ -7,22 +8,6 @@
             app.affiliate.search_order();
             app.affiliate.change_type();
             app.affiliate.toggle_view();
-        },
-
-        submit_form: function (formobj) {
-            var $form = $("form[name='theForm']");
-            var option = {
-                submitHandler: function () {
-                    $form.ajaxSubmit({
-                        dataType: "json",
-                        success: function (data) {
-                            ecjia.admin.showmessage(data);
-                        }
-                    });
-                }
-            }
-            var options = $.extend(ecjia.admin.defaultOptions.validate, option);
-            $form.validate(options);
         },
 
         toggle_view : function (option) {
@@ -45,50 +30,62 @@
                         if (e) {
                             $.post(url, option, function(data){
                                 ecjia.admin.showmessage(data);
-                                if (pjaxurl != undefined) {
-                                    ecjia.pjax(pjaxurl);
-                                }
                             },'json');
                         }
                     }, {ok:js_lang.ok, cancel:js_lang.cancel});
                 } else {
                     $.post(url, option, function(data){
                         ecjia.admin.showmessage(data);
-                        if (pjaxurl != undefined) {
-                            ecjia.pjax(pjaxurl);
-                        }
                     },'json');
                 }
+                var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+                $form.validate(options);
 
             });
         },
 
+        submit_form: function (formobj) {
+            var $form = $("form[name='theForm']");
+            var option = {
+                submitHandler: function () {
+                    $form.ajaxSubmit({
+                        dataType: "json",
+                        success: function (data) {
+                            ecjia.admin.showmessage(data);
+                        }
+                    });
+                }
+            }
+            var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+            $form.validate(options);
+        },
+
         screen_click: function () {
-            // $('.screen-btn').off('click').on('click', function (e) {
-            //     e.preventDefault();
-            //     var url = $("form[name='search_from']").attr('action');
-            //     var status = $("select[name='status']").val();
-            //     if (status != '') {
-            //         url += '&status=' + status;
-            //     }
-            //
-            //     var order_sn = $("input[name='order_sn']").val();
-            //     if (order_sn != '') {
-            //         url += '&order_sn=' + order_sn;
-            //     }
-            //
-            //     ecjia.pjax(url);
-            // });
+            $('.screen-btn').off('click').on('click', function (e) {
+                e.preventDefault();
+                var url = $("form[name='search_from']").attr('action');
+                var status = $("select[name='status']").val();
+                if (status != '') {
+                    url += '&status=' + status;
+                }
+
+                var order_sn = $("input[name='order_sn']").val();
+                if (order_sn != '') {
+                    url += '&order_sn=' + order_sn;
+                }
+
+                ecjia.pjax(url);
+            });
         },
 
         search_order: function () {
             $('.search_order').off('click').on('click', function (e) {
                 e.preventDefault();
                 var url = $("form[name='search_from']").attr('action');
-                // var status = $("select[name='status']").val();
-                // if (status != '') {
-                //     url += '&status=' + status;
-                // }
+                var status = $("select[name='status']").val();
+                if (status != '') {
+                    url += '&status=' + status;
+                }
 
                 var order_sn = $("input[name='order_sn']").val();
                 if (order_sn != '') {
