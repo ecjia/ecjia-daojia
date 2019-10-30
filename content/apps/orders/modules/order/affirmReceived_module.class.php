@@ -94,7 +94,8 @@ class order_affirmReceived_module extends api_front implements api_interface
     {
         $db = RC_Model::model('orders/order_info_model');
         /* 查询订单信息，检查状态 */
-        $order = $db->field('user_id, order_sn, order_id, order_status, shipping_status, pay_status, shipping_id, pay_id, order_amount')->find(array('order_id' => $order_id));
+        //$order = $db->field('user_id, order_sn, order_id, order_status, shipping_status, pay_status, shipping_id, pay_id, order_amount')->find(array('order_id' => $order_id));
+        $order = RC_DB::table('order_info')->where('order_id', $order_id)->first();
 
         // 如果用户ID大于 0 。检查订单是否属于该用户
         if ($user_id > 0 && $order['user_id'] != $user_id) {
@@ -119,7 +120,8 @@ class order_affirmReceived_module extends api_front implements api_interface
                     $data['order_amount'] = 0;
                 }
             }
-            $query = $db->where(array('order_id' => $order_id))->update($data);
+            //$query = $db->where(array('order_id' => $order_id))->update($data);
+            $query = RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
             if ($query) {
                 $db_order_status_log = RC_Model::model('orders/order_status_log_model');
                 $order_status_data   = array(
@@ -142,6 +144,7 @@ class order_affirmReceived_module extends api_front implements api_interface
                 /* 记录日志 */
                 RC_Loader::load_app_func('admin_order', 'orders');
                 order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], '', __('买家', 'orders'));
+
 
                 /* 判断是否是配送员送货*/
                 //$express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->first();

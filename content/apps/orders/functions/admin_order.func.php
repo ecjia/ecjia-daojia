@@ -179,6 +179,7 @@ function order_info($order_id, $order_sn = '', $type = '')
             RC_DB::raw('s.email as merchants_email'), RC_DB::raw('s.company_name'), RC_DB::raw($total_fee))
             ->first();
     }
+
     if ($order) {
         $order['store_id']             = intval($order['store_id']);
         $order['invoice_no']           = empty($order['invoice_no']) ? '' : $order['invoice_no'];

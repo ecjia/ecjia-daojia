@@ -72,9 +72,12 @@ class orders_buy_order_paid_api extends Component_Event_Api
         /* 取得订单信息 */
         $order = RC_Api::api('orders', 'order_info', array('order_sn' => $order_sn));
 
+
         if (intval($order['pay_status']) === PS_PAYED) {
             return new ecjia_error('order_has_been_paid', __('订单已经支付了', 'orders'));
         }
+        
+        RC_Hook::do_action('order_payed_do_something', $order);
 
         /* 改变订单状态 */
         return $this->order_paid($order_sn, $order, PS_PAYED);
@@ -121,7 +124,7 @@ class orders_buy_order_paid_api extends Component_Event_Api
         } else {
             /* 修改订单状态为已付款 */
             //配送和团购支付后order_status还是未接单；自提为已接单
-            if ($order['extension_code'] == 'storepickup') {
+            if (in_array($order['extension_code'], array('storepickup', 'agencysale_storepickup'))) {
                 $order_status = OS_CONFIRMED;
             } else {
                 //订单对应店铺有没开启自动接单
@@ -176,6 +179,11 @@ class orders_buy_order_paid_api extends Component_Event_Api
         }
 
         if (!empty($order['store_id'])) {
+            //邀请奖励
+            RC_Api::api('affiliate', 'invite_reward', array('user_id' => $order['user_id'], 'invite_type' => 'orderpay'));
+
+//            //vip商品购买后处理
+//            Ecjia\App\Affiliate\Distribution::buy_vip_goods($order);
 
             /*门店自提，时发送提货验证码；*/
             if ($order['shipping_id'] > 0) {

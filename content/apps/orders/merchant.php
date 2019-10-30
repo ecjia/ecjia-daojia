@@ -399,14 +399,13 @@ class merchant extends ecjia_merchant
         if ($order_model == 'default') {
             $url = RC_Uri::url('orders/merchant/init');
         }
-
-        $extension_code_label = Ecjia\App\Orders\OrderExtensionCode::getExtensionCodeLabel($order_model);
+        $extension_code_label = \Ecjia\App\Orders\OrderExtensionCode::getExtensionCodeLabel($order_model);
         $nav_here             = in_array($order_model, array('default', 'storebuy', 'storepickup', 'group_buy', 'cashdesk')) ? $extension_code_label : __('配送订单', 'orders');
+
+        $this->assign('extension_code', $order['extension_code']);
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, $url));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单信息', 'orders')));
-
-        $this->assign('extension_code', $order['extension_code']);
 
         /*发票抬头和发票识别码处理*/
         if (!empty($order['inv_payee'])) {
@@ -452,9 +451,10 @@ class merchant extends ecjia_merchant
                 }
             }
         }
-        $getlast = $getlast_db->db_order_info->where(RC_DB::raw('o.order_id'), '<', $order_id)->where(RC_DB::raw('o.is_delete'), '=', '0')->where(RC_DB::raw('o.store_id'), $_SESSION['store_id'])->max('order_id');
-        $getnext = $getnext_db->db_order_info->where(RC_DB::raw('o.order_id'), '>', $order_id)->where(RC_DB::raw('o.is_delete'), '=', '0')->where(RC_DB::raw('o.store_id'), $_SESSION['store_id'])->min('order_id');
 
+        $getlast = $getlast_db->db_order_info->where(RC_DB::raw('o.order_id'), '<', $order_id)->where(RC_DB::raw('o.is_delete'), '=', '0')->where(RC_DB::raw('o.store_id'), $_SESSION['store_id'])->where(RC_DB::raw('o.extension_code'), $order['extension_code'])->max('order_id');
+        $getnext = $getnext_db->db_order_info->where(RC_DB::raw('o.order_id'), '>', $order_id)->where(RC_DB::raw('o.is_delete'), '=', '0')->where(RC_DB::raw('o.store_id'), $_SESSION['store_id'])->where(RC_DB::raw('o.extension_code'), $order['extension_code'])->min('order_id');
+        
         $this->assign('prev_id', $getlast);
         $this->assign('next_id', $getnext);
 
@@ -481,16 +481,16 @@ class merchant extends ecjia_merchant
         $order['shipping_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']);
         $order['confirm_time']  = RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']);
 
-        $payment_info    = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
+        $payment_info    = with(new \Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
         $order['is_cod'] = $payment_info->is_cod;
 
-        $status          = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($order['order_status'], $order['shipping_status'], $order['pay_status'], $order['is_cod']);
+        $status          = with(new \Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($order['order_status'], $order['shipping_status'], $order['pay_status'], $order['is_cod']);
         $order['status'] = $status['0'];
 
         $order['invoice_no'] = $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? __('未发货', 'orders') : $order['invoice_no'];
 
         //订单流程
-        $flow_status = with(new Ecjia\App\Orders\OrderStatus())->getOrderFlowLabel($order);
+        $flow_status = with(new \Ecjia\App\Orders\OrderStatus())->getOrderFlowLabel($order);
         $this->assign('flow_status', $flow_status);
 
         /* 取得订单的来源 */
@@ -533,7 +533,7 @@ class merchant extends ecjia_merchant
             $this->assign('user', $user);
 
             // 地址信息
-            $data = Ecjia\App\User\UserAddress::UserAddressList($order['user_id']);
+            $data = \Ecjia\App\User\UserAddress::UserAddressList($order['user_id']);
             $this->assign('address_list', $data);
         }
 
@@ -600,7 +600,7 @@ class merchant extends ecjia_merchant
         $data     = $this->db_order_action->where(array('order_id' => $order['order_id']))->order(array('log_time' => 'asc', 'action_id' => 'asc'))->select();
         if (!empty($data)) {
             foreach ($data as $key => $row) {
-                $label_status         = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($row['order_status'], $row['shipping_status'], $row['pay_status'], $order['is_cod']);
+                $label_status         = with(new \Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($row['order_status'], $row['shipping_status'], $row['pay_status'], $order['is_cod']);
                 $row['action_status'] = $label_status[0];
 
                 $row['action_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['log_time']);
@@ -630,6 +630,14 @@ class merchant extends ecjia_merchant
                 $len                   = strlen($meta_value);
                 $meta_value_encryption = substr_replace($meta_value, str_repeat('*', $len), 0, $len);
                 $this->assign('meta_value', array('normal' => $meta_value, 'encryption' => $meta_value_encryption));
+
+                // set the barcode content and type
+                $barcodeobj = new TCPDFBarcode($meta_value, 'C39');
+
+                // output the barcode as HTML object
+                $pickup_barcode = $barcodeobj->getBarcodeHTML(1.5, 50, 'black');
+
+                $this->assign('pickup_barcode', $pickup_barcode);
             }
 
             if ((($order['pay_status'] == PS_PAYED || $order['is_cod']) && $order['shipping_status'] == SS_RECEIVED)) {
@@ -684,7 +692,7 @@ class merchant extends ecjia_merchant
             $this->assign('order', $order);
 
             $shipping = ecjia_shipping::getPluginDataById($order['shipping_id']);
-            
+
             //打印单模式
             if ($shipping['print_model'] == 2) {
                 /* 可视化 快递单*/
@@ -755,22 +763,22 @@ class merchant extends ecjia_merchant
                 }
                 $shipping['config_lable'] = implode('||,||', $temp_config_lable);
                 $this->assign('shipping', $shipping);
-                
+
                 return $this->display('print.dwt');
-                
+
             } elseif (!empty($shipping['shipping_print'])) {
-            	//自定义模板设置
+                //自定义模板设置
                 echo $this->fetch_string(stripslashes($shipping['shipping_print']));
             } else {
-            	//未进行自定义设置,打印为系统默认模板
+                //未进行自定义设置,打印为系统默认模板
                 $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
                 $plugin_handle   = ecjia_shipping::channel($shipping_code);
                 $shipping_print_template  = $plugin_handle->loadPrintOption('shipping_print');
-                
+
                 if ($shipping_print_template) {//存在模板文件
                     return $this->display($shipping_print_template);
                 } else {
-                	echo __('很抱歉，目前您还没有设置打印快递单模板，不能进行打印。', 'orders');
+                    echo __('很抱歉，目前您还没有设置打印快递单模板，不能进行打印。', 'orders');
                 }
             }
         } else {
@@ -869,70 +877,70 @@ class merchant extends ecjia_merchant
             }
         }
     }
-   
+
     //快递单模板打印
     public function shipping_print() {
-    	$order_id = intval($_GET['order_id']);
-    	$order = RC_Api::api('orders', 'merchant_order_info', array('order_id' => $order_id));
-    	 
-    	/* 打印快递单 */
-    	$this->assign('print_time', RC_Time::local_date(ecjia::config('time_format')));
-    	//发货地址所在地
-    	$region_array   = array();
-    	$region_id      = ecjia::config('shop_country', ecjia::CONFIG_CHECK) ? ecjia::config('shop_country') . ',' : '';
-    	$region_id      .= ecjia::config('shop_province', ecjia::CONFIG_CHECK) ? ecjia::config('shop_province') . ',' : '';
-    	$region_id      .= ecjia::config('shop_city', ecjia::CONFIG_CHECK) ? ecjia::config('shop_city') . ',' : '';
-    	$region_id      = substr($region_id, 0, -1);
-    	$region_id_list = explode(',', $region_id);
-    	 
-    	$region = ecjia_region::getRegions($region_id_list);
-    	if (!empty($region)) {
-    		foreach ($region as $region_data) {
-    			$region_array[$region_data['region_id']] = $region_data['region_name'];
-    		}
-    	}
-    	 
-    	$this->assign('shop_name', ecjia::config('shop_name'));
-    	$this->assign('order_id', $order_id);
-    	$this->assign('province', $region_array[ecjia::config('shop_province')]);
-    	$this->assign('city', $region_array[ecjia::config('shop_city')]);
-    	$this->assign('shop_address', ecjia::config('shop_address'));
-    	$this->assign('service_phone', ecjia::config('service_phone'));
-    	$this->assign('order', $order);
-    	
-    	$store_info = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->first();
-    	$gmtime_utc_temp = RC_Time::gmtime(); 
-    	
-    	$shipping = ecjia_shipping::getPluginDataById($order['shipping_id']);
-    	 
-    	//打印单模式-可视化 快递单
-    	if ($shipping['print_model'] == 2) {
-    		/* 判断模板图片位置 */
-    		if (!empty($shipping['print_bg']) && trim($shipping['print_bg']) != '') {
-    			$uploads_dir_info = RC_Upload::upload_dir();
-    			if (mb_strstr($shipping['print_bg'], 'data/receipt')) {
-    				$shipping['print_bg'] = $uploads_dir_info[baseurl] . '/' . $shipping['print_bg'];
-    			} else {
-    				$shipping['print_bg'] = $shipping['print_bg'];
-    			}
-    		} else {
-    			/* 使用插件默认快递单图片 */
-    			$plugin_handle        = ecjia_shipping::channel($shipping['shipping_code']);
-    			$shipping['print_bg'] = $plugin_handle->printBcakgroundImage();
-    		}
-    		/* 取快递单背景宽高 */
-    		if (!empty($shipping['print_bg'])) {
-    			$_size = @getimagesize($shipping['print_bg']);
-    			if ($_size != false) {
-    				$shipping['print_bg_size'] = array('width' => $_size[0], 'height' => $_size[1]);
-    			}
-    		}
-    		 
-    		if (empty($shipping['print_bg_size'])) {
-    			$shipping['print_bg_size'] = array('width' => '1024', 'height' => '600');
-    		}
-    		     		
-    		//获取店铺信息
+        $order_id = intval($_GET['order_id']);
+        $order = RC_Api::api('orders', 'merchant_order_info', array('order_id' => $order_id));
+
+        /* 打印快递单 */
+        $this->assign('print_time', RC_Time::local_date(ecjia::config('time_format')));
+        //发货地址所在地
+        $region_array   = array();
+        $region_id      = ecjia::config('shop_country', ecjia::CONFIG_CHECK) ? ecjia::config('shop_country') . ',' : '';
+        $region_id      .= ecjia::config('shop_province', ecjia::CONFIG_CHECK) ? ecjia::config('shop_province') . ',' : '';
+        $region_id      .= ecjia::config('shop_city', ecjia::CONFIG_CHECK) ? ecjia::config('shop_city') . ',' : '';
+        $region_id      = substr($region_id, 0, -1);
+        $region_id_list = explode(',', $region_id);
+
+        $region = ecjia_region::getRegions($region_id_list);
+        if (!empty($region)) {
+            foreach ($region as $region_data) {
+                $region_array[$region_data['region_id']] = $region_data['region_name'];
+            }
+        }
+
+        $this->assign('shop_name', ecjia::config('shop_name'));
+        $this->assign('order_id', $order_id);
+        $this->assign('province', $region_array[ecjia::config('shop_province')]);
+        $this->assign('city', $region_array[ecjia::config('shop_city')]);
+        $this->assign('shop_address', ecjia::config('shop_address'));
+        $this->assign('service_phone', ecjia::config('service_phone'));
+        $this->assign('order', $order);
+
+        $store_info = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->first();
+        $gmtime_utc_temp = RC_Time::gmtime();
+
+        $shipping = ecjia_shipping::getPluginDataById($order['shipping_id']);
+
+        //打印单模式-可视化 快递单
+        if ($shipping['print_model'] == 2) {
+            /* 判断模板图片位置 */
+            if (!empty($shipping['print_bg']) && trim($shipping['print_bg']) != '') {
+                $uploads_dir_info = RC_Upload::upload_dir();
+                if (mb_strstr($shipping['print_bg'], 'data/receipt')) {
+                    $shipping['print_bg'] = $uploads_dir_info[baseurl] . '/' . $shipping['print_bg'];
+                } else {
+                    $shipping['print_bg'] = $shipping['print_bg'];
+                }
+            } else {
+                /* 使用插件默认快递单图片 */
+                $plugin_handle        = ecjia_shipping::channel($shipping['shipping_code']);
+                $shipping['print_bg'] = $plugin_handle->printBcakgroundImage();
+            }
+            /* 取快递单背景宽高 */
+            if (!empty($shipping['print_bg'])) {
+                $_size = @getimagesize($shipping['print_bg']);
+                if ($_size != false) {
+                    $shipping['print_bg_size'] = array('width' => $_size[0], 'height' => $_size[1]);
+                }
+            }
+
+            if (empty($shipping['print_bg_size'])) {
+                $shipping['print_bg_size'] = array('width' => '1024', 'height' => '600');
+            }
+
+            //获取店铺信息
             $templatebox = new \Ecjia\App\Shipping\ShippingTemplateBox();
             $templatebox->setTemplateData('shop_name', $store_info['merchants_name']);//网店-名称
             $templatebox->setTemplateData('shop_tel', $store_info['contact_mobile']);//网店-联系电话
@@ -942,7 +950,7 @@ class merchant extends ecjia_merchant
             $templatebox->setTemplateData('shop_district', ecjia_region::getRegionName($store_info['district']));//网店-区/县
             $templatebox->setTemplateData('shop_street', ecjia_region::getRegionName($store_info['street']));//网店-地址
             $templatebox->setTemplateData('shop_address', $store_info['address']);//网店-地址
-            
+
             //收件人信息
             $templatebox->setTemplateData('customer_name', $order['consignee']);//收件人-姓名
             $templatebox->setTemplateData('customer_tel', $order['tel']);//收件人-电话
@@ -966,16 +974,16 @@ class merchant extends ecjia_merchant
             $templatebox->setTemplateData('pigeon', '√');//√-对号
             $templatebox->setTemplateData('custom_content', '');//自定义内容
 
-    		//标签替换
+            //标签替换
             $shipping['config_lable'] = $templatebox->transformPrintData($shipping['config_lable']);
-    		$this->assign('shipping', $shipping);
-    		 
-    		return $this->display('print.dwt');
-    		 
-    	} else {
+            $this->assign('shipping', $shipping);
+
+            return $this->display('print.dwt');
+
+        } else {
             $templatebox = new \Ecjia\App\Shipping\ShippingTemplate();
-            
-    		//获取店铺信息
+
+            //获取店铺信息
             $templatebox = new \Ecjia\App\Shipping\ShippingTemplateBox();
             $templatebox->setTemplateData('shop_name', $store_info['merchants_name']);//网店-名称
             $templatebox->setTemplateData('shop_tel', $store_info['contact_mobile']);//网店-联系电话
@@ -985,7 +993,7 @@ class merchant extends ecjia_merchant
             $templatebox->setTemplateData('shop_district', ecjia_region::getRegionName($store_info['district']));//网店-区/县
             $templatebox->setTemplateData('shop_street', ecjia_region::getRegionName($store_info['street']));//网店-地址
             $templatebox->setTemplateData('shop_address', $store_info['address']);//网店-地址
-            
+
             //收件人信息
             $templatebox->setTemplateData('customer_name', $order['consignee']);//收件人-姓名
             $templatebox->setTemplateData('customer_tel', $order['tel']);//收件人-电话
@@ -1002,14 +1010,14 @@ class merchant extends ecjia_merchant
             $templatebox->setTemplateData('order_no', $order['order_sn']);//订单号
             $templatebox->setTemplateData('order_postscript', $order['postscript']);//订单-备注
             $templatebox->setTemplateData('order_best_time', $order['best_time']);//订单-最佳送货时间
-           
+
             $templatebox->setTemplateData('year', date('Y', $gmtime_utc_temp));//年-当日日期
             $templatebox->setTemplateData('months', date('m', $gmtime_utc_temp));//月-当日日期
             $templatebox->setTemplateData('day', date('d', $gmtime_utc_temp));//日-当日日期
-            
+
             //自定义内容
             $templatebox->setTemplateData('custom_content', '');
-            
+
             //获取已经成功设置过的数据
             $templatebox->getTemplateDataWithCallback(function($item, $key) {
                 $this->assign($key, $item);
@@ -1017,8 +1025,8 @@ class merchant extends ecjia_merchant
 
             if (!empty($shipping['shipping_print'])) { //自定义模板设置
                 echo $this->fetch_string(stripslashes($shipping['shipping_print']));
-            } else { 
-            	//未进行自定义设置,打印为系统默认模板
+            } else {
+                //未进行自定义设置,打印为系统默认模板
                 $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
                 $plugin_handle   = ecjia_shipping::channel($shipping_code);
                 $shipping_print_template  = $plugin_handle->loadPrintOption('shipping_print');
@@ -1028,7 +1036,7 @@ class merchant extends ecjia_merchant
                 } else {
                     return $this->showmessage(__('很抱歉，目前您还没有设置打印快递单模板，不能进行打印。', 'orders'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_HTML);
                 }
-                
+
             }
         }
 
@@ -1044,12 +1052,7 @@ class merchant extends ecjia_merchant
         $extension_code = remove_xss($_POST['extension_code']);
 
         $db = RC_DB::table('order_info')
-            ->whereRaw("order_id = " . $keywords . " OR order_sn = " . $keywords . "");
-
-        if(! empty($extension_code))
-        {
-            $db = $db->where('extension_code', $extension_code);
-        }
+            ->whereRaw("order_id = " . $keywords . " OR order_sn = " . $keywords . "")->where('extension_code', $extension_code);
 
         $query = $db->first();
 
@@ -1163,7 +1166,7 @@ class merchant extends ecjia_merchant
      */
     public function ajax_merge_order()
     {
-    	
+
     }
 
     /**
@@ -2693,7 +2696,7 @@ class merchant extends ecjia_merchant
         /* 直接处理 */
         if (!$batch) {
             /* 一个订单 */
-           return $this->operate_post();
+            return $this->operate_post();
         } else {
             /* 多个订单 */
             return $this->batch_operate_post();

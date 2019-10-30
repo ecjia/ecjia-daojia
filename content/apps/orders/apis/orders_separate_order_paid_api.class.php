@@ -238,7 +238,7 @@ class orders_separate_order_paid_api extends Component_Event_Api
                     //会员店铺消费过，记录为店铺会员
                     if (!empty($order['user_id'])) {
                         add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
-                        //更新商家会员消费
+                    //更新商家会员消费
                         RC_Api::api('customer', 'store_user_buy', array('store_id' => $order['store_id'], 'user_id' => $order['user_id']));
                     }
 

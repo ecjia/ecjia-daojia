@@ -134,7 +134,7 @@ class orders_user_account_paid_api extends Component_Event_Api
             //$order_operate->operate($order_info, 'receive', array('action_note' => '系统操作'));
         } else {
             /* 更新订单表支付后信息 */
-            if ($order_info['extension_code'] == 'storepickup') {
+            if (in_array($order_info['extension_code'], array('storepickup', 'agencysale_storepickup'))) {
                 $order_status = OS_CONFIRMED;
             } else {
                 //订单对应店铺有没开启自动接单且非团购订单
@@ -201,6 +201,9 @@ class orders_user_account_paid_api extends Component_Event_Api
                 OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order_info['order_id']));
             }
         }
+
+//        //vip商品购买后处理
+//        Ecjia\App\Affiliate\Distribution::buy_vip_goods($order_info);
 
         //支付后扩展处理
         RC_Hook::do_action('order_payed_do_something', $order_info);
