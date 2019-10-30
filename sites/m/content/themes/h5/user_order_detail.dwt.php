@@ -46,7 +46,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			        </span>
                     <div class="order-status-msg">
                         <span class="order-head-top"><span class="order-head-font">{$headInfo.order_status}</span><span class="ecjiaf-fr order-color">{$headInfo.time}</span></span>
-                        <p class="ecjia-margin-t status"><span class="order-color order-status">{$headInfo.message}</span><span class="ecjiaf-fr more-status">{t domain="h5"}更多状态 >{/t}</span></p>
+                        <p class="ecjia-margin-t status"><span class="order-color order-status">{$headInfo.message}</span>
+                            {if $order.order_status_code eq 'canceled'}
+                            <span class="order-color order-status">取消原因：{$order.to_buyer}</span>
+                            {/if}
+                            <span class="ecjiaf-fr more-status">{t domain="h5"}更多状态 >{/t}</span></p>
                     </div>
                 </a>
             </div>

@@ -10,7 +10,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-// 	ecjia.touch.user.init();
+	// ecjia.touch.user.init();
 </script>
 <!-- {/block} -->
 
@@ -29,10 +29,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	            </li>
         	</div>
         </div>
-        
+
         {if $data.activity_list}
-        <div class="item_list ecjia-margin-t">
-	        <div class="quickpay_div background_fff">
+        <div class="item_list" style="margin-top: 3em">
+	        <div class="quickpay_div content background_fff">
 	            <li class="explain_title"><span><b>{t domain="h5"}买单优惠{/t}</b></span></li>
 	            <div class="before_two line">
 	            	<!-- {foreach from=$data.activity_list item=list} -->
@@ -51,7 +51,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	                        <p class="explain_info_top">{t domain="h5"}不可用时间：{/t}{$list.limit_time_exclude}</p>
 	                        {/if}
 	                        <p class="explain_info_top">{t domain="h5" 1={$list.formated_start_time} 2={$list.formated_end_time}}有效日期：%1至%2{/t}</p>
-	                    </div>
+                            <p class="explain_info_top">{t domain="h5"}使用规则：{/t}{$list.description}</p>
+                        </div>
 	                </li>
 	                <!-- {/foreach} -->
 	            </div>

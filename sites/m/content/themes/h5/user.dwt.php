@@ -255,117 +255,34 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </div>
 
 <div class="ecjia-user ecjia-margin-b">
-     <ul class="ecjia-list list-short">
-        <li>
-			<a href="{url path='user/quickpay/quickpay_list'}">
-        		<div class="icon-address-list"><img src="{$theme_url}images/user_center/quickpay.png"></div>
-        		<span class="icon-name">{t domain="h5"}我的买单{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-		</li>
-		<li>
-			<a href="{if $user}{url path='user/order/groupbuy_order'}{else}{$login_url}{/if}">
-        		<div class="icon-address-list"><img src="{$theme_url}images/user_center/groupbuy.png"></div>
-        		<span class="icon-name">{t domain="h5"}我的团购{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-		</li>
-        <li>
-            <a href="{if $user}{url path='user/follow/init'}{else}{$login_url}{/if}">
-                <div class="icon-address-list"><img src="{$theme_url}images/user_center/follow.png"></div>
-                <span class="icon-name">{t domain="h5"}关注店铺{/t}</span>
-                <i class="iconfont icon-jiantou-right"></i>
-            </a>
-        </li>
-		<li>
-			<a href="{url path='user/address/address_list'}">
-        		<div class="icon-address-list"><img src="{$theme_url}images/user_center/75x75_3.png"></div>
-        		<span class="icon-name">{t domain="h5"}收货地址{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-		</li>
-		<li>
-    	    <a class="external" href="{$signup_reward_url}">
-        		<div class="icon-expand"><img src="{$theme_url}images/user_center/newbie_gift75_1.png"></div>
-        		<span class="icon-name">{t domain="h5"}新人有礼{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-    </ul>
+    <div class="ecjia-list list-item-four {if !$data}safe-area{/if}">
+        <a class="vl" href="{url path='user/quickpay/quickpay_list'}"> <img src="{$theme_url}images/user_center/quickpay_packet.png">{t domain='mendian'}我的买单{/t}</a>
 
-    <ul class="ecjia-list list-short">
-        <li>
-        	<a class="external" href="tel:{$shop_config.service_phone}">
-        		<div class="icon-website-service"><img src="{$theme_url}images/user_center/75x75_5.png"></div>
-        		<span class="icon-name">{t domain="h5"}官网客服{/t}</span>
-        		<span class="icon-long">{$shop_config.service_phone}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-        <li>
-        	<a class="external" href="{$shop_config.site_url}" target="_blank">
-        		<div class="icon-offical-website"><img src="{$theme_url}images/user_center/75x75_6.png"></div>
-        		<span class="icon-name">{t domain="h5"}官网网站{/t}</span>
-        		<span class="icon-long">{$shop_config.site_url}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-		<li>
-        	<a class="external" href="{url path='touch/index/cache_set'}">
-        		<div class="icon-offical-website"><img src="{$theme_url}images/user_center/75x75_14.png"></div>
-        		<span class="icon-name">{t domain="h5"}缓存设置{/t}</span>
-        		<span class="icon-long"></span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-    </ul>
-    <ul class="ecjia-list list-short">
-        <li>
-        	<a class="external" href="{url path='article/help/init'}">
-        		<div class="icon-help-center"><img src="{$theme_url}images/user_center/help75_3.png"></div>
-        		<span class="icon-name">{t domain="h5"}帮助中心{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-        <li>
-        	<a class="external" href="{url path='mobile/mobile/download'}">
-        		<div class="icon-help-center"><img src="{$theme_url}images/user_center/75x75_15.png"></div>
-        		<span class="icon-name">{t domain="h5"}下载APP{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-    </ul>
-    
-    {if $merchant_join_close neq 1}
-    <ul class="ecjia-list list-short">
-        <li>
-        	<a class="nopjax external" href="{url path='franchisee/index/first'}">
-        		<div class="icon-help-center"><img src="{$theme_url}images/user_center/75x75_10.png"></div>
-        		<span class="icon-name">{t domain="h5"}店铺入驻申请{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-        <li>
-        	<a class="nopjax external" href="{url path='franchisee/index/search'}">
-        		<div class="icon-help-center"><img src="{$theme_url}images/user_center/75x75_9.png"></div>
-        		<span class="icon-name">{t domain="h5"}店铺入驻查询{/t}</span>
-        		<i class="iconfont icon-jiantou-right"></i>
-        	</a>
-        </li>
-    </ul>
+        <a class="vl" href="{if $user}{url path='user/order/groupbuy_order'}{else}{$login_url}{/if}"> <img src="{$theme_url}images/user_center/groupbuy.png">{t domain='mendian'}我的团购{/t}</a>
+
+        <a class="vl external" href="{if $user}{url path='user/follow/init'}{else}{$login_url}{/if}"><img src="{$theme_url}images/user_center/follow.png">{t domain='mendian'}关注店铺{/t}</a>
+
+        <a class="vl external" href="{$signup_reward_url}"><img src="{$theme_url}images/user_center/gift.png">{t domain='mendian'}新人有礼{/t}</a>
+        <a class="vl" href="{url path='user/address/address_list'}"><img src="{$theme_url}images/user_center/address.png">{t domain='mendian'}收货地址{/t}</a>
+        <a class="vl" href="{url path='article/help/init'}"><img src="{$theme_url}images/user_center/help.png">{t domain='mendian'}帮助中心{/t}</a>
+
+        {if $merchant_join_close neq 1}
+        <a class="vl external nopjax" href="{url path='franchisee/index/search'}"><img src="{$theme_url}images/user_center/franchisee_search.png">{t domain='mendian'}店铺入驻查询{/t}</a>
+        <a class="vl external nopjax" href="{url path='franchisee/index/first'}"><img src="{$theme_url}images/user_center/franchisee_apply.png">{t domain='mendian'}店铺入驻申请{/t}</a>
+        {/if}
+
+        <a class="vl external" href="{url path='mobile/mobile/download'}"><img src="{$theme_url}images/user_center/down_app.png">{t domain='mendian'}下载App{/t}</a>
+        <a class="vl" href="{url path='touch/index/about_us'}"><img src="{$theme_url}images/user_center/about_us.png">{t domain='mendian'}关于我们{/t}</a>
+        <a class="vl" href="{url path='touch/index/cache_set'}"><img src="{$theme_url}images/user_center/cache_set.png">{t domain='mendian'}缓存设置{/t}</a>
+    </div>
+    {if $data}
+    <div class="ecjia-list list-item-four safe-area">
+        <div class="vl-title">━━━ ● <img src="{$theme_url}images/user_center/discover.png"> ● ━━━</div>
+        <!--{foreach from=$data item=val}-->
+        <a class="vl external nopjax" href="{$val.url}"><img src="{$val.image}">{$val.text}</a>
+        <!--{/foreach}-->
+    </div>
     {/if}
-    
-    <ul class="ecjia-list list-short safe-area">
-        <!-- {foreach from=$shop item=value} 网店信息 -->
-            <li>
-            	<a class="external" href="{RC_uri::url('article/shop/detail')}&title={$value.title}&article_id={$value.id}">
-            		<div class="icon-shop-info"><img src="{$value.image}"></div>
-            		<span class="icon-name">{$value.title}</span>
-            		<i class="iconfont icon-jiantou-right"></i>
-            	</a>
-            </li>
-        <!-- {/foreach} -->
-    </ul>
 </div>
 <!-- #BeginLibraryItem "/library/model_bar.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->

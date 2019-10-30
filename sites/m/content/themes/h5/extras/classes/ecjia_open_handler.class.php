@@ -61,6 +61,8 @@ class ecjia_open_handler
         ecjia_open::macro('history', [__CLASS__, 'open_history']);
         //店铺首页
         ecjia_open::macro('merchant', [__CLASS__, 'open_merchant']);
+        //店铺首页（推广二维码）
+        ecjia_open::macro('affiliate', [__CLASS__, 'open_affiliate']);
 
     }
 
@@ -309,7 +311,15 @@ class ecjia_open_handler
         return RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id']));
     }
 
-
+    /**
+     * 店铺首页(推广）
+     * @param $querys
+     * @return string
+     */
+    public static function open_affiliate($querys)
+    {
+        return RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id'], 'type' => 'affiliate') );
+    }
 
 
 }

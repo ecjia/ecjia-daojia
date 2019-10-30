@@ -86,6 +86,6 @@ return [
     'ecjia_open_handler'        => 'extras/classes/ecjia_open_handler.class.php',
     'ecjia_theme_controller'    => 'extras/classes/ecjia_theme_controller.class.php',
     'ecjia_user_front_controller'    => 'extras/classes/ecjia_user_front_controller.class.php',
-    'ecjia_add_storeuser'    => 'extras/classes/ecjia_add_storeuser.class.php',
+    'ecjia_qrcode_add_storeuser'    => 'extras/classes/ecjia_qrcode_add_storeuser.class.php',
 
 ];

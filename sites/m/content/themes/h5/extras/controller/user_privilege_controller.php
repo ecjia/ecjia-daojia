@@ -448,7 +448,7 @@ class user_privilege_controller
 
             $res = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => '', 'mobile' => $mobile, 'password' => ''))->run();
             if (!is_ecjia_error($res)) {
-                $ecjia_add_storeuser =  new ecjia_add_storeuser();
+                $ecjia_add_storeuser =  new ecjia_qrcode_add_storeuser();
                 $ecjia_add_storeuser->add_store_user(array('user_id' => $res['id'], 'store_id' => $store_id));
 
                 

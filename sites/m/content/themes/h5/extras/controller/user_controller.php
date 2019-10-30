@@ -95,6 +95,16 @@ class user_controller
             ecjia_front::$controller->assign('merchant_join_close', $config['merchant_join_close']);
         }
 
+        $discover = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DISCOVER)->run();
+        if (!is_ecjia_error($discover) && !empty($discover)) {
+            foreach ($discover as $key => $val) {
+                if (strpos($val['url'], 'ecjiaopen://') === 0) {
+                    $discover[$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
+                }
+            }
+            ecjia_front::$controller->assign('data', $discover);
+        }
+
         ecjia_front::$controller->assign('active', 'mine');
         ecjia_front::$controller->assign_title(__('个人中心', 'h5'));
 
@@ -102,6 +112,25 @@ class user_controller
         ecjia_front::$controller->assign('login_url', RC_Uri::url($login_str));
 
         return ecjia_front::$controller->display('user.dwt');
+    }
+
+    public static function about_us()
+    {
+        $cache_id = $_SERVER['QUERY_STRING'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+        if (!ecjia_front::$controller->is_cached('about_us.dwt', $cache_id)) {
+
+            $shop = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO)->run();
+            $shop = is_ecjia_error($shop) ? array() : $shop;
+            ecjia_front::$controller->assign('shop', $shop);
+
+            $shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+            $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
+            ecjia_front::$controller->assign('shop_config', $shop_config);
+
+            ecjia_front::$controller->assign_title(__('关于我们', 'h5'));
+        }
+        return ecjia_front::$controller->display('about_us.dwt', $cache_id);
     }
 
     /**

@@ -191,6 +191,7 @@ class user_order_controller
                 }
             }
             if (!ecjia_front::$controller->is_cached('user_order_status.dwt', $cache_id)) {
+
                 ecjia_front::$controller->assign('order', $data);
                 ecjia_front::$controller->assign('title', __('订单状态', 'h5'));
                 ecjia_front::$controller->assign_title(__('订单状态', 'h5'));
@@ -536,6 +537,7 @@ class user_order_controller
         ecjia_front::$controller->assign('express_info', $arr);
         ecjia_front::$controller->assign('hidenav', 1);
         if (!is_ecjia_error($data)) {
+
             if (!empty($data['order_status_log']) && $data['order_status_log'][0]['status'] == 'finished') {
                 //店铺信息
                 $parameter_list = array(
@@ -1016,7 +1018,7 @@ class user_order_controller
     //订单分成
     public static function affiliate()
     {
-        $status = !empty($_GET['status']) ? trim($_GET['status']) : 'await_separate';
+        $status = !empty($_GET['status']) ? trim($_GET['status']) : '';
         $title  = __('订单分成', 'h5');
 
         ecjia_front::$controller->assign_title($title);
@@ -1028,7 +1030,7 @@ class user_order_controller
     //获取分成订单
     public static function ajax_order_affiliate()
     {
-        $status = !empty($_GET['status']) ? trim($_GET['status']) : 'await_separate';
+        $status = !empty($_GET['status']) ? trim($_GET['status']) : '';
         $limit  = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
         $pages  = intval($_GET['page']) ? intval($_GET['page']) : 1;
 

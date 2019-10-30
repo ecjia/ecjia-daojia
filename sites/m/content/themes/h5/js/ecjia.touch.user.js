@@ -57,6 +57,21 @@
 			})
 		},
 
+		//粘贴事件修改
+		paste: function () {
+			document.addEventListener('paste', e => {
+				const text = e.clipboardData.getData('text/plain');
+				console.log('Got pasted text: ', text);
+
+				$(".pass_container .input:eq(0)").val(text.substring(0,1));
+				$(".pass_container .input:eq(1)").val(text.substring(1,2));
+				$(".pass_container .input:eq(2)").val(text.substring(2,3));
+				$(".pass_container .input:eq(3)").val(text.substring(3,4));
+				$(".pass_container .input:eq(4)").val(text.substring(4,5));
+				$(".pass_container .input:eq(5)").val(text.substring(5,6));
+			})
+		},
+
 		//ajax 表单提交验证
 		submitForm: function () {
 			$("form[name='theForm']").on('submit', function (e) {

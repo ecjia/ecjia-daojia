@@ -56,6 +56,7 @@ return [
     'touch/index/del_search'                     => 'touch_controller@del_search',
     'touch/index/cache_set'                      => 'touch_controller@cache_set', //缓存设置
     'touch/index/clear_cache'                    => 'touch_controller@clear_cache', //清除缓存
+    'touch/index/about_us'                       => 'touch_controller@about_us', //关于我们
 
     //定位
     'touch/location/select_location'             => 'touch_controller@select_location',

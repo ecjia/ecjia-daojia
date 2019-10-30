@@ -1595,6 +1595,47 @@ ul {
     background: #47aa4d;
 }
 
+
+.ecjia-list.list-item-four {
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 1em 2%;
+    width: 100%
+}
+
+.ecjia-list.list-item-four a.vl {
+    float: left;
+    width: 25%;
+    text-align: center;
+    line-height: 2em;
+    position: relative;
+    font-size: 1em;
+    padding: 1em 0
+}
+
+.ecjia-list.list-item-four a.vl img {
+    display: block;
+    width: 2em;
+    height: 2em;
+    margin: 0 auto
+}
+
+.ecjia-list.list-item-four .vl-title {
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: .5em;
+    color: #000;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 700
+}
+
+.ecjia-list.list-item-four .vl-title img {
+    width: 90px;
+    height: 37.5px
+}
+
 .ecjia-promotion-model img.sales-icon {
     position: absolute;
     width: 20%;
@@ -15791,7 +15832,9 @@ body,
 .ecjia-reward-list.list-two .reward-head .reward-head-item {
     width: 50%;
 }
-
+.ecjia-reward-list.list-three .reward-head .reward-head-item {
+    width: 33%;
+}
 .ecjia-reward-list .reward-head .reward-head-item.active span {
     color: #47aa4d;
     border-bottom: 2px solid #47aa4d;

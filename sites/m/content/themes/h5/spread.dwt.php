@@ -37,7 +37,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     </div>
 
     <div class="ecjia-my-reward">
-        <a class="nopjax external" href="{url path='user/index/spread_center_agent'}"><div class="my_reward">{t domain="h5"}我的邀请{/t}<i class="iconfont icon-jiantou-right"></i></div></a>
+        <a class="nopjax external" href="{url path='user/index/spread_center_normal'}"><div class="my_reward">{t domain="h5"}我的邀请{/t}<i class="iconfont icon-jiantou-right"></i></div></a>
     </div>
     <p style="height: 1em; background-color: #F7F7F7; margin-bottom: 1em;"></p>
     <div class="invite_explain">
