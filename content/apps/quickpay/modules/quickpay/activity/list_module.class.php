@@ -72,7 +72,9 @@ class quickpay_activity_list_module extends api_front implements api_interface {
 		if (is_ecjia_error($quickpay_activity_data)) {
 			return $quickpay_activity_data;
 		}
-		$arr = array();
+
+
+        $arr = array();
 		if(!empty($quickpay_activity_data['list'])) {
 			foreach ($quickpay_activity_data['list'] as $rows) {
 				$arr[] = array(
@@ -89,10 +91,11 @@ class quickpay_activity_list_module extends api_front implements api_interface {
 						'end_time'				=> $rows['end_time'],
 						'formated_start_time'	=> RC_Time::local_date(ecjia::config('date_format'), $rows['start_time']),
 						'formated_end_time'		=> RC_Time::local_date(ecjia::config('date_format'), $rows['end_time']),
-						//'total_order_count'		=> $rows['total_order_count']
+						'description'		=> $rows['description']
 				);
 			}
 		}
+
 		$result = array(
 			'store_id' 		=> $store_id,
 			'store_name' 	=> empty($store_name) ? '' : $store_name,

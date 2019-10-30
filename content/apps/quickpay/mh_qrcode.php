@@ -105,8 +105,14 @@ class mh_qrcode extends ecjia_merchant {
 
         $store_id = $_SESSION['store_id'];
         //删除生成的收款二维码
-        with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id']))->removeQrcode();
-
+        $type = $_GET['type'];
+        if($type == 'affiliate') {
+            //删除生成的收款二维码
+            with(new Ecjia\App\Mobile\Qrcode\GenerateAffiliate($store_id))->removeQrcode();
+        } else {
+            //删除生成的收款二维码
+            with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($store_id))->removeQrcode();
+        }
         ecjia_merchant::admin_log(__('刷新收款二维码', 'quickpay'), 'edit', 'collectmoney_qrcode');
 
         return $this->showmessage(__('刷新成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/mh_qrcode/init')));

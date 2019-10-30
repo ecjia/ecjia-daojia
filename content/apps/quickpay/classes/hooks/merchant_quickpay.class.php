@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class quickpay_merchant_hook {
 	
 	public static function quickpay_merchant_menu_api($menus) {
-	    $menu = ecjia_merchant::make_admin_menu('04_merchant_qrcode', __('收款二维码', 'quickpay'), RC_Uri::url('quickpay/mh_qrcode/init'), 4)->add_purview('quickpay_collectmoney_qrcode')->add_icon('fa-qrcode');
+	    $menu = ecjia_merchant::make_admin_menu('04_merchant_qrcode', __('店铺二维码', 'quickpay'), RC_Uri::url('quickpay/mh_qrcode/init'), 4)->add_purview('quickpay_collectmoney_qrcode')->add_icon('fa-qrcode');
 	    
 	    $menus->add_submenu($menu);
 	    return $menus;
