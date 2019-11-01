@@ -162,7 +162,7 @@ class bonus {
     public static function add_to_maillist($username, $email, $subject, $content, $is_html) {
     	$time = time ();
     	$content = addslashes ( $content );
-    	$template_id = RC_DB::table('mail_templates')->where('template_code', 'send_bonus')->pluck('template_id');
+    	$template_id = RC_DB::table('mail_templates')->where('template_code', 'send_bonus')->value('template_id');
     
     	$data = array (
     		'email' 		=> $email,

@@ -616,7 +616,7 @@ class merchant extends ecjia_merchant {
 					'emailed'   => BONUS_INSERT_MAILLIST_SUCCEED,
 				);
 				RC_DB::table('user_bonus')->insert($data);
-				$name = RC_DB::table('users')->where(RC_DB::raw('user_id'), $val['user_id'])->pluck('user_name');
+				$name = RC_DB::table('users')->where(RC_DB::raw('user_id'), $val['user_id'])->value('user_name');
 				$content = '发放红包,发放类型是按用户发放, 红包名是'.$bonus_type['type_name'].', 发放目标是'.$name;
 				ecjia_merchant::admin_log($content, 'setup', 'bonustype');
 				$loop++;
@@ -754,7 +754,7 @@ class merchant extends ecjia_merchant {
 		/* 线下红包的类型ID和生成的数量的处理 */
 		$bonus_typeid = !empty($_POST['bonus_type_id']) ? intval($_POST['bonus_type_id']) : 0;
 		$bonus_sum    = !empty($_POST['bonus_sum'])     ? intval($_POST['bonus_sum'])    : 1;
-		$bonus_type = RC_DB::table('bonus_type')->where(RC_DB::raw('type_id'), $bonus_typeid)->pluck('type_name');
+		$bonus_type = RC_DB::table('bonus_type')->where(RC_DB::raw('type_id'), $bonus_typeid)->value('type_name');
 		/* 生成红包序列号 */
 		$num = RC_DB::table('user_bonus')->max('bonus_sn');
 		$num = $num ? floor($num / 10000) : 100000;
@@ -830,7 +830,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('bonus_delete', ecjia::MSGTYPE_JSON);
 		
         $id = intval($_GET['id']);
-		$bonus_type = RC_DB::table('user_bonus')->where(RC_DB::raw('bonus_id'), $id)->pluck('bonus_type_id');
+		$bonus_type = RC_DB::table('user_bonus')->where(RC_DB::raw('bonus_id'), $id)->value('bonus_type_id');
 		if (RC_DB::table('bonus_type')->where('type_id', $bonus_type)->where('store_id', $_SESSION['store_id'])->count()) {
 			RC_DB::table('user_bonus')->where('bonus_id', $id)->delete();
 		}
@@ -960,7 +960,7 @@ class merchant extends ecjia_merchant {
 
     	@set_time_limit(0);
     	$tid  = !empty($_GET['tid']) ? $_GET['tid'] : 0;
-    	$type_name = RC_DB::table('bonus_type')->where('type_id', $tid)->where('store_id', $_SESSION['store_id'])->pluck('type_name');
+    	$type_name = RC_DB::table('bonus_type')->where('type_id', $tid)->where('store_id', $_SESSION['store_id'])->value('type_name');
     	$bonus_filename = $type_name .'_bonus_list';
     	header("Content-type: application/vnd.ms-excel; charset=utf-8");
     	header("Content-Disposition: attachment; filename=$bonus_filename.xls");

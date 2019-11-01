@@ -188,7 +188,7 @@ function get_bonus_list() {
 		foreach($row as $key => $val) {
 			$row[$key]['used_time'] = $val['used_time'] == 0 ? __('未使用', 'bonus') : RC_Time::local_date(ecjia::config('date_format'), $val['used_time']);
 			$row[$key]['emailed']   = $mail_status_arr[$row[$key]['emailed']];
-			$row[$key]['merchants_name'] = RC_DB::table('bonus_type as b')->leftJoin('store_franchisee as s', RC_DB::raw('b.store_id'), '=', RC_DB::raw('s.store_id'))->where(RC_DB::raw('b.type_id'), $val['bonus_type_id'])->pluck(RC_DB::raw('s.merchants_name'));
+			$row[$key]['merchants_name'] = RC_DB::table('bonus_type as b')->leftJoin('store_franchisee as s', RC_DB::raw('b.store_id'), '=', RC_DB::raw('s.store_id'))->where(RC_DB::raw('b.type_id'), $val['bonus_type_id'])->value(RC_DB::raw('s.merchants_name'));
 		}
 	}
 	$arr = array('item' => $row, 'filter' => $filter, 'page' => $page->show ( 15 ), 'desc' => $page->page_desc());
@@ -217,7 +217,7 @@ function bonus_type_info($bonus_type_id) {
 function add_to_maillist($username, $email, $subject, $content, $is_html) {
 	$time = time ();
 	$content = addslashes ( $content );
-	$template_id = RC_DB::table('mail_templates')->where('template_code', 'send_bonus')->pluck('template_id');
+	$template_id = RC_DB::table('mail_templates')->where('template_code', 'send_bonus')->value('template_id');
 
 	$data = array (
 		'email' 		=> $email,
@@ -285,7 +285,7 @@ function bonus_info($bonus_id, $bonus_sn = '') {
 * @return  bool
 */
 function bonus_used($bonus_id) {
-	$order_id = RC_DB::table('user_bonus')->where('bonus_id', $bonus_id)->pluck('order_id');
+	$order_id = RC_DB::table('user_bonus')->where('bonus_id', $bonus_id)->value('order_id');
 	return $order_id > 0;
 }
 

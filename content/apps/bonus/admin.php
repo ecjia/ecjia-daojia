@@ -158,7 +158,7 @@ class admin extends ecjia_admin {
 		$min_amount  = !empty($_POST['min_amount']) 		? floatval($_POST['min_amount']) 	: 0;
 		$bonus_type  = intval($_POST['bonus_type']) == 1 	? 1 								: 0;
 		$send_type	 = !empty($_POST['send_type'])			? intval($_POST['send_type'])		: 0;
-		$store_id = RC_DB::table('bonus_type')->where('type_id', $type_id)->pluck('store_id');
+		$store_id = RC_DB::table('bonus_type')->where('type_id', $type_id)->value('store_id');
 		$store_id    = !empty($store_id)                    ? intval($store_id)    		        : 0;
 
 		if (RC_DB::table('bonus_type')->where('type_name', $type_name)->where('store_id', $store_id)->count() > 0) {
@@ -884,7 +884,7 @@ class admin extends ecjia_admin {
 
 		@set_time_limit(0);
 		$tid  = !empty($_GET['tid']) ? intval($_GET['tid']) : 0;
-		$type_name = RC_DB::table('bonus_type')->where('type_id', $tid)->pluck('type_name');
+		$type_name = RC_DB::table('bonus_type')->where('type_id', $tid)->value('type_name');
 		
 		$bonus_filename = $type_name .'_bonus_list';
 		header("Content-type: application/vnd.ms-excel; charset=utf-8");
@@ -925,7 +925,7 @@ class admin extends ecjia_admin {
 		
 		$arr = $_POST;
 		$type_id = !empty($_POST['type_id']) ? intval($_POST['type_id']) : '';
-		$arr['store_id'] = RC_DB::table('bonus_type')->where('type_id', $type_id)->pluck('store_id');
+		$arr['store_id'] = RC_DB::table('bonus_type')->where('type_id', $type_id)->value('store_id');
 		$row = RC_Api::api('goods', 'get_goods_list', $arr);
 		$opt = array();
 		if (!empty($row)) {
@@ -1011,7 +1011,7 @@ class admin extends ecjia_admin {
 		$this->admin_priv('bonus_type_delete', ecjia::MSGTYPE_JSON);
 		
 		$id = intval($_GET['id']);
-		$bonus_sn = RC_DB::table('user_bonus')->where('bonus_id', $id)->pluck('bonus_sn');
+		$bonus_sn = RC_DB::table('user_bonus')->where('bonus_id', $id)->value('bonus_sn');
 		
 		RC_DB::table('user_bonus')->where('bonus_id', $id)->delete();
 
