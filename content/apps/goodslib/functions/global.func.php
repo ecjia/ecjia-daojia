@@ -425,7 +425,7 @@ function handle_goodslib_attr($goods_id, $id_list, $is_spec_list, $value_price_l
             }
             
             // 插入或更新记录
-            $result_id = RC_DB::table('goodslib_attr')->where('goods_id', $goods_id)->where('attr_id', $id)->where('attr_value', $value)->pluck('goods_attr_id');
+            $result_id = RC_DB::table('goodslib_attr')->where('goods_id', $goods_id)->where('attr_id', $id)->where('attr_value', $value)->value('goods_attr_id');
             
             if (!empty ($result_id)) {
                 $data = array(
@@ -508,7 +508,7 @@ function check_goodslib_attr_exist($goods_attr, $goods_id, $product_id = 0) {
     if (!empty ($product_id)) {
         $db_products->where('product_id', '!=', $product_id);
     }
-    $res = $db_products->pluck('product_id');
+    $res = $db_products->value('product_id');
     if (empty ($res)) {
         return false; // 不重复
     } else {
@@ -564,7 +564,7 @@ function check_goodslib_product_sn_exist($product_sn, $product_id = 0) {
         return true; // 重复
     }
     
-    $query = RC_DB::table('goodslib')->where('goods_sn', $product_sn)->pluck('goods_id');
+    $query = RC_DB::table('goodslib')->where('goods_sn', $product_sn)->value('goods_id');
     if ($query) {
         return true; // 重复
     }
@@ -572,7 +572,7 @@ function check_goodslib_product_sn_exist($product_sn, $product_id = 0) {
     if (!empty($product_id)) {
         $db_product->where('product_id', '!=', $product_id);
     }
-    $res = $db_product->pluck('product_id');
+    $res = $db_product->value('product_id');
     
     if (empty ($res)) {
         return false; // 不重复

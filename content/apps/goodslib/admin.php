@@ -536,7 +536,7 @@ class admin extends ecjia_admin {
                             $this->error[] = array('state' => 'error', 'message' => $message);
                             continue;
                         }
-                        $new_goods_id = RC_DB::table('goodslib')->where('goods_sn', $data['goods_sn'])->where('is_delete', 0)->pluck('goods_id');
+                        $new_goods_id = RC_DB::table('goodslib')->where('goods_sn', $data['goods_sn'])->where('is_delete', 0)->value('goods_id');
                         if(empty($new_goods_id) || is_null($new_goods_id)) {
                             $message = sprintf(__('第%s行，货品货号【%s】找不到对应的主商品。', 'goodslib'), $key+1, $data['product_sn']);
                             $this->error[] = array('state' => 'error', 'message' => $message);
@@ -998,14 +998,14 @@ class admin extends ecjia_admin {
         $goods_id = intval($_REQUEST['goods_id']);
         $goods_sn = htmlspecialchars(trim($_REQUEST['goods_sn']));
         
-        $query_goods_sn = RC_DB::table('goodslib')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->pluck('goods_id');
+        $query_goods_sn = RC_DB::table('goodslib')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->value('goods_id');
         
         if ($query_goods_sn) {
             return $this->showmessage(__('您输入的货号已存在，请换一个', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         /* 检查是否重复 */
         if (!empty($goods_sn)) {
-            $query = RC_DB::table('goodslib_products')->where('product_sn', $goods_sn)->pluck('goods_id');
+            $query = RC_DB::table('goodslib_products')->where('product_sn', $goods_sn)->value('goods_id');
             if ($query) {
                 return $this->showmessage(__('您输入的货号已存在，请换一个', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
@@ -1021,7 +1021,7 @@ class admin extends ecjia_admin {
         $this->admin_priv('goodslib_delete', ecjia::MSGTYPE_JSON);
         
         $goods_id = intval($_GET['id']);
-        $goods_name = RC_DB::table('goodslib')->where('goods_id', $goods_id)->pluck('goods_name');
+        $goods_name = RC_DB::table('goodslib')->where('goods_id', $goods_id)->value('goods_name');
         
         RC_DB::table('goodslib')->where('goods_id', $goods_id)->update(array('is_delete' => 1));
         
@@ -1734,7 +1734,7 @@ class admin extends ecjia_admin {
 
         asort($product_value);
     	$goods_attr = implode('|', $product_value);
-    	$product_sn = RC_DB::table('goodslib_products')->where('goods_attr', $goods_attr)->pluck('product_sn');
+    	$product_sn = RC_DB::table('goodslib_products')->where('goods_attr', $goods_attr)->value('product_sn');
     	$data = $this->fetch('spec_add_product.dwt');
     
     	return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $data, 'product_sn' => $product_sn));
@@ -1764,9 +1764,9 @@ class admin extends ecjia_admin {
     			'goods_id' 		=> $goods_id,
     			'goods_attr'	=> $goods_attr,
     		);
-    		$product_id = RC_DB::TABLE('goodslib_products')->insertGetId($data);
-    		RC_DB::TABLE('goodslib_products')->where('product_id', $product_id)->update(array('product_sn' => $goods['goods_sn'] . "g_p" . $product_id));
-    		$product_sn = RC_DB::TABLE('goodslib_products')->where('product_id', $product_id)->pluck('product_sn');
+    		$product_id = RC_DB::table('goodslib_products')->insertGetId($data);
+    		RC_DB::table('goodslib_products')->where('product_id', $product_id)->update(array('product_sn' => $goods['goods_sn'] . "g_p" . $product_id));
+    		$product_sn = RC_DB::table('goodslib_products')->where('product_id', $product_id)->value('product_sn');
     		if($product_sn) {
     			return $this->showmessage(__('添加货品成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('product_sn' => $product_sn));
     		} else {
@@ -1812,7 +1812,7 @@ class admin extends ecjia_admin {
     	}
         asort($product_value);
     	$goods_attr = implode('|', $product_value);
-    	$product_sn = RC_DB::table('goodslib_products')->where('goods_attr', $goods_attr)->pluck('product_sn');
+    	$product_sn = RC_DB::table('goodslib_products')->where('goods_attr', $goods_attr)->value('product_sn');
     
     	if(!empty($product_sn)) {
     		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('product_sn' => $product_sn));
