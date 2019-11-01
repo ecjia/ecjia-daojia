@@ -267,7 +267,7 @@ class admin extends ecjia_admin
         	return $this->showmessage(__('活动限购次数不可小于0', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
-        $activity_name = RC_DB::table('market_activity')->where('activity_id', $id)->pluck('activity_name');
+        $activity_name = RC_DB::table('market_activity')->where('activity_id', $id)->value('activity_name');
 
         $data = array(
             'limit_num' => $limit_num,
@@ -330,7 +330,7 @@ class admin extends ecjia_admin
 
         $activity_code = trim($_GET['code']);
 
-        $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', 0)->pluck('activity_id');
+        $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', 0)->value('activity_id');
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动奖品池', 'market')));
 
         $count = RC_DB::table('market_activity_prize')->where('activity_id', $id)->count();
@@ -340,7 +340,7 @@ class admin extends ecjia_admin
         if (!empty($prize_list)) {
             foreach ($prize_list as $k => $v) {
                 if ($v['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
-                    $prize_value = RC_DB::table('bonus_type')->where('type_id', $v['prize_value'])->pluck('type_money');
+                    $prize_value = RC_DB::table('bonus_type')->where('type_id', $v['prize_value'])->value('type_money');
                     $prize_list[$k]['prize_value_label'] = price_format($prize_value, false);
                 } elseif ($v['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) {
                     $prize_list[$k]['prize_value_label'] = price_format($v['prize_value'], false);
@@ -370,7 +370,7 @@ class admin extends ecjia_admin
 
         $activity_code = trim($_GET['code']);
 
-        $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', 0)->where('wechat_id', 0)->pluck('activity_id');
+        $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', 0)->where('wechat_id', 0)->value('activity_id');
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动奖品池', 'market')));
 
         $prize_type = Ecjia\App\Market\Prize\PrizeType::getPrizeTypes();
@@ -489,7 +489,7 @@ class admin extends ecjia_admin
         $wechat_id = 0;
         $activity_code = trim($_GET['code']);
         $p_id = intval($_GET['p_id']);
-        $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', 0)->where('wechat_id', $wechat_id)->pluck('activity_id');
+        $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', 0)->where('wechat_id', $wechat_id)->value('activity_id');
         $activity_prize = RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->first();
        
 
@@ -616,7 +616,7 @@ class admin extends ecjia_admin
         $p_id = intval($_GET['p_id']);
         
         $prize_info = RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->first();
-        $activity_name = RC_DB::table('market_activity')->where('activity_id', $prize_info['prize_id'])->pluck('activity_name');
+        $activity_name = RC_DB::table('market_activity')->where('activity_id', $prize_info['prize_id'])->value('activity_name');
         
         RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->delete();
 //        $this->admin_log('活动'.$activity_name.'的奖品'.$prize_info['prize_name'], 'remove', 'prize');
@@ -634,7 +634,7 @@ class admin extends ecjia_admin
 
         if (!empty($id)) {
             $info = RC_DB::table('market_activity_log')->where('id', $id)->first();
-            $code = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->pluck('activity_group');
+            $code = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->value('activity_group');
             $prize_info = RC_DB::table('market_activity_prize')->where('prize_id', $info['prize_id'])->first();
             if (empty($prize_info)) {
             	return $this->showmessage(__('奖品信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -698,7 +698,7 @@ class admin extends ecjia_admin
             foreach ($res as $key => $val) {
                 $res[$key]['issue_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['issue_time']);
                 $res[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['add_time']);
-                $prize_type = RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_id'])->pluck('prize_type');
+                $prize_type = RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_id'])->value('prize_type');
                 $res[$key]['prize_type'] = $prize_type;
             }
         }

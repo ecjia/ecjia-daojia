@@ -89,13 +89,13 @@ class mobile_prize extends EcjiaMarketActivityController
         		} else {
         			$prize_log_list[$key]['icon'] = RC_App::apps_url('statics/front/images/hongbao.png', __FILE__);
         			if ($val['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
-        				$prize_value = RC_DB::table('bonus_type')->where('type_id', $val['prize_value'])->pluck('type_money');
+        				$prize_value = RC_DB::table('bonus_type')->where('type_id', $val['prize_value'])->value('type_money');
         				$prize_log_list[$key]['prize_value_label'] = price_format($prize_value, false);
         			} elseif ($val['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) {
         				$prize_log_list[$key]['prize_value_label'] = price_format($val['prize_value']);
         			}
         		}
-        		$activity_group = RC_DB::table('market_activity')->where('activity_id', $val['activity_id'])->pluck('activity_group');
+        		$activity_group = RC_DB::table('market_activity')->where('activity_id', $val['activity_id'])->value('activity_group');
         		if ($activity_group == 'wechat_dazhuanpan') {
         			$prize_log_list[$key]['activity_name'] = __('微信大转盘', 'market');
         		} elseif ($activity_group == 'wechat_guaguale') {
@@ -158,14 +158,14 @@ class mobile_prize extends EcjiaMarketActivityController
     	} else {
     		$prize_info['icon'] = RC_App::apps_url('statics/front/images/hongbao.png', __FILE__);
     		if ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
-    			$prize_value = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->pluck('type_money');
+    			$prize_value = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->value('type_money');
     			$prize_info['prize_value_label'] = price_format($prize_value, false);
     		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) {
     			$prize_info['prize_value_label'] = price_format($prize_info['prize_value']);
     		}
     	}
     	
-    	$activity_group = RC_DB::table('market_activity')->where('activity_id', $prize_info['activity_id'])->pluck('activity_group');
+    	$activity_group = RC_DB::table('market_activity')->where('activity_id', $prize_info['activity_id'])->value('activity_group');
     	if ($activity_group == 'wechat_dazhuanpan') {
     		$prize_info['activity_name'] = __('微信大转盘', 'market');
     	} elseif ($activity_group == 'wechat_guaguale') {

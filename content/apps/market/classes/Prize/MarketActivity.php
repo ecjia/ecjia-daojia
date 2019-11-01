@@ -440,7 +440,7 @@ class MarketActivity
      */
     public function addLotteryPrizeLog($openid, MarketActivityPrizeModel $prize_info)
     {
-        $name = RC_DB::table('wechat_user')->where('openid', $openid)->pluck('nickname');
+        $name = RC_DB::table('wechat_user')->where('openid', $openid)->value('nickname');
         $data = array(
             'activity_id'   => $prize_info->activity_id,
             'user_id'       => $openid,

@@ -87,7 +87,7 @@ class platform_prize extends ecjia_platform
         $this->admin_priv('activity_record_manage');
 
         $wechat_id = $this->platformAccount->getAccountID();
-        $store_id = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('shop_id');
+        $store_id = RC_DB::table('platform_account')->where('id', $wechat_id)->value('shop_id');
 
         $this->assign('ur_here', __('抽奖记录', 'market'));
 
@@ -150,8 +150,8 @@ class platform_prize extends ecjia_platform
     	
     	if (!empty($id)) {
     		$info = RC_DB::table('market_activity_log')->where('id', $id)->first();
-    		$code = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->pluck('activity_group');
-    		$activity_name = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->pluck('activity_name');
+    		$code = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->value('activity_group');
+    		$activity_name = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->value('activity_name');
     		
     		$prize_info = RC_DB::table('market_activity_prize')->where('prize_id', $info['prize_id'])->first();
     		if (empty($prize_info)) {
@@ -261,7 +261,7 @@ class platform_prize extends ecjia_platform
             foreach ($res as $key => $val) {
                 $res[$key]['issue_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['issue_time']);
                 $res[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['add_time']);
-                $res[$key]['prize_type'] = RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_id'])->pluck('prize_type');
+                $res[$key]['prize_type'] = RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_id'])->value('prize_type');
                 if (!empty($val['issue_extend'])) {
                 	$issue_extend = unserialize($val['issue_extend']);
                 	$res[$key]['is_issue_extend'] = 1;
