@@ -125,7 +125,7 @@ class IntegrateEcjia extends UserIntegrateDatabaseAbstract
         if ($password === null) {
             $user = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldName(), $username)
-                ->pluck($this->user_table->getFieldId());
+                ->value($this->user_table->getFieldId());
 
             return $user;
         } else {

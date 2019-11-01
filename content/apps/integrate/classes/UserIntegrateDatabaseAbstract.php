@@ -264,7 +264,7 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
         if ($password === null) {
             $user = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldName(), $username)
-                ->pluck($this->user_table->getFieldId());
+                ->value($this->user_table->getFieldId());
 
             return $user;
         } else {
@@ -272,7 +272,7 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
             $user = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldName(), $username)
                 ->where($this->user_table->getFieldPass(), $password)
-                ->pluck($this->user_table->getFieldId());
+                ->value($this->user_table->getFieldId());
 
             return $user;
         }
@@ -292,12 +292,12 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
             $field_id = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldEmail(), $email)
                 ->where($this->user_table->getFieldName(), '<>', $exclude_username)
-                ->pluck($this->user_table->getFieldId());
+                ->value($this->user_table->getFieldId());
         } else {
             /* 检查email是否重复 */
             $field_id = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldEmail(), $email)
-                ->pluck($this->user_table->getFieldId());
+                ->value($this->user_table->getFieldId());
         }
 
         if ($field_id > 0) {
@@ -320,12 +320,12 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
             $field_id = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldMobile(), $mobile)
                 ->where($this->user_table->getFieldName(), '<>', $exclude_username)
-                ->pluck($this->user_table->getFieldId());
+                ->value($this->user_table->getFieldId());
         } else {
             /* 检查email是否重复 */
             $field_id = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldMobile(), $mobile)
-                ->pluck($this->user_table->getFieldId());
+                ->value($this->user_table->getFieldId());
         }
 
         if ($field_id > 0) {

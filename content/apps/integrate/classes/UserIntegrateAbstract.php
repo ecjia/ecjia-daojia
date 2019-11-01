@@ -239,7 +239,7 @@ abstract class UserIntegrateAbstract extends AbstractPlugin implements UserInteg
      */
     public function syncRemoveUser($username)
     {
-        $user_id = RC_DB::table('users')->where('user_name', $username)->pluck('user_id');
+        $user_id = RC_DB::table('users')->where('user_name', $username)->value('user_id');
 
         if ($user_id) {
 
