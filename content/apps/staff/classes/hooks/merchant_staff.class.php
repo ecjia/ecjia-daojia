@@ -54,8 +54,8 @@ class merchant_staff_hooks
         $merchant_info = RC_Api::api('store', 'store_info', array('store_id' => $_SESSION['store_id']));
 
         //判断店铺是否在营业中
-        $shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
-		$shop_close = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('shop_close');
+        $shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->value('value');
+		$shop_close = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->value('shop_close');
         RC_Loader::load_app_func('merchant', 'merchant');
         $shop_closed = get_shop_close($shop_close, $shop_trade_time);
         $merchant_info['shop_closed'] = $shop_closed;

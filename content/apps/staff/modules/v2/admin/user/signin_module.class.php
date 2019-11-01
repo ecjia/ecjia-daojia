@@ -133,7 +133,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
             $username   = $staff_user_info['mobile'];
             $salt       = $staff_user_info['salt'];
         } else {
-            $salt = RC_DB::table('staff_user')->where('mobile', $username)->pluck('salt');
+            $salt = RC_DB::table('staff_user')->where('mobile', $username)->value('salt');
             $salt = trim($salt);
         }
        
@@ -193,7 +193,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
             $_SESSION['admin_name']     = null;
 
             $_SESSION['store_id']       = $row['store_id'];
-            $_SESSION['store_name']     = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name');
+            $_SESSION['store_name']     = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->value('merchants_name');
 
             
             /* 获取device_id*/
@@ -201,7 +201,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                             ->where('device_udid', $device['udid'])
                             ->where('device_client', $device['client'])
                             ->where('device_code', $device['code'])
-                            ->pluck('id');
+                            ->value('id');
             
             $_SESSION['device_id'] = $device_id;
         
@@ -236,7 +236,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                     break;
                 default:
                     if ($row['group_id'] > 0) {
-                        $role_name = RC_DB::table('staff_group')->where('group_id', $row['group_id'])->pluck('group_name');
+                        $role_name = RC_DB::table('staff_group')->where('group_id', $row['group_id'])->value('group_name');
                     }
                     $role_type = '';
                     break;

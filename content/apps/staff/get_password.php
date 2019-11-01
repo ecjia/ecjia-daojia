@@ -153,7 +153,7 @@ class get_password extends ecjia_merchant {
 		}
 	
 		/* 以用户的原密码，与code的值匹配 */
-		$password = RC_DB::table('staff_user')->where('user_id', $adminid)->pluck('password');
+		$password = RC_DB::table('staff_user')->where('user_id', $adminid)->value('password');
 		if (md5($adminid . $password) != $code) {
 			// 此链接不合法
 			$link[0]['text'] =  __('返回', 'staff');
@@ -185,7 +185,7 @@ class get_password extends ecjia_merchant {
 
 
 		/* 以用户的原密码，与code的值匹配 */
-		$password = RC_DB::table('staff_user')->where('user_id', $adminid)->pluck('password');
+		$password = RC_DB::table('staff_user')->where('user_id', $adminid)->value('password');
 	
 		if (md5($adminid . $password) != $code) {
 			// 此链接不合法
@@ -256,7 +256,7 @@ class get_password extends ecjia_merchant {
 	
 	public function get_code_value() {
 		$mobile = $_GET['mobile'];
-		$user_id = RC_DB::table('staff_user')->where('mobile', $mobile)->pluck('user_id');
+		$user_id = RC_DB::table('staff_user')->where('mobile', $mobile)->value('user_id');
 		$code = rand(100000, 999999);
 		$options = array(
 			'mobile' => $mobile,

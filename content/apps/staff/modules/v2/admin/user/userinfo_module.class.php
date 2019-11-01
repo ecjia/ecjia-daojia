@@ -73,11 +73,11 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
         } elseif (($result['parent_id'] > 0) && ($result['group_id'] == '-2')) {
             $role_name = '收银员';
         } else {
-            $role_name = RC_DB::table('staff_group')->where('group_id', $result['group_id'])->pluck('group_name');
+            $role_name = RC_DB::table('staff_group')->where('group_id', $result['group_id'])->value('group_name');
         }
         
         /*返回connect_user表中open_id和token*/
-        $open_id = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $result['user_id'])->where('user_type', 'merchant')->pluck('open_id');
+        $open_id = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $result['user_id'])->where('user_type', 'merchant')->value('open_id');
         $connect_appuser = (new Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, 'merchant'))->getEcjiaAppUser();
         if ($result) {
             $userinfo = array(

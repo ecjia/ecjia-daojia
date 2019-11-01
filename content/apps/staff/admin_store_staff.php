@@ -129,7 +129,7 @@ class admin_store_staff extends ecjia_admin
 
         $this->assign('store', $store);
         
-        $action_list = RC_DB::TABLE('admin_user')->where('user_id', $_SESSION['admin_id'])->pluck('action_list');
+        $action_list = RC_DB::TABLE('admin_user')->where('user_id', $_SESSION['admin_id'])->value('action_list');
         $this->assign('action_list', $action_list);
 
         return $this->display('store_staff.dwt');

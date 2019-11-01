@@ -148,7 +148,7 @@ class mh_profile extends ecjia_merchant
         $mobile   = !empty($_POST['mobile']) ? remove_xss($_POST['mobile']) : '';
         $email    = !empty($_POST['email']) ? remove_xss($_POST['email']) : '';
 
-        $admin_oldemail = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('email'); //单个
+        $admin_oldemail = RC_DB::table('staff_user')->where('user_id', $staff_id)->value('email'); //单个
         /* Email地址是否有重复 */
         if ($email && $email != $admin_oldemail) {
             $is_only = RC_DB::table('staff_user')->where('email', $email)->count();
@@ -158,8 +158,8 @@ class mh_profile extends ecjia_merchant
         }
         $pwd_modified = false;
         if (!empty($_POST['new_password'])) {
-            $old_password = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('password');
-            $old_salt     = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('salt');
+            $old_password = RC_DB::table('staff_user')->where('user_id', $staff_id)->value('password');
+            $old_salt     = RC_DB::table('staff_user')->where('user_id', $staff_id)->value('salt');
 
             if (empty($_POST['old_password'])) {
                 return $this->showmessage(__('请输入当前密码进行核对之后才可以修改新密码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -367,7 +367,7 @@ class mh_profile extends ecjia_merchant
         );
 
         //删除旧头像
-        $old_avatar = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('avatar');
+        $old_avatar = RC_DB::table('staff_user')->where('user_id', $staff_id)->value('avatar');
         if (!empty($old_avatar)) {
             $upload->remove($old_avatar);
         }

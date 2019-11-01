@@ -91,7 +91,7 @@ class mh_group extends ecjia_merchant
         $Manager['add_time']   = RC_Time::local_date('Y-m-d', $Manager['add_time']);
         $this->assign('Manager', $Manager);
 
-        $parent_id = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('parent_id');
+        $parent_id = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->value('parent_id');
         $this->assign('parent_id', $parent_id);
 
         $staff_group_list = $this->staff_group_list($_SESSION['store_id']);
@@ -108,7 +108,7 @@ class mh_group extends ecjia_merchant
         $this->assign('staff_edit', RC_App::apps_url('statics/images/staff_edit.png', __FILE__));
 
         //最大员工数量
-        $merchant_staff_max_number = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->pluck('value');
+        $merchant_staff_max_number = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->value('value');
 		$max = !empty($merchant_staff_max_number) ? $merchant_staff_max_number : ecjia::config('merchant_staff_max_number');
 		$this->assign('max', $max);
 
@@ -230,7 +230,7 @@ class mh_group extends ecjia_merchant
 		RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('group_id', $group_id)->update(array('group_id' => 0));
         
         //获取员工组名称
-        $group_name = RC_DB::table('staff_group')->where(RC_DB::raw('group_id'), $group_id)->pluck('group_name');
+        $group_name = RC_DB::table('staff_group')->where(RC_DB::raw('group_id'), $group_id)->value('group_name');
         
         //删除员工组
         RC_DB::table('staff_group')->where('group_id', $group_id)->delete();

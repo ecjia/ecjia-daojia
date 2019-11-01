@@ -74,7 +74,7 @@ class v2_admin_user_update_module extends api_admin implements api_interface {
 				/* 判断是否上传成功 */
 				if (!empty($image_info)) {
 					$avatar_img = $upload->get_position($image_info);
-					$old_avatar_img = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('avatar');
+					$old_avatar_img = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->value('avatar');
 					if (!empty($old_avatar_img)) {
 						$upload->remove($old_avatar_img);
 					}
@@ -101,8 +101,8 @@ class v2_admin_user_update_module extends api_admin implements api_interface {
 			/* 修改登录密码*/
 			if (!empty($old_password) && !empty($new_password)) {
 				/* 查询旧密码并与输入的旧密码比较是否相同 */
-				$db_old_password	= RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('password');
-				$old_ec_salt		= RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('salt');
+				$db_old_password	= RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->value('password');
+				$old_ec_salt		= RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->value('salt');
 				
 				if (empty($old_ec_salt)) {
 					$old_ec_password = md5($old_password);
