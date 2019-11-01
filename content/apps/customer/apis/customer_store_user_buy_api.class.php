@@ -63,7 +63,7 @@ class customer_store_user_buy_api extends Component_Event_Api {
 	    $user_id = $options['user_id'];
 	    $store_id = $options['store_id'];
 	    if(empty($store_id)) {
-	        $store_id = RC_DB::table('order_info')->where('order_id', $options['order_id'])->where('user_id', $user_id)->pluck('store_id');
+	        $store_id = RC_DB::table('order_info')->where('order_id', $options['order_id'])->where('user_id', $user_id)->value('store_id');
 	    }
 	    
 	    //统计购买次数和金额
@@ -88,7 +88,7 @@ class customer_store_user_buy_api extends Component_Event_Api {
 	        $store_users = RC_DB::table('store_users')->where('store_id', $store_id)->where('user_id', $user_id)->first();
 	        if (empty($store_users)) {
 	            //join_scene
-	            $store_name = !empty($options['store_name']) ? $options['store_name'] : RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+	            $store_name = !empty($options['store_name']) ? $options['store_name'] : RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
 	            if(empty($store_name)) {
 	                return new ecjia_error('not_exist_store', __('店铺不存在', 'customer'));
 	            }

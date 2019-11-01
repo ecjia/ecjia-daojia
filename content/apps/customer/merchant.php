@@ -216,7 +216,7 @@ class merchant extends ecjia_merchant {
         //用户信息
         $user_info = $this->get_store_user_info($user_id);
 
-        $manage_mode = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('manage_mode');
+        $manage_mode = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->value('manage_mode');
         $this->assign('manage_mode', $manage_mode);
 
         if($manage_mode == 'self') {
