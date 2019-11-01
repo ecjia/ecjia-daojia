@@ -159,7 +159,7 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('extend_update', ecjia::MSGTYPE_JSON);
 
         $code     = trim($_GET['code']);
-        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
+        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->value('ext_name');
         $data     = array(
             'enabled' => 0,
         );
@@ -177,7 +177,7 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('extend_update', ecjia::MSGTYPE_JSON);
 
         $code     = trim($_GET['code']);
-        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
+        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->value('ext_name');
 
         $data = array(
             'enabled' => 1,

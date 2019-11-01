@@ -100,7 +100,7 @@ class admin_command extends ecjia_admin
         $this->assign('back_link', array('text' => __('功能扩展', 'platform'), 'href' => RC_Uri::url('platform/admin_plugin/init')));
         $this->assign('search_action', RC_Uri::url('platform/admin_command/extend_command', array('code' => $code)));
 
-        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
+        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->value('ext_name');
         $this->assign('code', $code);
         $this->assign('ext_name', $ext_name);
 

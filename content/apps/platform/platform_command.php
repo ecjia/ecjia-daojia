@@ -183,7 +183,7 @@ class platform_command extends ecjia_platform
         }
         RC_DB::table('platform_command')->insert($data);
 
-        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
+        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->value('ext_name');
 
         foreach ($data as $v) {
             $this->admin_log(sprintf(__('扩展名称为 %s，' . '关键词为 %s', 'platform'), $ext_name, $v['cmd_word']), 'add', 'keyword');
@@ -273,7 +273,7 @@ class platform_command extends ecjia_platform
         }
         RC_DB::table('platform_command')->insert($data);
 
-        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
+        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->value('ext_name');
 
         foreach ($data as $v) {
             $this->admin_log(sprintf(__('扩展名称为 %s，' . '关键词为 %s', 'platform'), $ext_name, $v['cmd_word']), 'edit', 'keyword');

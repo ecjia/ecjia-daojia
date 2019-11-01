@@ -276,7 +276,7 @@ class admin extends ecjia_admin
         }
 
         //获取旧的logo
-        $old_logo = RC_DB::table('platform_account')->where('id', $id)->pluck('logo');
+        $old_logo = RC_DB::table('platform_account')->where('id', $id)->value('logo');
 
         if ((isset($_FILES['platform_logo']['error']) && $_FILES['platform_logo']['error'] == 0) || (!isset($_FILES['platform_logo']['error']) && isset($_FILES['platform_logo']['tmp_name']) && $_FILES['platform_logo']['tmp_name'] != 'none')) {
             $upload     = RC_Upload::uploader('image', array('save_path' => 'data/platform', 'auto_sub_dirs' => false));
@@ -374,7 +374,7 @@ class admin extends ecjia_admin
         $id  = intval($_POST['id']);
         $val = intval($_POST['val']);
         RC_DB::table('platform_account')->where('id', $id)->update(array('status' => $val));
-        $name = RC_DB::table('platform_account')->where('id', $id)->pluck('name');
+        $name = RC_DB::table('platform_account')->where('id', $id)->value('name');
 
         if ($val == 1) {
             ecjia_admin::admin_log($name, 'use', 'wechat');
@@ -415,7 +415,7 @@ class admin extends ecjia_admin
     {
         $id = $this->request->input('id');
 
-        $uuid = RC_DB::table('platform_account')->where('id', $id)->pluck('uuid');
+        $uuid = RC_DB::table('platform_account')->where('id', $id)->value('uuid');
         if (empty($uuid)) {
             return $this->showmessage(__('该公众号不存在', 'platform'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }

@@ -127,7 +127,7 @@ class PlatformPlugin extends PluginModel
             }
         }
 
-        $ext_config = RC_DB::table('platform_config')->where('account_id', $acount_id)->where('ext_code', $code)->pluck('ext_config');
+        $ext_config = RC_DB::table('platform_config')->where('account_id', $acount_id)->where('ext_code', $code)->value('ext_config');
 
         $config = $this->unserializeConfig($ext_config);
 
