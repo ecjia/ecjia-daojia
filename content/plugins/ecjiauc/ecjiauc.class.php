@@ -161,7 +161,7 @@ class ecjiauc extends UserIntegrateAbstract
 				return false;
 
 			} else {
-                $username = RC_DB::table('users')->select('user_name')->where('email', $username)->pluck('user_name');
+                $username = RC_DB::table('users')->select('user_name')->where('email', $username)->value('user_name');
 
 				if (! $username) {
 					$this->error = new ecjia_error(self::ERR_INVALID_USERNAME, __('邮箱或密码错误！', 'ecjiauc'));
