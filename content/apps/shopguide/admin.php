@@ -132,8 +132,8 @@ class admin extends ecjia_admin
         $this->assign('store_cat_id', $store_cat_id);
 
         if ($step == 2 && $type == 'prev') {
-            $data['cat_name']       = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('cat_name');
-            $data['store_cat_name'] = RC_DB::table('store_category')->where('cat_id', $store_cat_id)->pluck('cat_name');
+            $data['cat_name']       = RC_DB::table('category')->where('cat_id', $cat_id)->value('cat_name');
+            $data['store_cat_name'] = RC_DB::table('store_category')->where('cat_id', $store_cat_id)->value('cat_name');
         }
 
         if ($step == 3) {

@@ -151,7 +151,7 @@ class merchant extends ecjia_merchant
                                     $data[$k]['shipping_area'] = implode(' | ', $region_name);
                                 }
                             }
-                            $shipping_name .= RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_name');
+                            $shipping_name .= RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->value('shipping_name');
                             $shipping_name = $shipping_name. ', ';
                         }
                         $data[$k]['shipping_name'] = rtrim($shipping_name, ', ');
@@ -166,7 +166,7 @@ class merchant extends ecjia_merchant
         $merchant_info['shop_time_value'] = $s_time . "," . $e_time;
 
         $merchant_info                   = get_merchant_info($_SESSION['store_id']);
-        $merchant_info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('merchants_name');
+        $merchant_info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->value('merchants_name');
 
         $this->assign('data', $merchant_info);
         $this->assign('step', $step);
