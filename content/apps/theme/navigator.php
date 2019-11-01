@@ -457,7 +457,7 @@ class navigator extends ecjia_admin {
         } else {
             $db = RC_DB::table('article_cat');
         }
-        $show_in_nav = $db->where('cat_id', $id)->pluck('show_in_nav');
+        $show_in_nav = $db->where('cat_id', $id)->value('show_in_nav');
        
     }
 
