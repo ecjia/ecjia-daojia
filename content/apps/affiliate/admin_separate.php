@@ -390,7 +390,7 @@ class admin_separate extends ecjia_admin {
 
                 if (!empty($rt['suid'])) {
                     //在affiliate_log有记录
-                    $user_name = RC_DB::table('users')->where('user_id', $rt['suid'])->pluck('user_name');
+                    $user_name = RC_DB::table('users')->where('user_id', $rt['suid'])->value('user_name');
                     $rt['info'] = sprintf(__('用户ID %s ( %s ), 分成:金钱 %s', 'affiliate'), $rt['suid'], $user_name, $rt['money']);
                     if ($rt['separate_type'] == -1 || $rt['separate_type'] == -2) {
                         //已被撤销

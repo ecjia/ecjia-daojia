@@ -253,7 +253,7 @@ class OrderAffiliate
      */
     public static function get_parent_id($user_id){
         $pids = '';
-        $parent_id = RC_DB::table('users')->where('user_id', $user_id)->pluck('parent_id');
+        $parent_id = RC_DB::table('users')->where('user_id', $user_id)->value('parent_id');
         if( $parent_id != '' ){
             $pids .= $parent_id;
             $npids = self::get_parent_id( $parent_id );
@@ -270,12 +270,12 @@ class OrderAffiliate
      */
     public static function get_three_parent_id($user_id){
         $arr = [];
-        $level1_id = RC_DB::table('users')->where('user_id', $user_id)->pluck('parent_id');
+        $level1_id = RC_DB::table('users')->where('user_id', $user_id)->value('parent_id');
         if (!empty($level1_id)) {
-            $level2_id = RC_DB::table('users')->where('user_id', $level1_id)->pluck('parent_id');
+            $level2_id = RC_DB::table('users')->where('user_id', $level1_id)->value('parent_id');
         }
         if (!empty($level2_id)) {
-            $level3_id = RC_DB::table('users')->where('user_id', $level2_id)->pluck('parent_id');
+            $level3_id = RC_DB::table('users')->where('user_id', $level2_id)->value('parent_id');
         }
         $result = array('one' => $level1_id, 'two' => $level2_id, 'three' => $level3_id);
         return $result;

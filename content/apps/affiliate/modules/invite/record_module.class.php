@@ -93,7 +93,7 @@ class invite_record_module extends api_front implements api_interface {
 		foreach ($list_result as $val) {
 			if ($val['reward_type'] == 'bonus') {
 				$reward_type = __('红包', 'affiliate');
-				$val['reward_value'] = RC_DB::table('bonus_type')->where('type_id', $val['reward_value'])->pluck('type_name');
+				$val['reward_value'] = RC_DB::table('bonus_type')->where('type_id', $val['reward_value'])->value('type_name');
 			} elseif ($val['reward_type'] == 'balance') {
 				$reward_type = __('现金', 'affiliate');
 				$val['reward_value'] = price_format($val['reward_value']);

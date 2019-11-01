@@ -20,7 +20,7 @@ class AffiliateStore
 
     //获得代理商id
     public function getAgentIdByUserId($user_id) {
-        return AffiliateStoreModel::where('user_id', $user_id)->pluck('id');
+        return AffiliateStoreModel::where('user_id', $user_id)->value('id');
     }
 
 
@@ -94,6 +94,6 @@ class AffiliateStore
 
     //获得推荐人id-根据store_id
     public function getAffiliateStoreId($store_id) {
-        return AffiliateStoreRecordModel::where('store_id', $store_id)->pluck('affiliate_store_id');
+        return AffiliateStoreRecordModel::where('store_id', $store_id)->value('affiliate_store_id');
     }
 }

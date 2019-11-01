@@ -62,7 +62,7 @@ class UserInviteCode
                 ->where('object_group', self::OBJECT_GROUP)
                 ->where('object_id',    $user_id)
                 ->where('meta_key',     self::META_KEY)
-                ->pluck('meta_value');
+                ->value('meta_value');
         
         if (empty($user_invite_code)) {
             $user_invite_code = self::makeCode($user_id);
@@ -83,7 +83,7 @@ class UserInviteCode
                     ->where('object_group', self::OBJECT_GROUP)
                     ->where('meta_key',     self::META_KEY)
                     ->where('meta_value',   $code)
-                    ->pluck('object_id');
+                    ->value('object_id');
         return $user_id;
     }
     

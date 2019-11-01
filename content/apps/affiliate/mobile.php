@@ -87,7 +87,7 @@ class mobile extends ecjia_front {
 		$affiliate = unserialize(ecjia::config('affiliate'));
 		if (isset($affiliate['on']) && $affiliate['on'] == 1 && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
 			if ($affiliate['intviee_reward']['intivee_reward_type'] == 'bonus') {
-				$reward_value = RC_DB::table('bonus_type')->where('type_id', $affiliate['intviee_reward']['intivee_reward_value'])->pluck('type_money');
+				$reward_value = RC_DB::table('bonus_type')->where('type_id', $affiliate['intviee_reward']['intivee_reward_value'])->value('type_money');
 				$reward_value = price_format($reward_value);
 				$reward_type = __('红包', 'affiliate');
 			} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral') {
@@ -110,7 +110,7 @@ class mobile extends ecjia_front {
 		$user_id = Ecjia\App\Affiliate\UserInviteCode::getUserId($invite_code);
 
 		if (!empty($user_id)) {
-			$user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
+			$user_name = RC_DB::table('users')->where('user_id', $user_id)->value('user_name');
 			$note = sprintf(__("%s为您推荐[%s]移动商城", 'affiliate'), $user_name,ecjia::config('shop_name'));
 			if ($this->is_weixin() == true) {
 				$note = sprintf(__("%s向您推荐一款购物应用【%s】", 'affiliate'), $user_name, ecjia::config('shop_name'));

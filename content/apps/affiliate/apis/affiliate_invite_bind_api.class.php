@@ -83,7 +83,7 @@ class affiliate_invite_bind_api extends Component_Event_Api {
 	    			->where('object_group', 'user_invite_code')
 	    			->where('meta_key', 'invite_code')
 	    			->where('meta_value', $options['invite_code'])
-	    			->pluck('object_id');
+	    			->value('object_id');
 	    	}
     		
     		$invite_id = $invite_id > 0 ? intval($invite_id) : 0;

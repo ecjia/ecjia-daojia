@@ -129,7 +129,7 @@ class AffiliateStoreCommissionIntegral
                     AffiliateOrderCommissionModel::insert($data);
 
                     //自动分成
-                    $agent_user_id = AffiliateStoreModel::where('id', $row['affiliate_store_id'])->pluck('user_id');
+                    $agent_user_id = AffiliateStoreModel::where('id', $row['affiliate_store_id'])->value('user_id');
                     $log_id = RC_Api::api('finance', 'pay_points_change', [
                         'user_id' => $agent_user_id,
                         'point' => $agent_integral,

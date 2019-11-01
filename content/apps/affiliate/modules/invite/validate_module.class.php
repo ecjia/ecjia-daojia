@@ -68,7 +68,7 @@ class invite_validate_module extends api_front implements api_interface
                 ->where('invitee_phone', $mobile)
                 ->where('is_registered', 0)
                 ->where('expire_time', '>', RC_Time::gmtime())
-                ->pluck('invite_id');
+                ->value('invite_id');
 
             if (!empty($invite_id) && $invite_id > 0) {
                 $invite_info['invite_code'] = Ecjia\App\Affiliate\UserInviteCode::getCode($invite_id);
