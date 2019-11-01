@@ -217,7 +217,7 @@ class admin extends ecjia_admin
     	
         $id = intval($_GET['id']);
         
-        $name = RC_DB::table('ucenter_applications')->where('appid', $id)->pluck('name');
+        $name = RC_DB::table('ucenter_applications')->where('appid', $id)->value('name');
         ecjia_admin::admin_log($name, 'remove', 'ucserver_app');
         
         RC_DB::table('ucenter_applications')->where('appid', $id)->delete();

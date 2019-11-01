@@ -126,7 +126,7 @@ class UserModel extends Model
             $model->where('username', '<>', $username);
         }
 
-        $email = $model->pluck('email');
+        $email = $model->value('email');
 
         return $email;
     }
@@ -161,7 +161,7 @@ class UserModel extends Model
             $model->where('username', '<>', $username);
         }
 
-        $mobile = $model->pluck('mobile_phone');
+        $mobile = $model->value('mobile_phone');
 
         return $mobile;
     }
