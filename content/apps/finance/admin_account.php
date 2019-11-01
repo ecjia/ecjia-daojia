@@ -268,7 +268,7 @@ class admin_account extends ecjia_admin
             $info['amount'] = abs($info['amount']);
         }
 
-        $user_name = RC_DB::table('users')->where('user_id', $info['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $info['user_id'])->value('user_name');
         ecjia_admin::admin_log(sprintf(__('会员名称是%s，充值金额是%s', 'finance'), $user_name, $info['amount']), 'edit', 'recharge_apply');
 
         $links[0]['text'] = __('返回充值订单', 'finance');
@@ -437,8 +437,8 @@ class admin_account extends ecjia_admin
         $id       = isset($_GET['id']) ? $_GET['id'] : 0;
 
         $account_info                    = RC_DB::table('user_account')->where('id', $id)->first();
-        $account_info['user_name']       = RC_DB::table('users')->where('user_id', $account_info['user_id'])->pluck('user_name');
-        $account_info['pay_name']        = RC_DB::table('payment')->where('pay_code', $account_info['payment'])->pluck('pay_name');
+        $account_info['user_name']       = RC_DB::table('users')->where('user_id', $account_info['user_id'])->value('user_name');
+        $account_info['pay_name']        = RC_DB::table('payment')->where('pay_code', $account_info['payment'])->value('pay_name');
         $account_info['amount']          = abs($account_info['amount']);
         $account_info['formated_amount'] = ecjia_price_format($account_info['amount'], false);
         $account_info['user_note']       = htmlspecialchars($account_info['user_note']);

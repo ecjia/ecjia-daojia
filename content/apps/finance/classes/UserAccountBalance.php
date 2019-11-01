@@ -27,7 +27,7 @@ class UserAccountBalance
      */
     public function getUserMoney()
     {
-        $user_money = RC_DB::table('users')->where('user_id', $this->user_id)->pluck('user_money');
+        $user_money = RC_DB::table('users')->where('user_id', $this->user_id)->value('user_money');
         return $user_money ?: 0.00;
     }
 
@@ -37,7 +37,7 @@ class UserAccountBalance
      */
     public function getFrozenMoney()
     {
-        $frozen_money = RC_DB::table('users')->where('user_id', $this->user_id)->pluck('frozen_money');
+        $frozen_money = RC_DB::table('users')->where('user_id', $this->user_id)->value('frozen_money');
         return $frozen_money ?: 0.00;
     }
 
