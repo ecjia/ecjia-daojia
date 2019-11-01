@@ -90,7 +90,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 		}
 		$goods_amount = sprintf("%.2f", $goods_amount);
     	/*商家买单功能是否开启*/
-		$quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->pluck('value');
+		$quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->value('value');
 		if (empty($quickpay_enabled)) {
 			return new ecjia_error('quickpay_enabled_error', '此商家未开启优惠买单功能！');
 		}
@@ -181,7 +181,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 			
 			if ($integral > 0) {
 				/*会员可用积分数*/
-				$user_integral = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->pluck('pay_points');
+				$user_integral = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->value('pay_points');
 				if ($integral > $user_integral) {
 					return new ecjia_error('integral_error', '使用积分不可超过会员总积分数！');
 				}
@@ -284,8 +284,8 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     		RC_Mail::send_mail(ecjia::config('shop_name'), ecjia::config('service_email'), $tpl['template_subject'], $content, $tpl['is_html']);
     	}
     	
-    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
-    	$shop_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->pluck('value');
+    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
+    	$shop_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->value('value');
     	
     	$order_info = array(
     			'order_sn'   => $order['order_sn'],

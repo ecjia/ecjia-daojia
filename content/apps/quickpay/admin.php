@@ -334,7 +334,7 @@ class admin extends ecjia_admin {
 		$this->admin_priv('quickpay_delete');
 	
 		$id = intval($_GET['id']);
-		$title = RC_DB::table('quickpay_activity')->where('id', $id)->pluck('title');
+		$title = RC_DB::table('quickpay_activity')->where('id', $id)->value('title');
 		
 		RC_DB::table('quickpay_activity')->where('id', $id)->delete();
 

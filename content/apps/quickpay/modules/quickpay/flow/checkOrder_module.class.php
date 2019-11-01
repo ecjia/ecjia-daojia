@@ -85,7 +85,7 @@ class quickpay_flow_checkOrder_module extends api_front implements api_interface
 		}
 		
 		/*商家买单功能是否开启*/
-		$quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->pluck('value');
+		$quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->value('value');
 		if (empty($quickpay_enabled)) {
 			return new ecjia_error('quickpay_enabled_error', '此商家未开启优惠买单功能！');
 		}

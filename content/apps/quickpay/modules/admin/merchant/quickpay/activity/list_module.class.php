@@ -72,7 +72,7 @@ class list_module extends api_admin implements api_interface {
 				'store_id'		=> $store_id,
 				'is_page'		=> 'no',
 		);
-		$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+		$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
 		
 		$quickpay_activity_data = RC_Api::api('quickpay', 'quickpay_activity_list', $options);
 		if (is_ecjia_error($quickpay_activity_data)) {

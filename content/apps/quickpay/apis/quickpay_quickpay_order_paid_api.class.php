@@ -127,7 +127,7 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
 	    if (!empty($staff_user)) {
 	    	
-	    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
+	    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->value('merchants_name');
 	    	
 	    	$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
 	    	$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);

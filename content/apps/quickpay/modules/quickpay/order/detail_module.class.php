@@ -94,13 +94,13 @@ class quickpay_order_detail_module extends api_front implements api_interface {
 		$order['label_order_status'] = $status['label_order_status'];
 		
 		/*商家电话*/
-		$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+		$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 		if ($order['pay_code'] == 'pay_balance') {
 			$order['order_amount'] = $order['order_amount'] + $order['surplus'];
 		}
 		
-		$store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
-		$shop_logo = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_logo')->pluck('value');
+		$store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->value('merchants_name');
+		$shop_logo = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_logo')->value('value');
 		
 		$arr = array();
 		$arr = array(

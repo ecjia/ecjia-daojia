@@ -95,7 +95,7 @@ class PaidOrderProcess implements PaidOrderProcessInterface
                 ->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
                 ->where(RC_DB::raw('cr.order_type'), 'quickpay')
                 ->where('action', 'receipt')
-                ->pluck('name');
+                ->value('name');
 
             $user_info = [];
             //有没用户

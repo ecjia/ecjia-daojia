@@ -88,7 +88,7 @@ class merchant extends ecjia_merchant {
 	    $this->assign('ur_here', __('优惠买单规则列表', 'quickpay'));
 	    $this->assign('action_link', array('text' => __('添加优惠买单规则', 'quickpay'), 'href' => RC_Uri::url('quickpay/merchant/add')));
 	    
-	    $quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'quickpay_enabled')->pluck('value');
+	    $quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'quickpay_enabled')->value('value');
 	    $this->assign('quickpay_enabled', $quickpay_enabled);
 	    
 	    $type_list = $this->get_quickpay_type();
@@ -458,7 +458,7 @@ class merchant extends ecjia_merchant {
     	$this->admin_priv('mh_quickpay_delete');
     	 
     	$id = intval($_GET['id']);
-    	$title = RC_DB::table('quickpay_activity')->where('id', $id)->pluck('title');
+    	$title = RC_DB::table('quickpay_activity')->where('id', $id)->value('title');
     	
     	RC_DB::table('quickpay_activity')->where('id', $id)->delete();
     	

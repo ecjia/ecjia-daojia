@@ -385,7 +385,7 @@ class quickpay_activity {
 	 * 获取某个店铺是否有开启优惠活动
 	 */
 	public static function is_open_quickpay ($store_id) {
-		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->pluck('value');
+		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->value('value');
 		return $allow_use_quickpay;
 	}
 	

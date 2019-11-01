@@ -192,7 +192,7 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		
 	    /* 客户付款短信提醒 */
         $staff_user = RC_DB::table('staff_user')->where('store_id', $order_info['store_id'])->where('parent_id', 0)->first();
-        $store_name = RC_DB::table('store_franchisee')->where('store_id', $order_info['store_id'])->pluck('merchants_name');
+        $store_name = RC_DB::table('store_franchisee')->where('store_id', $order_info['store_id'])->value('merchants_name');
 		if (!empty($staff_user['mobile'])) {
             $options = array(
                 'mobile' => $staff_user['mobile'],

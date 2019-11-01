@@ -150,7 +150,7 @@ class mh_order extends ecjia_merchant {
 			$this->assign('has_payed', 1);
 		}
 		
-		$cancel_time = RC_DB::table('quickpay_order_action')->where('order_id', $order_id)->where('order_status', 9)->pluck('add_time');
+		$cancel_time = RC_DB::table('quickpay_order_action')->where('order_id', $order_id)->where('order_status', 9)->value('add_time');
 		$cancel_time = RC_Time::local_date(ecjia::config('time_format'), $cancel_time);
 		$this->assign('cancel_time', $cancel_time);
 		//订单流程状态
@@ -226,7 +226,7 @@ class mh_order extends ecjia_merchant {
 // 		RC_Api::api('commission', 'add_bill_detail', array('store_id' => $_SESSION['store_id'], 'order_type' => 'quickpay', 'order_id' => $order_id,));
 		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'quickpay', 'order_id' => $order_id));
 		
-		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
+		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->value('order_sn');
 		ecjia_merchant::admin_log($order_sn, 'check', 'quickpay_order');
 		
 		if ($_POST['type_info']) {
@@ -266,7 +266,7 @@ class mh_order extends ecjia_merchant {
 		);
 		RC_DB::table('quickpay_order_action')->insertGetId($data_action);
 		
-		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
+		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->value('order_sn');
 		ecjia_merchant::admin_log($order_sn, 'cancel', 'quickpay_order');
 		
 		if ($_POST['type_info']) {
@@ -283,7 +283,7 @@ class mh_order extends ecjia_merchant {
 		$this->admin_priv('mh_quickpay_order_delete');
 	
 		$order_id = intval($_GET['order_id']);
-		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
+		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->value('order_sn');
 		
 		$data = array(
 			'order_status' => 99,
@@ -306,8 +306,8 @@ class mh_order extends ecjia_merchant {
 			if ($_GET['operation'] == 'remove') {
 				$this->admin_priv('mh_quickpay_order_delete');
 				foreach($ids as $val){
-					$pay_status = RC_DB::table('quickpay_orders')->where('order_id', $val)->pluck('order_status');
-					$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $val)->pluck('order_sn');
+					$pay_status = RC_DB::table('quickpay_orders')->where('order_id', $val)->value('order_status');
+					$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $val)->value('order_sn');
 					if($pay_status == 9){
 						$data = array(
 							'order_status' => 99,
@@ -320,7 +320,7 @@ class mh_order extends ecjia_merchant {
 				$this->admin_priv('mh_quickpay_order_update');
 				foreach($ids as $val){
 					$status = RC_DB::table('quickpay_orders')->where('order_id', $val)->select('order_status', 'pay_status', 'verification_status')->first();
-					$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $val)->pluck('order_sn');
+					$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $val)->value('order_sn');
 					if($status['order_status'] == 0 && $status['pay_status'] ==0 && $status['verification_status']==0){
 						$data = array(
 							'order_status' => 9,

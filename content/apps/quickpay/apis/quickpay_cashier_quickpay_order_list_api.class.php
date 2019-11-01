@@ -77,8 +77,8 @@ class quickpay_cashier_quickpay_order_list_api extends Component_Event_Api {
 		
 		if (!empty($list)) {
 			foreach ($list as $key => $val) {
-				$list[$key]['store_name'] 				= $val['store_id'] > 0 ? RC_DB::table('store_franchisee')->where('store_id', $val['store_id'])->pluck('merchants_name') : '';
-				$list[$key]['store_logo'] 				= $val['store_id'] > 0 ? RC_DB::table('merchants_config')->where('store_id', $val['store_id'])->where('code', 'shop_logo')->pluck('value') : '';
+				$list[$key]['store_name'] 				= $val['store_id'] > 0 ? RC_DB::table('store_franchisee')->where('store_id', $val['store_id'])->value('merchants_name') : '';
+				$list[$key]['store_logo'] 				= $val['store_id'] > 0 ? RC_DB::table('merchants_config')->where('store_id', $val['store_id'])->where('code', 'shop_logo')->value('value') : '';
 				$status 								= quickpay_activity::get_label_order_status($val['order_status'], $val['pay_status'], $val['verification_status']);
 				$list[$key]['order_status_str'] 		= $status['order_status_str'];
 				$list[$key]['label_order_status'] 		= $status['label_order_status'];
