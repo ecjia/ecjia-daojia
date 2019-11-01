@@ -69,7 +69,7 @@ class admin_user_add_module extends api_admin implements api_interface
             $other['reg_time'] = RC_Time::gmtime();
             RC_DB::table('users')->where('user_id', $user_info['user_id'])->update($other);
             //店铺会员表同步记录
-            $store_name      = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+            $store_name      = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
             $store_user_data = array(
                 'store_id'   => $store_id,
                 'user_id'    => $user_info['user_id'],

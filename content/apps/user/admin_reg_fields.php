@@ -215,7 +215,7 @@ class admin_reg_fields extends ecjia_admin
         $id         = intval($_POST['id']);
 
         /* 根据id获取之前的名字  */
-        $old_name = RC_DB::table('reg_fields')->where('id', $id)->pluck('reg_field_name');
+        $old_name = RC_DB::table('reg_fields')->where('id', $id)->value('reg_field_name');
 
         /* 检查是否存在重名的会员注册项 */
         if ($field_name != $old_name) {
@@ -245,7 +245,7 @@ class admin_reg_fields extends ecjia_admin
         $this->admin_priv('reg_fields', ecjia::MSGTYPE_JSON);
 
         $field_id   = intval($_GET['id']);
-        $field_name = RC_DB::table('reg_fields')->where('id', $field_id)->pluck('reg_field_name');
+        $field_name = RC_DB::table('reg_fields')->where('id', $field_id)->value('reg_field_name');
 
         if (RC_DB::table('reg_fields')->where('id', $field_id)->delete()) {
             /* 删除会员扩展信息表的相应信息 */
@@ -271,7 +271,7 @@ class admin_reg_fields extends ecjia_admin
         }
 
         /* 验证名称,根据id获取之前的名字  */
-        $old_name = RC_DB::table('reg_fields')->where('id', $id)->pluck('reg_field_name');
+        $old_name = RC_DB::table('reg_fields')->where('id', $id)->value('reg_field_name');
 
         if ($val != $old_name) {
             if (RC_DB::table('reg_fields')->where('reg_field_name', $val)->count() != 0) {

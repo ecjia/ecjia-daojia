@@ -85,7 +85,7 @@ class user_account_integral_record_module extends api_front implements api_inter
             $db->where('pay_points', '<', 0);
         }
 
-        $integral = RC_DB::table('users')->where('user_id', $user_id)->pluck('pay_points');
+        $integral = RC_DB::table('users')->where('user_id', $user_id)->value('pay_points');
 
         /*获取积分变动条数 */
         $record_count = $db->count();

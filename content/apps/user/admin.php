@@ -590,7 +590,7 @@ class admin extends ecjia_admin
             return $this->showmessage(__('没有查询到该会员的信息', 'user'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
         if (!empty($row['parent_id'])) {
-            $row['parent_username'] = RC_DB::table('users')->where('user_id', $row['parent_id'])->pluck('user_name');
+            $row['parent_username'] = RC_DB::table('users')->where('user_id', $row['parent_id'])->value('user_name');
         }
 
         /* 获得用户等级名 */
@@ -681,7 +681,7 @@ class admin extends ecjia_admin
 
         $wechat_info = RC_DB::table('connect_user')->where('connect_platform', 'wechat')->where('user_id', $id)->where('user_type', 'user')->first();
         if (!empty($wechat_info)) {
-            $ect_uid = RC_DB::table('wechat_user')->where('unionid', $wechat_info['union_id'])->pluck('ect_uid');
+            $ect_uid = RC_DB::table('wechat_user')->where('unionid', $wechat_info['union_id'])->value('ect_uid');
             //修正绑定信息
             if (empty($ect_uid)) {
                 RC_DB::table('wechat_user')->where('unionid', $wechat_info['union_id'])->update(array('ect_uid' => $wechat_info['user_id']));
@@ -725,7 +725,7 @@ class admin extends ecjia_admin
         if (!empty($email)) {
             if (RC_DB::table('users')->where('email', $email)->where('user_id', '!=', $id)->count() == 0) {
                 if (RC_DB::table('users')->where('user_id', $id)->update(array('email' => $email))) {
-                    $user_name = RC_DB::table('users')->where('user_id', $id)->pluck('user_name');
+                    $user_name = RC_DB::table('users')->where('user_id', $id)->value('user_name');
 
                     ecjia_admin::admin_log(sprintf(__('%s邮箱信息', 'user'), $user_name), 'edit', 'users');
 
@@ -902,7 +902,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('text' => __('会员列表', 'user'), 'href' => RC_Uri::url('user/admin/init')));
 
         $id        = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-        $user_name = RC_DB::table('users')->where('user_id', $id)->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $id)->value('user_name');
 
         $act = !empty($_GET['type']) ? intval($_GET['type']) : '';
 

@@ -122,7 +122,7 @@ class admin_user_account_pay_module extends api_admin implements api_interface
     private function get_user_name($user_id = 0)
     {
         $user_name = '';
-        $user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $user_id)->value('user_name');
         return $user_name;
     }
 }

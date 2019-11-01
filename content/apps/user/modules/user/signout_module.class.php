@@ -55,7 +55,7 @@ class user_signout_module extends api_front implements api_interface
 
         $user_id = $_SESSION['user_id'];
         //用户退出，删除ecjia同步登录用户信息
-        $open_id = RC_DB::table('connect_user')->where('user_id', $user_id)->where('user_type', 'user')->where('connect_code', 'app')->pluck('open_id');
+        $open_id = RC_DB::table('connect_user')->where('user_id', $user_id)->where('user_type', 'user')->where('connect_code', 'app')->value('open_id');
         (new Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, 'user'))->setUserId($user_id)->deleteEcjiaAppUser();
 
         ecjia_integrate::logout();

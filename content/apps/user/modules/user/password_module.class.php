@@ -120,7 +120,7 @@ class user_password_module extends api_front implements api_interface
                 return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
             }
             if ($type == 'use_sms') {
-                $mobile_phone = RC_DB::table('users')->where('user_id', $user_id)->pluck('mobile_phone');
+                $mobile_phone = RC_DB::table('users')->where('user_id', $user_id)->value('mobile_phone');
                 if (empty($mobile_phone)) {
                     return new ecjia_error('mobile_unbind', __('请先绑定手机号码！', 'user'));
                 }

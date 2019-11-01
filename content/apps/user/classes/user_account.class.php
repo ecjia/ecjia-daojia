@@ -60,7 +60,7 @@ class user_account
     {
         $user_money = '0.00';
         if (!empty($user_id)) {
-            $user_money = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_money');
+            $user_money = RC_DB::table('users')->where('user_id', $user_id)->value('user_money');
         }
         return $user_money;
     }
@@ -73,7 +73,7 @@ class user_account
     {
         $frozen_money = '0.00';
         if (!empty($user_id)) {
-            $frozen_money = RC_DB::table('users')->where('user_id', $user_id)->pluck('frozen_money');
+            $frozen_money = RC_DB::table('users')->where('user_id', $user_id)->value('frozen_money');
         }
         return $frozen_money;
     }

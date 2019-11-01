@@ -119,7 +119,7 @@ class payConfirm_module extends api_admin implements api_interface
         $surplus_print_data = [];
         if (!empty($user_account_info)) {
             $payment_record_info = $this->_paymentRecord_info($user_account_info['order_sn'], 'surplus');
-            $pay_name            = RC_DB::table('payment')->where('pay_code', $user_account_info['payment'])->pluck('pay_name');
+            $pay_name            = RC_DB::table('payment')->where('pay_code', $user_account_info['payment'])->value('pay_name');
 
             $user_info = [];
             //有没用户

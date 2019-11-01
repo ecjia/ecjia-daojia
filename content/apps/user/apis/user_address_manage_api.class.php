@@ -109,7 +109,7 @@ class user_address_manage_api extends Component_Event_Api
         }
 
         /* 获取用户地址 */
-        $user_address = RC_DB::table('user_address')->where('address_id', $address['address_id'])->where('user_id', $_SESSION['user_id'])->pluck('address_id');
+        $user_address = RC_DB::table('user_address')->where('address_id', $address['address_id'])->where('user_id', $_SESSION['user_id'])->value('address_id');
         if ($address['address_id'] != $user_address) {
             return new ecjia_error('not_exists_info', __('不存在的信息', 'user'));
         }

@@ -126,7 +126,7 @@ class UserInfoFunction
 
         $db1 = RC_DB::table('order_info');
         /*货到付款订单不在待付款里显示*/
-        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->value('pay_id');
         if (!empty($pay_cod_id)) {
             $db1->where('pay_id', '!=', $pay_cod_id);
         }
@@ -208,7 +208,7 @@ class UserInfoFunction
         $user_info['address'] = $user_info['address_id'] > 0 ? ecjia_region::getRegionName($address['city']) . ecjia_region::getRegionName($address['district']) . ecjia_region::getRegionName($address['street']) . $address['address'] : '';
 
         /*返回connect_user表中open_id和token*/
-        $open_id         = RC_DB::table('connect_user')->where('user_id', $user_id)->where('user_type', 'user')->where('connect_code', 'app')->pluck('open_id');
+        $open_id         = RC_DB::table('connect_user')->where('user_id', $user_id)->where('user_type', 'user')->where('connect_code', 'app')->value('open_id');
         $connect_appuser = (new \Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, 'user'))->setUserId($user_id)->getEcjiaAppUser();
 
         return array(
@@ -309,7 +309,7 @@ class UserInfoFunction
     		$db1->where('store_id', $store_id);
     	}
     	/*货到付款订单不在待付款里显示*/
-    	$pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+    	$pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->value('pay_id');
     	if (!empty($pay_cod_id)) {
     		$db1->where('pay_id', '!=', $pay_cod_id);
     	}

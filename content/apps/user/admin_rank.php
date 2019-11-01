@@ -304,7 +304,7 @@ class admin_rank extends ecjia_admin
         $this->admin_priv('user_rank', ecjia::MSGTYPE_JSON);
 
         $rank_id   = intval($_GET['id']);
-        $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('rank_name');
+        $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('rank_name');
 
         if (RC_DB::table('user_rank')->where('rank_id', $rank_id)->delete()) {
             /* 更新会员表的等级字段 */
@@ -326,7 +326,7 @@ class admin_rank extends ecjia_admin
         $val     = trim($_POST['value']);
 
         /* 验证名称 ,根据id获取之前的名字  */
-        $old_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('rank_name');
+        $old_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('rank_name');
 
         if (empty($val)) {
             return $this->showmessage(__('请输入会员等级名称', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -362,7 +362,7 @@ class admin_rank extends ecjia_admin
             return $this->showmessage(__('您没有输入成长值下限或者成长值下限不是一个正整数。', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         /* 查找该ID 对应的成长值上限值,验证是否大于上限  */
-        $max_points = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('max_points');
+        $max_points = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('max_points');
 
         if ($val >= $max_points) {
             return $this->showmessage(__('成长值上限必须大于成长值下限。', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -374,7 +374,7 @@ class admin_rank extends ecjia_admin
 
         if (RC_DB::table('user_rank')->where('rank_id', $rank_id)->update(array('min_points' => $val))) {
 
-            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('rank_name');
+            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('rank_name');
             ecjia_admin::admin_log($rank_name, 'edit', 'user_rank');
 
             return $this->showmessage(__('编辑成功', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -398,7 +398,7 @@ class admin_rank extends ecjia_admin
             return $this->showmessage(__('您没有输入成长值下限或者成长值下限不是一个正整数。', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         /* 查找该ID 对应的成长值下限值,验证是否大于上限  */
-        $min_points = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('min_points');
+        $min_points = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('min_points');
         if ($val <= $min_points) {
             return $this->showmessage(__('成长值上限必须大于成长值下限。', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -408,7 +408,7 @@ class admin_rank extends ecjia_admin
         }
 
         if (RC_DB::table('user_rank')->where('rank_id', $rank_id)->update(array('max_points' => $val))) {
-            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('rank_name');
+            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('rank_name');
 
             ecjia_admin::admin_log($rank_name, 'edit', 'user_rank');
             return $this->showmessage(__('编辑成功', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -433,7 +433,7 @@ class admin_rank extends ecjia_admin
         }
 
         if (RC_DB::table('user_rank')->where('rank_id', $rank_id)->update(array('discount' => $val))) {
-            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('rank_name');
+            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('rank_name');
 
             ecjia_admin::admin_log(addslashes($rank_name), 'edit', 'user_rank');
             return $this->showmessage(__('编辑成功', 'user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -453,7 +453,7 @@ class admin_rank extends ecjia_admin
         $is_special = intval($_POST['val']);
 
         if (RC_DB::table('user_rank')->where('rank_id', $rank_id)->update(array('special_rank' => $is_special))) {
-            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('rank_name');
+            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('rank_name');
 
             if ($is_special == 1) {
                 ecjia_admin::admin_log(sprintf(__('%s，显示价格', 'user'), $rank_name), 'edit', 'user_rank');
@@ -478,7 +478,7 @@ class admin_rank extends ecjia_admin
         $is_show = intval($_POST['val']);
 
         if (RC_DB::table('user_rank')->where('rank_id', $rank_id)->update(array('show_price' => $is_show))) {
-            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('rank_name');
+            $rank_name = RC_DB::table('user_rank')->where('rank_id', $rank_id)->value('rank_name');
             if ($is_show == 1) {
                 ecjia_admin::admin_log(sprintf(__('%s，加入特殊会员组', 'user'), $rank_name), 'edit', 'user_rank');
             } else {

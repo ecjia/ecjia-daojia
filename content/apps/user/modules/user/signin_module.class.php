@@ -76,7 +76,7 @@ class user_signin_module extends api_front implements api_interface
                     if ($user_count > 1) {
                         return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'user'));
                     }
-                    $check_user = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
+                    $check_user = RC_DB::table('users')->where('mobile_phone', $name)->value('user_name');
                     /* 获取用户名进行判断验证*/
                     if (!empty($check_user)) {
                         if (ecjia_integrate::login($check_user, $password)) {
@@ -115,7 +115,7 @@ class user_signin_module extends api_front implements api_interface
                 if ($user_count > 1) {
                     return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'user'));
                 }
-                $user_name = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
+                $user_name = RC_DB::table('users')->where('mobile_phone', $name)->value('user_name');
                 //账号信息检查
                 if (!ecjia_integrate::login($user_name, null)) {
                     return new ecjia_error('userinfo_error', __('您输入的账号信息不正确 ！', 'user'));
@@ -135,7 +135,7 @@ class user_signin_module extends api_front implements api_interface
                 if ($user_count > 1) {
                     return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'user'));
                 }
-                $check_user = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
+                $check_user = RC_DB::table('users')->where('mobile_phone', $name)->value('user_name');
 
                 /* 获取用户名进行判断验证*/
                 if (!empty($check_user)) {
