@@ -131,7 +131,7 @@ class mp_userbind extends PlatformAbstract
             }
 
             //获取用户名
-            $username = RC_DB::TABLE('users')->where('user_id', $userid)->pluck('user_name');
+            $username = RC_DB::table('users')->where('user_id', $userid)->value('user_name');
 
             $content = [
                 'title' => __('已绑定', 'mp_userbind'),
@@ -184,7 +184,7 @@ class mp_userbind extends PlatformAbstract
             }
 
             //获取用户名
-            $username = RC_DB::TABLE('users')->where('user_id', $userid)->pluck('user_name');
+            $username = RC_DB::table('users')->where('user_id', $userid)->value('user_name');
             $content = [
                 'title' => __('已绑定', 'mp_userbind'),
                 'description' => sprintf(__('您已拥有帐号，用户名为【%s】点击该链接可进入用户中心哦', 'mp_userbind'), $username),
