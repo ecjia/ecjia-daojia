@@ -201,7 +201,7 @@ class admin_payment_pay_cash_module extends api_admin implements api_interface
     		->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
     		->where(RC_DB::raw('cr.order_type'), 'buy')
     		->whereIn('action', array('check_order', 'billing'))
-    		->pluck('name');
+    		->value('name');
     		 
     		$user_info = [];
     		//有没用户
@@ -270,7 +270,7 @@ class admin_payment_pay_cash_module extends api_admin implements api_interface
     		->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
     		->where(RC_DB::raw('cr.order_type'), 'quickpay')
     		->where('action', 'receipt')
-    		->pluck('name');
+    		->value('name');
     	
     		$user_info = [];
     		//有没用户

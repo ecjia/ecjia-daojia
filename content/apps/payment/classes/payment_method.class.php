@@ -224,7 +224,7 @@ class payment_method {
 	    // $db = RC_Loader::load_app_model('pay_log_model', 'orders');
 	    // $log_id = $db->where(array('order_id' => $surplus_id, 'order_type' => $pay_type, 'is_paid' => 0))->get_field('log_id');
 
-	   	$log_id = RC_DB::table('pay_log')->where('order_id', $surplus_id)->where('order_type', $pay_type)->where('is_paid', 0)->pluck('log_id');
+	   	$log_id = RC_DB::table('pay_log')->where('order_id', $surplus_id)->where('order_type', $pay_type)->where('is_paid', 0)->value('log_id');
 		return $log_id;
 	}
 

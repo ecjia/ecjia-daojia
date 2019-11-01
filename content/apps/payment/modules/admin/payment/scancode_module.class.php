@@ -155,7 +155,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     							->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
     							->where(RC_DB::raw('cr.order_type'), 'buy')
     							->whereIn('action', array('check_order', 'billing'))
-    							->pluck('name');
+    							->value('name');
     		
     		$user_info = [];
     		//有没用户
@@ -220,7 +220,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     						->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
     						->where(RC_DB::raw('cr.order_type'), 'quickpay')
     						->where('action', 'receipt')
-    						->pluck('name');
+    						->value('name');
     		
     		$user_info = [];
     		//有没用户
@@ -276,7 +276,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     {
     	$surplus_print_data = [];
     	if (!empty($order_info)) {
-    		$pay_name				= RC_DB::table('payment')->where('pay_code', $order_info['payment'])->pluck('pay_name');
+    		$pay_name				= RC_DB::table('payment')->where('pay_code', $order_info['payment'])->value('pay_name');
     		
     		$user_info = [];
     		//有没用户
@@ -415,7 +415,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     {    	
     	RC_Loader::load_app_class('order_ship', 'orders', false);
     		
-    	$delivery_id = RC_DB::table('delivery_order')->where('order_sn', $order_info['order_sn'])->pluck('delivery_id');
+    	$delivery_id = RC_DB::table('delivery_order')->where('order_sn', $order_info['order_sn'])->value('delivery_id');
     	$invoice_no  = '';
     	$result = order_ship::delivery_ship($order_info['order_id'], $delivery_id, $invoice_no, __('收银台发货', 'payment'));
     	if (is_ecjia_error($result)) {

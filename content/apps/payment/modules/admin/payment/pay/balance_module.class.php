@@ -386,7 +386,7 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     		$db->where(RC_DB::raw('cr.order_type'), 'quickpay');
     	}
     	
-    	$cashier_name = $db->pluck('name');
+    	$cashier_name = $db->value('name');
     	
     	return $cashier_name;
     }

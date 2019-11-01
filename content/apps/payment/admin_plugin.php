@@ -130,7 +130,7 @@ class admin_plugin extends ecjia_admin {
 		);
 		RC_DB::table('payment')->where('pay_code', $code)->update($data);
 		
-		$pay_name = RC_DB::table('payment')->where('pay_code', $code)->pluck('pay_name');
+		$pay_name = RC_DB::table('payment')->where('pay_code', $code)->value('pay_name');
 		
 		ecjia_admin::admin_log($pay_name, 'stop', 'payment');
 		
@@ -152,7 +152,7 @@ class admin_plugin extends ecjia_admin {
 		RC_DB::table('payment')->where('pay_code', $code)->update($data);
 		
 		
-		$pay_name = RC_DB::table('payment')->where('pay_code', $code)->pluck('pay_name');
+		$pay_name = RC_DB::table('payment')->where('pay_code', $code)->value('pay_name');
 		
 		ecjia_admin::admin_log($pay_name, 'use', 'payment');
 		
@@ -427,7 +427,7 @@ class admin_plugin extends ecjia_admin {
 			else {
 				$pay_fee = floatval($pay_insure) . '%';
 			}
-			$pay_name = RC_DB::table('pay_id', $pay_id)->pluck('pay_name');
+			$pay_name = RC_DB::table('pay_id', $pay_id)->value('pay_name');
 			RC_DB::table('payment')->where('pay_id', $pay_id)->update(array('pay_fee' => stripcslashes($pay_fee)));
 			
 			//ecjia_admin::admin_log($pay_name.'，'.'修改费用为 '.$pay_fee, 'setup', 'payment');

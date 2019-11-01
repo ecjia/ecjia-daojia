@@ -315,7 +315,7 @@ class PaymentRecordRepository extends AbstractRepository
      */
     public function checkMoney($orderTradeNo, $money)
     {
-        $amount = $this->getModel()->where('order_trade_no', $orderTradeNo)->pluck('total_fee');
+        $amount = $this->getModel()->where('order_trade_no', $orderTradeNo)->value('total_fee');
 
         if ($amount == $money) {
             return true;
