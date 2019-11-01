@@ -221,7 +221,7 @@ class admin_percent extends ecjia_admin {
 		$this->admin_priv('store_percent_delete', ecjia::MSGTYPE_JSON);
 		
 		$id = $_GET['id'];
-		$percent_value = RC_DB::table('store_percent')->where('percent_id', $id)->pluck('percent_value');
+		$percent_value = RC_DB::table('store_percent')->where('percent_id', $id)->value('percent_value');
 		$percent_delete = RC_DB::table('store_percent')->where('percent_id', $id)->delete();
 						
 		if ($percent_delete) {

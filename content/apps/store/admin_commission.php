@@ -222,9 +222,9 @@ class admin_commission extends ecjia_admin {
 
 		$merchants_name = RC_DB::table('store_franchisee')
 							  ->where(RC_DB::raw('store_id'), '=', $store_id)
-		                      ->pluck('merchants_name');
+		                      ->value('merchants_name');
 
-		$percent = RC_DB::table('store_percent')->where(RC_DB::raw('percent_id'), '=', $_POST['percent_id'])->pluck('percent_value');
+		$percent = RC_DB::table('store_percent')->where(RC_DB::raw('percent_id'), '=', $_POST['percent_id'])->value('percent_value');
 		ecjia_admin::admin_log(__('商家名是 ', 'store').$merchants_name.'，'.__('佣金比例是 ', 'store').$percent.__('%，保证金是', 'store').$store_deposit, 'edit', 'store_commission');
 		return $this->showmessage(__('编辑成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS , array('pjaxurl' => RC_Uri::url('store/admin_commission/edit',array('id' => $id, 'store_id' => $store_id))));
 	}
@@ -253,8 +253,8 @@ class admin_commission extends ecjia_admin {
 			//$user_name = $this->user_db->where(array('user_id' => $info['user_id']))->get_field('user_name');
 			//$percent = $this->mpdb->where(array('percent_id' => intval($info['suppliers_percent'])))->get_field('percent_value');
 			//$this->msdb->where(array('server_id' => $id))->delete();
-			$merchants_name = RC_DB::table('store_franchisee')->where(RC_DB::raw('store_id'), $srore_id)->pluck('merchants_name');
-			$percent        = RC_DB::table('store_percent')->where(RC_DB::raw('percent_id'), '=', intval($info['percent_id']))->pluck('percent_value');
+			$merchants_name = RC_DB::table('store_franchisee')->where(RC_DB::raw('store_id'), $srore_id)->value('merchants_name');
+			$percent        = RC_DB::table('store_percent')->where(RC_DB::raw('percent_id'), '=', intval($info['percent_id']))->value('percent_value');
 
 			RC_DB::table('store_commission')->where(RC_DB::raw('id'), $id)->delete();
 
@@ -307,7 +307,7 @@ class admin_commission extends ecjia_admin {
 		RC_DB::table('order_info')->where(RC_DB::raw('order_id'), $order_id)->update($arr);
 // 		if ($update) {
 			//$user_name = $this->user_db->where(array('user_id' => $_GET['id']))->get_field('user_name');
-			$merchants_name = RC_DB::table('store_franchisee')->where(RC_DB::raw('store_id'), $_GET['id'])->pluck(RC_DB::raw('merchants_name'));
+			$merchants_name = RC_DB::table('store_franchisee')->where(RC_DB::raw('store_id'), $_GET['id'])->value(RC_DB::raw('merchants_name'));
 			if ($arr['is_settlement'] == 1) {
 				ecjia_admin::admin_log(sprintf(__('商家名是 %s，订单编号是%s，已结算', 'store'), $merchants_name, $order_sn), 'setup', 'store_commission_status');
 			} else {
@@ -619,10 +619,10 @@ class admin_commission extends ecjia_admin {
 
 			$percent_id = RC_DB::table('store_commission')
 							->where(RC_DB::raw('store_id'), $row[$i]['store_id'])
-			                ->pluck(RC_DB::raw('percent_id'));
+			                ->value(RC_DB::raw('percent_id'));
 			$percent_value = RC_DB::table('store_percent')
 							   ->where(RC_DB::raw('percent_id'), $percent_id)
-			                   ->pluck(RC_DB::raw('percent_value'));
+			                   ->value(RC_DB::raw('percent_value'));
 
 			if ($percent_value == 0) {
 				$percent_value = 1;

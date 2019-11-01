@@ -669,9 +669,9 @@ class admin extends ecjia_admin
         list($store['province'], $store['city'], $store['district'], $store['street']) = ecjia_region::getDisplayLabel($store['province'], $store['city'], $store['district'], $store['street']);
 
         $this->assign('ur_here', $store['merchants_name']);
-        $store['cat_name'] = RC_DB::table('store_category')->where('cat_id', $store['cat_id'])->pluck('cat_name');
+        $store['cat_name'] = RC_DB::table('store_category')->where('cat_id', $store['cat_id'])->value('cat_name');
         if ($store['percent_id']) {
-            $store['percent_value'] = RC_DB::table('store_percent')->where('percent_id', $store['percent_id'])->pluck('percent_value');
+            $store['percent_value'] = RC_DB::table('store_percent')->where('percent_id', $store['percent_id'])->value('percent_value');
         }
         $store['shop_review_goods'] = get_merchant_config($store_id, 'shop_review_goods');
 //        $store['franchisee_amount'] = ecjia_price_format($store['franchisee_amount']);
@@ -964,7 +964,7 @@ class admin extends ecjia_admin
             return $this->showmessage(__('请选择您要操作的店铺', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
         $this->assign('merchants_name', $merchants_name);
         $this->assign('ur_here', $merchants_name . __(' - 查看日志', 'store'));
 

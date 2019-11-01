@@ -65,7 +65,7 @@ class store_category {
 			foreach ($where['cat_id'] as $val) {
 				if ($val > 0) {
 					$db = RC_DB::table('store_category')->where('cat_id', $val);
-					$parent = $db->pluck('parent_id');
+					$parent = $db->value('parent_id');
 					$parent_id = $parent;
 				} else {
 					$parent_id = 0;

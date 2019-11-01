@@ -240,7 +240,7 @@ class admin_store_category extends ecjia_admin {
 		/* 初始化分类ID并取得分类名称 */
 		$cat_id   = intval($_GET['id']);
 
-		$cat_name = RC_DB::table('store_category')->where('cat_id', $cat_id)->pluck('cat_name');
+		$cat_name = RC_DB::table('store_category')->where('cat_id', $cat_id)->value('cat_name');
 
 		/* 当前分类下是否有子分类 */
 		$cat_count = RC_DB::table('store_category')->where('parent_id', $cat_id)->count();
@@ -270,7 +270,7 @@ class admin_store_category extends ecjia_admin {
 		$id = intval($_POST['id']);
 		$val = intval($_POST['val']);
 		
-		$cat_name = RC_DB::table('store_category')->where('cat_id', $id)->pluck('cat_name');
+		$cat_name = RC_DB::table('store_category')->where('cat_id', $id)->value('cat_name');
 		if (cat_update($id, array('is_show' => $val))) {
 			//记录log
 			ecjia_admin::admin_log($cat_name, 'edit', 'store_category');
@@ -288,7 +288,7 @@ class admin_store_category extends ecjia_admin {
 	
 		$id       = intval($_POST['pk']);
 		$val      = intval($_POST['value']);
-		$cat_name = RC_DB::table('store_category')->where('cat_id', $id)->pluck('cat_name');
+		$cat_name = RC_DB::table('store_category')->where('cat_id', $id)->value('cat_name');
 		if (cat_update($id, array('sort_order' => $val))) {
 			//记录log
 			ecjia_admin::admin_log($cat_name, 'edit', 'store_category');

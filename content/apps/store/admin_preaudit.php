@@ -300,7 +300,7 @@ class admin_preaudit extends ecjia_admin
 
 
         $info['apply_time'] = RC_Time::local_date(ecjia::config('time_format'), $info['apply_time']);
-        $info['cat_name']   = RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->pluck('cat_name');
+        $info['cat_name']   = RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->value('cat_name');
 
 //        $info['franchisee_amount'] = ecjia_price_format($info['franchisee_amount']);
         $this->assign('store', $info);

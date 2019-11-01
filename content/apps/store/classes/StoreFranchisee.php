@@ -135,7 +135,7 @@ class StoreFranchisee
     			return;
     		}
     	} else {
-    		$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', $code)->pluck('value');
+    		$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', $code)->value('value');
     		return $config;
     	}
     }
@@ -147,7 +147,7 @@ class StoreFranchisee
      * @return string
      */
     public static function StoreName($store_id) {
-    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
     	return $store_name;
     }
     
@@ -157,7 +157,7 @@ class StoreFranchisee
      * @return string
      */
     public static function StoreLogo($store_id) {
-    	$store_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->pluck('value');
+    	$store_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->value('value');
     	if (!empty($store_logo)) {
     		$store_logo = RC_Upload::upload_url($store_logo);
     	} else {

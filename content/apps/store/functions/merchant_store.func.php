@@ -127,7 +127,7 @@ function get_merchant_config($store_id = 0, $code = '', $arr = ''){
             return ;
         }
     }else{
-        $config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', '=', $code)->pluck('value');
+        $config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', '=', $code)->value('value');
         return $config;
     }
 }
