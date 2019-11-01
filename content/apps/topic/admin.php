@@ -294,7 +294,7 @@ class admin extends ecjia_admin
         $topic_img_type = empty($_POST['topic_img_type']) ? 0 : intval($_POST['topic_img_type']);
         $topic_pic_type = empty($_POST['title_pic_type']) ? 0 : intval($_POST['title_pic_type']);
         /* 获取旧的图片地址,并删除 */
-        $ad_logo = RC_DB::table('topic')->where('topic_id', $topic_id)->pluck('topic_img');
+        $ad_logo = RC_DB::table('topic')->where('topic_id', $topic_id)->value('topic_img');
 
         $upload = RC_Upload::uploader('image', array('save_path' => 'data/topicimg', 'auto_sub_dirs' => false));
 
@@ -368,7 +368,7 @@ class admin extends ecjia_admin
         }
 
         /* 获取旧的LOGO地址,并删除 */
-        $old_title_pic = RC_DB::table('topic')->where('topic_id', $topic_id)->pluck('title_pic');
+        $old_title_pic = RC_DB::table('topic')->where('topic_id', $topic_id)->value('title_pic');
 
         if ($topic_pic_type == 1) {
             if ((isset($_FILES['title_pic']['error']) && $_FILES['title_pic']['error'] == 0) ||
@@ -440,7 +440,7 @@ class admin extends ecjia_admin
         $this->admin_priv('topic_delete', ecjia::MSGTYPE_JSON);
 
         $id      = intval($_GET['id']);
-        $old_url = RC_DB::table('topic')->where('topic_id', $id)->pluck('title_pic');
+        $old_url = RC_DB::table('topic')->where('topic_id', $id)->value('title_pic');
 
         $disk = RC_Filesystem::disk();
         $disk->delete(RC_Upload::upload_path() . $old_url);
@@ -456,7 +456,7 @@ class admin extends ecjia_admin
         $this->admin_priv('topic_delete', ecjia::MSGTYPE_JSON);
 
         $id      = intval($_GET['id']);
-        $old_url = RC_DB::table('topic')->where('topic_id', $id)->pluck('topic_img');
+        $old_url = RC_DB::table('topic')->where('topic_id', $id)->value('topic_img');
 
         $disk = RC_Filesystem::disk();
         $disk->delete(RC_Upload::upload_path() . $old_url);
@@ -473,7 +473,7 @@ class admin extends ecjia_admin
         $this->admin_priv('topic_delete', ecjia::MSGTYPE_JSON);
 
         $id      = intval($_GET['id']);
-        $old_url = RC_DB::table('topic')->where('topic_id', $id)->pluck('topic_img');
+        $old_url = RC_DB::table('topic')->where('topic_id', $id)->value('topic_img');
 
         $disk = RC_Filesystem::disk();
         $disk->delete(RC_Upload::upload_path() . $old_url);
