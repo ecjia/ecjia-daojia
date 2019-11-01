@@ -93,7 +93,7 @@ class admin_orders_today_module extends api_admin implements api_interface
         if (!empty($last_refresh_time) && $type == 'payed') {
             //$where1['oi.pay_time'] = array('egt' => $last_refresh_time, 'elt'=> $time);
 
-            $payment_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+            $payment_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->value('pay_id');
 
             $payment_id = empty($payment_id) ? 0 : $payment_id;
 

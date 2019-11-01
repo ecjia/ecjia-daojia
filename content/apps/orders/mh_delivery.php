@@ -192,7 +192,7 @@ class mh_delivery extends ecjia_merchant
             ->orderBy('action_id', 'asc')
             ->get();
 
-        $pay_id       = RC_DB::table('order_info')->where('order_id', $delivery_order['order_id'])->where('store_id', $_SESSION['store_id'])->pluck('pay_id');
+        $pay_id       = RC_DB::table('order_info')->where('order_id', $delivery_order['order_id'])->where('store_id', $_SESSION['store_id'])->value('pay_id');
         $payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($pay_id);
         $is_cod       = $payment_info['pay_code'] == 'pay_cod' ? 1 : 0;
 
@@ -664,7 +664,7 @@ class mh_delivery extends ecjia_merchant
             }
         }
 
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
         /*商家发货 推送消息*/
         $options = array(
             'user_id'   => $order['user_id'],

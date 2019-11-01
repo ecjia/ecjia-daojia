@@ -148,7 +148,7 @@ class mh_validate_order extends ecjia_merchant
             return $this->showmessage(__('该验证码对应的订单已取消或是无效订单！', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $user_name = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order_info['user_id'])->value('user_name');
 
         $result = array();
         $order  = array(
@@ -194,7 +194,7 @@ class mh_validate_order extends ecjia_merchant
 
         /*发货*/
         $db_delivery_order = RC_DB::table('delivery_order');
-        $delivery_id       = $db_delivery_order->where('order_id', $order_id)->pluck('delivery_id');
+        $delivery_id       = $db_delivery_order->where('order_id', $order_id)->value('delivery_id');
         $result            = $this->delivery_ship($order_id, $delivery_id);
 
         /*确认收货*/
@@ -453,7 +453,7 @@ class mh_validate_order extends ecjia_merchant
             }
         }
 
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
 
         /*商家发货 推送消息*/
         $options = array(
@@ -738,7 +738,7 @@ class mh_validate_order extends ecjia_merchant
                 /* （实货） */
                 if (empty($value['product_id'])) {
                     //$num = $this->db_goods->where(array('goods_id' => $value['goods_id']))->get_field('goods_number');
-                    $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->pluck('goods_number');
+                    $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->value('goods_number');
                 } else {
                     /* （货品） */
                     $num = $this->db_products->where(array('goods_id' => $value['goods_id'], 'product_id' => $value['product_id']))->get_field('product_number');
@@ -764,7 +764,7 @@ class mh_validate_order extends ecjia_merchant
         $delivery_time           = $delivery['update_time'];
 
         //$delivery['add_time']		= $this->db_order_info->where(array('order_sn' => $delivery['order_sn']))->get_field('add_time');
-        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->pluck('add_time');
+        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->value('add_time');
 
         /* 获取发货单所属供应商 */
         $delivery['suppliers_id'] = $suppliers_id;

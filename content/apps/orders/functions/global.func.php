@@ -542,9 +542,9 @@ function update_pay_log($order_id)
 {
     $order_id = intval($order_id);
     if ($order_id > 0) {
-        $order_amount = RC_DB::table('order_info')->where('order_id', $order_id)->pluck('order_amount');
+        $order_amount = RC_DB::table('order_info')->where('order_id', $order_id)->value('order_amount');
         if (!is_null($order_amount)) {
-            $log_id = RC_DB::table('pay_log')->whereRaw('order_id = "' . $order_id . '" and order_type = "' . PAY_ORDER . '" and is_paid = 0')->pluck('log_id');
+            $log_id = RC_DB::table('pay_log')->whereRaw('order_id = "' . $order_id . '" and order_type = "' . PAY_ORDER . '" and is_paid = 0')->value('log_id');
             if ($log_id > 0) {
                 /* 未付款，更新支付金额 */
                 $data = array('order_amount' => $order_amount);
@@ -768,7 +768,7 @@ function update_order_goods($order_id, $_sended, $goods_list = array())
                 }
                 // 超值礼包商品全部发货后更新订单商品库存
                 if ($pg_is_end) {
-                    $goods_number = RC_DB::table('order_goods')->where('order_id', $order_id)->where('goods_id', $goods['goods_id'])->pluck('goods_number');
+                    $goods_number = RC_DB::table('order_goods')->where('order_id', $order_id)->where('goods_id', $goods['goods_id'])->value('goods_number');
                     RC_DB::table('order_goods')->where('order_id', $order_id)->where('goods_id', $goods['goods_id'])->update(array('send_number' => $goods_number));
                 }
             }
@@ -1146,7 +1146,7 @@ function delivery_return_goods($delivery_id, $delivery_order)
 function del_order_invoice_no($order_id, $delivery_invoice_no)
 {
     /* 查询：取得订单中的发货单号 */
-    $order_invoice_no = RC_DB::table('order_info')->where('order_id', $order_id)->pluck('invoice_no');
+    $order_invoice_no = RC_DB::table('order_info')->where('order_id', $order_id)->value('invoice_no');
     /* 如果为空就结束处理 */
     if (empty($order_invoice_no)) {
         return;

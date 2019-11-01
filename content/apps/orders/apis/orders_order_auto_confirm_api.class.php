@@ -74,7 +74,7 @@ class orders_order_auto_confirm_api extends Component_Event_Api
         if (!empty($order_sn)) {
             $order_info = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
             if ($order_info['order_status'] == OS_UNCONFIRMED) {
-                $pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
+                $pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->value('pay_code');
 
                 if ($pay_code == 'pay_cod' || $order_info['pay_status'] == PS_PAYED) {
                     RC_DB::table('order_info')->where('order_sn', $order_sn)->update(array('order_status' => OS_CONFIRMED, 'confirm_time' => RC_Time::gmtime()));

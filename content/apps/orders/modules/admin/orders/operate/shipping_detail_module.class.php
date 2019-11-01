@@ -119,9 +119,9 @@ class admin_orders_operate_shipping_detail_module extends api_admin implements a
                 $order['city']          = ecjia_region::getRegionName($val['city']);
                 $order['district']      = ecjia_region::getRegionName($val['district']);
                 $order['street']        = ecjia_region::getRegionName($val['street']);
-                $order['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
+                $order['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->value('shipping_code');
 
-                $order['pay_code'] = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->pluck('pay_code');
+                $order['pay_code'] = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->value('pay_code');
 
 
                 //期望送达时间

@@ -315,7 +315,7 @@ class admin extends ecjia_admin
         }
 
         /* 取得该店铺属于个人还是企业 */
-        $order['validate_type'] = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('validate_type');
+        $order['validate_type'] = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->value('validate_type');
 
         /* 取得区域名 */
         $order['region'] = get_regions($order_id);
@@ -369,7 +369,7 @@ class admin extends ecjia_admin
             } else {
                 $db_user_rank->where('min_points', '<=', intval($user['rank_points']))->orderby('min_points', 'desc');
             }
-            $user['rank_name'] = $db_user_rank->pluck('rank_name');
+            $user['rank_name'] = $db_user_rank->value('rank_name');
 
             // 用户红包数量
             $day   = RC_Time::local_getdate();
@@ -464,7 +464,7 @@ class admin extends ecjia_admin
                 ->where('object_group', 'order')
                 ->where('meta_key', 'receipt_verification')
                 ->where('object_id', $order_id)
-                ->pluck('meta_value');
+                ->value('meta_value');
 
             $pickup_status = __('暂无', 'orders');
             if (!empty($meta_value)) {
@@ -591,7 +591,7 @@ class admin extends ecjia_admin
                 /* 代码 */
                 echo $this->fetch_string($shipping['shipping_print']);
             } else {
-                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->value('shipping_code');
 
                 if ($shipping_code) {
                     //@todo 暂时注释
@@ -669,7 +669,7 @@ class admin extends ecjia_admin
         $this->admin_priv('order_manage', ecjia::MSGTYPE_JSON);
         $ordercount = "order_id = '" . $_POST['keywords'] . "' OR order_sn = '" . $_POST['keywords'] . "'";
 
-        $query_id = RC_DB::table('order_info')->whereRaw($ordercount)->pluck('order_id');
+        $query_id = RC_DB::table('order_info')->whereRaw($ordercount)->value('order_id');
         if (!empty($query_id)) {
             $url = RC_Uri::url("orders/admin/info", "order_id=" . $query_id);
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
@@ -1051,7 +1051,7 @@ class admin extends ecjia_admin
             /* 编辑商品信息 */
             if (isset($_POST['rec_id'])) {
                 foreach ($_POST['rec_id'] as $key => $rec_id) {
-                    $goods_number_all = RC_DB::table('goods')->where('goods_id', $_POST['goods_id'][$key])->pluck('goods_number');
+                    $goods_number_all = RC_DB::table('goods')->where('goods_id', $_POST['goods_id'][$key])->value('goods_number');
 
                     /* 取得参数 */
                     $goods_price  = floatval($_POST['goods_price'][$key]);
@@ -1059,7 +1059,7 @@ class admin extends ecjia_admin
                     $goods_attr   = $_POST['goods_attr'][$key];
                     $product_id   = intval($_POST['product_id'][$key]);
                     if ($product_id) {
-                        $goods_number_all = RC_DB::table('products')->where('product_id', $_POST['product_id'][$key])->pluck('product_number');
+                        $goods_number_all = RC_DB::table('products')->where('product_id', $_POST['product_id'][$key])->value('product_number');
                     }
 
                     if ($goods_number_all >= $goods_number) {
@@ -2169,7 +2169,7 @@ class admin extends ecjia_admin
                 $order['invoice_no'] = $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? __('未发货', 'orders') : $order['invoice_no'];
 
                 /* 此订单的发货备注(此订单的最后一条操作记录) */
-                $order['invoice_note'] = RC_DB::table('order_action')->where('order_id', $order['order_id'])->where('shipping_status', 1)->orderby('log_time', 'desc')->pluck('action_note');
+                $order['invoice_note'] = RC_DB::table('order_action')->where('order_id', $order['order_id'])->where('shipping_status', 1)->orderby('log_time', 'desc')->value('action_note');
 
                 /* 参数赋值：订单 */
                 $this->assign('order', $order);
@@ -2801,10 +2801,10 @@ class admin extends ecjia_admin
 
                     /* （实货） */
                     if (empty($value['product_id'])) {
-                        $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->pluck('goods_number');
+                        $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->value('goods_number');
                     } else {
                         /* （货品） */
-                        $num = RC_DB::table('products')->where('goods_id', $value['goods_id'])->where('product_id', $value['product_id'])->pluck('product_number');
+                        $num = RC_DB::table('products')->where('goods_id', $value['goods_id'])->where('product_id', $value['product_id'])->value('product_number');
                     }
 
                     if (($num < $goods_no_package[$_key]) && ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
@@ -3319,7 +3319,7 @@ class admin extends ecjia_admin
         $this->admin_priv('order_edit', ecjia::MSGTYPE_JSON);
         $keyword  = empty($_POST['keyword']) ? '' : trim($_POST['keyword']);
         $order_id = !empty($_GET['order_id']) ? trim($_GET['order_id']) : '';
-        $store_id = RC_DB::table('order_info')->where('order_id', $order_id)->pluck('store_id');
+        $store_id = RC_DB::table('order_info')->where('order_id', $order_id)->value('store_id');
 
         $result = array();
         if (!empty($keyword)) {
@@ -3415,7 +3415,7 @@ class admin extends ecjia_admin
         $row = RC_Api::api('user', 'user_info', array('user_id' => $id));
 
         if ($row['user_rank'] > 0) {
-            $user['user_rank'] = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->pluck('rank_name');
+            $user['user_rank'] = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->value('rank_name');
         } else {
             $user['user_rank'] = __('非特殊等级', 'orders');
         }
@@ -3549,7 +3549,7 @@ class admin extends ecjia_admin
             //活动失败完成
         } elseif ($groupbuy['status'] == GBS_FAIL && $groupbuy['is_finished'] == GBS_FAIL_COMPLETE) {
 
-            $refund_id = RC_DB::table('refund_order')->where('order_sn', $order['order_sn'])->pluck('refund_id');
+            $refund_id = RC_DB::table('refund_order')->where('order_sn', $order['order_sn'])->value('refund_id');
 
             RC_Loader::load_app_class('RefundOrderInfo', 'refund', false);
             $refund_info = RefundOrderInfo::get_refund_order_info($refund_id);

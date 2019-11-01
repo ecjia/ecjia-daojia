@@ -83,7 +83,7 @@ class order_query extends order
         }
 
         /*货到付款订单不在待付款里显示*/
-        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->value('pay_id');
         if (!empty($pay_cod_id)) {
             $where[] = "pay_id != '.$pay_cod_id.'";
         }
@@ -103,7 +103,7 @@ class order_query extends order
         $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
         //$payment_id_row = $payment_method->payment_id_list(true);
         /*货到付款需在待发货列表显示*/
-        $pay_cod = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+        $pay_cod = RC_DB::table('payment')->where('pay_code', 'pay_cod')->value('pay_id');
 
         if (!empty($pay_cod)) {
             $where[] = "( ({$alias}order_status in (" . OS_UNCONFIRMED . "," . OS_CONFIRMED . ", " . OS_SPLITED . ", " . OS_SPLITING_PART . ")) OR ({$alias}pay_id in (" . $pay_cod . ") and {$alias}order_status in (" . OS_UNCONFIRMED . "," . OS_CONFIRMED . ", " . OS_SPLITED . ", " . OS_SPLITING_PART . ") ))";

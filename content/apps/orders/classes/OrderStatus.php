@@ -162,7 +162,7 @@ class OrderStatus
     public static function queryOrderAwaitPay()
     {
         /*货到付款订单不在待付款里显示*/
-        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->value('pay_id');
         if (!empty($pay_cod_id)) {
             return function ($query) use ($pay_cod_id) {
                 $query->whereIn('order_info.order_status', array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED))

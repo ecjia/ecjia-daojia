@@ -485,7 +485,7 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
                 ->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
                 ->where(RC_DB::raw('cr.order_type'), 'buy')
                 ->whereIn('cr.action', array('check_order', 'billing'))
-                ->pluck('su.name');
+                ->value('su.name');
 
             $user_info = [];
             //有没用户

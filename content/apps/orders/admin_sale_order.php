@@ -151,7 +151,7 @@ class admin_sale_order extends ecjia_admin
         $merchant_keywords = !empty($_GET['merchant_keywords']) ? $_GET['merchant_keywords'] : '';
         $file              = '';
         if (!empty($_REQUEST['store_id'])) {
-            $merchants_name = RC_DB::table('store_franchisee')->where('store_id', intval($_REQUEST['store_id']))->pluck('merchants_name');
+            $merchants_name = RC_DB::table('store_franchisee')->where('store_id', intval($_REQUEST['store_id']))->value('merchants_name');
             $file           .= $merchants_name . '-';
         }
         $filter['start_date']        = RC_Time::local_strtotime($start_date);

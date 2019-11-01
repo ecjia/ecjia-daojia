@@ -200,8 +200,8 @@ function order_info($order_id, $order_sn = '', $type = '')
         $order['formated_surplus']        = price_format($order['surplus'], false);
         $order['formated_order_amount']   = price_format(abs($order['order_amount']), false);
         $order['formated_add_time']       = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
-        $order['pay_code']                = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->pluck('pay_code');
-        $order['shipping_code']           = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+        $order['pay_code']                = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->value('pay_code');
+        $order['shipping_code']           = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->value('shipping_code');
     }
     return $order;
 }
@@ -788,7 +788,7 @@ function change_goods_storage($goods_id, $product_id, $number = 0)
     $products_query = true;
     if (!empty($product_id)) {
         /* by will.chen start*/
-        $product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->pluck('product_number');
+        $product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->value('product_number');
         if ($product_number < abs($number)) {
             return new ecjia_error('low_stocks', '库存不足，请重新选择！');
         }
@@ -796,7 +796,7 @@ function change_goods_storage($goods_id, $product_id, $number = 0)
         $products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
     }
     /* by will.chen start*/
-    $goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
+    $goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_number');
     if ($goods_number < abs($number)) {
         return new ecjia_error('low_stocks', '库存不足，请重新选择！');
     }
@@ -929,13 +929,13 @@ function return_order_bonus($order_id)
 function order_bonus($order_id)
 {
     /* 查询按商品发的红包 */
-    $store_id = RC_DB::table('order_info')->where('order_id', $order_id)->pluck('store_id');
+    $store_id = RC_DB::table('order_info')->where('order_id', $order_id)->value('store_id');
     $today    = RC_Time::gmtime();
     $list     = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('o.goods_id'), '=', RC_DB::raw('g.goods_id'))->leftJoin('bonus_type as b', RC_DB::raw('g.bonus_type_id'), '=', RC_DB::raw('b.type_id'))->select(RC_DB::raw('b.type_id'), RC_DB::raw('b.type_money'), RC_DB::raw('SUM(o.goods_number) AS number'))->whereRaw('o.order_id = ' . $order_id . ' and o.is_gift = 0 and b.send_type = ' . SEND_BY_GOODS . ' and b.send_start_date <= ' . $today . ' and b.send_end_date >= ' . $today . ' and (b.store_id = ' . $store_id . ' OR b.store_id = 0 )')->groupby(RC_DB::raw('b.type_id'))->get();
     /* 查询定单中非赠品总金额 */
     $amount = order_amount($order_id, false);
     /* 查询订单日期 */
-    $order_time = RC_DB::table('order_info')->where('order_id', $order_id)->pluck('add_time');
+    $order_time = RC_DB::table('order_info')->where('order_id', $order_id)->value('add_time');
     /* 查询按订单发的红包 */
     $data = RC_DB::table('bonus_type')->select('type_id', 'type_money', RC_DB::raw('IFNULL(FLOOR(' . $amount . ' / min_amount), 1) as number'))->whereRaw('send_type = ' . SEND_BY_ORDER . ' AND send_start_date <=' . $order_time . ' AND send_end_date >= ' . $order_time . ' AND (store_id = ' . $store_id . ' OR store_id = 0)')->get();
     if (!empty($data)) {
@@ -1162,14 +1162,14 @@ function get_order_detail($order_id, $user_id = 0, $type = '')
     if ($order['store_id'] > 0) {
         $merchant_info          = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->first();
         $order['seller_name']   = $merchant_info['merchants_name'];
-        $order['service_phone'] = RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $order['store_id'])->where(RC_DB::raw('code'), 'shop_kf_mobile')->pluck('value');
+        $order['service_phone'] = RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $order['store_id'])->where(RC_DB::raw('code'), 'shop_kf_mobile')->value('value');
     } else {
         $order['seller_name']   = '自营';
         $order['service_phone'] = ecjia::config('service_phone');
     }
     /* 对发货号处理 */
     if (!empty($order['invoice_no'])) {
-        $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+        $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->value('shipping_code');
     }
     /* 只有未确认才允许用户修改订单地址 */
     if ($order['order_status'] == OS_UNCONFIRMED) {

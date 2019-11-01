@@ -77,7 +77,7 @@ class orders_order_auto_refuse_api extends Component_Event_Api
                 return $order_info;
             }
             if (!empty($order_info)) {
-                $pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
+                $pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->value('pay_code');
                 if ($order_info['order_status'] == OS_UNCONFIRMED) {
                     if ($pay_code == 'pay_cod' && $order_info['pay_status'] == PS_UNPAYED) {
                         RC_DB::table('order_info')->where('order_id', $order_info['order_id'])->update(array('order_status' => OS_CANCELED));

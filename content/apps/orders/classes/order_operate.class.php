@@ -298,11 +298,11 @@ class order_operate
                 $_key = empty($value['product_id']) ? $value['goods_id'] : ($value['goods_id'] . '_' . $value['product_id']);
                 /* （实货） */
                 if (empty($value['product_id'])) {
-                    $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->pluck('goods_number');
+                    $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->value('goods_number');
                 } else {
                     /* （货品） */
                     $num = RC_DB::table('products')->where('goods_id', $value['goods_id'])
-                        ->where('product_id', $value['product_id'])->pluck('product_number');
+                        ->where('product_id', $value['product_id'])->value('product_number');
                 }
                 if (($num < $goods_no_package[$_key]) && ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
                     return new ecjia_error('act_good_vacancy', __('商品已缺货！', 'orders'));
@@ -320,7 +320,7 @@ class order_operate
         $delivery['update_time'] = GMTIME_UTC;
         $delivery_time           = $delivery['update_time'];
 
-        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->pluck('add_time');
+        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->value('add_time');
 
         /* 获取发货单所属供应商 */
         $delivery['suppliers_id'] = $suppliers_id;

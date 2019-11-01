@@ -342,7 +342,7 @@ class mh_order_stats extends ecjia_merchant
 
         $field = 'SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee';
         //待付款订单总金额
-        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->value('pay_id');
         $pay_cod_id = !empty($pay_cod_id) ? intval($pay_cod_id) : 0;
 
         $await_pay_count         = RC_DB::table('order_info')

@@ -69,7 +69,7 @@ class CashierPaidProcessOrder
     {
         RC_Loader::load_app_class('order_ship', 'orders', false);
 
-        $delivery_id = RC_DB::table('delivery_order')->where('order_sn', $order_info['order_sn'])->pluck('delivery_id');
+        $delivery_id = RC_DB::table('delivery_order')->where('order_sn', $order_info['order_sn'])->value('delivery_id');
         $invoice_no  = '';
         $result      = order_ship::delivery_ship($order_info['order_id'], $delivery_id, $invoice_no, __('收银台发货', 'orders'));
         if (is_ecjia_error($result)) {

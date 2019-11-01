@@ -166,7 +166,7 @@ class orders_order_info_api extends Component_Event_Api
 
             /* 对发货号处理 */
             if (!empty($order['invoice_no'])) {
-                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->value('shipping_code');
             }
 
             /* 只有未确认才允许用户修改订单地址 */
@@ -183,11 +183,11 @@ class orders_order_info_api extends Component_Event_Api
 // 	        // 获取需要支付的log_id
 // 	        $order['log_id'] = $pay_method->get_paylog_id($order['order_id'], $pay_type = PAY_ORDER);
             if ($order['user_id']) {
-                $order['user_name'] = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+                $order['user_name'] = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
             } else {
                 $order['user_name'] = '';
             }
-            $order['user_name'] = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+            $order['user_name'] = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
 
             /* 无配送时的处理 */
             if (empty($order['shipping_id'])) {

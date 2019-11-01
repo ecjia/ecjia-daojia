@@ -270,7 +270,7 @@ class history_module extends api_admin implements api_interface
     {
         $verify_code = '';
         if (!empty($order_id)) {
-            $verify_code = RC_DB::table('term_meta')->where('object_id', $order_id)->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->pluck('meta_value');
+            $verify_code = RC_DB::table('term_meta')->where('object_id', $order_id)->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->value('meta_value');
             $verify_code = empty($verify_code) ? '' : $verify_code;
         }
         return $verify_code;
@@ -303,7 +303,7 @@ class history_module extends api_admin implements api_interface
     {
         $store_name = '';
         if (!empty($store_id)) {
-            $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+            $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
         }
         return $store_name;
     }

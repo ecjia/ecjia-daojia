@@ -621,7 +621,7 @@ class merchant extends ecjia_merchant
                 ->where('object_group', 'order')
                 ->where('meta_key', 'receipt_verification')
                 ->where('object_id', $order_id)
-                ->pluck('meta_value');
+                ->value('meta_value');
 
             $pickup_status = __('暂无', 'orders');
             if (!empty($meta_value)) {
@@ -771,7 +771,7 @@ class merchant extends ecjia_merchant
                 echo $this->fetch_string(stripslashes($shipping['shipping_print']));
             } else {
                 //未进行自定义设置,打印为系统默认模板
-                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->value('shipping_code');
                 $plugin_handle   = ecjia_shipping::channel($shipping_code);
                 $shipping_print_template  = $plugin_handle->loadPrintOption('shipping_print');
 
@@ -834,7 +834,7 @@ class merchant extends ecjia_merchant
             $return_shipping_content['store_name']     = $_SESSION['store_name'];
             $store_info                                = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->select('province', 'city', 'district', 'street', 'address')->first();
             $return_shipping_content['address']        = ecjia_region::getRegionName($store_info['province']) . ecjia_region::getRegionName($store_info['city']) . ecjia_region::getRegionName($store_info['district']) . ecjia_region::getRegionName($store_info['street']) . $store_info['address'];
-            $return_shipping_content['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+            $return_shipping_content['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->value('value');
             $this->assign('return_shipping_content', $return_shipping_content);
 
             //获取用户退货退款原因
@@ -1027,7 +1027,7 @@ class merchant extends ecjia_merchant
                 echo $this->fetch_string(stripslashes($shipping['shipping_print']));
             } else {
                 //未进行自定义设置,打印为系统默认模板
-                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+                $shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->value('shipping_code');
                 $plugin_handle   = ecjia_shipping::channel($shipping_code);
                 $shipping_print_template  = $plugin_handle->loadPrintOption('shipping_print');
 
@@ -1816,7 +1816,7 @@ class merchant extends ecjia_merchant
                 $max_code = $max_code ? ceil($max_code / 10000) : 1000000;
                 $code     = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-                $mobile  = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('mobile_phone');
+                $mobile  = RC_DB::table('users')->where('user_id', $order_info['user_id'])->value('mobile_phone');
                 $options = array(
                     'mobile' => $mobile,
                     'event'  => 'sms_order_pickup',
@@ -3983,7 +3983,7 @@ class merchant extends ecjia_merchant
             $return_status = 1;
             $refund_status = 0;
         }
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
         /* 进入售后 */
         $refund_data = array(
             'store_id'       => $order['store_id'],
@@ -4049,12 +4049,12 @@ class merchant extends ecjia_merchant
         //仅退款---同意---进入打款表
         $refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
         if ($refund_type == 'refund') {
-            $payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->pluck('id');
+            $payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->value('id');
 
             //实际支付费用
             $order_money_paid = $refund_info['surplus'] + $refund_info['money_paid'];
             //退款总金额
-            $shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->pluck('shipping_status');
+            $shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->value('shipping_status');
             if ($shipping_status > SS_UNSHIPPED) {
                 $back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
                 $back_shipping_fee = $refund_info['shipping_fee'];
@@ -4200,7 +4200,7 @@ class merchant extends ecjia_merchant
         $return_status = 0;
         $refund_status = 1;
 
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
         /* 进入售后 */
         $refund_data = array(
             'store_id'       => $order['store_id'],
@@ -4260,12 +4260,12 @@ class merchant extends ecjia_merchant
 
         //仅退款---同意---进入打款表
         $refund_info       = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
-        $payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->pluck('id');
+        $payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->value('id');
 
         //实际支付费用
         $order_money_paid = $refund_info['surplus'] + $refund_info['money_paid'];
         //退款总金额
-        $shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->pluck('shipping_status');
+        $shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->value('shipping_status');
         if ($shipping_status > SS_UNSHIPPED) {
             $back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
             $back_shipping_fee = $refund_info['shipping_fee'];
@@ -4545,7 +4545,7 @@ class merchant extends ecjia_merchant
         $delivery['update_time'] = GMTIME_UTC;
         $delivery_time           = $delivery['update_time'];
 
-        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->pluck('add_time');
+        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->value('add_time');
 
         /* 获取发货单所属供应商 */
         $delivery['suppliers_id'] = $suppliers_id;
@@ -5200,7 +5200,7 @@ class merchant extends ecjia_merchant
 
         }
 
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
         /*商家发货 推送消息*/
         $options = array(
             'user_id'   => $order['user_id'],
@@ -5453,7 +5453,7 @@ class merchant extends ecjia_merchant
             $max_code = $max_code ? ceil($max_code / 10000) : 1000000;
             $code     = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-            $mobile  = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('mobile_phone');
+            $mobile  = RC_DB::table('users')->where('user_id', $order_info['user_id'])->value('mobile_phone');
             $options = array(
                 'mobile' => $mobile,
                 'event'  => 'sms_order_pickup',
@@ -5607,7 +5607,7 @@ class merchant extends ecjia_merchant
             //活动失败完成
         } elseif ($groupbuy['status'] == GBS_FAIL && $groupbuy['is_finished'] == GBS_FAIL_COMPLETE) {
 
-            $refund_id = RC_DB::table('refund_order')->where('store_id', $_SESSION['store_id'])->where('order_sn', $order['order_sn'])->pluck('refund_id');
+            $refund_id = RC_DB::table('refund_order')->where('store_id', $_SESSION['store_id'])->where('order_sn', $order['order_sn'])->value('refund_id');
 
             RC_Loader::load_app_class('RefundOrderInfo', 'refund', false);
             $refund_info = RefundOrderInfo::get_refund_order_info($refund_id);

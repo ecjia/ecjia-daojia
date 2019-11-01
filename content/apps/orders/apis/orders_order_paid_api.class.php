@@ -99,7 +99,7 @@ class orders_order_paid_api extends Component_Event_Api
     private function check_money($log_id, $money)
     {
         if (is_numeric($log_id)) {
-            $amount = RC_DB::table('pay_log')->where('log_id', $log_id)->pluck('order_amount');
+            $amount = RC_DB::table('pay_log')->where('log_id', $log_id)->value('order_amount');
         } else {
             return false;
         }

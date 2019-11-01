@@ -106,7 +106,7 @@ class admin_shopkeeper_order_checking_confirm_module extends api_admin implement
 
         /*发货*/
         $db_delivery_order = RC_DB::table('delivery_order');
-        $delivery_id       = $db_delivery_order->where('order_id', $order_id)->pluck('delivery_id');
+        $delivery_id       = $db_delivery_order->where('order_id', $order_id)->value('delivery_id');
         $result            = $this->delivery_ship($order_id, $delivery_id);
 
         /*确认收货*/
@@ -297,10 +297,10 @@ class admin_shopkeeper_order_checking_confirm_module extends api_admin implement
 
                 /* （实货） */
                 if (empty($value['product_id'])) {
-                    $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->pluck('goods_number');
+                    $num = RC_DB::table('goods')->where('goods_id', $value['goods_id'])->value('goods_number');
                 } else {
                     /* （货品） */
-                	$num = RC_DB::table('products')->where(array('goods_id' => $value['goods_id'], 'product_id' => $value['product_id']))->pluck('product_number');
+                	$num = RC_DB::table('products')->where(array('goods_id' => $value['goods_id'], 'product_id' => $value['product_id']))->value('product_number');
                 }
 
                 if (($num < $goods_no_package[$_key]) && ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
@@ -323,7 +323,7 @@ class admin_shopkeeper_order_checking_confirm_module extends api_admin implement
         $delivery_time           = $delivery['update_time'];
 
         //$delivery['add_time']		= $this->db_order_info->where(array('order_sn' => $delivery['order_sn']))->get_field('add_time');
-        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->pluck('add_time');
+        $delivery['add_time'] = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->value('add_time');
 
         /* 获取发货单所属供应商 */
         $delivery['suppliers_id'] = 0;
@@ -720,7 +720,7 @@ class admin_shopkeeper_order_checking_confirm_module extends api_admin implement
             }
         }
 
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
 
         /*商家发货 推送消息*/
         $options = array(

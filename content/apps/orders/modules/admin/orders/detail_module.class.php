@@ -86,7 +86,7 @@ class admin_orders_detail_module extends api_admin implements api_interface
 
         //如果订单中会员id大于0，查询会员余额
         if ($order['user_id'] > 0) {
-            $user_surplus                 = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_money');
+            $user_surplus                 = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_money');
             $order['user_surplus']        = $user_surplus;
             $order['format_user_surplus'] = price_format($user_surplus);
         } else {
@@ -95,7 +95,7 @@ class admin_orders_detail_module extends api_admin implements api_interface
         }
 
         $db_term_meta         = RC_DB::table('term_meta');
-        $verify_code          = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->where('object_id', $order['order_id'])->pluck('meta_value');
+        $verify_code          = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->where('object_id', $order['order_id'])->value('meta_value');
         $order['verify_code'] = empty($verify_code) ? '' : $verify_code;
 
         /*提货码验证状态*/
@@ -113,7 +113,7 @@ class admin_orders_detail_module extends api_admin implements api_interface
             							->where(RC_DB::raw('cr.order_id'), $order['order_id'])
             							->where(RC_DB::raw('cr.order_type'), 'buy')
             							->whereIn(RC_DB::raw('cr.action'), array('check_order', 'billing'))
-            							->pluck(RC_DB::raw('su.name'));
+            							->value(RC_DB::raw('su.name'));
         }
 
         $order['label_order_source'] = '';
@@ -277,7 +277,7 @@ class admin_orders_detail_module extends api_admin implements api_interface
                 ->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))
                 ->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
                 ->whereIn('action', array('check_order', 'billing'))
-                ->pluck('name');
+                ->value('name');
 
             $user_info = [];
             //有没用户
