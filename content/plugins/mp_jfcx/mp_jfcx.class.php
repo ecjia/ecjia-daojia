@@ -112,7 +112,7 @@ class mp_jfcx extends PlatformAbstract
 
             $userid = $wechat_user->getEcjiaUserId();
 
-            $data['pay_points'] = RC_DB::table('users')->where('user_id', '=', $userid)->pluck('pay_points');
+            $data['pay_points'] = RC_DB::table('users')->where('user_id', '=', $userid)->value('pay_points');
             $articles = [
                 'Title' => __('积分查询', 'mp_jfcx'),
                 'Description' => sprintf(__("尊敬的%s用户:\n您的消费积分：%s", 'mp_jfcx'), ecjia::config('shop_name'), $data['pay_points']),
