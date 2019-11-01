@@ -95,7 +95,7 @@ class cart_create_module extends api_front implements api_interface {
     	}
     	
     	if ($product_id > 0) {
-    		$goods_attr = RC_DB::table('products')->where('product_id', $product_id)->pluck('goods_attr');
+    		$goods_attr = RC_DB::table('products')->where('product_id', $product_id)->value('goods_attr');
     		$goods_spec = explode('|', $goods_attr);
     	}
     	

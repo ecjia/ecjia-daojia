@@ -149,7 +149,7 @@ class storepickup_flow_checkOrder_module extends api_front implements api_interf
 		}
 		
 		/*店铺信息*/
-		$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
+		$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->value('value');
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select(RC_DB::raw('merchants_name, province, city, district, street, address, longitude, latitude'))->first();
 		$store_address = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address']; 
 		$out['store_info'] = array('store_name' => $store_info['merchants_name'], 'store_address' => $store_address, 'shop_kf_mobile' => $shop_kf_mobile, 'location' => array('longitude' => $store_info['longitude'], 'latitude' => $store_info['latitude']));

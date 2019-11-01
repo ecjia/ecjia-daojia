@@ -77,7 +77,7 @@ class storebuy_cart_delete_module extends api_front implements api_interface {
 	    	cart::flow_drop_cart_goods($rec_id);
 	    }
 	    if(empty($store_id)) {
-	        $store_id = RC_DB::table('cart')->where('rec_id', $rec_id[0])->pluck('store_id');
+	        $store_id = RC_DB::table('cart')->where('rec_id', $rec_id[0])->value('store_id');
 	    }
 	    
 	    $store_id_group = array($store_id);

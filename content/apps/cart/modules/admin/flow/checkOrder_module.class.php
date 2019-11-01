@@ -90,7 +90,7 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 				if ($row) {
 					/* 判断是否是特殊等级，可能后台把特殊会员组更改普通会员组 */
 					if ($row['user_rank'] > 0) {
-						$special_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->pluck('special_rank');
+						$special_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->value('special_rank');
 						if ($special_rank == '0' || $special_rank == null) {
 							$data = array(
 									'user_rank' => '0'

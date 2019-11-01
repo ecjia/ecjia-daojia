@@ -153,8 +153,8 @@ class storebuy_flow_done_module extends api_front implements api_interface
 
         //检查店铺是否已打烊，已打烊店铺订单不可提交（防止打烊前添加的商品打烊后再结算问题）
         RC_Loader::load_app_func('merchant', 'merchant');
-        $store_shop_close = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('shop_close');
-        $shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_trade_time')->pluck('value');
+        $store_shop_close = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('shop_close');
+        $shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_trade_time')->value('value');
         $shop_closed = get_shop_close($store_shop_close, $shop_trade_time);
         if ($shop_closed == '1') {
         	return new ecjia_error('shop_snoring', '当前店铺已打烊!');

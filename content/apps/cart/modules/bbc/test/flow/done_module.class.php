@@ -167,7 +167,7 @@ class bbc_test_flow_done_module extends api_front implements api_interface {
     	
     	//选择货到付款支付方式后，不可选择上门取货配送方式
         if ($order['pay_id'] > 0) {
-        	$pay_code = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->pluck('pay_code');
+        	$pay_code = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->value('pay_code');
         	if ($pay_code == 'pay_cod') {
         		if (!empty($order['shipping_id']) && is_array($order['shipping_id'])) {
         			foreach ($order['shipping_id'] as $ship) {

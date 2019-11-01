@@ -72,7 +72,7 @@ class StoreStatus
      * @return integer
      */
     public static function GetStoreId($goods_id = 0) {
-    	$store_id = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('store_id');
+    	$store_id = RC_DB::table('goods')->where('goods_id', $goods_id)->value('store_id');
         return $store_id;
     }
     
@@ -83,7 +83,7 @@ class StoreStatus
      * @return integer
      */
     public static function GetStoreStatus($store_id = 0) {
-    	$status = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('status');
+    	$status = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('status');
     	return $status;
     }
     
@@ -93,7 +93,7 @@ class StoreStatus
      * @return integer
      */
     public static function GetGoodsId($rec_id = 0) {
-    	$goods_id = RC_DB::table('cart')->where('rec_id', $rec_id)->pluck('goods_id');
+    	$goods_id = RC_DB::table('cart')->where('rec_id', $rec_id)->value('goods_id');
     	return $goods_id;
     }
     
@@ -105,7 +105,7 @@ class StoreStatus
     public static function StoreOrdersAutoConfirm($store_id = 0) {
     	$orders_auto_confirm = 0;
     	if (!empty($store_id)) {
-    		$orders_auto_confirm = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'orders_auto_confirm')->pluck('value');
+    		$orders_auto_confirm = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'orders_auto_confirm')->value('value');
     	}
     	return $orders_auto_confirm;
     }

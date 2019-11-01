@@ -196,7 +196,7 @@ function flow_update_cart($arr) {
             		$product_number = RC_DB::table('products')
             		->where('goods_id', $goods['goods_id'])
             		->where('product_id', $goods['product_id'])
-            		->pluck('product_number');
+            		->value('product_number');
             	
             		if ($product_number < $val) {
             			return new ecjia_error('low_stocks', __('库存不足', 'cart'));
@@ -1833,7 +1833,7 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
         $favourable             = RC_Api::api('favourable', 'favourable_list', array('store_id' => array(0, $seller['seller_id']), 'type' => 'on_going', 'sort_by' => 'store_id', 'sort_order' => 'ASC'));
         $promotions             = formated_favourable($favourable, $seller['goods_list']);
         $seller['promotions']   = $promotions;
-        $min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $seller['seller_id'])->where('code', 'min_goods_amount')->pluck('value');
+        $min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $seller['seller_id'])->where('code', 'min_goods_amount')->value('value');
         $seller['store_min_goods_amount']   = sprintf("%.2f", $min_goods_amount);
         RC_Loader::load_app_class('cart', 'cart', false);
         //优惠价格

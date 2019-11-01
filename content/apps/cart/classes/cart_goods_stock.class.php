@@ -85,7 +85,7 @@ class cart_goods_stock {
 					/* 是货品 */
 					$row['product_id'] = trim($row['product_id']);
 					if (!empty($row['product_id'])) {
-						$product_number = RC_DB::table('products')->where('goods_id', $goods['goods_id'])->where('product_id', $goods['product_id'])->pluck('product_number');
+						$product_number = RC_DB::table('products')->where('goods_id', $goods['goods_id'])->where('product_id', $goods['product_id'])->value('product_number');
 						if ($product_number < $val) {
 							return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 						}
@@ -116,7 +116,7 @@ class cart_goods_stock {
 		if (!empty($cart_id) && is_array($cart_id)) {
 			$db_view->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
 		}
-		$data = $db_view->pluck(RC_DB::raw('sum(g.integral * c.goods_number)'));
+		$data = $db_view->value(RC_DB::raw('sum(g.integral * c.goods_number)'));
 		$val = intval($data);
 		RC_Loader::load_app_func('admin_order','orders');
 		return integral_of_value($val);
@@ -195,7 +195,7 @@ class cart_goods_stock {
 		$products_query = true;
 		if (!empty($product_id)) {
 			/* by will.chen start*/
-			$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->pluck('product_number');
+			$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->value('product_number');
 			if ($product_number < abs($number)) {
 				return new ecjia_error('low_stocks', __('库存不足，请重新选择！', 'cart'));
 			}
@@ -203,7 +203,7 @@ class cart_goods_stock {
 			$products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
 		}
 		/* by will.chen start*/
-		$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
+		$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_number');
 		if ($goods_number < abs($number)) {
 			return new ecjia_error('low_stocks', __('库存不足，请重新选择！', 'cart'));
 		}
@@ -234,7 +234,7 @@ class cart_goods_stock {
 			return false;
 		}
 	
-		$goods_weight_stock = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('weight_stock');
+		$goods_weight_stock = RC_DB::table('goods')->where('goods_id', $goods_id)->value('weight_stock');
 		//减库存重量，库存不足减时不做处理，返回true
 		if ($weight < 0) {
 			if ($goods_weight_stock < abs($weight)) {

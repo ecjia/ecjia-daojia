@@ -327,7 +327,7 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 				if (!empty($cart_goods)) {
 					$goods_id = $cart_goods['0']['goods_id'];
 				}
-				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->pluck('act_id');
+				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->value('act_id');
 				$extension_id = empty($extension_id) ? 0 : intval($extension_id);
 			} else {
 				$extension_code = '';

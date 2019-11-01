@@ -141,8 +141,8 @@ class cart_flow_done_api extends Component_Event_Api {
 		
 		//检查店铺是否已打烊，已打烊店铺订单不可提交（防止打烊前添加的商品打烊后再结算问题）
 		RC_Loader::load_app_func('merchant', 'merchant');
-		$store_shop_close = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('shop_close');
-		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_trade_time')->pluck('value');
+		$store_shop_close = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->value('shop_close');
+		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_trade_time')->value('value');
 		$shop_closed = get_shop_close($store_shop_close, $shop_trade_time);
 		if ($shop_closed == '1') {
 			return new ecjia_error('shop_snoring', '当前店铺已打烊!');
@@ -178,7 +178,7 @@ class cart_flow_done_api extends Component_Event_Api {
 				if (!empty($cart_goods)) {
 					$goods_id = $cart_goods['0']['goods_id'];
 				}
-				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->pluck('act_id');
+				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->value('act_id');
 				$order['extension_id'] = empty($extension_id) ? 0 : intval($extension_id);
 				
 			} else {
@@ -230,7 +230,7 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		/* 检查商品总额是否达到最低限购金额 */
 		//获取店铺最小购物金额设置
-		$min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'min_goods_amount')->pluck('value');
+		$min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'min_goods_amount')->value('value');
 		$cart_amount = cart::cart_amount(true, \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $options['cart_id']);
 		$be_short_amount = $cart_amount - $min_goods_amount;
 		$be_short_amount = price_format($be_short_amount);

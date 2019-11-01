@@ -153,7 +153,7 @@ class cart_cashdesk {
 				} else {
 					$arr[$key]['is_bulk'] = 0;
 				}
-				$arr[$key]['store_name'] = RC_DB::table('store_franchisee')->where('store_id', $value['store_id'])->pluck('merchants_name');
+				$arr[$key]['store_name'] = RC_DB::table('store_franchisee')->where('store_id', $value['store_id'])->value('merchants_name');
 			}
 		}
 
@@ -758,7 +758,7 @@ class cart_cashdesk {
 						$product_number = RC_DB::table('products')
 						->where('goods_id', $goods['goods_id'])
 						->where('product_id', $goods['product_id'])
-						->pluck('product_number');
+						->value('product_number');
 						 
 						if ($product_number < $val) {
 							return new ecjia_error('low_stocks', __('库存不足', 'cart'));
@@ -1587,7 +1587,7 @@ class cart_cashdesk {
 		if (is_array($cart_id) && !empty($cart_id)) {
 			$db_cartview->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
 		}
-		$integral = $db_cartview->pluck(RC_DB::raw('sum(c.goods_number * IF(g.give_integral > -1, g.give_integral, c.goods_price))'));
+		$integral = $db_cartview->value(RC_DB::raw('sum(c.goods_number * IF(g.give_integral > -1, g.give_integral, c.goods_price))'));
 		return intval($integral);
 	}
 	

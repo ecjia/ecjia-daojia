@@ -300,13 +300,13 @@ class CartFunction
     	/* 处理货品库存 */
     	$products_query = true;
     	if (!empty($product_id)) {
-    		$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->pluck('product_number');
+    		$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->value('product_number');
     		if ($product_number < abs($number)) {
     			return new \ecjia_error('low_stocks', __('库存不足', 'cart'));
     		}
     		$products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
     	} else {
-    		$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
+    		$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_number');
     		if ($goods_number < abs($number) ) {
     			return new \ecjia_error('low_stocks', __('库存不足', 'cart'));
     		}
@@ -316,8 +316,8 @@ class CartFunction
     
     	if ($query || $products_query) {
     		$goods_info  = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_name', 'goods_number', 'warn_number', 'store_id')->first();
-    		$mobile      = RC_DB::table('staff_user')->where('store_id', $goods_info['store_id'])->where('parent_id', 0)->pluck('mobile');
-    		$store_name  = RC_DB::table('store_franchisee')->where('store_id', $goods_info['store_id'])->pluck('merchants_name');
+    		$mobile      = RC_DB::table('staff_user')->where('store_id', $goods_info['store_id'])->where('parent_id', 0)->value('mobile');
+    		$store_name  = RC_DB::table('store_franchisee')->where('store_id', $goods_info['store_id'])->value('merchants_name');
     			
     		//发货警告库存发送短信
     		$send_time = \RC_Cache::app_cache_get('sms_goods_stock_warning_sendtime', 'orders');
@@ -358,7 +358,7 @@ class CartFunction
     	 
     	//根据店铺id，店铺有没设置运费模板，查找店铺设置的运费模板关联的快递
     	if(empty($shipping_cac_id)) {
-    		$shipping_cac_id = RC_DB::table('shipping')->where('shipping_code', 'ship_cac')->pluck('shipping_id');
+    		$shipping_cac_id = RC_DB::table('shipping')->where('shipping_code', 'ship_cac')->value('shipping_id');
     	}
     	 
     	if (!empty($shipping_cac_id)) {
