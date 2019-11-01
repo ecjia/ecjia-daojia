@@ -237,7 +237,7 @@ class user_orders_express_message_module extends api_front implements api_interf
 						$latest_express_log = array('time' => $track_log['0']['time'], 'context' => $track_log['0']['context']);
 					}
 					//发货商品
-					$delivery_id = RC_DB::table('delivery_order')->where('order_id', $v['order_id'])->where('invoice_no', $v['track_number'])->pluck('delivery_id');
+					$delivery_id = RC_DB::table('delivery_order')->where('order_id', $v['order_id'])->where('invoice_no', $v['track_number'])->value('delivery_id');
 					$delivery_goods = $this->get_delivery_goods($delivery_id);
 					
 					$arr[] = array(
