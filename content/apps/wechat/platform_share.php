@@ -110,7 +110,7 @@ class platform_share extends ecjia_platform
 
         $wechat_id = $this->platformAccount->getAccountID();
         $id        = intval($_GET['id']);
-        $username  = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('username');
+        $username  = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->value('username');
 
         RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->delete();
         $this->admin_log(sprintf(__('推荐人是%s', 'wechat'), $username), 'remove', 'share');

@@ -164,7 +164,7 @@ class platform_record extends ecjia_platform
         $this->assign('message', $message);
 
         //最后发送时间
-        $last_send_time = RC_DB::table('wechat_customer_record')->where('openid', $info['openid'])->where('opercode', 2002)->where('wechat_id', $wechat_id)->orderBy('id', 'desc')->take(1)->pluck('time');
+        $last_send_time = RC_DB::table('wechat_customer_record')->where('openid', $info['openid'])->where('opercode', 2002)->where('wechat_id', $wechat_id)->orderBy('id', 'desc')->take(1)->value('time');
 
         $time = time();
         if ($time - $last_send_time > 48 * 3600) {
@@ -339,7 +339,7 @@ class platform_record extends ecjia_platform
         $last_id = !empty($_GET['last_id']) ? intval($_GET['last_id']) : 0;
         $chat_id = !empty($_GET['chat_id']) ? $_GET['chat_id'] : 0;
 
-        $openid = RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('uid', $uid)->pluck('openid');
+        $openid = RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('uid', $uid)->value('openid');
         if (!empty($last_id)) {
             $where = "cr.openid = '" . $chat_id . "' AND cr.id <" . $last_id;
         } else {

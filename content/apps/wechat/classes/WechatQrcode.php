@@ -129,7 +129,7 @@ class WechatQrcode
             //$wechat_user = new WechatUser($wechat_id, $openid);
             //$username    = $wechat_user->getNickname();
 
-            $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+            $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
 
             $data  = [
                 'type'           => 1,

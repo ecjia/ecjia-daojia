@@ -181,7 +181,7 @@ class mobile_profile extends EcjiaWechatUserController
         $time   = RC_Time::gmtime() - 6000 * 3;
         $mobile = $_POST['mobile'];
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
-            $mobile_phone = RC_DB::table('users')->where('mobile_phone', $mobile)->where('user_id', '!=', $_SESSION['wechat_user_id'])->pluck('mobile_phone');
+            $mobile_phone = RC_DB::table('users')->where('mobile_phone', $mobile)->where('user_id', '!=', $_SESSION['wechat_user_id'])->value('mobile_phone');
             if (!empty($mobile_phone)) {
                 return $this->showmessage(__('该手机号已被注册', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {

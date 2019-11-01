@@ -266,7 +266,7 @@ class platform_menus extends ecjia_platform
         $pmenu = RC_DB::table('wechat_menu')->where('pid', 0)->where('id', '!=', $id)->where('wechat_id', $wechat_id)->get();
         $this->assign('pmenu', $pmenu);
 
-        $child = RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('pid');
+        $child = RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', $id)->value('pid');
         $this->assign('child', $child);
 
         $weapplist = $this->get_weapplist();
@@ -611,7 +611,7 @@ class platform_menus extends ecjia_platform
 
         $id   = intval($_POST['pk']);
         $sort = trim($_POST['value']);
-        $name = RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('name');
+        $name = RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', $id)->value('name');
         if (!empty($sort)) {
             if (!is_numeric($sort)) {
                 return $this->showmessage(__('请输入排序数值', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

@@ -226,7 +226,7 @@ class platform_qrcode extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
         $id        = intval($_GET['id']);
 
-        $function = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('function');
+        $function = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->value('function');
         RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
         $this->admin_log(sprintf(__('功能是%s', 'wechat'), $function), 'remove', 'qrcode');
@@ -317,7 +317,7 @@ class platform_qrcode extends ecjia_platform
         $id        = intval($_POST['id']);
         $val       = intval($_POST['val']);
 
-        $function = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('function');
+        $function = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->value('function');
         RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->update(array('status' => $val));
 
         if ($val == 1) {
@@ -338,7 +338,7 @@ class platform_qrcode extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
         $id        = intval($_POST['pk']);
         $sort      = trim($_POST['value']);
-        $function  = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('function');
+        $function  = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->value('function');
 
         if (!empty($sort)) {
             if (!is_numeric($sort)) {

@@ -210,7 +210,7 @@ class platform_subscribe extends ecjia_platform
                     return $this->showmessage(__('该标签名字已存在，请重新输入', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
 
-                $tag_id = RC_DB::table('wechat_tag')->where('id', $id)->pluck('tag_id');
+                $tag_id = RC_DB::table('wechat_tag')->where('id', $id)->value('tag_id');
                 //微信端更新
                 $wechat->user_tag->update($tag_id, $name);
 
@@ -279,7 +279,7 @@ class platform_subscribe extends ecjia_platform
         }
 
         //本地删除
-        $name = RC_DB::table('wechat_tag')->where('id', $id)->pluck('name');
+        $name = RC_DB::table('wechat_tag')->where('id', $id)->value('name');
         RC_DB::table('wechat_tag')->where('id', $id)->where('tag_id', $tag_id)->where('wechat_id', $wechat_id)->delete();
 
         //记录日志
@@ -447,7 +447,7 @@ class platform_subscribe extends ecjia_platform
 
                     RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('openid', $v['openid'])->update($info3['user_info_list'][$key]);
 
-                    $uid = RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('openid', $v['openid'])->pluck('uid');
+                    $uid = RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('openid', $v['openid'])->value('uid');
                     if (!empty($v['tagid_list'])) {
                         RC_DB::table('wechat_user_tag')->where('userid', $uid)->delete();
 
@@ -634,7 +634,7 @@ class platform_subscribe extends ecjia_platform
                 ->where('iswechat', 0)
                 ->orderBy('id', 'desc')
                 ->take(1)
-                ->pluck('send_time');
+                ->value('send_time');
 
             $time = RC_Time::gmtime();
             if ($time - $last_send_time > 48 * 3600) {
