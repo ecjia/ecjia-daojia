@@ -286,7 +286,7 @@ class GroupbuyActivitySucceed
         $store_name = $this->getStoreName($order['store_id']);
 
         //消息通知
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
 
         $orm_user_db = RC_Model::model('orders/orm_users_model');
         $user_ob     = $orm_user_db->find($order['user_id']);
@@ -311,7 +311,7 @@ class GroupbuyActivitySucceed
      */
     protected function getStoreName($store_id)
     {
-        $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+        $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
         return $store_name;
     }
 
@@ -427,7 +427,7 @@ class GroupbuyActivitySucceed
     {
         $group_buy_id = intval($group_buy_id);
 
-        $group_buy_goods_id = RC_DB::table('goods_activity')->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->pluck('goods_id');
+        $group_buy_goods_id = RC_DB::table('goods_activity')->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->value('goods_id');
 
         /* 取得总订单数和总商品数 */
         $stat = RC_DB::table('order_info as o')->leftJoin('order_goods as g', RC_DB::raw('o.order_id'), '=', RC_DB::raw('g.order_id'))

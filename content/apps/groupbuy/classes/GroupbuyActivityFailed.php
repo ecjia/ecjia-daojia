@@ -182,7 +182,7 @@ class GroupbuyActivityFailed extends GroupbuyActivitySucceed
         $store_name = $this->getStoreName($order['store_id']);
 
         //消息通知
-        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+        $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->value('user_name');
 
         $orm_user_db = RC_Model::model('orders/orm_users_model');
         $user_ob     = $orm_user_db->find($order['user_id']);

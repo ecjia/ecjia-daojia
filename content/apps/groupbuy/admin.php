@@ -170,7 +170,7 @@ class admin extends ecjia_admin
             return $this->showmessage(__('您选择的商品目前有一个团购活动正在进行,请选择其他商品！', 'groupbuy'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_name');
+        $goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_name');
         $act_name   = $goods_name;
 
         RC_Loader::load_app_func('admin_goods', 'goods');
@@ -307,7 +307,7 @@ class admin extends ecjia_admin
         $this->assign('group_buy', $group_buy);
         $this->assign('form_action', RC_Uri::url('groupbuy/admin/update'));
 
-        $shop_price = RC_DB::table('goods')->where('goods_id', $group_buy['goods_id'])->pluck('shop_price');
+        $shop_price = RC_DB::table('goods')->where('goods_id', $group_buy['goods_id'])->value('shop_price');
         $this->assign('shop_price', $shop_price);
 
         return $this->display('group_buy_info.dwt');
@@ -551,7 +551,7 @@ class admin extends ecjia_admin
     private function group_buy_stat($group_buy_id, $deposit)
     {
         $group_buy_id       = intval($group_buy_id);
-        $group_buy_goods_id = RC_DB::table('goods_activity')->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->pluck('goods_id');
+        $group_buy_goods_id = RC_DB::table('goods_activity')->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->value('goods_id');
 
         /* 取得总订单数和总商品数 */
         $stat = RC_DB::table('order_info as o')->leftJoin('order_goods as g', RC_DB::raw('o.order_id'), '=', RC_DB::raw('g.order_id'))

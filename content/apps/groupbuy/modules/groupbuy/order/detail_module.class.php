@@ -209,7 +209,7 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 			$express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
 			$order['express_user'] = $express_info['express_user'];
 			$order['express_id'] = $express_info['express_id'];
-			$order['express_mobile'] = $express_info['staff_id'] > 0 ? RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->pluck('mobile') : '';
+			$order['express_mobile'] = $express_info['staff_id'] > 0 ? RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->value('mobile') : '';
 		}
 		
 		/*提货信息*/
@@ -250,7 +250,7 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		$order['seller_name']	= !empty($seller_info['merchants_name']) ? $seller_info['merchants_name'] : '';
 		$order['store_address']	= ecjia_region::getRegionName($seller_info['province']).ecjia_region::getRegionName($seller_info['city']).ecjia_region::getRegionName($seller_info['district']).ecjia_region::getRegionName($seller_info['street']).$seller_info['address'];
 		$order['manage_mode']	= $seller_info['manage_mode'];
-		$order['service_phone']	= RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+		$order['service_phone']	= RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 		/*下单用户信息*/
 		if (!empty($order['user_id'])) {
 		    $order_user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->select(RC_DB::raw('user_name, mobile_phone'))->first();
