@@ -290,7 +290,7 @@ class admin extends ecjia_admin
         $id       = isset($_GET['id']) ? $_GET['id'] : 0;
 
         $account_info              = RC_DB::table('user_account')->where('id', $id)->first();
-        $account_info['user_name'] = RC_DB::table('users')->where('user_id', $account_info['user_id'])->pluck('user_name');
+        $account_info['user_name'] = RC_DB::table('users')->where('user_id', $account_info['user_id'])->value('user_name');
 
         $apply_amount = $account_info['apply_amount'] != 0 ? $account_info['apply_amount'] : abs($account_info['amount']);
 

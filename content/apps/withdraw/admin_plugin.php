@@ -128,7 +128,7 @@ class admin_plugin extends ecjia_admin
         try {
             RC_DB::table('withdraw_method')->where('withdraw_code', $code)->update($data);
 
-            $withdraw_name = RC_DB::table('withdraw_method')->where('withdraw_code', $code)->pluck('withdraw_name');
+            $withdraw_name = RC_DB::table('withdraw_method')->where('withdraw_code', $code)->value('withdraw_name');
 
             ecjia_admin::admin_log($withdraw_name, 'stop', 'withdraw');
 
@@ -159,7 +159,7 @@ class admin_plugin extends ecjia_admin
         try {
             RC_DB::table('withdraw_method')->where('withdraw_code', $code)->update($data);
 
-            $withdraw_name = RC_DB::table('withdraw_method')->where('withdraw_code', $code)->pluck('withdraw_name');
+            $withdraw_name = RC_DB::table('withdraw_method')->where('withdraw_code', $code)->value('withdraw_name');
 
             ecjia_admin::admin_log($withdraw_name, 'use', 'withdraw');
 
@@ -467,7 +467,7 @@ class admin_plugin extends ecjia_admin
                 } else {
                     $withdraw_fee = floatval($withdraw_insure) . '%';
                 }
-                $withdraw_name = RC_DB::table('withdraw_id', $withdraw_id)->pluck('withdraw_name');
+                $withdraw_name = RC_DB::table('withdraw_id', $withdraw_id)->value('withdraw_name');
                 RC_DB::table('withdraw_method')->where('withdraw_id', $withdraw_id)->update(array('withdraw_fee' => stripcslashes($withdraw_fee)));
 
                 ecjia_admin::admin_log(sprintf(__('%s，修改费用为：%s', 'withdraw'), $withdraw_name, $withdraw_fee), 'setup', 'withdraw');
