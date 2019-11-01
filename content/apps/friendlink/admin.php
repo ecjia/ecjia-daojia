@@ -263,7 +263,7 @@ class admin extends ecjia_admin
         $this->admin_priv('friendlink_delete', ecjia::MSGTYPE_JSON);
 
         $id = intval($_GET['id']);
-        $link_logo = RC_DB::table('friend_link')->where('link_id', $id)->pluck('link_logo');
+        $link_logo = RC_DB::table('friend_link')->where('link_id', $id)->value('link_logo');
         if (!empty($link_logo)) {
             if ((strpos($link_logo, 'http://') === false) && (strpos($link_logo, 'https://') === false)) {
                 $disk = RC_Filesystem::disk();
