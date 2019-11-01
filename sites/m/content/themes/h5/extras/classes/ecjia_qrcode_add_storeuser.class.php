@@ -75,7 +75,7 @@ class ecjia_qrcode_add_storeuser {
      */
     public static function get_store_name($store_id = 0) {
         $store_name = '';
-        $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+        $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
         return $store_name;
     }
 }
