@@ -288,7 +288,7 @@ class admin_plugin extends ecjia_admin {
 		);
 
 		RC_DB::table('crons')->where('cron_code', $code)->update($data);
-		$cron_name = RC_DB::table('crons')->where('cron_code', $code)->pluck('cron_name');
+		$cron_name = RC_DB::table('crons')->where('cron_code', $code)->value('cron_name');
 	
 		ecjia_admin::admin_log($cron_name, 'disable', 'cron');
 		return $this->showmessage(__('计划任务已禁用', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
@@ -306,7 +306,7 @@ class admin_plugin extends ecjia_admin {
 		);
 		
 		RC_DB::table('crons')->where('cron_code', $code)->update($data);
-		$cron_name = RC_DB::table('crons')->where('cron_code', $code)->pluck('cron_name');
+		$cron_name = RC_DB::table('crons')->where('cron_code', $code)->value('cron_name');
 
 		ecjia_admin::admin_log($cron_name, 'enabled', 'cron');
 	
