@@ -477,7 +477,7 @@ class mh_print extends ecjia_merchant
         $demo_values = with(new Ecjia\App\Printer\EventFactory)->event($type)->getDemoValues();
         $this->assign('data', $demo_values);
 
-        $contact_mobile = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+        $contact_mobile = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->value('value');
         $this->assign('contact_mobile', $contact_mobile);
 
         $statics_url = RC_App::apps_url('statics/', __FILE__);
@@ -498,7 +498,7 @@ class mh_print extends ecjia_merchant
         }
 
         $store_info     = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
-        $contact_mobile = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+        $contact_mobile = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 
         $event                   = with(new Ecjia\App\Printer\EventFactory())->event($type);
         $demo                    = $event->getDemoValues();
