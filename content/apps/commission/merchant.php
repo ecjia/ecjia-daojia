@@ -485,7 +485,7 @@ class merchant extends ecjia_merchant {
 	}
 	
 	private function update_store_money($amount = 0) {
-		$money = RC_DB::table('store_account')->where('store_id', $_SESSION['store_id'])->pluck('money');
+		$money = RC_DB::table('store_account')->where('store_id', $_SESSION['store_id'])->value('money');
 		RC_DB::table('store_account')->where('store_id', $_SESSION['store_id'])->update(array('money_before' => $money));
 		
 		RC_DB::table('store_account')->where('store_id', $_SESSION['store_id'])->increment('frozen_money', $amount);

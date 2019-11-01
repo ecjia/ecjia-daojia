@@ -134,7 +134,7 @@ class admin extends ecjia_admin {
 		}
 		
 		if ($store_id) {
-		    $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+		    $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
 		    $this->assign('merchants_name', $merchants_name);
 		    $this->assign('ur_here', $merchants_name.' - ' . __('账单列表', 'commission'));
 		}
@@ -260,7 +260,7 @@ class admin extends ecjia_admin {
 	    }
 	    
 	    if ($store_id) {
-	        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+	        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
 	        $this->assign('merchants_name', $merchants_name);
 	        $this->assign('ur_here', $merchants_name.' - ' . __('每日账单', 'commission'));
 	    }
@@ -444,7 +444,7 @@ class admin extends ecjia_admin {
 	    $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : null;
 	    
 	    if ($store_id) {
-	        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+	        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
 	        $this->assign('ur_here', $merchants_name.' - ' . __('订单结算列表', 'commission'));
 	    }
 	     
@@ -474,7 +474,7 @@ class admin extends ecjia_admin {
 	    if (empty($info)) {
 	        return $this->showmessage(__('信息不存在', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
-	    $info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $info['store_id'])->pluck('merchants_name');
+	    $info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $info['store_id'])->value('merchants_name');
 	    $info['bill_time'] = $info['bill_time'] ? RC_Time::local_date('Y-m-d H:i:s', $info['bill_time']) : 0;
 	    $this->assign('info', $info);
 
@@ -620,7 +620,7 @@ class admin extends ecjia_admin {
 				
 				ecjia_admin::admin_log(__('同意，提现金额为：', 'commission').$info['amount'], 'audit', 'withdraw');
 			} elseif ($data['status'] == 3) {
-				$money = RC_DB::table('store_account')->where('store_id', $info['store_id'])->pluck('money');
+				$money = RC_DB::table('store_account')->where('store_id', $info['store_id'])->value('money');
 				RC_DB::table('store_account')->where('store_id', $info['store_id'])->update(array('money_before' => $money));
 				
 				RC_DB::table('store_account')->where('store_id', $info['store_id'])->increment('money', $info['amount']);
@@ -814,7 +814,7 @@ class admin extends ecjia_admin {
         if(empty($store_info)) {
             return $this->showmessage(__('未查询到此手机关联的店铺', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        $staff_name = RC_DB::table('staff_user')->where('action_list', 'all')->where('store_id', $store_info['store_id'])->pluck('name');
+        $staff_name = RC_DB::table('staff_user')->where('action_list', 'all')->where('store_id', $store_info['store_id'])->value('name');
         $data = [
             'store_name' => $store_info['merchants_name'],
             'staff_name' => $staff_name
@@ -840,7 +840,7 @@ class admin extends ecjia_admin {
         $id = intval($_GET['id']);
         $data = RC_DB::table('store_account_order')->where('id', $id)->first();
         if (!empty($data)) {
-            $data['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $data['store_id'])->pluck('merchants_name');
+            $data['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $data['store_id'])->value('merchants_name');
             $data['format_amount'] = price_format($data['amount']);
             $data['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $data['add_time']);
             $data['audit_time'] = RC_Time::local_date('Y-m-d H:i:s', $data['audit_time']);

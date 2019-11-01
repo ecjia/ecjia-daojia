@@ -202,7 +202,7 @@ class store_bill_detail_model extends Component_Model_Model {
                     RC_Logger::getLogger('bill_order')->info('退款refund_id:'.$data['order_id'].'，未收货，未入账，结算无需退款');
                     return false;
                 }
-                $back_money_total = RC_DB::table('refund_payrecord')->where('refund_id', $data['order_id'])->pluck('back_money_total');
+                $back_money_total = RC_DB::table('refund_payrecord')->where('refund_id', $data['order_id'])->value('back_money_total');
                 $back_money_total = $back_money_total > 0 ? $back_money_total : $back_money_total * -1;
                 $data['percent_value'] = $datail['percent_value'];
                 //退款结算：平台得-用户退=商家得
@@ -415,7 +415,7 @@ class store_bill_detail_model extends Component_Model_Model {
                         //优惠买单订单
                         $order_info = RC_DB::table('quickpay_orders')->where('order_id', $val['order_id'])->
                         select('order_sn','order_amount as total_fee')->first();
-                        $order_info['buyer'] = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('user_name as buyer');
+                        $order_info['buyer'] = RC_DB::table('users')->where('user_id', $order_info['user_id'])->value('user_name as buyer');
                         $row[$key] = array_merge($row[$key], $order_info);
                     } elseif ($val['order_type'] == 'buy' || $val['order_type'] == 'refund') {
                         //普通订单（含退款）
@@ -492,7 +492,7 @@ class store_bill_detail_model extends Component_Model_Model {
 
         if (! empty( $db_users->count()))
         {
-            $name = $db_users->pluck('user_name');
+            $name = $db_users->value('user_name');
         }
 
         return $name;
