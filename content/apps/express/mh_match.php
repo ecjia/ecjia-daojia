@@ -105,7 +105,7 @@ class mh_match extends ecjia_merchant {
 		$this->assign('ur_here', __('对账详情', 'express'));
 	
 		$user_id = intval($_GET['user_id']);
-		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');
+		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->value('name');
 		$this->assign('name', $name);
 		$this->assign('user_id', $user_id);
 		
@@ -151,7 +151,7 @@ class mh_match extends ecjia_merchant {
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
-				$row['from'] = RC_DB::table('express_order')->where('staff_id', $row['staff_id'])->pluck('from');
+				$row['from'] = RC_DB::table('express_order')->where('staff_id', $row['staff_id'])->value('from');
 				$row['receive_time']  = RC_Time::local_date('Y-m-d', $row['receive_time']);
 				$list[] = $row;
 			}

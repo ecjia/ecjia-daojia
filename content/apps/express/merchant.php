@@ -285,7 +285,7 @@ class merchant extends ecjia_merchant {
 			/* 消息插入 */
 			$orm_staff_user_db = RC_Model::model('orders/orm_staff_user_model');
 			$user = $orm_staff_user_db->find($staff_id);
-			$express_mobile = RC_DB::table('express_order')->where('staff_id', $staff_id)->pluck('express_mobile');
+			$express_mobile = RC_DB::table('express_order')->where('staff_id', $staff_id)->value('express_mobile');
 			/* 派单发短信 */
 			if (!empty($express_mobile)) {
 				$options = array(
@@ -380,8 +380,8 @@ class merchant extends ecjia_merchant {
 		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
 		
 		foreach ($goods_list as $key => $val) {
-			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
-			$goods_list[$key]['goods_price']			= RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->where('goods_id', $val['goods_id'])->pluck('goods_price');
+			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->value('goods_thumb');
+			$goods_list[$key]['goods_price']			= RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->where('goods_id', $val['goods_id'])->value('goods_price');
 			$goods_list[$key]['formated_goods_price']	= price_format($goods_list[$key]['goods_price']);
 		}
 		$disk = RC_Filesystem::disk();
@@ -651,7 +651,7 @@ class merchant extends ecjia_merchant {
     //提醒指派
     public function remind_assign() {
     	$express_id = intval($_GET['id']);
-    	$express_sn = RC_DB::table('express_order')->where('express_id', $express_id)->where('store_id', $_SESSION['store_id'])->pluck('express_sn');
+    	$express_sn = RC_DB::table('express_order')->where('express_id', $express_id)->where('store_id', $_SESSION['store_id'])->value('express_sn');
     	if (empty($express_sn)) {
     		return $this->showmessage(__('该配送单不存在', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
@@ -739,7 +739,7 @@ class merchant extends ecjia_merchant {
 			foreach ($list as $row) {
 				if ($type !='wait_grab') {
 					if ($row['staff_id'] > 0) {
-						$row['online_status'] = RC_DB::table('staff_user')->where('user_id', $row['staff_id'])->pluck('online_status');
+						$row['online_status'] = RC_DB::table('staff_user')->where('user_id', $row['staff_id'])->value('online_status');
 					}
 				}
 				$row['format_add_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);

@@ -67,7 +67,7 @@ class admin_shopkeeper_crowdsource_express_remind_module extends api_admin imple
         /*配送单详情*/
 		$express_order_info = express_order::express_order_info(array('express_id' => $express_id));
 		
-		$store_name = RC_DB::table('store_franchisee')->where('store_id', $express_order_info['store_id'])->pluck('merchants_name');
+		$store_name = RC_DB::table('store_franchisee')->where('store_id', $express_order_info['store_id'])->value('merchants_name');
 		
 		if (empty($express_order_info)) {
 			return new ecjia_error('express_order_not_exist', '此配送单不存在！');
@@ -90,7 +90,7 @@ class admin_shopkeeper_crowdsource_express_remind_module extends api_admin imple
         	);
         	RC_DB::table('express_order_reminder')->insert($data);
         	
-        	$event_status = RC_DB::table('notification_events')->where('event_code', 'sms_express_order_reminder')->where('channel_type', 'sms')->pluck('status'); 
+        	$event_status = RC_DB::table('notification_events')->where('event_code', 'sms_express_order_reminder')->where('channel_type', 'sms')->value('status');
 
         	if (!empty($event_status)) {
         		if ($event_status == 'open') {

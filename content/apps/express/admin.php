@@ -387,8 +387,8 @@ class admin extends ecjia_admin {
 		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
 		
 		foreach ($goods_list as $key => $val) {
-			$goods_list[$key]['image']  	  			= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
-			$goods_list[$key]['goods_price']  			= RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $express_info['order_id'])->pluck('goods_price');
+			$goods_list[$key]['image']  	  			= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->value('goods_thumb');
+			$goods_list[$key]['goods_price']  			= RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $express_info['order_id'])->value('goods_price');
 			$goods_list[$key]['formated_goods_price']	= price_format($goods_list[$key]['goods_price']);
 		}
 		$disk = RC_Filesystem::disk();
@@ -629,10 +629,10 @@ class admin extends ecjia_admin {
 			foreach ($list as $row) {
 				if ($type !='wait_grab') {
 					if ($row['staff_id'] > 0) {
-						$row['online_status'] = RC_DB::table('staff_user')->where('user_id', $row['staff_id'])->pluck('online_status');
+						$row['online_status'] = RC_DB::table('staff_user')->where('user_id', $row['staff_id'])->value('online_status');
 					}
 				}
-				$row['order_add_time'] = RC_DB::table('order_info')->where('order_id', $row['order_id'])->pluck('add_time');
+				$row['order_add_time'] = RC_DB::table('order_info')->where('order_id', $row['order_id'])->value('add_time');
 				$row['format_order_add_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['order_add_time']);
 				$row['format_receive_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['receive_time']);
 				$row['from_address'] 	= ecjia_region::getRegionName($row['sf_district']).ecjia_region::getRegionName($row['sf_street']).$row['sf_address'];

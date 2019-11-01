@@ -127,10 +127,10 @@ class admin_merchant extends ecjia_admin {
 		
 		$this->assign('express_detail', RC_Uri::url('express/admin_merchant/order_detail'));
 	
-		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_trade_time')->pluck('value');
+		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_trade_time')->value('value');
 		$store_info['shop_trade_time'] = unserialize($shop_trade_time);
-		$store_info['img'] = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->pluck('value');
-		$store_info['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
+		$store_info['img'] = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->value('value');
+		$store_info['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->value('value');
 		$info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select('merchants_name','district', 'street', 'address')->first();
 		$store_info['merchants_name'] = $info['merchants_name'];
 		$store_info['merchants_all_address'] = ecjia_region::getRegionName($info['district']).ecjia_region::getRegionName($info['street']).$info['address'];
@@ -172,7 +172,7 @@ class admin_merchant extends ecjia_admin {
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
-				$row['add_time'] 			= RC_Time::local_date('Y-m-d H:i:s', RC_DB::table('order_info')->where('order_id', $row['order_id'])->pluck('add_time'));
+				$row['add_time'] 			= RC_Time::local_date('Y-m-d H:i:s', RC_DB::table('order_info')->where('order_id', $row['order_id'])->value('add_time'));
 				$row['consignee_address'] 	= ecjia_region::getRegionName($row['district']).ecjia_region::getRegionName($row['street']).$row['address'];
 				$list[] = $row;
 			}
@@ -201,8 +201,8 @@ class admin_merchant extends ecjia_admin {
 		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
 		
 		foreach ($goods_list as $key => $val) {
-			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
-			$goods_list[$key]['goods_price']  			= RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $express_info['order_id'])->pluck('goods_price');
+			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->value('goods_thumb');
+			$goods_list[$key]['goods_price']  			= RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $express_info['order_id'])->value('goods_price');
 			$goods_list[$key]['formated_goods_price']	= price_format($goods_list[$key]['goods_price']);
 		}
 		$disk = RC_Filesystem::disk();
@@ -270,9 +270,9 @@ class admin_merchant extends ecjia_admin {
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
-				$shop_trade_time = RC_DB::table('merchants_config')->where('store_id',$row['store_id'])->where('code', 'shop_trade_time')->pluck('value');
-				$row['img'] = 	RC_DB::table('merchants_config')->where('store_id',$row['store_id'])->where('code', 'shop_logo')->pluck('value');
-				$row['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id',$row['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+				$shop_trade_time = RC_DB::table('merchants_config')->where('store_id',$row['store_id'])->where('code', 'shop_trade_time')->value('value');
+				$row['img'] = 	RC_DB::table('merchants_config')->where('store_id',$row['store_id'])->where('code', 'shop_logo')->value('value');
+				$row['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id',$row['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 				$row['shop_trade_time'] = unserialize($shop_trade_time);
 				$row['district'] = ecjia_region::getRegionName($row['district']);
 				$row['street']   = ecjia_region::getRegionName($row['street']);
@@ -301,11 +301,11 @@ class admin_merchant extends ecjia_admin {
 		
 		$cat_list =array();
 		foreach ($store_list as $k => $v) {
-			$cat_list[$k]['cat_id'] = RC_DB::table('store_franchisee')->where('store_id', $v['store_id'])->pluck('cat_id');
+			$cat_list[$k]['cat_id'] = RC_DB::table('store_franchisee')->where('store_id', $v['store_id'])->value('cat_id');
 		}
 		
 		foreach ($cat_list as $key => $value) {
-			$cat_list[$key]['cat_name'] = RC_DB::table('store_category')->where('cat_id', $value['cat_id'])->pluck('cat_name');
+			$cat_list[$key]['cat_name'] = RC_DB::table('store_category')->where('cat_id', $value['cat_id'])->value('cat_name');
 			$count_cat = array_count_values(array_column($store_list,"cat_id"));
 			foreach ($count_cat as $k => $v) {
 				if($k == $value['cat_id']){
@@ -327,11 +327,11 @@ class admin_merchant extends ecjia_admin {
 			
 			$cat_list_keyword =array();
 			foreach ($store_list as $k => $v) {
-				$cat_list_keyword[$v['cat_id']]['cat_id'] = RC_DB::table('store_franchisee')->where('store_id', $v['store_id'])->pluck('cat_id');
+				$cat_list_keyword[$v['cat_id']]['cat_id'] = RC_DB::table('store_franchisee')->where('store_id', $v['store_id'])->value('cat_id');
 			}
 // 			foreach ($cat_list_keyword as $k => $v) {
 				foreach ($cat_list_keyword as $key => $value) {
-					$cat_list_keyword[$value['cat_id']]['cat_name'] = RC_DB::table('store_category')->where('cat_id', $value['cat_id'])->pluck('cat_name');
+					$cat_list_keyword[$value['cat_id']]['cat_name'] = RC_DB::table('store_category')->where('cat_id', $value['cat_id'])->value('cat_name');
 					$count_cat = array_count_values(array_column($store_list,"cat_id"));
 					foreach ($count_cat as $k => $v) {
 						if($k == $value['cat_id']){

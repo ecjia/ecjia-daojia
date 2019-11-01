@@ -165,8 +165,8 @@ class admin_reminder extends ecjia_admin
         /*配送单对应的发货单商品*/
         $goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
         foreach ($goods_list as $key => $val) {
-            $goods_list[$key]['image'] = RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
-            $goods_list[$key]['goods_price'] = RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $express_info['order_id'])->pluck('goods_price');
+            $goods_list[$key]['image'] = RC_DB::table('goods')->where('goods_id', $val['goods_id'])->value('goods_thumb');
+            $goods_list[$key]['goods_price'] = RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $express_info['order_id'])->value('goods_price');
             $goods_list[$key]['formated_goods_price'] = price_format($goods_list[$key]['goods_price']);
         }
         

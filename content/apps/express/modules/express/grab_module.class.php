@@ -89,7 +89,7 @@ class express_grab_module extends api_admin implements api_interface {
 			$update_date['express_mobile']	 = $_SESSION['staff_mobile'];
 			
 			/*配送员可得配送费处理，商家shippingfee_percent默认是100%*/
-			$shippingfee_percent = RC_DB::table('express_user')->where('user_id', $_SESSION['staff_id'])->pluck('shippingfee_percent');
+			$shippingfee_percent = RC_DB::table('express_user')->where('user_id', $_SESSION['staff_id'])->value('shippingfee_percent');
 			$update_date['commision'] = $shippingfee_percent/100*$express_order_info['shipping_fee'];
 			
 			//$result                  = $express_order_db->where($where)->update($update_date);

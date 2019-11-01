@@ -89,7 +89,7 @@ class express_detail_module extends api_admin implements api_interface {
 		$express_avatar = '';
 		
 		if ($express_order_info['staff_id'] > 0) {
-			$express_avatar = RC_DB::table('staff_user')->where('user_id', $express_order_info['staff_id'])->pluck('avatar');
+			$express_avatar = RC_DB::table('staff_user')->where('user_id', $express_order_info['staff_id'])->value('avatar');
 		}
 		
 		$app_url =  RC_App::apps_url('statics/images', __FILE__);
@@ -158,7 +158,7 @@ class express_detail_module extends api_admin implements api_interface {
     	
     	if (!empty($goods_items)) {
     		foreach ($goods_items as $val) {
-    			$goods_attr = RC_DB::table('order_goods')->where('order_id', $express_order_info['order_id'])->where('goods_id', $val['goods_id'])->pluck('goods_attr');
+    			$goods_attr = RC_DB::table('order_goods')->where('order_id', $express_order_info['order_id'])->where('goods_id', $val['goods_id'])->value('goods_attr');
     			$express_order['goods_items'][] = array(
     				'goods_id'	            => $val['goods_id'],
     				'name'		            => $val['goods_name'],

@@ -140,7 +140,7 @@ class admin_express_express_list_module extends api_admin implements api_interfa
 				$street_name = ecjia_region::getRegionName($val['street']);
 			
 				/*店铺电话*/
-				$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $val['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+				$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $val['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 				
 				$express_order_list[] = array(
 					'express_id'	         => $val['express_id'],

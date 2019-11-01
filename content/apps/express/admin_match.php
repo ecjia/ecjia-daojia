@@ -103,7 +103,7 @@ class admin_match extends ecjia_admin {
 		$this->assign('ur_here', __('对账详情', 'express'));
 	
 		$user_id = intval($_GET['user_id']);
-		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');
+		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->value('name');
 		$this->assign('name', $name);
 		$this->assign('user_id', $user_id);
 		

@@ -204,8 +204,8 @@ class mh_express extends ecjia_merchant {
 		$this->assign('action_link', array('text' => __('配送员列表', 'express'), 'href' => RC_Uri::url('express/mh_express/init')));
 	
 		$user_id = intval($_GET['user_id']);
-		$user_money = RC_DB::table('express_user')->where('user_id', $user_id)->pluck('user_money');
-		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');
+		$user_money = RC_DB::table('express_user')->where('user_id', $user_id)->value('user_money');
+		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->value('name');
 		$this->assign('user_money', price_format($user_money));
 		$this->assign('name', $name);
 		$this->assign('user_id', $user_id);
