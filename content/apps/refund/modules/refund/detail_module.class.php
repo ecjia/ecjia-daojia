@@ -78,10 +78,10 @@ class refund_detail_module extends api_front implements api_interface {
 		}
 		
 		/*商家电话*/
-		$store_service_phone = RC_DB::table('merchants_config')->where('store_id', $refund_order_info['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+		$store_service_phone = RC_DB::table('merchants_config')->where('store_id', $refund_order_info['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 		//店铺收货人
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $refund_order_info['store_id'])->select('merchants_name', 'responsible_person', 'city', 'district', 'street', 'address')->first();
-		$store_recipients = RC_DB::table('staff_user')->where('store_id', $refund_order_info['store_id'])->where('parent_id', 0)->pluck('name');
+		$store_recipients = RC_DB::table('staff_user')->where('store_id', $refund_order_info['store_id'])->where('parent_id', 0)->value('name');
 		$store_name = $store_info['merchants_name'];
 		
 		//店铺地址
@@ -352,7 +352,7 @@ class refund_detail_module extends api_front implements api_interface {
 									->where('status', \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE)
 									->where('refund_status', \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_NOTRANSFER)
 									->where('return_status', \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_REFUSED)
-									->pluck('action_note');
+									->value('action_note');
 		}
 		return $refuse_receive_note;
 	}

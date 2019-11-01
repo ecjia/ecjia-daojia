@@ -40,12 +40,12 @@ class refund_merchant_confirm_api extends Component_Event_Api {
 		$return_status = \Ecjia\App\Refund\Enums\RefundShipEnum::SHIP_CONFIRM_RECV;
 		$refund_status = \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_UNTRANSFER;
 		
-		$payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->pluck('id');
+		$payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->value('id');
 		
 		//实际支付费用
 		$order_money_paid = $refund_info['surplus'] + $refund_info['money_paid'];
 		//退款总金额
-		$shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->pluck('shipping_status');
+		$shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->value('shipping_status');
 		if ($shipping_status > SS_UNSHIPPED) {
 			$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
 			$back_shipping_fee = $refund_info['shipping_fee'];
@@ -119,7 +119,7 @@ class refund_merchant_confirm_api extends Component_Event_Api {
 			RefundStatusLog::return_confirm_receive(array('refund_id' => $refund_id, 'status' => $return_status));
 			
 			//普通订单状态变动日志表
-			$order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('order_id');
+			$order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->value('order_id');
 			OrderStatusLog::return_confirm_receive(array('order_id' => $order_id, 'status' => $return_status));
 			
 			$refund_sn = $refund_info['refund_sn'];

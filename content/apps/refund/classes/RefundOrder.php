@@ -65,7 +65,7 @@ class RefundOrder
 	public static function get_back_total_money($refund_info, $refund_way = ''){
 		//退款总金额
     	$back_money_total = '0.00';
-    	$shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->pluck('shipping_status');
+    	$shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->value('shipping_status');
     	if ($shipping_status > SS_UNSHIPPED) {
     		$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
     	} else {

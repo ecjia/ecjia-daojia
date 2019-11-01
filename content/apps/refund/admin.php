@@ -142,10 +142,10 @@ class admin extends ecjia_admin {
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $refund_info['store_id'])->select('merchants_name','province','city','district','street','address')->first();  
 		$mer_info['merchants_name'] = $store_info['merchants_name'];
 		$mer_info['address'] = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
-		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $refund_info['store_id'])->where('code', 'shop_trade_time')->pluck('value');
+		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $refund_info['store_id'])->where('code', 'shop_trade_time')->value('value');
 		$mer_info['shop_trade_time'] = unserialize($shop_trade_time);
-		$mer_info['img'] = 	RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_logo')->pluck('value');
-		$mer_info['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+		$mer_info['img'] = 	RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_logo')->value('value');
+		$mer_info['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 		$mer_info['count'] = RC_DB::table('refund_order')->where('store_id', $refund_info['store_id'])
 							->select(RC_DB::raw('SUM(IF(refund_type = "refund", 1, 0)) as refund_count'),RC_DB::raw('SUM(IF(refund_type = "return", 1, 0)) as return_count'))
 							->first();
@@ -257,10 +257,10 @@ class admin extends ecjia_admin {
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $refund_info['store_id'])->select('merchants_name','province','city','district','street','address')->first();
 		$mer_info['merchants_name'] = $store_info['merchants_name'];
 		$mer_info['address'] = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
-		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $refund_info['store_id'])->where('code', 'shop_trade_time')->pluck('value');
+		$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $refund_info['store_id'])->where('code', 'shop_trade_time')->value('value');
 		$mer_info['shop_trade_time'] = unserialize($shop_trade_time);
-		$mer_info['img'] = 	RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_logo')->pluck('value');
-		$mer_info['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+		$mer_info['img'] = 	RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_logo')->value('value');
+		$mer_info['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id',$refund_info['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 		$mer_info['count'] = RC_DB::table('refund_order')->where('store_id', $refund_info['store_id'])
 		->select(RC_DB::raw('SUM(IF(refund_type = "refund", 1, 0)) as refund_count'),RC_DB::raw('SUM(IF(refund_type = "return", 1, 0)) as return_count'))
 		->first();
@@ -297,8 +297,8 @@ class admin extends ecjia_admin {
 		//退货商品
 		$refund_list = RC_DB::table('refund_goods')->where('refund_id', $refund_info['refund_id'])->get();
 		foreach ($refund_list as $key => $val) {
-			$refund_list[$key]['image']  = RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
-			$goods_price = RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $refund_info['order_id'])->pluck('goods_price');
+			$refund_list[$key]['image']  = RC_DB::table('goods')->where('goods_id', $val['goods_id'])->value('goods_thumb');
+			$goods_price = RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $refund_info['order_id'])->value('goods_price');
 			$refund_list[$key]['goods_price']  = price_format($goods_price);
 		}
 		$disk = RC_Filesystem::disk();
@@ -405,7 +405,7 @@ class admin extends ecjia_admin {
 		if (!empty($data)) {
 			foreach ($data as $row) {
 				$row['add_time']  = RC_Time::local_date('Y-m-d H:i:s', $row['add_time']);
-				$row['shipping_status'] = RC_DB::table('order_info')->where('order_id', $row['order_id'])->pluck('shipping_status');
+				$row['shipping_status'] = RC_DB::table('order_info')->where('order_id', $row['order_id'])->value('shipping_status');
 				if (in_array($row['pay_code'], array('pay_balance', 'pay_cash'))) {
 					$row['refund_total_amount']  = ecjia_price_format(($row['money_paid'] + $row['surplus'] - $row['pay_fee']), false);
 				} else {

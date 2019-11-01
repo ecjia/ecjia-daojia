@@ -146,7 +146,7 @@ class BuyOrderRefundProcess
     {
         //兼容旧的类手动加载
         RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
-        $order_id = RC_DB::table('refund_order')->where('refund_id', $this->refund_order->refund_id)->pluck('order_id');
+        $order_id = RC_DB::table('refund_order')->where('refund_id', $this->refund_order->refund_id)->value('order_id');
         OrderStatusLog::refund_payrecord(array(
             'order_id' 		=> $order_id,
             'back_money' 	=> $this->refund_order->refundPayRecord->back_money_total,

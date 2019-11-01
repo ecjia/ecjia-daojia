@@ -77,7 +77,7 @@ class ReturnAutoApply
 
         $order_info = RC_DB::table('order_info')->where('order_id', $order_id)->first();
 
-        $order_info['user_name'] = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('user_name');
+        $order_info['user_name'] = RC_DB::table('users')->where('user_id', $order_info['user_id'])->value('user_name');
 
         $this->order_info = $order_info;
 
@@ -273,12 +273,12 @@ class ReturnAutoApply
     {
         $status            = 1;
         $refund_status     = 1;
-        $payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->pluck('id');
+        $payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->value('id');
 
         //实际支付费用
         $order_money_paid = $refund_info['surplus'] + $refund_info['money_paid'];
         //退款总金额
-        $shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->pluck('shipping_status');
+        $shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->value('shipping_status');
         if ($shipping_status > SS_UNSHIPPED) {
             $back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
             $back_shipping_fee = $refund_info['shipping_fee'];

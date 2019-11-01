@@ -178,12 +178,12 @@ class refund_cancel_module extends api_front implements api_interface {
 								/* 还原商品申请售后时增加的库存 */
 								if ($res['send_number'] > 0) {
 									if ($res['product_id'] > 0){
-										$product_number = RC_DB::table('products')->where('product_id', $res['product_id'])->pluck('product_number');
+										$product_number = RC_DB::table('products')->where('product_id', $res['product_id'])->value('product_number');
 										if ($product_number >= $res['send_number']) {
 											RC_DB::table('products')->where('product_id', $res['product_id'])->decrement('product_number', $res['send_number']);
 										}
 									} else {
-										$goods_number = RC_DB::table('goods')->where('goods_id', $res['goods_id'])->pluck('goods_number');
+										$goods_number = RC_DB::table('goods')->where('goods_id', $res['goods_id'])->value('goods_number');
 										if ($goods_number >= $res['send_number']) {
 											RC_DB::table('goods')->where('goods_id', $res['goods_id'])->decrement('goods_number', $res['send_number']);
 										}

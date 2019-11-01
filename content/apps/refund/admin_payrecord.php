@@ -367,7 +367,7 @@ class admin_payrecord extends ecjia_admin
             foreach ($data as $row) {
                 $row['action_back_time'] = RC_Time::local_date('Y-m-d H:i:s', $row['action_back_time']);
                 $row['add_time']         = RC_Time::local_date('Y-m-d H:i:s', $row['add_time']);
-                $row['shipping_status']  = RC_DB::table('order_info')->where('order_id', $row['order_id'])->pluck('shipping_status');
+                $row['shipping_status']  = RC_DB::table('order_info')->where('order_id', $row['order_id'])->value('shipping_status');
                 //退款金额
                 if (in_array($row['back_pay_code'], ['pay_balance', 'pay_cash'])) {
                 	//余额支付和现金支付不退还支付手续费

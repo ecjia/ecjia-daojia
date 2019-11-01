@@ -62,7 +62,7 @@ class refund_merchant_refund_order_api extends Component_Event_Api {
 		
 		if (!empty($list)) {
 			foreach ($list as $row) {
-				$row['store_name'] 				= $row['store_id'] > 0 ? RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name') : '';
+				$row['store_name'] 				= $row['store_id'] > 0 ? RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->value('merchants_name') : '';
 				$row['label_refund_type']		= $row['refund_type'] == 'refund' ? __('仅退款', 'refund') : __('退货退款', 'refund');
 				$row['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
 				$row['formated_refund_time']	= !empty($row['refund_time']) ? RC_Time::local_date(ecjia::config('time_format'), $row['add_time']) : '';
@@ -84,7 +84,7 @@ class refund_merchant_refund_order_api extends Component_Event_Api {
 				$row['goods_list'] = $goods_list;
 				//支付方式id
 				if (!empty($row['pay_code'])) {
-					$pay_id = RC_DB::table('payment')->where('pay_code', $row['pay_code'])->pluck('pay_id');
+					$pay_id = RC_DB::table('payment')->where('pay_code', $row['pay_code'])->value('pay_id');
 				} else {
 					$pay_id = 0;
 				}

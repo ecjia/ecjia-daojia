@@ -91,7 +91,7 @@ class refund_returnway_express_module extends api_front implements api_interface
 		$store_recipients = $store_info['responsible_person'];
 		$store_name = $store_info['merchants_name'];
 		/*商家电话*/
-		$store_service_phone = RC_DB::table('merchants_config')->where('store_id', $refund_info['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+		$store_service_phone = RC_DB::table('merchants_config')->where('store_id', $refund_info['store_id'])->where('code', 'shop_kf_mobile')->value('value');
 		//店铺地址
 		$store_address = ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
 		//默认地址，收货人，联系方式
