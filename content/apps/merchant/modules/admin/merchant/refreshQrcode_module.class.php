@@ -67,7 +67,7 @@ class admin_merchant_refreshQrcode_module extends api_admin implements api_inter
 		}
 		ecjia_admin::admin_log('刷新店铺二维码', 'edit', 'merchant');
 		 
-		$shop_logo = RC_DB::table('merchants_config')->where('code', 'shop_logo')->where('store_id', $_SESSION['store_id'])->pluck('value');
+		$shop_logo = RC_DB::table('merchants_config')->where('code', 'shop_logo')->where('store_id', $_SESSION['store_id'])->value('value');
 		$shop_logo = RC_Upload::upload_url($shop_logo);
 		
 		if (!empty($shop_logo)) {

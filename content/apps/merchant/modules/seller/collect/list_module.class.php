@@ -94,7 +94,7 @@ class seller_collect_list_module extends api_front implements api_interface {
         foreach($result as $key => $val){
             $result[$key]['shop_log'] =RC_DB::table('merchants_config')
                                         ->where('store_id', $val['store_id'])
-                                        ->pluck('value');
+                                        ->value('value');
         }
 		$list = array();
 		if ( !empty ($result)) {

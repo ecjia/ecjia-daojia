@@ -81,7 +81,7 @@ class admin_merchant_process_module extends api_admin implements api_interface {
 					'email'					=> $info_store_preaudit['email'],
 					'mobile'				=> $info_store_preaudit['contact_mobile'],
 					'seller_name'			=> $info_store_preaudit['merchants_name'],
-					'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info_store_preaudit['cat_id'])->pluck('cat_name'),
+					'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info_store_preaudit['cat_id'])->value('cat_name'),
 					'address'				=> ecjia_region::getRegionName($info_store_preaudit['province']).ecjia_region::getRegionName($info_store_preaudit['city']).ecjia_region::getRegionName($info_store_preaudit['district']).ecjia_region::getRegionName($info_store_preaudit['street']).' '.$info_store_preaudit['address'],
 			        'remark'                => $info_store_preaudit['remark']
 				)
@@ -94,7 +94,7 @@ class admin_merchant_process_module extends api_admin implements api_interface {
 					'email'					=> $info_store_franchisee['email'],
 					'mobile'				=> $info_store_franchisee['contact_mobile'],
 					'seller_name'			=> $info_store_franchisee['merchants_name'],
-					'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info_store_franchisee['cat_id'])->pluck('cat_name'),
+					'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info_store_franchisee['cat_id'])->value('cat_name'),
 					'address'				=> ecjia_region::getRegionName($info_store_franchisee['province']).ecjia_region::getRegionName($info_store_franchisee['city']).ecjia_region::getRegionName($info_store_franchisee['district']).ecjia_region::getRegionName($info_store_franchisee['street']).' '.$info_store_franchisee['address'],
 			        'remark'                => $info_store_franchisee['remark']
 				)

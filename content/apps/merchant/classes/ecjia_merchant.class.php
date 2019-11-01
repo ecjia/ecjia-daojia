@@ -136,7 +136,7 @@ abstract class ecjia_merchant extends Ecjia\System\BaseController\EcjiaControlle
 //		$this->load_cachekey();
 
 		$this->load_default_script_style();
-		$staff_avatar = RC_DB::table('staff_user')->where('user_id', RC_Session::get('staff_id'))->pluck('avatar');
+		$staff_avatar = RC_DB::table('staff_user')->where('user_id', RC_Session::get('staff_id'))->value('avatar');
 		
 		$this->assign('ecjia_staff_logo', $staff_avatar);
 		$this->assign('ecjia_merchant_cptitle', RC_Session::get('store_name'));
@@ -163,7 +163,7 @@ abstract class ecjia_merchant extends Ecjia\System\BaseController\EcjiaControlle
 		$this->assign('shop_info_html', $shop_info_html);
 		
 		//店铺导航背景图
-		$background_url = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_nav_background')->pluck('value');
+		$background_url = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_nav_background')->value('value');
 		$disk = RC_Filesystem::disk();
 		if (!empty($background_url) && $disk->exists(RC_Upload::upload_path($background_url))) {
 			$background_url = RC_Upload::upload_url($background_url);

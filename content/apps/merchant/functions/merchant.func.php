@@ -130,7 +130,7 @@ function get_store_info($store_id = 0, $with_config = 0) {
 //获取店铺营业状态，0正常，1关闭
 function get_shop_close($shop_close = 0, $shop_trade_time = [], $store_id = 0) {
     if( (!in_array($shop_close, [0,1]) || empty($shop_trade_time) && $store_id)) {
-        $shop_close = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('shop_close');
+        $shop_close = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('shop_close');
         $shop_trade_time = get_merchant_config('shop_trade_time', '', $store_id);
     }
     
@@ -219,7 +219,7 @@ function get_merchant_config($code = '', $arr = '', $store_id = 0)
         }
     } else {
         //$config = $merchants_config->where(array('store_id' => $store_id, 'code' => $code))->get_field('value');
-    	$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', $code)->pluck('value');
+    	$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', $code)->value('value');
         return $config;
     }
 }

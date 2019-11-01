@@ -105,7 +105,7 @@ class admin_merchant_update_module extends api_admin implements api_interface {
 			if (isset($_FILES['seller_logo']) && $upload->check_upload_file($_FILES['seller_logo'])) {
 			    $image_info = $upload->upload($_FILES['seller_logo']);
 			    if (!empty($image_info)) {
-			        $file_name = RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_logo')->pluck('value');
+			        $file_name = RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_logo')->value('value');
 			        $upload->remove($file_name);
 			        $new_logo = $upload->get_position($image_info);
 			        RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_logo')->update(array('value' => $new_logo));

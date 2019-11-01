@@ -116,7 +116,7 @@ class mh_franchisee extends ecjia_merchant {
         $data['identity_type']              = !empty($data['identity_type'])            ? $data['identity_type']                                    : '1';
         
         //$data['cat_name'] = $this->db_store_category->where(array('cat_id' => $data['cat_id']))->get_field('cat_name');
-        $data['cat_name'] = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->pluck('cat_name');
+        $data['cat_name'] = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->value('cat_name');
         $this->assign('data',$data);
 
         return $this->display('merchant_info.dwt');
@@ -203,7 +203,7 @@ class mh_franchisee extends ecjia_merchant {
             }else{
                 ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('审核状态', 'merchant')));
                 $this->assign('ur_here', __('审核状态', 'merchant'));
-                $error_log = RC_DB::table('store_preaudit')->where('store_id', $_SESSION['store_id'])->pluck('remark');
+                $error_log = RC_DB::table('store_preaudit')->where('store_id', $_SESSION['store_id'])->value('remark');
 
                 $string = str_replace("\r\n", ',', $error_log);
                 $arr = explode(',', $string);
@@ -416,8 +416,8 @@ class mh_franchisee extends ecjia_merchant {
             foreach ($edit_fields as $field_key => $field_name) {
                 if ($store_info[$field_key] != $data[$field_key]) {
                     if ($field_key == 'cat_id') {
-                        $store_info[$field_key] = RC_DB::table('store_category')->where('cat_id', $store_info[$field_key])->pluck('cat_name');
-                        $data[$field_key] = RC_DB::table('store_category')->where('cat_id', $data[$field_key])->pluck('cat_name');
+                        $store_info[$field_key] = RC_DB::table('store_category')->where('cat_id', $store_info[$field_key])->value('cat_name');
+                        $data[$field_key] = RC_DB::table('store_category')->where('cat_id', $data[$field_key])->value('cat_name');
                     } else if ($field_key == 'identity_type') {
                         $store_info[$field_key] = $store_info[$field_key] == 1 ? __('身份证', 'merchant') : ($store_info[$field_key] == 2 ? __('护照', 'merchant') : __('港澳身份证', 'merchant'));
                         $data[$field_key] = $data[$field_key] == 1 ? __('身份证', 'merchant') : ($data[$field_key] == 2 ? __('护照', 'merchant') : __('港澳身份证', 'merchant'));

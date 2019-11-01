@@ -135,7 +135,7 @@ class merchant extends ecjia_merchant
             $db->insert($data);
         }
 
-        $merchant_info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('merchants_name');
+        $merchant_info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->value('merchants_name');
 
         $disk         = RC_Filesystem::disk();
         $store_qrcode = 'data/qrcodes/merchants/merchant_' . $_SESSION['store_id'] . '.png';
@@ -407,7 +407,7 @@ class merchant extends ecjia_merchant
 
         $this->assign('ur_here', __('店铺打烊', 'merchant'));
         $merchant_info           = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
-        $merchant_info['mobile'] = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('mobile');
+        $merchant_info['mobile'] = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->value('mobile');
 
         //判断营业时间
         $merchant_info['shop_trade_time'] = get_store_trade_time($_SESSION['store_id']);
@@ -446,7 +446,7 @@ class merchant extends ecjia_merchant
         $type = 'shop_close';
 
         $past_time    = RC_Time::gmtime() - 1800;
-        $staff_mobile = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('mobile');
+        $staff_mobile = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->value('mobile');
         if (empty($code) || $code != $_SESSION[$type]['temp_code'] || $past_time >= $_SESSION[$type]['temp_code_time'] || $mobile != $_SESSION[$type]['temp_mobile'] || $staff_mobile != $_SESSION[$type]['temp_mobile']) {
             return $this->showmessage(__('请输入正确的手机验证码', 'merchant'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -787,7 +787,7 @@ class merchant extends ecjia_merchant
             ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
             ->where('shipping_status', SS_RECEIVED)
             ->where('pay_status', array(PS_PAYED, PS_PAYING))
-            ->pluck('confirm_time');
+            ->value('confirm_time');
 
         if (!empty($order_count) || (!empty($confirm_time) && $confirm_time - RC_Time::gmtime() < 15 * 3600 * 24)) {
             return $this->showmessage(__('您店铺内还有正在交易的订单，请等待订单完成15天后再来注销！', 'merchant'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

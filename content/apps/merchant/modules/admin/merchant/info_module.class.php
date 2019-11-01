@@ -71,29 +71,29 @@ class admin_merchant_info_module extends api_admin implements api_interface {
 			
 			$shop_trade_time = get_store_trade_time($info['store_id']);
 			
-			$unformat_shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
+			$unformat_shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->value('value');
 			
 			$shop_closed = get_shop_close($info['shop_close'], $unformat_shop_trade_time);
 			
 			/*店长手机号码*/
-			$shopkeeper_mobile = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('mobile');
+			$shopkeeper_mobile = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->value('mobile');
 			
 			$seller_info = array(
     	  		'id'					=> $info['store_id'],
     	  		'seller_name'			=> $info['merchants_name'],
 				'shop_closed'			=> $shop_closed,
 				'shopkeeper_mobile'		=> empty($shopkeeper_mobile) ? '' : $shopkeeper_mobile,
-    	  		'seller_logo'			=> RC_Upload::upload_url(RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_logo')->pluck('value')),
-    	  		'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->pluck('cat_name'),
-    	  		'seller_telephone'		=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value'),
+    	  		'seller_logo'			=> RC_Upload::upload_url(RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_logo')->value('value')),
+    	  		'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->value('cat_name'),
+    	  		'seller_telephone'		=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->value('value'),
     	  		'seller_province'		=> ecjia_region::getRegionName($info['province']),
     	  		'seller_city'			=> ecjia_region::getRegionName($info['city']),
 		        'seller_district'		=> ecjia_region::getRegionName($info['district']),
 				'seller_street'			=> ecjia_region::getRegionName($info['street']),
     	  		'seller_address'		=> $info['address'],
 				'validated_status'		=> $info['identity_status'],
-    	  		'seller_description'	=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_description')->pluck('value'),
-				'seller_notice'			=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_notice')->pluck('value'),
+    	  		'seller_description'	=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_description')->value('value'),
+				'seller_notice'			=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_notice')->value('value'),
 			    'seller_keyword'        => $info['shop_keyword'],
 				'trade_time'			=> $shop_trade_time,
 			    'manage_mode'           => $info['manage_mode'],//是否自营

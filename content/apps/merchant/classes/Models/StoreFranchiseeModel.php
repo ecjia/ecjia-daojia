@@ -158,7 +158,7 @@ class StoreFranchiseeModel extends Model
 
     protected function mutateAttributeByMerchantConfig($key, $value)
     {
-        return $this->options->where('code', $key)->pluck('value')->shift();
+        return $this->options->where('code', $key)->value('value')->shift();
     }
 
 

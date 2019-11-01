@@ -34,7 +34,7 @@ class StaffUserDefaultAllotPurview implements UserAllotPurview
     
     public function get()
     {
-        return RC_DB::table('staff_user')->where('store_id', $this->storeid)->where('user_id', $this->userid)->pluck('action_list');
+        return RC_DB::table('staff_user')->where('store_id', $this->storeid)->where('user_id', $this->userid)->value('action_list');
     }
     
 }

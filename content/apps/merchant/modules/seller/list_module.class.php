@@ -133,8 +133,8 @@ class seller_list_module extends api_front implements api_interface {
 				
 				foreach ($store_data['seller_list'] as $key => $row) {
 					//打烊时间处理
-					$shop_trade_time =  RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
-					$shop_close		 = RC_DB::table('store_franchisee')->where('store_id', $row['id'])->pluck('shop_close');
+					$shop_trade_time =  RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->value('value');
+					$shop_close		 = RC_DB::table('store_franchisee')->where('store_id', $row['id'])->value('shop_close');
 					$shop_closed = get_shop_close($shop_close, $shop_trade_time);
 					//关注店铺人数
 					$follower = RC_DB::table('collect_store')->where('store_id', $row['id'])->count();
@@ -352,8 +352,8 @@ class seller_list_module extends api_front implements api_interface {
 				
 				foreach ($store_data['seller_list'] as $key => $row) {
 					//打烊时间处理
-					$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
-					$shop_close		 = RC_DB::table('store_franchisee')->where('store_id', $row['id'])->pluck('shop_close');
+					$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->value('value');
+					$shop_close		 = RC_DB::table('store_franchisee')->where('store_id', $row['id'])->value('shop_close');
 					$shop_closed 	 = get_shop_close($shop_close, $shop_trade_time);
 					
 					//关注店铺人数

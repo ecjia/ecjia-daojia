@@ -174,7 +174,7 @@ class merchant_config_module extends api_front implements api_interface {
 		/*营业时间处理*/
 		$info['trade_time']    = get_store_trade_time($seller_id);
 		//是否开启闪惠功能
-		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $seller_id)->where('code', 'quickpay_enabled')->pluck('value');
+		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $seller_id)->where('code', 'quickpay_enabled')->value('value');
 		/*店铺小程序二维码*/
 		$seller_weapp_qrcode  = RC_Uri::url('weapp/wxacode/init', array('storeid' => $info['store_id']));
 		
