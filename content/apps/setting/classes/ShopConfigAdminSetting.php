@@ -200,7 +200,7 @@ class ShopConfigAdminSetting extends RC_Object
     
     protected function get_parent_id($code)
     {
-        $id = RC_DB::table('shop_config')->where('parent_id', 0)->where('type', 'group')->where('code', $code)->pluck('id');
+        $id = RC_DB::table('shop_config')->where('parent_id', 0)->where('type', 'group')->where('code', $code)->value('id');
         return $id;
     }
 
