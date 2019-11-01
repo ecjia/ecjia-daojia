@@ -521,7 +521,7 @@ class admin extends ecjia_admin
                 if (!empty($val['apply_time'])) {
                     $val['formated_apply_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['apply_time']);
                 }
-                $val['category_name'] = RC_DB::table('store_category')->where('cat_id', $val['cat_id'])->pluck('cat_name');
+                $val['category_name'] = RC_DB::table('store_category')->where('cat_id', $val['cat_id'])->value('cat_name');
 
                 $data[] = $val;
             }
