@@ -266,7 +266,7 @@ class merchant extends ecjia_merchant
             $data['identity_pic_back']       = !empty($data['identity_pic_back']) ? RC_Upload::upload_url($data['identity_pic_back']) : '';
             $data['personhand_identity_pic'] = !empty($data['personhand_identity_pic']) ? RC_Upload::upload_url($data['personhand_identity_pic']) : '';
             $data['business_licence_pic']    = !empty($data['business_licence_pic']) ? RC_Upload::upload_url($data['business_licence_pic']) : '';
-            $data['cat_name']                = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->pluck('cat_name');
+            $data['cat_name']                = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->value('cat_name');
 
             if (!empty($check_log_list)) {
                 foreach ($check_log_list as $k => $v) {

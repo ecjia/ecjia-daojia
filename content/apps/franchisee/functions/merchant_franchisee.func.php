@@ -96,8 +96,8 @@ function add_check_log($data, $store_info = array(), $insert_id = 0) {
         foreach ($edit_fields as $field_key => $field_name) {
             if (trim($store_info[$field_key]) != trim($data[$field_key])) {
                 if ($field_key == 'cat_id') {
-                    $store_info[$field_key] = RC_DB::table('store_category')->where('cat_id', $store_info[$field_key])->pluck('cat_name');
-                    $data[$field_key]       = RC_DB::table('store_category')->where('cat_id', $data[$field_key])->pluck('cat_name');
+                    $store_info[$field_key] = RC_DB::table('store_category')->where('cat_id', $store_info[$field_key])->value('cat_name');
+                    $data[$field_key]       = RC_DB::table('store_category')->where('cat_id', $data[$field_key])->value('cat_name');
                 } else if ($field_key == 'identity_type') {
                     $store_info[$field_key] = $store_info[$field_key] == 1  ? __('身份证', 'franchisee') : ($store_info[$field_key] == 2 ? __('护照', 'franchisee') : __('港澳身份证', 'franchisee'));
                     $data[$field_key]       = $data[$field_key] == 1        ? __('身份证', 'franchisee') : ($data[$field_key] == 2       ? __('护照', 'franchisee') : __('港澳身份证', 'franchisee'));
