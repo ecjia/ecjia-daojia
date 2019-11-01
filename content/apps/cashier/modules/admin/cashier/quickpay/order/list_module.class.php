@@ -135,9 +135,9 @@ class admin_cashier_quickpay_order_list_module extends api_admin implements api_
 			->where('order_id', $order['order_id'])
 			->where('order_type', 'quickpay')
 			->where('store_id', $order['store_id'])
-			->where('action', 'receipt')->pluck('staff_id');
+			->where('action', 'receipt')->value('staff_id');
 			if ($staff_id) {
-				$cashier_name = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('name');
+				$cashier_name = RC_DB::table('staff_user')->where('user_id', $staff_id)->value('name');
 			}
 		}
 		return $cashier_name;

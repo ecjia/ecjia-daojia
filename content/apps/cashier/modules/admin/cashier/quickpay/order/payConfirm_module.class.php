@@ -132,7 +132,7 @@ class admin_cashier_quickpay_order_payConfirm_module extends api_admin implement
 				->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
 				->where(RC_DB::raw('cr.order_type'), 'quickpay')
 				->where(RC_DB::raw('cr.action'), 'receipt')
-				->pluck('name');
+				->value('name');
 		
 			$user_info = [];
 			//有没用户

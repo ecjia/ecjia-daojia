@@ -272,7 +272,7 @@ class mh_cashier_device extends ecjia_merchant {
 		$this->admin_priv('mh_cashier_device_delete', ecjia::MSGTYPE_JSON);
 	
 		$id = intval($_GET['id']);
-		$device_name = RC_DB::table('cashier_device')->where('id', $id)->pluck('device_name');
+		$device_name = RC_DB::table('cashier_device')->where('id', $id)->value('device_name');
 	
 		RC_DB::table('cashier_device')->where('id', $id)->where('store_id', $_SESSION['store_id'])->delete();
 	

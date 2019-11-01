@@ -89,7 +89,7 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
 		//现金支付的订单，只支持退现金
 		$pay_code = '';
 		if ($order_info['pay_id'] > 0) {
-			$pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
+			$pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->value('pay_code');
 		}
 		if (!empty($pay_code) && $pay_code == 'pay_cash') {
 			if (($refund_way == 'original') || ($refund_way == 'balance')) {
@@ -348,7 +348,7 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
     private function _updateOrderStatus($refund_id = 0)
     {
         //普通订单状态变动日志表
-        $order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('order_id');
+        $order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->value('order_id');
         $refund_info =$this->get_refund_info($refund_id);
         $back_money_total = $refund_info['surplus'] + $refund_info['money_paid'];
         OrderStatusLog::refund_payrecord(array('order_id' => $order_id, 'back_money' => $back_money_total));

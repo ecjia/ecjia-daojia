@@ -747,7 +747,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		$this->admin_priv('mh_bulk_goods_update', ecjia::MSGTYPE_JSON);
 	
 		$goods_id = intval($_GET['id']);
-		$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_name');
+		$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_name');
 	
 		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update(array('is_delete' => 1));
 	

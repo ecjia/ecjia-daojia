@@ -311,12 +311,12 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 			$addgoods['weight'] 	= $bulkGoodsResult['weight'];
 		}
 			
-		$products_goods	  = RC_DB::table('products')->where('product_sn', trim($addgoods['goods_sn']))->first();
+		$products_goods	  = RC_DB::table('products')->where('product_sn', trim($addgoods['goods_sn']))->orWhere('product_bar_code', $addgoods['goods_sn'])->first();
 		if (!empty($products_goods)) {
 			$goods_spec = explode('|', $products_goods['goods_attr']);
 			$goods = RC_DB::table('goods')->where('goods_id', $products_goods['goods_id'])->where('store_id', $store_id)->where('is_on_sale', 1)->where('is_delete', 0)->first();
 		} else {
-			$goods = RC_DB::table('goods')->where('goods_sn', trim($addgoods['goods_sn']))->where('store_id', $store_id)->where('is_on_sale', 1)->where('is_delete', 0)->first();
+			$goods = RC_DB::table('goods')->where('goods_sn', trim($addgoods['goods_sn']))->orWhere('goods_barcode', $addgoods['goods_sn'])->where('store_id', $store_id)->where('is_on_sale', 1)->where('is_delete', 0)->first();
 		}
 		if (empty($goods)) {
 			return new ecjia_error('addgoods_error', __('该商品不存在或已下架', 'cashier'));

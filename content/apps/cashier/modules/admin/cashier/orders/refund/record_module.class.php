@@ -92,7 +92,7 @@ class admin_cashier_orders_refund_record_module extends api_admin implements api
 				$total_refund_amount = $val['surplus'] + $val['money_paid'];
 				//退款打款操作员
 				if ($val['service_status_code'] == 'refunded') {
-					$cashier_name = RC_DB::table('refund_payrecord')->where('refund_id', $val['refund_id'])->pluck('action_user_name');
+					$cashier_name = RC_DB::table('refund_payrecord')->where('refund_id', $val['refund_id'])->value('action_user_name');
 				} else {
 					$cashier_name = '';
 				}

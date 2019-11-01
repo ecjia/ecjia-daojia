@@ -93,8 +93,8 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
 		
 		
 		
-		$store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
-		$shop_logo = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_logo')->pluck('value');
+		$store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->value('merchants_name');
+		$shop_logo = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_logo')->value('value');
 		
 		$arr = array();
 		$arr = array(
@@ -176,9 +176,9 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
 									->where('order_id', $order['order_id'])
 									->where('order_type', 'quickpay')
 									->where('store_id', $order['store_id'])
-									->where('action', 'receipt')->pluck('staff_id');
+									->where('action', 'receipt')->value('staff_id');
 			if ($staff_id) {
-				$cashier_name = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('name');
+				$cashier_name = RC_DB::table('staff_user')->where('user_id', $staff_id)->value('name');
 			}
 		}	
 		
