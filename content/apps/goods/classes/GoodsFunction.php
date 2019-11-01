@@ -380,11 +380,11 @@ class GoodsFunction
     		$review_status = 5;
     	} else {
     		if (isset($store_id) && $store_id > 0) {
-    			$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('manage_mode');
+    			$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('manage_mode');
     			if ($manage_mode == 'self') {
     				$review_status = 5;
     			}
-    			$shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->pluck('value');
+    			$shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->value('value');
     			//单个商店开启了审核商品 则默认为未审核
     			if ($shop_review_goods == 1) {
     				$review_status = 1;
@@ -428,9 +428,9 @@ class GoodsFunction
     public static function get_merchant_cat_template($type, $cat_id, $store_id) {
     	$template_id = 0;
     	if ($type === 'parameter') {
-    		$template_id = RC_DB::table('merchants_category')->where('store_id', $store_id)->where('cat_id', $cat_id)->pluck('parameter_id');
+    		$template_id = RC_DB::table('merchants_category')->where('store_id', $store_id)->where('cat_id', $cat_id)->value('parameter_id');
     	} else {
-    		$template_id = RC_DB::table('merchants_category')->where('store_id', $store_id)->where('cat_id', $cat_id)->pluck('specification_id');
+    		$template_id = RC_DB::table('merchants_category')->where('store_id', $store_id)->where('cat_id', $cat_id)->value('specification_id');
     	}
     	if (empty($template_id)) {
     		$category_info = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->first();
@@ -447,9 +447,9 @@ class GoodsFunction
     public static function get_admin_cat_template($type, $cat_id) {
     	$template_id = 0;
     	if ($type === 'parameter') {
-    		$template_id = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('parameter_id');
+    		$template_id = RC_DB::table('category')->where('cat_id', $cat_id)->value('parameter_id');
     	} else {
-    		$template_id = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('specification_id');
+    		$template_id = RC_DB::table('category')->where('cat_id', $cat_id)->value('specification_id');
     	}
     	if (empty($template_id)) {
     		$category_info = RC_DB::table('category')->where('cat_id', $cat_id)->first();

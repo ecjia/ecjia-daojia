@@ -190,7 +190,7 @@ class goods_detail_module extends api_front implements api_interface {
         		$user_rank_info = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
         	}
         	
-        	$user_member_price = RC_DB::table('member_price')->where('goods_id', $goods_id)->where('user_rank', $user_rank_info['rank_id'])->pluck('user_price');
+        	$user_member_price = RC_DB::table('member_price')->where('goods_id', $goods_id)->where('user_rank', $user_rank_info['rank_id'])->value('user_price');
         	
         	if ($user_member_price > 0) {
         		$data['shop_price'] = ecjia_price_format($user_member_price, false);

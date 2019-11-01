@@ -292,7 +292,7 @@ class admin_category extends ecjia_admin {
 		if ($cat_info['filter_attr']) {
 			$filter_attr = explode(",", $cat_info['filter_attr']);  //把多个筛选属性放到数组中
 			foreach ($filter_attr AS $k => $v) {
-				$attr_cat_id = RC_DB::table('attribute')->where('attr_id', intval($v))->pluck('cat_id');
+				$attr_cat_id = RC_DB::table('attribute')->where('attr_id', intval($v))->value('cat_id');
 
 				$filter_attr_list[$k]['goods_type_list'] = goods_type_list($attr_cat_id);  //取得每个属性的商品类型
 				$filter_attr_list[$k]['filter_attr'] = $v;
@@ -442,7 +442,7 @@ class admin_category extends ecjia_admin {
 				return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			$cat['category_img'] = $upload->get_position($image_info);
-			$logo = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('category_img');
+			$logo = RC_DB::table('category')->where('cat_id', $cat_id)->value('category_img');
 				
 			if (!empty($logo)) {
 				$disk = RC_Filesystem::disk();
@@ -575,8 +575,8 @@ class admin_category extends ecjia_admin {
 		/* 更新商品分类 */
 		$data = array('cat_id' => $target_cat_id);
 		
-		$new_cat_name = RC_DB::table('category')->where('cat_id', $target_cat_id)->pluck('cat_name');
-		$old_cat_name = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('cat_name');
+		$new_cat_name = RC_DB::table('category')->where('cat_id', $target_cat_id)->value('cat_name');
+		$old_cat_name = RC_DB::table('category')->where('cat_id', $cat_id)->value('cat_name');
 		
 		RC_DB::table('goods')->where('cat_id', $cat_id)->update($data);
 		
@@ -805,7 +805,7 @@ class admin_category extends ecjia_admin {
 	    if (empty($category_id)) {
 	        return false;
 	    }
-        $ad_position_id = RC_DB::table('term_meta')->where('object_type', 'ecjia.goods')->where('object_group', 'category')->where('object_id', $category_id)->where('meta_key', 'category_ad')->pluck('meta_value');
+        $ad_position_id = RC_DB::table('term_meta')->where('object_type', 'ecjia.goods')->where('object_group', 'category')->where('object_id', $category_id)->where('meta_key', 'category_ad')->value('meta_value');
         if ($ad_position_id) {
             $ad_info = RC_DB::table('ad_position')->where('position_id', $ad_position_id)->first();
             return $ad_info;

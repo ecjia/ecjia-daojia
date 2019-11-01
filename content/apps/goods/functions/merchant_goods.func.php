@@ -434,13 +434,13 @@ function get_merchant_review_status() {
         $review_status = 5;
     } else {
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-            $manage_mode = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('manage_mode');
+            $manage_mode = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->value('manage_mode');
             if ($manage_mode == 'self') {
                 //自营无需审核
                 $review_status = 5;
             } else {
                 $review_status = 1;
-                $shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_review_goods')->pluck('value');
+                $shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_review_goods')->value('value');
                 //单个商店开启了审核商品 则默认为未审核
                 if ($shop_review_goods != 1) {
                     $review_status = 5;

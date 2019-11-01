@@ -93,7 +93,7 @@ class admin_merchant_goods_product_add_module extends api_admin implements api_i
     	$product_id = Ecjia\App\Goods\Models\ProductsModel::insertGetId($data);
     	
     	Ecjia\App\Goods\Models\ProductsModel::where('product_id', $product_id)->update(array('product_sn' => $goods['goods_sn'] . "g_p" . $product_id));
-    	$product_sn = Ecjia\App\Goods\Models\ProductsModel::where('product_id', $product_id)->pluck('product_sn');
+    	$product_sn = Ecjia\App\Goods\Models\ProductsModel::where('product_id', $product_id)->value('product_sn');
     	
     	if ($product_sn) {
     		return [];

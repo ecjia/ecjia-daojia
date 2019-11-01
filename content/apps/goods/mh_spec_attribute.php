@@ -271,7 +271,7 @@ class mh_spec_attribute extends ecjia_merchant {
 		$id = intval($_POST['pk']);
 		$val = trim($_POST['value']);
 	
-		$cat_id = RC_DB::table('attribute')->where('attr_id', $id)->pluck('cat_id');
+		$cat_id = RC_DB::table('attribute')->where('attr_id', $id)->value('cat_id');
 		
 		if (!empty($val)) {
 			if (RC_DB::table('attribute')->where('attr_name', $val)->where('cat_id', $cat_id)->where('attr_id', '!=', $id)->count() != 0) {	

@@ -94,7 +94,7 @@ class goods_list {
 					$keywords .= "(goods_name LIKE '%$val%' OR goods_sn LIKE '%$val%' OR keywords LIKE '%$val%')";
 					//插入keywords表数据 will.chen
 					//$count = $db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->get_field('count');
-					$count = RC_DB::table('keywords')->where('date', RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $val)))->pluck('count');
+					$count = RC_DB::table('keywords')->where('date', RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $val)))->value('count');
 					
 					if (!empty($count) && $count > 0) {
 					    //$db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->update(array('count' => $count + 1));
@@ -757,7 +757,7 @@ class goods_list {
 	public static function get_store_logo($store_id = 0) {
 		$store_logo = '';
 		if ($store_id) {
-			$store_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->pluck('value');
+			$store_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->value('value');
 			if ($store_logo) {
 				$store_logo = RC_Upload::upload_url($store_logo);
 			} 

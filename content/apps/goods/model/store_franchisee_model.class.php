@@ -54,7 +54,7 @@ class store_franchisee_model extends Component_Model_Model {
 	}
 	
 	public function get_store_name_by_id($store_id = 0) {
-	    return RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+	    return RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('merchants_name');
 	}
 }
 

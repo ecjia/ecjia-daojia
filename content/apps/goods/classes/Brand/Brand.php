@@ -127,7 +127,7 @@ class Brand
 	 * @return	string	字段信息
 	 */
 	public function brand_field($brand_id, $field) {
-		return RC_DB::table('brand')->where('brand_id', $brand_id)->pluck($field);
+		return RC_DB::table('brand')->where('brand_id', $brand_id)->value($field);
 	}
 	
 

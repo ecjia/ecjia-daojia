@@ -1082,7 +1082,7 @@ function group_buy_stat($group_buy_id, $deposit) {
         	$db_goods_activity->where('store_id', $_SESSION['store_id']);
         }
         
-        $group_buy_goods_id = $db_goods_activity->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->pluck('goods_id');
+        $group_buy_goods_id = $db_goods_activity->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->value('goods_id');
 
         /* 取得总订单数和总商品数 */
         $stat = RC_DB::table('order_info as o')->leftJoin('order_goods as g', RC_DB::raw('o.order_id'), '=', RC_DB::raw('g.order_id'))

@@ -87,7 +87,7 @@ class admin_goods_gallery_sort_module extends api_admin implements api_interface
 		
 		$i = 1;
 		foreach ($gallery_sort as $k => $img_id) {
-		    $img_original = RC_DB::table('goods_gallery')->where('img_id', $img_id)->pluck('img_original');
+		    $img_original = RC_DB::table('goods_gallery')->where('img_id', $img_id)->value('img_original');
 		    $img_original = strrpos($img_original, '?') > 0 ? substr($img_original, 0, strrpos($img_original, '?')) . '?' . $i : $img_original. '?' . $i;
 		    $i++;
 		    RC_DB::table('goods_gallery')->where('img_id', $img_id)->update(array('img_original' => $img_original));

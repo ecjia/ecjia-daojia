@@ -280,7 +280,7 @@ function get_documentTitle_insert_update($dt_list, $cat_id, $dt_id = array()) {
 	for ($i=0; $i<count($dt_list); $i++) {
 		$dt_list[$i] = !empty($dt_list[$i]) ? trim($dt_list[$i]) : '';
 		if (!empty($dt_id[$i])) {
-			$catId = RC_DB::table('merchants_documenttitle')->where('dt_id', $dt_id[$i])->pluck('cat_id');
+			$catId = RC_DB::table('merchants_documenttitle')->where('dt_id', $dt_id[$i])->value('cat_id');
 		} else {
 			$catId = 0;
 		}

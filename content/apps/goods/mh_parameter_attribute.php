@@ -82,11 +82,11 @@ class mh_parameter_attribute extends ecjia_merchant {
 		$cat_id	= isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
 		$this->assign('cat_id', $cat_id);
 
-		$goods_type_info = RC_DB::TABLE('goods_type')->where('cat_id', $cat_id)->select('cat_name', 'store_id')->first();
+		$goods_type_info = RC_DB::table('goods_type')->where('cat_id', $cat_id)->select('cat_name', 'store_id')->first();
 		$this->assign('cat_name', $goods_type_info['cat_name']);
 		$this->assign('store_id', $goods_type_info['store_id']);
 	
-		$cat_name = RC_DB::TABLE('goods_type')->where('cat_id', $cat_id)->pluck('cat_name');
+		$cat_name = RC_DB::table('goods_type')->where('cat_id', $cat_id)->value('cat_name');
 		if($goods_type_info['store_id']) {
 			$this->assign('action_link', array('href' => RC_Uri::url('goods/mh_parameter_attribute/add', array('cat_id' => $cat_id)), 'text' => __('添加参数', 'goods')));
 		}
@@ -300,7 +300,7 @@ class mh_parameter_attribute extends ecjia_merchant {
 		$id = intval($_POST['pk']);
 		$val = trim($_POST['value']);
 	
-		$cat_id = RC_DB::table('attribute')->where('attr_id', $id)->pluck('cat_id');
+		$cat_id = RC_DB::table('attribute')->where('attr_id', $id)->value('cat_id');
 		
 		if (!empty($val)) {
 			if (RC_DB::table('attribute')->where('attr_name', $val)->where('cat_id', $cat_id)->where('attr_id', '!=', $id)->count() != 0) {	

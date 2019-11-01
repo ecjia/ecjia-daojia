@@ -2126,7 +2126,7 @@ class admin extends ecjia_admin {
 				return $this->showmessage(__('您输入的货号已存在，请换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
-		$query = RC_DB::table('products')->where('product_sn', $goods_sn)->pluck('goods_id');
+		$query = RC_DB::table('products')->where('product_sn', $goods_sn)->value('goods_id');
 
 		if ($query > 0) {
 			return $this->showmessage(__('您输入的货号已存在，请换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -2157,14 +2157,14 @@ class admin extends ecjia_admin {
 		$goods_id = intval($_REQUEST['goods_id']);
 		$goods_sn = htmlspecialchars(trim($_REQUEST['goods_sn']));
 
-		$query_goods_sn = RC_DB::table('goods')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->pluck('goods_id');
+		$query_goods_sn = RC_DB::table('goods')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->value('goods_id');
 		
 		if ($query_goods_sn) {
 			return $this->showmessage(__('您输入的货号已存在，请换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 检查是否重复 */
 		if (!empty($goods_sn)) {
-			$query = RC_DB::table('products')->where('product_sn', $goods_sn)->pluck('goods_id');
+			$query = RC_DB::table('products')->where('product_sn', $goods_sn)->value('goods_id');
 			if ($query) {
 				return $this->showmessage(__('您输入的货号已存在，请换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
@@ -2349,7 +2349,7 @@ class admin extends ecjia_admin {
         $this->admin_priv('goods_update', ecjia::MSGTYPE_JSON);
 
     	$goods_id = intval($_GET['id']);
-    	$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_name');
+    	$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_name');
 
     	RC_DB::table('goods')->where('goods_id', $goods_id)->update(array('is_delete' => 1));
     	/* 释放app缓存*/
@@ -2380,7 +2380,7 @@ class admin extends ecjia_admin {
 			'is_delete' => 0,
 			'add_time' => RC_Time::gmtime()
 		);
-		$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_name');
+		$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_name');
 		RC_DB::table('goods')->where('goods_id', $goods_id)->update($data);
 		
 		/* 释放app缓存*/
@@ -2409,7 +2409,7 @@ class admin extends ecjia_admin {
 		/* 取得要操作的商品编号 */
 		$goods_id = !empty($_GET['id']) ? $_GET['id'] : 0;
 		/* 取得商品信息 */
-		$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_name');
+		$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->value('goods_name');
 		
 		$goods_id = explode(',', $goods_id);
 		delete_goods($goods_id);
@@ -2976,7 +2976,7 @@ class admin extends ecjia_admin {
 		if ($goods['goods_type'] > 0) {
 			$this->assign('has_goods_type', 1);
 			$this->assign('goods_type', $goods['goods_type']);
-			$goods_type_name = RC_DB::table('goods_type')->where('cat_id', $goods['goods_type'])->pluck('cat_name');
+			$goods_type_name = RC_DB::table('goods_type')->where('cat_id', $goods['goods_type'])->value('cat_name');
 			$this->assign('goods_type_name', $goods_type_name);
 		}
 		

@@ -142,7 +142,7 @@ class GoodsKeywords
      */
     public function saveSearchLog()
     {
-        $count = \RC_DB::table('keywords')->where('date', \RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $this->keyword_input)))->pluck('count');
+        $count = \RC_DB::table('keywords')->where('date', \RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $this->keyword_input)))->value('count');
 
         if (!empty($count) && $count > 0) {
             \RC_DB::table('keywords')->where('date', \RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $this->keyword_input)))->update(array('count' => $count + 1));

@@ -219,7 +219,7 @@ class admin_parameter extends ecjia_admin {
 		$this->admin_priv('goods_parameter_attr_delete');
 		
 		$id = intval($_GET['id']);
-		$name = RC_DB::table('goods_type')->where('cat_id', $id)->pluck('cat_name');
+		$name = RC_DB::table('goods_type')->where('cat_id', $id)->value('cat_name');
 		
 		if (RC_DB::table('goods_type')->where('cat_id', $id)->delete()) {
 			/* 清除该类型下的所有属性 */

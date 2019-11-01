@@ -81,8 +81,8 @@ class admin_goods_move_category_module extends api_admin implements api_interfac
     	
     	/* 更新商品分类 */
     	$data = array('merchant_cat_id' => $target_category_id);
-    	$new_cat_name = RC_DB::table('merchants_category')->where('cat_id', $target_category_id)->pluck('cat_name');
-    	$old_cat_name = RC_DB::table('merchants_category')->where('cat_id', $category_id)->pluck('cat_name');
+    	$new_cat_name = RC_DB::table('merchants_category')->where('cat_id', $target_category_id)->value('cat_name');
+    	$old_cat_name = RC_DB::table('merchants_category')->where('cat_id', $category_id)->value('cat_name');
     	$query = RC_Model::model('goods/goods_model')->where(array('goods_id' => $goods_id))->update($data);
     	
         $action = sprintf(__('%s下商品id为：%s转移到%s', 'goods'), $old_cat_name, implode(',', $goods_ids), $new_cat_name);

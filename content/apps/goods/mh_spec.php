@@ -220,7 +220,7 @@ class mh_spec extends ecjia_merchant {
 		$this->admin_priv('goods_spec_attr_delete');
 		
 		$cat_id = intval($_GET['id']);
-		$cat_name = RC_DB::table('goods_type')->where('cat_id', $cat_id)->pluck('cat_name');
+		$cat_name = RC_DB::table('goods_type')->where('cat_id', $cat_id)->value('cat_name');
 
 		if (RC_DB::table('goods_type')->where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->delete()) {
 			

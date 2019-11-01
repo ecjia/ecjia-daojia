@@ -219,7 +219,7 @@ class MerchantGoodsAttr {
 	 * @return  array
 	 */
 	public static function get_attr_groups($cat_id) {
-		$data = RC_DB::table('goods_type')->where('cat_id', $cat_id)->pluck('attr_group');
+		$data = RC_DB::table('goods_type')->where('cat_id', $cat_id)->value('attr_group');
 		$grp = str_replace("\r", '', $data);
 		if ($grp) {
 			return explode("\n", $grp);
@@ -340,9 +340,9 @@ class MerchantGoodsAttr {
 	public static function get_cat_template($type, $cat_id) {
 		$template_id = 0;
 		if ($type === 'parameter') {
-			$template_id = RC_DB::table('merchants_category')->where('store_id', $_SESSION['store_id'])->where('cat_id', $cat_id)->pluck('parameter_id');
+			$template_id = RC_DB::table('merchants_category')->where('store_id', $_SESSION['store_id'])->where('cat_id', $cat_id)->value('parameter_id');
 		} else {
-			$template_id = RC_DB::table('merchants_category')->where('store_id', $_SESSION['store_id'])->where('cat_id', $cat_id)->pluck('specification_id');
+			$template_id = RC_DB::table('merchants_category')->where('store_id', $_SESSION['store_id'])->where('cat_id', $cat_id)->value('specification_id');
 		}
 		if (empty($template_id)) {
 			$category_info = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->first();
@@ -510,7 +510,7 @@ class MerchantGoodsAttr {
 		if (!empty ($product_id)) {
 			$db_products->where('product_id', '!=', $product_id);
 		}
-		$res = $db_products->pluck('product_id');
+		$res = $db_products->value('product_id');
 		if (empty ($res)) {
 			return false; // 不重复
 		} else {
@@ -571,7 +571,7 @@ class MerchantGoodsAttr {
 				if (is_array($_goods_attr_array)) {
 					$_temp = [];
 					foreach ($_goods_attr_array as $_goods_attr_value) {
-						$attr_id = RC_DB::table('goods_attr')->where('goods_attr_id', $_goods_attr_value)->pluck('attr_id');
+						$attr_id = RC_DB::table('goods_attr')->where('goods_attr_id', $_goods_attr_value)->value('attr_id');
 						$_temp[$attr_id] = $goods_attr[$_goods_attr_value];
 					}
 					ksort($_temp);

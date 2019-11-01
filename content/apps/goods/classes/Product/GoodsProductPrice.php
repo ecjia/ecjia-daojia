@@ -150,7 +150,7 @@ class GoodsProductPrice
         $market_price = $this->goods_info->market_price;
 
     	//商品会员等级价格
-    	$user_price = \RC_DB::table('member_price')->where('goods_id', $this->goods_id)->where('user_rank', $this->getUserRank())->pluck('user_price');
+    	$user_price = \RC_DB::table('member_price')->where('goods_id', $this->goods_id)->where('user_rank', $this->getUserRank())->value('user_price');
         
     	$shop_price = $user_price > 0 ? $user_price : $this->goods_info->shop_price*$this->user_rank_discount;
 

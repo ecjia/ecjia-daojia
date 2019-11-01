@@ -365,8 +365,8 @@ class mh_category extends ecjia_merchant
         /* 更新商品分类 */
         $data = array('merchant_cat_id' => $target_cat_id);
 
-        $new_cat_name = RC_DB::table('merchants_category')->where('cat_id', $target_cat_id)->pluck('cat_name');
-        $old_cat_name = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->pluck('cat_name');
+        $new_cat_name = RC_DB::table('merchants_category')->where('cat_id', $target_cat_id)->value('cat_name');
+        $old_cat_name = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->value('cat_name');
 
         RC_DB::table('goods')->where('merchant_cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->update($data);
 
@@ -440,7 +440,7 @@ class mh_category extends ecjia_merchant
 
         $id   = intval($_POST['id']);
         $val  = intval($_POST['val']);
-        $name = RC_DB::table('merchants_category')->where('cat_id', $id)->pluck('cat_name');
+        $name = RC_DB::table('merchants_category')->where('cat_id', $id)->value('cat_name');
 
         if (merchant_cat_update($id, array('is_show' => $val))) {
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
@@ -458,7 +458,7 @@ class mh_category extends ecjia_merchant
 
         $cat_id = intval($_GET['id']);
 
-        $cat_name  = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->pluck('cat_name');
+        $cat_name  = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->value('cat_name');
         $cat_count = RC_DB::table('merchants_category')->where('parent_id', $cat_id)->count();
 
         $goods_count = RC_DB::table('goods')->where('merchant_cat_id', $cat_id)->where('is_delete', 0)->count();
@@ -561,7 +561,7 @@ class mh_category extends ecjia_merchant
             ->where('object_group', 'merchants_category')
             ->where('object_id', $category_id)
             ->where('meta_key', 'category_ad')
-            ->pluck('meta_value');
+            ->value('meta_value');
         if ($ad_position_id) {
             $ad_info = RC_DB::table('merchants_ad_position')->where('position_id', $ad_position_id)->first();
             return $ad_info;

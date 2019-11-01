@@ -818,7 +818,7 @@ function list_link($extension_code = '') {
  * @return  array
  */
 function get_attr_groups($cat_id) {
-	$data = RC_DB::table('goods_type')->where('cat_id', $cat_id)->pluck('attr_group');
+	$data = RC_DB::table('goods_type')->where('cat_id', $cat_id)->value('attr_group');
 	$grp = str_replace("\r", '', $data);
 	if ($grp) {
 		return explode("\n", $grp);
@@ -964,7 +964,7 @@ function handle_goods_attr($goods_id, $id_list, $is_spec_list, $value_price_list
 			}
 
 			// 插入或更新记录
-			$result_id = RC_DB::table('goods_attr')->where('goods_id', $goods_id)->where('attr_id', $id)->where('attr_value', $value)->pluck('goods_attr_id');
+			$result_id = RC_DB::table('goods_attr')->where('goods_id', $goods_id)->where('attr_id', $id)->where('attr_value', $value)->value('goods_attr_id');
 				
 			if (!empty ($result_id)) {
 				$data = array(
@@ -1004,7 +1004,7 @@ function check_product_sn_exist($product_sn, $product_id = 0) {
 		return true; // 重复
 	}
 
-	$query = RC_DB::table('goods')->where('goods_sn', $product_sn)->pluck('goods_id');
+	$query = RC_DB::table('goods')->where('goods_sn', $product_sn)->value('goods_id');
 	if ($query) {
 		return true; // 重复
 	}
@@ -1012,7 +1012,7 @@ function check_product_sn_exist($product_sn, $product_id = 0) {
 	if (!empty($product_id)) {
 		$db_product->where('product_id', '!=', $product_id);
 	}
-	$res = $db_product->pluck('product_id');
+	$res = $db_product->value('product_id');
 
 	if (empty ($res)) {
 		return false; // 不重复
@@ -1530,7 +1530,7 @@ function check_goods_attr_exist($goods_attr, $goods_id, $product_id = 0) {
 	if (!empty ($product_id)) {
 		$db_products->where('product_id', '!=', $product_id);
 	}
-	$res = $db_products->pluck('product_id');
+	$res = $db_products->value('product_id');
 	if (empty ($res)) {
 		return false; // 不重复
 	} else {
@@ -2012,11 +2012,11 @@ function get_review_status($store_id) {
         $review_status = 5;
     } else {
         if (isset($store_id) && $store_id > 0) {
-        	$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('manage_mode');
+        	$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('manage_mode');
         	if ($manage_mode == 'self') {
         		$review_status = 5;
         	}
-            $shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->pluck('value');
+            $shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->value('value');
             //单个商店开启了审核商品 则默认为未审核
             if ($shop_review_goods == 1) {
                 $review_status = 1;

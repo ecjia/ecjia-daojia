@@ -250,7 +250,7 @@ class admin_gallery extends ecjia_admin {
 		RC_DB::table('goods_gallery')->where('img_id', $img_id)->update(array('img_desc' => $val));
 		
 		/*释放商品相册缓存*/
-		$goods_id = RC_DB::table('goods_gallery')->where('img_id', $img_id)->pluck('goods_id');
+		$goods_id = RC_DB::table('goods_gallery')->where('img_id', $img_id)->value('goods_id');
 		$cache_goods_gallery_key = 'goods_gallery_'.$goods_id;
 		$cache_goods_gallery_id = sprintf('%X', crc32($cache_goods_gallery_key));
 		$orm_goods_gallery_db = RC_Model::model('goods/orm_goods_gallery_model');
@@ -275,7 +275,7 @@ class admin_gallery extends ecjia_admin {
 			$data = array('img_original' => $v['img_original']);
 			RC_DB::table('goods_gallery')->where('img_id', $v['img_id'])->update($data);
 			/*释放商品相册缓存*/
-			$goods_id = RC_DB::table('goods_gallery')->where('img_id', $v['img_id'])->pluck('goods_id');
+			$goods_id = RC_DB::table('goods_gallery')->where('img_id', $v['img_id'])->value('goods_id');
 			$cache_goods_gallery_key = 'goods_gallery_'.$goods_id;
 			$cache_goods_gallery_id = sprintf('%X', crc32($cache_goods_gallery_key));
 			$orm_goods_gallery_db = RC_Model::model('goods/orm_goods_gallery_model');
