@@ -630,7 +630,7 @@ class admin_config extends ecjia_admin {
 			
 			ecjia_config::instance()->write_config('mobile_app_preview', $mobile_app_preview);
 		} else {
-			$img_name = RC_DB::table('shop_config')->where('code', $code)->pluck('value');
+			$img_name = RC_DB::table('shop_config')->where('code', $code)->value('value');
 			$disk->delete(RC_Upload::upload_path() . $img_name);
 			ecjia_admin::admin_log('', 'edit', 'mobile_config');
 			ecjia_config::instance()->write_config($code, '');
