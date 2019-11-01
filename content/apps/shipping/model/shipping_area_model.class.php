@@ -150,7 +150,7 @@ class shipping_area_model extends Component_Model_Model {
 				$db_shipping_area->where($key, $val);
 			}
 		}
-		return $db_shipping_area->pluck($field);
+		return $db_shipping_area->value($field);
 	}
 	
 	public function shipping_area_remove($where) {

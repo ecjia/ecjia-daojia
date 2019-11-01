@@ -287,12 +287,12 @@ class shipping_method
 
     public function get_shipping_code($shipping_id)
     {
-        return RC_DB::table('shipping')->where('shipping_id', $shipping_id)->pluck('shipping_code');
+        return RC_DB::table('shipping')->where('shipping_id', $shipping_id)->value('shipping_code');
     }
 
     public function get_shipping_id($shipping_code)
     {
-        return RC_DB::table('shipping')->where('shipping_code', $shipping_code)->pluck('shipping_id');
+        return RC_DB::table('shipping')->where('shipping_code', $shipping_code)->value('shipping_id');
     }
 }
 

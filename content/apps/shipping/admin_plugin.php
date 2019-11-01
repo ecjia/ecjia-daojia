@@ -224,7 +224,7 @@ class admin_plugin extends ecjia_admin
         $data = array('enabled' => 0);
         RC_DB::table('shipping')->where('shipping_code', $code)->update($data);
 
-        $shipping_name = RC_DB::table('shipping')->where('shipping_code', $code)->pluck('shipping_name');
+        $shipping_name = RC_DB::table('shipping')->where('shipping_code', $code)->value('shipping_name');
 
         ecjia_admin::admin_log($shipping_name, 'stop', 'shipping');
         return $this->showmessage(__('插件', 'shipping') . ' <strong>' . __('已停用', 'shipping') . '</strong>', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('shipping/admin_plugin/init')));
@@ -241,7 +241,7 @@ class admin_plugin extends ecjia_admin
         $data = array('enabled' => 1);
         RC_DB::table('shipping')->where('shipping_code', $code)->update($data);
 
-        $shipping_name = RC_DB::table('shipping')->where('shipping_code', $code)->pluck('shipping_name');
+        $shipping_name = RC_DB::table('shipping')->where('shipping_code', $code)->value('shipping_name');
 
         ecjia_admin::admin_log($shipping_name, 'use', 'shipping');
         return $this->showmessage(__('插件', 'shipping') . ' <strong>' . __('已启用', 'shipping') . '</strong>', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('shipping/admin_plugin/init')));
@@ -262,7 +262,7 @@ class admin_plugin extends ecjia_admin
             return $this->showmessage(__('配送方式名称不能为空。', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             /* 检查名称是否重复 */
-            $old_name = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->pluck('shipping_name');
+            $old_name = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->value('shipping_name');
 
             /* 名称是否有修改 */
             if ($old_name == $shipping_name) {

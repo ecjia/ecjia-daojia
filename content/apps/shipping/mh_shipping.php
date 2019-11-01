@@ -529,7 +529,7 @@ class mh_shipping extends ecjia_merchant
 
         $info = RC_DB::table('shipping_area')->where('shipping_area_id', $shipping_area_id)->where('store_id', $_SESSION['store_id'])->first();
 
-        $shipping_name = RC_DB::table('shipping')->where('shipping_id', $info['shipping_id'])->pluck('shipping_name');
+        $shipping_name = RC_DB::table('shipping')->where('shipping_id', $info['shipping_id'])->value('shipping_name');
         
         RC_DB::table('shipping_area')->where('shipping_area_id', $shipping_area_id)->where('store_id', $_SESSION['store_id'])->delete();
         RC_DB::table('area_region')->where('shipping_area_id', $shipping_area_id)->delete();
@@ -741,7 +741,7 @@ class mh_shipping extends ecjia_merchant
         $express_info['region'] = $region['region'];
 
         if ($express_info['staff_id'] > 0) {
-            $express_info['staff_user'] = RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->pluck('name');
+            $express_info['staff_user'] = RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->value('name');
         }
 
         $staff_list = RC_DB::table('staff_user')
@@ -831,7 +831,7 @@ class mh_shipping extends ecjia_merchant
                                 $data[$k]['shipping_area'] = implode(' | ', $region_name);
                             }
                         }
-                        $name = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_name');
+                        $name = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->value('shipping_name');
                         if ($key != $count- 1) {
                         	$shipping_name .= $name.'、';
                         } else {

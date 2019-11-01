@@ -254,7 +254,7 @@ class admin_store_shipping extends ecjia_admin
     							$data[$k]['shipping_area'] = implode(' | ', $region_name);
     						}
     					}
-    					$name = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_name');
+    					$name = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->value('shipping_name');
     					if ($key != $count- 1) {
     						$shipping_name .= $name.'、';
     					} else {

@@ -159,7 +159,7 @@ class admin_express_order extends ecjia_admin
         $express_info['region'] = $region['region'];
 
         if ($express_info['staff_id'] > 0) {
-            $express_info['staff_user'] = RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->pluck('name');
+            $express_info['staff_user'] = RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->value('name');
         }
 
         $staff_list = RC_DB::table('staff_user')->get();
