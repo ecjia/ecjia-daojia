@@ -334,7 +334,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update', ecjia::MSGTYPE_JSON);
 		
 		$meta_id = !empty($_GET['meta_id']) ? intval($_GET['meta_id']) : 0;
-		$article_id = RC_DB::table('term_meta')->where('meta_id', $meta_id)->where('object_type', 'ecjia.article')->where('object_group', 'article')->pluck('object_id');
+		$article_id = RC_DB::table('term_meta')->where('meta_id', $meta_id)->where('object_type', 'ecjia.article')->where('object_group', 'article')->value('object_id');
 		
 		RC_DB::table('term_meta')->where('meta_id', $meta_id)->delete();
 		
@@ -836,7 +836,7 @@ class merchant extends ecjia_merchant {
 					
 					$data = array('cat_id' => $target_cat);
 					RC_DB::table('article')->whereIn('article_id', $article_ids)->where('store_id', $_SESSION['store_id'])->update($data);
-					$cat_name = RC_DB::table('article_cat')->where('cat_id', $target_cat)->pluck('cat_name');
+					$cat_name = RC_DB::table('article_cat')->where('cat_id', $target_cat)->value('cat_name');
 
 					foreach ($info as $v) {
 						/*释放文章缓存*/

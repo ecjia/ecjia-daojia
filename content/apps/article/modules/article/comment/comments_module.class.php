@@ -97,7 +97,7 @@ class article_comment_comments_module extends api_front implements api_interface
 				/*用户头像*/
 				$avatar_img = '';
 				if ($rows['user_id'] > 0) {
-					$avatar_img =  RC_DB::table('users')->where('user_id', $rows['user_id'])->pluck('avatar_img');
+					$avatar_img =  RC_DB::table('users')->where('user_id', $rows['user_id'])->value('avatar_img');
 				}
 				
 				$arr[] = array(

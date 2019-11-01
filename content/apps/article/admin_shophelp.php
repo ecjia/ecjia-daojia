@@ -117,7 +117,7 @@ class admin_shophelp extends ecjia_admin {
 		);
 		
 		$cat_id = intval($_GET['cat_id']);
-		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->value('cat_name');
         
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_name));
 		
@@ -138,7 +138,7 @@ class admin_shophelp extends ecjia_admin {
 		$this->admin_priv('shophelp_manage');
 		
 		$cat_id = intval($_GET['cat_id']);
-		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->value('cat_name');
 
 		$this->assign('cat_name', $cat_name);
 		$this->assign('ur_here', __('添加帮助文章', 'article'));
@@ -192,7 +192,7 @@ class admin_shophelp extends ecjia_admin {
 		$cache_id_list = sprintf('%X', crc32($cache_article_list_key));
 		$orm_article_db->delete_cache_item($cache_id_list);
 		
-		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->value('cat_name');
 		ecjia_admin::admin_log($title.'，'.__('所属帮助分类是', 'article').$cat_name, 'add', 'shophelp');
 		
 		$links[] = array('text' => __('返回帮助文章列表', 'article'), 'href' => RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id)));
@@ -209,7 +209,7 @@ class admin_shophelp extends ecjia_admin {
 		$article_id   = !empty($_GET['id'])       ? intval($_GET['id'])       : 0;
 		$cat_id       = !empty($_GET['cat_id'])   ? intval($_GET['cat_id'])   : 0;
 		
-		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->value('cat_name');
 		$article = RC_DB::table('article')->where('article_id', $article_id)->first();
 		if (!empty($article['content'])) {
 			$article['content'] = stripslashes($article['content']);
@@ -260,7 +260,7 @@ class admin_shophelp extends ecjia_admin {
 		);
 		
 		RC_DB::table('article')->where('article_id', $id)->update($data);
-	    $cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
+	    $cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->value('cat_name');
 	    
 	    //释放article_list缓存
 	    $orm_article_db = RC_Model::model('article/orm_article_model');
@@ -331,7 +331,7 @@ class admin_shophelp extends ecjia_admin {
 		if ($count != 0) {
 			return $this->showmessage(__('编辑成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-		    $cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->pluck('cat_name');
+		    $cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->value('cat_name');
 		    //释放article_list缓存
 		    $orm_article_db = RC_Model::model('article/orm_article_model');
 		    $cache_article_list_key = 'article_list_';
@@ -354,7 +354,7 @@ class admin_shophelp extends ecjia_admin {
 		$info = RC_DB::table('article')->where('article_id', $id)->first();
 		
 		RC_DB::table('article')->where('article_id', $id)->delete();
-	    $cat_name = RC_DB::table('article_cat')->where('cat_id', $info['cat_id'])->pluck('cat_name');
+	    $cat_name = RC_DB::table('article_cat')->where('cat_id', $info['cat_id'])->value('cat_name');
 	    
 	    //释放article_list缓存
 	    $orm_article_db = RC_Model::model('article/orm_article_model');

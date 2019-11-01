@@ -69,8 +69,8 @@ class article_detail_module extends api_front implements api_interface {
 				return new ecjia_error('does not exist', __('不存在的信息', 'article'));
 			}
 			if ($article_info['store_id'] > 0) {
-				$store_name = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('merchants_name');
-				$store_logo = RC_DB::table('merchants_config')->where('store_id', $article_info['store_id'])->where('code', 'shop_logo')->pluck('value');
+				$store_name = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->value('merchants_name');
+				$store_logo = RC_DB::table('merchants_config')->where('store_id', $article_info['store_id'])->where('code', 'shop_logo')->value('value');
 				$store_total_articles = RC_DB::table('article')->where('store_id', $article_info['store_id'])->count('article_id');
 			}
 			/*平台自营文章总数*/
@@ -151,7 +151,7 @@ class article_detail_module extends api_front implements api_interface {
 			
 			/*店铺是否关闭*/
 			if ($article_info['store_id'] > 0) {
-				$shop_close = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('shop_close');
+				$shop_close = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->value('shop_close');
 				if ($shop_close == 1) {
 					$recommend_goods = array();
 				}

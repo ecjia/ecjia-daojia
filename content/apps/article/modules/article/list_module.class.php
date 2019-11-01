@@ -78,8 +78,8 @@ class article_list_module extends api_front implements api_interface {
 		if(!empty($article_data['list'])) {
 			foreach ($article_data['list'] as $rows) {
 				if ($rows['store_id'] > 0) {
-					$store_logo =  RC_DB::table('merchants_config')->where('store_id', $rows['store_id'])->where('code', 'shop_logo')->pluck('value');
-					$store_name = RC_DB::table('store_franchisee')->where('store_id', $rows['store_id'])->pluck('merchants_name');
+					$store_logo =  RC_DB::table('merchants_config')->where('store_id', $rows['store_id'])->where('code', 'shop_logo')->value('value');
+					$store_name = RC_DB::table('store_franchisee')->where('store_id', $rows['store_id'])->value('merchants_name');
 				}
 				$arr[] = array(
 						'article_id' 		=> intval($rows['article_id']),

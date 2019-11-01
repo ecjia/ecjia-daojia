@@ -156,7 +156,7 @@ class admin_article_auto extends ecjia_admin {
 		
 		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
 		
-		$title = RC_DB::table('article')->where('article_id', $id)->pluck('title');
+		$title = RC_DB::table('article')->where('article_id', $id)->value('title');
 		RC_DB::table('auto_manage')->where('item_id', $id)->where('type', 'article')->delete();
 		
 // 		ecjia_admin::admin_log(__('文章名称是', 'article').$title, 'cancel', 'article_auto');

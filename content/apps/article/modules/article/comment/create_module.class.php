@@ -66,8 +66,8 @@ class article_comment_create_module extends api_front implements api_interface {
 		if ( $article_id <= 0 || empty($content)) {
 			return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'article'), __CLASS__));
 		}
-		$email = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->pluck('email');
-		$store_id = RC_DB::table('article')->where('article_id', $article_id)->pluck('store_id');
+		$email = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->value('email');
+		$store_id = RC_DB::table('article')->where('article_id', $article_id)->value('store_id');
 
 		if (!empty($content) && !empty($article_id) ) {
 		    $data = array(

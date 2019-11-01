@@ -375,7 +375,7 @@ class admin extends ecjia_admin {
 		$this->admin_priv('article_update', ecjia::MSGTYPE_JSON);
 		
 		$meta_id = !empty($_GET['meta_id']) ? intval($_GET['meta_id']) : 0;
-		$article_id = RC_DB::table('term_meta')->where('meta_id', $meta_id)->where('object_type', 'ecjia.article')->where('object_group', 'article')->pluck('object_id');
+		$article_id = RC_DB::table('term_meta')->where('meta_id', $meta_id)->where('object_type', 'ecjia.article')->where('object_group', 'article')->value('object_id');
 		RC_DB::table('term_meta')->where('meta_id', $meta_id)->delete();
 		/*释放文章缓存*/
 		$orm_article_db = RC_Model::model('article/orm_article_model');
@@ -508,7 +508,7 @@ class admin extends ecjia_admin {
 		if ($is_only != 0) {
 			return $this->showmessage(sprintf(__('文章 %s 已经存在', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$old_file_name = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');
+			$old_file_name = RC_DB::table('article')->where('article_id', $id)->value('file_url');
 
 			//获取上传文件的信息
 			$file = !empty($_FILES['file']) ? $_FILES['file'] : '';
@@ -532,7 +532,7 @@ class admin extends ecjia_admin {
 			}
 					
 			/*文章封面*/
-			$old_pic = RC_DB::table('article')->where('article_id', $id)->pluck('cover_image');
+			$old_pic = RC_DB::table('article')->where('article_id', $id)->value('cover_image');
 			if (isset($_FILES['cover_image']['error']) && $_FILES['cover_image']['error'] == 0 || ! isset($_FILES['cover_image']['error']) && isset($_FILES['cover_image']['tmp_name']) && $_FILES['cover_image']['tmp_name'] != 'none') {
 				$upload = RC_Upload::uploader('image', array('save_path' => 'data/article', 'auto_sub_dirs' => false));
 				$image_info = $upload->upload($_FILES['cover_image']);
@@ -711,7 +711,7 @@ class admin extends ecjia_admin {
 		$cache_id_info = sprintf('%X', crc32($cache_article_info_key));
 		$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
 		
-		$title = RC_DB::table('article')->where('article_id', $article_id)->pluck('title');
+		$title = RC_DB::table('article')->where('article_id', $article_id)->value('title');
 
 // 		ecjia_admin::admin_log(__('关联商品', 'article').'，'.__('文章标题是：', 'article').$title, 'setup', 'article');
 		ecjia_admin::admin_log(sprintf(__('关联商品，文章标题是：', 'article'), $title), 'setup', 'article');
@@ -774,7 +774,7 @@ class admin extends ecjia_admin {
 		$type				= !empty($_GET['type'])	? trim($_GET['type'])	: '';
 		$allow 				= !empty($_POST['check']) 	? $_POST['check']			: '';
 		$article_approved	= $_POST['article_approved'];
-		$title = RC_DB::table('article')->where('article_id', $id)->pluck('title');
+		$title = RC_DB::table('article')->where('article_id', $id)->value('title');
 		
 		if (isset($publishby) && $publishby === 'store') {
 			$pjaxurl = RC_Uri::url('article/admin/init', array('publishby' => 'store', 'type' => $type));
@@ -842,7 +842,7 @@ class admin extends ecjia_admin {
 		$publishby 			= !empty($_GET['publishby'])	? trim($_GET['publishby'])	: '';
 		$type				= !empty($_GET['type'])	? trim($_GET['type'])	: '';
 		$allow 				= !empty($_POST['check']) 	? $_POST['check']			: '';
-		$title = RC_DB::table('article')->where('article_id', $id)->pluck('title');
+		$title = RC_DB::table('article')->where('article_id', $id)->value('title');
 		if (isset($publishby) && $publishby === 'store') {
 			$pjaxurl = RC_Uri::url('article/admin/init', array('publishby' => 'store', 'type' => $type));
 		} else {
@@ -928,7 +928,7 @@ class admin extends ecjia_admin {
 		$this->admin_priv('article_delete', ecjia::MSGTYPE_JSON);
 
 		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$old_url = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');
+		$old_url = RC_DB::table('article')->where('article_id', $id)->value('file_url');
 
 		$disk = RC_Filesystem::disk();
 		$disk->delete(RC_Upload::upload_path() . $old_url);
@@ -1070,7 +1070,7 @@ class admin extends ecjia_admin {
 					$data = array('cat_id' => $target_cat);
 					RC_DB::table('article')->whereIn('article_id', $article_ids)->update($data);
 					
-					$cat_name = RC_DB::table('article_cat')->where('cat_id', $target_cat)->pluck('cat_name');
+					$cat_name = RC_DB::table('article_cat')->where('cat_id', $target_cat)->value('cat_name');
 					foreach ($info as $v) {
 						/*释放文章缓存*/
 						$cache_article_info_key = 'article_info_'.$v['article_id'];
@@ -1193,7 +1193,7 @@ class admin extends ecjia_admin {
 		$type				= !empty($_GET['type'])	? trim($_GET['type'])	: '';
 		$allow 				= !empty($_POST['check']) 	? $_POST['check']			: '';
 		$article_approved	= $_POST['article_approved'];
-		$content = RC_DB::table('discuss_comments')->where('id', $id)->pluck('content');
+		$content = RC_DB::table('discuss_comments')->where('id', $id)->value('content');
 		if (isset($publishby) && $publishby === 'store') {
 			$pjaxurl = RC_Uri::url('article/admin/comments', array('publishby' => 'store', 'id' => $article_id, 'type' => $type));
 		} elseif(isset($publishby) && $publishby === 'total_comments') {
@@ -1383,7 +1383,7 @@ class admin extends ecjia_admin {
 		
 		$id = intval($_GET['id']);
 		/*评论的当前状态*/
-		$current_comment_approved = RC_DB::table('discuss_comments')->where('id', $id)->pluck('comment_approved');
+		$current_comment_approved = RC_DB::table('discuss_comments')->where('id', $id)->value('comment_approved');
 		$current_comment_approved = trim($current_comment_approved);
 		$article_id = intval($_GET['article_id']);
 		RC_DB::table('discuss_comments')->where('id', $id)->delete();

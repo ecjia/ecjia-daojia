@@ -361,7 +361,7 @@ class admin_articlecat extends ecjia_admin {
 			if ($query > 0) {
 				return $this->showmessage(sprintf(__('分类下还有文章，不允许删除非空分类', 'article')), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
-				$cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->pluck('cat_name');
+				$cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->value('cat_name');
 
 				RC_DB::table('article_cat')->where('cat_id', $id)->delete();
 				RC_DB::table('nav')->where('ctype', 'a')->where('cid', $id)->where('type', 'middle')->delete();
@@ -389,7 +389,7 @@ class admin_articlecat extends ecjia_admin {
                	$vieworder = RC_DB::table('nav')->where('type', 'middle')->max('vieworder');
                     
 				$vieworder += 2;	
-				$cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->pluck('cat_name');
+				$cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->value('cat_name');
 					
 				$uri  = build_uri('article_cat', array('acid' => $id), $cat_name);
 				$data = array(

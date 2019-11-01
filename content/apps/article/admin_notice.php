@@ -227,7 +227,7 @@ class admin_notice extends ecjia_admin {
 			return $this->showmessage(sprintf(__('文章 %s 已经存在', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$old_file_name = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');
+		$old_file_name = RC_DB::table('article')->where('article_id', $id)->value('file_url');
 		//判断用户是否选择了文件
 		if (!empty($file)&&((isset($file['error']) && $file['error'] == 0) || (!isset($file['error']) && $file['tmp_name'] != 'none'))) {
 			$upload = RC_Upload::uploader('file', array('save_path' => 'data/article', 'auto_sub_dirs' => true));
@@ -301,7 +301,7 @@ class admin_notice extends ecjia_admin {
 		$this->admin_priv('store_notice_manage', ecjia::MSGTYPE_JSON);
 	
 		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$old_url = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');
+		$old_url = RC_DB::table('article')->where('article_id', $id)->value('file_url');
 	
 		$disk = RC_Filesystem::disk();
 		$disk->delete(RC_Upload::upload_path() . $old_url);
