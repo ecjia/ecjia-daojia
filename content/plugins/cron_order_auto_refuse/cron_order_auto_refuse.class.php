@@ -73,7 +73,7 @@ class cron_order_auto_refuse extends CronAbstract
     			if (!empty($val['store_id'])) {
     				$orders_auto_confirm =  Ecjia\App\Cart\StoreStatus::StoreOrdersAutoConfirm($val['store_id']);
     				$orders_auto_rejection_time = Ecjia\App\Orders\OrderAutoRefuse::StoreOrdersAutoRejectTime($val['store_id']);
-    				$pay_cod = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->pluck('pay_code');
+    				$pay_cod = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->value('pay_code');
     				
     				if (($orders_auto_rejection_time > 0) && $orders_auto_confirm == Ecjia\App\Cart\StoreStatus::UNAUTOCONFIRM) {
     					if ($time - $val['pay_time'] >= $orders_auto_rejection_time*60) {
