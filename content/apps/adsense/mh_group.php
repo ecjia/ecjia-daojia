@@ -118,7 +118,7 @@ class mh_group extends ecjia_merchant {
 		if (RC_DB::table('merchants_ad_position')->where('group_id', $group_position_id)->where('store_id', $_SESSION['store_id'])->count() > 0) {
 			return $this->showmessage(__('该广告组已进行广告位编排，不能关闭！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,array('pjaxurl' => RC_Uri::url('adsense/mh_group/init',array('position_id' => $group_position_id))));
 		} else {
-			$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $group_position_id)->pluck('position_name');
+			$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $group_position_id)->value('position_name');
 			ecjia_merchant::admin_log($position_name, 'remove', 'group_position');
 			RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $group_position_id)->delete();
 			return $this->showmessage(__('删除广告组成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_group/init')));
@@ -266,7 +266,7 @@ class mh_group extends ecjia_merchant {
 		$this->admin_priv('mh_adsense_group_update');
 		
 		$group_position_id	= intval($_GET['position_id']);//广告组id
-		$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $group_position_id)->pluck('position_name');
+		$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $group_position_id)->value('position_name');
 		$data = array('group_id' => 0);
 		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('group_id', $group_position_id)->update($data);
 	

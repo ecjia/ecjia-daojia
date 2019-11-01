@@ -113,7 +113,7 @@ class mh_cycleimage extends ecjia_merchant {
     		$cycleimage_list = $ad->getSpecialAds($position_id, $show_client);
     		$this->assign('cycleimage_list', $cycleimage_list);
     	
-    		$position_code = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->pluck('position_code');
+    		$position_code = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->value('position_code');
     	}
     	
     	$this->assign('position_code', $position_code);
@@ -172,7 +172,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$this->admin_priv('mh_cycleimage_delete');
     	 
     	$position_id = intval($_GET['position_id']);
-    	$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->pluck('position_name');
+    	$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->value('position_name');
     	if (RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->count() > 0) {
     		return $this->showmessage(__('该轮播组已存在轮播图，暂不能关闭！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
@@ -334,7 +334,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$ad_name	= !empty($_POST['ad_name']) 	? remove_xss($_POST['ad_name']) 		: '';
     	$sort_order = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	 
-    	$old_pic = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->pluck('ad_code');
+    	$old_pic = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->value('ad_code');
     	if (isset($_FILES['ad_code']['error']) && $_FILES['ad_code']['error'] == 0 || ! isset($_FILES['ad_code']['error']) && isset($_FILES['ad_code']['tmp_name']) && $_FILES['ad_code']['tmp_name'] != 'none') {
     		$save_path = 'merchant/' . $_SESSION['store_id'] . '/data/cycleimage';
     		$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));

@@ -134,7 +134,7 @@ class admin_cycleimage extends ecjia_admin {
     	    $cycleimage_list = $ad->getSpecialAds($position_id, $show_client);
             $this->assign('cycleimage_list', $cycleimage_list);
             
-            $position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
+            $position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->value('position_code');
 		}
 		
 		$this->assign('position_code', $position_code);
@@ -292,7 +292,7 @@ class admin_cycleimage extends ecjia_admin {
     	$this->admin_priv('cycleimage_delete');
     	
     	$position_id = intval($_GET['position_id']);
-    	$position_name = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_name');
+    	$position_name = RC_DB::table('ad_position')->where('position_id', $position_id)->value('position_name');
     	$city_id = trim($_GET['city_id']);
     	if (RC_DB::table('ad')->where('position_id', $position_id)->count() > 0) {
     		return $this->showmessage(__('该轮播组已存在轮播图，暂不能删除！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -312,7 +312,7 @@ class admin_cycleimage extends ecjia_admin {
     	$this->admin_priv('cycleimage_update');
     	 
     	$position_id = intval($_GET['position_id']);
-    	$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
+    	$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->value('position_code');
     	
     	$position_name = trim($_GET['position_name']);
     	$position_desc = $_GET['position_desc'];
@@ -509,7 +509,7 @@ class admin_cycleimage extends ecjia_admin {
     	$ad_name	= !empty($_POST['ad_name']) 	? trim($_POST['ad_name']) 		: '';
     	$sort_order = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$old_pic = RC_DB::table('ad')->where('ad_id', $id)->pluck('ad_code');
+    	$old_pic = RC_DB::table('ad')->where('ad_id', $id)->value('ad_code');
     	if (isset($_FILES['ad_code']['error']) && $_FILES['ad_code']['error'] == 0 || ! isset($_FILES['ad_code']['error']) && isset($_FILES['ad_code']['tmp_name']) && $_FILES['ad_code']['tmp_name'] != 'none') {
     		$upload = RC_Upload::uploader('image', array('save_path' => 'data/cycleimage', 'auto_sub_dirs' => false));
     		$image_info = $upload->upload($_FILES['ad_code']);

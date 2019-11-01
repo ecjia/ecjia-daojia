@@ -391,7 +391,7 @@ class mh_ad extends ecjia_merchant {
 		$show_client_value = intval($_POST['show_client_value']);
 		
 	
-		$old_enabled = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->pluck('enabled');
+		$old_enabled = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->value('enabled');
 		$now_end_time = remove_xss($_POST['end_time']);
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 	
@@ -436,7 +436,7 @@ class mh_ad extends ecjia_merchant {
 		$position_id = intval($_GET['position_id']);
 		$show_client = intval($_GET['show_client']);
 	
-		$old_url = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $ad_id)->pluck('ad_code');
+		$old_url = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $ad_id)->value('ad_code');
 		$disk = RC_Filesystem::disk();
 		$disk->delete(RC_Upload::upload_path() . $old_url);
 		$data = array(
@@ -501,7 +501,7 @@ class mh_ad extends ecjia_merchant {
 		$position_id  = intval($_GET['position_id']);
 		$show_client  = intval($_GET['show_client']);
 	
-		$end_time = RC_Time::local_date('Y-m-d', RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->pluck('end_time'));
+		$end_time = RC_Time::local_date('Y-m-d', RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->value('end_time'));
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 		if ($now > $end_time) {
 			return $this->showmessage(__('该广告已过期暂无法进行开启/关闭操作', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

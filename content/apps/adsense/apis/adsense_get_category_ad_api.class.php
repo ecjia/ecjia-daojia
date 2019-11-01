@@ -67,7 +67,7 @@ class adsense_get_category_ad_api extends Component_Event_Api {
 	    if (empty($category_id)) {
 	        return false;
 	    }
-	    $ad_position_id = RC_DB::table('term_meta')->where('object_type', 'ecjia.goods')->where('object_group', 'category')->where('object_id', $category_id)->where('meta_key', 'category_ad')->pluck('meta_value');
+	    $ad_position_id = RC_DB::table('term_meta')->where('object_type', 'ecjia.goods')->where('object_group', 'category')->where('object_id', $category_id)->where('meta_key', 'category_ad')->value('meta_value');
 	    if ($ad_position_id) {
 	        $ad_info = RC_DB::table('ad_position')->where('position_id', $ad_position_id)->first();
 	        if ($ad_info) {

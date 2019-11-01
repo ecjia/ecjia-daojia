@@ -285,7 +285,7 @@ class admin_position extends ecjia_admin {
 		if (RC_DB::table('ad')->where('position_id', $id)->count() != 0) {
 			return $this->showmessage(__('该广告位已经有广告存在，不能删除！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$position_name = RC_DB::table('ad_position')->where('position_id', $id)->pluck('position_name');
+			$position_name = RC_DB::table('ad_position')->where('position_id', $id)->value('position_name');
 			ecjia_admin::admin_log($position_name, 'remove', 'ads_position');
 			RC_DB::table('ad_position')->where('position_id', $id)->delete();
 			return $this->showmessage(__('删除成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_position/init')));
@@ -296,7 +296,7 @@ class admin_position extends ecjia_admin {
 		$this->admin_priv('ad_position_update');
 		
 		$position_id = intval($_GET['position_id']);
-		$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
+		$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->value('position_code');
 		 
 		$position_name = trim($_GET['position_name']);
 		$position_desc = $_GET['position_desc'];

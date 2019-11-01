@@ -214,7 +214,7 @@ class admin_group extends ecjia_admin {
 		$this->admin_priv('ad_group_update');
 	
 		$position_id = intval($_GET['position_id']);
-		$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
+		$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->value('position_code');
 		$position_name = trim($_GET['position_name']);
 		$position_desc = $_GET['position_desc'];
 		$sort_order    = intval($_GET['sort_order']);
@@ -259,7 +259,7 @@ class admin_group extends ecjia_admin {
 				return $this->showmessage(__('该广告组已进行广告位编排，不能删除！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,array('pjaxurl' => RC_Uri::url('adsense/admin_group/group_position_list',array('city_id' => $city_id, 'position_id' => $group_position_id))));
 			}
 		} else {
-			$position_name = RC_DB::table('ad_position')->where('position_id', $group_position_id)->pluck('position_name');
+			$position_name = RC_DB::table('ad_position')->where('position_id', $group_position_id)->value('position_name');
 			ecjia_admin::admin_log($position_name, 'remove', 'group_position');
 			RC_DB::table('ad_position')->where('position_id', $group_position_id)->delete();
 			return $this->showmessage(__('删除广告组成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_group/init')));
@@ -315,7 +315,7 @@ class admin_group extends ecjia_admin {
 		$city_id = trim($_GET['city_id']);
 		
 		$group_position_id	= intval($_GET['position_id']);//广告组id
-		$position_name = RC_DB::table('ad_position')->where('position_id', $group_position_id)->pluck('position_name');
+		$position_name = RC_DB::table('ad_position')->where('position_id', $group_position_id)->value('position_name');
 		$data = array('group_id' => 0);
 		RC_DB::table('ad_position')->where('group_id', $group_position_id)->update($data);
 		

@@ -190,7 +190,7 @@ class mh_position extends ecjia_merchant {
     	if (RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->count() != 0) {
     		return $this->showmessage(__('该广告位已经有广告存在，不能删除！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
-    		$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->pluck('position_name');
+    		$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->value('position_name');
     		ecjia_merchant::admin_log($position_name, 'remove', 'ads_position');
     		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->delete();
     		return $this->showmessage(__('删除广告位成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/init')));
