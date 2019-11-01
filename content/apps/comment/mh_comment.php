@@ -94,7 +94,7 @@ class mh_comment extends ecjia_merchant {
 	    
 	    if(!empty($goods_id)){
 	    	$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_name', 'shop_price', 'goods_thumb')->first();
-	    	$goods_rank = RC_DB::table('goods_data')->where('goods_id', $goods_id)->pluck('goods_rank');
+	    	$goods_rank = RC_DB::table('goods_data')->where('goods_id', $goods_id)->value('goods_rank');
 	    	if(empty($goods_rank)){
 	    		$goods_rank === 10000;
 	    	}
@@ -129,7 +129,7 @@ class mh_comment extends ecjia_merchant {
 	    );
 	    RC_DB::table('comment_reply')->insertGetId($data);
 	    
-		$id_value = RC_DB::table('comment')->where('comment_id', $comment_id)->where('status', 0)->pluck('id_value');
+		$id_value = RC_DB::table('comment')->where('comment_id', $comment_id)->where('status', 0)->value('id_value');
 		if(!empty($id_value)){
 			$data = array(
 				'status' => 1
@@ -158,7 +158,7 @@ class mh_comment extends ecjia_merchant {
 		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
 		$comment_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $comment_info['add_time']);
 		
-		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->value('avatar_img');
 		
 		$replay_admin_list = RC_DB::table('comment_reply')->where('comment_id', $comment_id)->select('content', 'add_time', 'user_id', 'user_type')->get();
 		foreach ($replay_admin_list as $key => $val) {
@@ -166,11 +166,11 @@ class mh_comment extends ecjia_merchant {
 			$staff_info = RC_DB::table('staff_user')->where('user_id', $val['user_id'])->select('name', 'avatar')->first();
 			$replay_admin_list[$key]['staff_name'] = $staff_info['name'];
 			$replay_admin_list[$key]['staff_img']  =  $staff_info['avatar'];
-			$replay_admin_list[$key]['admin_user_name']  = RC_DB::table('admin_user')->where('user_id', $val['user_id'])->pluck('user_name');
+			$replay_admin_list[$key]['admin_user_name']  = RC_DB::table('admin_user')->where('user_id', $val['user_id'])->value('user_name');
 		};
 		
 		$goods_info = RC_DB::table('goods')->where('goods_id', $comment_info['id_value'])->select('goods_name', 'shop_price', 'goods_thumb')->first();
-		$order_time = RC_DB::table('order_info')->where('order_id',  $comment_info['order_id'])->pluck('add_time');
+		$order_time = RC_DB::table('order_info')->where('order_id',  $comment_info['order_id'])->value('add_time');
 		$order_add_time = RC_Time::local_date(ecjia::config('time_format'), $order_time);
 	
 		$other_comment = RC_DB::table('comment')->where('store_id', $_SESSION['store_id'])->where('id_value', $comment_info['id_value'])->where('comment_id', '!=', $comment_info['comment_id'])->select('user_name', 'content', 'comment_rank', 'comment_id','id_value')->take(4)->get();
@@ -242,7 +242,7 @@ class mh_comment extends ecjia_merchant {
 			RC_DB::table('comment_reply')->insertGetId($data);
 			ecjia_merchant::admin_log(__('评论ID:', 'comment').$comment_id, 'reply', 'users_comment');
 		}
-		$id_value = RC_DB::table('comment')->where('comment_id', $comment_id)->where('status', 0)->pluck('id_value');
+		$id_value = RC_DB::table('comment')->where('comment_id', $comment_id)->where('status', 0)->value('id_value');
 		if(!empty($id_value)){
 			$data = array(
 				'status' => 1
@@ -302,7 +302,7 @@ class mh_comment extends ecjia_merchant {
 		if (!empty($data)) {
 			foreach ($data as $row) {
 				$row['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
-				$row['goods_name'] = RC_DB::table('goods')->where('goods_id', $row['id_value'])->pluck('goods_name');
+				$row['goods_name'] = RC_DB::table('goods')->where('goods_id', $row['id_value'])->value('goods_name');
 				$row['comment_pic_list'] = RC_DB::table('term_attachment')->where('object_id',  $row['comment_id'])->where('object_app', 'ecjia.comment')->where('object_group','comment')->select('file_path')->get();
 				$list[] = $row;
 			}

@@ -125,7 +125,7 @@ class appeal extends ecjia_admin {
 			}
 		}
 		
-		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->value('avatar_img');
 		if (!empty($avatar_img)) {
 			$avatar_img = RC_Upload::upload_url().'/'.$avatar_img;
 		} else {

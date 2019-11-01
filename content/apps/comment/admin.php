@@ -171,7 +171,7 @@ class admin extends ecjia_admin {
 		}
 
 		/*获取用户头像*/
-		$img_url = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		$img_url = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->value('avatar_img');
 		if ($img_url) {
 		    $avatar_img = RC_Upload::upload_url().'/'.$img_url;
 		} else {
@@ -189,7 +189,7 @@ class admin extends ecjia_admin {
 					$reply_info[$key]['staff_name'] = $staff_info['name'];
 				}
 				if (($val['user_type'] === 'admin') && ($val['user_id'] > 0)) {
-					$reply_info[$key]['admin_name'] = RC_DB::table('admin_user')->where('user_id', $val['user_id'])->pluck('user_name');
+					$reply_info[$key]['admin_name'] = RC_DB::table('admin_user')->where('user_id', $val['user_id'])->value('user_name');
 					$reply_info[$key]['admin_img']  = RC_App::apps_url('statics/images/admin_pic.jpg', __FILE__);
 				}
 				$reply_info[$key]['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['add_time']);
@@ -211,12 +211,12 @@ class admin extends ecjia_admin {
 		$shop_info['logo'] = RC_DB::table('merchants_config')
                 		->where('store_id', $comment_info['store_id'])
                 		->where('code', 'shop_logo')
-                		->pluck('value');
+                		->value('value');
         $shop_info['no_logo'] = RC_Uri::admin_url('statics/images/nopic.png');
         
 		$shop_info['name'] = RC_DB::table('store_franchisee')
                 		->where('store_id', $comment_info['store_id'])
-                		->pluck('merchants_name');
+                		->value('merchants_name');
 
 		$shop_info['amount'] = RC_DB::table('comment')->where('store_id', $comment_info['store_id'])->count();
 
@@ -383,7 +383,7 @@ class admin extends ecjia_admin {
 			$db_comment->where('comment_id', $id)->update($data);
 			/*审核通过后更新商品等级*/
 			if (!empty($id)) {
-				$goods_id = RC_DB::table('comment')->where('comment_id', $id)->pluck('id_value');
+				$goods_id = RC_DB::table('comment')->where('comment_id', $id)->value('id_value');
 			}
 			RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $goods_id));
 			/*审核通过后送积分*/
@@ -397,7 +397,7 @@ class admin extends ecjia_admin {
 			);
 			$db_comment->where('comment_id', $id)->update($data);
 			if (!empty($id)) {
-				$goods_id = RC_DB::table('comment')->where('comment_id', $id)->pluck('id_value');
+				$goods_id = RC_DB::table('comment')->where('comment_id', $id)->value('id_value');
 			}
 			RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $goods_id));
 		}
@@ -569,7 +569,7 @@ class admin extends ecjia_admin {
 		$_GET['list'] = !empty($_GET['list']) ? $_GET['list'] : 3;		
 		$store_id = isset($_GET['store_id']) ? $_GET['store_id'] : 0;	
 
-		$shop_logo = RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $store_id)->where(RC_DB::raw('code'), 'shop_logo')->pluck('value');
+		$shop_logo = RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $store_id)->where(RC_DB::raw('code'), 'shop_logo')->value('value');
 		if (!empty($shop_logo)) {
 			$shop_logo = RC_Upload::upload_url().'/'.$shop_logo;
 		} else {
@@ -603,7 +603,7 @@ class admin extends ecjia_admin {
 			$comment = array('comment_rank' => 3);
 		}
 		
-		$merchants_name = RC_DB::table('store_franchisee')->where(RC_DB::raw('store_id'), '=', $store_id)->pluck('merchants_name');
+		$merchants_name = RC_DB::table('store_franchisee')->where(RC_DB::raw('store_id'), '=', $store_id)->value('merchants_name');
 		$total_count = $list_storeinfo['comment_number']['all'];
 		$comment_percent = $list_storeinfo['comment_percent'];
 		

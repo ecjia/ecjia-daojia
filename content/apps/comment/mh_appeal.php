@@ -103,7 +103,7 @@ class mh_appeal extends ecjia_merchant {
 		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
 		$comment_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $comment_info['add_time']);
 		
-		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->value('avatar_img');
 	
 		$this->assign('comment_pic_list', $comment_pic_list);
 		$this->assign('comment_info', $comment_info);
@@ -210,7 +210,7 @@ class mh_appeal extends ecjia_merchant {
 	
 		$comment_info = RC_DB::table('comment')->where('comment_id', $appeal['comment_id'])->first();
 		$comment_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $comment_info['add_time']);
-		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		$avatar_img = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->value('avatar_img');
 		$apple_img_list = RC_DB::table('term_attachment')->where('object_id', $appeal['id'])->where('object_app', 'ecjia.comment')->where('object_group','appeal')->select('file_path')->get();
 		
 		$this->assign('check_status', $appeal['check_status']);
@@ -230,7 +230,7 @@ class mh_appeal extends ecjia_merchant {
 		$this->admin_priv('mh_appeal_remove', ecjia::MSGTYPE_JSON);
 	
 		$appeal_sn = remove_xss($_GET['appeal_sn']);
-		$appeal_id = RC_DB::table('comment_appeal')->where('appeal_sn', $appeal_sn)->pluck('id');
+		$appeal_id = RC_DB::table('comment_appeal')->where('appeal_sn', $appeal_sn)->value('id');
 		RC_DB::table('term_attachment')->where('object_id', $appeal_id)->where('object_group', 'appeal')->delete();
 		RC_DB::table('comment_appeal')->where('appeal_sn', $appeal_sn)->delete();
 		
