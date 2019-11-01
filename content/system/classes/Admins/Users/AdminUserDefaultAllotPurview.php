@@ -30,7 +30,7 @@ class AdminUserDefaultAllotPurview implements UserAllotPurview
     
     public function get()
     {
-        return RC_DB::table('admin_user')->where('user_id', $this->userid)->pluck('action_list');
+        return RC_DB::table('admin_user')->where('user_id', $this->userid)->value('action_list');
     }
     
 }

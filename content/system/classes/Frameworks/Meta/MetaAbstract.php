@@ -114,7 +114,7 @@ class MetaAbstract
         ->where('object_group', $this->object_group)
         ->where('object_id', $this->object_id)
         ->where('meta_key', $this->meta_key)
-        ->pluck('meta_id');
+        ->value('meta_id');
     }
     
     
@@ -126,7 +126,7 @@ class MetaAbstract
         ->where('object_group', $this->object_group)
         ->where('object_id', $this->object_id)
         ->where('meta_key', $this->meta_key)
-        ->pluck('meta_value');
+        ->value('meta_value');
     }
     
 }
