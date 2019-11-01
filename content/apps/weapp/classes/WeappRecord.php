@@ -109,7 +109,7 @@ class WeappRecord
      */
     public static function inputMsg($fromusername, $msg, $type = 'text', $content = null)
     {
-        $uid = WechatUserModel::where('openid', $fromusername)->pluck('uid');
+        $uid = WechatUserModel::where('openid', $fromusername)->value('uid');
         if (!empty($uid)) {
             $data = array(
                 'uid'           => $uid,
@@ -128,7 +128,7 @@ class WeappRecord
      */
     public static function replyMsg($fromusername, $msg, $type = 'text', $content = null)
     {
-        $uid = WechatUserModel::where('openid', $fromusername)->pluck('uid');
+        $uid = WechatUserModel::where('openid', $fromusername)->value('uid');
         if (!empty($uid)) {
             $data = array(
                 'uid'           => $uid,

@@ -459,7 +459,7 @@ class platform_material extends ecjia_platform
             $data['edit_time'] = RC_Time::gmtime();
             $model->update($data);
 
-            $title = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('title');
+            $title = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->value('title');
             $this->admin_log($title, 'edit', 'article_material');
 
             return $this->showmessage(__('编辑成功', 'weapp'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/platform_material/edit', array('id' => $id))));

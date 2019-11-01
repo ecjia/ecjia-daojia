@@ -204,7 +204,7 @@ class platform_user extends ecjia_platform
                     return $this->showmessage(__('该标签名字已存在，请重新输入', 'weapp'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
 
-                $tag_id = RC_DB::table('wechat_tag')->where('id', $id)->pluck('tag_id');
+                $tag_id = RC_DB::table('wechat_tag')->where('id', $id)->value('tag_id');
 
                 //本地更新
                 RC_DB::table('wechat_tag')->where('wechat_id', $wechat_id)->where('id', $id)->update($data);
@@ -261,7 +261,7 @@ class platform_user extends ecjia_platform
         }
 
         //本地删除
-        $name = RC_DB::table('wechat_tag')->where('id', $id)->pluck('name');
+        $name = RC_DB::table('wechat_tag')->where('id', $id)->value('name');
         RC_DB::table('wechat_tag')->where('id', $id)->where('tag_id', $tag_id)->where('wechat_id', $wechat_id)->delete();
 
         RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('group_id', $tag_id)->update(array('group_id' => 0));
@@ -343,7 +343,7 @@ class platform_user extends ecjia_platform
                 ->where('iswechat', 0)
                 ->orderBy('id', 'desc')
                 ->take(1)
-                ->pluck('send_time');
+                ->value('send_time');
 
             $time = RC_Time::gmtime();
             if ($time - $last_send_time > 48 * 3600) {

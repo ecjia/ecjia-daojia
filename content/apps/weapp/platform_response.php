@@ -221,7 +221,7 @@ class platform_response extends ecjia_platform
             //添加
             $id = RC_DB::table('wechat_reply')->insertGetId($data);
 
-            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('media_id');
+            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->value('media_id');
             $info     = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
@@ -246,7 +246,7 @@ class platform_response extends ecjia_platform
             //更新
             RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->update($data);
 
-            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('media_id');
+            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->value('media_id');
             $info     = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
@@ -295,7 +295,7 @@ class platform_response extends ecjia_platform
             //添加
             $id = RC_DB::table('wechat_reply')->insertGetId($data);
 
-            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('media_id');
+            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->value('media_id');
             $info     = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
@@ -320,7 +320,7 @@ class platform_response extends ecjia_platform
             //更新
             RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->update($data);
 
-            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('media_id');
+            $media_id = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->value('media_id');
             $info     = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
@@ -521,7 +521,7 @@ class platform_response extends ecjia_platform
         $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
         //获取该公众号下的id数组
         $id_list   = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('type', 'keywords')->lists('id');
-        $rule_name = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('rule_name');
+        $rule_name = RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->value('rule_name');
         //获取该条规则的关键词
         $rule_keywords = RC_DB::table('wechat_rule_keywords')->where('rid', $id)->lists('rule_keywords');
 

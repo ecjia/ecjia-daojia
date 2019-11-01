@@ -184,7 +184,7 @@ class admin extends ecjia_admin
         $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
         //获取旧的logo
-        $old_logo = RC_DB::table('platform_account')->where('id', $id)->pluck('logo');
+        $old_logo = RC_DB::table('platform_account')->where('id', $id)->value('logo');
 
         if ((isset($_FILES['weapp_logo']['error']) && $_FILES['weapp_logo']['error'] == 0) || (!isset($_FILES['weapp_logo']['error']) && isset($_FILES['weapp_logo']['tmp_name']) && $_FILES['weapp_logo']['tmp_name'] != 'none')) {
             $upload     = RC_Upload::uploader('image', array('save_path' => 'data/weapp', 'auto_sub_dirs' => false));
@@ -280,7 +280,7 @@ class admin extends ecjia_admin
         $id  = intval($_POST['id']);
         $val = intval($_POST['val']);
         RC_DB::table('platform_account')->where('id', $id)->update(array('status' => $val));
-        $name = RC_DB::table('platform_account')->where('id', $id)->pluck('name');
+        $name = RC_DB::table('platform_account')->where('id', $id)->value('name');
         if ($val == 1) {
             $this->admin_log($name, 'use', 'weapp');
         } else {
@@ -339,7 +339,7 @@ class admin extends ecjia_admin
     {
         $id = $this->request->input('id');
 
-        $uuid = RC_DB::table('platform_account')->where('id', $id)->pluck('uuid');
+        $uuid = RC_DB::table('platform_account')->where('id', $id)->value('uuid');
         if (empty($uuid)) {
             return $this->showmessage(__('该小程序不存在', 'weapp'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
