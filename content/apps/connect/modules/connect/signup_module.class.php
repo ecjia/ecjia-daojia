@@ -184,7 +184,7 @@ class connect_signup_module extends api_front implements api_interface {
 					->where('object_group', 'user_invite_code')
 					->where('meta_key', 'invite_code')
 					->where('object_id', $is_invitedinfo['invite_id'])
-					->pluck('meta_value');
+					->value('meta_value');
 				}
 			}
 			$result = ecjia_app::validate_application('affiliate');
@@ -333,7 +333,7 @@ class connect_signup_module extends api_front implements api_interface {
                         ->where('object_group', 'user_invite_code')
                         ->where('meta_key', 'invite_code')
                         ->where('object_id', $is_invitedinfo['invite_id'])
-                        ->pluck('meta_value');
+                        ->value('meta_value');
                 }
             }
             $result = ecjia_app::validate_application('affiliate');
