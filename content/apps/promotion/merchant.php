@@ -195,7 +195,7 @@ class merchant extends ecjia_merchant
                 if ($promote_user_limited[$k] > $promote_limited[$k]) {
                     return $this->showmessage(__('每人限购不能大于限购总数量', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
-                $product_number = RC_DB::table('products')->where('product_id', $product_ids[$k])->pluck('product_number');
+                $product_number = RC_DB::table('products')->where('product_id', $product_ids[$k])->value('product_number');
                 if ($promote_limited[$k] > $product_number) {
                     return $this->showmessage(__('您设置的限购总数量不能超过商品总库存，请重新设置', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
@@ -358,7 +358,7 @@ class merchant extends ecjia_merchant
                 if ($promote_user_limited[$k] > $promote_limited[$k]) {
                     return $this->showmessage(__('每人限购不能大于限购总数量', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
-                $product_number = RC_DB::table('products')->where('product_id', $product_ids[$k])->pluck('product_number');
+                $product_number = RC_DB::table('products')->where('product_id', $product_ids[$k])->value('product_number');
                 if ($promote_limited[$k] <= 0) {
                 	return $this->showmessage(__('您设置的限购总数量不能等于0', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
@@ -467,7 +467,7 @@ class merchant extends ecjia_merchant
         $db   = RC_DB::table('goods');
         $from = remove_xss($_GET['from']);
 
-        $goods_name = $db->where('store_id', $_SESSION['store_id'])->where('goods_id', $id)->pluck('goods_name');
+        $goods_name = $db->where('store_id', $_SESSION['store_id'])->where('goods_id', $id)->value('goods_name');
 
         //更新商品为非促销活动
         $update_data = array(
