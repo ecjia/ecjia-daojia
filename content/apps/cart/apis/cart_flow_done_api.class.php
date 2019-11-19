@@ -724,7 +724,7 @@ class cart_flow_done_api extends Component_Event_Api {
 					),
 					'field' => array(
 						'open_type' => 'admin_message',
-					),
+					)
 				);
 				RC_Api::api('push', 'push_event_send', $options);
 			} catch (PDOException $e) {
