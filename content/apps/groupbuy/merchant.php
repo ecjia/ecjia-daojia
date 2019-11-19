@@ -164,7 +164,7 @@ class merchant extends ecjia_merchant
         }
 
         $price_ladder = array();
-        $count        = count(intval($_POST['ladder_amount']));
+        $count        = count($_POST['ladder_amount']);
 
         for ($i = $count - 1; $i >= 0; $i--) {
             $amount = intval($_POST['ladder_amount'][$i]);
