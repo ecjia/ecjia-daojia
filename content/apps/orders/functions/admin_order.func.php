@@ -262,9 +262,14 @@ function order_weight_price($order_id)
     RC_Loader::load_app_func('global', 'goods');
     $row           = $db = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('o.goods_id'))
         ->select(RC_DB::raw('SUM(g.goods_weight * o.goods_number) as weight'), RC_DB::raw('SUM(o.goods_price * o.goods_number) as amount'),
-            RC_DB::raw('SUM(o.goods_number) as number'))
+            RC_DB::raw('SUM(o.goods_number) as number'), RC_DB::raw('g.weight_unit'))
         ->where(RC_DB::raw('o.order_id'), $order_id)->first();
-    $row['weight'] = floatval($row['weight']);
+
+    if($row['weight_unit'] == 1)
+    {
+        $row['weight'] = floatval($row['weight']) / 1000;
+    }
+
     $row['amount'] = floatval($row['amount']);
     $row['number'] = intval($row['number']);
     /* 格式化重量 */
