@@ -1514,7 +1514,7 @@ class platform_material extends ecjia_platform
      */
     private function get_all_material()
     {
-        $material = !empty($_GET['material']) ? 'material' : '';
+        $material = !empty($_GET['material']) ? 'material' : null;
 
         $wechat_id = $this->platformAccount->getAccountID();
 
