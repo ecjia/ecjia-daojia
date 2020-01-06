@@ -349,6 +349,13 @@ class order_detail_module extends api_front implements api_interface
                 }
             }
         }
+        
+        //订单取消原因
+        $cancel_note = '';
+        if ($order['order_status'] == OS_CANCELED) {
+        	$cancel_note = RC_DB::table('order_action')->where('order_id', $order['order_id'])->where('order_status', OS_CANCELED)->value('action_note');
+        }
+        $order['cancel_note'] = empty($cancel_note) ? '' : $cancel_note;
         return array('data' => $order);
     }
 

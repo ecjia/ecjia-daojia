@@ -29,16 +29,17 @@ class Keywords implements FilterInterface
     public static function apply(Builder $builder, $value)
     {
     	if (!empty($value)) {
-    		return $builder
-    		->where('order_info.order_sn', 'like', '%' . ecjia_mysql_like_quote($value) . '%')
-    		->orWhere('order_info.consignee', 'like', '%' . ecjia_mysql_like_quote($value) . '%')
-    		->orWhere('order_info.mobile', 'like', '%' . ecjia_mysql_like_quote($value) . '%')
-    		->orWhereHas('order_goods_collection', function($query) use ($value) {
-                    /**
-                     * @var \Royalcms\Component\Database\Query\Builder $query
-                     */
-                    $query->where('goods_name', 'like', '%' . ecjia_mysql_like_quote($value) . '%');
-                });
+	    	$builder->where(function($query) use ($value){
+	    		$query->where('order_info.order_sn', 'like', '%' . ecjia_mysql_like_quote($value) . '%')
+	    		->orWhere('order_info.consignee', 'like', '%' . ecjia_mysql_like_quote($value) . '%')
+	    		->orWhere('order_info.mobile', 'like', '%' . ecjia_mysql_like_quote($value) . '%')
+	    		->orWhereHas('order_goods_collection', function($query) use ($value) {
+	    			/**
+	    			 * @var \Royalcms\Component\Database\Query\Builder $query
+	    			 */
+	    			$query->where('goods_name', 'like', '%' . ecjia_mysql_like_quote($value) . '%');
+	    		});
+	    	});
     	}
     	return $builder;
     }

@@ -63,7 +63,19 @@ class ApiCompositeStatus implements FilterInterface
                 $whereQuery = \Ecjia\App\Orders\OrderStatus::getQueryOrder('allow_comment');
                 $whereQuery($builder);
                 break;
-
+                
+            //已退款
+            case 'refund':
+                $whereQuery = \Ecjia\App\Orders\OrderStatus::getQueryOrder('refund');
+                $whereQuery($builder);
+                break;
+                
+            //已关闭订单（无效和取消的）
+            case 'closed':
+                $whereQuery = \Ecjia\App\Orders\OrderStatus::getQueryOrder('closed');
+                $whereQuery($builder);
+                break;
+                
             default:
                 break;
         };

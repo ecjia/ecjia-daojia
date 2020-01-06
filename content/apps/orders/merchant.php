@@ -2963,7 +2963,6 @@ class merchant extends ecjia_merchant
                     'cancel'         => __('取消', 'orders'),
                     'invalid'        => __('无效', 'orders'),
                     'return'         => __('退货', 'orders'),
-                    'unpay'          => __('设为未付款', 'orders'),
                     'unship'         => __('未发货', 'orders'),
                     'confirm_pay'    => __('确认付款', 'orders'),
                     'cancel_ship'    => __('取消发货', 'orders'),
