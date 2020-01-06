@@ -459,6 +459,26 @@
                                     </div>
                                     <div id="collapseNine" class="panel-collapse collapse">
                                         <div class="panel-body mt_15">
+                                            <!--仅自营店铺支持赠送积分-->
+	                                        {if $manage_mode eq 'self'}
+                                            <div class="form-group">
+					              				<label class="control-label col-lg-5">{t domain="goods"}赠送消费积分数：{/t}</label>
+					              				<div class="col-lg-6">
+					                            	<input class="form-control" type="text" name="give_integral" value="{$goods.give_integral}" size="20" data-toggle="parseint_input" />
+					                          	</div>
+					              			</div>
+					              			<p class="help-block">{t domain="goods"}购买该商品时赠送消费积分数,-1表示按商品价格赠送{/t}</p>
+
+                                            <!--
+					              			<div class="form-group">
+					              				<label class="control-label col-lg-5">{t domain="goods"}赠送成长值：{/t}</label>
+					              				<div class="col-lg-6">
+					                          		<input class="form-control" type="text" name="rank_integral" value="{$goods.rank_integral}" size="20" data-toggle="parseint_input" />
+					                          	</div>
+					              			</div>
+					              			<p class="help-block">{t domain="goods"}购买该商品时赠送成长值数,-1表示按商品价格赠送{/t}</p>
+					              			-->
+                                            {/if}
                                             <div class="form-group">
                                                 <label class="control-label col-lg-5">{t domain="goods"}积分购买金额：{/t}</label>
                                                 <div class="col-lg-6">
@@ -471,44 +491,6 @@
                                 </div>
                             </div>
 
-                            <div class="panel-group">
-                                <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                        <a data-toggle="collapse" data-parent="#accordionTwo" href="#collapseTen" class="collapsed accordion-toggle">
-                                            <span class="glyphicon"></span>
-                                            <h4 class="panel-title">{t domain="goods"}推广佣金{/t}</h4>
-                                        </a>
-                                    </div>
-
-                                    <div id="collapseTen" class="panel-collapse collapse">
-                                        <div class="panel-body mt_15 grade-box">
-                                            {if $get_grade_list}
-                                            <label>{t domain="goods"}分销权益：{/t}<small class="goods-grade">设置分销等级会员的分佣金额</small></label>
-                                            <!-- {foreach from=$get_grade_list item=list} -->
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-4">{$list.grade_name}</label>
-                                                <div class="col-lg-6">
-                                                    <input type="text" id="rank_{$list.grade_id}" class="form-control " name="grade_price[]" value="{$affiliate_grade_price_list[$list.grade_id]}"/>
-                                                </div>
-                                                <input type="hidden" name="grade_id[]" value="{$list.grade_id}" />
-                                            </div>
-                                            <br>
-                                            <!-- {/foreach} -->
-                                            {/if}
-
-                                            <div>
-                                                <label>{t domain="goods"}门店佣金：{/t}<small class="goods-grade">设置门店的分佣金额</small></label>
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-4">门店佣金</label>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" name="store_brokerage" value="{$goods.store_brokerage}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>

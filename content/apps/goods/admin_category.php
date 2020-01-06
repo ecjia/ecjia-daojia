@@ -666,9 +666,9 @@ class admin_category extends ecjia_admin {
 			
 			$cache_key = sprintf('%X', crc32('category-children-'.$info['parent_id']));
 			$category_db->delete_cache_item($cache_key);
-			return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
+			return $this->showmessage(__('价格是否显示切换成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
 		} else {
-			return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('价格是否显示切换失败', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 

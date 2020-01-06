@@ -405,8 +405,8 @@ function goods_enable_type_list($selected, $enabled = false, $show_all = false) 
 
 	if ($show_all) {
 		//自营商家可以使用平台后台添加的商品规格
-		$store_info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
-		if ($store_info['manage_mode'] == 'self') {
+		$manage_mode = get_merchant_manage_mode();
+		if ($manage_mode == 'self') {
 			$db_goods_type->orWhere('store_id', 0);
 		}
 	}
@@ -434,7 +434,7 @@ function get_merchant_review_status() {
         $review_status = 5;
     } else {
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-            $manage_mode = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->value('manage_mode');
+            $manage_mode = get_merchant_manage_mode();
             if ($manage_mode == 'self') {
                 //自营无需审核
                 $review_status = 5;
@@ -449,6 +449,15 @@ function get_merchant_review_status() {
         }
     }
     return $review_status;
+}
+
+function get_merchant_manage_mode() {
+    if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+        $manage_mode = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->value('manage_mode');
+        return $manage_mode;
+    }
+
+    return null;
 }
 
 //end
