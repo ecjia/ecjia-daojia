@@ -327,10 +327,10 @@ class user_account_controller
         $token = ecjia_touch_user::singleton()->getToken();
 
         $account_list = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RECORD)->data(array('token' => $token, 'pagination' => array('page' => $pages, 'count' => $limit), 'type' => $type))->hasPage()->run();
-        $affiliate_list = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_STORE_AGENT_AFFILIATE_ACCOUNT_LOG)->data(array('token' => $token, 'pagination' => array('page' => $pages, 'count' => $limit)))->hasPage()->run();
 
-        $all_list =  array_merge($account_list['0'],$affiliate_list['0']);
-        $all_page = array_merge($account_list['1'],$affiliate_list['1']);
+
+        $all_list =  $account_list['0'];
+        $all_page = $account_list['1'];
 
         if (!is_ecjia_error($all_list)) {
 
