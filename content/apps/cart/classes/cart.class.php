@@ -892,7 +892,11 @@ class cart {
 			$val		= floatval($rate) / 100;
 			$pay_fee	= $val > 0 ? $order_amount * $val /(1- $val) : 0;
 		} else {
-			$pay_fee	= floatval($rate);
+		    if ($order_amount > 0) {
+                $pay_fee	= floatval($rate);
+            } else {
+                $pay_fee	= 0.00;
+            }
 		}
 		return round($pay_fee, 2);
 	}

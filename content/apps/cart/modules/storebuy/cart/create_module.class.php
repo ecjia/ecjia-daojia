@@ -84,27 +84,22 @@ class storebuy_cart_create_module extends api_front implements api_interface {
     	if (!$goods_sn) {
     		return new ecjia_error('not_found_goods', __('请选择您所需要购买的商品！', 'cart'));
     	}
-
-        $products_db = RC_Loader::load_app_model('products_model', 'goods');
-		$goods_db = RC_Loader::load_app_model('goods_model', 'goods');
+    	$goods_db = RC_DB::table('goods');
 		$goods_spec = array();
 		
 		$product_id = 0;
-		$products_goods = $products_db->where(array('product_sn' => $goods_sn))->find();
+		$products_goods = RC_DB::table('products')->where('product_sn', $goods_sn)->orWhere('product_bar_code', $goods_sn)->first();
+		if (isset($store_id) && $store_id > 0) {
+			$goods_db->where('store_id', $store_id);
+		}
 		if (!empty($products_goods)) {
 			$goods_spec = explode('|', $products_goods['goods_attr']);
-			$where = array('goods_id' => $products_goods['goods_id']);
-			if (isset($store_id) && $store_id > 0) {
-				$where['store_id'] = $store_id;
-			}
+			$goods_db->where('goods_id', $products_goods['goods_id']);
 			$product_id = $products_goods['product_id'];
 		} else {
-			$where = array('goods_sn' => $goods_sn);
-		    if (isset($store_id) && $store_id > 0) {
-				$where['store_id'] = $store_id;
-			}
+			$goods_db->where('goods_sn', $goods_sn)->orWhere('goods_barcode', $goods_sn);
 		}
-		$goods = $goods_db->where($where)->find();
+		$goods = $goods_db->first();
 		if (empty($goods)) {
 			return new ecjia_error('addgoods_error', __('该商品不存在或已下架', 'cart'));
 		}
