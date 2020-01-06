@@ -12,5 +12,5 @@ class topic_admin_plugin
     }
 }
 
-RC_Hook::add_filter('promotion_admin_menu_api', array('topic_admin_plugin', 'topic_admin_menu_api'));
+//RC_Hook::add_filter('promotion_admin_menu_api', array('topic_admin_plugin', 'topic_admin_menu_api'));
 // end
