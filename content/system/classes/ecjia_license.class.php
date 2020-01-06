@@ -112,7 +112,7 @@ class ecjia_license {
     
     public function get_certificate()
     {
-        $certificate_file = RC_Upload::upload_path($this->certificate_file);
+        $certificate_file = RC_Upload::local_upload_path($this->certificate_file);
         return $this->parse_certificate($certificate_file);
     }
     
@@ -139,7 +139,7 @@ class ecjia_license {
      */
     public function license_check() {
         // 检测网店 license
-        $certificate_file = RC_Upload::upload_path($this->certificate_file);
+        $certificate_file = RC_Upload::local_upload_path($this->certificate_file);
         if (!empty($this->certificate_sn) && !empty($this->certificate_file) && file_exists($certificate_file)) {
             return true;
         } else {
@@ -155,7 +155,7 @@ class ecjia_license {
         $params = [
         	'site_host' => $_SERVER['HTTP_HOST'],
         	'license_number' => $this->certificate_sn,
-        	'license_content' => base64_encode(file_get_contents(RC_Upload::upload_path($this->certificate_file))),
+        	'license_content' => base64_encode(file_get_contents(RC_Upload::local_upload_path($this->certificate_file))),
         ];
         $cloud = ecjia_cloud::instance()->api('product/license/validate')->data($params)->run();
         if ($cloud->getStatus() == ecjia_cloud::STATUS_ERROR) {

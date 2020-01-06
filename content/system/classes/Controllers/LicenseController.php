@@ -106,7 +106,7 @@ class LicenseController extends ecjia_admin
         }
 
         if (!empty($license['certificate_file'])) {
-            $certificate_file = RC_Upload::upload_path() . str_replace('/', DS, $license['certificate_file']);
+            $certificate_file = RC_Upload::local_upload_path() . str_replace('/', DS, $license['certificate_file']);
             $cert_data = ecjia_license::instance()->parse_certificate($certificate_file);
             if (!$cert_data) {
                 $is_download = 0;
@@ -149,7 +149,7 @@ class LicenseController extends ecjia_admin
         }
         $info = $upload->upload($_FILES['license']);
         $license_file = $upload->get_position($info);
-        $license_full_file = RC_Upload::upload_path(str_replace('/', DS, $license_file));
+        $license_full_file = RC_Upload::local_upload_path(str_replace('/', DS, $license_file));
 
         /* 取出证书内容 */
         $license_arr = ecjia_license::instance()->parse_certificate($license_full_file);
@@ -170,7 +170,7 @@ class LicenseController extends ecjia_admin
                 return $this->showmessage(__('授权证书上传成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@license/license')));
             } else {
                 /* 证书验证失败，删除错误的证书文件 */
-                RC_Storage::disk()->delete($license_full_file);
+                RC_Storage::disk('local')->delete($license_full_file);
 
                 return $this->showmessage(__('授权证书连接服务器校验失败，请检查授权证书的合法性。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('@license/license')));
             }
@@ -186,7 +186,7 @@ class LicenseController extends ecjia_admin
 
         $license = ecjia_license::get_shop_license();
 
-        $certificate_file = RC_Upload::upload_path($license['certificate_file']);
+        $certificate_file = RC_Upload::local_upload_path($license['certificate_file']);
 
         $cert_data = ecjia_license::instance()->parse_certificate($certificate_file);
 
@@ -213,10 +213,10 @@ class LicenseController extends ecjia_admin
 
         $license = ecjia_license::get_shop_license();
 
-        $certificate_file = RC_Upload::upload_path($license['certificate_file']);
+        $certificate_file = RC_Upload::local_upload_path($license['certificate_file']);
 
         if (file_exists($certificate_file)) {
-            $disk = RC_Storage::disk();
+            $disk = RC_Storage::disk('local');
             $disk->delete($certificate_file);
         }
 
