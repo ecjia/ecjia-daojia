@@ -192,6 +192,9 @@ class merchant extends ecjia_merchant
                 if ($promote_price[$k] > $goods_info['shop_price']) {
                     return $this->showmessage(sprintf(__('您设置的活动价不能超过商品原价，请重新设置', 'promotion')), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
+                if ($promote_limited[$k] < 1) {
+                    return $this->showmessage(__('限购总数量不能少于1件', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                }
                 if ($promote_user_limited[$k] > $promote_limited[$k]) {
                     return $this->showmessage(__('每人限购不能大于限购总数量', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
@@ -227,6 +230,9 @@ class merchant extends ecjia_merchant
 
             if ($promote_price > $goods_info['shop_price']) {
                 return $this->showmessage(sprintf(__('您设置的活动价不能超过商品原价，请重新设置', 'promotion')), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if ($promote_limited < 1) {
+                return $this->showmessage(__('限购总数量不能少于1件', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             if ($promote_user_limited > $promote_limited) {
                 return $this->showmessage(__('每人限购不能大于限购总数量', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
