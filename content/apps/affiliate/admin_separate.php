@@ -154,6 +154,7 @@ class admin_separate extends ecjia_admin {
         if($order_info['agencysale_store_id']) {
             $change_type = AccountConstant::BALANCE_AGENCYSALE_AFFILIATE;
         }
+        $affiliate_log['order_sn'] = $order_info['order_sn'];
         Ecjia\App\Affiliate\OrderAffiliate::OrderAffiliateChangeAccount($affiliate_log, $change_type);
 
         return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);

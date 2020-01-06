@@ -145,14 +145,16 @@ class affiliate_user_userinfo_module extends api_front implements api_interface 
 	private function total_order_amount ($user_id) {
         $amount = 0;
 		if (!empty($user_id)) {
-			$amount = RC_DB::table('order_info')
-			->where('parent_id', $user_id)
-			->whereIn('order_status', array(OS_SPLITED, OS_SPLITING_PART))
-			->where('shipping_status', SS_RECEIVED)
-			->where('pay_status', PS_PAYED)
-			->select(RC_DB::Raw('SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_amount'))
-			->first();
-			$amount = $amount['total_amount'] > 0 ? $amount['total_amount'] : 0;
+            $amount = RC_DB::table('affiliate_log as al')
+                ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('al.order_id'))
+                ->where(RC_DB::raw('al.user_id'), $user_id)
+                ->where(RC_DB::raw('al.separate_type'), '!=', '2')
+                ->whereIn('order_status', array(OS_SPLITED, OS_SPLITING_PART))
+                ->where('shipping_status', SS_RECEIVED)
+                ->where('pay_status', PS_PAYED)
+                ->select(RC_DB::Raw('SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_amount'))
+                ->first();
+            $amount = $amount['total_amount'] > 0 ? $amount['total_amount'] : 0;
 		}
 		return $amount;
 	}

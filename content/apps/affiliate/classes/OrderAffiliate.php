@@ -397,8 +397,8 @@ class OrderAffiliate
                 'payment_id'   => 0,
                 'user_note'    => $change_desc,
                 'amount'       => $affiliate_log['money'],
-                'from_type'    => 'system',
-                'from_value'   => '',
+                'from_type'    => 'affiliate',
+                'from_value'   => $affiliate_log['order_sn'],
                 'is_paid'      => 1,
             );
             RC_Loader::load_app_func('admin_user', 'finance');
@@ -409,7 +409,9 @@ class OrderAffiliate
                 'user_id'		=> $affiliate_log['user_id'],
                 'user_money'	=> $affiliate_log['money'],
                 'change_type'   => $change_type,
-                'change_desc'	=> $change_desc
+                'change_desc'	=> $change_desc,
+            	'from_type'    => 'affiliate',
+            	'from_value'   => $affiliate_log['order_sn'],
             );
             RC_Api::api('finance', 'account_change_log', $arrs);
             //更新分成记录金额状态

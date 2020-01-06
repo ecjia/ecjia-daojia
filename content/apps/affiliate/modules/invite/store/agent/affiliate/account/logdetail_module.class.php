@@ -67,10 +67,10 @@ class invite_store_agent_affiliate_account_logdetail_module extends api_front im
         	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'affiliate'), __CLASS__));
         }
         
-        $agent_info = Ecjia\App\Affiliate\Models\AffiliateStoreModel::where('user_id', $_SESSION['user_id'])->first();
-        if (!$agent_info) {
-        	return new ecjia_error('invalid_parameter', __('非代理角色不可查看此销售奖励', 'affiliate'));
-        }
+//         $agent_info = Ecjia\App\Affiliate\Models\AffiliateStoreModel::where('user_id', $_SESSION['user_id'])->first();
+//         if (!$agent_info) {
+//         	return new ecjia_error('invalid_parameter', __('非代理角色不可查看此销售奖励', 'affiliate'));
+//         }
         
         
         $info = AccountLogModel::where('user_id', $_SESSION['user_id'])
