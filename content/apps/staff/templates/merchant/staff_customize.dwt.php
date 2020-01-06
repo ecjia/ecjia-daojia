@@ -122,7 +122,7 @@
 			                <div class="footer-realestates-columns">
 			                    <div class="row">
 			                    	<div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
+			                            <a href='{url path="staff/merchant/add" args="group_id=-1&step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
 			                        </div>
 			                        <div class="col-sm-6">
 			                            <a href='{url path="staff/merchant/init" args="group_id=-1"}' class="btn btn-default-staff btn-block">{t domain="staff"}管理账号{/t}</a>
@@ -153,7 +153,7 @@
 			                <div class="footer-realestates-columns">
 			                    <div class="row">
 			                    	<div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
+			                            <a href='{url path="staff/merchant/add" args="group_id=-2&step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
 			                        </div>
 			                        <div class="col-sm-6">
 			                            <a href='{url path="staff/merchant/init" args="group_id=-2"}' class="btn btn-default-staff btn-block">{t domain="staff"}管理账号{/t}</a>

@@ -126,11 +126,14 @@ class merchant extends ecjia_merchant
         $group_list = $this->get_group_select_list($_SESSION['store_id']);
         $this->assign('group_list', $group_list);
 
+        $group_id = $_GET['group_id'];
+        $this->assign('group_id', $group_id);
+
         $step = remove_xss($_GET['step']);
         if ($step == 1) {
-            $this->assign('form_action', RC_Uri::url('staff/merchant/insert_one', array('step' => 1)));
+            $this->assign('form_action', RC_Uri::url('staff/merchant/insert_one', array('step' => 1, 'group_id' => $_GET['group_id'])));
         } elseif ($step == 2) {
-            $this->assign('form_action', RC_Uri::url('staff/merchant/insert'));
+            $this->assign('form_action', RC_Uri::url('staff/merchant/insert', array( 'group_id' => $_GET['group_id'])));
         } else {
             $user_id             = intval($_GET['id']);
             $staff               = RC_DB::table('staff_user')->where('user_id', $user_id)->first();
@@ -217,7 +220,7 @@ class merchant extends ecjia_merchant
 
         $time = RC_Time::gmtime() - 6000 * 3;
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
-            return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 2))));
+            return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 2,'group_id' => $_GET['group_id']))));
         } else {
             return $this->showmessage(__('请输入正确的手机校验码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -233,14 +236,14 @@ class merchant extends ecjia_merchant
         $store_id    = $_SESSION['store_id'];
         $group_id    = 0;
         $action_list = '';
-        if (!empty($_POST['group_id'])) {
-            if ($_POST['group_id'] > 0) {
+        if (!empty($_GET['group_id'])) {
+            if ($_GET['group_id'] > 0) {
                 $action_list = RC_DB::table('staff_group')
                     ->where('store_id', $store_id)
-                    ->where('group_id', intval($_POST['group_id']))
+                    ->where('group_id', intval($_GET['group_id']))
                     ->value('action_list');
             }
-            $group_id = intval($_POST['group_id']);
+            $group_id = intval($_GET['group_id']);
         }
 
         $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
