@@ -257,7 +257,7 @@ class user_signup_module extends api_front implements api_interface
      * @param array $other
      *            注册的其他信息
      *
-     * @return bool $bool
+     * @return ecjia_error
      */
     private function register($username, $password = null, $email, $mobile, $other = array(), $api_version = '')
     {

@@ -783,6 +783,9 @@ function EM_user_info($user_id, $mobile = '')
     if ($user_info['user_rank'] == 0) {
         //重新计算会员等级
         $now_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
+        if (is_ecjia_error($now_rank)) {
+        	$now_rank = [];
+        }
     } else {
         //用户等级更新，不用计算，直接读取
         $now_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
@@ -811,6 +814,7 @@ function EM_user_info($user_id, $mobile = '')
         ->where(RC_DB::raw('use_start_date'), '<', $time)
         ->where(RC_DB::raw('use_end_date'), '>', $time)
         ->where(RC_DB::raw('ub.order_id'), 0)
+        ->whereRaw("(ub.order_sn is null or order_sn ='')")
         ->count(RC_DB::raw('ub.bonus_id'));
     /* 判断会员名更改时间*/
     $username_update_time = RC_DB::table('term_meta')->where('object_type', 'ecjia.user')

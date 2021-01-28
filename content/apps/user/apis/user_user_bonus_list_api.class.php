@@ -68,9 +68,9 @@ class user_user_bonus_list_api extends Component_Event_Api
         }
 
         if ($options['bonus_type'] == 'allow_use') {
-            $db->where(RC_DB::raw('bt.use_end_date'), '>=', $cur_date)->where(RC_DB::raw('ub.order_id'), 0);
+            $db->where(RC_DB::raw('bt.use_end_date'), '>=', $cur_date)->where(RC_DB::raw('ub.order_id'), 0)->whereRaw("(ub.order_sn is null or order_sn ='')");
         } elseif ($options['bonus_type'] == 'expired') {
-            $db->where(RC_DB::raw('bt.use_end_date'), '<=', $cur_date)->where(RC_DB::raw('ub.order_id'), 0);
+            $db->where(RC_DB::raw('bt.use_end_date'), '<=', $cur_date)->where(RC_DB::raw('ub.order_id'), 0)->whereRaw("(ub.order_sn is null or order_sn ='')");
         } elseif ($options['bonus_type'] == 'is_used') {
             $where['ub.order_id'] = array('gt' => 0);
             $db->where(RC_DB::raw('ub.order_id'), '>', 0);

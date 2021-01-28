@@ -99,6 +99,8 @@ class user_info_bankcard_module extends api_front implements api_interface
             }
         }
 
+        $available_list = array_merge($available_list);
+        
         return array('user_binded_list' => $user_binded_list, 'available_withdraw_way' => $available_list);
     }
 }
