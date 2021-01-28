@@ -1,0 +1,27 @@
+{
+  "name": "ecjia/kernel",
+  "type": "royalcms-system",
+  "description": "The ECJia Kernel package.",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "royalwang",
+      "email": "hxroyal@gmail.com"
+    }
+  ],
+  "require": {
+
+  },
+  "autoload": {
+    "psr-4": {
+        "Ecjia\\Kernel\\": ""
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.x-dev"
+    }
+  }
+  
+}
