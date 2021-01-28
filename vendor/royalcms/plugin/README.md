@@ -1,0 +1,1 @@
+# royalcms-plugin

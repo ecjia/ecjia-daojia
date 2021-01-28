@@ -1,0 +1,44 @@
+{
+    "name": "royalcms/laravel-jsonrpc-client",
+    "description": "A laravel package of json-rpc client",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "json-rpc",
+        "client",
+        "royalcms"
+    ],
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "datto/json-rpc": "^6.1",
+        "datto/json-rpc-http": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Laravel\\JsonRpcClient\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Royalcms\\Laravel\\JsonRpcClient\\JsonRpcClientServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}

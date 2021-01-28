@@ -1,0 +1,39 @@
+{
+    "name": "royalcms/shouqianba",
+    "description": "The Royalcms shouqianba package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/pay": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Shouqianba\\": "Royalcms/Component/Shouqianba"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Shouqianba\\ShouqianbaServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

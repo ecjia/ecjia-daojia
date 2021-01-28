@@ -1,0 +1,39 @@
+{
+    "name": "royalcms/widget",
+    "description": "The Royalcms widget package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Widget\\": "Royalcms/Component/Widget"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Widget\\WidgetServiceProvider"
+            ],
+            "aliases": {
+                "RC_Widget": "Royalcms\\Component\\Widget\\Facades\\Widget"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,39 @@
+{
+    "name": "royalcms/storage",
+    "description": "The Royalcms storage package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Storage\\": "Royalcms/Component/Storage"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.x-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Storage\\StorageServiceProvider"
+            ],
+            "aliases": {
+                "RC_Storage": "Royalcms\\Component\\Storage\\Facades\\Storage"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,1 @@
+# royalcms-model
