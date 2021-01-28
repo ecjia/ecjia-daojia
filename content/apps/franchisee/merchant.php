@@ -185,6 +185,10 @@ class merchant extends ecjia_merchant
         $type   = !empty($_GET['type']) ? trim($_GET['type']) : '';
         $mobile = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
 		
+		$stats_code = ecjia::config('stats_code');
+		$stats_code = $stats_code ? stripslashes($stats_code) : '';
+		$this->assign('stats_code', $stats_code);
+        
         $data = array();
         if ($step == 1) {
             $this->unset_session();
@@ -195,6 +199,11 @@ class merchant extends ecjia_merchant
                 $data['validate_type'] = 1;
             }
             $this->assign('info', $data);
+            $this->assign('shop_name', ecjia::config('shop_name'));
+            
+            $article = RC_DB::table('article')->select('article_id', 'title', 'content')->where('title', '入驻协议')->where('article_type', 'system')->orderby('article_id', 'desc')->first();
+            $article['content'] = stripslashes($article['content']);
+            $this->assign('join_rule', $article);
 
         } elseif ($step == 2) {
             //个人信息
@@ -391,6 +400,11 @@ class merchant extends ecjia_merchant
             $validate_type = !empty($_POST['validate_type']) ? intval($_POST['validate_type']) : 1; //个人1  企业2
 
             $responsible_person = !empty($_POST['responsible_person']) ? trim($_POST['responsible_person']) : ''; //负责人
+
+            if (empty($_POST['agreement'])) {
+            	return ecjia_front::$controller->showmessage(__('您没有接受协议', 'franchisee') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            
             $message            = __('请输入负责人姓名', 'franchisee');
             if ($validate_type == 2) {
                 $responsible_person = !empty($_POST['company_responsible_person']) ? trim($_POST['company_responsible_person']) : ''; //法定代表人
@@ -523,8 +537,8 @@ class merchant extends ecjia_merchant
             if (empty($merchants_name)) {
                 return $this->showmessage(__('店铺名称不能为空', 'franchisee'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
-                if (mb_strlen($merchants_name) > 17) {
-                    return $this->showmessage(__('店铺名称不能超过17个字符', 'franchisee'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                if (mb_strlen($merchants_name) > 20) {
+                    return $this->showmessage(__('店铺名称不能超过20个字符', 'franchisee'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
                 if ($type == 'edit_apply') {
                     $count_merchants_name = RC_DB::table('store_preaudit')->where('merchants_name', $merchants_name)->where('contact_mobile', '!=', $mobile)->count();

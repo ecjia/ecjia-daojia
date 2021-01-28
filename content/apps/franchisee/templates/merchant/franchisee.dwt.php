@@ -176,6 +176,16 @@
 						</div>
 						<span class="input-must">*</span>
 					</div>
+					
+					<div class="form-group">
+						&nbsp;&nbsp;<label class="control-label col-lg-2">
+						</label>
+						<input id="agreement" type="checkbox" name="agreement" value="1">
+						<label for="agreement">我已阅读并同意 
+							<a style="color:#1c75bf;" class="jsBtnRegisterRule" data-toggle="modal" data-backdrop="static" href="#joinModal" title='入驻协议'>《{$shop_name}商家入驻协议》</a>
+						</label>
+					</div>
+					
 					<div class="form-group ">
 						<div class="col-lg-6 col-md-offset-2">
 							<input class="btn btn-primary" type="submit" value='{t domain="franchisee"}下一步{/t}'>
@@ -647,7 +657,29 @@
         </section>
     </div>
 </div>
-{if ecjia::config('stats_code')}
-	{stripslashes(ecjia::config('stats_code'))}
+
+<div id="joinModal" aria-labelledby="myModalLabel" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:900px;">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="myModalLabel" class="modal-title">{t domain="promotion"}商家入驻协议{/t}</h4>
+            </div>
+            
+            <div class="modal-body">
+				<p>{$join_rule.content}</p>
+            </div>
+            
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-default jsBtnCancel">{t domain="default"}取消{/t}</button>
+               <button type="button" data-dismiss="modal" class="btn btn-primary jsBtnAgree">{t domain="default"}同意并继续{/t}</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{if {$stats_code}}
+	{$stats_code}
 {/if}
 <!-- {/block} -->
