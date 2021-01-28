@@ -5,6 +5,7 @@ Description: 这是首页的团购模块
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+{nocache}
 {if $value.data}
 <div class="ecjia-mod ecjia-promotion-model ecjia-margin-t {if $count eq $key && !$data}ecjia-mod-pb35{/if}">
 	<div class="head-title">
@@ -39,3 +40,4 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
 </div>
 {/if}
+{/nocache}

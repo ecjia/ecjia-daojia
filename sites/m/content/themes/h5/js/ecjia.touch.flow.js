@@ -524,8 +524,6 @@
 					ecjia.touch.flow.check_paypass();
 					return false;
 				}
-				console.log(11);
-				return false;
 
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var alipay_btn_html = $(this).val();

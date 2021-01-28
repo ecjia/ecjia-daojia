@@ -360,7 +360,7 @@ class user_function
             return [];
         }
         
-        $apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
+        $apis = array('updateAppMessageShareData', 'updateTimelineShareData');
 
         $wechat->js->setUrl($url);
 

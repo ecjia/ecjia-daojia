@@ -72,7 +72,7 @@ class ecjia_theme_controller extends ecjia_front
 
         //微信判断位置
         if(ecjia_is_weixin()) {
-            RC_Script::enqueue_script('ecjia-touch-jweixin', ecjia_extra::themeUrl('js/jweixin-1.2.0.js'), array(), false, 1);
+            RC_Script::enqueue_script('ecjia-touch-jweixin', 'https://res2.wx.qq.com/open/js/jweixin-1.6.0.js', array(), false, 1);
         }
         RC_Script::enqueue_script('ecjia-touch-spread', ecjia_extra::themeUrl('js/ecjia.touch.spread.js'), array(), false, 1);
         RC_Script::enqueue_script('ecjia-touch-user_account', ecjia_extra::themeUrl('js/ecjia.touch.user_account.js'), array(), false, 1);

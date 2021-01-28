@@ -110,18 +110,28 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					{if $list.shipping_code eq 'ship_o2o_express'}
 					<ul class="ship_o2o_express_time">
 					<!-- {foreach from=$list.shipping_date item=date} -->
-						<!-- {foreach from=$date.time item=time} -->
-						{assign var="shipping_time" value="{$time.start_time}-{$time.end_time}"}
-						<li class="{$list.shipping_code}_time {$temp.shipping_time} {$date.date} {if $temp.shipping_time eq $shipping_time && $temp.shipping_date eq $date.date && $temp.shipping_id eq $list.shipping_id}active{/if} {if $temp.shipping_date neq $date.date}hide{/if}" data-date="{$date.date}" data-time="{$time.start_time}-{$time.end_time}">{$time.start_time}-{$time.end_time}</li>
-						<!-- {/foreach} -->
+						<!-- {foreach from=$date.time item=time key = key} -->
+                        {if $key eq '0'}
+                            {assign var="shipping_time" value="{$time.start_time}{$time.end_time}"}
+                            <li class="{$list.shipping_code}_time {$temp.shipping_time} {$date.date} {if $temp.shipping_time eq $shipping_time && $temp.shipping_date eq $date.date && $temp.shipping_id eq $list.shipping_id}active{/if} {if $temp.shipping_date neq $date.date}hide{/if}" data-date="{$date.date}" data-time="{$time.start_time}{$time.end_time}">{$time.start_time}{$time.end_time}</li>
+                        {else}
+                            {assign var="shipping_time" value="{$time.start_time}-{$time.end_time}"}
+                            <li class="{$list.shipping_code}_time {$temp.shipping_time} {$date.date} {if $temp.shipping_time eq $shipping_time && $temp.shipping_date eq $date.date && $temp.shipping_id eq $list.shipping_id}active{/if} {if $temp.shipping_date neq $date.date}hide{/if}" data-date="{$date.date}" data-time="{$time.start_time}-{$time.end_time}">{$time.start_time}-{$time.end_time}</li>
+                        {/if}
+					<!-- {/foreach} -->
 					<!-- {/foreach} -->
 					</ul>
 					{else if $list.shipping_code eq 'ship_ecjia_express'}
 					<ul class="ship_ecjia_express_time">
 					<!-- {foreach from=$list.shipping_date item=date} -->
-						<!-- {foreach from=$date.time item=time} -->
-						{assign var="shipping_time" value="{$time.start_time}-{$time.end_time}"}
-						<li class="{$list.shipping_code}_time {$temp.shipping_time} {$date.date} {if $temp.shipping_time eq $shipping_time && $temp.shipping_date eq $date.date && $temp.shipping_id eq $list.shipping_id}active{/if} {if $temp.shipping_date neq $date.date}hide{/if}" data-date="{$date.date}" data-time="{$time.start_time}-{$time.end_time}">{$time.start_time}-{$time.end_time}</li>
+						<!-- {foreach from=$date.time item=time key = key} -->
+                        {if $key eq '0'}
+                            {assign var="shipping_time" value="{$time.start_time}{$time.end_time}"}
+                            <li class="{$list.shipping_code}_time {$temp.shipping_time} {$date.date} {if $temp.shipping_time eq $shipping_time && $temp.shipping_date eq $date.date && $temp.shipping_id eq $list.shipping_id}active{/if} {if $temp.shipping_date neq $date.date}hide{/if}" data-date="{$date.date}" data-time="{$time.start_time}{$time.end_time}">{$time.start_time}{$time.end_time}</li>
+                        {else}
+                            {assign var="shipping_time" value="{$time.start_time}-{$time.end_time}"}
+                            <li class="{$list.shipping_code}_time {$temp.shipping_time} {$date.date} {if $temp.shipping_time eq $shipping_time && $temp.shipping_date eq $date.date && $temp.shipping_id eq $list.shipping_id}active{/if} {if $temp.shipping_date neq $date.date}hide{/if}" data-date="{$date.date}" data-time="{$time.start_time}-{$time.end_time}">{$time.start_time}-{$time.end_time}</li>
+                        {/if}
 						<!-- {/foreach} -->
 					<!-- {/foreach} -->
 					</ul>

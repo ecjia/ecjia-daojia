@@ -24,7 +24,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<a class="nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}{if $val.product_id neq 0}&product_id={$val.product_id}{/if}"><span class="goods-name">{$val.name}</span></a>
 			<p class="store-name">
 				<span><i class="iconfont icon-shop"></i> {$val.store_name}</span>
-				<span class="self-label">{t domain="h5"}自营{/t}</span>
+				<span class="self-label">{if $val.manage_mode eq 'self'}{t domain="h5"}自营{/t} {else}{t domain="h5"}入驻{/t}{/if}</span>
 			</p>
 			<div class="list-page-goods-price">
 				<div class="left">

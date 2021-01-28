@@ -320,12 +320,15 @@
 						if (val == 0) {
 							span.attr('rec_id', '');
 							var span_add = $this.parent().siblings('span');
-							show.html(1);
+							show.html(0);
 						} else {
 							show.html(val);
 						}
 						var goods_id = $this.parent('.box').children('.add').attr('goods_id');
 					}
+					
+					
+					
 
 					if ($.find('.may_like_' + goods_id)) {
 						if (val == 0) {
@@ -778,6 +781,7 @@
 					name = $this.html().trim(),
 					category_id = $this.attr('data-category') == undefined ? 0 : $this.attr('data-category'),
 					li = $this.parent('li');
+                $("#wd_list").scrollTop(0);
 
 				if ($this.hasClass('disabled') || ($this.parent().hasClass('a1r') && $this.parent().find('.a1v').length == 0) || ($this.hasClass('a1u') && $this.hasClass('active'))) {
 					return false;

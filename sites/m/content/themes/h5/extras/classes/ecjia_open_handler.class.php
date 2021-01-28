@@ -308,7 +308,11 @@ class ecjia_open_handler
      */
     public static function open_merchant($querys)
     {
-        return RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id']));
+    	if (!empty($querys['category_id'])) {
+    		return RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id'], 'cid' => $querys['category_id']));
+    	} else {
+    		return RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id']));
+    	}
     }
 
     /**

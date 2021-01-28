@@ -775,7 +775,13 @@ class cart_controller
         } else {
             if ($selected_shipping['shipping_date_enable']) {
                 $_SESSION['cart'][$cart_key]['temp']['shipping_date'] = $selected_shipping['shipping_date'][0]['date'];
-                $_SESSION['cart'][$cart_key]['temp']['shipping_time'] = $selected_shipping['shipping_date'][0]['time'][0]['start_time'] . '-' . $selected_shipping['shipping_date'][0]['time'][0]['end_time'];
+                $today_date = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+                if ($today_date == $_SESSION['cart'][$cart_key]['temp']['shipping_date']) {
+                	$_SESSION['cart'][$cart_key]['temp']['shipping_time'] = $selected_shipping['shipping_date'][0]['time'][0]['start_time'] . '' . $selected_shipping['shipping_date'][0]['time'][0]['end_time'];
+                } else {
+                	$_SESSION['cart'][$cart_key]['temp']['shipping_time'] = $selected_shipping['shipping_date'][0]['time'][0]['start_time'] . '-' . $selected_shipping['shipping_date'][0]['time'][0]['end_time'];
+                }
+               
             }
         }
         //发票
@@ -1327,6 +1333,10 @@ class cart_controller
         $order_id = $rs['order_id'];
         //释放session
         unset($_SESSION['cart']);
+        $store_id = $rs['store_id'];
+        
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
 
         $url = RC_Uri::url('payment/pay/init', array('order_id' => $order_id, 'tips_show' => 1));
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
@@ -1404,6 +1414,10 @@ class cart_controller
         $order_id = $rs['order_id'];
         //释放session
         unset($_SESSION['cart']);
+        
+        $store_id = $rs['store_id'];
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
 
         $url = RC_Uri::url('payment/pay/init', array('order_id' => $order_id, 'tips_show' => 1));
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
