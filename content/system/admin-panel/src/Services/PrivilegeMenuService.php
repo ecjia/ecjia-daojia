@@ -56,15 +56,15 @@ use RC_Uri;
  */
 class PrivilegeMenuService
 {
-	
-	public function handle(& $options)
+
+    public function handle($options)
     {
-	    $user_id = royalcms('request')->query('id');
-	    
-	    $admin_privilege_menu 	 = ecjia_admin::make_admin_menu('admin_privilege_menu', __('平台后台权限'), RC_Uri::url('@admin_user/allot', array('id' => $user_id)), 1)->add_purview('admin_privilege_menu');
-	    
-	    return $admin_privilege_menu;
-	}
+        $user_id = royalcms('request')->query('id');
+
+        $admin_privilege_menu = ecjia_admin::make_admin_menu('admin_privilege_menu', __('平台后台权限'), RC_Uri::url('@admin_user/allot', array('id' => $user_id)), 1)->add_purview('admin_privilege_menu');
+
+        return $admin_privilege_menu;
+    }
 }
 
 // end

@@ -61,10 +61,10 @@ class AdminSessionLoginsService
      * from_value
      * @param array $options
      */
-    public function handle(& $options)
+    public function handle($options)
     {
-        $user_id = array_get($options, 'user_id');
-        $from_type = array_get($options, 'from_type');
+        $user_id    = array_get($options, 'user_id');
+        $from_type  = array_get($options, 'from_type');
         $from_value = array_get($options, 'from_value');
 
         $session_id = session()->getId();
@@ -77,7 +77,7 @@ class AdminSessionLoginsService
 
         return true;
     }
-    
+
 }
 
 // end

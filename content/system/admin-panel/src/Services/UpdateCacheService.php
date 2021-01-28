@@ -53,8 +53,8 @@ namespace Ecjia\System\AdminPanel\Services;
  */
 class UpdateCacheService
 {
-    
-    public function handle(& $options)
+
+    public function handle($options)
     {
 
         $factory = new \Ecjia\Component\CleanCache\CacheFactory();
@@ -74,7 +74,7 @@ class UpdateCacheService
 
         return $caches;
     }
-    
+
 }
 
 // end

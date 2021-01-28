@@ -15,10 +15,10 @@ class EcjiaDeactivatePluginService
 {
 
     /**
-     * @param $options['code'] 插件代号
+     * @param $options ['code'] 插件代号
      * @return mixed
      */
-    public function handle(& $options)
+    public function handle($options)
     {
         $code = $options['code'];
 

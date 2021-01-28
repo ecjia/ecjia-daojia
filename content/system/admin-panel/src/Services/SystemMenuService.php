@@ -16,7 +16,7 @@ class SystemMenuService
      * @param $options
      * @return array|\admin_menu
      */
-	public function handle(& $options)
+    public function handle($options)
     {
         $menus = array(
             ecjia_admin::make_admin_menu('dashboard', __('仪表盘'), RC_Uri::url('@index/init'), 1),

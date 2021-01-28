@@ -19,7 +19,7 @@ class ShortcutMenuService
      * @param $options
      * @return array|\admin_menu
      */
-	public function handle(& $options)
+    public function handle($options)
     {
         $admin_id = $_SESSION['admin_id'];
 
@@ -31,7 +31,7 @@ class ShortcutMenuService
             $shortcut = ecjia_admin::make_admin_menu('shortcut', __('我的快捷菜单'), '', 0);
 
             $submenus = array();
-            $i = 0;
+            $i        = 0;
             foreach ($admin_navlist as $url => $name) {
                 $submenus[] = ecjia_admin::make_admin_menu('shortcut_' . $i, $name, $url, $i);
                 $i++;
@@ -53,8 +53,8 @@ class ShortcutMenuService
 
     protected function getUserNavList($user_id)
     {
-        $model = AdminUserRepository::model()->find($user_id);
-        $nav = new QuickNav($model);
+        $model    = AdminUserRepository::model()->find($user_id);
+        $nav      = new QuickNav($model);
         $nav_list = $nav->get();
 
         if (!empty($nav_list)) {

@@ -54,8 +54,8 @@ use ecjia_admin;
  */
 class ServiceMenuService
 {
-	
-	public function handle(& $options)
+
+    public function handle($options)
     {
 
         if (config('site.shop_type') == 'cityo2o') {
@@ -64,8 +64,8 @@ class ServiceMenuService
             $menus = null;
         }
 
-		return $menus;
-	}
+        return $menus;
+    }
 }
 
 // end
