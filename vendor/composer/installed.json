@@ -1326,23 +1326,23 @@
         },
         {
             "name": "ecjia/app-api",
-            "version": "v3.0.0",
-            "version_normalized": "3.0.0.0",
+            "version": "v3.0.1",
+            "version_normalized": "3.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecjia/composer-ecjia-app-api.git",
-                "reference": "402f95368975cc31a5d7aba714f4a5755bd3ef64"
+                "reference": "a29ca9e59ce2e011da0526617a0e85e1da762979"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-api/zipball/402f95368975cc31a5d7aba714f4a5755bd3ef64",
-                "reference": "402f95368975cc31a5d7aba714f4a5755bd3ef64",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-api/zipball/a29ca9e59ce2e011da0526617a0e85e1da762979",
+                "reference": "a29ca9e59ce2e011da0526617a0e85e1da762979",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.0"
             },
-            "time": "2021-01-28T02:20:31+00:00",
+            "time": "2021-01-28T05:52:58+00:00",
             "type": "royalcms-app",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -1359,30 +1359,30 @@
             "homepage": "https://github.com/ecjia",
             "support": {
                 "issues": "https://github.com/ecjia/composer-ecjia-app-api/issues",
-                "source": "https://github.com/ecjia/composer-ecjia-app-api/tree/v3.0.0"
+                "source": "https://github.com/ecjia/composer-ecjia-app-api/tree/v3.0.1"
             },
             "install-path": "../../content/apps/api"
         },
         {
             "name": "ecjia/app-cron",
-            "version": "v2.1.3",
-            "version_normalized": "2.1.3.0",
+            "version": "v2.1.4",
+            "version_normalized": "2.1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecjia/composer-ecjia-app-cron.git",
-                "reference": "8da948e141966b50b90ca394273340327194c3b4"
+                "reference": "61f148962403aa1f3782be79f47e5a5c719bdb47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-cron/zipball/8da948e141966b50b90ca394273340327194c3b4",
-                "reference": "8da948e141966b50b90ca394273340327194c3b4",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-cron/zipball/61f148962403aa1f3782be79f47e5a5c719bdb47",
+                "reference": "61f148962403aa1f3782be79f47e5a5c719bdb47",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.9",
                 "royalcms/cron": "^5.0"
             },
-            "time": "2021-01-06T07:38:49+00:00",
+            "time": "2021-01-28T05:54:10+00:00",
             "type": "royalcms-app",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -1399,29 +1399,68 @@
             "homepage": "https://github.com/ecjia",
             "support": {
                 "issues": "https://github.com/ecjia/composer-ecjia-app-cron/issues",
-                "source": "https://github.com/ecjia/composer-ecjia-app-cron/tree/v2.1.3"
+                "source": "https://github.com/ecjia/composer-ecjia-app-cron/tree/v2.1.4"
             },
             "install-path": "../../content/apps/cron"
         },
         {
-            "name": "ecjia/app-mail",
+            "name": "ecjia/app-logviewer",
             "version": "v2.0.0",
             "version_normalized": "2.0.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ecjia/composer-ecjia-app-mail.git",
-                "reference": "f3deb2334f8e2192022f11da0642c62efa4e2db0"
+                "url": "https://github.com/ecjia/composer-ecjia-app-logviewer.git",
+                "reference": "e1049ae127abe30460c7bc982c87510b0822abc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-mail/zipball/f3deb2334f8e2192022f11da0642c62efa4e2db0",
-                "reference": "f3deb2334f8e2192022f11da0642c62efa4e2db0",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-logviewer/zipball/e1049ae127abe30460c7bc982c87510b0822abc4",
+                "reference": "e1049ae127abe30460c7bc982c87510b0822abc4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.0"
             },
-            "time": "2021-01-22T08:29:28+00:00",
+            "time": "2021-01-28T06:08:36+00:00",
+            "type": "royalcms-app",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Royal Wang",
+                    "email": "hxroyal@gmail.com"
+                }
+            ],
+            "description": "The ECJia App Logviewer package.",
+            "homepage": "https://github.com/ecjia",
+            "support": {
+                "issues": "https://github.com/ecjia/composer-ecjia-app-logviewer/issues",
+                "source": "https://github.com/ecjia/composer-ecjia-app-logviewer/tree/v2.0.0"
+            },
+            "install-path": "../../content/apps/logviewer"
+        },
+        {
+            "name": "ecjia/app-mail",
+            "version": "v2.0.1",
+            "version_normalized": "2.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ecjia/composer-ecjia-app-mail.git",
+                "reference": "8904cf784f57041643e5d099568d90cdfdb09dba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-mail/zipball/8904cf784f57041643e5d099568d90cdfdb09dba",
+                "reference": "8904cf784f57041643e5d099568d90cdfdb09dba",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "time": "2021-01-28T05:55:10+00:00",
             "type": "royalcms-app",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -1438,29 +1477,29 @@
             "homepage": "https://github.com/ecjia",
             "support": {
                 "issues": "https://github.com/ecjia/composer-ecjia-app-mail/issues",
-                "source": "https://github.com/ecjia/composer-ecjia-app-mail/tree/v2.0.0"
+                "source": "https://github.com/ecjia/composer-ecjia-app-mail/tree/v2.0.1"
             },
             "install-path": "../../content/apps/mail"
         },
         {
             "name": "ecjia/app-maintain",
-            "version": "v2.0.0",
-            "version_normalized": "2.0.0.0",
+            "version": "v2.0.1",
+            "version_normalized": "2.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecjia/composer-ecjia-app-maintain.git",
-                "reference": "a63c0c59a3850a37d1cee6a0f4e224dbb8d3af10"
+                "reference": "132192886b5b8372292be1911262c2ca8874308c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-maintain/zipball/a63c0c59a3850a37d1cee6a0f4e224dbb8d3af10",
-                "reference": "a63c0c59a3850a37d1cee6a0f4e224dbb8d3af10",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-maintain/zipball/132192886b5b8372292be1911262c2ca8874308c",
+                "reference": "132192886b5b8372292be1911262c2ca8874308c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.0"
             },
-            "time": "2021-01-18T06:51:21+00:00",
+            "time": "2021-01-28T05:55:19+00:00",
             "type": "royalcms-app",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -1477,23 +1516,23 @@
             "homepage": "https://github.com/ecjia",
             "support": {
                 "issues": "https://github.com/ecjia/composer-ecjia-app-maintain/issues",
-                "source": "https://github.com/ecjia/composer-ecjia-app-maintain/tree/v2.0.0"
+                "source": "https://github.com/ecjia/composer-ecjia-app-maintain/tree/v2.0.1"
             },
             "install-path": "../../content/apps/maintain"
         },
         {
             "name": "ecjia/app-rpc",
-            "version": "v1.0.3",
-            "version_normalized": "1.0.3.0",
+            "version": "v1.0.4",
+            "version_normalized": "1.0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecjia/composer-ecjia-app-rpc.git",
-                "reference": "dc004f7ce2facb6a4b67438c6fdcc90e8386bdfb"
+                "reference": "b2533e7e412be24561d5bcf4822c1b5d3054f162"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-rpc/zipball/dc004f7ce2facb6a4b67438c6fdcc90e8386bdfb",
-                "reference": "dc004f7ce2facb6a4b67438c6fdcc90e8386bdfb",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-rpc/zipball/b2533e7e412be24561d5bcf4822c1b5d3054f162",
+                "reference": "b2533e7e412be24561d5bcf4822c1b5d3054f162",
                 "shasum": ""
             },
             "require": {
@@ -1501,7 +1540,7 @@
                 "royalcms/laravel-jsonrpc-client": "^1.0",
                 "royalcms/laravel-jsonrpc-server": "^3.0"
             },
-            "time": "2021-01-19T09:27:04+00:00",
+            "time": "2021-01-28T05:56:37+00:00",
             "type": "royalcms-app",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -1518,9 +1557,48 @@
             "homepage": "https://github.com/ecjia",
             "support": {
                 "issues": "https://github.com/ecjia/composer-ecjia-app-rpc/issues",
-                "source": "https://github.com/ecjia/composer-ecjia-app-rpc/tree/v1.0.3"
+                "source": "https://github.com/ecjia/composer-ecjia-app-rpc/tree/v1.0.4"
             },
             "install-path": "../../content/apps/rpc"
+        },
+        {
+            "name": "ecjia/app-sms",
+            "version": "v2.0.1",
+            "version_normalized": "2.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ecjia/composer-ecjia-app-sms.git",
+                "reference": "a6eda91ab9282ef634568aeb27576b7a88b3f249"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-app-sms/zipball/a6eda91ab9282ef634568aeb27576b7a88b3f249",
+                "reference": "a6eda91ab9282ef634568aeb27576b7a88b3f249",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "time": "2021-01-28T06:28:53+00:00",
+            "type": "royalcms-app",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Royal Wang",
+                    "email": "hxroyal@gmail.com"
+                }
+            ],
+            "description": "The ECJia App Sms package.",
+            "homepage": "https://github.com/ecjia",
+            "support": {
+                "issues": "https://github.com/ecjia/composer-ecjia-app-sms/issues",
+                "source": "https://github.com/ecjia/composer-ecjia-app-sms/tree/v2.0.1"
+            },
+            "install-path": "../../content/apps/sms"
         },
         {
             "name": "ecjia/auto-login",
@@ -1876,23 +1954,23 @@
         },
         {
             "name": "ecjia/system",
-            "version": "v2.18.8",
-            "version_normalized": "2.18.8.0",
+            "version": "v2.18.9",
+            "version_normalized": "2.18.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecjia/composer-ecjia-system.git",
-                "reference": "eb56528b1297bdd49d2bc560071e6ced00b7e75a"
+                "reference": "7a7b253e7e36976a9fab96f2e72cca10483786b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecjia/composer-ecjia-system/zipball/eb56528b1297bdd49d2bc560071e6ced00b7e75a",
-                "reference": "eb56528b1297bdd49d2bc560071e6ced00b7e75a",
+                "url": "https://api.github.com/repos/ecjia/composer-ecjia-system/zipball/7a7b253e7e36976a9fab96f2e72cca10483786b9",
+                "reference": "7a7b253e7e36976a9fab96f2e72cca10483786b9",
                 "shasum": ""
             },
             "require": {
                 "ecjia/auto-login": "^1.0"
             },
-            "time": "2021-01-19T07:50:09+00:00",
+            "time": "2021-01-28T05:58:48+00:00",
             "type": "royalcms-system",
             "extra": {
                 "branch-alias": {
@@ -1918,7 +1996,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ecjia/composer-ecjia-system/issues",
-                "source": "https://github.com/ecjia/composer-ecjia-system/tree/v2.18.8"
+                "source": "https://github.com/ecjia/composer-ecjia-system/tree/v2.18.9"
             },
             "install-path": "../../content/system"
         },

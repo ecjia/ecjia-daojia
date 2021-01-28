@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '515ef3783213510425bf2894a2b0fa7d24429a94',
+    'reference' => '5a9c820318d40241d4b20526698c434f48cb525a',
     'name' => 'ecjia/ecjia-daojia',
   ),
   'versions' => 
@@ -180,48 +180,66 @@
     ),
     'ecjia/app-api' => 
     array (
-      'pretty_version' => 'v3.0.0',
-      'version' => '3.0.0.0',
+      'pretty_version' => 'v3.0.1',
+      'version' => '3.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '402f95368975cc31a5d7aba714f4a5755bd3ef64',
+      'reference' => 'a29ca9e59ce2e011da0526617a0e85e1da762979',
     ),
     'ecjia/app-cron' => 
     array (
-      'pretty_version' => 'v2.1.3',
-      'version' => '2.1.3.0',
+      'pretty_version' => 'v2.1.4',
+      'version' => '2.1.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8da948e141966b50b90ca394273340327194c3b4',
+      'reference' => '61f148962403aa1f3782be79f47e5a5c719bdb47',
+    ),
+    'ecjia/app-logviewer' => 
+    array (
+      'pretty_version' => 'v2.0.0',
+      'version' => '2.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e1049ae127abe30460c7bc982c87510b0822abc4',
     ),
     'ecjia/app-mail' => 
     array (
-      'pretty_version' => 'v2.0.0',
-      'version' => '2.0.0.0',
+      'pretty_version' => 'v2.0.1',
+      'version' => '2.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f3deb2334f8e2192022f11da0642c62efa4e2db0',
+      'reference' => '8904cf784f57041643e5d099568d90cdfdb09dba',
     ),
     'ecjia/app-maintain' => 
     array (
-      'pretty_version' => 'v2.0.0',
-      'version' => '2.0.0.0',
+      'pretty_version' => 'v2.0.1',
+      'version' => '2.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a63c0c59a3850a37d1cee6a0f4e224dbb8d3af10',
+      'reference' => '132192886b5b8372292be1911262c2ca8874308c',
     ),
     'ecjia/app-rpc' => 
     array (
-      'pretty_version' => 'v1.0.3',
-      'version' => '1.0.3.0',
+      'pretty_version' => 'v1.0.4',
+      'version' => '1.0.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'dc004f7ce2facb6a4b67438c6fdcc90e8386bdfb',
+      'reference' => 'b2533e7e412be24561d5bcf4822c1b5d3054f162',
+    ),
+    'ecjia/app-sms' => 
+    array (
+      'pretty_version' => 'v2.0.1',
+      'version' => '2.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a6eda91ab9282ef634568aeb27576b7a88b3f249',
     ),
     'ecjia/auto-login' => 
     array (
@@ -248,7 +266,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '515ef3783213510425bf2894a2b0fa7d24429a94',
+      'reference' => '5a9c820318d40241d4b20526698c434f48cb525a',
     ),
     'ecjia/ecjia-system-package' => 
     array (
@@ -288,12 +306,12 @@
     ),
     'ecjia/system' => 
     array (
-      'pretty_version' => 'v2.18.8',
-      'version' => '2.18.8.0',
+      'pretty_version' => 'v2.18.9',
+      'version' => '2.18.9.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'eb56528b1297bdd49d2bc560071e6ced00b7e75a',
+      'reference' => '7a7b253e7e36976a9fab96f2e72cca10483786b9',
     ),
     'egulias/email-validator' => 
     array (
