@@ -1,0 +1,16 @@
+{
+    "directories": [
+        "src"
+    ],
+    "files": [
+        "LICENSE"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": ["spec", "Tests", "tests"],
+            "in": "vendor"
+        }
+    ],
+    "output": "phpspec.phar"
+}

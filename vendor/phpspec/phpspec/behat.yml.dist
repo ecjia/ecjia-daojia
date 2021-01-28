@@ -1,0 +1,19 @@
+default:
+  suites:
+    application:
+      contexts: [ ApplicationContext, FilesystemContext ]
+      filters: { tags: "~@isolated" }
+    isolated:
+      contexts: [ IsolatedProcessContext, FilesystemContext ]
+      filters: { tags: "@isolated" }
+    smoke:
+      contexts: [ IsolatedProcessContext, FilesystemContext ]
+      filters: { tags: "@smoke && ~@isolated" }
+
+phar:
+  suites:
+    application: false
+    isolated:
+      contexts: [ PharProcessContext, FilesystemContext ]
+    smoke:
+      contexts: [ PharProcessContext, FilesystemContext ]
