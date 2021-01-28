@@ -55,6 +55,9 @@ namespace Ecjia\App\Theme\Components;
 
 
 use Ecjia\App\Theme\ComponentAbstract;
+use Ecjia\App\Goods\Models\GoodsActivityModel;
+use RC_Time;
+use RC_Upload;
 
 class GroupbuyGoods extends ComponentAbstract
 {
@@ -127,45 +130,37 @@ HTML;
         	$geohash                     = \RC_Loader::load_app_class('geohash', 'store');
         	$geohash_code                = $geohash->encode($location['latitude'] , $location['longitude']);
         	$store_id_group   			 = \RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-        	if (empty($store_id_group)) {
-        		$store_id_group = array(0);
-        	}
+        }
+        
+        if (empty($store_id_group)) {
+        	$response['group_goods'] = array();
+        	return $response;
         }
         
         if (version_compare($api_version, '1.18', '>=')) {
         	$store_id_arr = $store_id_group;
-        
-        	$db_goods_activity = \RC_DB::table('goods_activity as ga')
-        	->leftJoin('goods as g', \RC_DB::raw('ga.goods_id'), '=', \RC_DB::raw('g.goods_id'));
-        
-        	$db_goods_activity
-        	->where(\RC_DB::raw('ga.act_type'),GAT_GROUP_BUY)
-        	->where(\RC_DB::raw('ga.start_time'),'<=', \RC_Time::gmtime())
-        	->where(\RC_DB::raw('ga.end_time'),'>=', \RC_Time::gmtime())
-        	->whereRaw('g.goods_id is not null')
-        	->where(\RC_DB::raw('g.is_delete'),0)
-        	->where(\RC_DB::raw('g.is_on_sale'),1)
-        	->where(\RC_DB::raw('g.is_alone_sale'),1);
-        
-        	if (is_array($store_id_arr) && !empty($store_id_arr)) {
-        		$db_goods_activity->whereIn(\RC_DB::raw('g.store_id'), $store_id_arr);
-        	} else {
-        		$response['group_goods'] = array();
-        		return $response;
-        	}
-        
-        	if (\ecjia::config('review_goods') == 1) {
-        		$db_goods_activity->where(\RC_DB::raw('g.review_status'), '>', 2);
-        	}
-        	$res = $db_goods_activity
-        	->select(\RC_DB::raw('ga.*,g.shop_price, g.market_price, g.goods_brief, g.goods_thumb, g.goods_img, g.original_img'))
-        	->take(6)->orderBy(\RC_DB::raw('ga.act_id'),'desc')
-        	->get();
-        
+        	
+        	$time = RC_Time::gmtime();
+        	$query = GoodsActivityModel::with(['goods_model']);
+        	$query->where('act_type', GAT_GROUP_BUY)->where('start_time', '<=', $time)->where('end_time', '>=', $time);
+        	$query->whereHas('goods_model', function ($query) use ($store_id_arr) {
+        		$query->where('is_delete', 0)->where('is_on_sale', 1)->where('is_alone_sale', 1);
+        		if (is_array($store_id_arr) && !empty($store_id_arr)) {
+        			$query->whereIn('store_id', $store_id_arr);
+        		}
+        		if (\ecjia::config('review_goods') == 1) {
+        			$query->where('review_status', '>', 2);
+        		}
+        	});
+        	
+        	$res = $query->take(6)->orderBy('act_id', 'desc')->get();
+        	$res = $res ? $res->toArray() : [];
+        	
         	$group_goods_data = array();
         	if (!empty($res)) {
         		foreach ($res as $val) {
-        			$ext_info = unserialize($val['ext_info']);
+        			$val = $val['goods_model'] ? array_merge($val, $val['goods_model']) : $val;
+         			$ext_info = unserialize($val['ext_info']);
         			$price_ladder = $ext_info['price_ladder'];
         			if (!is_array($price_ladder) || empty($price_ladder)) {
         				$price_ladder = array(array('amount' => 0, 'price' => 0));
@@ -185,12 +180,12 @@ HTML;
         					'formated_shop_price'		=> price_format($val['market_price'], false),
         					'promote_price'				=> $cur_price,
         					'formated_promote_price'	=> price_format($cur_price, false),
-        					'promote_start_date'		=> \RC_Time::local_date('Y/m/d H:i:s', $val['start_time']),
-        					'promote_end_date'			=> \RC_Time::local_date('Y/m/d H:i:s', $val['end_time']),
+        					'promote_start_date'		=> RC_Time::local_date('Y/m/d H:i:s', $val['start_time']),
+        					'promote_end_date'			=> RC_Time::local_date('Y/m/d H:i:s', $val['end_time']),
         					'img'						=> array(
-        							'small'	=> empty($val['goods_thumb']) ? '' : \RC_Upload::upload_url($val['goods_thumb']),
-        							'thumb'	=> empty($val['goods_img']) ? '' 	: \RC_Upload::upload_url($val['goods_img']),
-        							'url'	=> empty($val['original_img']) ? '' : \RC_Upload::upload_url($val['original_img'])
+        							'small'	=> empty($val['goods_thumb']) ? '' : RC_Upload::upload_url($val['goods_thumb']),
+        							'thumb'	=> empty($val['goods_img']) ? '' 	: RC_Upload::upload_url($val['goods_img']),
+        							'url'	=> empty($val['original_img']) ? '' : RC_Upload::upload_url($val['original_img'])
         					),
         					'goods_activity_id'			=> $val['act_id'],
         					'activity_type'				=> 'GROUPBUY_GOODS'
