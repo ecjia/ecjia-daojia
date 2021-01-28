@@ -57,7 +57,7 @@ class RpcAdminPurviewService
      * @param $options
      * @return mixed
      */
-    public function handle(&$options)
+    public function handle($options)
     {
         $purviews = array(
             array('action_name' => __('RPC帐号管理', 'rpc'), 'action_code' => 'rpc_account_manage', 'relevance' => ''),

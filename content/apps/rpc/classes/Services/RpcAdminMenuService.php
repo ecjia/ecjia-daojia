@@ -58,7 +58,7 @@ class RpcAdminMenuService
      * @param $options
      * @return mixed
      */
-    public function handle(&$options)
+    public function handle($options)
     {
         $menus = ecjia_admin::make_admin_menu('rpc', __('RPC服务', 'rpc'), '', 17);
 
