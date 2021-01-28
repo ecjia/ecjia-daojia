@@ -156,7 +156,7 @@
                 {t domain="shipping"}从{/t}&nbsp;&nbsp;<input type="text" name="start_pickup_time[]" value="{$pickup_time.start}" class="w100 form-control tp_1"/>&nbsp;&nbsp;
                 {t domain="shipping"}至{/t}&nbsp;&nbsp;<input type="text" name="end_pickup_time[]"  value="{$pickup_time.end}"  class="w100 form-control tp_1" />&nbsp;&nbsp;
                 <a class="no-underline" data-toggle="clone-obj" data-parent=".time-picker" href="javascript:;"><i class="fa fa-plus"></i></a>
-            </div>watermark
+            </div>
 				<!-- {/if} -->
 			<!-- {foreachelse} --> 
 				<div class="time-picker">

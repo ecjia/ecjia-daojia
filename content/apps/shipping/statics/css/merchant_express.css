@@ -4,8 +4,8 @@
 .setting-group a:hover{border-radius:4px;background-color:#f2f2f2;color:#555;text-decoration:inherit}
 .change>li>a{position:relative;display:block;padding:5px 15px}
 .nav>li>a:hover{background-color:#e7e7e7}
-.wookmark .bd{height:200px;line-height:50px}
-.wookmark .thumbnail{margin-right:3%;width:30%}
+/*.wookmark .bd{height:200px;line-height:50px}*/
+/*.wookmark .thumbnail{margin-right:3%;width:30%}*/
 .group_info{margin-top:2px;padding:5px;height:52px;border-bottom:1px solid #d9d9d9;text-align:left;line-height:20px}
 .group_middle{padding:5px;height:98px;text-align:left;line-height:20px}
 .group_checkin{height:50px;border-top:1px solid #d9d9d9;background:#f6f7fb}
