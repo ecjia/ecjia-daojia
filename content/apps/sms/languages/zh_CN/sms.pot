@@ -1,0 +1,675 @@
+# Copyright (C) 2020 Ecjia App sms
+# This file is distributed under the same license as the Ecjia App sms package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App sms 2.18.1\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2020-07-16 07:12:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:79 admin.php:103
+msgid "短信记录列表"
+msgstr ""
+
+#: admin.php:90 classes/Helper.php:64 classes/Services/AdminMenuService.php:70
+msgid "短信记录"
+msgstr ""
+
+#: admin.php:93 admin_config.php:82 admin_template.php:248
+msgid "概述"
+msgstr ""
+
+#: admin.php:94
+msgid ""
+"欢迎访问ECJia智能后台短信记录列表页面，系统中所有的短信记录都会显示在此列表"
+"中。"
+msgstr ""
+
+#: admin.php:98 admin_config.php:87 admin_template.php:137
+#: admin_template.php:253
+msgid "更多信息："
+msgstr ""
+
+#: admin.php:102
+msgid "添加短信发送"
+msgstr ""
+
+#: admin.php:122
+msgid "短信编号为%s的再次进行发送短信 "
+msgstr ""
+
+#: admin.php:126
+msgid "发送成功！"
+msgstr ""
+
+#: admin.php:146
+msgid "已批量发送完毕"
+msgstr ""
+
+#: admin_config.php:79 classes/Helper.php:63
+msgid "短信配置"
+msgstr ""
+
+#: admin_config.php:83
+msgid "欢迎访问ECJia智能后台短信配置页面，系统中有关短信配置信息显示在此页面。"
+msgstr ""
+
+#: admin_config.php:91 classes/hooks/admin_sms.class.php:53
+msgid "短信通知"
+msgstr ""
+
+#: admin_config.php:109
+msgid "短信管理>短信配置"
+msgstr ""
+
+#: admin_config.php:110
+msgid "更新短信配置成功！"
+msgstr ""
+
+#: admin_events.php:94 classes/Helper.php:68
+#: classes/Services/AdminMenuService.php:72
+msgid "短信事件"
+msgstr ""
+
+#: admin_events.php:95 admin_template.php:116
+msgid "短信事件列表"
+msgstr ""
+
+#: admin_events.php:96 admin_template.php:96 admin_template.php:141
+#: admin_template.php:258 admin_template.php:351
+msgid "短信模板列表"
+msgstr ""
+
+#: admin_events.php:132
+msgid "开启成功"
+msgstr ""
+
+#: admin_events.php:140
+msgid "关闭成功"
+msgstr ""
+
+#: admin_plugin.php:71 admin_plugin.php:82 admin_plugin.php:84
+#: admin_plugin.php:124 classes/Helper.php:65
+#: classes/Services/AdminMenuService.php:73
+#: classes/Services/PluginMenuService.php:67
+msgid "短信渠道"
+msgstr ""
+
+#: admin_plugin.php:107
+msgid "您当前短信还剩余 %s 条"
+msgstr ""
+
+#: admin_plugin.php:108
+msgid "查询成功"
+msgstr ""
+
+#: admin_plugin.php:111
+msgid "抱歉，该插件暂且还不支持余额查询"
+msgstr ""
+
+#: admin_plugin.php:122 admin_plugin.php:125
+msgid "编辑短信渠道"
+msgstr ""
+
+#: admin_plugin.php:164 admin_plugin.php:270 configs/jslang.php:47
+msgid "请输入短信渠道名称"
+msgstr ""
+
+#: admin_plugin.php:169 admin_plugin.php:274
+msgid "该短信渠道名称已存在"
+msgstr ""
+
+#: admin_plugin.php:196 admin_plugin.php:279 admin_plugin.php:303
+msgid "编辑成功"
+msgstr ""
+
+#: admin_plugin.php:224
+msgid "安装成功"
+msgstr ""
+
+#: admin_plugin.php:246
+msgid "已启用"
+msgstr ""
+
+#: admin_plugin.php:249
+msgid "已停用"
+msgstr ""
+
+#: admin_plugin.php:254
+msgid "插件"
+msgstr ""
+
+#: admin_plugin.php:292
+msgid "请输入数字类型的排序值"
+msgstr ""
+
+#: admin_plugin.php:302
+msgid "排序值为"
+msgstr ""
+
+#: admin_template.php:84 admin_template.php:95 classes/Helper.php:62
+#: classes/Services/AdminMenuService.php:71
+msgid "短信模板"
+msgstr ""
+
+#: admin_template.php:115 admin_template.php:130 admin_template.php:140
+msgid "添加短信模板"
+msgstr ""
+
+#: admin_template.php:134
+msgid "欢迎访问ECJia智能后台添加短信模板页面，可以在此添加短信模板。"
+msgstr ""
+
+#: admin_template.php:183 admin_template.php:293
+msgid "可用变量："
+msgstr ""
+
+#: admin_template.php:185 admin_template.php:295
+msgid ""
+"变量使用说明：变量不限位置摆放，可自由摆放，但变量不可自定义名称，需保持与以"
+"上名称一致。"
+msgstr ""
+
+#: admin_template.php:188 admin_template.php:298
+msgid ""
+"注明：个人和企业区分为阿里大于的账户类型，限制个人变量15个字符，企业无限制。"
+msgstr ""
+
+#: admin_template.php:210 admin_template.php:323
+msgid "请选择短信事件"
+msgstr ""
+
+#: admin_template.php:215 admin_template.php:328
+msgid "该短信模板代号在该渠道下已存在"
+msgstr ""
+
+#: admin_template.php:231
+msgid "短信模板名是 %s模板"
+msgstr ""
+
+#: admin_template.php:231
+msgid "短信主题是 %s"
+msgstr ""
+
+#: admin_template.php:233
+msgid "返回短信模板"
+msgstr ""
+
+#: admin_template.php:234
+msgid "继续添加短信模板"
+msgstr ""
+
+#: admin_template.php:235
+msgid "添加短信模板成功"
+msgstr ""
+
+#: admin_template.php:245 admin_template.php:257
+msgid "编辑短信模板"
+msgstr ""
+
+#: admin_template.php:249
+msgid "欢迎访问ECJia智能后台编辑短信模板页面，可以在此编辑相应的短信模板信息。"
+msgstr ""
+
+#: admin_template.php:340 admin_template.php:409
+msgid "模板名是 %s，短信主题是 %s"
+msgstr ""
+
+#: admin_template.php:341
+msgid "编辑短信模板成功"
+msgstr ""
+
+#: admin_template.php:350
+msgid "测试短信模板"
+msgstr ""
+
+#: admin_template.php:378
+msgid "模板变量不能为空"
+msgstr ""
+
+#: admin_template.php:393
+msgid "短信模板测试成功，请注意查收"
+msgstr ""
+
+#: admin_template.php:410
+msgid "删除短信模板成功"
+msgstr ""
+
+#: classes/Helper.php:66
+msgid "短信渠道排序"
+msgstr ""
+
+#: classes/Helper.php:67 classes/hooks/admin_sms.class.php:52
+#: configs/package.php:55
+msgid "短信"
+msgstr ""
+
+#: classes/Helper.php:70
+msgid "批量设置"
+msgstr ""
+
+#: classes/Helper.php:71
+msgid "关闭"
+msgstr ""
+
+#: classes/Helper.php:88
+msgid "手机号不能为空"
+msgstr ""
+
+#: classes/Helper.php:92
+msgid "手机号码格式错误"
+msgstr ""
+
+#: classes/Services/AdminMenuService.php:67
+msgid "短信管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:60
+msgid "短信发送管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:61
+msgid "短信历史记录管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:62
+msgid "短信模板管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:63
+msgid "短信模板更新"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:64
+msgid "短信模板删除"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:66
+msgid "短信配置管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:67
+msgid "更新短信配置"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:69
+msgid "短信事件管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:71
+msgid "短信渠道管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:72
+msgid "短信渠道更新"
+msgstr ""
+
+#: classes/Services/PluginInstallService.php:90
+#: classes/Services/PluginUninstallService.php:90
+msgid "短信插件名称不能为空"
+msgstr ""
+
+#: classes/Services/PluginInstallService.php:96
+msgid "安装的插件已存在"
+msgstr ""
+
+#: classes/Services/SendEventSmsService.php:70
+msgid "无效参数"
+msgstr ""
+
+#: classes/SmsManager.php:169
+msgid "短信模板不存在"
+msgstr ""
+
+#: classes/SmsManager.php:227
+msgid "没有找到此短信记录"
+msgstr ""
+
+#: configs/jslang.php:5 configs/jslang.php:29
+msgid "首页"
+msgstr ""
+
+#: configs/jslang.php:6 configs/jslang.php:30
+msgid "尾页"
+msgstr ""
+
+#: configs/jslang.php:7 configs/jslang.php:31
+msgid "上一页"
+msgstr ""
+
+#: configs/jslang.php:8 configs/jslang.php:32
+msgid "下一页"
+msgstr ""
+
+#: configs/jslang.php:9 configs/jslang.php:33
+msgid "共_TOTAL_条记录 第_START_条到第_END_条"
+msgstr ""
+
+#: configs/jslang.php:10 configs/jslang.php:11 configs/jslang.php:34
+#: configs/jslang.php:35
+msgid "没有找到任何记录"
+msgstr ""
+
+#: configs/jslang.php:12 configs/jslang.php:36
+msgid "共0条记录"
+msgstr ""
+
+#: configs/jslang.php:13 configs/jslang.php:37
+msgid "（从_MAX_条数据中检索）"
+msgstr ""
+
+#: configs/jslang.php:14
+msgid "短信模板名称不能为空！"
+msgstr ""
+
+#: configs/jslang.php:15
+msgid "开始时间不得大于结束时间！"
+msgstr ""
+
+#: configs/jslang.php:16
+msgid "请填写接收手机号码！"
+msgstr ""
+
+#: configs/jslang.php:17
+msgid "请填写消息内容！"
+msgstr ""
+
+#: configs/jslang.php:20
+msgid "请填写短信平台账号！"
+msgstr ""
+
+#: configs/jslang.php:21
+msgid "请输入短信平台密码！"
+msgstr ""
+
+#: configs/jslang.php:22
+msgid "短信平台密码长度不能小于6！"
+msgstr ""
+
+#: configs/jslang.php:25 configs/jslang.php:45
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:26 configs/jslang.php:46
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:38
+msgid "请输入手机号"
+msgstr ""
+
+#: configs/jslang.php:39
+msgid "请输入签名"
+msgstr ""
+
+#: configs/jslang.php:40
+msgid "短信主题不能为空！"
+msgstr ""
+
+#: configs/jslang.php:41
+msgid "模板内容不能为空！"
+msgstr ""
+
+#: configs/jslang.php:42
+msgid "请输入短信模板ID"
+msgstr ""
+
+#: configs/jslang.php:48
+msgid "请输入描述"
+msgstr ""
+
+#: configs/jslang.php:49
+msgid "描述长度不能小于6"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"短信是信息推送最直接却又不会过分影响消费者的优秀途径，在短信记录中，商家可以"
+"查看、管理所有发送成功、不成功的短信；短信模板让推送短信的编辑更加简单便捷，"
+"而短信配置允许商家设置短信平台账号和商家电话已经不同情况是否发送短信，为商家"
+"提供一套完善的短信解决方案，使得短信管理的易用性、可操作性都大大提高。"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:14
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:14
+msgid "温馨提示："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:14
+msgid "请您先前往 \"控制面板\" -> \"插件管理\" 中安装短信渠道。"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:47
+msgid "模板代号"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:48
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:42
+msgid "短信主题"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:49
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:50
+msgid "模板内容"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:57
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:37
+msgid "编辑"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:58
+msgid "您确定要删除该短信模板吗？"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:58
+msgid "删除"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_list.dwt.php:59
+msgid "短信测试"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_config.dwt.php:22
+msgid "平台通知电话"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:11
+msgid "（发送短信的渠道是按照该列表第一条优先执行）"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:16
+msgid "用户名"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:17
+#: /content/apps/sms/templates/admin/sms_channel_edit.dwt.php:31
+msgid "描述"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:18
+msgid "排序"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:19
+msgid "是否开启"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:27
+msgid "编辑名称"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:38
+msgid "注销短信服务"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:39
+msgid "查看余额"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:43
+msgid "启用"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel.dwt.php:49
+msgid "编辑排序"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:18
+msgid "全部"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:19
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:84
+msgid "待发送"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:20
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:82
+msgid "发送成功"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:21
+msgid "发送失败"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:29
+msgid "批量操作"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:33
+msgid "您确定要再次发送选中的短信记录吗？"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:33
+msgid "请先选中要再次发送的短信记录！"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:33
+msgid "再次发送短信"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:38
+msgid "开始时间"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:39
+msgid "至"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:40
+msgid "截止时间"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:41
+msgid "筛选"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:45
+msgid "请输入短信接收号码或内容关键字"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:46
+msgid "搜索"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:58
+msgid "接收短信号码"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:59
+msgid "短信内容"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:60
+msgid "发送时间"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:61
+msgid "发送状态"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:86
+msgid "%1次发送错误"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_send_history.dwt.php:88
+msgid "再次发送"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_test.dwt.php:25
+msgid "短信主题："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_test.dwt.php:30
+msgid "手机区号："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_test.dwt.php:37
+msgid "手机号码："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_test.dwt.php:45
+msgid "短信模板内容："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_test.dwt.php:63
+msgid "提交测试"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_events_list.dwt.php:26
+msgid "您确定要关闭该短信事件吗？"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_events_list.dwt.php:26
+msgid "您确定要开启该短信事件吗？"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_events_list.dwt.php:28
+msgid "点击关闭"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_events_list.dwt.php:30
+msgid "点击开启"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_events_list.dwt.php:37
+msgid "开启中"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_events_list.dwt.php:37
+msgid "已关闭"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_channel_edit.dwt.php:24
+msgid "名称"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:14
+msgid "暂时未有短信模板可添加。"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:32
+msgid "短信事件："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:35
+msgid "请选择"
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:66
+msgid "短信模板ID："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:76
+msgid "签名："
+msgstr ""
+
+#: /content/apps/sms/templates/admin/sms_template_info.dwt.php:92
+msgid "更新"
+msgstr ""
