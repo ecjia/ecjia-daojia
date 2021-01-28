@@ -322,7 +322,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         				'goods_buy_weight'	=> $row['goods_buy_weight'],
         				'market_price'		=> $row['market_price'],
         				'goods_price'		=> $row['goods_price'],
-        				'goods_attr'		=> $row['goods_attr'],
+        				'goods_attr'		=> $row['goods_attr_new'],
         				'is_real'			=> $row['is_real'],
         				'extension_code' 	=> $row['extension_code'],
         				'parent_id'			=> $row['parent_id'],
