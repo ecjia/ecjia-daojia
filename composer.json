@@ -37,7 +37,6 @@
     "autoload": {
         "psr-4": {},
         "classmap": [
-            "sites/installer/content/database/seeds"
         ]
     },
     "minimum-stability": "dev",
