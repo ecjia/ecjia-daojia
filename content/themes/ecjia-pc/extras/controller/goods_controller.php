@@ -187,7 +187,7 @@ class goods_controller
 
         if (!ecjia_front::$controller->is_cached('goods_show.dwt', $cache_id)) {
             $goods_id   = !empty($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
-            $goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_id', 'store_id', 'goods_name', 'market_price', 'shop_price', 'promote_price', 'goods_thumb', 'goods_desc', 'cat_id', 'keywords', 'goods_brief')->first();
+            $goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_id', 'store_id', 'goods_name', 'market_price', 'shop_price', 'promote_price', 'goods_thumb', 'goods_desc', 'cat_id', 'keywords', 'goods_brief', 'sales_volume')->first();
 
             $has_store = pc_function::has_store();
             ecjia_front::$controller->assign('has_store', $has_store);
@@ -234,8 +234,9 @@ class goods_controller
                 $store_id              = $goods_info['store_id'];
 
                 $favourable_result = RC_Api::api('favourable', 'store_favourable_list', array('store_id' => $store_id));
+
+                $favourable_list = array();
                 if (!empty($favourable_result)) {
-                    $favourable_list = array();
                     foreach ($favourable_result as $val) {
                         if ($val['act_range'] == '0') {
                             $favourable_list[] = array('name' => $val['act_name'], 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount', 'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'));
@@ -249,8 +250,11 @@ class goods_controller
                                     $favourable_list[] = array('name' => $val['act_name'], 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount', 'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'));
                                     break;
                                 case 3:
-                                    $favourable_list[] = array('name' => $val['act_name'], 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount', 'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'));
-                                    break;
+                                    //优惠活动范围为指定商品时
+                                    if (in_array($goods_id, $act_range_ext)) {
+                                        $favourable_list[] = array('name' => $val['act_name'], 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount', 'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'));
+                                        break;
+                                    }
                                 default:
                                     break;
                             }
@@ -280,15 +284,8 @@ class goods_controller
                 $cat_str                = pc_function::get_cat_str($goods_info['cat_id'], $level);
                 $goods_info['cat_html'] = pc_function::get_cat_html($cat_str);
 
-                $sale_num                   = RC_DB::table('order_goods as og')
-                    ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
-                    ->where(RC_DB::raw('oi.store_id'), $store_id)
-                    ->whereIn(RC_DB::raw('oi.order_status'), array(OS_CONFIRMED, OS_SPLITED))
-                    ->where(RC_DB::raw('oi.shipping_status'), SS_RECEIVED)
-                    ->whereIn(RC_DB::raw('oi.pay_status'), array(PS_PAYED, PS_PAYING))
-                    ->select(RC_DB::raw('SUM(og.goods_number) AS goods_num'))
-                    ->first();
-                $goods_info['order_amount'] = !empty($sale_num['goods_num']) ? $sale_num['goods_num'] : 0;
+
+                $goods_info['sales_volume'] = !empty($goods_info['sales_volume']) ? $goods_info['sales_volume'] : 0;
 
                 $check_spec_url = RC_Uri::url('goods/index/check_spec');
                 ecjia_front::$controller->assign('check_spec_url', $check_spec_url);

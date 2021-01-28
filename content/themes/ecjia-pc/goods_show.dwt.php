@@ -43,7 +43,7 @@
                     </div>
 
                     {/if}
-                    <p class="sold_out"><span>{t domain="ecjia-pc"}已售{/t}</span><span class="sales">{$goods_info.order_amount}</span></p>
+                    <p class="sold_out"><span>{t domain="ecjia-pc"}已售{/t}</span><span class="sales">{$goods_info.sales_volume}</span></p>
                     <!-- {foreach from=$goods_info.specification item=value key=key} -->
                     {if $value.attr_type eq 1}
                     <span class="standard">{$value.name}</span>
