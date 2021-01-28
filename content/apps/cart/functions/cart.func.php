@@ -885,21 +885,11 @@ function recalculate_price($device = array()) {
 				$join->where(RC_DB::raw('mp.goods_id'), '=', RC_DB::raw('g.goods_id'))
 				->where(RC_DB::raw('mp.user_rank'), '=', $user_rank);
 			})
-			->select(RC_DB::raw("c.rec_id, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * $discount) AS member_price"));
-			
+			->select(RC_DB::raw("c.rec_id, c.goods_id, c.user_id, c.rec_type, c.goods_attr_id, c.product_id, c.is_promote, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * $discount) AS member_price"));
 	/* 取得有可能改变价格的商品：除配件和赠品之外的商品 */
 	// @update 180719 选择性更新内容mark_changed=1
 	if ($_SESSION['user_id']) {
-// 		$res = $dbview->join(array(
-// 			'goods',
-// 			'member_price'
-// 		))
-// 		->where('c.mark_changed =1 AND c.user_id = "' . $_SESSION['user_id'] . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" ')
-// 		->select();
-		
-		
 		$res = $db
-			->where(RC_DB::raw('c.mark_changed'), 1)
 			->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])
 			->where(RC_DB::raw('c.parent_id'), 0)
 			->where(RC_DB::raw('c.is_gift'), 0)
@@ -908,15 +898,7 @@ function recalculate_price($device = array()) {
 			->get();
 		
 	} else {
-// 		$res = $dbview->join(array(
-// 			'goods',
-// 			'member_price'
-// 		))
-// 		->where('c.mark_changed =1 AND c.session_id = "' . SESS_ID . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" ')
-// 		->select();
-		
 		$res = $db
-			->where(RC_DB::raw('c.mark_changed'), 1)
 			->where(RC_DB::raw('c.session_id'), SESS_ID)
 			->where(RC_DB::raw('c.parent_id'), 0)
 			->where(RC_DB::raw('c.is_gift'), 0)
@@ -929,17 +911,86 @@ function recalculate_price($device = array()) {
 	if (! empty($res)) {
 		RC_Loader::load_app_func('global', 'goods');
 		foreach ($res as $row) {
-	        $attr_id = empty($row['goods_attr_id']) ? array() : explode(',', $row['goods_attr_id']);
-	        $goods_price = get_final_price($row['goods_id'], $row['goods_number'], true, $attr_id);
-	        $data = array(
-	            'goods_price' => $goods_price > 0 ? $goods_price : 0.00,
-	            'mark_changed' => 0
-	        );
-	        if ($_SESSION['user_id']) {
-	            $db_cart->where('goods_id = ' . $row['goods_id'] . ' AND user_id = "' . $_SESSION['user_id'] . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
-	        } else {
-	            $db_cart->where('goods_id = ' . $row['goods_id'] . ' AND session_id = "' . SESS_ID . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
-	        }
+			$attr_id = empty($row['goods_attr_id']) ? array() : explode(',', $row['goods_attr_id']);
+			$goods_price = get_final_price($row['goods_id'], $row['goods_number'], true, $attr_id, $row['product_id']);
+			$data = array(
+					'goods_price' => $goods_price > 0 ? $goods_price : 0.00,
+					'mark_changed' => 0
+			);
+			if ($_SESSION['user_id']) {
+				$db_cart->where('goods_id = ' . $row['goods_id'] . ' AND user_id = "' . $_SESSION['user_id'] . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
+			} else {
+				$db_cart->where('goods_id = ' . $row['goods_id'] . ' AND session_id = "' . SESS_ID . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
+			}
+			
+			//1、判断当前商品有没在促销，商品在促销，但购物车is_promote是0未标记为促销的，说明是超出限购数的部分，不需要更新商品价格；2、未在促销的更新 价格
+			$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($row['goods_id'], $row['product_id'], $_SESSION['user_id']);
+			$is_promote = $promotion->isPromote();
+			//商品在促销
+			if ($is_promote) {
+				//相同条件的对立数据
+				$same_cart = RC_DB::table('cart')->where('goods_id', $row['goods_id'])->where('user_id', $row['user_id'])->where('rec_type', $row['rec_type']);
+				if (!empty($row['product_id'])) {
+					$same_cart->where('product_id', $row['product_id']);
+				}
+				if ($row['is_promote'] == '0') {
+					$same_cart->where('is_promote', 1);//更新的不是促销数据，找有没添加过对应条件的促销数据
+				} else {
+					$same_cart->where('is_promote', 0);//更新的是促销数据，找有没添加过对应条件的非促销数据
+				}
+				$same_cart_info = $same_cart->first();
+			
+				//用户可购买的限购剩余数
+				$left_num = $promotion->getLimitOverCount($row['goods_number']);
+			
+				//不存在对立数据
+				if (empty($same_cart_info)) {
+					if ($left_num > 0) {
+						if ($row['is_promote'] == '0') { //当前数据不是促销数据
+							//如果购物车的数量大于用户可购买剩余限购数
+							if ($row['goods_number'] > $left_num) {
+								//更新数量为剩余可购买限购数，更新促销标识为1
+								RC_DB::table('cart')->where('rec_id', $row['rec_id'])->update(['goods_number' => $left_num, 'is_promote' => 1]);
+							}
+						} else {
+							//如果购物车的数量大于用户可购买剩余限购数
+							if ($row['goods_number'] > $left_num) {//当前数据是促销数据
+								//更新数量为剩余可购买限购数，更新促销标识为1
+								RC_DB::table('cart')->where('rec_id', $row['rec_id'])->update(['goods_number' => $left_num]);
+							}
+						}
+					} else {
+						//剩余可购买数为0，更新原来促销价格为原价
+						$spec = empty($row['goods_attr_id']) ? [] : explode(',', $row['goods_attr_id']);
+						$promotion->updateCartGoodsPrice($row['rec_id'], $row['goods_id'], $row['goods_number'], true, $spec, $row['product_id']);
+					}
+				} else {
+					//存在对立数据
+					if ($row['is_promote'] == '1') {//当前数据是促销数据
+						if ($left_num > 0) {
+							//如果购物车的数量大于用户可购买剩余限购数
+							if ($row['goods_number'] > $left_num) {
+								$more_num = $row['goods_number'] - $left_num;
+								//更新数量为剩余可购买限购数，更新促销标识为1
+								RC_DB::table('cart')->where('rec_id', $row['rec_id'])->update(['goods_number' => $left_num]);
+								//更新对立非促销数据数量
+								RC_DB::table('cart')->where('rec_id', $same_cart_info['rec_id'])->increment('goods_number', $more_num);
+							}
+						} else {
+							//剩余可购买数为0，删除当前促销数据
+							RC_DB::table('cart')->where('rec_id', $row['rec_id'])->delete();
+						}
+					} else { //当前数据是非促销数据
+						$spec = empty($row['goods_attr_id']) ? [] : explode(',', $row['goods_attr_id']);
+						$promotion->updateCartGoodsPrice($row['rec_id'], $row['goods_id'], $row['goods_number'], true, $spec, $row['product_id']);
+					}
+				}
+			} else {
+				//现在不促销，删除之前添加的促销数据
+				if ($row['is_promote'] == '1') {
+					RC_DB::table('cart')->where('rec_id', $row['rec_id'])->delete();
+				}
+			}
 		}
 	}
 	/* 删除赠品，重新选择 */

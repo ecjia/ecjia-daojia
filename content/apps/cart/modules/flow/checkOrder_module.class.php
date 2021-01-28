@@ -299,7 +299,18 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		                }
 		            }
 		            $shipping_list[$key]['shipping_date'] = array_merge($shipping_list[$key]['shipping_date']);
-		    
+		            
+		            if (!empty($shipping_list[$key]['shipping_date'])) {
+		            	$final_shipping_date = $shipping_list[$key]['shipping_date'];
+		            	$first_date = $final_shipping_date['0']['date'];
+		            	$today_date = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+		            	if ($first_date == $today_date) {
+		            		$first_times = $final_shipping_date['0']['time'];
+		            		array_unshift($first_times, ['start_time' => '立即送出', 'end_time' => '']);
+		            		$final_shipping_date['0']['time'] = array_merge($first_times);
+		            	}
+		            	$shipping_list[$key]['shipping_date'] = array_merge($final_shipping_date);
+		            }
 		        }
 		    }
 		    $shipping_list = array_values($shipping_list);

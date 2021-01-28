@@ -109,4 +109,18 @@ class StoreStatus
     	}
     	return $orders_auto_confirm;
     }
+
+
+    /**
+     * 获取店铺接单自动发货是否开启
+     * @param integer $store_id
+     * @return integer
+     */
+    public static function StoreConfirmOrdersAutoShip($store_id = 0) {
+        $orders_confirmed_auto_ship = 0;
+        if (!empty($store_id)) {
+            $orders_confirmed_auto_ship = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'confirm_auto_ship')->value('value');
+        }
+        return $orders_confirmed_auto_ship;
+    }
 }

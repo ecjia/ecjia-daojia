@@ -617,6 +617,7 @@ class cart_flow_done_api extends Component_Event_Api {
 			'order_id'   	=> $order['order_id'],
 			'extension_code'=> $order['extension_code'],
 			'extension_id'  => $order['extension_id'],
+			'store_id'      => $order['store_id'],
 			'order_info' => array(
 				'pay_code'               => $payment_info['pay_code'],
 				'order_amount'           => $order['order_amount'],

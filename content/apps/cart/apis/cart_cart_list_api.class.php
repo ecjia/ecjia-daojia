@@ -114,11 +114,36 @@ class cart_cart_list_api extends Component_Event_Api {
 			foreach ($data as $row) {
 			    $row['is_disabled'] = 0;
 			    $row['disabled_label'] = '';
-			    //判断库存
-			    if ($row['g_goods_number'] < $row['goods_number'] || $row['g_goods_number'] < 1) {
-			        $row['is_disabled'] = 1;
-			        $row['disabled_label'] = __('库存不足', 'cart');
+			    //货品图片兼容处理
+			    if($row['product_id'] > 0) {
+			    	$product_info = RC_DB::table('products')
+			    	->where('goods_id', $row['goods_id'])
+			    	->where('product_id', $row['product_id'])
+			    	->first();
+			    
+			    	if (!empty($product_info['product_thumb'])) {
+			    		$row['goods_thumb'] = $product_info['product_thumb'];
+			    	}
+			    	if (!empty($product_info['product_img'])) {
+			    		$row['goods_img'] = $product_info['product_img'];
+			    	}
+			    	if (!empty($product_info['product_original_img'])) {
+			    		$row['original_img'] = $product_info['product_original_img'];
+			    	}
+			    	//判断库存
+			    	if ($product_info['product_number'] < $row['goods_number'] || $product_info['product_number'] < 1) {
+			    		$row['is_disabled'] = 1;
+			    		$row['disabled_label'] = __('库存不足', 'cart');
+			    	}
+			    } else {
+			    	$product_info = [];
+			    	//判断库存
+			    	if ($row['g_goods_number'] < $row['goods_number'] || $row['g_goods_number'] < 1) {
+			    		$row['is_disabled'] = 1;
+			    		$row['disabled_label'] = __('库存不足', 'cart');
+			    	}
 			    }
+			   
 			    //判断上架状态
 			    if ($row['is_on_sale'] == 0 || $row['is_delete'] == '1') {
 			        $row['is_disabled'] = 1;
@@ -139,7 +164,7 @@ class cart_cart_list_api extends Component_Event_Api {
 			    }
 			    
 			    $total['goods_number'] += $row['goods_number'];
-				$row['subtotal']     	= $row['goods_price'] * $row['goods_number'];
+				$row['subtotal']     	= sprintf("%.2f", $row['goods_price'] * $row['goods_number']);
 				$row['formatted_subtotal']     	= ecjia_price_format($row['goods_price'] * $row['goods_number'], false);
 				/* 返回未格式化价格*/
 				$row['goods_price']		= $row['goods_price'];
@@ -167,25 +192,6 @@ class cart_cart_list_api extends Component_Event_Api {
 // 					}
 				}
 				
-				//货品图片兼容处理
-				if($row['product_id'] > 0) {
-					 $product_info = RC_DB::table('products')
-				        ->where('goods_id', $row['goods_id'])
-				        ->where('product_id', $row['product_id'])
-				        ->first();
-
-				  	 if (!empty($product_info['product_thumb'])) {
-				  	 	$row['goods_thumb'] = $product_info['product_thumb'];
-				  	 }
-				  	 if (!empty($product_info['product_img'])) {
-				  	 	$row['goods_img'] = $product_info['product_img'];
-				  	 }
-				  	 if (!empty($product_info['product_original_img'])) {
-				  	 	$row['original_img'] = $product_info['product_original_img'];
-				  	 }
-				} else {
-					$product_info = [];
-				}
 				
 				//库存 181023 add
 				$row['attr_number'] = 1;//有货

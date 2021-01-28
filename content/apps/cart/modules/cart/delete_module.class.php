@@ -67,41 +67,38 @@ class cart_delete_module extends api_front implements api_interface {
 	    $rec_id = $this->requestData('rec_id');
 	    $rec_id = explode(',', $rec_id);
 	    
-	    if (is_array($rec_id)) {
-	    	foreach ($rec_id as $val) {
-	    		cart::flow_drop_cart_goods($val);
-	    	}
-	    } else {
-	    	cart::flow_drop_cart_goods($rec_id);
-	    }
-	    
-// 	    $cart_goods = EM_get_cart_goods();
 	    $mobile_location_range = ecjia::config('mobile_location_range');
 	   	if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude']) && $mobile_location_range > 0) {
             $geohash        = RC_Loader::load_app_class('geohash', 'store');
             $geohash_code   = $geohash->encode($location['latitude'] , $location['longitude']);
             $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
             if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-                // return new ecjia_error('location_beyond', '店铺距离过远！');
             } elseif (!empty($seller_id)) {
                 $store_id_group = array($seller_id);
             }
-        } elseif ($city_id > 0) {
+        } elseif (!empty($city_id)) {
         	$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
         	if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-        		// return new ecjia_error('location_beyond', '店铺距离过远！');
         	} elseif (!empty($seller_id)) {
         		$store_id_group = array($seller_id);
         	}
         } else {
         	return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
         }
+        
+        if (is_array($rec_id)) {
+        	foreach ($rec_id as $val) {
+        		cart::flow_drop_cart_goods($val);
+        	}
+        } else {
+        	cart::flow_drop_cart_goods($rec_id);
+        }
+        
         if ($seller_id) {
         	$cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => array($seller_id), 'flow_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS));
         } else {
         	$cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS));
         }
-        
         
         return formated_cart_list($cart_result, $store_id_group);
 	}

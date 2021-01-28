@@ -86,7 +86,7 @@ class cart_checked_module extends api_front implements api_interface {
 			} elseif (!empty($seller_id)) {
 				$store_id_group = array($seller_id);
 			}
-		} elseif ($city_id > 0) {
+		} elseif (!empty($city_id)) {
 			$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
 			if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
 				// return new ecjia_error('location_beyond', '店铺距离过远！');

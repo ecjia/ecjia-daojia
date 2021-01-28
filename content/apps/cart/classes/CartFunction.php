@@ -419,7 +419,7 @@ class CartFunction
      * @param   int     $type   类型：默认普通商品
      * @return  array   购物车商品数组
      */
-    function cart_goods($type = null, $cart_id = array()) {
+    public static function cart_goods($type = null, $cart_id = array()) {
 
         if (is_null($type)) {
             $type = \Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS;

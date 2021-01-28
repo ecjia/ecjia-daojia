@@ -559,6 +559,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
         $out = array(
             'order_sn' => $order['order_sn'],
             'order_id' => $order['order_id'],
+        	'store_id' => $order['store_id'],
             'order_info' => array(
                 'pay_code' => $payment_info['pay_code'],
                 'order_amount' => $order['order_amount'],

@@ -92,10 +92,43 @@ class cart {
 			
 			//查询：
 			$cart_w = array('rec_id' => $key, 'user_id' => $_SESSION['user_id']);
-			$goods = $db_cart->field(array('goods_id', 'goods_attr_id', 'product_id', 'extension_code'))->find($cart_w);
-
-			//$row   = $dbview->join('cart')->find(array('c.rec_id' => $key));
-			$row	 = $dbview->where(RC_DB::raw('c.rec_id'), $key)->select(RC_DB::raw('g.goods_name, g.goods_number, c.product_id, p.product_number, c.goods_number as c_goods_number, c.rec_id'))->first();
+			$goods = $db_cart->field(array('goods_id', 'goods_attr_id', 'product_id', 'extension_code', 'rec_type', 'user_id', 'is_promote'))->find($cart_w);
+			
+			//相同条件的对立数据
+			$same_cart = RC_DB::table('cart')->where('goods_id', $goods_id)->where('user_id', $goods['user_id'])->where('rec_type', $goods['rec_type']);
+			if (!empty($goods['product_id'])) {
+				$same_cart->where('product_id', $goods['product_id']);
+			}
+			if ($goods['is_promote'] == '0') {
+				$same_cart->where('is_promote', 1);//更新的不是促销数据，找有没添加过对应条件的促销数据
+			} else {
+				$same_cart->where('is_promote', 0);//更新的是促销数据，找有没添加过对应条件的非促销数据
+			}
+			$same_cart_info = $same_cart->first();
+				
+			$is_promote = false;
+			if ($_SESSION['user_id'] > 0) {
+				$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($goods['goods_id'], $goods['product_id'], $_SESSION['user_id']);
+				$is_promote = $promotion->isPromote();
+				//没有在促销
+				if (!$is_promote) {
+					//区分要更新的数据是促销数据还是非促销数据
+					if ($goods['is_promote'] == '1') { //更新的是促销数据
+						//存在对立的非促销数据，删除；更新促销数据的标识为0
+						if (!empty($same_cart_info)) {
+							RC_DB::table('cart')->where('rec_id', $same_cart_info['rec_id'])->delete();
+						}
+						RC_DB::table('cart')->where('rec_id', $key)->update(['is_promote' => 0]);
+					} else {//更新的是非促销数据
+						//存在对立的促销数据，删除；
+						if (!empty($same_cart_info)) {
+							RC_DB::table('cart')->where('rec_id', $same_cart_info['rec_id'])->delete();
+						}
+					}
+				}
+			}
+			$row	 = $dbview->where(RC_DB::raw('c.rec_id'), $key)->select(RC_DB::raw('g.goods_name, g.goods_number, c.product_id, c.is_promote, p.product_number, c.goods_number as c_goods_number, c.rec_id'))->first();
+			
 			//判断当前更新购物车的动作是加还是减（如果新修改的数量小于之前购物车已添加的数量视此动作为减，反之为加）;减的动作不判断库存
 			if ($row['product_id'] > 0) {
 				$row['goods_number'] = $row['product_number'];
@@ -103,14 +136,15 @@ class cart {
 			if (($val > $row['goods_number'] && $val > $row['c_goods_number'])) { //新修改的数量大于之前购物车已添加的数量，且新修改的数量大于商品现有的库存时检查库存
 				//查询：系统启用了库存，检查输入的商品数量是否有效
 				if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
-					if ($row['goods_number'] < $val) {
-						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
-					}
 					/* 是货品 */
 					$goods['product_id'] = trim($goods['product_id']);
 					if (!empty($goods['product_id'])) {
 						$product_number = $db_products->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
 						if ($product_number < $val) {
+							return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+						}
+					} else {
+						if ($row['goods_number'] < $val) {
 							return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 						}
 					}
@@ -154,32 +188,14 @@ class cart {
 				}  else {
 					/* 处理普通商品或非优惠的配件 */
 					$attr_id    = empty($goods['goods_attr_id']) ? array() : explode(',', $goods['goods_attr_id']);
+					$spec 		= $attr_id;
 					
 					RC_Loader::load_app_class('goods_info', 'goods', false);
 					$goods_price = goods_info::get_final_price($goods['goods_id'], $val, true, $attr_id, $goods['product_id']);
 
 					$db_cart->where(array('rec_id' => $key , 'user_id' => $_SESSION['user_id'] ))->update(array('goods_number' => $val , 'goods_price' => $goods_price));
 					
-					/**
-					 * 判断添加的商品有没在促销，在促销的话，判断促销限购数量
-					 * （有没超过用户限购数， 有没超过活动限购数）；
-					 * 更新购买记录；更新购物车价格
-					 */
-					if ($_SESSION['user_id'] > 0) {
-						$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($goods['goods_id'], $goods['product_id'], $_SESSION['user_id']);
-						$is_promote = $promotion->isPromote();
-						if ($is_promote) {
-							$left_num = $promotion->getLimitOverCount($val); //用户可购买的限购剩余数
-							if ($left_num >= 0) {
-								//购买数量大于限购可购买数量或者限购可购买数量等于0
-								if ($val > $left_num || $left_num == 0) {
-									$spec = $attr_id;
-									$promotion->updateCartGoodsPrice($key, $goods_id, $val, true, $spec, $goods['product_id']);
-								}
-							}
-						}
-					}
-					
+					self::processUpdateCartPromote($_SESSION['user_id'], $goods_id, $goods, $val, $key, $is_promote, $promotion, $spec, $same_cart_info);
 				}
 			} else {
 				//订货数量等于0
@@ -693,18 +709,19 @@ class cart {
 				} else {
 					$weight_price = self::cart_weight_price(\Ecjia\App\Cart\Enums\CartEnum::CART_GENERAL_GOODS, $cart_id);
 				}
-				if (!empty($cart_id)) {
-					$shipping_count_where = array('rec_id' => $cart_id);
+				$db_cart_shipping = RC_DB::table('cart');
+				if (!empty($cart_id) && is_array($cart_id)) {
+					$db_cart_shipping->whereIn('rec_id', $cart_id);
 				}
-				$shipping_count_where[] = " (`extension_code` IS NULL or `extension_code` != 'package_buy') ";
+				$db_cart_shipping->whereRaw("(`extension_code` IS NULL or `extension_code` != 'package_buy') ");
 				// 查看购物车中是否全为免运费商品，若是则把运费赋为零
 				if ($_SESSION['user_id']) {
-				    $shipping_count_where['user_id'] = $_SESSION['user_id'];
+				    $db_cart_shipping->where('user_id', $_SESSION['user_id']);
 				} else {
-				    $shipping_count_where['session_id'] = SESS_ID;
+				    $db_cart_shipping->where('session_id', SESS_ID);
 				}
-				$shipping_count_where['is_shipping'] = array('neq' => 1);
-				$shipping_count       = $db->where($shipping_count_where)->count();
+				$db_cart_shipping->where('is_shipping', '<>', 1);
+				$shipping_count       = $db->count();
 
 				if (($shipping_info['shipping_code'] == 'ship_o2o_express') || ($shipping_info['shipping_code'] == 'ship_ecjia_express')) {
 				
@@ -717,9 +734,7 @@ class cart {
 						//腾讯地图api距离计算
 						$key = ecjia::config('map_qq_key');
 						$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
-						$distance_json = file_get_contents($url);
-						$distance_info = json_decode($distance_json, true);
-						$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+						$distance = self::get_distance($store_info, $consignee);
 					}
 					/* ===== 计算收件人距离 END ===== */
 					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $distance, $total['goods_price'], $weight_price['number']);
@@ -1784,8 +1799,11 @@ class cart {
 		$products_query = true;
 		if (!empty($product_id)) {
 			$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->value('product_number');
-			if ($product_number < abs($number)) {
-				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+			//下单减货品库存时判断
+			if ($number < 0) {
+				if ($product_number < abs($number)) {
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+				}
 			}
 			$products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
 		} else {
@@ -1969,7 +1987,152 @@ class cart {
 	    
 	    return $expect_pickup_date;
 	}
+
 	
+	/**
+	 * 更新购物车，商品促销处理
+	 * @param int $user_id
+	 * @param int $goods_id
+	 * @param array $goods
+	 * @param int $val
+	 * @param int $key
+	 * @param bool $is_promote
+	 * @param object $promotion
+	 * @param array $spec
+	 * @param array $same_cart_info
+	 */
+	private static function processUpdateCartPromote($user_id, $goods_id, $goods, $val, $key, $is_promote, $promotion, $spec, $same_cart_info)
+	{
+		/**
+		 * 判断添加的商品有没在促销，在促销的话，判断促销限购数量
+		 * （有没超过用户限购数， 有没超过活动限购数）；
+		 * 更新购买记录；更新购物车价格
+		 */
+		if ($is_promote) {
+			/**
+			 *1、要更新的购物车数据is_promote是0
+			 *2、要更新的购物车数据is_promote是1
+			 *3、is_promote是1的查看有没相同条件的is_promote是0的数据
+			 *4、is_promote是0的查看有没相同条件的is_promote是1的数据
+			 */
+			$left_num = $promotion->getLimitOverCount($val); //用户可购买的限购剩余数	
+			//存在相同条件对立的促销或者非促销数据
+			if (!empty($same_cart_info)) {
+				if ($goods['is_promote'] == '1') { //更新的是促销数据
+					//剩余可购买数为0
+					if ($left_num == 0) {
+						//删除对立数据
+						RC_DB::table('cart')->where('rec_id', $same_cart_info['rec_id'])->delete();
+						//更新促销数据的价格为原价
+						$promotion->updateCartGoodsPrice($key, $goods_id, $val, true, $spec, $goods['product_id']);
+					} else {
+						//剩余可购买数大于0
+						if ($left_num > 0) {
+							//对比要更新的数量和剩余可购买数
+							if ($val > $left_num) {//购买数大于可购买数
+								$more_buy_num = $val - $left_num;  //超出剩余可购买数部分
+								//更新促销数据的数量为剩余可购买数
+								RC_DB::table('cart')->where('rec_id', $key)->update(['goods_number' => $left_num]);
+								//更新对立的非促销数据，数量增加$more_num
+								RC_DB::table('cart')->where('rec_id', $same_cart_info['rec_id'])->increment('goods_number', $more_buy_num);
+							} elseif ($val <= $left_num) {//购买数小于等于可购买数
+								//多余的可购买数
+								$more_left_num = $left_num - $val;
+								if ($more_left_num > 0) {
+									//对比   对立数据的数量  和  多余可购买数   及  促销数据的数量
+									if ($same_cart_info['goods_number'] > $more_left_num) {
+										//可增加的多余可购买数
+										$allow_increse_num = $more_left_num;
+										//更新促销数据的数量，数量增加$allow_increse_num
+										RC_DB::table('cart')->where('rec_id', $key)->increment('goods_number', $allow_increse_num);
+										//更新对立的非促销数据，数量减少$allow_increse_num
+										RC_DB::table('cart')->where('rec_id', $same_cart_info['rec_id'])->decrement('goods_number', $more_left_num);
+									} else {
+										//可增加的多余可购买数
+										$allow_increse_num = $same_cart_info['goods_number'];
+										//更新促销数据的数量，数量增加$allow_increse_num
+										RC_DB::table('cart')->where('rec_id', $key)->increment('goods_number', $allow_increse_num);
+										//删除对立的非促销数据
+										RC_DB::table('cart')->where('rec_id', $same_cart_info['rec_id'])->delete();
+									}
+								}
+							}
+						}
+					}
+				} else {//要更新的是非促销数据
+					//还原非促销数据的价格价格即可
+					$promotion->updateCartGoodsPrice($key, $goods_id, $val, true, $spec, $goods['product_id']);
+				}
+			} else {
+				//不存在相同条件对应的促销或者非促销数据，直接更新
+				//剩余可购买数大于0
+				if ($left_num > 0) {
+					//购买数量大于限购可购买数量；新增一条数据作为按促销价的数据
+					if ($val > $left_num) {
+						//多购买的数量
+						$more_num =  $val - $left_num;
+						$cartinfo = RC_DB::table('cart')->where('rec_id', $key)->first();
+						//剩余可购买数量的新增一条作为按促销价的数据
+						unset($cartinfo['rec_id']);
+						$cartinfo['goods_number'] 	= $left_num;
+						$cartinfo['group_id'] 		= empty($cartinfo['group_id']) ? '' : $cartinfo['group_id'];
+						$cartinfo['goods_attr']		= empty($cartinfo['goods_attr']) ? '' : $cartinfo['goods_attr'];
+						$cartinfo['extension_code'] = empty($cartinfo['extension_code']) ? '' : $cartinfo['extension_code'];
+						$cartinfo['is_promote']		= 1;
+	
+						RC_DB::table('cart')->insert($cartinfo);
+	
+						//更新多余购买数量的为原价
+						$promotion->updateCartGoodsPrice($key, $goods_id, $more_num, true, $spec, $goods['product_id']);
+					} elseif($val == $left_num) {
+						//购买数量等于限购可购买数量
+						$cartinfo = RC_DB::table('cart')->where('rec_id', $key)->first();
+						//当前数据是非促销数据的话，更新当前数据为促销数据
+						if ($cartinfo['is_promote'] == '0') {
+							RC_DB::table('cart')->where('rec_id', $key)->update(['is_promote'=> 1]);
+						}
+					}
+				} else {
+					//限购可购买数量等于0，更新商品价格为原价
+					$promotion->updateCartGoodsPrice($key, $goods_id, $val, true, $spec, $goods['product_id']);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 2点间距离计算
+	 * @param array $store_info
+	 * @param array $consignee
+	 * @return number
+	 */
+	private static function get_distance($store_info, $consignee)
+	{
+		$key = ecjia::config('map_qq_key');
+		RC_Hook::add_action('requests-requests.before_request', function (&$url, &$headers, &$data, &$type, &$options){
+			$options['data_format'] = 'body';
+		}, 10, 5);
+		
+		$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
+		$arr = [
+		'method'    => 'GET',
+		'headers'   => array(
+				'Content-Type' => 'application/json',
+				'Accept' => 'application/json'
+		),
+		'body'       => [],
+		'timeout'    => 30
+		];
+		$response = RC_Http::remote_request($url, $arr);
+		if ($response['response']['code'] == '200') {
+			$distance_info = json_decode($response['body'], true);
+			$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+		} else {
+			$distance = 0;
+		}
+
+		return $distance;
+	}
 }
 
 // end

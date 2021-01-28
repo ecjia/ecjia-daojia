@@ -79,7 +79,10 @@ class cart_create_module extends api_front implements api_interface {
             return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), __CLASS__));
 	    }
 	    $goods_spec		= $this->requestData('spec', array());
-	    
+	    if (!empty($goods_spec)) {
+	    	sort($goods_spec);
+	    }
+	     
 	    $rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS')); 
 	    $object_id 		= $this->requestData('goods_activity_id', 0);
 	    
@@ -99,6 +102,11 @@ class cart_create_module extends api_front implements api_interface {
     		$goods_spec = explode('|', $goods_attr);
     	}
     	
+    	if (!empty($goods_spec) && empty($product_id)) {
+    		$goods_spec_string = implode('|', $goods_spec);
+    		$product_id = RC_DB::table('products')->where('goods_attr', $goods_spec_string)->where('goods_id', $goods_id)->value('product_id');
+    	}
+    	
     	//该商品对应店铺是否被锁定
 		$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
 		$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
@@ -107,6 +115,7 @@ class cart_create_module extends api_front implements api_interface {
 		}
     	
     	$store_id_group = array();
+    	$mobile_location_range = ecjia::config('mobile_location_range');
     	/* 根据经纬度查询附近店铺id*/
     	if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
     		$geohash         = RC_Loader::load_app_class('geohash', 'store');
@@ -115,7 +124,13 @@ class cart_create_module extends api_front implements api_interface {
     		if (!empty($seller_id)) {
     			$store_id_group = array($seller_id);
     		}
-    	} else {
+    	} elseif (!empty($city_id)) {
+        	$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
+        	if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
+        	} elseif (!empty($seller_id)) {
+        		$store_id_group = array($seller_id);
+        	}
+        } else {
     		return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
     	}
     	
