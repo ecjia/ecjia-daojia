@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'b5f6c6517cbc1ea7ce081843ad5fe65545650f1d',
+    'reference' => '94e82fba70db938ca2ef6618b8f61f89b2a5b562',
     'name' => 'ecjia/ecjia-daojia',
   ),
   'versions' => 
@@ -266,7 +266,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'b5f6c6517cbc1ea7ce081843ad5fe65545650f1d',
+      'reference' => '94e82fba70db938ca2ef6618b8f61f89b2a5b562',
     ),
     'ecjia/ecjia-system-package' => 
     array (
