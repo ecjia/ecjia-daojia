@@ -1,0 +1,52 @@
+.list-group .fontello-icon-doc-text-inv {
+    margin-left: -4px;
+}
+.list-group-info, .list-group-title {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #555;
+}
+.list-group-title {
+    font-weight: 400;
+    font-size: 15px;
+    background: #f9f9f9;
+    background: -moz-linear-gradient(top, #f9f9f9 0%, #ececec 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f9f9f9), color-stop(100%, #ececec));
+    background: -webkit-linear-gradient(top, #f9f9f9 0%, #ececec 100%);
+    background: linear-gradient(top, #f9f9f9 0%, #ececec 100%);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: none;
+}
+.list-group-info {
+    border-radius: 4px;
+}
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #555;
+    border-bottom: none;
+}
+.list-group-item:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: 1px solid #ddd;
+}
+.list-group-item.llv-active, .list-group-item.llv-active:focus, .list-group-item.llv-active:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.list-group a:hover {
+    color: #555;
+    text-decoration: inherit;
+    background-color: #f2f2f2;
+}
+.logviewer-list .library-content .template_list ul.unstyled {
+    height: auto;
+    min-height: 480px;
+}

@@ -1,0 +1,16 @@
+{
+    "name": "ecjia/app-logviewer",
+    "description": "The ECJia App Logviewer package.",
+    "type": "royalcms-app",
+    "license": "MIT",
+    "homepage": "https://github.com/ecjia",
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    }
+}
