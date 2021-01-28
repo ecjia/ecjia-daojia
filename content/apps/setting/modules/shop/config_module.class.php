@@ -155,14 +155,14 @@ class shop_config_module extends api_front implements api_interface
         	$data = array_merge($data, array(
         			'mobile_phone_login_fgcolor' => ecjia::config('mobile_phone_login_fgcolor'),		//前景颜色
         			'mobile_phone_login_bgcolor' => ecjia::config('mobile_phone_login_bgcolor'),		//背景颜色
-        			'mobile_phone_login_bgimage' => ecjia_config::has('mobile_phone_login_bgimage') ?	RC_Upload::upload_url().'/'.ecjia::config('mobile_phone_login_bgimage') : '',		//背景图片
+        			'mobile_phone_login_bgimage' => ecjia::config('mobile_phone_login_bgimage') ?	 RC_Upload::upload_url(ecjia::config('mobile_phone_login_bgimage')) : '',		//背景图片
         	));
         }
         if (isset($device['client']) && $device['client'] == 'ipad') {
         	$data = array_merge($data, array(
         			'mobile_pad_login_fgcolor' => ecjia::config('mobile_pad_login_fgcolor'),			//前景颜色
         			'mobile_pad_login_bgcolor' => ecjia::config('mobile_pad_login_bgcolor'),			//背景颜色
-        			'mobile_pad_login_bgimage' => ecjia_config::has('mobile_pad_login_bgimage') ?	RC_Upload::upload_url().'/'.ecjia::config('mobile_pad_login_bgimage') : '',		//背景图片
+        			'mobile_pad_login_bgimage' => ecjia::config('mobile_pad_login_bgimage') ?	RC_Upload::upload_url(ecjia::config('mobile_pad_login_bgimage')) : '',		//背景图片
         	));
         }
         if (isset($device['client']) && $device['client'] == 'iphone') {
