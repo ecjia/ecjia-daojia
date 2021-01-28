@@ -36903,14 +36903,7 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
     }
     public function is_writable($file)
     {
-        $objectacl = $this->getBucketAcl();
-        if ($objectacl) {
-            $grants = $objectacl->getGrants();
-            if (in_array('private', $grants)) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
     public function atime($file)
     {
