@@ -1,0 +1,56 @@
+{
+    "name": "tarampampam/wrappers-php",
+    "description": "The Most Useful Wrappers For PHP Functions",
+    "keywords": [
+        "json",
+        "wrapper",
+        "exceptions"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tarampampam",
+            "homepage": "https://github.com/tarampampam"
+        }
+    ],
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "~0.12.34",
+        "phpunit/phpunit": "^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tarampampam\\Wrappers\\": "src/"
+        },
+        "files": [
+            "src/constants.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tarampampam\\Wrappers\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "phpunit": "@php ./vendor/bin/phpunit --no-coverage --colors=always",
+        "phpunit-cover": "@php ./vendor/bin/phpunit",
+        "phpstan": "@php ./vendor/bin/phpstan analyze -c ./phpstan.neon.dist --no-progress --ansi",
+        "test": [
+            "@phpstan",
+            "@phpunit"
+        ],
+        "test-cover": [
+            "@phpstan",
+            "@phpunit-cover"
+        ]
+    },
+    "support": {
+        "issues": "https://github.com/tarampampam/wrappers-php/issues",
+        "source": "https://github.com/tarampampam/wrappers-php"
+    }
+}
