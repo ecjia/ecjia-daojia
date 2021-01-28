@@ -168,7 +168,7 @@ class express_ecjiaauto_assign_expressOrder_api extends Component_Event_Api {
 				
 				if ($query) {
 					/* 消息插入 */
-					$orm_staff_user_db = RC_Model::model('orders/orm_staff_user_model');
+					$orm_staff_user_db = RC_Model::model('orders/staff_user_model');
 					$user = $orm_staff_user_db->find($staff_id);
 					 
 					/* 派单发短信 */

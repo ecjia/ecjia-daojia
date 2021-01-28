@@ -174,6 +174,8 @@ class admin_express_express_list_module extends api_admin implements api_interfa
 					'best_time'		=> $val['expect_shipping_time'],
 					'shipping_fee'	=> $val['commision'],
 					'order_amount'	=> $val['order_amount'],
+					'delivery_id'	=> intval($val['delivery_id']),	
+					'delivery_sn'	=> empty($val['delivery_sn']) ? '' : trim($val['delivery_sn'])	
 				);
 			}
 		}

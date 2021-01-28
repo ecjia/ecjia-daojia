@@ -155,12 +155,21 @@ class admin_express extends ecjia_admin {
         if(empty($address)) {
         	return $this->showmessage(__('请输入详细地址', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        
+        $name = empty($_POST['name']) ? '' : trim($_POST['name']);
+        if (empty($name)) {
+        	return $this->showmessage(__('请填写配送员名称', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        //配送员名称不可超过12个字符
+        if (mb_strlen($name) > 12) {
+        	return $this->showmessage(__('配送员名称不能超过12个字符', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         		
 		//产生配送员资料staff_user表
 		$salt = rand(1, 9999);
 		$staff_info = array(
 			'store_id'     => 0,
-			'name'         => trim($_POST['name']),
+			'name'         => $name,
 			'user_ident'   => trim($_POST['user_ident']),
 			'mobile'       => $mobile,
 			'email'        => $email,
@@ -267,11 +276,20 @@ class admin_express extends ecjia_admin {
         if(empty($address)) {
         	return $this->showmessage('请输入详细地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        
+        $name = empty($_POST['name']) ? '' : trim($_POST['name']);
+        if (empty($name)) {
+        	return $this->showmessage(__('请填写配送员名称', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        //配送员名称不可超过12个字符
+        if (mb_strlen($name) > 12) {
+        	return $this->showmessage(__('配送员名称不能超过12个字符', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         		
 		//产生配送员资料staff_user表
 		$salt = rand(1, 9999);
 		$staff_info = array(
-			'name'         => trim($_POST['name']),
+			'name'         => $name,
 			'user_ident'   => trim($_POST['user_ident']),
 			'mobile'       => $mobile,
 			'email'        => $email,

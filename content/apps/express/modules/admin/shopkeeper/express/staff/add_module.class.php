@@ -72,6 +72,10 @@ class admin_shopkeeper_express_staff_add_module extends api_admin implements api
 		if (empty($name) || empty($mobile) || empty($user_ident) || empty($remark)) {
     		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'express'), __CLASS__));
     	}
+    	//配送员名称不可超过12个字符
+    	if (mb_strlen($name) > 12) {
+    		return new ecjia_error('staff_name_error', __('员工名称不能超过12个字符', 'express'));
+    	}
     	
     	//用户名重复判断
     	$user_name_count = RC_DB::table('staff_user')->where('name', $name)->where('store_id', $_SESSION['store_id'])->count();

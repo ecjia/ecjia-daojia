@@ -80,6 +80,10 @@ class admin_shopkeeper_express_staff_update_module extends api_admin implements 
     	}
     	
     	$data = array();
+    	//配送员名称不可超过12个字符
+    	if (mb_strlen($name) > 12) {
+    		return new ecjia_error('staff_name_error', __('员工名称不能超过12个字符', 'express'));
+    	}
     	//用户名重复判断
     	if (!empty($name)) {
     		$user_name_count = RC_DB::table('staff_user')->where('user_id', '<>', $staff_id)->where('name', $name)->where('store_id', $_SESSION['store_id'])->count();

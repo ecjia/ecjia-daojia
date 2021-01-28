@@ -85,7 +85,7 @@ class mh_express extends ecjia_merchant {
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送员管理', 'express')));
 		$this->assign('ur_here', __('配送员管理', 'express'));
-		$this->assign('action_link', array('text' => __('添加配送员', 'express'), 'href' => RC_Uri::url('staff/merchant/add', array('step'=>1))));
+		$this->assign('action_link', array('text' => __('添加配送员', 'express'), 'href' => RC_Uri::url('staff/merchant/add', array('step'=>1, 'act' => 'add_express'))));
 		
 		$type = remove_xss($_GET['type']);
 		$this->assign('type', $type);
