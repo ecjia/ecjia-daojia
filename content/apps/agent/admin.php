@@ -410,8 +410,8 @@ class admin extends ecjia_admin
         $keywords   = trim($_GET['keywords']);
         $agent_rank = intval($_GET['agent_rank']);
 
-        $db_staff_user = RC_DB::table('staff_user as s')
-            ->leftJoin('agent_user as a', RC_DB::raw('s.user_id'), '=', RC_DB::raw('a.user_id'))
+        $db_staff_user = RC_DB::table('agent_user as a')
+            ->leftJoin('staff_user as s', RC_DB::raw('s.user_id'), '=', RC_DB::raw('a.user_id'))
             ->where(RC_DB::raw('s.store_id'), 0)
             ->where(RC_DB::raw('s.group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_AGENT);
 
