@@ -73,12 +73,14 @@ class article_list {
 		}
 		
 		if ($filter['cat_id'] && ($filter['cat_id'] > 0)) {
-			//含分类自己
-			$parent_ids = self::GetIds($filter['cat_id']);
-			if (!empty($parent_ids) && is_array($parent_ids)) {
-				$datas = array_merge(array($filter['cat_id']), $parent_ids);
+			//含分类自己			
+			RC_Loader::load_app_class('article_cat', 'article', false);
+			$datas = article_cat::article_cat_list($filter['cat_id'], 0, false, 0, 'article');
+			$datas = array_merge($datas);
+			$datas = $datas ? collect($datas)->pluck('cat_id')->toArray() : [];
+			if (!empty($datas) && is_array($datas)) {
+				$dbview->whereIn(RC_DB::raw('a.cat_id'), $datas);
 			}
-			$dbview->whereIn(RC_DB::raw('a.cat_id'), $datas);
 		}
 		/*显示审核通过的*/
 		if ($options['article_approved'] && $options['article_approved'] == 1) {

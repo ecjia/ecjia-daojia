@@ -75,7 +75,6 @@ class article_comment_create_module extends api_front implements api_interface {
 		    	'comment_type'			=> 'article',
 		    	'user_id'				=> $_SESSION['user_id'],
 		        'user_name'				=> $user_name,
-		        'email'  				=> $email,
 		        'content'				=> trim($content),
 		        'user_type'	    		=> $_SESSION['user_id'] > 0 ? '商城会员' : '游客',
 		        'add_time'				=> RC_Time::gmtime(),
@@ -84,6 +83,9 @@ class article_comment_create_module extends api_front implements api_interface {
 		        'store_id'				=> $store_id,
 		        'comment_approved'   	=> 1,
 		    );
+		    if (!empty($email)) {
+		    	$data['email'] = $email;
+		    }
 		    $comment_id = RC_DB::table('discuss_comments')->insertGetId($data);
 		}
 		/*更新文章评论数*/
