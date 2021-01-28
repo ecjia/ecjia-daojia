@@ -125,7 +125,7 @@ function get_payment_record_list($args = array()) {
     
     if (!empty($filter['start_date']) && !empty( $filter['end_date'])) {
     	$start_time = RC_Time::local_strtotime($filter['start_date']);
-    	$end_time = RC_Time::local_strtotime($filter['end_date']);
+    	$end_time = RC_Time::local_strtotime($filter['end_date']) + 86399;
     	$db_payment_record->where('create_time', '>=', $start_time)->where('create_time', '<=', $end_time);
     }
     
@@ -160,6 +160,10 @@ function get_payment_record_list($args = array()) {
             $db_payment_record[$key]['pay_status'] = __('等待付款', 'payment');
         } elseif ($db_payment_record[$key]['pay_status'] == 1) {
             $db_payment_record[$key]['pay_status'] = __('付款成功', 'payment');
+        }  elseif ($db_payment_record[$key]['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_PROGRESS) {
+        	$db_payment_record[$key]['pay_status'] = __('支付进行中', 'payment');
+        } elseif ($db_payment_record[$key]['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_FAIL) {
+        	$db_payment_record[$key]['pay_status'] = __('支付失败', 'payment');
         } elseif ($db_payment_record[$key]['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_CANCEL) {
         	$db_payment_record[$key]['pay_status'] = __('订单撤消', 'payment');
         } elseif ($db_payment_record[$key]['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_REFUND) {
