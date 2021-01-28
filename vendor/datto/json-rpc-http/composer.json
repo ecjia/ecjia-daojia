@@ -1,0 +1,26 @@
+{
+    "name": "datto/json-rpc-http",
+    "type": "library",
+    "description": "HTTP client and server for JSON-RPC 2.0",
+    "keywords": ["php", "json", "rpc", "jsonrpc", "json-rpc", "php-json-rpc", "http", "client", "server"],
+    "homepage": "http://datto.com",
+    "license": "LGPL-3.0+",
+    "authors": [
+        {
+            "name": "Spencer Mortensen",
+            "email": "smortensen@datto.com",
+            "homepage": "http://spencermortensen.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "datto/json-rpc": "~6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Datto\\JsonRpc\\Http\\Examples\\": "examples/src",
+            "Datto\\JsonRpc\\Http\\": "src"
+        }
+    }
+}
