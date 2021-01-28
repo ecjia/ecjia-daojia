@@ -44,13 +44,10 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\Notifications\Notifiable;
-use Royalcms\Component\Database\Eloquent\Model;
+use Ecjia\System\Notifications\NotifiableModel;
 
-class ecjia_admin_notifiable extends Model
+class ecjia_admin_notifiable extends NotifiableModel
 {
-    use Notifiable;
-    
     /**
      * The table associated with the model.
      *
