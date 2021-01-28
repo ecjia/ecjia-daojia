@@ -48,6 +48,7 @@ namespace Ecjia\App\Affiliate;
 
 use RC_Uri;
 use RC_QrCode;
+use ecjia;
 
 class GenerateInviteCode
 {
@@ -68,7 +69,16 @@ class GenerateInviteCode
         $args = [
             'invite_code'      => $this->code
         ];
-        return RC_Uri::url('affiliate/index/init', $args);
+
+      	if (ecjia::config('mobile_touch_url') != '') {
+            $invite_url = ecjia::config('mobile_touch_url') . 'index.php?m=affiliate&c=index&a=init&invite_code=' . $this->code;
+        } else {
+            $home_url 	= RC_Uri::home_url();
+            $h5_url 	= $home_url.'/sites/m';
+            $invite_url = $h5_url . '/index.php?m=affiliate&c=mobile&a=init&invite_code=' . $this->code;
+        }
+
+        return $invite_url;
     }
 
     /**

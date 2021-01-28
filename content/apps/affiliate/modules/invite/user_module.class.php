@@ -70,14 +70,19 @@ class invite_user_module extends api_front implements api_interface
             $cache_id        = sprintf('%X', crc32($_SESSION['user_id'] . '-' . $_SESSION['user_name']));
             $invite_template = $this->fetch_string($tpl, $cache_id);
         }
-        if (ecjia::config('mobile_touch_url') != '') {
-            $invite_url = ecjia::config('mobile_touch_url') . 'index.php?m=affiliate&c=index&a=init&invite_code=' . $user_invite_code;
-        } else {
-            $invite_url = RC_Uri::site_url() . '/index.php?m=affiliate&c=mobile&a=init&invite_code=' . $user_invite_code;
-        }
+        
+         if (ecjia::config('mobile_touch_url') != '') {
+             $invite_url = ecjia::config('mobile_touch_url') . 'index.php?m=affiliate&c=index&a=init&invite_code=' . $user_invite_code;
+             $h5_url = ecjia::config('mobile_touch_url');
+         } else {
+             $home_url 	= RC_Uri::home_url();
+             $h5_url 	= $home_url.'/sites/m/';
+             $invite_url = $h5_url . 'index.php?m=affiliate&c=mobile&a=init&invite_code=' . $user_invite_code;
+         }
+        
         $invite_info = array(
             'invite_code'         => $user_invite_code,
-            'invite_qrcode_image' => RC_Uri::site_url() . '/index.php?m=affiliate&c=mobile&a=qrcode&invite_code=' . $user_invite_code,
+            'invite_qrcode_image' => $h5_url . 'index.php?m=affiliate&c=mobile&a=qrcode&invite_code=' . $user_invite_code,
             'invite_template'     => $invite_template,
             'invite_explain'      => ecjia::config('invite_explain'),
             'invite_url'          => $invite_url
