@@ -231,8 +231,8 @@ class admin extends ecjia_admin
         if (empty($data['merchants_name'])) {
             return $this->showmessage(__('店铺名称不能为空', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        if (mb_strlen($data['merchants_name']) > 17) {
-            return $this->showmessage(__('店铺名称不能超过17个字符', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        if (mb_strlen($data['merchants_name']) > 20) {
+            return $this->showmessage(__('店铺名称不能超过20个字符', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($data['cat_id'])) {
             return $this->showmessage(__('请选择商家分类', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -459,6 +459,9 @@ class admin extends ecjia_admin
             if (empty($data['merchants_name'])) {
                 return $this->showmessage(__('店铺名称不能为空', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
+            if (mb_strlen($data['merchants_name']) > 20) {
+                return $this->showmessage(__('店铺名称不能超过20个字符', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
             if (empty($data['contact_mobile'])) {
                 return $this->showmessage(__('联系手机不能为空', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
@@ -617,7 +620,7 @@ class admin extends ecjia_admin
      */
     public function preview()
     {
-        $this->admin_priv('store_affiliate_manage');
+        $this->admin_priv('store_preview_manage');
         $store_id = (int)$this->request->input('store_id');
         $store = $store_info = RC_Api::api('store', 'store_info', ['store_id' => $store_id]);
 

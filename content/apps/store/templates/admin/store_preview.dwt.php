@@ -257,7 +257,7 @@
             							</div>
             							{/if}
         							</td>
-        							<td><div align="right"><strong>{t domain="store"}还未上传{/t}</strong></div></td>
+        							<td><div align="right"><strong>{t domain="store"}证件反面：{/t}</strong></div></td>
         							<td>
             							{if $store.identity_pic_back neq ''}
             							<a href="{RC_Upload::upload_url({$store.identity_pic_back})}" title='{t domain="store"}点击查看大图{/t}' target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.identity_pic_back})}"></a>

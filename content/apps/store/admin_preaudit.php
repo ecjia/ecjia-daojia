@@ -210,6 +210,14 @@ class admin_preaudit extends ecjia_admin
             $personhand_identity_pic = $info['personhand_identity_pic'];
         }
 
+        $merchants_name = !empty($_POST['merchants_name']) ? $_POST['merchants_name'] : '';
+        if (empty($merchants_name)) {
+            return $this->showmessage(__('店铺名称不可为空！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        if (mb_strlen($merchants_name) > 20) {
+            return $this->showmessage(__('店铺名称不能超过20个字符', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
         $data = array(
             'cat_id'                  => !empty($_POST['store_cat']) ? $_POST['store_cat'] : '',
             'merchants_name'          => !empty($_POST['merchants_name']) ? $_POST['merchants_name'] : '',

@@ -63,6 +63,7 @@ class store_admin_purview_api extends Component_Event_Api
             array('action_name' => __('添加商家', 'store'), 'action_code' => 'store_affiliate_add', 'relevance' => ''),
             array('action_name' => __('自营商家', 'store'), 'action_code' => 'store_self_manage', 'relevance' => ''),
             array('action_name' => __('注销申请', 'store'), 'action_code' => 'store_cancel_manage', 'relevance' => ''),
+        	array('action_name' => __('查看店铺信息', 'store'), 'action_code' => 'store_preview_manage', 'relevance' => ''),
 
             //删除商家
             array('action_name' => __('删除商家', 'store'), 'action_code' => 'store_delete', 'relevance' => ''),
