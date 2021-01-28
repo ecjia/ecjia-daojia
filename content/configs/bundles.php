@@ -41,11 +41,11 @@ return array(
     /* 会员整合 */
 //    'integrate'    => 'integrate',
     /* 邮件管理 */
-//    'mail'         => 'mail',
+    'mail'         => 'mail',
     /* PC入口 */
 //    'main'         => 'main',
     /* 运维工具 */
-//    'maintain'     => 'maintain',
+    'maintain'     => 'maintain',
     /* 商户 */
 //    'merchant'     => 'merchant',
     /* 通知 */
