@@ -52,7 +52,7 @@ return array(
     'site_name'                 => 'EC+到家',
 
     //是否启用店铺删除
-    'store_delete_enabled'      => false,
+    'store_delete_enabled'      => true,
 );
 
 // end

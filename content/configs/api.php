@@ -667,6 +667,11 @@ return array(
     'user/agent/userinfo'            	=> 'affiliate::affiliate/user/userinfo',
     'invite/store/agent/invite/store'							=> 'affiliate::invite/store/agent/invite/store',						//代理商推广的店铺列表
 
+	'admin/merchant/orders/operate/close'						=> 'orders::admin/merchant/orders/operate/close',						//掌柜关闭订单（加强版）接口优化，实际为退款至完成，退回余额
+
+    //1.38
+    'wechat/wxconfig' => 'wechat::wechat/wxconfig',
+
 );
 
 // end
