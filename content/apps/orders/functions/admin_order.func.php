@@ -260,18 +260,47 @@ function order_amount($order_id, $include_gift = true)
 function order_weight_price($order_id)
 {
     RC_Loader::load_app_func('global', 'goods');
-    $row           = $db = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('o.goods_id'))
-        ->select(RC_DB::raw('SUM(g.goods_weight * o.goods_number) as weight'), RC_DB::raw('SUM(o.goods_price * o.goods_number) as amount'),
-            RC_DB::raw('SUM(o.goods_number) as number'), RC_DB::raw('g.weight_unit'))
-        ->where(RC_DB::raw('o.order_id'), $order_id)->first();
+//     $row           = $db = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('o.goods_id'))
+//         ->select(RC_DB::raw('SUM(g.goods_weight * o.goods_number) as weight'), RC_DB::raw('SUM(o.goods_price * o.goods_number) as amount'),
+//             RC_DB::raw('SUM(o.goods_number) as number'), RC_DB::raw('g.weight_unit'))
+//         ->where(RC_DB::raw('o.order_id'), $order_id)->first();
 
-    if($row['weight_unit'] == 1)
-    {
-        $row['weight'] = floatval($row['weight']) / 1000;
+//     if($row['weight_unit'] == 1)
+//     {
+//         $row['weight'] = floatval($row['weight']) / 1000;
+//     }
+
+//     $row['amount'] = floatval($row['amount']);
+//     $row['number'] = intval($row['number']);
+    
+    $result = $db = RC_DB::table('order_goods as o')
+    				->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('o.goods_id'))
+    				->where(RC_DB::raw('o.order_id'), $order_id)
+        			->selectRaw('o.goods_number, g.goods_weight, o.goods_price, g.weight_unit')
+        			->get();
+    
+    $row = [];
+    $amount = '0.00';
+    $number = 0;
+    $weight = '0.000';
+    
+    if ($result) {
+    	foreach ($result as $val) {
+    		$amount += $val['goods_price'] * $val['goods_number'];
+    		$number += $val['goods_number'];
+    		if ($val['weight_unit'] == '1') {
+    			$val['goods_weight'] = floatval($val['goods_weight']) / 1000;
+    		}
+    		$weight += $val['goods_weight'] * $val['goods_number'];
+    	}
     }
-
-    $row['amount'] = floatval($row['amount']);
-    $row['number'] = intval($row['number']);
+    
+    $row = [
+    	'amount' => sprintf("%.2f", $amount),
+    	'number' => intval($number),
+    	'weight' => $weight
+    ];
+    
     /* 格式化重量 */
     $row['formated_weight'] = formated_weight($row['weight']);
     return $row;
@@ -581,7 +610,7 @@ function user_info($user_id, $mobile = '')
     }
 
     if (empty($user)) {
-        return new ecjia_error('userinfo_error', '用户信息不存在！');
+        return [];
     }
 
     unset($user['question']);

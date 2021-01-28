@@ -107,9 +107,41 @@ class orders_front_plugin
             }
         }
     }
+    
+    
+    /**
+     * 商家和众包配送的订单，支付成功默认已接单，自动发货
+     * @param array $order
+     * @return boolean
+     */
+    public static function api_o2oecjia_order_payed_autoship($order)
+    {
+    	if (empty($order['order_sn'])) {
+    		RC_Logger::getLogger('error')->error('storebuy_order_payed_autoship_error');
+    		return false;
+    	}
+    	$order_sn   = $order['order_sn'];
+    	$order_info = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
+    	 
+    	if (empty($order_info)) {
+    		RC_Logger::getLogger('error')->error(sprintf(__('接单商家配送和众包配送订单 %s 发货失败', 'orders'), $order_sn));
+    		return false;
+    	}
+
+        $orders_auto_confirm = Ecjia\App\Cart\StoreStatus::StoreOrdersAutoConfirm($order['store_id']);
+
+        //商家配送和众包配送支付成功，店铺有开启自动接单和自动发货，则接单且自动发货
+        if ($order_info['shipping_status'] == SS_UNSHIPPED && $orders_auto_confirm == Ecjia\App\Cart\StoreStatus::AUTOCONFIRM && $order_info['order_status'] == OS_CONFIRMED) {
+            $res = \Ecjia\App\Orders\OrderOperate\ConfirmedO2oAndEcjiaAutoShipping::o2o_ecjia_auto_ship($order_info['order_id']);
+    		if (is_ecjia_error($res)) {
+    			RC_Logger::getLogger('error')->error(sprintf(__('接单商家配送和众包配送订单 %s 发货失败', 'orders'), $order_sn));
+    		}
+    	}
+    }
 }
 
 RC_Hook::add_filter('order_payed_do_something', array('orders_front_plugin', 'front_promotion_buy_num_update'));
 RC_Hook::add_action('order_payed_do_something', array('orders_front_plugin', 'front_storebuy_order_payed_autoship'));
+RC_Hook::add_action('order_payed_do_something', array('orders_front_plugin', 'api_o2oecjia_order_payed_autoship'));
 
 // end

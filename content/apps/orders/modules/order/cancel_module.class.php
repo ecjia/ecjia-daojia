@@ -85,6 +85,8 @@ class order_cancel_module extends api_front implements api_interface
      */
     private function cancel_order($order_id, $user_id = 0)
     {
+    	RC_Loader::load_app_func('admin_order', 'orders');
+    	
         $db = RC_Model::model('orders/order_info_model');
         /* 查询订单信息，检查状态 */
         $order = $db->field('user_id, order_id, order_sn , surplus , integral , bonus_id, order_status, shipping_status, pay_status')->find(array('order_id' => $order_id));
@@ -111,11 +113,14 @@ class order_cancel_module extends api_front implements api_interface
         if ($order['order_status'] == OS_CANCELED) {
             return new ecjia_error('order_has_canceled', __('该订单已取消过了！', 'orders'));
         }
+        
+        if (!in_array($order['order_status'], [OS_UNCONFIRMED, OS_CONFIRMED])) {
+        	return new ecjia_error('order_has_canceled', __('该订单状态不支持取消！', 'orders'));
+        }
 
         // 将用户订单设置为取消
         $query = $db->where(array('order_id' => $order_id))->update(array('order_status' => OS_CANCELED));
         if ($query) {
-            RC_Loader::load_app_func('admin_order', 'orders');
             //订单取消，如果是下单减库存，还原库存
             if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
                 RC_Loader::load_app_class('cart', 'cart', false);
@@ -162,7 +167,8 @@ class order_cancel_module extends api_front implements api_interface
 
             /* 如果使用库存，且下订单时减库存，则增加库存 */
             if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
-                change_order_goods_storage($order['order_id'], false, 1);
+            	RC_Loader::load_app_class('cart', 'cart', false);
+                cart::change_order_goods_storage($order['order_id'], false, 1);
             }
 
             /* 修改订单 */

@@ -46,13 +46,75 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-use Ecjia\System\Notifications\NotifiableModel;
-
-class orm_users_model extends NotifiableModel
+/**
+ * 关闭订单（已支付，待发货的）默认退款，流程至商家同意，待平台打款处理
+ * @author will
+ *
+ */
+class admin_merchant_orders_operate_close_module extends api_admin implements api_interface
 {
-    protected $table = 'users';
-    protected $primaryKey = 'user_id';
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
+        if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+        $result_view = $this->admin_priv('order_view');
+        $result_edit = $this->admin_priv('order_os_edit');
+        if (is_ecjia_error($result_view)) {
+            return $result_view;
+        } elseif (is_ecjia_error($result_edit)) {
+            return $result_edit;
+        }
+        $order_id    = $this->requestData('order_id', 0);
+        $cancel_note = $this->requestData('cancel_note', '');
+
+        if (empty($order_id)) {
+            return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
+        }
+        /*验证订单是否属于此入驻商*/
+        if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+            $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->get_field('store_id', true);
+            if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+                return new ecjia_error('no_authority', __('对不起，您没权限对此订单进行操作！', 'orders'));
+            }
+        }
+
+        $order_info = RC_DB::table('order_info')->where('order_id', $order_id)
+				        ->whereIn('order_status', [OS_UNCONFIRMED, OS_CONFIRMED])
+				        ->where('pay_status', PS_PAYED)
+				        ->where('shipping_status', SS_UNSHIPPED)
+				        ->where('is_delete', 0)
+				        ->first();
+        
+        if (empty($order_info)) {
+            return new ecjia_error('order_no_exists', __('订单信息不存在', 'orders'));
+        }
+		
+        //发货状态只能是“未发货”
+        if ($order_info['shipping_status'] != SS_UNSHIPPED) {
+        	return new ecjia_error('current_ss_not_cancel', __('只有在未发货状态下才能关闭。', 'orders'));
+        }
+        
+        //支付状态只能是已支付的
+        if ($order_info['pay_status'] == PS_UNPAYED) {
+        	return new ecjia_error('current_ps_not_cancel', __('只有已付款的订单才能关闭。', 'orders'));
+        }
+        //订单状态是未确认或已接单
+        if ($order_info['order_status'] > OS_CONFIRMED) {
+        	return new ecjia_error('order_has_canceled', __('该订单状态不支持关闭！', 'orders'));
+        }
+        
+        $res = Ecjia\App\Orders\OrderMerchantClosed::CloseOrderToRefundFinished($order_info, $_SESSION['staff_id'], $cancel_note);
+        
+        if (is_ecjia_error($res)) {
+        	return $res;
+        }
+        
+        return array();
+    }
 }
+
 
 // end

@@ -474,9 +474,63 @@ class order_operate
             return false;
         }
         $arr['order_status'] = OS_CANCELED;
-        $this->update_order($order['order_id'], $arr);
-        /* 记录log */
-        $this->order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], $order['pay_status'], $note['action_note']);
+        $result = $this->update_order($order['order_id'], $arr);
+        if ($result) {
+        	/* 记录log */
+        	$this->order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], $order['pay_status'], $note['action_note']);
+        	//订单取消，如果是下单减库存，还原库存
+        	if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
+        		RC_Loader::load_app_class('cart', 'cart', false);
+        		$result = cart::change_order_goods_storage($order['order_id'], false, SDT_PLACE);
+        		if (is_ecjia_error($result)) {
+        			/* 库存不足删除已生成的订单（并发处理） will.chen*/
+        			RC_DB::table('order_info')->where('order_id', $order['order_id'])->delete();
+        			RC_DB::table('order_goods')->where('order_id', $order['order_id'])->delete();
+        			return $result;
+        		}
+        	}
+        	
+        	/* 退货用户余额、积分、红包 */
+        	if ($order['user_id'] > 0 && $order['surplus'] > 0) {
+        		$options = array(
+        				'user_id'     => $order['user_id'],
+        				'user_money'  => $order['surplus'],
+        				'change_desc' => sprintf(__('取消订单 %s，退回支付订单时使用的预付款', 'orders'), $order['order_sn'])
+        		);
+        		$result  = RC_Api::api('user', 'account_change_log', $options);
+        		if (is_ecjia_error($result)) {
+        			return $result;
+        		}
+        	}
+        	if ($order['user_id'] > 0 && $order['integral'] > 0) {
+        		$options = array(
+        				'user_id'     => $order['user_id'],
+        				'pay_points'  => $order['integral'],
+        				'change_desc' => sprintf(__('取消订单 %s，退回下订单时使用的积分', 'orders'), $order['order_sn']),
+        				'from_type'   => 'ordercancel_back_integral',
+        				'from_value'  => $order['order_sn']
+        		);
+        		$result  = RC_Api::api('user', 'account_change_log', $options);
+        		if (is_ecjia_error($result)) {
+        			return $result;
+        		}
+        	}
+        	//订单有使用红包，还原红包
+        	if ($order['user_id'] > 0 && $order['bonus_id'] > 0) {
+        		RC_Loader::load_app_func('admin_bonus', 'bonus');
+        		change_user_bonus($order['bonus_id'], $order['order_id'], false);
+        	}
+        	
+        	/* 修改订单 */
+        	$arr_data = array(
+        			'bonus_id'       => 0,
+        			'bonus'          => 0,
+        			'integral'       => 0,
+        			'integral_money' => 0,
+        			'surplus'        => 0
+        	);
+        	$this->update_order($order['order_id'], $arr_data);
+        }
     }
 
     /**

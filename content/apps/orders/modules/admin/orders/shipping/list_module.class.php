@@ -111,8 +111,12 @@ class admin_orders_shipping_list_module extends api_admin implements api_interfa
 
         if (!empty($shipping_list)) {
             foreach ($shipping_list as $a => $b) {
-                if (empty($b['shipping_id'])) {
-                    unset($shipping_list[$a]);
+                // if (empty($b['shipping_id'])) {
+                //     unset($shipping_list[$a]);
+                // }
+                //过滤掉到店配送方式
+                if ($b['shipping_code'] == 'ship_cac') {
+                	unset($shipping_list[$a]);
                 }
             }
         }
@@ -177,40 +181,37 @@ class admin_orders_shipping_list_module extends api_admin implements api_interfa
                     /* 获取最后可送的时间（当前时间+需提前下单时间）*/
                     $time = RC_Time::local_date('H:i', RC_Time::gmtime() + $shipping_cfg['last_order_time'] * 60);
 
-                    if (empty($shipping_cfg['ship_time'])) {
-                        unset($shipping_list[$key]);
-                        continue;
-                    }
+                    // if (empty($shipping_cfg['ship_time'])) {
+                    //     unset($shipping_list[$key]);
+                    //     continue;
+                    // }
                     $shipping_list[$key]['shipping_date'] = array();
                     $ship_date                            = 0;
 
                     if (empty($shipping_cfg['ship_days'])) {
                         $shipping_cfg['ship_days'] = 7;
                     }
+                    if (!empty($shipping_cfg['ship_time'])) {
+	                    while ($shipping_cfg['ship_days']) {
+	                    		foreach ($shipping_cfg['ship_time'] as $k => $v) {
 
-                    while ($shipping_cfg['ship_days']) {
-                        foreach ($shipping_cfg['ship_time'] as $k => $v) {
+		                            if ($v['end'] > $time || $ship_date > 0) {
+		                                $shipping_list[$key]['shipping_date'][$ship_date]['date']   = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+' . $ship_date . ' day'));
+		                                $shipping_list[$key]['shipping_date'][$ship_date]['time'][] = array(
+		                                    'start_time' => $v['start'],
+		                                    'end_time'   => $v['end'],
+		                                );
+		                            }
+		                        }
+	                        $ship_date++;
 
-                            if ($v['end'] > $time || $ship_date > 0) {
-                                $shipping_list[$key]['shipping_date'][$ship_date]['date']   = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+' . $ship_date . ' day'));
-                                $shipping_list[$key]['shipping_date'][$ship_date]['time'][] = array(
-                                    'start_time' => $v['start'],
-                                    'end_time'   => $v['end'],
-                                );
-                            }
-                        }
-
-                        $ship_date++;
-
-                        if (count($shipping_list[$key]['shipping_date']) >= $shipping_cfg['ship_days']) {
-                            break;
-                        }
+	                        if (count($shipping_list[$key]['shipping_date']) >= $shipping_cfg['ship_days']) {
+	                            break;
+	                        }
+	                    }
                     }
                     $shipping_list[$key]['shipping_date'] = array_merge($shipping_list[$key]['shipping_date']);
-
                 }
-
-
                 $shipping_list = array_values($shipping_list);
             }
 

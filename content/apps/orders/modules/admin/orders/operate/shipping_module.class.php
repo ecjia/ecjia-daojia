@@ -90,8 +90,12 @@ class admin_orders_operate_shipping_module extends api_admin implements api_inte
 
         $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
         if (empty($order_info)) {
-            return new ecjia_error(101, __('参数错误', 'orders'));
+            return new ecjia_error('order_info_not_exist', __('订单信息不存在', 'orders'));
         }
+        if ($order_info['shipping_status'] != SS_UNSHIPPED) {
+        	return new ecjia_error('shipping_status_error', __('已发货订单不可修改配送方式', 'orders'));
+        }
+        
         //无需物流方式
 // 		if ($shipping_id == 0) {
 // 		    $noexpress_data = RC_DB::table('shipping')

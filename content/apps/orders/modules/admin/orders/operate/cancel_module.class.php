@@ -47,7 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 关闭订单
+ * 关闭订单（已支付，待发货的）默认退款，流程至商家同意，待平台打款处理
  * @author will
  *
  */
@@ -70,7 +70,7 @@ class admin_orders_operate_cancel_module extends api_admin implements api_interf
         $order_id    = $this->requestData('order_id', 0);
         $cancel_note = $this->requestData('cancel_note', '');
 
-        if (empty($order_id) || empty($cancel_note)) {
+        if (empty($order_id)) {
             return new ecjia_error(101, sprintf(__('请求接口%s参数无效', 'orders'), __CLASS__));
         }
         /*验证订单是否属于此入驻商*/
@@ -81,60 +81,37 @@ class admin_orders_operate_cancel_module extends api_admin implements api_interf
             }
         }
 
-        $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        $order_info = RC_DB::table('order_info')->where('order_id', $order_id)
+				        ->where('order_status', OS_UNCONFIRMED)
+				        ->where('pay_status', PS_PAYED)
+				        ->where('shipping_status', SS_UNSHIPPED)
+				        ->where('is_delete', 0)
+				        ->first();
+        
         if (empty($order_info)) {
             return new ecjia_error('order_no_exists', __('订单信息不存在', 'orders'));
         }
-
-        RC_Loader::load_app_func('admin_order', 'orders');
-        RC_Loader::load_app_func('global', 'orders');
-
-        /* 取消 */
-        /* 标记订单为“取消”，记录取消原因 */
-        $arr = array(
-            'order_status' => OS_CANCELED,
-            'to_buyer'     => $cancel_note,
-            'pay_status'   => PS_UNPAYED,
-            'pay_time'     => 0,
-            'money_paid'   => 0,
-            'order_amount' => $order_info['money_paid']
-        );
-        update_order($order_id, $arr);
-
-        /* todo 处理退款 */
-        if ($order_info['money_paid'] > 0) {
-            $refund_type = 1;
-// 			$refund_type = $$this->requestData['refund'];
-// 			$refund_note = $$this->requestData['refund_note'];
-            order_refund($order_info, $refund_type, $cancel_note);
+		
+        //发货状态只能是“未发货”
+        if ($order_info['shipping_status'] != SS_UNSHIPPED) {
+        	return new ecjia_error('current_ss_not_cancel', __('只有在未发货状态下才能关闭。', 'orders'));
         }
-
-        /* 记录log */
-        order_action($order_info['order_sn'], OS_CANCELED, $order_info['shipping_status'], PS_UNPAYED, $cancel_note);
-
-        /* 如果使用库存，且下订单时减库存，则增加库存 */
-        if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
-            change_order_goods_storage($order_id, false, SDT_PLACE);
+        
+        //支付状态只能是已支付的
+        if ($order_info['pay_status'] == PS_UNPAYED) {
+        	return new ecjia_error('current_ps_not_cancel', __('只有已付款的订单才能关闭。', 'orders'));
         }
-
-        /* 退还用户余额、积分、红包 */
-        return_user_surplus_integral_bonus($order_info);
-
-        /* 发送邮件 */
-        $cfg = ecjia::config('send_cancel_email');
-        if ($cfg == '1') {
-            $tpl_name = 'order_cancel';
-            $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
-            if (!empty($tpl)) {
-                ecjia_api::$controller->assign('order', $order_info);
-                ecjia_api::$controller->assign('shop_name', ecjia::config('shop_name'));
-                ecjia_api::$controller->assign('send_date', RC_Time::local_date(ecjia::config('date_format')));
-                $content = ecjia_api::$controller->fetch_string($tpl['template_content']);
-
-                RC_Mail::send_mail($order_info['consignee'], $order_info['email'], $tpl['template_subject'], $content, $tpl['is_html']);
-            }
+        //订单状态是未确认或已接单
+        if ($order_info['order_status'] > OS_CONFIRMED) {
+        	return new ecjia_error('order_has_canceled', __('该订单状态不支持关闭！', 'orders'));
         }
-
+        
+        $res = Ecjia\App\Orders\OrderMerchantClosed::CloseOrderToMerchantAgree($order_info, $_SESSION['staff_id'], $cancel_note);
+        
+        if (is_ecjia_error($res)) {
+        	return $res;
+        }
+        
         return array();
     }
 }

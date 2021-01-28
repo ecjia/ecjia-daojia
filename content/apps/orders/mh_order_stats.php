@@ -558,7 +558,7 @@ class mh_order_stats extends ecjia_merchant
                     unset($order_info['finished_num']);
                 }
             }
-            arsort($order_info);
+            //arsort($order_info);
             foreach ($order_info as $k => $v) {
                 if ($order_info[__('待付款订单', 'orders')] == 0 && $order_info[__('待发货订单', 'orders')] == 0
                     && $order_info[__('已发货订单', 'orders')] == 0 && $order_info[__('退货订单', 'orders')] == 0
@@ -596,17 +596,23 @@ class mh_order_stats extends ecjia_merchant
 
         $start_date = RC_Time::local_strtotime($start_time);
         $end_date   = RC_Time::local_strtotime($end_time);
+        
+        $store_id = $_SESSION['store_id'];
 
-        $where = "i.add_time >= '$start_date' AND i.add_time <= '$end_date'" . order_query_sql('finished');
-
-        $ship_info = RC_DB::table('shipping as sp')
-            ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
-            ->select(RC_DB::raw('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num'))
-            ->whereRaw($where)
-            ->groupby(RC_DB::raw('i.shipping_id'))
+        $ship_info = RC_DB::table('order_info')
+        	->select('shipping_name as ship_name', RC_DB::raw('count(order_id) as order_num'))
+        	->whereNotNull('shipping_id')
+        	->where('store_id', $store_id)
+        	->whereIn('order_status', [OS_CONFIRMED, OS_SPLITED])
+        	->where('shipping_status', SS_RECEIVED)
+        	->where('pay_status', PS_PAYED)
+        	->where(function($query) use ($start_date, $end_date) {
+        		$query->where('add_time', '>=', $start_date)->where('add_time', '<=', $end_date);
+        	})
+            ->groupby('shipping_id')
             ->orderby('order_num', 'desc')
             ->get();
-
+        
         if (!empty($ship_info)) {
             arsort($ship_info);
         } else {
@@ -639,15 +645,22 @@ class mh_order_stats extends ecjia_merchant
         $start_date = RC_Time::local_strtotime($start_time);
         $end_date   = RC_Time::local_strtotime($end_time);
 
-        $where = "i.add_time >= '$start_date' AND i.add_time <= '$end_date'" . order_query_sql('finished');
-
-        $pay_info = RC_DB::table('payment as p')
-            ->leftJoin('order_info as i', RC_DB::raw('p.pay_id'), '=', RC_DB::raw('i.pay_id'))
-            ->select(RC_DB::raw('i.pay_id, p.pay_name, COUNT(i.order_id) AS order_num'))
-            ->whereRaw($where)
-            ->groupby(RC_DB::raw('i.pay_id'))
-            ->orderby('order_num', 'desc')
-            ->get();
+        $store_id = $_SESSION['store_id'];
+       
+        $pay_info = RC_DB::table('order_info')
+	        ->select('pay_name', RC_DB::raw('count(order_id) as order_num'))
+	        ->whereNotNull('pay_id')
+	        ->where('store_id', $store_id)
+	        ->whereIn('order_status', [OS_CONFIRMED, OS_SPLITED])
+	        ->where('shipping_status', SS_RECEIVED)
+	        ->where('pay_status', PS_PAYED)
+	        ->where(function($query) use ($start_date, $end_date) {
+	        	$query->where('add_time', '>=', $start_date)->where('add_time', '<=', $end_date);
+	        })
+	        ->groupby('pay_id')
+	        ->orderby('order_num', 'desc')
+	        ->get();
+	        
 
         if (!empty($pay_info)) {
             foreach ($pay_info as $key => $val) {

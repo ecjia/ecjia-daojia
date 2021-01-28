@@ -111,8 +111,14 @@ class order_detail_module extends api_front implements api_interface
 
         //配送费：已发货的不退，未发货的退
         if ($order['shipping_status'] > SS_UNSHIPPED) {
-            $refund_total_amount = $order['money_paid'] + $order['surplus'] - $order['pay_fee'] - $order['shipping_fee'] - $order['insure_fee'];
-            $refund_shipping_fee = 0;
+        	//订单已发货，除了（ship_o2o_express，ship_ecjia_express）配送方式的退还运费，其他配送方式的配送费不退还
+        	if (in_array($order['shipping_code'], ['ship_o2o_express', 'ship_ecjia_express'])) {
+        		$refund_total_amount = $order['money_paid'] + $order['surplus'] - $order['pay_fee'] - $order['insure_fee'];
+        		$refund_shipping_fee = $order['shipping_fee'];
+        	} else {
+        		$refund_total_amount = $order['money_paid'] + $order['surplus'] - $order['pay_fee'] - $order['shipping_fee'] - $order['insure_fee'];
+        		$refund_shipping_fee = 0;
+        	}
         } else {
             $refund_total_amount = $order['money_paid'] + $order['surplus'] - $order['pay_fee'];
             $refund_shipping_fee = $order['shipping_fee'] > 0 ? ecjia_price_format($order['shipping_fee'], false) : 0;

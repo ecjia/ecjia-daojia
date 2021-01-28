@@ -5,7 +5,7 @@ namespace Ecjia\App\Orders;
 use RC_Api;
 use RC_DB;
 use RC_Time;
-use RC_Lang;
+use ecjia;
 use RC_Loader;
 use ecjia_region;
 use ecjia_error;
@@ -237,7 +237,7 @@ class OrderPrint
         $data = array(
             'order_sn'         => $order['order_sn'], //订单编号
             'order_trade_no'   => $order_trade_no, //流水编号
-            'purchase_time'    => RC_Time::local_date('Y-m-d H:i:s', $order['add_time']), //下单时间
+            'purchase_time'    => RC_Time::local_date(ecjia::config('time_format'), $order['add_time']), //下单时间
             'merchant_address' => $address,
 
             'goods_lists'     => $goods_list,

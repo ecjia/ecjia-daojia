@@ -141,12 +141,18 @@ class order_express_module extends api_front implements api_interface
                         $cloud_express_key    = ecjia::config('cloud_express_key');
                         $cloud_express_secret = ecjia::config('cloud_express_secret');
                         if (!empty($cloud_express_key) && !empty($cloud_express_secret)) {
-                            $params = array(
+                        	$customer_name = '';
+                        	if (!empty($order_info['mobile'])) {
+                        		$CustomerName = substr($order_info['mobile'], -4);
+                        	}
+                        	
+                        	$params = array(
                                 'app_key'    => $cloud_express_key,
                                 'app_secret' => $cloud_express_secret,
                                 'company'    => $typeCom,
                                 'number'     => $val['invoice_no'],
                                 'order'      => 'desc',
+                        		'customer_name' => $customer_name
                             );
                             $cloud  = ecjia_cloud::instance()->api('express/track')->data($params)->run();
 

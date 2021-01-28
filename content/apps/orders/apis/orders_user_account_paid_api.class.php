@@ -126,7 +126,8 @@ class orders_user_account_paid_api extends Component_Event_Api
             );
 
             /*更新订单状态及信息*/
-            update_order($order_info['order_id'], $data);
+            //update_order($order_info['order_id'], $data);
+            RC_DB::table('order_info')->where('order_id', $order_info['order_id'])->update($data);
             /* 记录订单操作记录 */
             order_action($order_info['order_sn'], OS_CONFIRMED, SS_SHIPPED_ING, PS_PAYED, '', __('买家', 'orders'));
             //$order_operate = RC_Loader::load_app_class('order_operate', 'orders');
@@ -155,7 +156,8 @@ class orders_user_account_paid_api extends Component_Event_Api
 
             $order_info['pay_status'] = PS_PAYED;
             /*更新订单状态及信息*/
-            update_order($order_info['order_id'], $data);
+            //update_order($order_info['order_id'], $data);
+            RC_DB::table('order_info')->where('order_id', $order_info['order_id'])->update($data);
             order_action($order_info['order_sn'], $order_status, SS_UNSHIPPED, PS_PAYED, '', __('买家', 'orders'));
         }
 
