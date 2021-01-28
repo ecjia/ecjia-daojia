@@ -71,7 +71,6 @@ ecjia.admin.bill_list.init();
         					<th>{t domain="commission"}账单日期{/t}</th>
 						    <th>{t domain="commission"}入账金额{/t}</th>
 						    <th>{t domain="commission"}退款金额{/t}</th>
-						    <th>{t domain="commission"}佣金比例{/t}</th>
 						    <th>{t domain="commission"}商家有效佣金{/t}</th>
         				</tr>
         			</thead>
@@ -83,15 +82,10 @@ ecjia.admin.bill_list.init();
     							</td>
     						    <td class="ecjiaf-tar">{$commission.order_amount_formatted}</td>
     						    <td class="">{$commission.refund_amount_formatted}</td>
-    						    <!-- {if $commission.percent_value} -->
-    						    <td>{$commission.percent_value}%</td>
-    						    <!-- {else} -->
-    						    <td>100%</td>
-    						    <!-- {/if} -->
     						    <td>{$commission.brokerage_amount_formatted}</td>
     						</tr>
     						<!-- {foreachelse} -->
-    					   <tr><td class="no-records" colspan="7">{t domain="commission"}没有找到任何记录{/t}</td></tr>
+    					   <tr><td class="no-records" colspan="4">{t domain="commission"}没有找到任何记录{/t}</td></tr>
     					<!-- {/foreach} -->
         			</tbody>
         		</table>

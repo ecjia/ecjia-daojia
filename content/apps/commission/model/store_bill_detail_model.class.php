@@ -91,6 +91,9 @@ class store_bill_detail_model extends Component_Model_Model {
             $data['order_sn'] = $order_info['order_sn'];
         } else if($data['order_type'] == 'refund') {
             $order_info = RC_DB::table('refund_order')->where('refund_id', $data['order_id'])->first();
+            RC_Loader::load_app_func('admin_order', 'orders');
+            $order = order_info($order_info['order_id']);
+            $order_info['shipping_status'] = $order['shipping_status'];
             $data['order_sn'] = $order_info['refund_sn'];//退款单号
         } else if($data['order_type'] == 'buy') {
             RC_Loader::load_app_func('admin_order', 'orders');
@@ -143,16 +146,12 @@ class store_bill_detail_model extends Component_Model_Model {
             } else {
                 $data['order_amount'] = $order_info['money_paid'] + $order_info['surplus'] + $order_info['integral_money'];
             }
-
         }
+        
         if ($data['order_type'] == 'buy') {
             //堂食使用单独分成比例
             if($order_info['extension_code'] == 'storebuy') {
-                $StoreFranchiseeModel = StoreFranchiseeModel::where('store_id', $order_info['store_id'])->first();
-                $data['percent_value'] = $StoreFranchiseeModel->getMeta('storebuy_percent');
-                if(empty($data['percent_value'])) {
-                    $data['percent_value'] = ecjia::config('storebuy_percent');
-                }
+                $data['percent_value'] = ecjia::config('storebuy_percent');
             } else {
                 $data['percent_value'] = RC_Model::model('commission/store_franchisee_model')->get_store_commission_percent($data['store_id']);
             }
@@ -195,33 +194,61 @@ class store_bill_detail_model extends Component_Model_Model {
 //                     $data['brokerage_amount'] *= -1;
 //                 }
             } else {
-                $datail = $this->get_bill_detail($order_info['order_id']);
-                if (empty($datail)) {
-                    //删除队列表数据
-                    RC_DB::table('store_bill_queue')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])->delete();
-                    RC_Logger::getLogger('bill_order')->info('退款refund_id:'.$data['order_id'].'，未收货，未入账，结算无需退款');
-                    return false;
-                }
-                $back_money_total = RC_DB::table('refund_payrecord')->where('refund_id', $data['order_id'])->value('back_money_total');
-                $back_money_total = $back_money_total > 0 ? $back_money_total : $back_money_total * -1;
-                $data['percent_value'] = $datail['percent_value'];
-                //退款结算：平台得-用户退=商家得
-                //退款时，商家扣除退款金额 @update 20190410
-//                $data['brokerage_amount'] = $datail['platform_profit'] - $back_money_total;
-                $temp_brokerage_amount = $back_money_total * $datail['percent_value'] / 100;
-                if(abs($temp_brokerage_amount) > abs($datail['brokerage_amount'])) {
-                    $temp_brokerage_amount = abs($datail['brokerage_amount']);
-                }
-                $data['brokerage_amount'] = $temp_brokerage_amount * -1;
+//                 $datail = $this->get_bill_detail($order_info['order_id']);
+//                 if (empty($datail)) {
+//                     //删除队列表数据
+//                     RC_DB::table('store_bill_queue')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])->delete();
+//                     RC_Logger::getLogger('bill_order')->info('退款refund_id:'.$data['order_id'].'，未收货，未入账，结算无需退款');
+//                     return false;
+//                 }
+//                 $back_money_total = RC_DB::table('refund_payrecord')->where('refund_id', $data['order_id'])->value('back_money_total');
+//                 $back_money_total = $back_money_total > 0 ? $back_money_total : $back_money_total * -1;
+//                 $data['percent_value'] = $datail['percent_value'];
+//                 //退款结算：平台得-用户退=商家得
+//                 //退款时，商家扣除退款金额 @update 20190410
+// //                $data['brokerage_amount'] = $datail['platform_profit'] - $back_money_total;
+//                 $temp_brokerage_amount = $back_money_total * $datail['percent_value'] / 100;
+//                 if(abs($temp_brokerage_amount) > abs($datail['brokerage_amount'])) {
+//                     $temp_brokerage_amount = abs($datail['brokerage_amount']);
+//                 }
+//                 $data['brokerage_amount'] = $temp_brokerage_amount * -1;
 
-                $data['platform_profit'] = $datail['platform_profit'] * -1;
+//                 $data['platform_profit'] = $datail['platform_profit'] * -1;
+
+            	$datail = $this->get_bill_detail($order_info['order_id']);
+            	//判断订单用户有没确认收货，没有删除队列表数据
+            	if (empty($datail)) {
+            		if ($order_info['shipping_status'] != SS_RECEIVED) {
+            			RC_DB::table('store_bill_queue')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])->delete();
+            			RC_Logger::getLogger('bill_order')->info('退款refund_id:'.$data['order_id'].'，未收货，未入账，结算无需退款');
+            			return false;
+            		} else {
+            			$datail = [];
+            			list($brokerage_amount, $platform_profit, $percent_value) = $this->get_brokerage_amount($order_info, $data);
+                        $datail['percent_value'] = $percent_value;
+                        $datail['brokerage_amount'] = abs($brokerage_amount);
+                        $datail['platform_profit'] = abs($platform_profit);
+            		}
+            	}
+            	$back_money_total = RC_DB::table('refund_payrecord')->where('refund_id', $data['order_id'])->value('back_money_total');
+            	$back_money_total = $back_money_total > 0 ? $back_money_total : $back_money_total * -1;         	
+            	$data['percent_value'] = $datail['percent_value'];
+            	//退款结算：平台得-用户退=商家得
+            	//退款时，商家扣除退款金额 @update 20190410
+            	//$data['brokerage_amount'] = $datail['platform_profit'] - $back_money_total;
+            	$temp_brokerage_amount = $back_money_total * $data['percent_value'] / 100;
+            	if(abs($temp_brokerage_amount) > abs($datail['brokerage_amount'])) {
+            		$temp_brokerage_amount = abs($datail['brokerage_amount']);
+            	}
+            	$data['brokerage_amount'] = $temp_brokerage_amount * -1;
+            	$data['platform_profit'] = $datail['platform_profit'] * -1;
             }
         } else if ($data['order_type'] == 'quickpay') {
-//            $data['percent_value'] = 100 - ecjia::config('quickpay_fee');
+           $data['percent_value'] = 100 - ecjia::config('quickpay_fee');
 
             //判断当前订单是否参与买单送积分活动，返回结算比例
-            $quickpay_fee = Ecjia\App\Quickpay\QuickpayIntegralActivity::getCommissionPercentByOrder($order_info);
-            $data['percent_value'] = 100 - $quickpay_fee;
+            //$quickpay_fee = Ecjia\App\Quickpay\QuickpayIntegralActivity::getCommissionPercentByOrder($order_info);
+            //$data['percent_value'] = 100 - $quickpay_fee;
             if ($data['percent_value'] > 100) {
                 RC_Logger::getLogger('bill_order_error')->error('quickpay_fee超出范围：');
                 RC_Logger::getLogger('bill_order_error')->error($data);
@@ -264,8 +291,8 @@ class store_bill_detail_model extends Component_Model_Model {
             //结算后代理分佣
             $datail_id = RC_DB::table('store_bill_detail')->insertGetId($data);
             if($datail_id) {
-                //买单积分分成
-                with(new AffiliateStoreCommissionIntegral($data['order_type'], $data['store_id'], $order_info))->run();
+                //买单积分分成（客户二开东西，标准产品并没此逻辑）
+                //with(new AffiliateStoreCommissionIntegral($data['order_type'], $data['store_id'], $order_info))->run();
 
                 //结算后代理分佣
 //                $affiliate = array_merge($data, ['agencysale_store_id' => $order_info['agencysale_store_id']]);
@@ -313,7 +340,7 @@ class store_bill_detail_model extends Component_Model_Model {
 
         $day_time = RC_Time::local_strtotime($options['day']);
 
-        $rs_order = RC_DB::table('store_bill_detail')->select("store_id", RC_DB::raw("'".$options['day']."' as day"), RC_DB::raw('COUNT(store_id) as order_count'), RC_DB::raw('SUM(brokerage_amount) as order_amount'),
+        $rs_order = RC_DB::table('store_bill_detail')->select("store_id", RC_DB::raw("'".$options['day']."' as day"), RC_DB::raw('COUNT(store_id) as order_count'), RC_DB::raw('SUM(order_amount) as order_amount'),
             RC_DB::raw('0 as refund_count'), RC_DB::raw('0.00 as refund_amount'), 'percent_value')
             ->whereBetween('add_time', array($day_time, $day_time + 86399))
             ->where(function ($query) {
@@ -496,6 +523,44 @@ class store_bill_detail_model extends Component_Model_Model {
         }
 
         return $name;
+    }
+    
+    private function get_brokerage_amount($order_info, $data)
+    {
+        $brokerage_amount = $platform_profit = 0;
+
+    	//堂食使用单独分成比例
+    	if($order_info['extension_code'] == 'storebuy') {
+    		$percent_value = ecjia::config('storebuy_percent');
+    	} else {
+    		$percent_value = RC_Model::model('commission/store_franchisee_model')->get_store_commission_percent($data['store_id']);
+    	}
+    	if (empty($percent_value)) {
+    		$percent_value = 100; //未设置分成比例，默认100
+    	}
+    	
+    	//众包配送，运费不参与商家结算 @update 20180606
+    	//支付手续费平台收取 @update 20190410
+    	if($order_info['shipping_code'] == 'ship_ecjia_express') {
+    		if(in_array($data['pay_code'], array('pay_cod', 'pay_cash', 'pay_wxpay_merchant'))) {
+    			$brokerage_amount 	= ($data['order_amount']- $data['pay_fee']) * (100 - $percent_value) / 100 * -1 ;
+    			$platform_profit 	= $brokerage_amount * -1;
+    		} else {
+    			$brokerage_amount 	= ($data['order_amount']- $data['pay_fee']) * $percent_value / 100 ;
+    			$platform_profit 	= $data['order_amount'] - $brokerage_amount;
+    		}
+    	} else {
+    		//运费不参与分佣 @update 20181210
+    		if(in_array($data['pay_code'], array('pay_cod', 'pay_cash', 'pay_wxpay_merchant'))) {
+    			$brokerage_amount = (($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee'] - $data['pay_fee']) * (100 - $percent_value) / 100 + $data['shipping_fee'] + $data['insure_fee']) * -1;
+    			$platform_profit = $brokerage_amount * -1;
+    		} else {
+    			$brokerage_amount = ($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee'] - $data['pay_fee']) * $percent_value / 100 + $data['shipping_fee'] + $data['insure_fee'];
+    			$platform_profit = $data['order_amount'] - $brokerage_amount;
+    		}
+    	}
+    	
+    	return [$brokerage_amount, $platform_profit, $percent_value];
     }
 }
 

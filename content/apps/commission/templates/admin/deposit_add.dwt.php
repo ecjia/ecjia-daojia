@@ -69,7 +69,7 @@ ecjia.admin.deposit.init();
                 <div class="control-group formSep">
                     <label class="control-label">{t domain="commission"}操作备注：{/t}</label>
                     <div class="controls">
-                        <textarea name="admin_note" class="span7 select-link-content" placeholder='{t domain="commission"}请输入退款备注{/t}'></textarea>
+                        <textarea name="admin_note" class="span7 select-link-content" placeholder='{t domain="commission"}请输入充值备注{/t}'></textarea>
                         <span class="input-must">*</span>
                     </div>
                     <div class="controls">

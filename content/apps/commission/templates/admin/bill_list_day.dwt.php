@@ -89,9 +89,12 @@ ecjia.admin.bill_list.searchFormDay();
                             </div> -->
                         </td>
                         {if $smarty.get.refer neq 'store'}
-                        <td> {assign var=store_url value=RC_Uri::url('store/admin/preview',"store_id={$commission.store_id}")}
-                             <a href='{RC_Uri::url("commission/admin/day", "store_id={$commission.store_id}")}' title="{t domain="commission"}查看此商家账单{/t}">{$commission.merchants_name}</a>
-                             <a href='{$store_url}' title="{t domain="commission"}查看商家资料{/t}" target="_blank"><i class="fontello-icon-info-circled"></i></a>
+                        <td> 
+                        	{if $commission.merchants_name}
+	                        	{assign var=store_url value=RC_Uri::url('store/admin/preview',"store_id={$commission.store_id}")}
+	                             <a href='{RC_Uri::url("commission/admin/day", "store_id={$commission.store_id}")}' title="{t domain="commission"}查看此商家账单{/t}">{$commission.merchants_name}</a>
+	                             <a href='{$store_url}' title="{t domain="commission"}查看商家资料{/t}" target="_blank"><i class="fontello-icon-info-circled"></i></a>
+                       		{/if}
                         </td>
                         {/if}
                         <td>{$commission.order_count}</td>
