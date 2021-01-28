@@ -1,0 +1,463 @@
+# Copyright (C) 2019 Ecjia App cron
+# This file is distributed under the same license as the Ecjia App cron package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App cron 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-03 15:33+0800\n"
+"PO-Revision-Date: 2019-04-03 15:34+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin_config.php:79 admin_config.php:80
+msgid "计划任务设置"
+msgstr "計劃任務設置"
+
+#: admin_config.php:81
+msgid "计划任务秘钥"
+msgstr "計劃任務秘鑰"
+
+#: admin_config.php:82
+msgid "计划任务部署"
+msgstr "計劃任務部署"
+
+#: admin_config.php:103
+msgid "计划任务配置成功"
+msgstr "計劃任務配置成功"
+
+#: admin_config.php:116
+msgid "操作成功"
+msgstr "操作成功"
+
+#: admin_plugin.php:85 admin_plugin.php:95 admin_plugin.php:96
+#: admin_plugin.php:141 apis/cron_plugin_menu_api.class.php:56
+#: apis/cron_tool_menu_api.class.php:56 classes/Helper.php:58
+#: configs/package.php:55
+msgid "计划任务"
+msgstr "計劃任務"
+
+#: admin_plugin.php:98
+msgid "计划任务配置"
+msgstr "計劃任務配置"
+
+#: admin_plugin.php:138 admin_plugin.php:139
+msgid "编辑计划任务"
+msgstr "編輯計劃任務"
+
+#: admin_plugin.php:197 admin_plugin.php:249
+msgid "请配置执行时间"
+msgstr "請配置執行時間"
+
+#: admin_plugin.php:230
+msgid "请选择计划任务的执行时间"
+msgstr "請選擇計劃任務的執行時間"
+
+#: admin_plugin.php:276
+msgid "编辑计划任务成功"
+msgstr "編輯計劃任務成功"
+
+#: admin_plugin.php:294
+msgid "计划任务已禁用"
+msgstr "計劃任務已禁用"
+
+#: admin_plugin.php:313
+msgid "计划任务已启用"
+msgstr "計劃任務已啟用"
+
+#: admin_plugin.php:338
+msgid "执行成功"
+msgstr "執行成功"
+
+#: apis/cron_admin_purview_api.class.php:57
+msgid "计划任务管理"
+msgstr "計劃任務管理"
+
+#: apis/cron_admin_purview_api.class.php:58
+msgid "计划任务更新"
+msgstr "計劃任務更新"
+
+#: apis/cron_admin_purview_api.class.php:59 classes/Helper.php:57
+msgid "执行"
+msgstr "執行"
+
+#: apis/cron_admin_purview_api.class.php:60
+msgid "后台设置"
+msgstr "後臺設置"
+
+#: apis/cron_cron_info_api.class.php:61
+msgid "参数无效"
+msgstr "參數無效"
+
+#: apis/cron_plugin_install_api.class.php:78
+#: apis/cron_plugin_uninstall_api.class.php:76
+msgid "计划任务插件名称不能为空"
+msgstr "計劃任務插件名稱不能為空"
+
+#: apis/cron_plugin_install_api.class.php:84
+msgid "安装的插件已存在"
+msgstr "安裝的插件已存在"
+
+#: classes/Helper.php:55
+msgid "启用"
+msgstr "啟用"
+
+#: classes/Helper.php:56
+msgid "禁用"
+msgstr "禁用"
+
+#: classes/Helper.php:79 configs/jslang.php:58
+msgid "日"
+msgstr "日"
+
+#: classes/Helper.php:83
+msgid "每周%s"
+msgstr "每周%s"
+
+#: classes/Helper.php:87 configs/jslang.php:65
+msgid "时"
+msgstr "時"
+
+#: configs/jslang.php:57
+msgid "小时"
+msgstr "小時"
+
+#: configs/jslang.php:59
+msgid "周"
+msgstr "周"
+
+#: configs/jslang.php:60
+msgid "月"
+msgstr "月"
+
+#: configs/jslang.php:61
+msgid "每"
+msgstr "每"
+
+#: configs/jslang.php:62
+msgid "第"
+msgstr "第"
+
+#: configs/jslang.php:63
+msgid "在"
+msgstr "在"
+
+#: configs/jslang.php:64
+msgid "分钟"
+msgstr "分鐘"
+
+#: configs/jslang.php:66
+msgid "每日在："
+msgstr "每日在："
+
+#: configs/jslang.php:67
+msgid "每工作日"
+msgstr "每工作日"
+
+#: configs/jslang.php:68
+msgid "开始时间："
+msgstr "開始時間："
+
+#: configs/jslang.php:69
+msgid "星期一"
+msgstr "星期一"
+
+#: configs/jslang.php:70
+msgid "星期二"
+msgstr "星期二"
+
+#: configs/jslang.php:71
+msgid "星期三"
+msgstr "星期三"
+
+#: configs/jslang.php:72
+msgid "星期四"
+msgstr "星期四"
+
+#: configs/jslang.php:73
+msgid "星期五"
+msgstr "星期五"
+
+#: configs/jslang.php:74
+msgid "星期六"
+msgstr "星期六"
+
+#: configs/jslang.php:75
+msgid "星期日"
+msgstr "星期日"
+
+#: configs/jslang.php:76
+msgid "一月"
+msgstr "一月"
+
+#: configs/jslang.php:77
+msgid "二月"
+msgstr "二月"
+
+#: configs/jslang.php:78
+msgid "三月"
+msgstr "三月"
+
+#: configs/jslang.php:79
+msgid "四月"
+msgstr "四月"
+
+#: configs/jslang.php:80
+msgid "五月"
+msgstr "五月"
+
+#: configs/jslang.php:81
+msgid "六月"
+msgstr "六月"
+
+#: configs/jslang.php:82
+msgid "七月"
+msgstr "七月"
+
+#: configs/jslang.php:83
+msgid "八月"
+msgstr "八月"
+
+#: configs/jslang.php:84
+msgid "九月"
+msgstr "八月"
+
+#: configs/jslang.php:85
+msgid "十月"
+msgstr "十月"
+
+#: configs/jslang.php:86
+msgid "十一月"
+msgstr "十一月"
+
+#: configs/jslang.php:87
+msgid "十二月"
+msgstr "十二月"
+
+#: configs/jslang.php:88
+msgid "第一周"
+msgstr "第一周"
+
+#: configs/jslang.php:89
+msgid "第二周"
+msgstr "第二周"
+
+#: configs/jslang.php:90
+msgid "第三周"
+msgstr "第三周"
+
+#: configs/jslang.php:91
+msgid "第四周"
+msgstr "第四周"
+
+#: configs/jslang.php:92
+msgid "日，每"
+msgstr "日，每"
+
+#: configs/jslang.php:94
+msgid "确定"
+msgstr "確定"
+
+#: configs/jslang.php:95
+msgid "取消"
+msgstr "取消"
+
+#: configs/package.php:56
+msgid ""
+"是ECJIA管理系统提供的一项使系统在您设定的时刻,自动执行某项任务"
+"的功能。"
+msgstr ""
+"是ECJIA管理系統提供的一項使系統在您設定的時刻,自動執行某項任務"
+"的功能。"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:21
+msgid "已启用"
+msgstr "已啟用"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:22
+msgid "已禁用"
+msgstr "已禁用"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:29
+msgid "计划任务名称"
+msgstr "計劃任務名稱"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:30
+msgid "计划任务描述"
+msgstr "計劃任務描述"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:31
+msgid "上次执行时间"
+msgstr "上次執行時間"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:32
+msgid "下次执行时间"
+msgstr "下次執行時間"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:42
+msgid "编辑"
+msgstr "編輯"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:43
+msgid "您确定要执行该计划任务吗？"
+msgstr "您確定要執行該計劃任務嗎？"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:44
+msgid "您确定要禁用该计划任务吗？"
+msgstr "您確定要禁用該計劃任務嗎？"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:46
+msgid "您确定要启用该计划任务吗？"
+msgstr "您確定要啟用該計劃任務嗎？"
+
+#: content/apps/cron/templates/admin/cron_list.dwt.php:54
+msgid "没有找到任何记录"
+msgstr "沒有找到任何記錄"
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:16
+msgid "温馨提示："
+msgstr "溫馨提示："
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:16
+msgid "系统插件内置执行时间暂不可修改。"
+msgstr "系統插件內置執行時間暫不可修改。"
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:34
+msgid "计划任务名称："
+msgstr "計劃任務名稱："
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:40
+msgid "计划任务描述："
+msgstr "計劃任務描述："
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:72
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:96
+msgid "执行时间："
+msgstr "執行時間："
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:76
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:100
+msgid "请选择配置时间"
+msgstr "請選擇配置時間"
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:80
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:104
+msgid "自定义调度任务"
+msgstr "自定義調度任務"
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:81
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:105
+msgid "手动输入表达式"
+msgstr "手動輸入表達式"
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:88
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:116
+msgid "进行检测"
+msgstr "進行檢測"
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:130
+msgid "执行后关闭："
+msgstr "執行後關閉："
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:138
+msgid "高级选项："
+msgstr "高級選項："
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:141
+msgid "显示高级选项"
+msgstr "顯示高級選項"
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:146
+msgid "允许执行的服务器IP："
+msgstr "允許執行的服務器IP："
+
+#: content/apps/cron/templates/admin/cron_edit.dwt.php:149
+msgid ""
+"允许运行计划任务服务器的IP，请用半角逗号分隔多个IP，留空即表示"
+"所执行的服务器IP不受限制"
+msgstr ""
+"允許運行計劃任務服務器的IP，請用半角逗號分隔多個IP，留空即表示"
+"所執行的服務器IP不受限制"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:21
+msgid "开启WEB调用计划任务："
+msgstr "開啟WEB調用計劃任務："
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:23
+msgid "否"
+msgstr "否"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:24
+msgid "是"
+msgstr "是"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:41
+msgid "消息签名密钥由32位字符组成，字符范围为A-Z，a-z，0-9。"
+msgstr "消息簽名密鑰由32位字符組成，字符範圍為A-Z，a-z，0-9。"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:42
+msgid "暂无计划任务秘钥"
+msgstr "暫無計劃任務秘鑰"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:46
+msgid ""
+"若更换，之前的请求地址将不可用。请重新部署计划任务请求地址。"
+msgstr ""
+"若更換，之前的請求地址將不可用。請重新部署計劃任務請求地址。"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:47
+msgid "更换"
+msgstr "更換"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:51
+msgid "获取"
+msgstr "獲取"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:62
+msgid "使用Cron的集成路由"
+msgstr "使用Cron的集成路由"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:64
+msgid ""
+"如果您没有Shell访问您的服务器，您可以轻松使用在线cronjob服务"
+"（Google知道一些好的提供商）。此提供程序将以定义的间隔运行Cron"
+"的路由。 Cron路由必须受到保护，因为如果服务提供者之间的其他人调"
+"用它，我们的作业将被执行得太频繁。因此，除了路由路径之外，我们"
+"还需要一个安全密钥。该密钥可以通过重置命令后生成调用，并且必须"
+"在cron配置文件中设置密钥cronSecretKey。"
+msgstr ""
+"如果您沒有Shell訪問您的服務器，您可以輕松使用在線cronjob服務"
+"（Google知道一些好的提供商）。此提供程序將以定義的間隔運行Cron"
+"的路由。 Cron路由必須受到保護，因為如果服務提供者之間的其他人調"
+"用它，我們的作業將被執行得太頻繁。因此，除了路由路徑之外，我們"
+"還需要一個安全密鑰。該密鑰可以通過重置命令後生成調用，並且必須"
+"在cron配置文件中設置密鑰cronSecretKey。"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:65
+msgid ""
+"现在您必须在在线cronjob服务提供商配置地址和运行间隔。集成Cron路"
+"由的地址始终为"
+msgstr ""
+"現在您必須在在線cronjob服務提供商配置地址和運行間隔。集成Cron路"
+"由的地址始終為"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:67
+msgid "对于上述示例，此地址可以是"
+msgstr "對於上述示例，此地址可以是"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:68
+msgid "，并且运行间隔必须是每分钟。"
+msgstr "，並且運行間隔必須是每分鐘。"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:69
+msgid "方式一：Linux服务器上运行，可以使用crontab计划任务执行。"
+msgstr "方式一：Linux服務器上運行，可以使用crontab計劃任務執行"
+
+#: content/apps/cron/templates/admin/cron_config.dwt.php:73
+msgid "方式二：在线cronjob服务器，可以配置地址和运行时间间隔。"
+msgstr "方式二：在線cronjob服務器，可以配置地址和運行時間間隔。"
