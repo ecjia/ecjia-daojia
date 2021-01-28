@@ -137,6 +137,10 @@ class admin_payrecord extends ecjia_admin
 
         $refund_id = intval($_GET['refund_id']);
         $this->assign('refund_id', $refund_id);
+        
+        //售后订单信息
+        $refund_info = RefundOrderInfo::get_refund_order_info($refund_id);
+        $this->assign('refund_info', $refund_info);
 
         //获取用户退货退款原因
         $reason_list = RefundReasonList::get_refund_reason();
@@ -182,10 +186,19 @@ class admin_payrecord extends ecjia_admin
         //退款金额
         if (in_array($payrecord_info['back_pay_code'], ['pay_balance', 'pay_cash'])) {
         	//余额支付和现金支付不退还支付手续费
-        	$refund_total_amount = ecjia_price_format(($payrecord_info['order_money_paid'] - $payrecord_info['back_pay_fee']), false);
+        	$refund_total_amount = $payrecord_info['order_money_paid'] - $payrecord_info['back_pay_fee'];
         } else {
-        	$refund_total_amount = ecjia_price_format($payrecord_info['order_money_paid'], false);
+        	$refund_total_amount = $payrecord_info['order_money_paid'];
         }
+        //订单已发货，除了（ship_o2o_express，ship_ecjia_express）配送方式的退还运费，其他配送方式的配送费不退还
+        $shipping_status = RC_DB::table('order_info')->where('order_sn', $payrecord_info['order_sn'])->value('shipping_status');
+        if ($shipping_status > SS_UNSHIPPED) {
+        	//订单已发货，除了（ship_o2o_express，ship_ecjia_express）配送方式的退还运费，其他配送方式的配送费不退还
+        	if (!in_array($refund_info['shipping_code'], ['ship_o2o_express', 'ship_ecjia_express'])) {
+        		$refund_total_amount  = $refund_total_amount - $refund_info['shipping_fee'];
+        	}
+        }
+        $refund_total_amount = ecjia_price_format($refund_total_amount, false);
         
         $payrecord_info['order_money_paid_type']  = $refund_total_amount;
         $payrecord_info['back_money_total_type']  = ecjia_price_format($payrecord_info['real_back_money_total'], false);
@@ -196,9 +209,7 @@ class admin_payrecord extends ecjia_admin
         
         $this->assign('payrecord_info', $payrecord_info);
 
-        //售后订单信息
-        $refund_info = RefundOrderInfo::get_refund_order_info($refund_id);
-        $this->assign('refund_info', $refund_info);
+        
 
         //退款流水
         $payment_refund = RC_DB::table('payment_refund')->where('order_sn', $refund_info['order_sn'])->first();

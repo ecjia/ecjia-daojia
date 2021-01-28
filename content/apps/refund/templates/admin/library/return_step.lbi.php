@@ -34,7 +34,14 @@
 				    {else}
 				    	<div class="step-no">{if $refund_info.refund_status neq '2'}4{/if}</div>
 				    {/if}
-					<div class="m_t5">{t domain="refund"}商家确认收货{/t}<br><font class="ecjiafc-blue">{if $action_mer_msg_confirm.log_time}{$action_mer_msg_confirm.log_time}{/if}</font></div>
+					<div class="m_t5">
+						{t domain="refund"}商家确认收货{/t}<br>
+						<font class="ecjiafc-blue">
+							{if $refund_info.return_status eq '3' or $refund_info.return_status eq '11'}
+								{if $action_mer_msg_confirm.log_time}{$action_mer_msg_confirm.log_time}{/if}
+							{/if}
+						</font>
+					</div>
 				</div>
 			</li>
 

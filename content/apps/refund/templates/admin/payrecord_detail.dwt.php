@@ -94,10 +94,12 @@
 					{/if}
 					
 					{if $payrecord_info.back_shipping_fee gt '0.00'}
-					<div class="control-group">
-						<label class="control-label">{t domain="refund"}扣除配送费：{/t}</label>
-						<div class="controls l_h30">-{$payrecord_info.back_shipping_fee_type}</div>
-					</div>
+						{if $refund_info.shipping_code neq 'ship_o2o_express' and $refund_info.shipping_code neq 'ship_o2o_express'}
+						<div class="control-group">
+							<label class="control-label">{t domain="refund"}扣除配送费：{/t}</label>
+							<div class="controls l_h30">-{$payrecord_info.back_shipping_fee_type}</div>
+						</div>
+						{/if}
 					{/if}
 					
 					{if $payrecord_info.back_insure_fee gt '0.00'}
@@ -209,10 +211,12 @@
 					{/if}
 					
 					{if $payrecord_info.back_shipping_fee gt '0.00'}
-					<div class="control-group">
-						<label class="control-label">{t domain="refund"}扣除配送费：{/t}</label>
-						<div class="controls l_h30">-{$payrecord_info.back_shipping_fee_type}</div>
-					</div>
+						{if $refund_info.shipping_code neq 'ship_o2o_express' and $refund_info.shipping_code neq 'ship_o2o_express'}
+							<div class="control-group">
+								<label class="control-label">{t domain="refund"}扣除配送费：{/t}</label>
+								<div class="controls l_h30">-{$payrecord_info.back_shipping_fee_type}</div>
+							</div>
+						{/if}
 					{/if}
 					
 					{if $payrecord_info.back_insure_fee gt '0.00'}

@@ -47,13 +47,13 @@ class refund_merchant_confirm_api extends Component_Event_Api {
 		//退款总金额
 		$shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->value('shipping_status');
 		if ($shipping_status > SS_UNSHIPPED) {
-			$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
-			$back_shipping_fee = $refund_info['shipping_fee'];
-			$back_insure_fee   = $refund_info['insure_fee'];
+			if (in_array($refund_info['shipping_code'], ['ship_ecjia_express', 'ship_o2o_express'])) {
+				$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['insure_fee'];
+			} else {
+				$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
+			}
 		} else {
 			$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'];
-			$back_shipping_fee = 0;
-			$back_insure_fee   = 0;
 		}
 		
 		/*退现金或余额时，退款金额判断；用户端输入的金额；实际存打款表*/

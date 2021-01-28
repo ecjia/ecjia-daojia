@@ -120,9 +120,9 @@ class RefundStatusLog
     		'add_time'    	=> RC_Time::gmtime(),
     	);
     	$refund_status_log_info = RC_DB::table('refund_status_log')->where('status', $data['status'])->where('message', $message)->where('refund_id', $options['refund_id'])->first();
-    	if (empty($refund_status_log_info)) {
+    	//if (empty($refund_status_log_info)) {
     		RC_DB::table('refund_status_log')->insert($data);
-    	}
+    	//}
     	
     	return true;
     }

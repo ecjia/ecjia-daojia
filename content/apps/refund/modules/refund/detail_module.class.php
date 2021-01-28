@@ -121,8 +121,14 @@ class refund_detail_module extends api_front implements api_interface {
 		//应退总金额
 		//配送费：已发货的不退，未发货的退
 		if ($order_info['shipping_status'] > SS_UNSHIPPED) {
-			$refund_total_amount  = $refund_order_info['money_paid'] + $refund_order_info['surplus'] - $refund_order_info['pay_fee']- $refund_order_info['shipping_fee'] - $refund_order_info['insure_fee'];
-			$refund_shipping_fee  = 0;
+			//订单已发货，除了（ship_o2o_express，ship_ecjia_express）配送方式的退还运费，其他配送方式的配送费不退还
+			if (!in_array($refund_order_info['shipping_code'], ['ship_o2o_express', 'ship_ecjia_express'])) {
+				$refund_total_amount  = $refund_order_info['money_paid'] + $refund_order_info['surplus'] - $refund_order_info['pay_fee']- $refund_order_info['shipping_fee'] - $refund_order_info['insure_fee'];
+				$refund_shipping_fee  = 0;
+			} else {
+				$refund_total_amount  = $refund_order_info['money_paid'] + $refund_order_info['surplus'] - $refund_order_info['pay_fee'] - $refund_order_info['insure_fee'];
+				$refund_shipping_fee  = $refund_order_info['shipping_fee'];
+			}
 		} else {
 			$refund_total_amount  = $refund_order_info['money_paid'] + $refund_order_info['surplus'] - $refund_order_info['pay_fee'];
 			$refund_shipping_fee  = $refund_order_info['shipping_fee'] > 0 ? price_format($refund_order_info['shipping_fee']) : 0 ;

@@ -526,9 +526,16 @@ class merchant extends ecjia_merchant {
 			//退款总金额
 			$shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->value('shipping_status');
 			if ($shipping_status > SS_UNSHIPPED) {
-				$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
-				$back_shipping_fee = $refund_info['shipping_fee'];
-				$back_insure_fee   = $refund_info['insure_fee'];
+				//订单已发货，除了（ship_o2o_express，ship_ecjia_express）配送方式的退还运费，其他配送方式的配送费不退还
+				if (in_array($refund_info['shipping_code'], ['ship_o2o_express', 'ship_ecjia_express'])) {
+					$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['insure_fee'];
+					$back_shipping_fee = $refund_info['shipping_fee'];  //存入数据表表示要扣除的配送费金额
+					$back_insure_fee   = $refund_info['insure_fee'];
+				} else {
+					$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
+					$back_shipping_fee = 0; //存入数据表表示要扣除的配送费金额
+					$back_insure_fee   = 0;
+				}
 			} else {
 				$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'];
 				$back_shipping_fee = 0;
@@ -648,7 +655,7 @@ class merchant extends ecjia_merchant {
 		$count = $db_refund_view->count();
 		$page = new ecjia_merchant_page($count, 10, 5);
 		$data = $db_refund_view
-		->select('refund_id', 'refund_sn', 'refund_type', 'order_id', 'order_sn', 'money_paid', 'surplus', 'add_time', 'pay_code', 'pay_fee', 'shipping_fee', 'pack_fee', 'status', 'refund_status')
+		->select('refund_id', 'refund_sn', 'refund_type', 'order_id', 'order_sn', 'money_paid', 'surplus', 'add_time', 'pay_code', 'pay_fee', 'shipping_fee', 'pack_fee', 'status', 'refund_status', 'shipping_code')
 		->orderby($filter['sort_by'], $filter['sort_order'])
 		->take(10)
 		->skip($page->start_id-1)
@@ -659,11 +666,20 @@ class merchant extends ecjia_merchant {
 			foreach ($data as $row) {
 				$row['add_time']  = RC_Time::local_date('Y-m-d H:i:s', $row['add_time']);
 				$row['shipping_status'] = RC_DB::table('order_info')->where('order_id', $row['order_id'])->value('shipping_status');
+				
 				if (in_array($row['pay_code'], array('pay_balance', 'pay_cash'))) {
-					$row['refund_total_amount']  = ecjia_price_format(($row['money_paid'] + $row['surplus'] - $row['pay_fee']), false);
+					$refund_total_amount  = $row['money_paid'] + $row['surplus'] - $row['pay_fee'];
 				} else {
-					$row['refund_total_amount']  = price_format($row['money_paid'] + $row['surplus']);
+					$refund_total_amount  = $row['money_paid'] + $row['surplus'];
 				}
+				//订单已发货，除了（ship_o2o_express，ship_ecjia_express）配送方式的退还运费，其他配送方式的配送费不退还
+				if ($row['shipping_status'] > SS_UNSHIPPED) {
+					if (!in_array($row['shipping_code'], ['ship_o2o_express', 'ship_ecjia_express'])) {
+						$refund_total_amount = $refund_total_amount - $row['shipping_fee'];
+					}
+				}
+				
+				$row['refund_total_amount'] = ecjia_price_format($refund_total_amount, false);
 				
 				$list[] = $row;
 			}
