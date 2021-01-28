@@ -41,6 +41,34 @@
       'Ecjia\\App\\Logviewer\\' => '/content/apps/logviewer/classes/',
     ),
   ),
+  'ecjia.mail' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Ecjia\\App\\Mail\\MailServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+    'autoload_psr4' => 
+    array (
+      'Ecjia\\App\\Mail\\' => '/content/apps/mail/classes/',
+    ),
+  ),
+  'ecjia.maintain' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Ecjia\\App\\Maintain\\MaintainServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+    'autoload_psr4' => 
+    array (
+      'Ecjia\\App\\Maintain\\' => '/content/apps/maintain/classes/',
+    ),
+  ),
   'ecjia.rpc' => 
   array (
     'providers' => 
