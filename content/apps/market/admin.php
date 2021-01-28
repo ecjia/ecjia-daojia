@@ -374,6 +374,12 @@ class admin extends ecjia_admin
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动奖品池', 'market')));
 
         $prize_type = Ecjia\App\Market\Prize\PrizeType::getPrizeTypes();
+        foreach ($prize_type as $key => $val) {
+        	if ($val == '实物奖品') {
+        		unset($prize_type[$key]);
+        	}
+        }
+        
         $this->assign('prize_type', $prize_type);
 
         $time = RC_Time::gmtime();
@@ -496,6 +502,11 @@ class admin extends ecjia_admin
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动奖品池', 'market')));
 
         $prize_type = Ecjia\App\Market\Prize\PrizeType::getPrizeTypes();
+        foreach ($prize_type as $key => $val) {
+        	if ($val == '实物奖品') {
+        		unset($prize_type[$key]);
+        	}
+        }
         $this->assign('prize_type', $prize_type);
 
         $time = RC_Time::gmtime();

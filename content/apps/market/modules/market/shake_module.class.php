@@ -144,9 +144,11 @@ class market_shake_module extends api_front implements api_interface {
 		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_GOODS) {
 			$result = $this->_ProcessTypeGoods($prize_info, $_SESSION['user_id']);
 		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_STORE) {
-			$result = $this->_ProcessTypeStore ($prize_info, $_SESSION['user_id'], $location = array(), $city_id = 0);
+			$result = $this->_ProcessTypeStore ($prize_info, $_SESSION['user_id'], $location, $city_id = 0);
 		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) { 
 			$result = $this->_ProcessTypeBalance ($prize_info, $_SESSION['user_id']);
+		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_REAL) { 
+			$result = $this->_ProcessTypeReal ($prize_info, $_SESSION['user_id']);
 		} else {
 			$result = array(
 				'type' => 'nothing',
@@ -417,12 +419,12 @@ class market_shake_module extends api_front implements api_interface {
 			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
 			$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
 		}
-			
+		
 		if (!empty($options['store_id'])) {
 			RC_Loader::load_app_func('merchant', 'merchant');
 			$store_info_new = array();
 			$store_info = RC_DB::table('store_franchisee')
-			->whereIn('store_id', $options['store_id'])
+			->where('store_id', $options['store_id']['0'])
 			->where('status', 1)->where('identity_status', 2)->where('shop_close', 0)
 			->orderBy(RC_DB::raw('Rand()'))
 			->first();
@@ -480,6 +482,23 @@ class market_shake_module extends api_front implements api_interface {
 				'balance' => array(
 						'balance' => intval($prize_info['prize_value']),
 						'formatted_balance' => price_format($prize_info['prize_value'])
+				)
+		);
+		return $result;
+	}
+	
+	/**
+	 * 实物中奖处理
+	 */
+	private function _ProcessTypeReal ($prize_info = array(), $user_id = 0)
+	{
+		//减奖品数量
+		RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
+		
+		$result = array(
+				'type' => 'real',
+				'real' => array(
+						'real' => trim($prize_info['prize_name'])
 				)
 		);
 		return $result;
