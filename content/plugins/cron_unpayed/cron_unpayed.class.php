@@ -80,7 +80,8 @@ class cron_unpayed extends CronAbstract
         	->where('order_status', OS_UNCONFIRMED)
         	->where('pay_status', PS_UNPAYED)
         	->where('shipping_status', SS_UNSHIPPED)
-        	->where(RC_DB::raw('add_time + '.$limit_time), '<=', $time)
+        	//->where(RC_DB::raw('add_time + '.$limit_time), '<=', $time)
+        	->where('add_time', '<=', ($time - $limit_time))
         	->take($limit_rows)
         	->get();
         	
