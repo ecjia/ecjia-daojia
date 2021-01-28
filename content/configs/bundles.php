@@ -11,75 +11,73 @@ return array(
     /* RPC */
     'rpc'          => 'rpc',
     /* 红包 */
-    'bonus'        => 'bonus',
+//    'bonus'        => 'bonus',
     /* 验证码 */
-    'captcha'      => 'captcha',
+//    'captcha'      => 'captcha',
     /* 购物车 */
-    'cart'         => 'cart',
+//    'cart'         => 'cart',
     /* 收银台 */
-    'cashier'      => 'cashier',
+//    'cashier'      => 'cashier',
     /* 客户端 */
-    'client'       => 'client',
+//    'client'       => 'client',
     /* 结算 */
-    'commission'   => 'commission',
+//    'commission'   => 'commission',
     /* 帐号连接 */
-    'connect'      => 'connect',
+//    'connect'      => 'connect',
     /* 计划任务 */
     'cron'      => 'cron',
     /* 客户 */
-    'customer'     => 'customer',
+//    'customer'     => 'customer',
     /* 优惠活动 */
-    'favourable'   => 'favourable',
+//    'favourable'   => 'favourable',
     /* 财务 */
-    'finance'      => 'finance',
+//    'finance'      => 'finance',
     /* 商家入驻 */
-    'franchisee'   => 'franchisee',
+//    'franchisee'   => 'franchisee',
     /* 商品 */
-    'goods'        => 'goods',
+//    'goods'        => 'goods',
     /* 商品库 */
-    'goodslib'     => 'goodslib',
+//    'goodslib'     => 'goodslib',
     /* 会员整合 */
-    'integrate'    => 'integrate',
+//    'integrate'    => 'integrate',
     /* 邮件管理 */
-    'mail'         => 'mail',
+//    'mail'         => 'mail',
     /* PC入口 */
-    'main'         => 'main',
+//    'main'         => 'main',
     /* 运维工具 */
-    'maintain'     => 'maintain',
+//    'maintain'     => 'maintain',
     /* 商户 */
-    'merchant'     => 'merchant',
+//    'merchant'     => 'merchant',
     /* 通知 */
-    'notification' => 'notification',
+//    'notification' => 'notification',
     /* 订单 */
-    'orders'       => 'orders',
+//    'orders'       => 'orders',
     /* 支付方式 */
-    'payment'      => 'payment',
+//    'payment'      => 'payment',
     /* 小票机 */
-    'printer'      => 'printer',
+//    'printer'      => 'printer',
     /* 促销 */
-    'promotion'    => 'promotion',
+//    'promotion'    => 'promotion',
     /* 收款 */
-    'quickpay'     => 'quickpay',
+//    'quickpay'     => 'quickpay',
     /* 退款 */
-    'refund'       => 'refund',
+//    'refund'       => 'refund',
     /* 设置 */
-    'setting'      => 'setting',
+//    'setting'      => 'setting',
     /* 配送方式 */
-    'shipping'     => 'shipping',
+//    'shipping'     => 'shipping',
     /* 短信 */
     'sms'          => 'sms',
     /* 员工 */
-    'staff'        => 'staff',
+//    'staff'        => 'staff',
     /* 报表统计 */
-    'stats'        => 'stats',
+//    'stats'        => 'stats',
     /* 店铺 */
-    'store'        => 'store',
+//    'store'        => 'store',
     /* 会员 */
-    'user'         => 'user',
+//    'user'         => 'user',
     /* 提现 */
-    'withdraw'     => 'withdraw',
-    /* 自提 */
-    'pickup'       => 'pickup',
+//    'withdraw'     => 'withdraw',
 
 );
 
