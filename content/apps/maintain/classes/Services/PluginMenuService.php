@@ -59,12 +59,12 @@ class PluginMenuService
      * @param $options
      * @return mixed
      */
-	public function handle(& $options)
+    public function handle($options)
     {
-		$menus = ecjia_admin::make_admin_menu('maintain_list', __('运维工具', 'maintain'), RC_Uri::url('maintain/admin/init'), 41)->add_purview('maintain_manage')->add_base('maintain');
+        $menus = ecjia_admin::make_admin_menu('maintain_list', __('运维工具', 'maintain'), RC_Uri::url('maintain/admin/init'), 41)->add_purview('maintain_manage')->add_base('maintain');
 
-		return $menus;
-	}
+        return $menus;
+    }
 }
 
 // end

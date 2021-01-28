@@ -60,7 +60,7 @@ class PluginUninstallService
      * @param $options
      * @return bool
      */
-	public function handle(& $options)
+    public function handle($options)
     {
         if (!(isset($options['file']) && isset($options['config']))) {
             return ecjia_plugin::add_error('plugin_uninstall_error', __('插件安装卸载必要参数不全', 'maintain'));
@@ -78,7 +78,7 @@ class PluginUninstallService
         ecjia_admin::admin_log($installer->getConfigByKey('maintain_code'), 'uninstall', 'maintain');
 
         return true;
-	}
+    }
 }
 
 // end
