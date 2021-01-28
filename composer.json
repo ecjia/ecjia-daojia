@@ -22,7 +22,9 @@
         "ecjia/app-rpc": "^1.0",
         "ecjia/app-maintain": "^2.0",
         "ecjia/app-mail": "^2.0",
-        "ecjia/app-api": "^3.0"
+        "ecjia/app-api": "^3.0",
+        "ecjia/app-logviewer": "^2.0",
+        "ecjia/app-sms": "^2.0"
     },
     "require-dev": {
         "ecjia/ecjia-system-package-dev": "^0.1.0",
