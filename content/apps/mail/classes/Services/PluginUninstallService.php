@@ -61,9 +61,9 @@ class PluginUninstallService
      * @param $options
      * @return array|bool
      */
-    public function handle(& $options)
+    public function handle($options)
     {
-        if (! (isset($options['file']) && isset($options['config']))) {
+        if (!(isset($options['file']) && isset($options['config']))) {
             return ecjia_plugin::add_error('plugin_uninstall_error', __('插件安装卸载必要参数不全', 'mail'));
         }
 

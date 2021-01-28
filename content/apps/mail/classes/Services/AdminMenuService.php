@@ -1,4 +1,5 @@
 <?php
+
 namespace Ecjia\App\Mail\Services;
 
 
@@ -15,7 +16,7 @@ class AdminMenuService
      * @param $options
      * @return
      */
-	public function handle(& $options)
+    public function handle($options)
     {
         $menus = ecjia_admin::make_admin_menu('14_email_manage', __('邮件管理', 'mail'), '', 14);
 
@@ -28,9 +29,9 @@ class AdminMenuService
         );
 
         $menus->add_submenu($submenus);
-    	
-    	return $menus;
-    	
+
+        return $menus;
+
     }
 }
 

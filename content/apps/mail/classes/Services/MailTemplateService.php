@@ -56,29 +56,29 @@ use RC_DB;
 class MailTemplateService
 {
     /**
-     * @param $options[array]  $options['tpl_name'] 模板代码
+     * @param $options [array]  $options['tpl_name'] 模板代码
      *
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|bool
      */
-	public function handle(& $options)
+    public function handle($options)
     {
-	    if (is_string($options)) {
-	        $tpl_name = $options;
-	    } else {
-	        $tpl_name = $options['tpl_name'];
-	    }
+        if (is_string($options)) {
+            $tpl_name = $options;
+        } else {
+            $tpl_name = $options['tpl_name'];
+        }
 
-	    if (empty($tpl_name)) {
-	        return false;
-	    }
+        if (empty($tpl_name)) {
+            return false;
+        }
 
         $tpl = MailTemplateModel::mail()->where('template_code', $tpl_name)->select('template_subject', 'content_type', 'template_content')->first();
 
-		$tpl['template_content'] = '{nocache}' . $tpl['template_content'] . '{/nocache}';
-		$tpl['is_html'] = $tpl['content_type'] == 'html' ? 1 : 0;
+        $tpl['template_content'] = '{nocache}' . $tpl['template_content'] . '{/nocache}';
+        $tpl['is_html']          = $tpl['content_type'] == 'html' ? 1 : 0;
 
-		return $tpl;
-	}
+        return $tpl;
+    }
 }
 
 // end

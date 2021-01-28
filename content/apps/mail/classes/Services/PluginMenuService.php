@@ -52,7 +52,7 @@ use RC_Uri;
 
 /**
  * 移动应用首页模块设置
- * @author 
+ * @author
  */
 class PluginMenuService
 {
@@ -61,7 +61,7 @@ class PluginMenuService
      * @param $options
      * @return array|bool
      */
-    public function handle(& $options)
+    public function handle($options)
     {
         $menus = ecjia_admin::make_admin_menu('mail_channel', __('邮件渠道', 'mail'), RC_Uri::url('mail/admin_plugin/init'), 10)->add_purview('notification_manage')->add_base('mail');
 

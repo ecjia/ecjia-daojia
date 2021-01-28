@@ -61,20 +61,20 @@ class SendEventMailService
     /**
      * @return boolean | ecjia_error
      */
-    public function handle(& $options)
+    public function handle($options)
     {
         /**
-         * @var string $email    邮箱
-         * @var MailableAbstract $content  邮件内容对象
-         * @var string $channel  短信渠道code，选填
+         * @var string $email 邮箱
+         * @var MailableAbstract $content 邮件内容对象
+         * @var string $channel 短信渠道code，选填
          */
         if (!array_key_exists('email', $options) || !array_key_exists('content', $options)) {
             return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'mail'), __CLASS__));
         }
 
-        $email = $options['email'];
+        $email   = $options['email'];
         $content = $options['content'];
-        $event = $content->getEventCode();
+        $event   = $content->getEventCode();
 
         $channel = array_get($options, 'channel', null);
 
