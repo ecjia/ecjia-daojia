@@ -356,7 +356,7 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
             $res = $this->aliyunClient->getObject($path);
 
             return [
-                'contents' => $res->getObjectContent(),
+                'contents' => (string) $res,
             ];
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
@@ -375,11 +375,11 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
     {
         try {
             $res = $this->aliyunClient->getObject($path);
-            $url = $res->getHeader('oss-request-url');
-            $handle = fopen($url, 'r');
+            $stream = $res->getObjectContent();
+            rewind($stream);
 
             return [
-                'stream' => $handle,
+                'stream' => $stream,
             ];
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
@@ -945,17 +945,17 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
      */
     public function is_writable($file)
     {
-        $objectacl = $this->getBucketAcl();
+        // $objectacl = $this->getBucketAcl();
 
-        if ($objectacl) {
-            $grants = $objectacl->getGrants();
+        // if ($objectacl) {
+        //     $grants = $objectacl->getGrants();
 
-            if (in_array('private', $grants)) {
-                return true;
-            }
-        }
+        //     if (in_array('private', $grants)) {
+        //         return true;
+        //     }
+        // }
 
-        return false;
+        return true;
     }
 
     /**
