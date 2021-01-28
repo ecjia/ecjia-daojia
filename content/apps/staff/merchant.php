@@ -123,26 +123,34 @@ class merchant extends ecjia_merchant
         $this->assign('ur_here', __('添加员工', 'staff'));
         $this->assign('action_link', array('href' => RC_Uri::url('staff/mh_group/init'), 'text' => __('员工管理', 'staff')));
 
+        $step = remove_xss($_GET['step']);
+        $act = ($_GET['act']);
+        $this->assign('act', $act);
+
         $group_list = $this->get_group_select_list($_SESSION['store_id']);
         $this->assign('group_list', $group_list);
 
         $group_id = $_GET['group_id'];
-        $this->assign('group_id', $group_id);
 
-        $step = remove_xss($_GET['step']);
         if ($step == 1) {
-            $this->assign('form_action', RC_Uri::url('staff/merchant/insert_one', array('step' => 1, 'group_id' => $_GET['group_id'])));
+            $this->assign('form_action', RC_Uri::url('staff/merchant/insert_one', array('step' => 1, 'group_id' => $_GET['group_id'], 'act' => $act)));
         } elseif ($step == 2) {
-            $this->assign('form_action', RC_Uri::url('staff/merchant/insert', array( 'group_id' => $_GET['group_id'])));
+            $act = ($_GET['act']);
+            if ($act == 'add_express') {
+                $group_id = '-1';
+            }
+            $this->assign('form_action', RC_Uri::url('staff/merchant/insert', array( 'group_id' => $group_id)));
         } else {
             $user_id             = intval($_GET['id']);
             $staff               = RC_DB::table('staff_user')->where('user_id', $user_id)->first();
             $staff['add_time']   = RC_Time::local_date('Y-m-d', $staff['add_time']);
-            $staff['group_name'] = RC_DB::table('staff_group')->where('group_id', $staff['group_id'])->value('group_name');
+            $group_name = RC_DB::table('staff_group')->where('group_id', $staff['group_id'])->value('group_name');
             if ($staff['group_id'] == -1) {
                 $staff['group_name'] = __('配送员', 'staff');
             } elseif ($staff['group_id'] == -2) {
                 $staff['group_name'] = __('收银员', 'staff');
+            } elseif ($staff['group_id'] > 0) {
+                $staff['group_name'] = $group_name;
             } else {
                 $staff['group_name'] = __('未分组', 'staff');
             }
@@ -152,6 +160,8 @@ class merchant extends ecjia_merchant
 
         $manage_id = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->value('parent_id');
         $this->assign('manage_id', $manage_id);
+        $this->assign('group_id', $group_id);
+
 
         return $this->display('staff_info.dwt');
     }
@@ -204,7 +214,9 @@ class merchant extends ecjia_merchant
     {
         $code   = remove_xss($_POST['code']);
         $mobile = remove_xss($_POST['mobile']);
+        $act = ($_GET['act']);
 
+        $group_id = $_GET['group_id'];
         $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
         
         $store_staff_mun = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->value('value');
@@ -220,7 +232,7 @@ class merchant extends ecjia_merchant
 
         $time = RC_Time::gmtime() - 6000 * 3;
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
-            return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 2,'group_id' => $_GET['group_id']))));
+            return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 2,'group_id' => $group_id, 'act' => $act))));
         } else {
             return $this->showmessage(__('请输入正确的手机校验码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -246,6 +258,10 @@ class merchant extends ecjia_merchant
             $group_id = intval($_GET['group_id']);
         }
 
+        if ($_POST['group_id']) {
+        	$group_id = $_POST['group_id'];
+        }
+        
         $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
         
         $store_staff_mun = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->value('value');
@@ -264,10 +280,20 @@ class merchant extends ecjia_merchant
         }
 
         $manager_id = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->value('user_id');
+        $name 		= !empty($_POST['name']) ? remove_xss($_POST['name']) : '';
+        $nick_name 	= !empty($_POST['nick_name']) ? remove_xss($_POST['nick_name']) : '';
+        
+        if (mb_strlen($name) > 12) {
+        	return $this->showmessage(__('员工名称不能超过12个字符', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        if (mb_strlen($nick_name) > 12) {
+        	return $this->showmessage(__('员工昵称不能超过12个字符', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        
         $data       = array(
             'store_id'     => $store_id,
-            'name'         => !empty($_POST['name']) ? remove_xss($_POST['name']) : '',
-            'nick_name'    => !empty($_POST['nick_name']) ? remove_xss($_POST['nick_name']) : '',
+            'name'         => $name,
+            'nick_name'    => $nick_name,
             'user_ident'   => !empty($_POST['user_ident']) ? remove_xss($_POST['user_ident']) : '',
             'mobile'       => $_SESSION['mobile'],
             'email'        => !empty($_POST['email']) ? remove_xss($_POST['email']) : '',
@@ -380,6 +406,13 @@ class merchant extends ecjia_merchant
         $password     = !empty($_POST['new_password']) ? md5(md5(remove_xss($_POST['new_password'])) . $salt) : '';
         $introduction = !empty($_POST['introduction']) ? remove_xss($_POST['introduction']) : '';
 
+        if (mb_strlen($name) > 12) {
+        	return $this->showmessage(__('员工名称不能超过12个字符', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        if (mb_strlen($nick_name) > 12) {
+        	return $this->showmessage(__('员工昵称不能超过12个字符', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        
         //如果要修改密码
         $pwd_modified = false;
         if (!empty($_POST['new_password'])) {
