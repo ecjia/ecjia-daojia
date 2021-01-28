@@ -1,0 +1,39 @@
+{
+    "name": "classpreloader/classpreloader",
+    "description": "Helps class loading performance by generating a single PHP file containing all of the autoloaded files for a specific use case",
+    "keywords": ["autoload", "class", "preload", "preloader"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com"
+        },
+        {
+            "name": "Graham Campbell",
+            "email": "graham@alt-three.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0.8 || ^8.0",
+        "ext-tokenizer": "*",
+        "nikic/php-parser": "^4.10.3"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4.1",
+        "phpunit/phpunit": "^6.5.14 || ^7.5.20 || ^8.5.13",
+        "graham-campbell/analyzer": "^2.4.3 || ^3.0.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ClassPreloader\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": ["tests/stubs/"]
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
