@@ -36642,7 +36642,7 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
     {
         try {
             $res = $this->aliyunClient->getObject($path);
-            return ['contents' => $res->getObjectContent()];
+            return ['contents' => (string) $res];
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
             return false;
@@ -36652,9 +36652,9 @@ class Aliyunoss extends AbstractAdapter implements StorageInterface
     {
         try {
             $res = $this->aliyunClient->getObject($path);
-            $url = $res->getHeader('oss-request-url');
-            $handle = fopen($url, 'r');
-            return ['stream' => $handle];
+            $stream = $res->getObjectContent();
+            rewind($stream);
+            return ['stream' => $stream];
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
             return false;
