@@ -1,0 +1,10 @@
+.tagHandler{width:100%;position:relative}
+.tagHandler ul.tagHandlerContainer{-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;border:1px solid #ccc;overflow:hidden;min-height:28px;line-height:28px;cursor:text;font-family:arial, helvetica, sans-serif;margin:0 0 10px;padding:0 5px}
+.tagHandler ul.tagHandlerContainer li{-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;height:14px;line-height:14px;display:block;float:left;font-size:12px;white-space:nowrap;margin:4px 5px 4px 0}
+.tagHandler ul.tagHandlerContainer li.tagItem{background-color:#cee5f5;color:#2b4f62;cursor:url("../images/tag_remove.cur"), pointer;padding:3px 8px}
+.tagHandler ul.tagHandlerContainer li.tagItem:hover{background-color:#86b3cd}
+.tagHandler ul.tagHandlerContainer li.tagInput{padding:3px 4px}
+.tagHandler ul.tagHandlerContainer input.tagInputField{height:12px;padding:0;margin:0;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:none;width:inherit;background-color:#FFF;color:#666;font-size:12px;min-height:12px;line-height:12px}
+.tagHandler ul.tagHandlerContainer input.tagInputField,.tagHandler ul.tagHandlerContainer input.tagInputField:focus{-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;box-shadow:none}
+.tagHandler div.tagLoader{position:absolute;right:-24px;top:12px;display:none;background:url("../images/loader.gif") center center no-repeat;width:16px;height:18px;cursor:default}
+.tagHandler div.tagUpdate{position:absolute;right:-24px;top:14px;background:url("../images/tag_update.png") center center no-repeat;width:16px;height:16px;cursor:pointer}

@@ -1,0 +1,17 @@
+CREATE TABLE `ecjia_admin_user` (
+  `user_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '管理员登录密码加密串',
+  `ec_salt` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `add_time` int(11) NOT NULL DEFAULT '0',
+  `last_login` int(11) NOT NULL DEFAULT '0',
+  `last_ip` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `action_list` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nav_list` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `todolist` longtext COLLATE utf8mb4_unicode_ci,
+  `role_id` smallint(5) DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `user_name` (`user_name`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

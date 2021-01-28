@@ -1,0 +1,2314 @@
+# Copyright (C) 2020 Ecjia System
+# This file is distributed under the same license as the Ecjia System package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia System 2.4.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2020-06-30 06:00:07+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: classes/Admins/CleanCacheComponent/AdminUserMenuCache.php:84
+msgid "后台用户菜单缓存"
+msgstr ""
+
+#: classes/Admins/CleanCacheComponent/AdminUserMenuCache.php:85
+msgid ""
+"后台用户菜单缓存是后台每个用户登录后台看到的菜单数据的缓存。若遇到更改菜单有"
+"菜单不显示，则需要更新缓存后才可以查看最新效果。"
+msgstr ""
+
+#: classes/Admins/System/SystemChecker.php:39
+#: classes/Admins/System/SystemChecker.php:40
+#: classes/Admins/System/SystemChecker.php:47
+#: classes/Admins/System/SystemChecker.php:49
+msgid "是"
+msgstr ""
+
+#: classes/Admins/System/SystemChecker.php:39
+#: classes/Admins/System/SystemChecker.php:40
+#: classes/Admins/System/SystemChecker.php:47
+#: classes/Admins/System/SystemChecker.php:49
+msgid "否"
+msgstr ""
+
+#: classes/Admins/System/SystemChecker.php:48
+msgid "无需设置"
+msgstr ""
+
+#: classes/BaseController/EcjiaAdminController.php:131
+#: classes/BaseController/EcjiaAdminController.php:413
+msgid "系统提示"
+msgstr ""
+
+#: classes/BaseController/EcjiaAdminController.php:132
+#: classes/BaseController/EcjiaAdminController.php:136
+msgid "对不起,您没有执行此项操作的权限!"
+msgstr ""
+
+#: classes/BaseController/EcjiaAdminController.php:132
+msgid "重新登录"
+msgstr ""
+
+#: classes/BaseController/EcjiaAdminController.php:154
+msgid "ECJIA 管理面板"
+msgstr ""
+
+#: classes/BaseController/EcjiaAdminController.php:408
+#: classes/BaseController/EcjiaAdminController.php:414
+msgid "对不起，您没有执行此项操作的权限！"
+msgstr ""
+
+#: classes/BaseController/EcjiaController.php:447 configs/jslang.php:141
+msgid "操作成功"
+msgstr ""
+
+#: classes/BaseController/EcjiaController.php:450
+msgid "操作提示"
+msgstr ""
+
+#: classes/BaseController/EcjiaController.php:453
+msgid "操作警告"
+msgstr ""
+
+#: classes/BaseController/EcjiaController.php:456
+msgid "操作错误"
+msgstr ""
+
+#: classes/BaseController/EcjiaController.php:459
+#: classes/Controllers/AboutController.php:127
+#: classes/Controllers/AboutController.php:128
+#: classes/Subscribers/AdminHookSubscriber.php:32
+msgid "系统信息"
+msgstr ""
+
+#: classes/Controllers/AboutController.php:76
+#: classes/Controllers/AboutController.php:102
+#: classes/Controllers/AboutController.php:126
+#: classes/Services/SystemMenuService.php:52
+msgid "关于"
+msgstr ""
+
+#: classes/Controllers/AboutController.php:77
+#: classes/Controllers/AboutController.php:78
+msgid "关于 ECJIA"
+msgstr ""
+
+#: classes/Controllers/AboutController.php:82
+#: classes/Controllers/AboutController.php:108
+#: classes/Controllers/AboutController.php:132
+#: classes/Controllers/AdminApplicationController.php:112
+#: classes/Controllers/AdminCacheController.php:87
+#: classes/Controllers/AdminLogsController.php:88
+#: classes/Controllers/AdminPluginController.php:96
+#: classes/Controllers/AdminRoleController.php:99
+#: classes/Controllers/AdminSessionController.php:87
+#: classes/Controllers/AdminSessionLoginController.php:32
+#: classes/Controllers/AdminUserController.php:108
+#: classes/Controllers/IndexController.php:83
+#: classes/Controllers/LicenseController.php:92
+#: classes/Controllers/PrivilegeController.php:329
+#: classes/Controllers/UpgradeController.php:83
+msgid "概述"
+msgstr ""
+
+#: classes/Controllers/AboutController.php:84
+#: classes/Controllers/AboutController.php:110
+#: classes/Controllers/AboutController.php:134
+msgid "欢迎访问ECJia智能后台关于页面，可以更加了解ECJia。"
+msgstr ""
+
+#: classes/Controllers/AboutController.php:88
+#: classes/Controllers/AboutController.php:114
+#: classes/Controllers/AboutController.php:138
+#: classes/Controllers/AdminApplicationController.php:118
+#: classes/Controllers/AdminCacheController.php:93
+#: classes/Controllers/AdminLogsController.php:94
+#: classes/Controllers/AdminPluginController.php:102
+#: classes/Controllers/AdminRoleController.php:105
+#: classes/Controllers/AdminUserController.php:113
+#: classes/Controllers/IndexController.php:89
+#: classes/Controllers/LicenseController.php:98
+#: classes/Controllers/PrivilegeController.php:335
+#: classes/Controllers/UpgradeController.php:89
+msgid "更多信息："
+msgstr ""
+
+#: classes/Controllers/AboutController.php:89
+#: classes/Controllers/AboutController.php:115
+#: classes/Controllers/AboutController.php:139
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">"
+"关于ECJia帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/AboutController.php:103
+#: classes/Controllers/AboutController.php:104
+msgid "ECJIA团队"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:93
+#: classes/Controllers/AdminApplicationController.php:107
+#: classes/Controllers/AdminApplicationController.php:108
+#: classes/Services/SystemMenuService.php:38
+#: classes/Services/SystemPurviewService.php:23
+msgid "应用管理"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:114
+msgid "欢迎访问ECJia智能后台应用管理页面，系统中所有的应用都会显示在此列表中。"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:119
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target="
+"\"_blank\">关于应用管理帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:188
+#: classes/Controllers/AdminApplicationController.php:189
+msgid "应用安装"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:192
+#: classes/Controllers/AdminApplicationController.php:193
+msgid "应用详情"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:194
+msgid "返回应用列表"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:228
+msgid "%s 应用安装成功"
+msgstr ""
+
+#: classes/Controllers/AdminApplicationController.php:254
+msgid "%s 应用卸载成功"
+msgstr ""
+
+#: classes/Controllers/AdminCacheController.php:83
+#: classes/Controllers/AdminCacheController.php:101
+#: classes/Services/SystemMenuService.php:36
+#: classes/Services/SystemPurviewService.php:21
+msgid "更新缓存"
+msgstr ""
+
+#: classes/Controllers/AdminCacheController.php:89
+msgid ""
+"欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。"
+msgstr ""
+
+#: classes/Controllers/AdminCacheController.php:94
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target="
+"\"_blank\">关于清除缓存帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/AdminFilePermissionController.php:81
+#: classes/Controllers/AdminFilePermissionController.php:82
+msgid "文件权限检测"
+msgstr ""
+
+#: classes/Controllers/AdminFilePermissionController.php:95
+msgid "目录"
+msgstr ""
+
+#: classes/Controllers/AdminFilehashController.php:83
+#: classes/Controllers/AdminFilehashController.php:119
+#: classes/Services/SystemMenuService.php:46
+#: classes/Services/SystemPurviewService.php:31
+msgid "文件校验"
+msgstr ""
+
+#: classes/Controllers/AdminFilehashController.php:120
+msgid "返回重新校验"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:84
+#: classes/Controllers/AdminLogsController.php:130
+#: classes/Services/SystemMenuService.php:30
+msgid "管理员日志"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:90
+msgid ""
+"欢迎访问ECJia智能后台管理员日志页面，可以在此查看管理员操作的一些记录信息。"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:95
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
+"E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">关于管理员日志帮助文"
+"档</a>"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:121
+#: classes/Controllers/AdminLogsController.php:183
+msgid "佚名"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:223
+msgid "删除 %s 的日志。"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:225
+msgid "%s 的日志成功删除。"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:238
+msgid "一周之前"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:244
+msgid "一个月前"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:250
+msgid "三个月前"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:256
+msgid "半年之前"
+msgstr ""
+
+#: classes/Controllers/AdminLogsController.php:262
+msgid "一年之前"
+msgstr ""
+
+#: classes/Controllers/AdminPluginController.php:91
+#: classes/Controllers/AdminPluginController.php:92
+#: classes/Services/SystemMenuService.php:39
+#: classes/Services/SystemPurviewService.php:27
+msgid "插件管理"
+msgstr ""
+
+#: classes/Controllers/AdminPluginController.php:98
+msgid "欢迎访问ECJia智能后台插件管理页面，系统中所有的插件都会显示在此列表中。"
+msgstr ""
+
+#: classes/Controllers/AdminPluginController.php:103
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target="
+"\"_blank\">关于插件管理帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/AdminPluginController.php:170
+msgid "%s 插件安装成功！"
+msgstr ""
+
+#: classes/Controllers/AdminPluginController.php:197
+msgid "%s 插件卸载成功！"
+msgstr ""
+
+#: classes/Controllers/AdminPluginController.php:205
+#: classes/Controllers/AdminPluginController.php:207
+#: classes/Services/SystemMenuService.php:40
+msgid "插件配置"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:86
+#: classes/Controllers/AdminRoleController.php:94
+#: classes/Controllers/AdminRoleController.php:95
+#: classes/Services/SystemMenuService.php:28
+#: classes/Services/SystemPurviewService.php:34
+msgid "角色管理"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:101
+msgid "欢迎访问ECJia智能后台角色管理页面，系统中所有的角色都会显示在此列表中。"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:106
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89."
+"B2.E7.AE.A1.E7.90.86\" target=\"_blank\">关于角色管理帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:109
+#: classes/Controllers/AdminRoleController.php:124
+#: classes/Controllers/AdminRoleController.php:125
+msgid "添加角色"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:126
+#: classes/Controllers/AdminRoleController.php:159
+#: classes/Controllers/AdminRoleController.php:194
+msgid "角色列表"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:154
+#: classes/Controllers/AdminRoleController.php:221
+#: classes/Controllers/AdminRoleController.php:251
+msgid "管理员角色"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:163
+#: classes/Controllers/AdminUserController.php:248
+msgid "添加 %s 操作成功"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:182
+msgid "此角色不存在"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:190
+#: classes/Controllers/AdminRoleController.php:193
+msgid "修改角色"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:226
+msgid "返回角色列表"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:229
+msgid "编辑 %s 操作成功"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:243
+msgid "此角色有管理员在使用，暂时不能删除！"
+msgstr ""
+
+#: classes/Controllers/AdminRoleController.php:254
+msgid "成功删除管理员角色 %s"
+msgstr ""
+
+#: classes/Controllers/AdminSessionController.php:83
+#: classes/Controllers/AdminSessionController.php:135
+#: classes/Services/SystemMenuService.php:33
+#: classes/Services/SystemPurviewService.php:41
+msgid "会话管理"
+msgstr ""
+
+#: classes/Controllers/AdminSessionController.php:89
+#: classes/Controllers/AdminSessionLoginController.php:34
+msgid ""
+"欢迎访问ECJia智能后台会员管理页面，可以在此查看用户登录操作的一些会话记录信"
+"息。"
+msgstr ""
+
+#: classes/Controllers/AdminSessionController.php:95
+msgid ""
+"当前功能需要依赖 Redis 支持，未检测到正确连接的Redis，请检查配置或安装Redis后"
+"再继续。<br />\n"
+"                Redis的配置可在 content/configs/database.php 中 connections."
+"redis.session 进行配置，<br />\n"
+"                也可在根目录 .env 中进行配置，涉及到的配置项含有"
+"【REDIS_HOST】【REDIS_PORT】，请再次确认。\n"
+"            "
+msgstr ""
+
+#: classes/Controllers/AdminSessionController.php:127
+msgid "全部"
+msgstr ""
+
+#: classes/Controllers/AdminSessionLoginController.php:28
+#: classes/Controllers/AdminSessionLoginController.php:39
+#: classes/Services/SystemMenuService.php:31
+msgid "登录日志"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:92
+msgid "管理员管理"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:104
+#: classes/Controllers/AdminUserController.php:149
+#: classes/Controllers/AdminUserController.php:168
+#: classes/Controllers/AdminUserController.php:279
+#: classes/Controllers/AdminUserController.php:427
+#: classes/Controllers/PrivilegeController.php:343
+#: classes/Services/SystemMenuService.php:27
+msgid "管理员列表"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:109
+msgid ""
+"欢迎访问ECJia智能后台管理员列表页面，系统中所有的管理员都会显示在此列表中。"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:114
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
+"E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">关于管理员列表帮助文"
+"档</a>"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:150
+#: classes/Controllers/AdminUserController.php:164
+#: classes/Controllers/AdminUserController.php:167
+msgid "添加管理员"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:189
+msgid "数据不完整"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:194
+#: classes/Controllers/AdminUserController.php:354
+msgid "该管理员密码不能和管理员账号一样！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:199
+#: classes/Controllers/AdminUserController.php:333
+msgid "该管理员 %s 已经存在！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:204
+#: classes/Controllers/AdminUserController.php:338
+#: classes/Controllers/PrivilegeController.php:371
+msgid "该Email地址 %s 已经存在！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:237
+msgid "设置管理员权限"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:241
+msgid "继续添加管理员"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:259
+#: classes/Controllers/AdminUserController.php:389
+#: classes/Controllers/AdminUserController.php:417
+#: classes/Controllers/AdminUserController.php:465
+#: classes/Controllers/PrivilegeController.php:317
+msgid "返回管理员列表"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:262
+#: classes/Controllers/AdminUserController.php:420
+#: classes/Controllers/PrivilegeController.php:320
+msgid "您不能对此管理员的权限进行任何操作！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:272
+#: classes/Controllers/AdminUserController.php:278
+msgid "编辑管理员"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:343
+msgid "超级管理员 %s 不可被修改！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:348
+msgid "返回上一页"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:359
+#: classes/Controllers/PrivilegeController.php:390
+msgid "两次输入的密码不一致！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:383
+#: classes/Controllers/AdminUserController.php:506
+msgid "管理员账号"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:385
+msgid "您已经成功的修改了该用户信息！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:407
+#: classes/Services/SystemPurviewService.php:35
+msgid "分派权限"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:426
+msgid "分派平台权限 [ %s ] "
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:468
+msgid "编辑 %s 操作成功！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:481
+msgid "此管理员您不能进行删除操作！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:486
+msgid "您不能删除自己！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:492
+msgid "您不能删除这个管理员！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:497
+msgid "您不能删除demo这个管理员！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:501
+msgid "操作失败！"
+msgstr ""
+
+#: classes/Controllers/AdminUserController.php:508
+msgid "删除成功！"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:201
+msgid "输入的信息不正确！"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:211
+msgid "用户名与Email地址不匹配,请返回！"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:239
+msgid "重置密码的邮件已经发到您的邮箱："
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:242
+msgid "重置密码邮件发送失败!请与管理员联系"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:248
+#: classes/Controllers/GetPasswordController.php:267
+#: classes/Controllers/GetPasswordController.php:312
+msgid "返回"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:273
+msgid "此用户不存在!"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:283
+#: classes/Controllers/GetPasswordController.php:318
+msgid "此链接不合法!"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:289
+msgid "修改密码"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:330
+msgid "密码修改失败!"
+msgstr ""
+
+#: classes/Controllers/GetPasswordController.php:333
+msgid "密码修改成功!"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:78
+#: classes/Controllers/IndexController.php:79
+#: classes/Services/SystemMenuService.php:22
+msgid "仪表盘"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:85
+msgid ""
+"欢迎访问ECJia智能后台仪表盘！在您每次登录站点后，您都会看到本页面。您可以在这"
+"里访问ECJia智能后台的各种管理页面。点击任何页面右上角的“帮助”选项卡可阅读相应"
+"帮助信息。"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:90
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank"
+"\">关于ECJia智能后台的帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:98
+msgid "<a target=\"_blank\" href=\"%s\">点击查看</a>。"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:87
+#: classes/Controllers/LicenseController.php:88
+#: classes/Services/SystemMenuService.php:35
+#: classes/Services/SystemPurviewService.php:20
+msgid "授权证书"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:94
+msgid "欢迎访问ECJia智能后台授权证书管理页面，可以在此对证书进行授权操作。"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:99
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target="
+"\"_blank\">关于授权证书管理帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:159
+msgid "证书内容不全。请先确定证书是否正确然后重新上传！"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:170
+msgid "授权证书上传成功。"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:175
+msgid "授权证书连接服务器校验失败，请检查授权证书的合法性。"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:196
+msgid "下载"
+msgstr ""
+
+#: classes/Controllers/LicenseController.php:229
+msgid "证书已删除。"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:246
+#: classes/Controllers/PrivilegeController.php:264
+msgid "您输入的帐号信息不正确。"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:256
+msgid "您登录失败的次数过多，请等%s秒后再进行尝试。"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:306
+msgid "登录成功"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:325
+#: classes/Controllers/PrivilegeController.php:342
+msgid "编辑个人资料"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:331
+msgid "欢迎访问ECJia智能后台编辑个人资料页面，用户可在此编辑个人资料。"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:336
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target="
+"\"_blank\">关于编辑个人资料帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:358
+#: classes/Controllers/PrivilegeController.php:366
+#: classes/Controllers/PrivilegeController.php:425
+#: classes/Controllers/PrivilegeController.php:432
+#: classes/Controllers/PrivilegeController.php:465
+#: classes/Controllers/PrivilegeController.php:471
+msgid "非法操作！"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:379
+msgid "修改个人资料成功！"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:385
+msgid "输入的旧密码错误！"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:401
+msgid "您已经成功的修改了密码，因此您必须重新登录！"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:407
+msgid "个人资料"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:428
+#: classes/Controllers/PrivilegeController.php:452
+msgid "设置个人导航菜单"
+msgstr ""
+
+#: classes/Controllers/PrivilegeController.php:480
+msgid "个人导航"
+msgstr ""
+
+#: classes/Controllers/UpgradeController.php:78
+#: classes/Controllers/UpgradeController.php:79
+#: classes/Services/SystemMenuService.php:45
+msgid "可用更新"
+msgstr ""
+
+#: classes/Controllers/UpgradeController.php:85
+msgid "欢迎访问ECJia智能后台更新页面，在此可以进行对版本的更新。"
+msgstr ""
+
+#: classes/Controllers/UpgradeController.php:90
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target="
+"\"_blank\">关于可用更新帮助文档</a>"
+msgstr ""
+
+#: classes/Controllers/UpgradeController.php:118
+msgid "再次检查"
+msgstr ""
+
+#: classes/Controllers/UpgradeController.php:138
+msgid "你当前使用的已经是最新版本了。"
+msgstr ""
+
+#: classes/Controllers/UpgradeController.php:142
+msgid "已经检测到%s个新版本更新。"
+msgstr ""
+
+#: classes/Frameworks/Component/Paginator/EcjiaPageRenderStyle2.php:105
+msgid "总计 "
+msgstr ""
+
+#: classes/Frameworks/Component/Paginator/EcjiaPageRenderStyle2.php:106
+msgid "条记录，分为"
+msgstr ""
+
+#: classes/Frameworks/Component/Paginator/EcjiaPageRenderStyle2.php:107
+msgid "页当前第"
+msgstr ""
+
+#: classes/Frameworks/Component/Paginator/EcjiaPageRenderStyle2.php:108
+msgid "页，每页"
+msgstr ""
+
+#: classes/Frameworks/Component/Paginator/EcjiaPageRenderStyle2.php:109
+msgid " 页"
+msgstr ""
+
+#: classes/Hookers/AdminHeaderLanguageLinksAction.php:16
+msgid "简体中文"
+msgstr ""
+
+#: classes/Hookers/AdminHeaderProfileLinksAction.php:38
+msgid "个人设置"
+msgstr ""
+
+#: classes/Hookers/AdminHeaderProfileLinksAction.php:40
+msgid "退出"
+msgstr ""
+
+#: classes/Hookers/DisplayAdminAboutWelcomeAction.php:20
+#: classes/Hookers/DisplayAdminWelcomeAction.php:21
+msgid "欢迎使用ECJia"
+msgstr ""
+
+#: classes/Hookers/DisplayAdminAboutWelcomeAction.php:21
+#: classes/Hookers/DisplayAdminWelcomeAction.php:22
+msgid ""
+"ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机"
+"制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方"
+"便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带"
+"来全新的使用体验！"
+msgstr ""
+
+#: classes/Hookers/DisplayAdminAboutWelcomeAction.php:22
+msgid "进入官网 »"
+msgstr ""
+
+#: classes/Hookers/DisplayAdminWelcomeAction.php:23
+msgid "了解更多 »"
+msgstr ""
+
+#: classes/Hookers/EcjiaEchoQueryInfoAction.php:40
+msgid "共执行 %d 个查询，程序运行用时 %s 秒"
+msgstr ""
+
+#: classes/Hookers/EcjiaEchoQueryInfoAction.php:44
+msgid "，内存占用 %0.3f MB"
+msgstr ""
+
+#: classes/Hookers/EcjiaEchoQueryInfoAction.php:48
+msgid "，Gzip 已启用"
+msgstr ""
+
+#: classes/Hookers/EcjiaEchoQueryInfoAction.php:48
+msgid "，Gzip 已禁用"
+msgstr ""
+
+#: classes/Services/AdminSessionLoginsService.php:73
+msgid "参数无效"
+msgstr ""
+
+#: classes/Services/PrivilegeMenuService.php:64
+msgid "平台后台权限"
+msgstr ""
+
+#: classes/Services/ServiceMenuService.php:62
+msgid "应用市场"
+msgstr ""
+
+#: classes/Services/ShortcutMenuService.php:30
+msgid "我的快捷菜单"
+msgstr ""
+
+#: classes/Services/ShortcutMenuService.php:43
+#: classes/admin/ecjia_admin_menu.class.php:127
+msgid "设置快捷菜单"
+msgstr ""
+
+#: classes/Services/SystemMenuService.php:23
+msgid "访问首页"
+msgstr ""
+
+#: classes/Services/SystemMenuService.php:25
+msgid "权限管理"
+msgstr ""
+
+#: classes/Services/SystemMenuService.php:47
+msgid "目录权限检测"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:24
+msgid "卸载应用"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:25
+msgid "安装应用"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:28
+msgid "卸载插件"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:29
+msgid "安装插件"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:32
+msgid "文件权限检验"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:36
+msgid "管理员添加/编辑"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:37
+msgid "删除管理员"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:39
+msgid "管理日志列表"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:40
+msgid "删除管理日志"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:42
+msgid "删除会话记录"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:43
+msgid "登录日志列表"
+msgstr ""
+
+#: classes/Services/SystemPurviewService.php:44
+msgid "删除登录日志"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:52
+msgid "操作日志"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:69
+msgid "产品新闻"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:100
+msgid "今日新增用户"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:114
+msgid "新手机咨询"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:128
+msgid "今日新增订单"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:220
+msgid ""
+"ECJia到家 v%s 现已经可用！ 请现在下载更新，前往<a href=\"%s\">更新检测</a>。"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:232
+msgid ""
+"授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href=\"%s\">授权证"
+"书管理</a> 。"
+msgstr ""
+
+#: classes/Subscribers/InstalledScreenSubscriber.php:30
+msgid "本店盘点中，请您稍后再来..."
+msgstr ""
+
+#: classes/admin/ecjia_admin_menu.class.php:244
+msgid "控制面板"
+msgstr ""
+
+#: classes/admin/ecjia_admin_menu.class.php:245
+msgid "应用"
+msgstr ""
+
+#: classes/admin/ecjia_admin_menu.class.php:246
+msgid "工具"
+msgstr ""
+
+#: classes/admin/ecjia_admin_menu.class.php:247
+msgid "外观"
+msgstr ""
+
+#: classes/admin/ecjia_admin_menu.class.php:248
+msgid "设置"
+msgstr ""
+
+#: classes/admin/ecjia_admin_menu.class.php:249
+msgid "服务"
+msgstr ""
+
+#: classes/admin/ecjia_admin_menu.class.php:250
+msgid "快捷导航"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "未找到搜索内容!"
+msgstr ""
+
+#: configs/jslang.php:59 configs/jslang.php:70
+msgid "开始安装"
+msgstr ""
+
+#: configs/jslang.php:60 configs/jslang.php:110
+msgid "后退"
+msgstr ""
+
+#: configs/jslang.php:61 configs/jslang.php:92
+msgid "首页"
+msgstr ""
+
+#: configs/jslang.php:62 configs/jslang.php:93
+msgid "尾页"
+msgstr ""
+
+#: configs/jslang.php:63 configs/jslang.php:94
+msgid "上一页"
+msgstr ""
+
+#: configs/jslang.php:64 configs/jslang.php:95
+msgid "下一页"
+msgstr ""
+
+#: configs/jslang.php:65 configs/jslang.php:96
+msgid "没有找到任何记录"
+msgstr ""
+
+#: configs/jslang.php:66 configs/jslang.php:97
+msgid "共_TOTAL_条记录 第_START_ 到 第_END_条"
+msgstr ""
+
+#: configs/jslang.php:67 configs/jslang.php:98
+msgid "共0条记录"
+msgstr ""
+
+#: configs/jslang.php:68 configs/jslang.php:99
+msgid "（从_MAX_条数据中检索）"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "安装中..."
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "请先选择删除日志的时间！"
+msgstr ""
+
+#: configs/jslang.php:77
+msgid "确定删除"
+msgstr ""
+
+#: configs/jslang.php:78
+msgid "的日志吗？"
+msgstr ""
+
+#: configs/jslang.php:79 configs/jslang.php:88 configs/jslang.php:119
+#: configs/jslang.php:144 configs/jslang.php:152
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:80 configs/jslang.php:89 configs/jslang.php:120
+#: configs/jslang.php:145 configs/jslang.php:153
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:85
+msgid "参数错误，无法安装！"
+msgstr ""
+
+#: configs/jslang.php:86
+msgid "参数错误，无法卸载！"
+msgstr ""
+
+#: configs/jslang.php:87
+msgid "您确定要卸载这个插件吗？"
+msgstr ""
+
+#: configs/jslang.php:90
+msgid "您确定要删除这个插件吗？"
+msgstr ""
+
+#: configs/jslang.php:91
+msgid "此插件暂时不能删除。"
+msgstr ""
+
+#: configs/jslang.php:104 configs/jslang.php:126
+msgid "请输入用户名！"
+msgstr ""
+
+#: configs/jslang.php:109
+msgid "开始"
+msgstr ""
+
+#: configs/jslang.php:111
+msgid "请选择要清除的缓存类型！"
+msgstr ""
+
+#: configs/jslang.php:112
+msgid "清除："
+msgstr ""
+
+#: configs/jslang.php:117
+msgid "将证书文件拖动至此处上传"
+msgstr ""
+
+#: configs/jslang.php:118
+msgid "您确定要删除这个证书吗？"
+msgstr ""
+
+#: configs/jslang.php:125
+msgid "此管理员不可以编辑！"
+msgstr ""
+
+#: configs/jslang.php:127
+msgid "用户名长度不能小于2！"
+msgstr ""
+
+#: configs/jslang.php:128
+msgid "请输入邮箱地址！"
+msgstr ""
+
+#: configs/jslang.php:129
+msgid "请输入正确的邮箱格式！"
+msgstr ""
+
+#: configs/jslang.php:130
+msgid "请输入密码！"
+msgstr ""
+
+#: configs/jslang.php:131
+msgid "密码长度不能小于6！"
+msgstr ""
+
+#: configs/jslang.php:132
+msgid "两次密码不一致！"
+msgstr ""
+
+#: configs/jslang.php:137
+msgid "显示侧边栏"
+msgstr ""
+
+#: configs/jslang.php:138
+msgid "隐藏侧边栏"
+msgstr ""
+
+#: configs/jslang.php:139
+msgid "请先输入搜索信息"
+msgstr ""
+
+#: configs/jslang.php:140
+msgid "未搜索到导航信息"
+msgstr ""
+
+#: configs/jslang.php:142
+msgid "操作失败"
+msgstr ""
+
+#: configs/jslang.php:143
+msgid "是否确认跳转？"
+msgstr ""
+
+#: configs/jslang.php:146
+msgid "请求失败，错误编号："
+msgstr ""
+
+#: configs/jslang.php:147
+msgid "，错误信息："
+msgstr ""
+
+#: configs/jslang.php:154
+msgid "您确定要删除这条记录吗？"
+msgstr ""
+
+#: configs/jslang.php:155
+msgid "参数错误，无法删除！"
+msgstr ""
+
+#: configs/jslang.php:156
+msgid "您确定要操作所有选中项吗？"
+msgstr ""
+
+#: configs/jslang.php:157
+msgid "请先选中操作项！"
+msgstr ""
+
+#: configs/jslang.php:158
+msgid "批量操作缺少参数！"
+msgstr ""
+
+#: configs/jslang.php:159
+msgid "参数错误，无法选择！"
+msgstr ""
+
+#: configs/jslang.php:160
+msgid "状态修改成功！"
+msgstr ""
+
+#: configs/jslang.php:161
+msgid "clone-obj方法未设置data-parent参数。"
+msgstr ""
+
+#: configs/jslang.php:162
+msgid "缺少参数"
+msgstr ""
+
+#: configs/jslang.php:163
+msgid "您确定要删除此文件吗？"
+msgstr ""
+
+#: configs/package.php:55
+msgid "系统"
+msgstr ""
+
+#: configs/package.php:56
+msgid "ECJia系统框架"
+msgstr ""
+
+#: model/template_widget_model.class.php:146
+msgid "没有找到该注释的模板备份"
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:23
+msgid "用户名："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:29
+msgid "Email地址："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:36
+msgid "密  码："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:42
+msgid "确认密码："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:50
+msgid "旧密码："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:54
+msgid "如果要修改密码,请先填写旧密码,如留空,密码保持不变"
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:59
+msgid "新密码："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:63
+#: /content/system/templates/get_pwd.dwt.php:50
+msgid "新密码"
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:70
+msgid "确认密码"
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:75
+msgid "负责的办事处："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:83
+msgid "角色选择："
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:86
+msgid "请选择..."
+msgstr ""
+
+#: /content/system/templates/privilege_info.dwt.php:96
+#: /content/system/templates/library/template_layout_widget_form.lbi.php:35
+#: /content/system/templates/privilege_quick_nav.dwt.php:58
+msgid "保存"
+msgstr ""
+
+#: /content/system/templates/privilege_allot.dwt.php:28
+#: /content/system/templates/privilege_allot.dwt.php:47
+#: /content/system/templates/ecjia_navigator.dwt.php:41
+#: /content/system/templates/ecjia_navigator.dwt.php:69
+#: /content/system/templates/role_info.dwt.php:38
+#: /content/system/templates/admin_cache.dwt.php:22
+msgid "全选"
+msgstr ""
+
+#: /content/system/templates/privilege_allot.dwt.php:50
+msgid "保存 "
+msgstr ""
+
+#: /content/system/templates/admin_session_detail.dwt.php:4
+#: /content/system/templates/application_detail.dwt.php:22
+#: /content/system/templates/application_list.dwt.php:56
+msgid "查看详情"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:49
+msgid ""
+"文件校验是针对 ECJia 官方发布的文件为基础进行核对，点击下面按钮开始进行校验。"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:50
+msgid "技巧提示："
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:52
+msgid "被修改"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:53
+msgid "被删除"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:54
+msgid ""
+"中的列出的文件，请即刻通过 FTP或其他工具检查其文件的正确性，以确保ECJia网站功"
+"能的正常使用。"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:55
+msgid "未知"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:56
+msgid "中的列出的文件，请检查网站是否被人非法放入了其他文件。"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:57
+msgid "一周内被修改"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:57
+msgid "中列出的文件，请确认最近是否修改过。"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:66
+msgid "开始校验"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:72
+msgid "检测版本："
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:73
+msgid "上次检测时间："
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:79
+msgid "校验结果"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:95
+msgid "文件名"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:96
+msgid "文件大小"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:97
+msgid "最后修改时间"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:98
+msgid "状态"
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:109
+msgid "被修改："
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:112
+msgid "被删除："
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:115
+msgid "未知："
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:174
+msgid "正在进行文件校验，请稍候..."
+msgstr ""
+
+#: /content/system/templates/check_file_hash.dwt.php:176
+#: /content/system/templates/admin_upgrade.dwt.php:155
+msgid "如果您的链接没有自动跳转，请点击这里"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:14
+msgid ""
+"注意：若您未检测到可用更新，您还可以到 <a target=\"_blank\" href="
+"\"%1\"><strong>%2</strong></a> 查看。"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:35
+msgid "最后检查于："
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:42
+msgid "有新版本啦！！！"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:50
+msgid "构建日期："
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:53
+msgid "更新介绍"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:67
+msgid "修改文件 （%1个）"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:83
+msgid "新增文件 （%1个）"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:98
+msgid "删除文件 （%1个）"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:120
+msgid "升级帮助"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:121
+msgid "下载升级补丁"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:130
+msgid "更新版本"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:139
+msgid "没有可用更新版本！"
+msgstr ""
+
+#: /content/system/templates/admin_upgrade.dwt.php:153
+msgid "正在进行新版本检测，请稍候..."
+msgstr ""
+
+#: /content/system/templates/role_list.dwt.php:16
+msgid "角色ID"
+msgstr ""
+
+#: /content/system/templates/role_list.dwt.php:17
+msgid "角色名"
+msgstr ""
+
+#: /content/system/templates/role_list.dwt.php:18
+msgid "角色描述"
+msgstr ""
+
+#: /content/system/templates/role_list.dwt.php:19
+#: /content/system/templates/admin_session.dwt.php:38
+#: /content/system/templates/admin_session_login.dwt.php:41
+#: /content/system/templates/privilege_list.dwt.php:40
+msgid "操作"
+msgstr ""
+
+#: /content/system/templates/role_list.dwt.php:29
+#: /content/system/templates/plugin_config.dwt.php:42
+#: /content/system/templates/privilege_list.dwt.php:54
+msgid "编辑"
+msgstr ""
+
+#: /content/system/templates/role_list.dwt.php:30
+msgid "您确定要删除该角色吗？"
+msgstr ""
+
+#: /content/system/templates/role_list.dwt.php:30
+#: /content/system/templates/admin_session.dwt.php:50
+#: /content/system/templates/ecjia_navigator.dwt.php:106
+#: /content/system/templates/admin_session_login.dwt.php:55
+#: /content/system/templates/privilege_list.dwt.php:55
+msgid "移除"
+msgstr ""
+
+#: /content/system/templates/showmessage.dwt.php:15
+msgid "您可以试试下面的链接："
+msgstr ""
+
+#: /content/system/templates/admin_session.dwt.php:27
+#: /content/system/templates/admin_session_login.dwt.php:27
+msgid "请输入Session Key"
+msgstr ""
+
+#: /content/system/templates/admin_session.dwt.php:28
+#: /content/system/templates/admin_logs.dwt.php:48
+#: /content/system/templates/admin_session_login.dwt.php:28
+#: /content/system/templates/privilege_list.dwt.php:27
+msgid "搜索"
+msgstr ""
+
+#: /content/system/templates/admin_session.dwt.php:34
+#: /content/system/templates/admin_session_login.dwt.php:34
+msgid "Session Key"
+msgstr ""
+
+#: /content/system/templates/admin_session.dwt.php:35
+#: /content/system/templates/admin_session_login.dwt.php:36
+#: /content/system/templates/privilege_list.dwt.php:23
+msgid "用户ID"
+msgstr ""
+
+#: /content/system/templates/admin_session.dwt.php:36
+#: /content/system/templates/admin_session_login.dwt.php:35
+msgid "用户类型"
+msgstr ""
+
+#: /content/system/templates/admin_session.dwt.php:37
+msgid "有效期"
+msgstr ""
+
+#: /content/system/templates/admin_session.dwt.php:50
+#: /content/system/templates/admin_session_login.dwt.php:55
+msgid "您确定要删除该会话吗？"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:18
+msgid "选择要编辑的菜单："
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:24
+msgid "选择"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:25
+msgid "或"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:26
+msgid "创建新菜单"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:33
+msgid "页面"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:42
+#: /content/system/templates/ecjia_navigator.dwt.php:55
+#: /content/system/templates/ecjia_navigator.dwt.php:70
+msgid "添加至菜单"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:49
+msgid "链接"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:53
+#: /content/system/templates/ecjia_navigator.dwt.php:96
+msgid "URL："
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:54
+msgid "文字："
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:61
+msgid "分类目录"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:79
+msgid "菜单名称："
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:79
+#: /content/system/templates/ecjia_navigator.dwt.php:137
+msgid "保存菜单"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:83
+msgid "菜单结构"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:84
+msgid "拖放各个项目到您喜欢的顺序，点击右侧的箭头可进行更详细的设置。"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:97
+msgid "导航标签"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:100
+msgid "是否显示"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:103
+msgid "是否新窗口"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:114
+msgid "菜单设置"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:115
+msgid "主题位置"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:119
+msgid "首页/列表页菜单"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:119
+#: /content/system/templates/ecjia_navigator.dwt.php:123
+#: /content/system/templates/ecjia_navigator.dwt.php:127
+#: /content/system/templates/ecjia_navigator.dwt.php:131
+msgid "（当前设置：底部）"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:123
+msgid "页脚菜单"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:127
+msgid "播放页菜单"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:131
+msgid "新闻页菜单"
+msgstr ""
+
+#: /content/system/templates/ecjia_navigator.dwt.php:137
+msgid "删除菜单"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:15
+#: /content/system/templates/about_system.dwt.php:8
+#: /content/system/templates/about_us.dwt.php:8
+msgid "关于ECJia"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:16
+#: /content/system/templates/about_system.dwt.php:9
+#: /content/system/templates/about_us.dwt.php:9
+msgid "ECJia团队"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:22
+msgid "ECJia 版权信息"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:25
+msgid "版权所有："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:26
+msgid "上海商创网络科技有限公司"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:29
+msgid "公司网站："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:34
+msgid "ECJia 官方网站"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:37
+msgid "产品网站："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:41
+msgid "帮助手册："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:45
+msgid "授权中心："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:50
+msgid "ECJia 开发团队"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:53
+msgid "创始人、项目领导者："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:62
+msgid "产品团队："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:73
+msgid "开发领头人："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:88
+msgid "核心开发者："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:100
+msgid "贡献开发者："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:120
+msgid "界面设计："
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:130
+msgid "发展历程"
+msgstr ""
+
+#: /content/system/templates/about_team.dwt.php:175
+msgid "再显示5条"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:21
+msgid "选择日期"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:27
+msgid "批量删除"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:32
+msgid "全部IP"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:38
+msgid "全部管理员"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:43
+msgid "筛选"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:47
+msgid "请输入关键字"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:54
+#: /content/system/templates/privilege_list.dwt.php:35
+msgid "编号"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:55
+msgid "操作者"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:56
+msgid "操作日期"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:57
+msgid "IP地址"
+msgstr ""
+
+#: /content/system/templates/admin_logs.dwt.php:58
+msgid "操作记录"
+msgstr ""
+
+#: /content/system/templates/library/shop_config_form.lbi.php:41
+msgid "暂无图片"
+msgstr ""
+
+#: /content/system/templates/library/shop_config_form.lbi.php:45
+msgid "浏览"
+msgstr ""
+
+#: /content/system/templates/library/shop_config_form.lbi.php:46
+msgid "修改"
+msgstr ""
+
+#: /content/system/templates/library/shop_config_form.lbi.php:49
+#: /content/system/templates/library/template_layout_widget_form.lbi.php:31
+#: /content/system/templates/application_list.dwt.php:45
+#: /content/system/templates/plugin_list.dwt.php:46
+msgid "删除"
+msgstr ""
+
+#: /content/system/templates/library/template_layout_widget_form.lbi.php:19
+msgid "标题："
+msgstr ""
+
+#: /content/system/templates/library/template_layout_widget_form.lbi.php:32
+msgid "关闭"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_about_system.lbi.php:10
+msgid "ECJia 版本"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_about_system.lbi.php:13
+msgid "ROYALCMS 版本"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_about_system.lbi.php:16
+msgid "Laravel 版本"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_about_system.lbi.php:19
+msgid "安装日期"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_about_system.lbi.php:22
+msgid "服务器操作系统"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_about_system.lbi.php:25
+msgid "PHP 版本"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_about_system.lbi.php:28
+msgid "MySQL 版本"
+msgstr ""
+
+#: /content/system/templates/library/common_sidebar.lbi.php:2
+msgid "侧边栏开关"
+msgstr ""
+
+#: /content/system/templates/library/common_sidebar.lbi.php:9
+msgid "搜索导航"
+msgstr ""
+
+#: /content/system/templates/library/common_sidebar.lbi.php:15
+msgid "快速搜索"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_loglist.lbi.php:17
+msgid "暂无操作日志"
+msgstr ""
+
+#: /content/system/templates/library/widget_admin_dashboard_loglist.lbi.php:22
+msgid "查看更多"
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:23
+msgid "查看应用的详细信息"
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:26
+msgid "应用名称"
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:32
+msgid "应用包名："
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:36
+msgid "应用版本："
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:40
+msgid "应用目录："
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:49
+msgid "应用作者："
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:51
+msgid "版权信息："
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:53
+msgid "应用描述："
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:59
+msgid "安装完成"
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:60
+msgid "安装进度及完成结果"
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:68
+msgid "应用安装成功！"
+msgstr ""
+
+#: /content/system/templates/application_detail.dwt.php:69
+msgid "应用已经安装到您的系统中！"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:28
+msgid "项目"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:29
+msgid "可读权限"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:30
+msgid "可写权限"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:31
+msgid "可修改权限"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:44
+#: /content/system/templates/check_file_priv.dwt.php:57
+#: /content/system/templates/check_file_priv.dwt.php:70
+msgid "详情"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:44
+#: /content/system/templates/check_file_priv.dwt.php:57
+#: /content/system/templates/check_file_priv.dwt.php:70
+msgid "[详情]"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:46
+msgid "不可读"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:59
+msgid "不可写"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:72
+msgid "不可修改"
+msgstr ""
+
+#: /content/system/templates/check_file_priv.dwt.php:81
+msgid "目录需要执行rename权限"
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:14
+msgid "ECJia证书"
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:14
+msgid ""
+"是您享受ECJia软件服务的唯一标识，它记录了您的网店的授权信息、购买官方服务记"
+"录、短信帐户等重要信息。您需要通过“证书下载备份”功能备份证书，并妥善保管。在"
+"您遇到商店系统需要重新安装时，可以在新安装的系统中使用“证书上传恢复”功能将之"
+"前备份的证书恢复，这样新系统就可以继续使用证书内的重要信息。"
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:27
+msgid "兹授予："
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:29
+msgid "为上海商创网络科技有限公司企业解决方案与产品商业伙伴"
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:30
+msgid "授权级别："
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:30
+msgid "授权域名："
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:34
+msgid "授权时间："
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:38
+msgid "备份证书"
+msgstr ""
+
+#: /content/system/templates/license.dwt.php:39
+msgid "删除证书"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:18
+msgid "ECJia 版本:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:22
+msgid "安装日期:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:26
+msgid "服务器操作系统:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:30
+msgid "PHP 版本:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:34
+msgid "MySQL 版本:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:38
+msgid "GD 版本:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:42
+msgid "安全模式:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:46
+msgid "Socket 支持:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:50
+msgid "时区设置:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:54
+msgid "Zlib 支持:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:58
+msgid "文件上传的最大大小:"
+msgstr ""
+
+#: /content/system/templates/about_system.dwt.php:62
+msgid "ROYALCMS 版本："
+msgstr ""
+
+#: /content/system/templates/admin_session_login.dwt.php:37
+msgid "User Agent"
+msgstr ""
+
+#: /content/system/templates/admin_session_login.dwt.php:38
+msgid "登录时间"
+msgstr ""
+
+#: /content/system/templates/admin_session_login.dwt.php:39
+msgid "登录IP"
+msgstr ""
+
+#: /content/system/templates/admin_session_login.dwt.php:40
+msgid "来源"
+msgstr ""
+
+#: /content/system/templates/privilege_quick_nav.dwt.php:21
+msgid ""
+"点击左侧导航列表选项，添加个人导航。双击右侧个人导航列表，或点击x号，可从个人"
+"导航列表中移除。点击保存后保存更改。"
+msgstr ""
+
+#: /content/system/templates/privilege_quick_nav.dwt.php:27
+msgid "搜索的导航名称"
+msgstr ""
+
+#: /content/system/templates/privilege_quick_nav.dwt.php:40
+msgid "暂无内容"
+msgstr ""
+
+#: /content/system/templates/privilege_quick_nav.dwt.php:45
+msgid "个人自定义导航"
+msgstr ""
+
+#: /content/system/templates/privilege_quick_nav.dwt.php:59
+#: /content/system/templates/role_info.dwt.php:63
+#: /content/system/templates/admin_shop_config.dwt.php:36
+#: /content/system/templates/shop_config.dwt.php:26
+msgid "重置"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:18
+msgid "系统应用"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:19
+msgid ""
+"系统核心推出了灵活的应用+插件扩展机制，快速提供接口，多种主题，一指布局，满足"
+"众多需求只在一瞬间。 "
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:25
+msgid "应用扩展"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:26
+msgid ""
+"提出全新的应用模式进行扩展，完全满足您的个性化需求，商品、订单、购物车、会"
+"员、等众多的应用。 "
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:32
+msgid "插件扩展"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:33
+msgid "ECJia推出多种插件，支付、物流为ECJia中的组件赋予了“生命” 。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:41
+msgid "多种语言"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:42
+msgid ""
+"多国语言支持，可同时建立多种语言站点，系统默认带有中、英文两种最常用的语言"
+"包，最多可扩展至同时开通 255 种语言的网站。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:48
+msgid "主题多样"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:49
+msgid "打造了多种风格的主题，在线随意切换您喜欢的主题包。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:55
+msgid "超炫UI设计"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:56
+msgid ""
+"友好的后台操作界面，点对点的操作帮助，体验愉快、简单的建站过程，请你轻松上"
+"手。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:64
+msgid "订单管理"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:65
+msgid ""
+"方便快捷订单管理模块，支持财付通、支付宝等多家平台支付接口，购物车、在线充值"
+"等方便快捷功能。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:72
+msgid "交互协作"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:73
+msgid ""
+"管理员支持分类角色，支持自定义权限分配，支持栏目分配。以及通过管理员、客户留"
+"言实行更好的交互。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:80
+msgid "邮件SMTP"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:81
+msgid "支持邮件发送功能，一般用在会员忘记密码或者红包等提醒部分。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:90
+msgid "日志管理的推出，对各个管理员所进行的操作一目了然。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:96
+msgid "多文件上传"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:97
+msgid "采用HTML5方式多文件上传、并支持附件管理。"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:103
+msgid "数据库多源化"
+msgstr ""
+
+#: /content/system/templates/about_us.dwt.php:104
+msgid "同时可以连接多个数据库任意操作的强大功能，解决数据量问题的不二选择。"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:18
+#: /content/system/templates/plugin_list.dwt.php:20
+msgid "已安装"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:19
+#: /content/system/templates/plugin_list.dwt.php:21
+msgid "未安装"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:20
+#: /content/system/templates/plugin_list.dwt.php:22
+msgid "刷新列表"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:29
+#: /content/system/templates/plugin_list.dwt.php:30
+#: /content/system/templates/plugin_config.dwt.php:22
+msgid "名称"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:30
+#: /content/system/templates/plugin_list.dwt.php:31
+#: /content/system/templates/plugin_config.dwt.php:23
+msgid "描述"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:42
+msgid "您确定要卸载该应用吗？"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:42
+#: /content/system/templates/plugin_list.dwt.php:43
+msgid "卸载"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:44
+#: /content/system/templates/plugin_list.dwt.php:45
+msgid "安装"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:45
+msgid "您确定要删除该应用吗？"
+msgstr ""
+
+#: /content/system/templates/application_list.dwt.php:56
+msgid "| 作者："
+msgstr ""
+
+#: /content/system/templates/plugin_list.dwt.php:51
+msgid "作者："
+msgstr ""
+
+#: /content/system/templates/role_info.dwt.php:24
+msgid "角色名："
+msgstr ""
+
+#: /content/system/templates/role_info.dwt.php:30
+msgid "角色描述："
+msgstr ""
+
+#: /content/system/templates/admin_cache.dwt.php:19
+msgid "选择清除"
+msgstr ""
+
+#: /content/system/templates/admin_cache.dwt.php:39
+msgid "选择要清除的缓存"
+msgstr ""
+
+#: /content/system/templates/admin_cache.dwt.php:41
+msgid "开始清除"
+msgstr ""
+
+#: /content/system/templates/admin_cache.dwt.php:42
+msgid "开始清除缓存"
+msgstr ""
+
+#: /content/system/templates/login.dwt.php:17
+msgid "管理员登录"
+msgstr ""
+
+#: /content/system/templates/login.dwt.php:22
+msgid "管理员姓名："
+msgstr ""
+
+#: /content/system/templates/login.dwt.php:28
+msgid "管理员密码："
+msgstr ""
+
+#: /content/system/templates/login.dwt.php:34
+msgid "请保存我这次的登录信息。"
+msgstr ""
+
+#: /content/system/templates/login.dwt.php:40
+msgid "进入管理中心"
+msgstr ""
+
+#: /content/system/templates/login.dwt.php:41
+msgid "返回首页"
+msgstr ""
+
+#: /content/system/templates/login.dwt.php:47
+msgid "您忘记了密码吗?"
+msgstr ""
+
+#: /content/system/templates/plugin_config.dwt.php:24
+msgid "排序"
+msgstr ""
+
+#: /content/system/templates/plugin_config.dwt.php:25
+msgid "是否开启"
+msgstr ""
+
+#: /content/system/templates/plugin_config.dwt.php:33
+msgid "编辑名称"
+msgstr ""
+
+#: /content/system/templates/plugin_config.dwt.php:43
+msgid "禁用"
+msgstr ""
+
+#: /content/system/templates/plugin_config.dwt.php:48
+msgid "启用"
+msgstr ""
+
+#: /content/system/templates/plugin_config.dwt.php:54
+msgid "编辑排序"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:22
+#: /content/system/templates/privilege_list.dwt.php:36
+msgid "用户名"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:24
+msgid "用户邮箱"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:26
+msgid "请输入相应的关键字"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:37
+msgid "Email地址"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:38
+msgid "加入时间"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:39
+msgid "最后登录时间"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:53
+msgid "查看日志"
+msgstr ""
+
+#: /content/system/templates/privilege_list.dwt.php:55
+msgid "您确定要删除用户该用户吗？"
+msgstr ""
+
+#: /content/system/templates/get_pwd.dwt.php:17
+#: /content/system/templates/get_pwd.dwt.php:46
+msgid "管理员密码找回"
+msgstr ""
+
+#: /content/system/templates/get_pwd.dwt.php:22
+msgid "管理员用户名"
+msgstr ""
+
+#: /content/system/templates/get_pwd.dwt.php:28
+msgid "管理员邮箱"
+msgstr ""
+
+#: /content/system/templates/get_pwd.dwt.php:35
+#: /content/system/templates/get_pwd.dwt.php:66
+msgid "返回登录"
+msgstr ""
+
+#: /content/system/templates/get_pwd.dwt.php:51
+msgid "管理员新密码"
+msgstr ""
+
+#: /content/system/templates/get_pwd.dwt.php:56
+msgid "重复新密码"
+msgstr ""
+
+#: /content/system/templates/get_pwd.dwt.php:57
+msgid "重复管理员密码"
+msgstr ""
+
+#: /content/system/templates/shop_config.dwt.php:40
+msgid "快速导航"
+msgstr ""
+
+#: /content/system/templates/shop_config.dwt.php:42
+msgid "收起"
+msgstr ""

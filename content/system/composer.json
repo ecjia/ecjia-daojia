@@ -1,0 +1,28 @@
+{
+  "name": "ecjia/system",
+  "type": "royalcms-system",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "royalwang",
+      "email": "hxroyal@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+        "Ecjia\\System\\": "classes"
+    },
+    "classmap": [
+
+    ]
+},
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.x-dev"
+    }
+  },
+  "require": {
+    "ecjia/auto-login": "^1.0"
+  }
+}
