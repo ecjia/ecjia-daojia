@@ -1,0 +1,81 @@
+{
+    "name": "ecjia/ecjia-daojia",
+    "type": "project",
+    "description": "The ECJia Daojia for Laravel Framework.",
+    "keywords": [
+        "ecjia",
+        "royalcms",
+        "daojia",
+        "laravel"
+    ],
+    "license": "ECJIA-LICENSE",
+    "require": {
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ecjia/ecjia-system-package": "^0.2.0",
+        "royalcms/excel": "^6.0",
+        "royalcms/shouqianba": "^5.1",
+        "ecjia/system": "^2.0.1",
+        "ecjia/kernel": "^2.0.0",
+        "ecjia/bootstrap": "^2.0.0",
+        "ecjia/app-cron": "^2.1",
+        "ecjia/app-rpc": "^1.0",
+        "ecjia/app-maintain": "^2.0",
+        "ecjia/app-mail": "^2.0",
+        "ecjia/app-api": "^3.0"
+    },
+    "require-dev": {
+        "ecjia/ecjia-system-package-dev": "^0.1.0",
+        "royalcms/composer-installers-extender": "^2.1",
+        "wikimedia/composer-merge-plugin": "dev-feature/composer-v2 as 1.5.0"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {},
+        "classmap": [
+            "sites/installer/content/database/seeds"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "royalcms": {
+            "dont-discover": []
+        },
+        "installer-paths": {
+            "content/{$name}/":["type:royalcms-system"],
+            "content/apps/{$name}/": ["type:royalcms-app"],
+            "content/plugins/{$name}/": ["type:royalcms-plugin"]
+        },
+        "merge-plugin": {
+            "include": [
+                "content/apps/*/composer.json"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Royalcms\\Component\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php ecjia package:discover --ansi",
+            "@php ecjia package:app-discover --ansi",
+            "@php ecjia optimize:alias"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php ecjia key:generate --ansi"
+        ]
+    },
+    "repositories": [
+        {
+            "type":"vcs",
+            "url":"https://github.com/mcaskill/composer-merge-plugin"
+        }
+    ]
+
+}
