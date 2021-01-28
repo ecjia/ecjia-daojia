@@ -1,0 +1,85 @@
+# Copyright (C) 2019 Ecjia App maintain
+# This file is distributed under the same license as the Ecjia App maintain package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App maintain 1.28.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-03 17:01+0800\n"
+"PO-Revision-Date: 2019-04-03 17:02+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin.php:72 admin.php:83 admin.php:84 admin.php:100
+#: apis/maintain_tool_menu_api.class.php:52 configs/package.php:55
+msgid "运维工具"
+msgstr "運維工具"
+
+#: admin.php:98 admin.php:99
+msgid "运行"
+msgstr "運行"
+
+#: admin.php:136
+msgid "运行成功"
+msgstr "運行成功"
+
+#: apis/maintain_admin_purview_api.class.php:53
+msgid "运维工具管理"
+msgstr "運維工具管理"
+
+#: classes/Commands/DatabaseMigrate.php:69
+msgid "更新数据库结构"
+msgstr "更新數據庫結構"
+
+#: classes/Commands/DatabaseMigrate.php:70
+msgid "完成数据库升级未完成的迁移脚本执行"
+msgstr "完成數據庫升級未完成的遷移腳本執行"
+
+#: classes/Commands/SyncOrderDataToBillDetail.php:28
+msgid "同步订单数据到账单详情"
+msgstr "同步訂單數據到賬單詳情"
+
+#: classes/Commands/SyncOrderDataToBillDetail.php:29
+msgid "v1.15结算升级同步数据"
+msgstr "v1.15結算升級同步數據"
+
+#: classes/Commands/SyncOrderDataToBillDetail.php:52
+msgid ""
+"本次任务成功执行%s条数据，还剩下%s条数据未处理，请继续点击运行继"
+"续处理，直至完成。"
+msgstr ""
+"本次任務成功執行%s條數據，還剩下%s條數據未處理，請繼續點擊運行繼"
+"續處理，直至完成。"
+
+#: classes/Commands/SyncOrderDataToBillDetail.php:54
+msgid "本次任务成功执行%s条数据，还剩下%s条数据未处理。"
+msgstr "本次任務成功執行%s條數據，還剩下%s條數據未處理。"
+
+#: classes/Commands/SyncOrderDataToBillDetail.php:77
+msgid "未找到关联订单："
+msgstr "未找到關聯訂單："
+
+#: configs/jslang.php:58
+msgid "正在运行"
+msgstr "正在運行"
+
+#: configs/jslang.php:59
+msgid "开始运行"
+msgstr "開始運行"
+
+#: configs/package.php:56
+msgid "使用户方便维护指定功能"
+msgstr "使用戶方便維護指定功能"
+
+#: content/apps/maintain/templates/admin/maintain_run.dwt.php:24
+msgid "工具名称："
+msgstr "工具名稱："
+
+#: content/apps/maintain/templates/admin/maintain_run.dwt.php:27
+msgid "工具描述："
+msgstr "工具描述："

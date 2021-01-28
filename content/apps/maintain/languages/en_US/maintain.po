@@ -1,0 +1,61 @@
+# Copyright (C) 2019 Ecjia App maintain
+# This file is distributed under the same license as the Ecjia App maintain package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App maintain 1.27.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-01-31 10:14:31+00:00\n"
+"PO-Revision-Date: 2019-01-31 18:23+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.php:71 admin.php:82 admin.php:83 admin.php:99
+#: apis/maintain_tool_menu_api.class.php:52
+msgid "运维工具"
+msgstr "Maintenance tool"
+
+#: admin.php:97 admin.php:98
+msgid "运行"
+msgstr "Run"
+
+#: admin.php:135
+msgid "运行成功"
+msgstr "Successful operation"
+
+#: apis/maintain_admin_purview_api.class.php:53
+msgid "运维工具管理"
+msgstr "Maintenance tool management"
+
+#: classes/Commands/DatabaseMigrate.php:69
+msgid "更新数据库结构"
+msgstr "Update database structure"
+
+#: classes/Commands/DatabaseMigrate.php:70
+msgid "完成数据库升级未完成的迁移脚本执行"
+msgstr "Complete the database upgrade to complete the migration script execution"
+
+#: classes/Commands/SyncOrderDataToBillDetail.php:27
+msgid "同步订单数据到账单详情"
+msgstr "Synchronize order data to billing details"
+
+#: classes/Commands/SyncOrderDataToBillDetail.php:28
+msgid "v1.15结算升级同步数据"
+msgstr "V1.15 settlement upgrade synchronization data"
+
+#: content/apps/maintain/templates/admin/maintain_run.dwt.php:24
+msgid "工具名称："
+msgstr "Tool name:"
+
+#: content/apps/maintain/templates/admin/maintain_run.dwt.php:27
+msgid "工具描述："
+msgstr "Tool description:"
+
+#: content/apps/maintain/templates/admin/maintain_run.dwt.php:30
+msgid "开始运行"
+msgstr "Start operation"
