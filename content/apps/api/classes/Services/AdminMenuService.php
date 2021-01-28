@@ -15,7 +15,7 @@ class AdminMenuService
      * @param $options
      * @return mixed
      */
-    public function handle(&$options)
+    public function handle($options)
     {
         $menus = ecjia_admin::make_admin_menu('api_manage', __('API管理', 'api'), '', 20);
 

@@ -52,7 +52,7 @@ class AdminPurviewService
      * @param $options
      * @return array
      */
-    public function handle(&$options)
+    public function handle($options)
     {
         $purviews = array(
             array('action_name' => __('API管理', 'api'), 'action_code' => 'api_manage', 'relevance' => ''),
