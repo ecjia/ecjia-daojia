@@ -258,6 +258,7 @@ function user_bonus($user_id, $goods_amount = 0, $cart_id = array(), $store_id =
 		->where(RC_DB::raw('ub.user_id'), '!=', 0)
 		->where(RC_DB::raw('ub.user_id'), $user_id)
 		->where(RC_DB::raw('ub.order_id'), 0)
+		->whereRaw('(ub.order_sn is null or ub.order_sn ="" )')
 		->get();
 	return $row;
 }
@@ -310,7 +311,7 @@ function use_bonus($bonus_id, $order_id) {
 * @return  bool
 */
 function unuse_bonus($bonus_id) {
-	$data = array('order_id' => 0, 'used_time'	=> 0);
+	$data = array('order_id' => 0, 'used_time'	=> 0, 'order_sn' => '');
 	return RC_DB::table('user_bonus')->where('bonus_id', $bonus_id)->update($data);
 }
 
@@ -389,7 +390,7 @@ function change_user_bonus($bonus_id, $order_id, $is_used = true) {
 		$data = array(
 			'used_time'	=> 0,
 			'order_id'	=> 0,
-            'order_sn'  => null
+            'order_sn'  => ''
 		);
 	}
 	RC_DB::table('user_bonus')->where('bonus_id', $bonus_id)->update($data);

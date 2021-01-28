@@ -102,6 +102,7 @@ class admin extends ecjia_admin {
 		);
 		
 		$this->assign('ur_here', __('红包类型列表', 'bonus'));
+		$this->assign('action_link', array('text' => __('添加红包类型', 'bonus'), 'href' => RC_Uri::url('bonus/admin/add')));
 		$this->assign('search_action', RC_Uri::url('bonus/admin/init'));
 		
 		$list = get_type_list();
@@ -117,7 +118,6 @@ class admin extends ecjia_admin {
 	 * 红包类型添加页面
 	 */
 	public function add() {
-	    exit;
 		$this->admin_priv('bonus_type_update');
 	
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加红包类型', 'bonus')));
