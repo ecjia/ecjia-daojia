@@ -58,10 +58,10 @@ class cron_order_auto_refuse extends CronAbstract
      * 计划任务执行方法
      */
     public function run() {
-    	/*获取未接单订单（未接单，已支付，未发货）；货到付款特殊，未支付也可拒单*/
+    	/*获取未接单订单（未接单，已支付，未发货）*/
     	$list = RC_DB::table('order_info')
     				->where('order_status', OS_UNCONFIRMED)
-    				->whereIn('pay_status', array(PS_PAYING, PS_PAYED, PS_UNPAYED))
+    				->whereIn('pay_status', array(PS_PAYING, PS_PAYED))
     				->where('shipping_status', SS_UNSHIPPED)
     				->where('is_delete', 0)
     				->get();
@@ -73,31 +73,12 @@ class cron_order_auto_refuse extends CronAbstract
     			if (!empty($val['store_id'])) {
     				$orders_auto_confirm =  Ecjia\App\Cart\StoreStatus::StoreOrdersAutoConfirm($val['store_id']);
     				$orders_auto_rejection_time = Ecjia\App\Orders\OrderAutoRefuse::StoreOrdersAutoRejectTime($val['store_id']);
-    				$pay_cod = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->value('pay_code');
     				
     				if (($orders_auto_rejection_time > 0) && $orders_auto_confirm == Ecjia\App\Cart\StoreStatus::UNAUTOCONFIRM) {
     					if ($time - $val['pay_time'] >= $orders_auto_rejection_time*60) {
-    						if ($pay_cod == 'pay_cod' && $val['pay_status'] == PS_UNPAYED) {
-    							RC_DB::table('order_info')->where('order_id', $val['order_id'])->update(array('order_status' => OS_CANCELED));
-    							RC_DB::table('order_status_log')->insert(array(
-    								'order_status'	=> RC_Lang::get('orders::order.order_cancel'),
-    								'order_id'		=> $val['order_id'],
-    								'message'		=> '订单已取消！',
-    								'add_time'		=> RC_Time::gmtime()
-    							));
-    						} else {
-    							if ($val['pay_status'] == PS_UNPAYED) {
-    								RC_DB::table('order_info')->where('order_id', $val['order_id'])->update(array('order_status' => OS_CANCELED));
-    								RC_DB::table('order_status_log')->insert(array(
-	    								'order_status'	=> RC_Lang::get('orders::order.order_cancel'),
-	    								'order_id'		=> $val['order_id'],
-	    								'message'		=> '订单已取消！',
-	    								'add_time'		=> RC_Time::gmtime()
-	    							));
-    							} elseif ($val['pay_status'] == PS_PAYED) {
-    								Ecjia\App\Orders\OrderAutoRefuse::AutoRejectOrder($val);
-    							}
-    						}
+    						if ($val['pay_status'] == PS_PAYED) {
+    							Ecjia\App\Orders\OrderAutoRefuse::AutoRejectOrder($val);
+    						}	
     					}
     				}
     			}
