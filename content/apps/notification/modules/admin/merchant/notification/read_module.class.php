@@ -65,7 +65,7 @@ class admin_merchant_notification_read_module extends api_admin implements api_i
     	
     	$db = RC_DB::table('notifications');
     	if ($_SESSION['staff_id']) {
-    		$db->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id']);
+    		$db->whereIn('notifiable_type', ['staff_user','staff_user_model', 'orm_staff_user_model'])->where('notifiable_id', $_SESSION['staff_id']);
     	} 
     	$notification_info = $db->where('id', $message_id)->first();
     	if (empty($notification_info)) {

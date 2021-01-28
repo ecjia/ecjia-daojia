@@ -82,7 +82,7 @@ class admin_merchant_notification_module extends api_admin implements api_interf
     	);
     	$record_count  = RC_DB::table('notifications')
                     	->whereIn('type', $type)
-                    	->where('notifiable_type', 'orm_staff_user_model')
+                    	->whereIn('notifiable_type', ['staff_user','staff_user_model', 'orm_staff_user_model'])
                     	->where('notifiable_id', $_SESSION['staff_id'])
                     	->count();
     	
@@ -91,11 +91,11 @@ class admin_merchant_notification_module extends api_admin implements api_interf
     	$skip                  = $page_row->start_id-1;
         $notifications_result  = RC_DB::table('notifications')
                                 ->whereIn('type', $type)
-                                ->where('notifiable_type', 'orm_staff_user_model')
+                                ->whereIn('notifiable_type', ['staff_user','staff_user_model', 'orm_staff_user_model'])
                                 ->where('notifiable_id', $_SESSION['staff_id'])
                                 ->skip($skip)
                                 ->take($size)
-                                ->orderBy('created_at', 'dsec')
+                                ->orderBy('created_at', 'desc')
                                 ->get();
         
         $notifications_list = array();

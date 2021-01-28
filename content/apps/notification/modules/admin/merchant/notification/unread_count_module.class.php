@@ -70,7 +70,7 @@ class admin_merchant_notification_unread_count_module extends api_admin implemen
         
         $record_count  = RC_DB::table('notifications')
             ->whereIn('type', $type)
-            ->where('notifiable_type', 'orm_staff_user_model')
+            ->whereIn('notifiable_type', ['staff_user','staff_user_model', 'orm_staff_user_model'])
             ->where('notifiable_id', $_SESSION['staff_id'])
             ->whereNull('read_at')
             ->count();
