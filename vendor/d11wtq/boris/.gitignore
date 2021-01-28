@@ -1,0 +1,4 @@
+/vendor/
+*.swp
+boris.phar
+.token
