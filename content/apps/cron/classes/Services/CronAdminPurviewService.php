@@ -56,7 +56,7 @@ class CronAdminPurviewService
      * @param $options
      * @return array
      */
-    public function handle(& $options)
+    public function handle($options)
     {
         $purviews = array(
         	array('action_name' => __('计划任务管理', 'cron'), 'action_code' => 'cron_manage', 'relevance' => ''),

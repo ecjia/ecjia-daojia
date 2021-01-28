@@ -60,7 +60,7 @@ class CronCronInfoService
      * @param  array $options	条件参数
      * @return array|ecjia_error|\Illuminate\Database\Eloquent\Model
      */
-	public function handle(& $options)
+	public function handle($options)
     {
         if (!is_array($options) || !isset($options['cron_code'])) {
         	return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cron'), __CLASS__));

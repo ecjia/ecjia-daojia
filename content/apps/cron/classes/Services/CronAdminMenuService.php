@@ -59,7 +59,7 @@ class CronAdminMenuService
      * @param $options
      * @return mixed
      */
-	public function handle(& $options)
+	public function handle($options)
     {
         $menus = ecjia_admin::make_admin_menu('03_content', __('计划任务'), '', 103);
 

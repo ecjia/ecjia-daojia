@@ -59,7 +59,7 @@ class CronPluginMenuService
      * @param $options
      * @return mixed
      */
-	public function handle(& $options)
+	public function handle($options)
     {
 		$menus = ecjia_admin::make_admin_menu('cron_list', __('计划任务', 'cron'), RC_Uri::url('cron/admin_plugin/init'), 1)->add_purview('cron_manage')->add_base('cron');
 
