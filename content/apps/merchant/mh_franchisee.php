@@ -312,6 +312,13 @@ class mh_franchisee extends ecjia_merchant {
             return $this->showmessage(__('请点击获取精准坐标获取店铺经纬度', 'merchant'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
+        if (empty($merchants_name)) {
+            return $this->showmessage(__('请填写店铺名称', 'merchant'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        if (mb_strlen($merchants_name) > 20) {
+            return $this->showmessage(__('店铺名称不能超过20个字符', 'merchant'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
         $geohash = RC_Loader::load_app_class('geohash', 'store');
         $geohash_code = $geohash->encode($latitude , $longitude);
         $geohash_code = substr($geohash_code, 0, 10);

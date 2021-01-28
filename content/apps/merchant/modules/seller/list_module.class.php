@@ -243,6 +243,11 @@ class seller_list_module extends api_front implements api_interface {
 						if (!empty($keywords)) {
 							$filters['keywords'] = $keywords;
 						}
+						//排序
+						$order_by = array('goods.sort_order' => 'asc');
+						if (!empty($order_by)) {
+							$filters['sort_by'] = $order_by;
+						}
 						//会员等级价格
 						$filters['user_rank'] = $_SESSION['user_rank'];
 						$filters['user_rank_discount'] = $_SESSION['discount'];

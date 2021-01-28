@@ -179,12 +179,14 @@ class merchant extends ecjia_merchant
         $orders_auto_confirm        = isset($_POST['orders_auto_confirm']) ? intval($_POST['orders_auto_confirm']) : 0;
         $orders_auto_rejection_time = isset($_POST['orders_auto_rejection_time']) ? intval($_POST['orders_auto_rejection_time']) : 0;
         $printer_offline_send       = isset($_POST['printer_offline_send']) ? intval($_POST['printer_offline_send']) : 0;
+        $confirm_auto_ship          = isset($_POST['confirm_auto_ship']) ? intval($_POST['confirm_auto_ship']) : 0;
 
         $merchants_config                         = array();
         $merchants_config['express_assign_auto']  = $express_assign_auto;
         $merchants_config['min_goods_amount']     = $min_goods_amount;
         $merchants_config['orders_auto_confirm']  = $orders_auto_confirm;
         $merchants_config['printer_offline_send'] = $printer_offline_send;
+        $merchants_config['confirm_auto_ship'] = $confirm_auto_ship;
 
         if (empty($orders_auto_confirm)) {
             $merchants_config['orders_auto_rejection_time'] = $orders_auto_rejection_time;

@@ -145,8 +145,8 @@ abstract class ecjia_merchant extends Ecjia\System\BaseController\EcjiaControlle
 		$this->assign('ecjia_system_static_url', RC_Uri::system_static_url() . '/');
 		
 		//头部左侧通知
-		$count = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->whereNull('read_at')->count();
-		$list = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->whereIn('notifiable_type', ['staff_user', 'orm_staff_user_model'])->whereNull('read_at')->orderBy('created_at', 'desc')->take(20)->get();
+		$count = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->whereIn('notifiable_type', ['staff_user', 'staff_user_model', 'orm_staff_user_model'])->whereNull('read_at')->count();
+		$list = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['staff_id'])->whereIn('notifiable_type', ['staff_user', 'staff_user_model', 'orm_staff_user_model'])->whereNull('read_at')->orderBy('created_at', 'desc')->take(20)->get();
 		if (!empty($list)) {
 			foreach ($list as $k => $v) {
 				if (!empty($v['data'])) {

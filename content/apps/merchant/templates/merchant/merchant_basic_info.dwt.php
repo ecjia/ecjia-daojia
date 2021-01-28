@@ -240,6 +240,17 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                 <span class="help-block">{t domain="merchant"}开启后，已支付的订单自动加入打印队列，只要小票机在线后，将自动打印订单{/t}</span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">{t domain="merchant"}接单后自动发货：{/t}</label>
+                            <div class="col-lg-8">
+                                <input id="confirm_auto_ship_1" type="radio" name="confirm_auto_ship" value="1" {if $data.confirm_auto_ship eq 1} checked="true" {/if}  />
+                                <label for="confirm_auto_ship_1">{t domain="merchant"}开启{/t}</label>
+                                <input id="confirm_auto_ship_0" type="radio" name="confirm_auto_ship" value="0" {if $data.confirm_auto_ship eq 0} checked="true" {/if}  />
+                                <label for="confirm_auto_ship_0">{t domain="merchant"}关闭{/t}</label>
+                                <span class="help-block">{t domain="merchant"}开启时，消费者在店内选择众包/商家配送方式下单后，商家接单将触发系统自动发货，设置关闭时，则不会触发自动发货，必须由商家手动发货{/t}</span>
+                            </div>
+                        </div>
                         
                         <div class="form-group">
                             <div class="col-lg-6 col-md-offset-2">

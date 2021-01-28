@@ -87,7 +87,7 @@ class admin_shopkeeper_merchant_online_module extends api_admin implements api_i
     	$store_info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
     	
     	if ($store_info['shop_close'] == '0') {
-    		return new ecjia_error('store_on_business', '当前店铺已经在营业！');
+    		return new ecjia_error('store_on_business', '当前店铺已开启！');
     	}
     	
     	/*切换店铺上线*/

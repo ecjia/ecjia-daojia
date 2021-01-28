@@ -94,7 +94,7 @@ class BannerThumb
      *
      * @return string
      */
-    protected function transformBannerThumbFileName($banner = null)
+    protected function transformBannerThumbFileName()
     {
         if (empty($this->store_banner)) {
             return null;
@@ -107,14 +107,15 @@ class BannerThumb
      */
     public function createBannerThumbFile()
     {
-        if (RC_Storage::disk()->exists($this->getStoreBannerPath())) {
-            
-            $img = RC_Image::make($this->getStoreBannerPath());
+        $path = ltrim($this->getStoreBannerPath(), '/');
+        if (RC_Storage::disk()->exists($path)) {
+            $content = RC_Storage::disk()->read($path);
+            $img = RC_Image::make($content);
             
             $img->resize($this->thumb_width, $this->thumb_height, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $content = $img->encode(RC_File::extension($this->getStoreBannerPath()));
+            $content = $img->encode(RC_File::extension($path));
 
             $content = $content->getEncoded();
 
@@ -129,7 +130,7 @@ class BannerThumb
     public function removeBannerThumbFile()
     {
         if (RC_Storage::disk()->exists($this->transformBannerThumbFileName())) {
-            return RC_Storage::delete($this->transformBannerThumbFileName());
+            return RC_Storage::disk()->delete($this->transformBannerThumbFileName());
         }
 
         return false;

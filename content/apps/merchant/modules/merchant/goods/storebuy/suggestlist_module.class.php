@@ -67,13 +67,15 @@ class merchant_goods_storebuy_suggestlist_module extends api_front implements ap
 		}
 
 		if ($action_type == 'promotion') {
-			$promotion_type = $this->requestData('promotion_type', '');
-			$promotion_type = empty($promotion_type) ? 'today' : $promotion_type;
-			$promotion_type_arr = array('today', 'tomorrow', 'aftertheday');//促销类型（实际为促销开始时间）
-				
-			if (!empty($promotion_type) && !in_array($promotion_type, $promotion_type_arr)) {
-				return new ecjia_error('invalid_parameter', __('促销类型参数错误', 'merchant'));
-			}
+			$promotion_type = $this->requestData('promotion_type', 'today'); //all正在促销的所有商品
+    		$promotion_type = empty($promotion_type) ? 'all' : $promotion_type;
+    		
+    		if (!empty($promotion_type)) {
+    			$promotion_type_arr = array('today', 'tomorrow', 'aftertheday', 'all');//促销类型（实际为促销开始时间）
+    			if (!empty($promotion_type) && !in_array($promotion_type, $promotion_type_arr)) {
+    				return new ecjia_error('invalid_parameter', __('促销类型参数错误', 'goods'));
+    			}
+    		}
 		}
 		
 		$size = $this->requestData('pagination.count', 15);
@@ -132,10 +134,10 @@ class merchant_goods_storebuy_suggestlist_module extends api_front implements ap
 				$filters['store_hot'] = 1;
 			} elseif ($action_type == 'promotion') {
 				$filters['product'] = true;
-				if (!empty($promotion_type)) {
-					$filters['goods_and_product_promotion_type'] = $promotion_type;
-				} else {
+				if ($promotion_type == 'all' || empty($promotion_type)) {
 					$filters['goods_and_product_promotion'] = true;
+				} else {
+					$filters['goods_and_product_promotion_type'] = $promotion_type;
 				}
 				//促销，排序默认结束时间升序
 				$order_by = array('goods.promote_end_date' => 'asc', 'goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');

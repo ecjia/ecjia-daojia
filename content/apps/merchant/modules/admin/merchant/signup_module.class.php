@@ -88,6 +88,11 @@ class admin_merchant_signup_module extends api_admin implements api_interface {
 		} elseif ($_SESSION['merchant_validate_mobile'] != $mobile) {
 			return new ecjia_error('validate_mobile_error', __('手机号码已经更改请重新获取验证码', 'merchant'));
 		}
+        //店铺名称不可超过20个字符
+		if (mb_strlen($seller_name) > 20) {
+            return new ecjia_error('seller_name_exist', __('店铺名称不可超过20个字符', 'merchant'));
+        }
+		
 		$count = RC_DB::table('store_franchisee')->where(RC_DB::raw('merchants_name'), $seller_name)->count();
 		if ($count > 0) {
 		    return new ecjia_error('seller_name_exist', __('店铺名称已存在，请修改', 'merchant'));

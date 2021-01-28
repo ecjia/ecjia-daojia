@@ -68,6 +68,14 @@ class admin_merchant_resignup_module extends api_admin implements api_interface 
         $latitude           = $this->requestData('latitude');
         $validate_code      = $this->requestData('validate_code');
 
+        if (empty($seller_name)) {
+            return new ecjia_error('seller_name_error', __('店铺名称不可为空！', 'merchant'));
+        }
+        //店铺名称不可超过20个字符
+        if (mb_strlen($seller_name) > 20) {
+            return new ecjia_error('seller_name_exist', __('店铺名称不可超过20个字符', 'merchant'));
+        }
+
         // 判断验证码
         if (!empty($validate_code)) {
 			/* 判断校验码*/

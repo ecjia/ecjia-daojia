@@ -107,6 +107,8 @@ class admin_merchant_account_info_module extends api_admin implements api_interf
 			return array(
 					'validate_type'		    => $merchant_info['validate_type'],
 					'responsible_person'	=> $merchant_info['responsible_person'],
+					'identity_type'			=> $merchant_info['identity_type'],
+					'identity_number'		=> $merchant_info['identity_number'],
 					'company_name'			=> $merchant_info['company_name'],
 					'business_licence_pic'	=> $business_licence_pic,
 					'identity_pic_front'	=> $identity_pic_front,
