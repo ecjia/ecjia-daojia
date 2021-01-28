@@ -170,7 +170,7 @@ class mh_gallery_product extends ecjia_merchant {
         }
 		
         //设置选中状态,并分配标签导航
-        $this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/init'), 'text' => __('商品列表', 'goods')));
+        $this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/edit_goods_specification', ['goods_id' => $goods_id]), 'text' => __('商品编辑', 'goods')));
         
         $this->assign('goods_id', $goods_id);
         $this->assign('img_list', $img_list);

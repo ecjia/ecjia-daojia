@@ -56,10 +56,10 @@ class goods_category_module extends api_front implements api_interface {
 	    if (version_compare($request->header('api-version'), '1.5', '<')) {
 	        $api_old = true;
 	    }
-// 		$cache_key = 'api_goods_category';
-// 		$categoryGoods = RC_Cache::app_cache_get($cache_key, 'goods');
+		$cache_key = 'api_goods_category';
+		$categoryGoods = RC_Cache::app_cache_get($cache_key, 'goods');
 	
-// 		if (empty($categoryGoods)) {
+		if (empty($categoryGoods)) {
 			$categoryGoods = array();
 			RC_Loader::load_app_class('goods_category', 'goods', false);
 			$category = goods_category::get_categories_tree();
@@ -103,8 +103,8 @@ class goods_category_module extends api_front implements api_interface {
 					}
 				}
 			}
-// 			RC_Cache::app_cache_set($cache_key, $categoryGoods, 'goods', 60);
-// 		}
+			RC_Cache::app_cache_set($cache_key, $categoryGoods, 'goods', 60);
+		}
 		return $categoryGoods;
 	}
 }

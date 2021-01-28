@@ -73,8 +73,8 @@ class admin_merchant_goods_specification_attribute_colorsetting_module extends a
 			if (!is_array($attr_values) || !is_array($color_values)) {
 				return new ecjia_error('attr_values_or_color_values_error', __('属性值或属性色值参数错误', 'goods'));
 			}
-			$data['attr_values'] = implode("\n", $_POST['attr_values']);
-			$data['color_values'] = implode("\n", $_POST['color_values']);
+			$data['attr_values'] = implode(",", $attr_values);
+			$data['color_values'] = implode(",", $attr_values);
 			
 			Ecjia\App\Goods\Models\AttributeModel::where('attr_id', $attr_id)->update($data);
 		}

@@ -79,26 +79,21 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
 		
 		if (version_compare($api_version, '1.32', '>=')) {
-			$image_info = null;
-			$save_path = 'images';
-			
-			$upload = RC_Upload::uploader('image', array('save_path' => './images', 'auto_sub_dirs' => true));
+			$upload = RC_Upload::uploader('newimage', array('save_path' => 'images', 'auto_sub_dirs' => true));
 			$upload->add_saving_callback(function ($file, $filename) {
 				return true;
 			});
-			$images = $_FILES['image'];
-			if (!$upload->check_upload_file($images)) {
-				return new ecjia_error('upload_error'. __LINE__, $upload->error());
-			}
-			if (isset($images)) {
-				$image_info = $upload->upload($images);
-			}
+			
+			$image_info = $upload->upload('image');
 			if (empty($image_info)) {
-				return new ecjia_error('upload_error'. __LINE__, $upload->error());
+				return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			
-			$goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
-			$goods_image->update_gallery();
+			$goods_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsGallery($goods_id, 0, $image_info);
+			$result = $goods_image->updateToDatabase();
+			if (is_ecjia_error($result)) {
+				return new ecjia_error('upload_error'. __LINE__, $result->get_error_message());
+			}
 		} else {
 			$goods_gallery_number = ecjia::config('goods_gallery_number');
 			$count_new = count($_FILES['image']['name']);

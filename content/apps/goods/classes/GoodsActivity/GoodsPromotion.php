@@ -230,7 +230,7 @@ class GoodsPromotion
     		}
     	}
     	//更新商品最终购买价格
-    	\RC_DB::table('cart')->where('rec_id', $cart_id)->update(array('goods_price' => $final_price));
+    	\RC_DB::table('cart')->where('rec_id', $cart_id)->update(array('goods_price' => $final_price, 'goods_number' => $goods_num, 'is_promote' => 0));
     }
     
     /**
@@ -368,34 +368,36 @@ class GoodsPromotion
      */
     private function goodsLimitUserLeftNum($goods_num)
     {
-    	//满足促销且用户限购
-    	if ($this->model->is_promote == '1' && $this->model->promote_price > 0 && $this->model->promote_limited > 0) {
-    		//限购总数大于等于购买的数，用户限购数大于等于购买数
-    		if ($this->model->promote_limited >= $goods_num && $this->model->promote_user_limited >= $goods_num) {
-    			$goods_activity_records = $this->goodsActivityRecords();
-    			//找到数据，说明在有效时间内
-    			if (!empty($goods_activity_records)) {
-    				//限定时间已购买的次数
-    				$has_buyed_count = $goods_activity_records->buy_num;
-    			}
-    			//找不到数据，说明活动已经过有效时间，可以重置购买时间和购买次数
-    			else {
-    				$this->resetPromotionLimitOverCount();
-    					
-    				$has_buyed_count = 0;
-    			}
-    			//剩余可购买的次数
-    			$left_num = $this->model->promote_user_limited - $has_buyed_count;
-    			
-    			$left_num = max(0, $left_num);
-    		} elseif ($this->model->promote_limited >= $goods_num && $this->model->promote_user_limited == '0') {
-    			//用户不限购时，剩余可购买限购数等于限购总数
-    			$left_num = $this->model->promote_limited; 
-    		}
-    	} else {
-    		$left_num = -1; //没限制（按普通商品购买）
-    	}
-    	
+		if($goods_num > 0) {
+			//满足促销且用户限购
+			if ($this->model->is_promote == '1' && $this->model->promote_price > 0 && $this->model->promote_limited > 0) {
+				//用户限购数大于0
+				if ($this->model->promote_user_limited > 0) {
+					$goods_activity_records = $this->goodsActivityRecords();
+					//找到数据，说明在有效时间内
+					if (!empty($goods_activity_records)) {
+						//限定时间已购买的次数
+						$has_buyed_count = $goods_activity_records->buy_num;
+					}
+					//找不到数据，说明活动已经过有效时间，可以重置购买时间和购买次数
+					else {
+						$this->resetPromotionLimitOverCount();
+							
+						$has_buyed_count = 0;
+					}
+					//剩余可购买的次数
+					$left_num = $this->model->promote_user_limited - $has_buyed_count;
+					$left_num = max(0, $left_num);
+				} else {//用户限购数等于0
+					if (($this->model->promote_limited >= $goods_num || $this->model->promote_limited <= $goods_num) && $this->model->promote_user_limited == '0') {
+						//限购总数大于等于或者小于购买数，用户不限购时，剩余可购买限购数等于限购总数
+						$left_num = $this->model->promote_limited;
+					}
+				}
+			} else {
+				$left_num = -1; //没限制（按普通商品购买）
+			}
+		}
     	return $left_num;
     }
     
@@ -406,37 +408,35 @@ class GoodsPromotion
      */
     private function productsLimitUserLeftNum($goods_num)
     {
-    	//满足促销且用户限购且限购剩余数量大于0
-    	if ($this->products->is_promote == '1' && $this->products->promote_price > 0 && $this->products->promote_limited > 0) {
-    		
-    		//限购总数大于等于购买的数，用户限购数大于等于购买数
-    		if ($this->products->promote_limited >= $goods_num && $this->products->promote_user_limited >= $goods_num) {
-    			
-    			$goods_activity_records = $this->goodsActivityRecords();
-    			
-    			//找到数据，说明在有效时间内
-    			if (!empty($goods_activity_records)) {
-    				//限定时间已购买的总数
-    				$has_buyed_count = $goods_activity_records->buy_num;
+    	if ($goods_num > 0) {
+    		//满足促销且用户限购且总限购剩余数量大于0
+    		if ($this->products->is_promote == '1' && $this->products->promote_price > 0 && $this->products->promote_limited > 0) {
+    			//用户限购数大于0
+    			if ($this->model->promote_user_limited > 0) {
+    				$goods_activity_records = $this->goodsActivityRecords();
+    				//找到数据，说明在有效时间内
+    				if (!empty($goods_activity_records)) {
+    					//限定时间已购买的总数
+    					$has_buyed_count = $goods_activity_records->buy_num;
+    				}
+    				//找不到数据，说明已经过活动有效时间，可以重置购买时间和购买次数
+    				else {
+    					$this->resetPromotionLimitOverCount();
+    					 
+    					$has_buyed_count = 0;
+    				}
+    				//剩余可购买的次数
+    				$left_num = $this->products->promote_user_limited - $has_buyed_count;
+    				 
+    				$left_num = max(0, $left_num);
+    			} elseif (($this->products->promote_limited < $goods_num || $this->products->promote_limited >= $goods_num) && $this->products->promote_user_limited == '0') {
+    				//用户不限购时，剩余可购买限购数等于限购总数
+    				$left_num = $this->products->promote_limited;
     			}
-    			//找不到数据，说明已经过活动有效时间，可以重置购买时间和购买次数
-    			else {
-    				$this->resetPromotionLimitOverCount();
-    			
-    				$has_buyed_count = 0;
-    			}
-    			//剩余可购买的次数
-    			$left_num = $this->products->promote_user_limited - $has_buyed_count;
-    			
-    			$left_num = max(0, $left_num);
-    		} elseif ($this->products->promote_limited >= $goods_num && $this->products->promote_user_limited == '0') {
-    			//用户不限购时，剩余可购买限购数等于限购总数
-    			$left_num = $this->products->promote_limited; 
-    		}
-    	} else {
-    		$left_num = -1; //没限制（按普通商品购买）
+    		}else {
+	    		$left_num = -1; //没限制（按普通商品购买）
+	    	}
     	}
-    	
     	return $left_num;
     }
     

@@ -68,19 +68,13 @@ class admin_goods_gallery_delete_module extends api_admin implements api_interfa
     		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
-    	$where = array('goods_id' => $goods_id);
-		if ($_SESSION['store_id'] > 0) {
-			$where = array_merge($where, array('store_id' => $_SESSION['store_id']));
-		}
-		
-		$goods_info = RC_Model::model('goods/goods_model')->where($where)->find();
-		
+    	$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();
 		if (empty($goods_info)) {
 			return new ecjia_error('goods_empty', __('未找到对应商品', 'goods'));
 		}
 		
 		/* 删除图片文件 */
-		$row = RC_Model::model('goods/goods_gallery_model')->field('img_url, thumb_url, img_original')->find(array('img_id' => $img_id));
+		$row = RC_DB::table('goods_gallery')->where('img_id', $img_id)->where('goods_id', $goods_id)->select('img_url', 'thumb_url', 'img_original')->first();
 		strrpos($row['img_original'], '?') && $row['img_original'] = substr($row['img_original'], 0, strrpos($row['img_original'], '?'));
 		
 		$disk = RC_Filesystem::disk();
@@ -95,7 +89,7 @@ class admin_goods_gallery_delete_module extends api_admin implements api_interfa
 		}
 		
 		/* 删除数据 */
-		RC_Model::model('goods/goods_gallery_model')->where(array('img_id' => $img_id))->delete();
+		RC_DB::table('goods_gallery')->where('img_id', $img_id)->where('goods_id', $goods_id)->delete();
 		
     	return array();
     }

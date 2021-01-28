@@ -42,5 +42,15 @@ class GoodsActivityModel extends Model
      * @var bool
      */
     public $timestamps = false;
+    
+    
+    /**
+     * 一对一
+     * 关联商品信息
+     */
+    public function goods_model()
+    {
+    	return $this->belongsTo('Ecjia\App\Goods\Models\GoodsModel', 'goods_id', 'goods_id');
+    }
    
 }

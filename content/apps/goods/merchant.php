@@ -736,7 +736,7 @@ class merchant extends ecjia_merchant {
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('货品预览', 'goods')));
 		
 		$this->assign('ur_here', __('货品预览', 'goods'));
-		$this->assign('action_link', array('text' => __('商品预览', 'goods'), 'href' => RC_Uri::url('goods/merchant/preview', array('id' => $goods_id, 'preview_type' => $preview_type))));
+		$this->assign('action_link', array('text' => __('编辑货品', 'goods'), 'href' => RC_Uri::url('goods/merchant/product_edit', array('id' => $product_id, 'goods_id' => $goods_id))));
 		
 		$ProductBasicInfo = new Ecjia\App\Goods\Goods\ProductBasicInfo($product_id);
 		
@@ -1079,6 +1079,19 @@ class merchant extends ecjia_merchant {
 		
 		$goods_number     = !empty($_POST['goods_number'])   ? intval($_POST['goods_number'])  : ecjia::config('default_storage');
 		$goods_barcode    = !empty($_POST['goods_barcode'])  ? trim($_POST['goods_barcode'])   : '';
+		
+		//条形码是否重复
+		if (!empty($goods_barcode)) {
+			$goods_barcode_count = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_barcode', $goods_barcode)->count();
+			if (!empty($goods_barcode_count)) {
+				return $this->showmessage(__('条形码已存在，请更换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+			//商品条形码不可与货品条形码一致
+			$p_barcode_count = RC_DB::table('products')->where('store_id', $_SESSION['store_id'])->where('product_bar_code', $goods_barcode)->count();
+			if ($p_barcode_count > 0) {
+				return $this->showmessage(__('商品条形码不可与货品条形码一样，请更换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+		}
 		
 		/* 入库 */
 		$data = array(
@@ -1500,6 +1513,19 @@ class merchant extends ecjia_merchant {
         $store_category 	= empty($_POST['store_category']) 	? 0 	: intval($_POST['store_category']);
         $integral           = empty($_POST['integral'])         ? 0     : floatval($_POST['integral']);
 
+        //条形码是否重复
+        if (!empty($goods_barcode)) {
+        	$goods_barcode_count = RC_DB::table('goods')->where('goods_id', '!=', $goods_id)->where('store_id', $_SESSION['store_id'])->where('goods_barcode', $goods_barcode)->count();
+        	if (!empty($goods_barcode_count)) {
+        		return $this->showmessage(__('条形码已存在，请更换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	}
+        	//商品条形码是否与货品条形码一致
+        	$p_barcode_count = RC_DB::table('products')->where('store_id', $_SESSION['store_id'])->where('product_bar_code', $goods_barcode)->count();
+        	if ($p_barcode_count > 0) {
+        		return $this->showmessage(__('商品条形码不可与货品条形码一样，请更换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	}
+        }
+        
         if ($store_category > 0){
             $catgory_id = $store_category;
         }
@@ -1510,12 +1536,6 @@ class merchant extends ecjia_merchant {
 
         if (empty($goods_name)) {
             return $this->showmessage(__('请输入商品名称', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
-
-        $review_status = RC_DB::table('goods')->where('goods_id', $goods_id)->value('review_status');
-        //2审核未通过,重新审核
-        if($review_status === 2) {
-            $review_status = 1;
         }
 
         //商家分类父级处理
@@ -1554,7 +1574,7 @@ class merchant extends ecjia_merchant {
             'is_alone_sale'		 		=> $is_alone_sale,
             'is_shipping'		   		=> $is_shipping,
             'last_update'		   		=> RC_Time::gmtime(),
-            'review_status'				=> $review_status,
+            'review_status'				=> get_merchant_review_status(),
         );
         if(get_merchant_manage_mode() == 'self') {
             //仅自营商家可送积分 1.36.3
@@ -2507,6 +2527,23 @@ class merchant extends ecjia_merchant {
             'product_bar_code'		  	=> $product_bar_code,
             'product_number'		  	=> $product_number,
         );
+        //兼容添加货品时店铺id未添加情况
+        if (empty($info['store_id'])) {
+        	RC_DB::table('products')->where('product_id', $product_id)->update(['store_id' => $_SESSION['store_id']]);
+        }
+        //货品条形码不可重复
+        if (!empty($data['product_bar_code'])) {
+        	$p_bar_code_count = RC_DB::table('products')->where('store_id', $_SESSION['store_id'])->where('product_id', '!=', $product_id)->where('product_bar_code', $data['product_bar_code'])->count();
+			if ($p_bar_code_count > 0) {
+				return $this->showmessage(__('货品条形码已存在，请修改', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+			//货品条形码不可与主商品条形码一致
+			$g_bar_code_count = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_barcode', $data['product_bar_code'])->count();
+			if ($g_bar_code_count > 0) {
+				return $this->showmessage(__('当前货品条形码已存在商品条形码中，请修改', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+        }
+        
         RC_DB::table('products')->where('product_id', $product_id)->update($data);
 
         /* 记录日志 */
@@ -2579,7 +2616,7 @@ class merchant extends ecjia_merchant {
             return $this->showmessage(__('未检测到此货品', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回商品列表', 'goods'), 'href' => RC_Uri::url('goods/merchant/init')))));
         }
 
-        $this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/product_list', ['goods_id' => $goods_id]), 'text' => __('商品编辑', 'goods')));
+        $this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/edit_goods_specification', ['goods_id' => $goods_id]), 'text' => __('商品编辑', 'goods')));
 
 
         $this->assign('goods_name', 		sprintf(__('商品名称：%s', 'goods'), $goods['goods_name']));
@@ -3261,6 +3298,22 @@ class merchant extends ecjia_merchant {
 					'product_shop_price'=> $product['product_shop_price'][$key],
 					'product_number' 	=> $product['product_number'][$key]
 				);
+				//兼容货品添加时有没添加store_id问题
+				$p_store_id = RC_DB::table('products')->where('product_id', $value)->update(array('store_id' => $_SESSION['store_id']));
+				
+				//货品条形码是否重复
+				if (!empty($data['product_bar_code'])) {
+					$count = RC_DB::table('products')->where('store_id', $_SESSION['store_id'])->where('product_id', '!=', $value)->where('product_bar_code', $data['product_bar_code'])->count();
+					if ($count > 0) {
+						return $this->showmessage(__('货品条形码已存在，请更换一个！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					}
+					//货品条形码不可与主商品条形码一致
+					$g_bar_code_count = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_barcode', $data['product_bar_code'])->count();
+					if ($g_bar_code_count > 0) {
+						return $this->showmessage(__('当前货品条形码已存在商品条形码中，请修改', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					}
+				}
+				
 				RC_DB::table('products')->where('product_id', $value)->update($data);
 			}
 		}
@@ -3388,7 +3441,7 @@ class merchant extends ecjia_merchant {
 		}
 		
 		$goods_attr = implode('|', $product_value);
-		$product_sn = RC_DB::TABLE('products')->where('goods_attr', $goods_attr)->value('product_sn');
+		$product_sn = RC_DB::table('products')->where('goods_attr', $goods_attr)->value('product_sn');
 		$data = $this->fetch('spec_add_product.dwt');
 		
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $data, 'product_sn' => $product_sn));
@@ -3418,6 +3471,7 @@ class merchant extends ecjia_merchant {
 				'goods_id' 		=> $goods_id,
 				'goods_attr'	=> $goods_attr,
 				'product_number'=> $goods['goods_number'],
+				'store_id'		=> $_SESSION['store_id']	
 			);
 			$product_id = RC_DB::table('products')->insertGetId($data);
 			RC_DB::table('products')->where('product_id', $product_id)->update(array('product_sn' => $goods['goods_sn'] . "g_p" . $product_id));

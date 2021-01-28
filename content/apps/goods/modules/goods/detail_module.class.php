@@ -263,12 +263,14 @@ class goods_detail_module extends api_front implements api_interface {
         $data['favourable_list'] = $favourable_list;
 		//查找商品关联商品
 		$linked_goods_ids = RC_DB::table('link_goods')->where('goods_id', $goods_id)->lists('link_goods_id');
+		
 		if (count($linked_goods_ids) > 0) {
+			$size = ecjia::config('related_goods_number');
 			//商品详情页猜你喜欢
 			$options = array(
 					'goods_ids'	=> $linked_goods_ids,
 					'page'		=> 1,
-					'size'		=> 8
+					'size'		=> $size > 0 ? $size : 8
 			);
 		} else {
 			//商品详情页猜你喜欢
@@ -578,7 +580,7 @@ class goods_detail_module extends api_front implements api_interface {
 		$filters['user_rank'] = $_SESSION['user_rank'];
 		$filters['user_rank_discount'] = $_SESSION['discount'];
 		
-		$filters['size'] = 8;
+		$filters['size'] = $options['size'];
 		$filters['page'] = 1;
 		
 		$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();

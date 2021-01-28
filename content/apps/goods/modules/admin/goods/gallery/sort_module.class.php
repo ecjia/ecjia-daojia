@@ -74,13 +74,7 @@ class admin_goods_gallery_sort_module extends api_admin implements api_interface
     	    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
-    	$where = array('goods_id' => $goods_id);
-		if ($_SESSION['store_id'] > 0) {
-			$where = array_merge($where, array('store_id' => $_SESSION['store_id']));
-		}
-		
-		$goods_info = RC_Model::model('goods/goods_model')->where($where)->find();
-		
+		$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();
 		if (empty($goods_info)) {
 			return new ecjia_error('goods_empty', __('未找到对应商品', 'goods'));
 		}

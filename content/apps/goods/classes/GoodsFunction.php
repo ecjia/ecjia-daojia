@@ -383,11 +383,12 @@ class GoodsFunction
     			$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $store_id)->value('manage_mode');
     			if ($manage_mode == 'self') {
     				$review_status = 5;
-    			}
-    			$shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->value('value');
-    			//单个商店开启了审核商品 则默认为未审核
-    			if ($shop_review_goods == 1) {
-    				$review_status = 1;
+    			} else {
+    				$shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->value('value');
+    				//单个商店开启了审核商品 则默认为未审核
+    				if ($shop_review_goods != 1) {
+    					$review_status = 5;
+    				}
     			}
     		}
     	}

@@ -327,46 +327,33 @@ class admin_merchant_goods_add_module extends api_admin implements api_interface
      */
     private function processGoodsImage($file_goods_image, $goods_id)
     {
-    	RC_Loader::load_app_class('goods_image_data', 'goods', false);
-    	 
-    	/* 处理商品图片 */
-    	$goods_img		= ''; // 初始化商品图片
-    	$goods_thumb	= ''; // 初始化商品缩略图
-    	$img_original	= ''; // 初始化原始图片
-    	 
-    	$upload = RC_Upload::uploader('image', array('save_path' => 'images', 'auto_sub_dirs' => true));
+    	$proc_goods_img = false;
+    	if ($file_goods_image) {
+    		$proc_goods_img = true;
+    	}
+    	
+    	$upload = RC_Upload::uploader('newimage', array('save_path' => 'images', 'auto_sub_dirs' => true));
     	$upload->add_saving_callback(function ($file, $filename) {
     		return true;
     	});
-    		 
-    	/* 是否处理商品图 */
-    	$proc_goods_img = true;
-    	if (isset($file_goods_image) && !$upload->check_upload_file($file_goods_image)) {
-    		$proc_goods_img = false;
-    	}
-    		 
-    	if ($proc_goods_img) {
-    		if (isset($file_goods_image)) {
-    			$image_info = $upload->upload($file_goods_image);
-    		}
-    	}
-    		 
-    	/* 更新上传后的商品图片 */
-    	if ($proc_goods_img) {
-    		if (isset($image_info)) {
-    			$goods_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
-    			$goods_image->set_auto_thumb(true);
-    			$result = $goods_image->update_goods();
-    			if (is_ecjia_error($result)) {
-    				return $result;
-    			}
-    			$thumb_image = new goods_image_data($image_info['name'], $image_info['tmpname'], $image_info['ext'], $goods_id);
-    			$result = $thumb_image->update_thumb();
-    		}
-    	}
     	
+    	if ($proc_goods_img) {
+    		$image_info = $upload->upload('goods_image');
+    		if (empty($image_info)) {
+    			return new ecjia_error('upload_error', $upload->error());
+    		}
+    		if (!empty($image_info)) {
+    			$goods_image = new \Ecjia\App\Goods\GoodsImage\Goods\GoodsImage($goods_id, 0, $image_info);
+    			$goods_image->setAutoGenerateThumb(true);
+    			$result = $goods_image->updateToDatabase($goods_id);
+    			if (is_ecjia_error($result)) {
+    				return new ecjia_error('upload_error', $result->get_error_message());
+    			}
+    		}
+    	}
     	return true;
     }
+    
     
     /**
      * 获取商品扩展类型

@@ -60,6 +60,7 @@ class GoodsAdminFormatted
             'store_new'              	=> $this->model->store_new,
             'store_hot'              	=> $this->model->store_hot,
             'sort_order'                => $this->model->sort_order,
+            'store_sort_order'			=> $this->model->store_sort_order,
             'goods_number'              => $this->model->goods_number,
             'sales_volume'              => $this->model->sales_volume,
             'weight_unit'               => $this->model->weight_unit,

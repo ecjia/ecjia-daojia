@@ -98,8 +98,21 @@ class admin_merchant_goods_product_update_module extends api_admin implements ap
     	if (!empty($product_name)) {
     		$update_data['product_name'] = $product_name;
     	}
+    	
+    	//兼容货品添加时未添加store_id情况
+    	RC_DB::table('products')->where('product_id', $product_id)->update(['store_id' => $_SESSION['store_id']]);
+    	
     	if (!empty($product_bar_code)) {
     		$update_data['product_bar_code'] = $product_bar_code;
+    		$bar_code_count = RC_DB::table('products')->where('store_id', $_SESSION['store_id'])->where('product_id', '!=', $product_id)->where('product_bar_code', $product_bar_code)->count();
+    		if (!empty($bar_code_count)) {
+    			return new ecjia_error('product_bar_code_error', __('货品条形码已存在，请更换一个', 'goods'));
+    		}
+    		//货品条形码不可与主商品条形码一致
+    		$g_bar_code_count = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_barcode', $product_bar_code)->count();
+    		if ($g_bar_code_count > 0) {
+    			return $this->showmessage(__('当前货品条形码已存在商品条形码中，请修改', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		}
     	}
     	
     	//货品图片上传

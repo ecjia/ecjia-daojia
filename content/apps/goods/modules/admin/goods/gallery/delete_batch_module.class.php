@@ -68,26 +68,17 @@ class admin_goods_gallery_delete_batch_module extends api_admin implements api_i
     		return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'goods'), __CLASS__));
     	}
     	
-    	RC_Logger::getLogger('info')->info('delete_batch');
-    	RC_Logger::getLogger('info')->info(array('goods_id', $goods_id));
-    	RC_Logger::getLogger('info')->info(array('img_ids', $img_ids));
-    	
-    	$where = array('goods_id' => $goods_id);
-		if ($_SESSION['store_id'] > 0) {
-			$where = array_merge($where, array('store_id' => $_SESSION['store_id']));
-		}
-		
-		$goods_info = RC_Model::model('goods/goods_model')->where($where)->select();
-		RC_Logger::getLogger('info')->info(array('goods_info', $goods_info));
+		$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();
 		if (empty($goods_info)) {
 			return new ecjia_error('goods_empty', __('未找到对应商品', 'goods'));
 		}
 		
 		foreach ($img_ids as $img_id) {
     		/* 删除图片文件 */
-    		$row = RC_Model::model('goods/goods_gallery_model')->field('img_url, thumb_url, img_original')->find(array('img_id' => $img_id, 'goods_id' => $goods_id));
-//     		strrpos($row['img_original'], '?') && $row['img_original'] = substr($row['img_original'], 0, strrpos($row['img_original'], '?'));
-    		RC_Logger::getLogger('info')->info(array('row', $row));
+			$row = RC_DB::table('goods_gallery')->where('img_id', $img_id)->where('goods_id', $goods_id)->select('img_url', 'thumb_url', 'img_original')->first();
+			strrpos($row['img_original'], '?') && $row['img_original'] = substr($row['img_original'], 0, strrpos($row['img_original'], '?'));
+					
+    		//RC_Logger::getLogger('info')->info(array('row', $row));
     		$disk = RC_Filesystem::disk();
     		if ($row['img_url'] != '' && is_file(RC_Upload::upload_path() . '/' . $row['img_url'])) {
     			$disk->delete(RC_Upload::upload_path() . $row['img_url']);
@@ -100,9 +91,8 @@ class admin_goods_gallery_delete_batch_module extends api_admin implements api_i
     		}
     		
     		/* 删除数据 */
-    		RC_Model::model('goods/goods_gallery_model')->where(array('img_id' => $img_id, 'goods_id' => $goods_id))->delete();
+    		RC_DB::table('goods_gallery')->where('img_id', $img_id)->where('goods_id', $goods_id)->delete();
 		}
-		
 		
     	return array();
     }

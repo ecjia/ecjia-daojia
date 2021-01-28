@@ -253,8 +253,10 @@ class GoodsApiFormatted
     {
     	if ($this->model->goods_attr) {
     		$total_attr_price = $this->model->goods_attr->map(function ($item, $key) use ($product_goods_attr) {
+    			$attr_price = 0.00;
     			if (in_array($item->goods_attr_id, $product_goods_attr)) {
-    				return $attr_price += $item->attr_price;
+    				$attr_price += $item->attr_price;
+    				return $attr_price;
     			}
     		})->sum();
     	}
