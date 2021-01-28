@@ -212,7 +212,7 @@ class merchant extends ecjia_merchant
                 'price_ladder'    => $price_ladder,
                 'restrict_amount' => intval($restrict_amount),
                 'gift_integral'   => intval($gift_integral),
-                'deposit'         => intval($deposit),
+                'deposit'         => $deposit,
             )),
         );
 

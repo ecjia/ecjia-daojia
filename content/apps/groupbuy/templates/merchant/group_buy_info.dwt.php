@@ -80,7 +80,7 @@
 						<label class="control-label col-lg-2">{t domain="groupbuy"}限购数量：{/t}</label>
 						<div class="col-lg-6">
 							<input class="form-control" type="text" name="restrict_amount" id="restrict_amount" value="{$group_buy.restrict_amount|default:0}" {if $group_buy.status neq 0 && $group_buy.status neq 1}disabled{/if}/>
-							<span class="help-block">{t domain="groupbuy"}达到此数量，团购活动自动结束。0表示没有数量限制。{/t}</span>
+							<span class="help-block">{t domain="groupbuy"}限购数量不可大于商品库存，0表示最大库存数量。{/t}</span>
 						</div>
 					</div>
 
