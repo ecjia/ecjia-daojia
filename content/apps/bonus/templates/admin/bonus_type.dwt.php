@@ -52,6 +52,7 @@
 				<option value='1' {if $filter.send_type eq '1'} selected="true" {/if}>{t domain="bonus"}按商品发放{/t}</option>
 				<option value='2' {if $filter.send_type eq '2'} selected="true" {/if}>{t domain="bonus"}按订单金额发放{/t}</option>
 				<option value='3' {if $filter.send_type eq '3'} selected="true" {/if}>{t domain="bonus"}线下发放的红包{/t}</option>
+				<option value='4' {if $filter.send_type eq '4'} selected="true" {/if}>{t domain="bonus"}注册送红包{/t}</option>
 			</select>
 			<button class="btn screen-btn m_l5 m_r5" type="button">{t domain="bonus"}筛选{/t}</button>
 		</div>

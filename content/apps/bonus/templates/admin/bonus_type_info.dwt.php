@@ -55,6 +55,7 @@
 						<input type="radio" name="send_type" value="4" {if $bonus_arr.send_type eq 4} checked="true" {/if} onClick="javascript:ecjia.admin.bonus_info_edit.type_info_showunit(4)"  />{t domain="bonus"}注册送红包{/t}
 						<input type="radio" name="send_type" value="1" {if $bonus_arr.send_type eq 1} checked="true" {/if} onClick="javascript:ecjia.admin.bonus_info_edit.type_info_showunit(1)"  />{t domain="bonus"}按商品发放{/t}
 						<input type="radio" name="send_type" value="2" {if $bonus_arr.send_type eq 2} checked="true" {/if} onClick="javascript:ecjia.admin.bonus_info_edit.type_info_showunit(2)"  />{t domain="bonus"}按订单金额发放{/t}
+						<input type="radio" name="send_type" value="3" {if $bonus_arr.send_type eq 3} checked="true" {/if} onClick="javascript:ecjia.admin.bonus_info_edit.type_info_showunit(3)"  />{t domain="bonus"}线下发放{/t}
 					</div>
 				</div>
 				<div class="control-group formSep" id="min_amount_div" {if $bonus_arr.send_type neq 2} style="display:none" {/if}>
