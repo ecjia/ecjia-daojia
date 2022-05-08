@@ -25,6 +25,7 @@ class HashSet extends Command
     {
         return 'HSET';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class HashSet extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

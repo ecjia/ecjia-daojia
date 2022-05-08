@@ -11,7 +11,10 @@ Feature: Developer specifies object construction
       namespace spec\Runner\ConstructorExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithConstructorSpec extends ObjectBehavior
       {
@@ -55,7 +58,10 @@ Feature: Developer specifies object construction
       namespace spec\Runner\ConstructorExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithStaticFactoryMethodSpec extends ObjectBehavior
       {
@@ -104,7 +110,10 @@ Feature: Developer specifies object construction
       namespace spec\Runner\ConstructorExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithConstructorSpec extends ObjectBehavior
       {
@@ -155,7 +164,10 @@ Feature: Developer specifies object construction
       namespace spec\Runner\ConstructorExample4;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithStaticFactoryMethodSpec extends ObjectBehavior
       {
@@ -210,7 +222,10 @@ Feature: Developer specifies object construction
     namespace spec\Runner\ConstructorExample7;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class ClassWithStaticFactoryMethodAndConstructorSpec extends ObjectBehavior
     {
@@ -275,7 +290,10 @@ Feature: Developer specifies object construction
     namespace spec\Runner\ConstructorExample8;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class ClassWithStaticFactoryMethodAndConstructorSpec extends ObjectBehavior
     {
@@ -341,7 +359,10 @@ Feature: Developer specifies object construction
     namespace spec\Runner\ConstructorExample9;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class ClassConstructorSpec extends ObjectBehavior
     {
@@ -387,7 +408,10 @@ Feature: Developer specifies object construction
     namespace spec\Runner\ConstructorExample10;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class ClassWithFactoryMethodSpec extends ObjectBehavior
     {
@@ -434,3 +458,41 @@ Feature: Developer specifies object construction
     """
     When I run phpspec
     Then I should see "you can not change object construction method when it is already instantiated"
+<<<<<<< HEAD
+=======
+
+  Scenario: Type checking does not trigger construction
+    Given the spec file "spec/Runner/ConstructorExample12/ClassWithPrivateConstructorSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\Runner\ConstructorExample12;
+
+      use PhpSpec\ObjectBehavior;
+
+      class ClassWithPrivateConstructorSpec extends ObjectBehavior
+      {
+          function it_is_initializable()
+          {
+              $this->shouldHaveType('Runner\ConstructorExample12\ClassWithPrivateConstructor');
+          }
+      }
+
+      """
+    And the class file "src/Runner/ConstructorExample12/ClassWithPrivateConstructor.php" contains:
+      """
+      <?php
+
+      namespace Runner\ConstructorExample12;
+
+      class ClassWithPrivateConstructor
+      {
+          private function __construct()
+          {
+          }
+      }
+
+      """
+    When I run phpspec
+    Then the suite should pass
+>>>>>>> v2-test

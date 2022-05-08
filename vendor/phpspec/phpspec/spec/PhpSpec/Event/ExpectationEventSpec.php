@@ -6,14 +6,22 @@ use PhpSpec\ObjectBehavior;
 use PhpSpec\Loader\Suite;
 use PhpSpec\Loader\Node\SpecificationNode;
 use PhpSpec\Loader\Node\ExampleNode;
+<<<<<<< HEAD
 use PhpSpec\Matcher\MatcherInterface;
 use Prophecy\Argument;
+=======
+use PhpSpec\Matcher\Matcher;
+>>>>>>> v2-test
 use Exception;
 
 class ExpectationEventSpec extends ObjectBehavior
 {
     function let(Suite $suite, SpecificationNode $specification, ExampleNode $example,
+<<<<<<< HEAD
                  MatcherInterface $matcher, $subject, Exception $exception)
+=======
+                 Matcher $matcher, $subject, Exception $exception)
+>>>>>>> v2-test
     {
         $method = 'calledMethod';
         $arguments = array('methodArguments');
@@ -26,8 +34,13 @@ class ExpectationEventSpec extends ObjectBehavior
 
     function it_is_an_event()
     {
+<<<<<<< HEAD
         $this->shouldBeAnInstanceOf('Symfony\Component\EventDispatcher\Event');
         $this->shouldBeAnInstanceOf('PhpSpec\Event\EventInterface');
+=======
+        $this->shouldBeAnInstanceOf('PhpSpec\Event\BaseEvent');
+        $this->shouldBeAnInstanceOf('PhpSpec\Event\PhpSpecEvent');
+>>>>>>> v2-test
     }
 
     function it_provides_a_link_to_matcher($matcher)
@@ -74,4 +87,17 @@ class ExpectationEventSpec extends ObjectBehavior
     {
         $this->getException()->shouldReturn($exception);
     }
+<<<<<<< HEAD
+=======
+
+    function it_initializes_a_default_result(ExampleNode $example, Matcher $matcher, $subject)
+    {
+        $method = 'calledMethod';
+        $arguments = array('methodArguments');
+
+        $this->beConstructedWith($example, $matcher, $subject, $method, $arguments);
+
+        $this->getResult()->shouldReturn($this->PASSED);
+    }
+>>>>>>> v2-test
 }

@@ -21,13 +21,22 @@ use Symfony\Component\CssSelector\Parser\TokenStream;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class CommentHandler implements HandlerInterface
 {
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function handle(Reader $reader, TokenStream $stream)
+=======
+    public function handle(Reader $reader, TokenStream $stream): bool
+>>>>>>> v2-test
     {
         if ('/*' !== $reader->getSubstring(2)) {
             return false;

@@ -5,12 +5,20 @@ namespace spec\PhpSpec\Matcher;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\Exception\Example\FailureException;
 
 class ComparisonMatcherSpec extends ObjectBehavior
 {
+<<<<<<< HEAD
     function let(PresenterInterface $presenter)
+=======
+    function let(Presenter $presenter)
+>>>>>>> v2-test
     {
         $presenter->presentValue(Argument::any())->willReturn('val1', 'val2');
 
@@ -19,7 +27,11 @@ class ComparisonMatcherSpec extends ObjectBehavior
 
     function it_is_a_matcher()
     {
+<<<<<<< HEAD
         $this->shouldBeAnInstanceOf('PhpSpec\Matcher\MatcherInterface');
+=======
+        $this->shouldBeAnInstanceOf('PhpSpec\Matcher\Matcher');
+>>>>>>> v2-test
     }
 
     function it_responds_to_beLike()
@@ -39,12 +51,25 @@ class ComparisonMatcherSpec extends ObjectBehavior
 
     function it_matches_empty_string_with_emptish_values_using_comparison_operator()
     {
+<<<<<<< HEAD
         $this->shouldNotThrow()->duringPositiveMatch('beLike', '', array(0));
+=======
+        $expectation = (\PHP_VERSION_ID >= 80000) ? $this->shouldThrow() : $this->shouldNotThrow();
+
+
+        $expectation->duringPositiveMatch('beLike', '', array(0));
+>>>>>>> v2-test
     }
 
     function it_matches_zero_with_emptish_values_using_comparison_operator()
     {
+<<<<<<< HEAD
         $this->shouldNotThrow()->duringPositiveMatch('beLike', 0, array(''));
+=======
+        $expectation = (\PHP_VERSION_ID >= 80000) ? $this->shouldThrow() : $this->shouldNotThrow();
+
+        $expectation->duringPositiveMatch('beLike', 0, array(''));
+>>>>>>> v2-test
     }
 
     function it_matches_null_with_emptish_values_using_comparison_operator()
@@ -83,8 +108,14 @@ class ComparisonMatcherSpec extends ObjectBehavior
 
     function it_mismatches_zero_with_emptish_values_using_comparison_operator()
     {
+<<<<<<< HEAD
         $this->shouldThrow(new FailureException('Did not expect val1, but got one.'))
             ->duringNegativeMatch('beLike', 0, array(''));
+=======
+        $expectation = (\PHP_VERSION_ID >= 80000) ? $this->shouldNotThrow() : $this->shouldThrow(new FailureException('Did not expect val1, but got one.'));
+
+        $expectation->duringNegativeMatch('beLike', 0, array(''));
+>>>>>>> v2-test
     }
 
     function it_mismatches_null_with_emptish_values_using_comparison_operator()

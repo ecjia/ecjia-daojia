@@ -25,6 +25,7 @@ class SetIsMember extends Command
     {
         return 'SISMEMBER';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class SetIsMember extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

@@ -42,7 +42,11 @@ final class SimpleExceptionElementPresenter implements ExceptionElementPresenter
      * @param \Exception $exception
      * @return string
      */
+<<<<<<< HEAD
     public function presentExceptionThrownMessage(\Exception $exception)
+=======
+    public function presentExceptionThrownMessage(\Exception $exception): string
+>>>>>>> v2-test
     {
         return sprintf(
             'Exception %s has been thrown.',
@@ -55,7 +59,11 @@ final class SimpleExceptionElementPresenter implements ExceptionElementPresenter
      * @param string $line
      * @return string
      */
+<<<<<<< HEAD
     public function presentCodeLine($number, $line)
+=======
+    public function presentCodeLine(string $number, string $line): string
+>>>>>>> v2-test
     {
         return sprintf('%s %s', $number, $line);
     }
@@ -64,7 +72,11 @@ final class SimpleExceptionElementPresenter implements ExceptionElementPresenter
      * @param string $line
      * @return string
      */
+<<<<<<< HEAD
     public function presentHighlight($line)
+=======
+    public function presentHighlight(string $line): string
+>>>>>>> v2-test
     {
         return $line;
     }
@@ -73,7 +85,11 @@ final class SimpleExceptionElementPresenter implements ExceptionElementPresenter
      * @param string $header
      * @return string
      */
+<<<<<<< HEAD
     public function presentExceptionTraceHeader($header)
+=======
+    public function presentExceptionTraceHeader(string $header): string
+>>>>>>> v2-test
     {
         return $header;
     }
@@ -85,7 +101,11 @@ final class SimpleExceptionElementPresenter implements ExceptionElementPresenter
      * @param array $args
      * @return string
      */
+<<<<<<< HEAD
     public function presentExceptionTraceMethod($class, $type, $method, array $args)
+=======
+    public function presentExceptionTraceMethod(string $class, string $type, string $method, array $args): string
+>>>>>>> v2-test
     {
         return sprintf('   %s%s%s(%s)', $class, $type, $method, $this->presentExceptionTraceArguments($args));
     }
@@ -95,16 +115,26 @@ final class SimpleExceptionElementPresenter implements ExceptionElementPresenter
      * @param array $args
      * @return string
      */
+<<<<<<< HEAD
     public function presentExceptionTraceFunction($function, array $args)
+=======
+    public function presentExceptionTraceFunction(string $function, array $args): string
+>>>>>>> v2-test
     {
         return sprintf('   %s(%s)', $function, $this->presentExceptionTraceArguments($args));
     }
 
     /**
      * @param array $args
+<<<<<<< HEAD
      * @return array
      */
     private function presentExceptionTraceArguments(array $args)
+=======
+     * @return string
+     */
+    private function presentExceptionTraceArguments(array $args): string
+>>>>>>> v2-test
     {
         return implode(', ', array_map(array($this->valuePresenter, 'presentValue'), $args));
     }

@@ -54,7 +54,10 @@
 namespace Ecjia\App\Api\Transformers;
 
 
-class SimpleOrderTransformer extends Transformer
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
+
+class SimpleOrderTransformer extends Transformer implements TransformerInterface
 {
 
 
@@ -62,11 +65,11 @@ class SimpleOrderTransformer extends Transformer
     {
 
         $outData = array(
-            "id"            => $data['order_id'],
-            "order_sn"      => $data['order_sn'],
-            "order_time"    => $data['order_time'],
-            "order_status"  => $data['order_status'],
-            "total_fee"     => $data['total_fee'],
+            "id"           => $data['order_id'],
+            "order_sn"     => $data['order_sn'],
+            "order_time"   => $data['order_time'],
+            "order_status" => $data['order_status'],
+            "total_fee"    => $data['total_fee'],
         );
 
         return $outData;

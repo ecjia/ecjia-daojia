@@ -12,9 +12,13 @@
 namespace Symfony\Component\HttpKernel\Debug;
 
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher as BaseTraceableEventDispatcher;
+<<<<<<< HEAD
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\Event;
+=======
+use Symfony\Component\HttpKernel\KernelEvents;
+>>>>>>> v2-test
 
 /**
  * Collects some data about event listeners.
@@ -26,6 +30,7 @@ use Symfony\Component\EventDispatcher\Event;
 class TraceableEventDispatcher extends BaseTraceableEventDispatcher
 {
     /**
+<<<<<<< HEAD
      * Sets the profiler.
      *
      * The traceable event dispatcher does not use the profiler anymore.
@@ -45,6 +50,11 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
      * {@inheritdoc}
      */
     protected function preDispatch($eventName, Event $event)
+=======
+     * {@inheritdoc}
+     */
+    protected function beforeDispatch(string $eventName, object $event)
+>>>>>>> v2-test
     {
         switch ($eventName) {
             case KernelEvents::REQUEST:
@@ -59,6 +69,12 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
                 break;
             case KernelEvents::TERMINATE:
                 $token = $event->getResponse()->headers->get('X-Debug-Token');
+<<<<<<< HEAD
+=======
+                if (null === $token) {
+                    break;
+                }
+>>>>>>> v2-test
                 // There is a very special case when using built-in AppCache class as kernel wrapper, in the case
                 // of an ESI request leading to a `stale` response [B]  inside a `fresh` cached response [A].
                 // In this case, `$token` contains the [B] debug token, but the  open `stopwatch` section ID
@@ -75,20 +91,39 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     protected function postDispatch($eventName, Event $event)
     {
         switch ($eventName) {
             case KernelEvents::CONTROLLER:
+=======
+    protected function afterDispatch(string $eventName, object $event)
+    {
+        switch ($eventName) {
+            case KernelEvents::CONTROLLER_ARGUMENTS:
+>>>>>>> v2-test
                 $this->stopwatch->start('controller', 'section');
                 break;
             case KernelEvents::RESPONSE:
                 $token = $event->getResponse()->headers->get('X-Debug-Token');
+<<<<<<< HEAD
+=======
+                if (null === $token) {
+                    break;
+                }
+>>>>>>> v2-test
                 $this->stopwatch->stopSection($token);
                 break;
             case KernelEvents::TERMINATE:
                 // In the special case described in the `preDispatch` method above, the `$token` section
                 // does not exist, then closing it throws an exception which must be caught.
                 $token = $event->getResponse()->headers->get('X-Debug-Token');
+<<<<<<< HEAD
+=======
+                if (null === $token) {
+                    break;
+                }
+>>>>>>> v2-test
                 try {
                     $this->stopwatch->stopSection($token);
                 } catch (\LogicException $e) {

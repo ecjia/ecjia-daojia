@@ -39,6 +39,7 @@ class SentryServiceProvider extends ServiceProvider
         });
 
         $this->bindEvents($royalcms);
+<<<<<<< HEAD
 
         if ($royalcms->runningInConsole()) {
             $this->registerArtisanCommands();
@@ -53,6 +54,8 @@ class SentryServiceProvider extends ServiceProvider
         $this->commands(array(
             'Royalcms\Component\Sentry\SentryTestCommand',
         ));
+=======
+>>>>>>> v2-test
     }
 
     /**

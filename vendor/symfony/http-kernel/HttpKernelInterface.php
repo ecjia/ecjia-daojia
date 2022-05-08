@@ -21,8 +21,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface HttpKernelInterface
 {
+<<<<<<< HEAD
     const MASTER_REQUEST = 1;
     const SUB_REQUEST = 2;
+=======
+    public const MASTER_REQUEST = 1;
+    public const SUB_REQUEST = 2;
+>>>>>>> v2-test
 
     /**
      * Handles a Request to convert it to a Response.
@@ -30,14 +35,24 @@ interface HttpKernelInterface
      * When $catch is true, the implementation must catch all exceptions
      * and do its best to convert them to a Response instance.
      *
+<<<<<<< HEAD
      * @param Request $request A Request instance
      * @param int     $type    The type of the request
      *                         (one of HttpKernelInterface::MASTER_REQUEST or HttpKernelInterface::SUB_REQUEST)
      * @param bool    $catch   Whether to catch exceptions or not
+=======
+     * @param int  $type  The type of the request
+     *                    (one of HttpKernelInterface::MASTER_REQUEST or HttpKernelInterface::SUB_REQUEST)
+     * @param bool $catch Whether to catch exceptions or not
+>>>>>>> v2-test
      *
      * @return Response A Response instance
      *
      * @throws \Exception When an Exception occurs during processing
      */
+<<<<<<< HEAD
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true);
+=======
+    public function handle(Request $request, int $type = self::MASTER_REQUEST, bool $catch = true);
+>>>>>>> v2-test
 }

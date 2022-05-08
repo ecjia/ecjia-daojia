@@ -20,5 +20,9 @@ interface TypeHintRewriter
      *
      * @return string
      */
+<<<<<<< HEAD
     public function rewrite($classDefinition);
+=======
+    public function rewrite(string $classDefinition): string;
+>>>>>>> v2-test
 }

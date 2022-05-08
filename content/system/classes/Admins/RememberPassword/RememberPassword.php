@@ -9,8 +9,8 @@
 namespace Ecjia\System\Admins\RememberPassword;
 
 use Ecjia\System\Admins\Users\AdminUserModel;
-use Ecjia\System\Admins\Users\Password;
 use ecjia;
+use ecjia_password;
 use RC_Cookie;
 
 class RememberPassword
@@ -30,7 +30,8 @@ class RememberPassword
      */
     public function remember($user_id, $password)
     {
-        $password = Password::createSaltPassword($password, ecjia::config('hash_code'));
+        $pm = ecjia_password::autoCompatibleDriver($password);
+        $password = $pm->createSaltPassword($password, ecjia::config('hash_code'));
 
         $json_string = json_encode([$user_id, $password]);
 
@@ -65,7 +66,8 @@ class RememberPassword
 
             $model = AdminUserModel::find($user_id);
             if (!empty($model)) {
-                $password_hash = Password::createSaltPassword($model->password, ecjia::config('hash_code'));
+                $pm = ecjia_password::autoCompatibleDriver($model->password);
+                $password_hash = $pm->createSaltPassword($model->password, ecjia::config('hash_code'));
 
                 if ($password == $password_hash) {
 

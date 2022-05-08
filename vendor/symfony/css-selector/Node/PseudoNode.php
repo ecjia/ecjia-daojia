@@ -18,6 +18,7 @@ namespace Symfony\Component\CssSelector\Node;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class PseudoNode extends AbstractNode
 {
@@ -36,23 +37,42 @@ class PseudoNode extends AbstractNode
      * @param string        $identifier
      */
     public function __construct(NodeInterface $selector, $identifier)
+=======
+ *
+ * @internal
+ */
+class PseudoNode extends AbstractNode
+{
+    private $selector;
+    private $identifier;
+
+    public function __construct(NodeInterface $selector, string $identifier)
+>>>>>>> v2-test
     {
         $this->selector = $selector;
         $this->identifier = strtolower($identifier);
     }
 
+<<<<<<< HEAD
     /**
      * @return NodeInterface
      */
     public function getSelector()
+=======
+    public function getSelector(): NodeInterface
+>>>>>>> v2-test
     {
         return $this->selector;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getIdentifier()
+=======
+    public function getIdentifier(): string
+>>>>>>> v2-test
     {
         return $this->identifier;
     }
@@ -60,7 +80,11 @@ class PseudoNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getSpecificity()
+=======
+    public function getSpecificity(): Specificity
+>>>>>>> v2-test
     {
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
     }
@@ -68,7 +92,11 @@ class PseudoNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> v2-test
     {
         return sprintf('%s[%s:%s]', $this->getNodeName(), $this->selector, $this->identifier);
     }

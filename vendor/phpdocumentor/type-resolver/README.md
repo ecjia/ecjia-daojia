@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+=======
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![](https://github.com/phpdocumentor/typeresolver/workflows/Qa%20workflow/badge.svg?branch=1.x)
+[![Coveralls Coverage](https://img.shields.io/coveralls/github/phpDocumentor/TypeResolver.svg)](https://coveralls.io/github/phpDocumentor/TypeResolver?branch=1.x)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phpDocumentor/TypeResolver.svg)](https://scrutinizer-ci.com/g/phpDocumentor/TypeResolver/?branch=1.x)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phpDocumentor/TypeResolver.svg)](https://scrutinizer-ci.com/g/phpDocumentor/TypeResolver/?branch=1.x)
+![Packagist Version](https://img.shields.io/packagist/v/phpdocumentor/type-resolver?label=Packagist%20stable)
+![Packagist Version](https://img.shields.io/packagist/vpre/phpdocumentor/type-resolver?label=Packagist%20unstable)
+
+>>>>>>> v2-test
 TypeResolver and FqsenResolver
 ==============================
 
@@ -22,8 +33,12 @@ The easiest way to install this library is with [Composer](https://getcomposer.o
 
 ## Examples
 
+<<<<<<< HEAD
 Ready to dive in and don't want to read through all that text below? Just consult the [examples](examples) folder and
 check which type of action that your want to accomplish.
+=======
+Ready to dive in and don't want to read through all that text below? Just consult the [examples](examples) folder and check which type of action that your want to accomplish.
+>>>>>>> v2-test
 
 ## On Types and Element Names
 
@@ -39,6 +54,10 @@ The TypeResolver can resolve:
 - a php primitive or pseudo-primitive such as a string or void (`@var string` or `@return void`).
 - a composite such as an array of string (`@var string[]`).
 - a compound such as a string or integer (`@var string|integer`).
+<<<<<<< HEAD
+=======
+- an array expression (`@var (string|TypeResolver)[]`)
+>>>>>>> v2-test
 - an object or interface such as the TypeResolver class (`@var TypeResolver` 
   or `@var \phpDocumentor\Reflection\TypeResolver`)
 
@@ -58,16 +77,26 @@ Where the FqsenResolver can resolve:
 
 ## Resolving a type
 
+<<<<<<< HEAD
 In order to resolve a type you will have to instantiate the class `\phpDocumentor\Reflection\TypeResolver`
 and call its `resolve` method like this:
 
     $typeResolver = new \phpDocumentor\Reflection\TypeResolver();
     $type = $typeResolver->resolve('string|integer');
+=======
+In order to resolve a type you will have to instantiate the class `\phpDocumentor\Reflection\TypeResolver` and call its `resolve` method like this:
+
+```php
+$typeResolver = new \phpDocumentor\Reflection\TypeResolver();
+$type = $typeResolver->resolve('string|integer');
+```
+>>>>>>> v2-test
 
 In this example you will receive a Value Object of class `\phpDocumentor\Reflection\Types\Compound` that has two 
 elements, one of type `\phpDocumentor\Reflection\Types\String_` and one of type 
 `\phpDocumentor\Reflection\Types\Integer`.
 
+<<<<<<< HEAD
 The real power of this resolver is in its capability to expand partial class names into fully qualified class names; but
 in order to do that we need an additional `\phpDocumentor\Reflection\Types\Context` class that will inform the resolver 
 in which namespace the given expression occurs and which namespace aliases (or imports) apply.
@@ -91,11 +120,40 @@ inform the resolver in which namespace the given expression occurs and which nam
 
 Perhaps the best feature of this library is that it knows how to resolve partial class names into fully qualified class 
 names.
+=======
+The real power of this resolver is in its capability to expand partial class names into fully qualified class names; but in order to do that we need an additional `\phpDocumentor\Reflection\Types\Context` class that will inform the resolver in which namespace the given expression occurs and which namespace aliases (or imports) apply.
+
+### Resolving nullable types
+
+Php 7.1 introduced nullable types e.g. `?string`. Type resolver will resolve the original type without the nullable notation `?`
+just like it would do without the `?`. After that the type is wrapped in a `\phpDocumentor\Reflection\Types\Nullable` object.
+The `Nullable` type has a method to fetch the actual type. 
+
+## Resolving an FQSEN
+
+A Fully Qualified Structural Element Name is a reference to another element in your code bases and can be resolved using the `\phpDocumentor\Reflection\FqsenResolver` class' `resolve` method, like this:
+
+```php
+$fqsenResolver = new \phpDocumentor\Reflection\FqsenResolver();
+$fqsen = $fqsenResolver->resolve('\phpDocumentor\Reflection\FqsenResolver::resolve()');
+```
+
+In this example we resolve a Fully Qualified Structural Element Name (meaning that it includes the full namespace, class name and element name) and receive a Value Object of type `\phpDocumentor\Reflection\Fqsen`.
+
+The real power of this resolver is in its capability to expand partial element names into Fully Qualified Structural Element Names; but in order to do that we need an additional `\phpDocumentor\Reflection\Types\Context` class that will inform the resolver in which namespace the given expression occurs and which namespace aliases (or imports) apply.
+
+## Resolving partial Classes and Structural Element Names
+
+Perhaps the best feature of this library is that it knows how to resolve partial class names into fully qualified class names.
+>>>>>>> v2-test
 
 For example, you have this file:
 
 ```php
+<<<<<<< HEAD
 <?php
+=======
+>>>>>>> v2-test
 namespace My\Example;
 
 use phpDocumentor\Reflection\Types;
@@ -113,14 +171,20 @@ class Classy
 ```
 
 Suppose that you would want to resolve (and expand) the type in the `@var` tag and the element name in the `@see` tag.
+<<<<<<< HEAD
 For the resolvers to know how to expand partial names you have to provide a bit of _Context_ for them by instantiating
 a new class named `\phpDocumentor\Reflection\Types\Context` with the name of the namespace and the aliases that are in 
 play.
+=======
+
+For the resolvers to know how to expand partial names you have to provide a bit of _Context_ for them by instantiating a new class named `\phpDocumentor\Reflection\Types\Context` with the name of the namespace and the aliases that are in play.
+>>>>>>> v2-test
 
 ### Creating a Context
 
 You can do this by manually creating a Context like this:
 
+<<<<<<< HEAD
     $context = new \phpDocumentor\Reflection\Types\Context(
         '\My\Example', 
         [ 'Types' => '\phpDocumentor\Reflection\Types']
@@ -167,3 +231,51 @@ resolve that you can do the following:
 Because Classy is a Class in the current namespace its FQSEN will have the `My\Example` namespace and by calling the 
 `resolve` method of the FQSEN Resolver you will receive an `Fqsen` object that refers to 
 `\My\Example\Classy::otherFunction()`.
+=======
+```php
+$context = new \phpDocumentor\Reflection\Types\Context(
+    '\My\Example', 
+    [ 'Types' => '\phpDocumentor\Reflection\Types']
+);
+```
+
+Or by using the `\phpDocumentor\Reflection\Types\ContextFactory` to instantiate a new context based on a Reflector object or by providing the namespace that you'd like to extract and the source code of the file in which the given type expression occurs.
+
+```php
+$contextFactory = new \phpDocumentor\Reflection\Types\ContextFactory();
+$context = $contextFactory->createFromReflector(new ReflectionMethod('\My\Example\Classy', '__construct'));
+```
+
+or
+
+```php
+$contextFactory = new \phpDocumentor\Reflection\Types\ContextFactory();
+$context = $contextFactory->createForNamespace('\My\Example', file_get_contents('My/Example/Classy.php'));
+```
+
+### Using the Context
+
+After you have obtained a Context it is just a matter of passing it along with the `resolve` method of either Resolver class as second argument and the Resolvers will take this into account when resolving partial names.
+
+To obtain the resolved class name for the `@var` tag in the example above you can do:
+
+```php
+$typeResolver = new \phpDocumentor\Reflection\TypeResolver();
+$type = $typeResolver->resolve('Types\Context', $context);
+```
+
+When you do this you will receive an object of class `\phpDocumentor\Reflection\Types\Object_` for which you can call the `getFqsen` method to receive a Value Object that represents the complete FQSEN. So that would be `phpDocumentor\Reflection\Types\Context`.
+
+> Why is the FQSEN wrapped in another object `Object_`?
+> 
+> The resolve method of the TypeResolver only returns object with the interface `Type` and the FQSEN is a common type that does not represent a Type. Also: in some cases a type can represent an "Untyped Object", meaning that it is an object (signified by the `object` keyword) but does not refer to a specific element using an FQSEN.
+
+Another example is on how to resolve the FQSEN of a method as can be seen with the `@see` tag in the example above. To resolve that you can do the following:
+
+```php
+$fqsenResolver = new \phpDocumentor\Reflection\FqsenResolver();
+$type = $fqsenResolver->resolve('Classy::otherFunction()', $context);
+```
+
+Because Classy is a Class in the current namespace its FQSEN will have the `My\Example` namespace and by calling the `resolve` method of the FQSEN Resolver you will receive an `Fqsen` object that refers to `\My\Example\Classy::otherFunction()`.
+>>>>>>> v2-test

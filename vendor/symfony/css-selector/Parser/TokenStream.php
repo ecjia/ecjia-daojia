@@ -21,23 +21,36 @@ use Symfony\Component\CssSelector\Exception\SyntaxErrorException;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class TokenStream
 {
     /**
      * @var Token[]
      */
+<<<<<<< HEAD
     private $tokens = array();
 
     /**
      * @var bool
      */
     private $frozen = false;
+=======
+    private $tokens = [];
+>>>>>>> v2-test
 
     /**
      * @var Token[]
      */
+<<<<<<< HEAD
     private $used = array();
+=======
+    private $used = [];
+>>>>>>> v2-test
 
     /**
      * @var int
@@ -47,7 +60,11 @@ class TokenStream
     /**
      * @var Token|null
      */
+<<<<<<< HEAD
     private $peeked = null;
+=======
+    private $peeked;
+>>>>>>> v2-test
 
     /**
      * @var bool
@@ -57,11 +74,17 @@ class TokenStream
     /**
      * Pushes a token.
      *
+<<<<<<< HEAD
      * @param Token $token
      *
      * @return TokenStream
      */
     public function push(Token $token)
+=======
+     * @return $this
+     */
+    public function push(Token $token): self
+>>>>>>> v2-test
     {
         $this->tokens[] = $token;
 
@@ -71,23 +94,36 @@ class TokenStream
     /**
      * Freezes stream.
      *
+<<<<<<< HEAD
      * @return TokenStream
      */
     public function freeze()
     {
         $this->frozen = true;
 
+=======
+     * @return $this
+     */
+    public function freeze(): self
+    {
+>>>>>>> v2-test
         return $this;
     }
 
     /**
      * Returns next token.
      *
+<<<<<<< HEAD
      * @return Token
      *
      * @throws InternalErrorException If there is no more token
      */
     public function getNext()
+=======
+     * @throws InternalErrorException If there is no more token
+     */
+    public function getNext(): Token
+>>>>>>> v2-test
     {
         if ($this->peeking) {
             $this->peeking = false;
@@ -105,10 +141,15 @@ class TokenStream
 
     /**
      * Returns peeked token.
+<<<<<<< HEAD
      *
      * @return Token
      */
     public function getPeek()
+=======
+     */
+    public function getPeek(): Token
+>>>>>>> v2-test
     {
         if (!$this->peeking) {
             $this->peeked = $this->getNext();
@@ -123,7 +164,11 @@ class TokenStream
      *
      * @return Token[]
      */
+<<<<<<< HEAD
     public function getUsed()
+=======
+    public function getUsed(): array
+>>>>>>> v2-test
     {
         return $this->used;
     }
@@ -135,7 +180,11 @@ class TokenStream
      *
      * @throws SyntaxErrorException If next token is not an identifier
      */
+<<<<<<< HEAD
     public function getNextIdentifier()
+=======
+    public function getNextIdentifier(): string
+>>>>>>> v2-test
     {
         $next = $this->getNext();
 
@@ -149,11 +198,19 @@ class TokenStream
     /**
      * Returns nex identifier or star delimiter token.
      *
+<<<<<<< HEAD
      * @return null|string The identifier token value or null if star found
      *
      * @throws SyntaxErrorException If next token is not an identifier or a star delimiter
      */
     public function getNextIdentifierOrStar()
+=======
+     * @return string|null The identifier token value or null if star found
+     *
+     * @throws SyntaxErrorException If next token is not an identifier or a star delimiter
+     */
+    public function getNextIdentifierOrStar(): ?string
+>>>>>>> v2-test
     {
         $next = $this->getNext();
 
@@ -161,8 +218,13 @@ class TokenStream
             return $next->getValue();
         }
 
+<<<<<<< HEAD
         if ($next->isDelimiter(array('*'))) {
             return;
+=======
+        if ($next->isDelimiter(['*'])) {
+            return null;
+>>>>>>> v2-test
         }
 
         throw SyntaxErrorException::unexpectedToken('identifier or "*"', $next);

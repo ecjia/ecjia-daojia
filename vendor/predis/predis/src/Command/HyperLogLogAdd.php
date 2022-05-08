@@ -33,6 +33,7 @@ class HyperLogLogAdd extends Command
     {
         return self::normalizeVariadic($arguments);
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -41,4 +42,6 @@ class HyperLogLogAdd extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

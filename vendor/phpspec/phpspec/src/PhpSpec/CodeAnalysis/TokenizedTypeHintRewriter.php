@@ -50,6 +50,7 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
     {
         $this->typeHintIndex = $typeHintIndex;
         $this->namespaceResolver = $namespaceResolver;
+<<<<<<< HEAD
     }
 
     /**
@@ -58,6 +59,16 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
      * @return string
      */
     public function rewrite($classDefinition)
+=======
+
+        if (\PHP_VERSION_ID >= 80000) {
+            $this->typehintTokens[] = T_NAME_FULLY_QUALIFIED;
+            $this->typehintTokens[] = T_NAME_QUALIFIED;
+        }
+    }
+
+    public function rewrite(string $classDefinition): string
+>>>>>>> v2-test
     {
         $this->namespaceResolver->analyse($classDefinition);
 
@@ -68,18 +79,26 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
         return $tokensToString;
     }
 
+<<<<<<< HEAD
     private function reset()
+=======
+    private function reset(): void
+>>>>>>> v2-test
     {
         $this->state = self::STATE_DEFAULT;
         $this->currentClass = '';
         $this->currentFunction = '';
     }
 
+<<<<<<< HEAD
     /**
      * @param array $tokens
      * @return array $tokens
      */
     private function stripTypeHints($tokens)
+=======
+    private function stripTypeHints(array $tokens): array
+>>>>>>> v2-test
     {
         foreach ($tokens as $index => $token) {
             if ($this->isToken($token, '{')) {
@@ -143,6 +162,7 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
      * @param array $tokens
      * @return string
      */
+<<<<<<< HEAD
     private function tokensToString($tokens)
     {
         return join('', array_map(function ($token) {
@@ -160,6 +180,20 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
         $typehint = '';
         for ($i = $index - 1; in_array($tokens[$i][0], $this->typehintTokens); $i--) {
             $typehint = $tokens[$i][1] . $typehint;
+=======
+    private function tokensToString(array $tokens): string
+    {
+        return join('', array_map(function ($token) {
+            return \is_array($token) ? $token[1] : $token;
+        }, $tokens));
+    }
+
+    private function extractTypehints(array &$tokens, int $index, array $token): void
+    {
+        $typehint = '';
+        for ($i = $index - 1; !$this->haveNotReachedEndOfTypeHint($tokens[$i]); $i--) {
+            $typehint = (is_array($tokens[$i]) ? $tokens[$i][1] : $tokens[$i]) . $typehint;
+>>>>>>> v2-test
 
             if (T_WHITESPACE !== $tokens[$i][0]) {
                 unset($tokens[$i]);
@@ -167,7 +201,24 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
         }
 
         if ($typehint = trim($typehint)) {
+<<<<<<< HEAD
             $class = $this->namespaceResolver->resolve($this->currentClass);
+=======
+
+            $class = $this->namespaceResolver->resolve($this->currentClass);
+
+            if (\strpos($typehint, '|') !== false) {
+                $this->typeHintIndex->addInvalid(
+                    $class,
+                    trim($this->currentFunction),
+                    $token[1],
+                    new DisallowedUnionTypehintException("Union type $typehint cannot be used to create a double")
+                );
+
+                return;
+            }
+
+>>>>>>> v2-test
             try {
                 $typehintFcqn = $this->namespaceResolver->resolve($typehint);
                 $this->typeHintIndex->add(
@@ -176,7 +227,11 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
                     $token[1],
                     $typehintFcqn
                 );
+<<<<<<< HEAD
             } catch (DisallowedScalarTypehintException $e) {
+=======
+            } catch (DisallowedNonObjectTypehintException $e) {
+>>>>>>> v2-test
                 $this->typeHintIndex->addInvalid(
                     $class,
                     trim($this->currentFunction),
@@ -187,6 +242,7 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
         }
     }
 
+<<<<<<< HEAD
     /**
      * @param array|string $token
      * @param string $type
@@ -204,12 +260,33 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
      * @return bool
      */
     private function shouldExtractTokensOfClass($className)
+=======
+    private function haveNotReachedEndOfTypeHint($token) : bool
+    {
+        if ($token == '|') {
+            return false;
+        }
+
+        return !\in_array($token[0], $this->typehintTokens);
+    }
+
+    /**
+     * @param array|string $token
+     */
+    private function tokenHasType($token, string $type): bool
+    {
+        return \is_array($token) && $type == $token[0];
+    }
+
+    private function shouldExtractTokensOfClass(string $className): bool
+>>>>>>> v2-test
     {
         return substr($className, -4) == 'Spec';
     }
 
     /**
      * @param array|string $token
+<<<<<<< HEAD
      * @param string $string
      *
      * @return bool
@@ -217,5 +294,11 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
     private function isToken($token, $string)
     {
         return $token == $string || (is_array($token) && $token[1] == $string);
+=======
+     */
+    private function isToken($token, string $string): bool
+    {
+        return $token == $string || (\is_array($token) && $token[1] == $string);
+>>>>>>> v2-test
     }
 }

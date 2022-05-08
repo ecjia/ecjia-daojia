@@ -23,13 +23,22 @@ use Symfony\Component\CssSelector\Parser\ParserInterface;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class HashParser implements ParserInterface
 {
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function parse($source)
+=======
+    public function parse(string $source): array
+>>>>>>> v2-test
     {
         // Matches an optional namespace, optional element, and required id
         // $source = 'test|input#ab6bd_field';
@@ -39,11 +48,20 @@ class HashParser implements ParserInterface
         //     2 => string 'input' (length=5)
         //     3 => string 'ab6bd_field' (length=11)
         if (preg_match('/^(?:([a-z]++)\|)?+([\w-]++|\*)?+#([\w-]++)$/i', trim($source), $matches)) {
+<<<<<<< HEAD
             return array(
                 new SelectorNode(new HashNode(new ElementNode($matches[1] ?: null, $matches[2] ?: null), $matches[3])),
             );
         }
 
         return array();
+=======
+            return [
+                new SelectorNode(new HashNode(new ElementNode($matches[1] ?: null, $matches[2] ?: null), $matches[3])),
+            ];
+        }
+
+        return [];
+>>>>>>> v2-test
     }
 }

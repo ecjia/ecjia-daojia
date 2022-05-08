@@ -65,6 +65,7 @@ class Diff_Renderer_Text_Unified extends Diff_Renderer_Abstract
 				$i2 = -1;
 			}
 
+<<<<<<< HEAD
 			$diff .= '@@ -'.($i1 + 1).','.($i2 - $i1).' +'.($j1 + 1).','.($j2 - $j1)." @@\n";
 			foreach($group as $code) {
 				list($tag, $i1, $i2, $j1, $j2) = $code;
@@ -78,6 +79,21 @@ class Diff_Renderer_Text_Unified extends Diff_Renderer_Abstract
 
 					if($tag == 'replace' || $tag == 'insert') {
 						$diff .= '+'.implode("\n+", $this->diff->GetB($j1, $j2))."\n";
+=======
+			$diff .= '@@ -'.($i1 + 1).','.($i2 - $i1).' +'.($j1 + 1).','.($j2 - $j1)." @@".PHP_EOL;
+			foreach($group as $code) {
+				list($tag, $i1, $i2, $j1, $j2) = $code;
+				if($tag == 'equal') {
+					$diff .= ' '.implode(PHP_EOL." ", $this->diff->GetA($i1, $i2)).PHP_EOL;
+				}
+				else {
+					if($tag == 'replace' || $tag == 'delete') {
+						$diff .= '-'.implode(PHP_EOL."-", $this->diff->GetA($i1, $i2)).PHP_EOL;
+					}
+
+					if($tag == 'replace' || $tag == 'insert') {
+						$diff .= '+'.implode(PHP_EOL."+", $this->diff->GetB($j1, $j2)).PHP_EOL;
+>>>>>>> v2-test
 					}
 				}
 			}

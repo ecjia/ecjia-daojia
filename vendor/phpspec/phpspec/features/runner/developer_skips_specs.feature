@@ -11,7 +11,10 @@ Feature: Developer skips examples
       namespace spec\Runner\SpecExample;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use PhpSpec\Exception\Example\SkippingException;
 
       class MarkdownSpec extends ObjectBehavior

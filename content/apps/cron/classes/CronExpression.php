@@ -66,21 +66,21 @@ class CronExpression
     
     
     protected $expression_vaules = [
-        'everyMinute'          => '*/1 * * * * *',
-        'everyFiveMinutes'     => '*/5 * * * * *',
-        'everyTenMinutes'      => '*/10 * * * * *',
-        'everyThirtyMinutes'   => '0,30 * * * * *',
-        'hourly'               => '0 * * * * *',
-        'daily'                => '0 0 * * * *',
-        'weekly'               => '0 0 * * 0 *',
-        'monthly'              => '0 0 1 * * *',
-        'quarterly'            => '0 0 1 */3 * *',
-        'yearly'               => '0 0 1 1 * *',
+        'everyMinute'          => '*/1 * * * *',
+        'everyFiveMinutes'     => '*/5 * * * *',
+        'everyTenMinutes'      => '*/10 * * * *',
+        'everyThirtyMinutes'   => '0,30 * * * *',
+        'hourly'               => '0 * * * *',
+        'daily'                => '0 0 * * *',
+        'weekly'               => '0 0 * * 0',
+        'monthly'              => '0 0 1 * *',
+        'quarterly'            => '0 0 1 */3 *',
+        'yearly'               => '0 0 1 1 *',
     ];
     
     /**
      * 获取所有内置表达式标签
-     * @return multitype:string
+     * @return array
      */
     public function getExpressions()
     {

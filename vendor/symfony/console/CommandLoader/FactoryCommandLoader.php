@@ -33,7 +33,11 @@ class FactoryCommandLoader implements CommandLoaderInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function has($name)
+=======
+    public function has(string $name)
+>>>>>>> v2-test
     {
         return isset($this->factories[$name]);
     }
@@ -41,7 +45,11 @@ class FactoryCommandLoader implements CommandLoaderInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function get($name)
+=======
+    public function get(string $name)
+>>>>>>> v2-test
     {
         if (!isset($this->factories[$name])) {
             throw new CommandNotFoundException(sprintf('Command "%s" does not exist.', $name));

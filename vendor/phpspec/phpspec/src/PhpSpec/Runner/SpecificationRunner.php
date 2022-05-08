@@ -13,12 +13,21 @@
 
 namespace PhpSpec\Runner;
 
+<<<<<<< HEAD
+=======
+use PhpSpec\Util\DispatchTrait;
+>>>>>>> v2-test
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use PhpSpec\Event;
 use PhpSpec\Loader\Node\SpecificationNode;
 
 class SpecificationRunner
 {
+<<<<<<< HEAD
+=======
+    use DispatchTrait;
+
+>>>>>>> v2-test
     /**
      * @var EventDispatcherInterface
      */
@@ -42,6 +51,7 @@ class SpecificationRunner
      * @param  SpecificationNode $specification
      * @return int|mixed
      */
+<<<<<<< HEAD
     public function run(SpecificationNode $specification)
     {
         $startTime = microtime(true);
@@ -59,6 +69,30 @@ class SpecificationRunner
             'afterSpecification',
             new Event\SpecificationEvent($specification, microtime(true) - $startTime, $result)
         );
+=======
+    public function run(SpecificationNode $specification): int
+    {
+        $startTime = microtime(true);
+        $this->dispatch(
+            $this->dispatcher,
+            new Event\SpecificationEvent($specification),
+            'beforeSpecification'
+        );
+
+        $result = Event\ExampleEvent::PASSED;
+
+        try {
+            foreach ($specification->getExamples() as $example) {
+                $result = max($result, $this->exampleRunner->run($example));
+            }
+        } finally {
+            $this->dispatch(
+                $this->dispatcher,
+                new Event\SpecificationEvent($specification, microtime(true) - $startTime, $result),
+                'afterSpecification'
+            );
+        }
+>>>>>>> v2-test
 
         return $result;
     }

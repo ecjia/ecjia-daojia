@@ -16,6 +16,7 @@ namespace Symfony\Component\DomCrawler;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 class Link
 {
     /**
@@ -127,11 +128,16 @@ class Link
      *
      * @return string
      */
+=======
+class Link extends AbstractUriElement
+{
+>>>>>>> v2-test
     protected function getRawUri()
     {
         return $this->node->getAttribute('href');
     }
 
+<<<<<<< HEAD
     /**
      * Returns the canonicalized URI path (see RFC 3986, section 5.2.4).
      *
@@ -169,6 +175,8 @@ class Link
      *
      * @throws \LogicException If given node is not an anchor
      */
+=======
+>>>>>>> v2-test
     protected function setNode(\DOMElement $node)
     {
         if ('a' !== $node->nodeName && 'area' !== $node->nodeName && 'link' !== $node->nodeName) {
@@ -177,6 +185,7 @@ class Link
 
         $this->node = $node;
     }
+<<<<<<< HEAD
 
     /**
      * Removes the query string and the anchor from the given uri.
@@ -221,4 +230,6 @@ class Link
 
         return $uri;
     }
+=======
+>>>>>>> v2-test
 }

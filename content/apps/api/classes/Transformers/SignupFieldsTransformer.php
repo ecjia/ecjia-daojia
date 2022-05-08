@@ -54,7 +54,10 @@
 namespace Ecjia\App\Api\Transformers;
 
 
-class SignupFieldsTransformer extends Transformer
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
+
+class SignupFieldsTransformer extends Transformer implements TransformerInterface
 {
 
 
@@ -62,9 +65,9 @@ class SignupFieldsTransformer extends Transformer
     {
 
         $outData = array(
-            "id"    => 12,
-            "name"  => "说明",
-            "need"  => 0
+            "id"   => 12,
+            "name" => __('说明', 'api'),
+            "need" => 0
         );
 
         return $outData;

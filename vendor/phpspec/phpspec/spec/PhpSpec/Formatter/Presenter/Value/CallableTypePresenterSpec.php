@@ -4,7 +4,10 @@ namespace spec\PhpSpec\Formatter\Presenter\Value;
 
 use PhpSpec\Formatter\Presenter\Presenter;
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 class CallableTypePresenterSpec extends ObjectBehavior
 {

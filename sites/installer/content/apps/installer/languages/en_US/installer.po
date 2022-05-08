@@ -1,0 +1,925 @@
+# Copyright (C) 2019 Ecjia App installer
+# This file is distributed under the same license as the Ecjia App installer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App installer 1.27.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-14 06:52:50+00:00\n"
+"PO-Revision-Date: 2019-02-14 15:11+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: classes/Controllers/IndexController.php:112
+msgid ""
+"抱歉，当前程序运行在 %s 目录下，ECJia到家程序必须运行在网站根目录下/，请您更"
+"换目录后再重新运行安装程序。"
+msgstr ""
+"Sorry, the current program is running in the %s directory. The ECJia home "
+"program must be running in the root directory of the website. Please replace "
+"the directory and re-run the installer."
+
+#: classes/Controllers/IndexController.php:150
+msgid "是"
+msgstr "Yes"
+
+#: classes/Controllers/IndexController.php:150
+msgid "否"
+msgstr "no"
+
+#: classes/Controllers/IndexController.php:152
+msgid "无需设置"
+msgstr "No need to set"
+
+#: classes/Controllers/IndexController.php:183
+msgid "支持（%s）"
+msgstr "Support (%s)"
+
+#: classes/Controllers/IndexController.php:331
+msgid "恭喜您，安装成功!"
+msgstr "Congratulations, the installation is successful!"
+
+#: classes/Controllers/IndexController.php:349
+msgid "安装程序已经被锁定。"
+msgstr "The installer has been locked."
+
+#: classes/Controllers/IndexController.php:350
+msgid "如果您确定要重新安装ECJia到家，请删除%s目录下的%s。"
+msgstr ""
+"If you are sure you want to reinstall ECJia home, please remove %s from the "
+"%s directory."
+
+#: classes/Controllers/IndexController.php:387
+#: classes/Controllers/IndexController.php:391
+#: classes/Controllers/IndexController.php:400
+#: classes/Controllers/IndexController.php:424 classes/Helper.php:113
+#: classes/Helper.php:179 classes/Helper.php:200 classes/Helper.php:547
+#: classes/Helper.php:560
+msgid "连接数据库失败，请检查您输入的数据库帐号是否正确。"
+msgstr ""
+"Failed to connect to the database, please check if the database account you "
+"entered is correct."
+
+#: classes/Controllers/IndexController.php:395
+msgid "MySQL数据库版本过低，请使用5.5以上版本。"
+msgstr ""
+"The MySQL database version is too low, please use version 5.5 or higher."
+
+#: classes/Controllers/IndexController.php:405
+msgid "当前MySQL数据库不支持InnoDB引擎，请检查后再进行安装。"
+msgstr ""
+"The current MySQL database does not support the InnoDB engine. Please check "
+"it before installing."
+
+#: classes/Controllers/IndexController.php:562
+msgid "管理员名称不能为空"
+msgstr "Administrator name cannot be empty"
+
+#: classes/Controllers/IndexController.php:566
+msgid "密码不能为空"
+msgstr "password can not be blank"
+
+#: classes/Controllers/IndexController.php:570
+#: classes/Controllers/IndexController.php:574 configs/jslang.php:68
+msgid "密码必须同时包含字母及数字"
+msgstr "Password must contain both letters and numbers"
+
+#: classes/Controllers/IndexController.php:578 configs/jslang.php:69
+msgid "密码不相同"
+msgstr "Passwords are different"
+
+#: classes/Helper.php:140
+msgid "目录"
+msgstr " Directory"
+
+#: classes/Helper.php:206
+msgid "连接数据库失败，无法创建数据库"
+msgstr "Failed to connect to the database, unable to create database"
+
+#: classes/Helper.php:265
+msgid "创建管理员帐号失败"
+msgstr "Failed to create an administrator account"
+
+#: classes/Helper.php:304
+msgid "写入配置文件出错"
+msgstr "Error writing configuration file"
+
+#: classes/hooks/admin_installer.class.php:57
+msgid "您还没有删除 %s 文件夹，出于安全的考虑，我们建议您删除 %s 文件夹。"
+msgstr ""
+"You have not deleted the %s folder. For security reasons, we recommend that "
+"you delete the %s folder."
+
+#: configs/jslang.php:57
+msgid "请输入数据库主机名称"
+msgstr "Please enter the database host name"
+
+#: configs/jslang.php:58
+msgid "请输入数据库端口号"
+msgstr "Please enter the database port number"
+
+#: configs/jslang.php:59
+msgid "请输入数据库用户名"
+msgstr "Please enter the database username"
+
+#: configs/jslang.php:60
+msgid "请输入数据库名称"
+msgstr "Please enter the database name"
+
+#: configs/jslang.php:61
+msgid "请输入数据库前缀"
+msgstr "Please enter the database prefix"
+
+#: configs/jslang.php:62
+msgid "请输入管理员名称"
+msgstr "Please enter an administrator name"
+
+#: configs/jslang.php:63
+msgid "请输入管理员登录密码"
+msgstr "Please enter the administrator login password"
+
+#: configs/jslang.php:64
+msgid "请输入管理员登录确认密码"
+msgstr "Please enter the administrator login to confirm the password."
+
+#: configs/jslang.php:65
+msgid "请输入管理员电子邮箱"
+msgstr "Please enter the administrator email address"
+
+#: configs/jslang.php:66
+msgid "请输入正确的email格式"
+msgstr "Please enter the correct email format"
+
+#: configs/jslang.php:67
+msgid "密码长度不能小于8"
+msgstr "Password length cannot be less than 8"
+
+#: configs/jslang.php:71
+msgid "创建配置文件"
+msgstr "Create a configuration file"
+
+#: configs/jslang.php:72
+msgid "创建数据库"
+msgstr "Create a database"
+
+#: configs/jslang.php:73
+msgid "安装进程已中止"
+msgstr "The installation process has been aborted"
+
+#: configs/jslang.php:75
+msgid "当前配置不满足ECJIA到家安装需求，无法继续安装！"
+msgstr ""
+"The current configuration does not meet the ECJIA home installation "
+"requirements, and can not continue to install!"
+
+#: configs/jslang.php:76
+msgid "该数据库名称已存在，确定要覆盖该数据库信息吗？"
+msgstr ""
+"The database name already exists. Are you sure you want to overwrite the "
+"database information?"
+
+#: configs/jslang.php:77
+msgid "请输入名称！"
+msgstr "Please enter a name!"
+
+#: configs/jslang.php:78
+msgid "安装完成"
+msgstr "The installation is complete"
+
+#: configs/jslang.php:80
+msgid "安装基础数据"
+msgstr "Install basic data"
+
+#: configs/jslang.php:81
+msgid "安装演示数据"
+msgstr "Install demo data"
+
+#: configs/jslang.php:82
+msgid "创建管理员帐号"
+msgstr "Create an administrator account"
+
+#: configs/jslang.php:85
+msgid "成功"
+msgstr "success"
+
+#: configs/jslang.php:86
+msgid "失败"
+msgstr "failure"
+
+#: configs/jslang.php:87
+msgid "提示："
+msgstr "prompt:"
+
+#: configs/jslang.php:88
+msgid "安装数据库结构"
+msgstr "Install database structure"
+
+#: configs/jslang.php:90
+msgid "确定"
+msgstr "OK"
+
+#: configs/jslang.php:91
+msgid "取消"
+msgstr "Cancel"
+
+#: content/apps/installer/templates/front/finish.dwt.php:6
+#: content/apps/installer/templates/front/welcome.dwt.php:6
+#: content/apps/installer/templates/front/deploy.dwt.php:6
+#: content/apps/installer/templates/front/detect.dwt.php:6
+msgid "ECJIA到家安装程序"
+msgstr "ECJIA home installer"
+
+#: content/apps/installer/templates/front/finish.dwt.php:29
+msgid "您的用户名是："
+msgstr "Your username is:"
+
+#: content/apps/installer/templates/front/finish.dwt.php:30
+msgid "您的密码是："
+msgstr "Your password is:"
+
+#: content/apps/installer/templates/front/finish.dwt.php:35
+msgid ""
+"<a target=\"_blank\" href=\"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia"
+"%E5%88%B0%E5%AE%B6\">前往ECJIA WIKI，查看帮助文档，使您快速上手。</a>"
+msgstr ""
+"<a target=\"_blank\" href=\"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia"
+"%E5%88%B0%E5%AE%B6\">Go to ECJIA WIKI and check out the help documentation "
+"to get you up and running quickly.</a>"
+
+#: content/apps/installer/templates/front/finish.dwt.php:39
+msgid "您可以将下面链接保存到您的收藏夹哦"
+msgstr "You can save the link below to your favorites."
+
+#: content/apps/installer/templates/front/finish.dwt.php:41
+msgid "点击这里进入ECJIA到家首页"
+msgstr "Click here to enter ECJIA home page"
+
+#: content/apps/installer/templates/front/finish.dwt.php:42
+msgid "点击这里进入ECJIA到家H5端"
+msgstr "Click here to enter ECJIA to the home H5"
+
+#: content/apps/installer/templates/front/finish.dwt.php:43
+msgid "点击这里进入ECJIA到家平台后台"
+msgstr "Click here to enter the ECJIA home platform background"
+
+#: content/apps/installer/templates/front/finish.dwt.php:44
+msgid "点击这里进入ECJIA到家商家后台"
+msgstr "Click here to enter the ECJIA home business background"
+
+#: content/apps/installer/templates/front/finish.dwt.php:47
+msgid "各种体验，希望您能尽情享用ECJIA到家带来的乐趣！"
+msgstr "A variety of experiences, I hope you can enjoy the fun of ECJIA home!"
+
+#: content/apps/installer/templates/front/welcome.dwt.php:25
+#: content/apps/installer/templates/front/library/header.lbi.php:4
+msgid "欢迎使用"
+msgstr "Welcome"
+
+#: content/apps/installer/templates/front/welcome.dwt.php:27
+msgid ""
+"<h4>安装说明</h4>\n"
+"                                <p><strong>本安装程序将自动检测服务器环境是否"
+"符合最低配置需求。如果不符合，将在上方出现提示信息，请按照提示信息检查您的主"
+"机配置。 如果服务器环境符合要求， 将在下方出现 \"开始下一步\" 的按钮， 点击此"
+"按钮即可一步完成安装。</strong></p>\n"
+"                                <h4>许可及协议</h4>\n"
+"                                <p>请您在安装前仔细阅读本协议内容。<br>\n"
+"                                    感谢您选择上海商创网络科技有限公司（模板"
+"堂）独立研发ECJia到家新零售商城系统，即ECJia到家。在我们的不断努力中，为用户提供"
+"全新，功能强大，使用便捷的O2O产品。<br>\n"
+"                                    模板堂是ECJia到家新零售商城系统的开发商，"
+"ECJia官方网站为 <a href=\"https://ecjia.com/\" target=\"_blank\">https://"
+"ecjia.com/</a>。<br>\n"
+"                                    本授权协议适用且仅适用于ECJia到家V 1.3版"
+"本以及后续的升级版本，模板堂拥有对本授权协议的最终解释权。\n"
+"                                </p>\n"
+"                                <p>\n"
+"                                    一、使用许可和权利<br>\n"
+"                                    1. 在用户完全遵守本最终协议的基础上，可以"
+"将ECJia到家用于以下场景：非商业用途(包括个人用途：不具备法人资格的自然人，以"
+"个人名义从事电子商务活动；非盈利性用途：从事非盈利活动的商业机构及非盈利性组"
+"织，将ECJia到家系统用且仅用于产品的展示曝光，期间不存在任何利益环节和利益目"
+"的)。<br>\n"
+"                                    2. 用户可以在ECJia到家使用协议规定的范围"
+"内，对ECJia到家源代码或者界面设计进行相应的改动，以满足您对ECJia到家系统的使"
+"用需求（如有提供的话）。<br>\n"
+"                                    3. 用户拥有使用本产品中的全部内容资料、商"
+"品信息及其他信息的所有权，并独立承担与其内容相关的法律义务。<br>\n"
+"                                    4. 用户在购买商业授权后，即可将ECJia到家"
+"系统用于商业用途，满足用户获取盈利的需求。并且可以在授权协议购买的即刻起，享"
+"受在授权协议规定的时间内以及指定范围内的ECJia到家技术支持售后服务。<br><br>\n"
+"\n"
+"                                    二、使用限制和义务<br>\n"
+"                                    1. ECJia到家系统不得用于商业用途（即商业"
+"活动为目的，通过商业行为从而获得收益。包括但不限于企业法人经营的电商网站、经"
+"营性网站、以盈利为目或实现盈利的网站、以盈利性为目的招募入驻商家等行为），否"
+"则一经查证，模板堂将始终保留法律追责的权力。<br>\n"
+"                                    2. 用户在没有购买官方ECJia到家授权之前，"
+"不得在ECJia到家系统的任意部分进行开发，以此产生的任何派生版本或者第三方版本，"
+"模板堂将始终保留法律追责的权力。<br>\n"
+"                                    3. 用户无法遵守本协议内容，将被终止授权使"
+"用，并取消所有使用许可和权利，并承担相应法律责任。<br><br>\n"
+"\n"
+"                                    三、有限担保和免责声明<br>\n"
+"                                    1. ECJia到家安装包及所附带的文件不包含任"
+"何明确或隐藏的赔偿、担保内容。<br>\n"
+"                                    2. 用户自愿下载使用本系统，必须了解使用风"
+"险，未购买官方ECJia到家授权之前，一律不对用户提供技术支持和担保，也不承担使用"
+"ECJia到家系统而产生任何问题的责任。<br>\n"
+"                                    3. 模板堂不对使用ECJia到家系统搭建的O2O电"
+"商平台的内容信息承担责任，但在不侵犯用户隐私信息的前提下，保留以任何方式获取"
+"用户信息及商品信息的权利。<br>\n"
+"                                </p>\n"
+"                                <p>有关本产品最终用户授权协议、商业授权与技术"
+"服务的详细内容，均由上海商创网络科技有限公司独家提供。上海商创网络科技有限公"
+"司拥有在不事先通知的情况下，修改授权协议的权力，修改后的协议对改变之日起的新"
+"授权用户生效。电子文本形式的授权协议如同双方书面签署的协议一样，具有完全的和"
+"等同的法律效力。您一旦开始修改、安装或使用本产品，即被视为完全理解并接受本协"
+"议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。协议许可"
+"范围以外的行为，将直接违反本授权协议并构成侵权，我们有权随时终止授权，责令停"
+"止损害，并保留追究相关责任的权力。</p>\n"
+"                                <p>ECJIA到家软件由上海商创网络科技有限公司提"
+"供支持，核心开发团队负责维护程序日常开发工作以及新特性的制定。如果您遇到使用"
+"上的问题，程序中的 BUG，以及期许的新功能，欢迎您在社区中交流或者直接向我们贡"
+"献代码。对于贡献突出者，他的名字将出现在贡献者名单中。</p>"
+msgstr ""
+"<h4>Installation Instructions</h4>\n"
+"<p><strong>This installer will automatically detect if the server "
+"environment meets the minimum configuration requirements. If it does not "
+"match, a message will appear at the top. Please follow the prompts to check "
+"your host configuration. If the server environment meets the requirements, "
+"the \"Start Next\" button will appear below, click this button to complete "
+"the installation in one step. </strong></p>\n"
+"<h4>Licenses and Agreements</h4>\n"
+"<p>Please read this agreement carefully before installation. <br>\n"
+"Thank you for choosing Shanghai Shangchuang Network Technology Co., Ltd. "
+"(Template Hall) to independently develop ECJia to the home O2O mall system, "
+"that is, ECJia arrived home. In our continuous efforts, we provide users "
+"with new, powerful and easy-to-use O2O products. <br>\n"
+"Template Hall is the developer of ECJia's O2O mall system. The official "
+"website of ECJia is <a href=\"https://ecjia.com/\" target=\"_blank\">https://"
+"ecjia.com/</a>. <br>\n"
+"This License Agreement applies and is only applicable to ECJia Home V 1.3 "
+"and subsequent upgrades. Template Hall has the final right to interpret this "
+"License Agreement.\n"
+"</p>\n"
+"<p>\n"
+"I. Licensing and rights<br>\n"
+"1. Based on the user's full compliance with this final agreement, ECJia can "
+"be used at home for the following scenarios: non-commercial use (including "
+"personal use: natural persons who do not have legal personality, engage in e-"
+"commerce activities in their own name; non-profit use: Commercial "
+"organizations and non-profit organizations engaged in non-profit activities "
+"will use ECJia in their home systems and only for the display of products, "
+"without any interest or interest during the period). <br>\n"
+"2. The user can make changes to ECJia's home source code or interface design "
+"within the scope of the ECJia Home Use Agreement to meet your ECJia home "
+"system usage requirements (if available). <br>\n"
+"3. The user owns the ownership of all content materials, product information "
+"and other information in the product and independently assumes the legal "
+"obligations related to its content. <br>\n"
+"4. After purchasing the commercial license, the user can use the ECJia home "
+"system for commercial purposes to meet the user's need for profit. And you "
+"can enjoy the ECJia home technical support after-sales service within the "
+"time specified in the license agreement and within the specified scope from "
+"the moment the license agreement is purchased. <br><br>\n"
+"\n"
+"Second, the use of restrictions and obligations <br>\n"
+"1. The ECJia home system may not be used for commercial purposes (ie for "
+"commercial purposes) to obtain revenue through commercial activities, "
+"including but not limited to e-commerce websites operated by corporate legal "
+"persons, operating websites, websites that are profitable or profitable, The "
+"purpose of recruiting merchants for the purpose of profitability), "
+"otherwise, the template will always retain the power of legal "
+"accountability. <br>\n"
+"2. The user may not develop in any part of ECJia's home system without "
+"purchasing the official ECJia home authorization. Any derivative version or "
+"third party version generated by the user will always retain the legal power "
+"of responsibility. <br>\n"
+"3. Users who fail to comply with the contents of this Agreement will be "
+"terminated and authorized to use, and will cancel all licenses and rights "
+"and assume corresponding legal liabilities. <br><br>\n"
+"\n"
+"Third, limited warranty and disclaimer<br>\n"
+"1. The ECJia home installation package and accompanying documents do not "
+"contain any express or hidden compensation or warranty. <br>\n"
+"2. Users who voluntarily download and use the system must understand the "
+"risk of use. They will not provide technical support and guarantees to users "
+"before purchasing the official ECJia authorization, nor will they be "
+"responsible for any problems arising from the use of ECJia's home system. "
+"<br>\n"
+"3. The template library is not responsible for the content information of "
+"the O2O e-commerce platform built by ECJia home system, but reserves the "
+"right to obtain user information and product information in any way without "
+"infringing the user's private information. <br>\n"
+"</p>\n"
+"<p>The details of the end user license agreement, commercial license and "
+"technical service of this product are exclusively provided by Shanghai "
+"Shangchuang Network Technology Co., Ltd. Shanghai Shangchuang Network "
+"Technology Co., Ltd. has the right to modify the license agreement without "
+"prior notice. The revised agreement is effective for new authorized users "
+"from the date of change. A license agreement in electronic form has the same "
+"and equivalent legal effect as an agreement signed in writing by both "
+"parties. Once you begin to modify, install or use the product, you are "
+"deemed to fully understand and accept the terms of this agreement, and you "
+"are subject to the relevant restrictions and restrictions while enjoying the "
+"rights granted by the above terms. Acts outside the scope of the agreement "
+"will directly violate this license agreement and constitute an infringement. "
+"We reserve the right to terminate the authorization at any time, order it to "
+"stop the damage, and reserve the right to pursue the relevant liability. </"
+"p>\n"
+"<p>ECJIA Home Software is supported by Shanghai Shangchuang Network "
+"Technology Co., Ltd. The core development team is responsible for "
+"maintaining the daily development of the program and the development of new "
+"features. If you are experiencing problems with usage, bugs in the program, "
+"and new features, you are welcome to communicate in the community or "
+"contribute code directly to us. For those who are outstanding, his name will "
+"appear on the contributor list. </p>"
+
+#: content/apps/installer/templates/front/welcome.dwt.php:55
+msgid "我已仔细阅读，并同意上述条款中的所有内容"
+msgstr "I have read it carefully and agree to everything in the above terms."
+
+#: content/apps/installer/templates/front/welcome.dwt.php:57
+msgid "我准备好了，开始下一步"
+msgstr "I am ready, start the next step"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:25
+msgid "确认您的配置"
+msgstr "Confirm your configuration"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:27
+msgid "数据库配置"
+msgstr "Database configuration"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:30
+msgid "数据库主机"
+msgstr "Database host"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:32
+msgid "您可能会使用\"%1\""
+msgstr "You may use \"%1\""
+
+#: content/apps/installer/templates/front/deploy.dwt.php:36
+msgid "数据库端口"
+msgstr "Database port"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:38
+msgid "如果您不知道此选项的意义， 请保留默认设置"
+msgstr "If you don't know what this option means, keep the default settings"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:42
+msgid "数据库用户名"
+msgstr "Database username"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:44
+msgid "您可能会使用 \"%1\""
+msgstr "You may use \"%1\""
+
+#: content/apps/installer/templates/front/deploy.dwt.php:49
+msgid "数据库密码"
+msgstr "Database password"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:56
+msgid "数据库名称"
+msgstr "Database name"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:59
+msgid "请您指定数据库名称"
+msgstr "Please specify the database name"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:63
+msgid "数据库前缀"
+msgstr "Database prefix"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:65
+msgid "默认前缀是 \"%1\""
+msgstr "The default prefix is \"%1\""
+
+#: content/apps/installer/templates/front/deploy.dwt.php:69
+msgid "创建您的管理员帐号"
+msgstr "Create your admin account"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:72
+msgid "管理员名称"
+msgstr "Administrator name"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:74
+msgid "请填写您的用户名"
+msgstr "Please fill in your username"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:78
+msgid "登录密码"
+msgstr "login password"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:84
+msgid "确认密码"
+msgstr "confirm password"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:90
+msgid "电子邮箱"
+msgstr "E-mail"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:92
+msgid "请填写一个您的常用邮箱"
+msgstr "Please fill in your usual email address"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:96
+msgid "杂项"
+msgstr "Miscellaneous"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:100
+msgid "设置时区"
+msgstr "Set time zone"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:112
+msgid "安装测试数据"
+msgstr "Install test data"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:113
+msgid "选择此项，将默认安装有关商品以及店铺等默认数据（可选填）"
+msgstr ""
+"Select this item to install default data about products and stores by "
+"default (optional)"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:132
+msgid "确认，立即安装"
+msgstr "Confirm, install now"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:138
+msgid "正在安装"
+msgstr "Installing"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:149
+msgid "返回配置系统"
+msgstr "Return to the configuration system"
+
+#: content/apps/installer/templates/front/library/footer.lbi.php:5
+msgid "版权所有 © %1 %2，并保留所有权利。"
+msgstr "Copyright © %1 %2, all rights reserved."
+
+#: content/apps/installer/templates/front/library/header.lbi.php:5
+msgid "检查环境"
+msgstr "Check the environment"
+
+#: content/apps/installer/templates/front/library/header.lbi.php:6
+msgid "初始化配置"
+msgstr "Initial configuration"
+
+#: content/apps/installer/templates/front/library/header.lbi.php:7
+msgid "开始安装"
+msgstr "Start installation"
+
+#: content/apps/installer/templates/front/library/header.lbi.php:8
+msgid "安装成功"
+msgstr "Successful installation"
+
+#: content/apps/installer/templates/front/detect.dwt.php:28
+msgid "系统环境"
+msgstr "System environment"
+
+#: content/apps/installer/templates/front/detect.dwt.php:33
+msgid "检查项目"
+msgstr "Check item"
+
+#: content/apps/installer/templates/front/detect.dwt.php:34
+msgid "当前环境"
+msgstr "Current environment"
+
+#: content/apps/installer/templates/front/detect.dwt.php:35
+msgid "ECJIA到家建议"
+msgstr "ECJIA home recommendations"
+
+#: content/apps/installer/templates/front/detect.dwt.php:36
+msgid "功能影响"
+msgstr "Functional influence"
+
+#: content/apps/installer/templates/front/detect.dwt.php:41
+msgid "服务器操作系统"
+msgstr "Server operating system"
+
+#: content/apps/installer/templates/front/detect.dwt.php:48
+msgid "WEB服务器"
+msgstr "WEB server"
+
+#: content/apps/installer/templates/front/detect.dwt.php:50
+msgid "推荐%1"
+msgstr "Recommended %1"
+
+#: content/apps/installer/templates/front/detect.dwt.php:55
+msgid "PHP版本"
+msgstr "PHP version"
+
+#: content/apps/installer/templates/front/detect.dwt.php:57
+msgid "5.5及以上"
+msgstr "5.5 and above"
+
+#: content/apps/installer/templates/front/detect.dwt.php:62
+msgid "MySQLi扩展"
+msgstr "MySQLi extension"
+
+#: content/apps/installer/templates/front/detect.dwt.php:64
+msgid "必须开启，请使用MySQL5.5以上版本"
+msgstr "Must be enabled, please use MySQL5.5 or above"
+
+#: content/apps/installer/templates/front/detect.dwt.php:69
+msgid "PDO扩展"
+msgstr "PDO extension"
+
+#: content/apps/installer/templates/front/detect.dwt.php:71
+#: content/apps/installer/templates/front/detect.dwt.php:78
+#: content/apps/installer/templates/front/detect.dwt.php:85
+#: content/apps/installer/templates/front/detect.dwt.php:92
+#: content/apps/installer/templates/front/detect.dwt.php:99
+#: content/apps/installer/templates/front/detect.dwt.php:106
+#: content/apps/installer/templates/front/detect.dwt.php:113
+msgid "必须开启"
+msgstr "Must be turned on"
+
+#: content/apps/installer/templates/front/detect.dwt.php:83
+msgid "Socket支持"
+msgstr "Socket support"
+
+#: content/apps/installer/templates/front/detect.dwt.php:90
+msgid "GD扩展"
+msgstr "GD extension"
+
+#: content/apps/installer/templates/front/detect.dwt.php:97
+msgid "CURL扩展"
+msgstr "CURL extension"
+
+#: content/apps/installer/templates/front/detect.dwt.php:104
+msgid "Fileinfo扩展"
+msgstr "Fileinfo extension"
+
+#: content/apps/installer/templates/front/detect.dwt.php:111
+msgid "ZLIB扩展"
+msgstr "ZLIB extension"
+
+#: content/apps/installer/templates/front/detect.dwt.php:118
+msgid "DNS解析"
+msgstr "DNS resolution"
+
+#: content/apps/installer/templates/front/detect.dwt.php:120
+msgid "建议设置正确"
+msgstr "Recommended setting is correct"
+
+#: content/apps/installer/templates/front/detect.dwt.php:125
+msgid "安全模式"
+msgstr "Safe mode"
+
+#: content/apps/installer/templates/front/detect.dwt.php:132
+msgid "文件上传大小"
+msgstr "File upload size"
+
+#: content/apps/installer/templates/front/detect.dwt.php:134
+msgid "2M及以上"
+msgstr "2M and above"
+
+#: content/apps/installer/templates/front/detect.dwt.php:141
+msgid "目录权限检测"
+msgstr "Directory permission detection"
+
+#: content/apps/installer/templates/front/detect.dwt.php:146
+msgid "目录文件"
+msgstr "Directory file"
+
+#: content/apps/installer/templates/front/detect.dwt.php:147
+msgid "当前状态"
+msgstr "Current state"
+
+#: content/apps/installer/templates/front/detect.dwt.php:148
+msgid "所需状态"
+msgstr "Required state"
+
+#: content/apps/installer/templates/front/detect.dwt.php:155
+#: content/apps/installer/templates/front/detect.dwt.php:156
+msgid "可写"
+msgstr "Writable"
+
+#: content/apps/installer/templates/front/detect.dwt.php:155
+msgid "不可写"
+msgstr "Not writable"
+
+#: content/apps/installer/templates/front/detect.dwt.php:163
+msgid "模板可写性检查"
+msgstr "Template writability check"
+
+#: content/apps/installer/templates/front/detect.dwt.php:166
+msgid "所有模板，全部可写"
+msgstr "All templates, all writable"
+
+#: content/apps/installer/templates/front/detect.dwt.php:168
+msgid "模板无法写入，请检查目录权限"
+msgstr "Template cannot be written, please check directory permissions"
+
+#: content/apps/installer/templates/front/detect.dwt.php:173
+msgid "开始下一步：配置系统"
+msgstr "Start the next step: configure the system"
+
+#~ msgid "安装程序"
+#~ msgstr "Installer"
+
+#~ msgid "欢迎使用ECJIA到家"
+#~ msgstr "Welcome to ECJIA to your home"
+
+#~ msgid ">安装说明"
+#~ msgstr ">Installation instructions"
+
+#~ msgid ""
+#~ "本安装程序将自动检测服务器环境是否符合最低配置需求。如果不符合，将在上方出"
+#~ "现提示信息，请按照提示信息检查您的主机配置。 如果服务器环境符合要求， 将在"
+#~ "下方出现 \"开始下一步\" 的按钮， 点击此按钮即可一步完成安装。"
+#~ msgstr ""
+#~ "This installer will automatically detect if the server environment meets "
+#~ "the minimum configuration requirements. If it does not match, a message "
+#~ "will appear at the top. Please follow the prompts to check your host "
+#~ "configuration. If the server environment meets the requirements, the "
+#~ "\"Start Next\" button will appear below, click this button to complete "
+#~ "the installation in one step."
+
+#~ msgid "许可及协议"
+#~ msgstr "Licensing and agreement"
+
+#~ msgid "请您在安装前仔细阅读本协议内容。"
+#~ msgstr "Please read this agreement carefully before installation."
+
+#~ msgid ""
+#~ "感谢您选择上海商创网络科技有限公司（模板堂）独立研发ECJia到家新零售商城系统，"
+#~ "即ECJia到家。在我们的不断努力中，为用户提供全新，功能强大，使用便捷的O2O产"
+#~ "品。"
+#~ msgstr ""
+#~ "Thank you for choosing Shanghai Shangchuang Network Technology Co., Ltd. "
+#~ "(Template Hall) to independently develop ECJia to the home O2O mall "
+#~ "system, that is, ECJia arrived home. In our continuous efforts, we "
+#~ "provide users with new, powerful and easy-to-use O2O products."
+
+#~ msgid ""
+#~ "模板堂是ECJia到家新零售商城系统的开发商，ECJia官方网站为 <a href=\"https://"
+#~ "ecjia.com/\" target=\"_blank\">https://ecjia.com/</a>。"
+#~ msgstr ""
+#~ "Template Hall is the developer of ECJia's O2O mall system. The official "
+#~ "website of ECJia is <a href=\"https://ecjia.com/\" target=\"_blank"
+#~ "\">https://ecjia.com/</a>."
+
+#~ msgid ""
+#~ "本授权协议适用且仅适用于ECJia到家V 1.3版本以及后续的升级版本，模板堂拥有对"
+#~ "本授权协议的最终解释权。"
+#~ msgstr ""
+#~ "This License Agreement applies and is only applicable to ECJia Home V 1.3 "
+#~ "and subsequent upgrades. Template Hall has the final right to interpret "
+#~ "this License Agreement."
+
+#~ msgid "一、使用许可和权利"
+#~ msgstr "I. Licensing and rights"
+
+#~ msgid ""
+#~ "1. 在用户完全遵守本最终协议的基础上，可以将ECJia到家用于以下场景：非商业用"
+#~ "途(包括个人用途：不具备法人资格的自然人，以个人名义从事电子商务活动；非盈"
+#~ "利性用途：从事非盈利活动的商业机构及非盈利性组织，将ECJia到家系统用且仅用"
+#~ "于产品的展示曝光，期间不存在任何利益环节和利益目的)。"
+#~ msgstr ""
+#~ "1. Based on the user's full compliance with this final agreement, ECJia "
+#~ "can be used at home for the following scenarios: non-commercial use "
+#~ "(including personal use: natural persons who do not have legal "
+#~ "personality, engage in e-commerce activities in their own name; non-"
+#~ "profit use: Commercial organizations and non-profit organizations engaged "
+#~ "in non-profit activities will use ECJia in their home systems and only "
+#~ "for the display of products, without any interest or interest during the "
+#~ "period)."
+
+#~ msgid ""
+#~ "2. 用户可以在ECJia到家使用协议规定的范围内，对ECJia到家源代码或者界面设计"
+#~ "进行相应的改动，以满足您对ECJia到家系统的使用需求（如有提供的话）。"
+#~ msgstr ""
+#~ "2. The user can make changes to ECJia's home source code or interface "
+#~ "design within the scope of the ECJia Home Use Agreement to meet your "
+#~ "ECJia home system usage requirements (if available)."
+
+#~ msgid ""
+#~ "3. 用户拥有使用本产品中的全部内容资料、商品信息及其他信息的所有权，并独立"
+#~ "承担与其内容相关的法律义务。"
+#~ msgstr ""
+#~ "3. The user owns the ownership of all content materials, product "
+#~ "information and other information in the product and independently "
+#~ "assumes the legal obligations related to its content."
+
+#~ msgid ""
+#~ "4. 用户在购买商业授权后，即可将ECJia到家系统用于商业用途，满足用户获取盈利"
+#~ "的需求。并且可以在授权协议购买的即刻起，享受在授权协议规定的时间内以及指定"
+#~ "范围内的ECJia到家技术支持售后服务。"
+#~ msgstr ""
+#~ "4. After purchasing the commercial license, the user can use the ECJia "
+#~ "home system for commercial purposes to meet the user's need for profit. "
+#~ "And you can enjoy the ECJia home technical support after-sales service "
+#~ "within the time specified in the license agreement and within the "
+#~ "specified scope from the moment the license agreement is purchased."
+
+#~ msgid "二、使用限制和义务"
+#~ msgstr "Second, the use of restrictions and obligations"
+
+#~ msgid ""
+#~ "1. ECJia到家系统不得用于商业用途（即商业活动为目的，通过商业行为从而获得收"
+#~ "益。包括但不限于企业法人经营的电商网站、经营性网站、以盈利为目或实现盈利的"
+#~ "网站、以盈利性为目的招募入驻商家等行为），否则一经查证，模板堂将始终保留法"
+#~ "律追责的权力。"
+#~ msgstr ""
+#~ "1. The ECJia home system may not be used for commercial purposes (ie for "
+#~ "commercial purposes) to obtain revenue through commercial activities, "
+#~ "including but not limited to e-commerce websites operated by corporate "
+#~ "legal persons, operating websites, websites that are profitable or "
+#~ "profitable, The purpose of recruiting merchants for the purpose of "
+#~ "profitability), otherwise, the template will always retain the power of "
+#~ "legal accountability."
+
+#~ msgid ""
+#~ "2. 用户在没有购买官方ECJia到家授权之前，不得在ECJia到家系统的任意部分进行"
+#~ "开发，以此产生的任何派生版本或者第三方版本，模板堂将始终保留法律追责的权"
+#~ "力。"
+#~ msgstr ""
+#~ "2. The user may not develop in any part of ECJia's home system without "
+#~ "purchasing the official ECJia home authorization. Any derivative version "
+#~ "or third party version generated by the user will always retain the legal "
+#~ "power of responsibility."
+
+#~ msgid ""
+#~ "3. 用户无法遵守本协议内容，将被终止授权使用，并取消所有使用许可和权利，并"
+#~ "承担相应法律责任。"
+#~ msgstr ""
+#~ "3. Users who fail to comply with the contents of this Agreement will be "
+#~ "terminated and authorized to use, and will cancel all licenses and rights "
+#~ "and assume corresponding legal liabilities."
+
+#~ msgid "三、有限担保和免责声明"
+#~ msgstr "Third, limited warranty and disclaimer"
+
+#~ msgid ""
+#~ "1. ECJia到家安装包及所附带的文件不包含任何明确或隐藏的赔偿、担保内容。"
+#~ msgstr ""
+#~ "1. The ECJia home installation package and accompanying documents do not "
+#~ "contain any express or hidden compensation or warranty."
+
+#~ msgid ""
+#~ "2. 用户自愿下载使用本系统，必须了解使用风险，未购买官方ECJia到家授权之前，"
+#~ "一律不对用户提供技术支持和担保，也不承担使用ECJia到家系统而产生任何问题的"
+#~ "责任。"
+#~ msgstr ""
+#~ "2. Users who voluntarily download and use the system must understand the "
+#~ "risk of use. They will not provide technical support and guarantees to "
+#~ "users before purchasing the official ECJia authorization, nor will they "
+#~ "be responsible for any problems arising from the use of ECJia's home "
+#~ "system."
+
+#~ msgid ""
+#~ "3. 模板堂不对使用ECJia到家系统搭建的O2O电商平台的内容信息承担责任，但在不"
+#~ "侵犯用户隐私信息的前提下，保留以任何方式获取用户信息及商品信息的权利。"
+#~ msgstr ""
+#~ "3. The template library is not responsible for the content information of "
+#~ "the O2O e-commerce platform built by ECJia home system, but reserves the "
+#~ "right to obtain user information and product information in any way "
+#~ "without infringing the user's private information."
+
+#~ msgid ""
+#~ "有关本产品最终用户授权协议、商业授权与技术服务的详细内容，均由上海商创网络"
+#~ "科技有限公司独家提供。上海商创网络科技有限公司拥有在不事先通知的情况下，修"
+#~ "改授权协议的权力，修改后的协议对改变之日起的新授权用户生效。电子文本形式的"
+#~ "授权协议如同双方书面签署的协议一样，具有完全的和等同的法律效力。您一旦开始"
+#~ "修改、安装或使用本产品，即被视为完全理解并接受本协议的各项条款，在享有上述"
+#~ "条款授予的权力的同时，受到相关的约束和限制。协议许可范围以外的行为，将直接"
+#~ "违反本授权协议并构成侵权，我们有权随时终止授权，责令停止损害，并保留追究相"
+#~ "关责任的权力。"
+#~ msgstr ""
+#~ "The details of the end user license agreement, commercial license and "
+#~ "technical service of this product are provided exclusively by Shanghai "
+#~ "Shangchuang Network Technology Co., Ltd. Shanghai Shangchuang Network "
+#~ "Technology Co., Ltd. has the right to modify the license agreement "
+#~ "without prior notice. The revised agreement is effective for new "
+#~ "authorized users from the date of change. A license agreement in "
+#~ "electronic form has the same and equivalent legal effect as an agreement "
+#~ "signed in writing by both parties. Once you begin to modify, install or "
+#~ "use the product, you are deemed to fully understand and accept the terms "
+#~ "of this agreement, and you are subject to the relevant restrictions and "
+#~ "restrictions while enjoying the rights granted by the above terms. Acts "
+#~ "outside the scope of the agreement will directly violate this license "
+#~ "agreement and constitute an infringement. We reserve the right to "
+#~ "terminate the authorization at any time, order it to stop the damage, and "
+#~ "reserve the right to pursue the relevant liability."
+
+#~ msgid ""
+#~ "ECJIA到家软件由上海商创网络科技有限公司提供支持，核心开发团队负责维护程序"
+#~ "日常开发工作以及新特性的制定。如果您遇到使用上的问题，程序中的 BUG，以及期"
+#~ "许的新功能，欢迎您在社区中交流或者直接向我们贡献代码。对于贡献突出者，他的"
+#~ "名字将出现在贡献者名单中。"
+#~ msgstr ""
+#~ "ECJIA Home Software is supported by Shanghai Shangchuang Network "
+#~ "Technology Co., Ltd. The core development team is responsible for "
+#~ "maintaining the daily development of the program and the development of "
+#~ "new features. If you are experiencing problems with usage, bugs in the "
+#~ "program, and new features, you are welcome to communicate in the "
+#~ "community or contribute code directly to us. For those who are "
+#~ "outstanding, his name will appear on the contributor list."

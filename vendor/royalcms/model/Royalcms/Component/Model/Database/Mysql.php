@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Model\Database;
+=======
+<?php
+
+namespace Royalcms\Component\Model\Database;
+>>>>>>> v2-test
 
 use Exception;
 
@@ -17,7 +23,11 @@ final class Mysql extends Database
     public $link;
 
     protected $hostkey;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> v2-test
     /**
      * 是否连接
      *
@@ -50,16 +60,28 @@ final class Mysql extends Database
             $this->link = self::$connect_pool[$this->hostkey];
         } else {
             $link = mysql_connect($this->config['host'], $this->config['username'], $this->config['password'], true);
+<<<<<<< HEAD
             if (! $link) {
+=======
+            if (!$link) {
+>>>>>>> v2-test
                 $this->error('Can not connect to MySQL server');
                 return false;
             }
             self::$connect_pool[$this->hostkey] = $link;
+<<<<<<< HEAD
             $this->link = $link;
             $this->set_charset();
         }
 
         if ($this->config['database'] && ! mysql_select_db($this->config['database'], $this->link)) {
+=======
+            $this->link                         = $link;
+            $this->set_charset();
+        }
+
+        if ($this->config['database'] && !mysql_select_db($this->config['database'], $this->link)) {
+>>>>>>> v2-test
             $this->error('Cannot use database ' . $this->config['database']);
             return false;
         }
@@ -68,7 +90,11 @@ final class Mysql extends Database
 
     private function set_charset()
     {
+<<<<<<< HEAD
         $charset = isset($this->config['charset']) ? $this->config['charset'] : '';
+=======
+        $charset   = isset($this->config['charset']) ? $this->config['charset'] : '';
+>>>>>>> v2-test
         $serverset = $charset ? "character_set_connection='$charset',character_set_results='$charset',character_set_client=binary" : '';
         $serverset .= (empty($serverset) ? '' : ',') . " sql_mode='' ";
         $serverset && mysql_query("SET $serverset", self::$connect_pool[$this->hostkey]);
@@ -97,8 +123,13 @@ final class Mysql extends Database
     /**
      * 数据安全处理
      *
+<<<<<<< HEAD
      * @see database_interface::escape_string()
      * @param string $str            
+=======
+     * @param string $str
+     * @see database_interface::escape_string()
+>>>>>>> v2-test
      */
     public function escape_string($str)
     {
@@ -138,8 +169,13 @@ final class Mysql extends Database
     /**
      * 插入数据失败时自动转为更新数据
      *
+<<<<<<< HEAD
      * @param array $field_values            
      * @param array $update_values            
+=======
+     * @param array $field_values
+     * @param array $update_values
+>>>>>>> v2-test
      * @return Ambigous <boolean, number>|boolean
      */
     public function auto_replace($field_values, $update_values)
@@ -151,7 +187,11 @@ final class Mysql extends Database
                 $values[] = "'" . $field_values[$value] . "'";
             }
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         $sets = array();
         foreach ($update_values as $key => $value) {
             if (array_key_exists($key, $field_values) == true) {
@@ -162,25 +202,44 @@ final class Mysql extends Database
                 }
             }
         }
+<<<<<<< HEAD
         
         $sql = '';
+=======
+
+        $sql          = '';
+>>>>>>> v2-test
         $primary_keys = array(
             $this->opt['primary']
         );
         if (empty($primary_keys)) {
+<<<<<<< HEAD
             if (! empty($fields)) {
+=======
+            if (!empty($fields)) {
+>>>>>>> v2-test
                 $sql = 'INSERT INTO ' . $this->opt['table'] . ' (' . implode(', ', $fields) . ') VALUES (' . implode(', ', $values) . ')';
             }
         } else {
             // mysql version >= 4.1
+<<<<<<< HEAD
             if (! empty($fields)) {
                 $sql = 'INSERT INTO ' . $this->opt['table'] . ' (' . implode(', ', $fields) . ') VALUES (' . implode(', ', $values) . ')';
                 if (! empty($sets)) {
+=======
+            if (!empty($fields)) {
+                $sql = 'INSERT INTO ' . $this->opt['table'] . ' (' . implode(', ', $fields) . ') VALUES (' . implode(', ', $values) . ')';
+                if (!empty($sets)) {
+>>>>>>> v2-test
                     $sql .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $sets);
                 }
             }
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         if ($sql) {
             return $this->execute($sql);
         } else {
@@ -191,18 +250,30 @@ final class Mysql extends Database
     /**
      * 执行SQL没有返回值
      *
+<<<<<<< HEAD
      * @param $sql 要执行的sql语句            
+=======
+     * @param $sql 要执行的sql语句
+>>>>>>> v2-test
      * @see database_interface::execute()
      */
     public function execute($sql)
     {
         // 查询参数初始化
         $this->opt_init();
+<<<<<<< HEAD
         
         // 将SQL添加到调试DEBUG
         $this->debug($sql);
         is_resource($this->link) or $this->connect($this->table_name);
         
+=======
+
+        // 将SQL添加到调试DEBUG
+        $this->debug($sql);
+        is_resource($this->link) or $this->connect($this->table_name);
+
+>>>>>>> v2-test
         $this->last_query = mysql_query($sql, $this->link);
         if ($this->last_query) {
             // 自增id
@@ -226,7 +297,11 @@ final class Mysql extends Database
      */
     public function query($sql)
     {
+<<<<<<< HEAD
         $options = \RC_Config::get('cache.query_cache');
+=======
+        $options    = \RC_Config::get('cache.query_cache');
+>>>>>>> v2-test
         $cache_time = $this->cache_time ? $this->cache_time : intval($options['select_time']);
         if (defined('ROUTE_M') && defined('ROUTE_C') && defined('ROUTE_A')) {
             $cache_name = md5($sql . ROUTE_M . ROUTE_C . ROUTE_A);
@@ -241,22 +316,40 @@ final class Mysql extends Database
                 return $result;
             }
         }
+<<<<<<< HEAD
         
         // SQL发送失败
         if (! $this->execute($sql)) {
             return false;
         }
         
+=======
+
+        // SQL发送失败
+        if (!$this->execute($sql)) {
+            return false;
+        }
+
+>>>>>>> v2-test
         $list = array();
         while (($res = $this->fetch()) != false) {
             $list[] = $res;
         }
+<<<<<<< HEAD
         
         if ($cache_time >= 0 && count($list) <= $options['select_length']) {
             \RC_Cache::query_cache_set($cache_name, $list, $cache_time);
         }
         
         return is_array($list) && ! empty($list) ? $list : null;
+=======
+
+        if ($cache_time >= 0 && count($list) <= $options['select_length']) {
+            \RC_Cache::query_cache_set($cache_name, $list, $cache_time);
+        }
+
+        return is_array($list) && !empty($list) ? $list : null;
+>>>>>>> v2-test
     }
 
     /**
@@ -276,10 +369,17 @@ final class Mysql extends Database
     protected function fetch()
     {
         $res = mysql_fetch_assoc($this->last_query);
+<<<<<<< HEAD
         if (! MAGIC_QUOTES_GPC) {
             $res = rc_stripslashes($res);
         }
         if (! $res) {
+=======
+        if (!MAGIC_QUOTES_GPC) {
+            $res = rc_stripslashes($res);
+        }
+        if (!$res) {
+>>>>>>> v2-test
             $this->result_free();
         }
         return $res;
@@ -295,7 +395,11 @@ final class Mysql extends Database
         }
         $this->last_query = null;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> v2-test
     /**
      * 释放连接资源
      *
@@ -312,7 +416,13 @@ final class Mysql extends Database
             }
         }
     }
+<<<<<<< HEAD
 }
 
 
+=======
+}
+
+
+>>>>>>> v2-test
 // end

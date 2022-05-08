@@ -14,7 +14,11 @@
 namespace PhpSpec\Exception;
 
 use PhpSpec\Exception\Wrapper\SubjectException;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\Util\Instantiator;
 
 /**
@@ -23,14 +27,24 @@ use PhpSpec\Util\Instantiator;
 class ExceptionFactory
 {
     /**
+<<<<<<< HEAD
      * @var PresenterInterface
+=======
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
 
     /**
+<<<<<<< HEAD
      * @param PresenterInterface $presenter
      */
     public function __construct(PresenterInterface $presenter)
+=======
+     * @param Presenter $presenter
+     */
+    public function __construct(Presenter $presenter)
+>>>>>>> v2-test
     {
         $this->presenter = $presenter;
     }
@@ -42,7 +56,11 @@ class ExceptionFactory
      *
      * @return Fracture\NamedConstructorNotFoundException
      */
+<<<<<<< HEAD
     public function namedConstructorNotFound($classname, $method, array $arguments = array())
+=======
+    public function namedConstructorNotFound(string $classname, string $method, array $arguments = array()): Fracture\NamedConstructorNotFoundException
+>>>>>>> v2-test
     {
         $instantiator = new Instantiator();
         $subject = $instantiator->instantiate($classname);
@@ -64,7 +82,11 @@ class ExceptionFactory
      *
      * @return Fracture\MethodNotFoundException
      */
+<<<<<<< HEAD
     public function methodNotFound($classname, $method, array $arguments = array())
+=======
+    public function methodNotFound(string $classname, string $method, array $arguments = array()): Fracture\MethodNotFoundException
+>>>>>>> v2-test
     {
         $instantiator = new Instantiator();
         $subject = $instantiator->instantiate($classname);
@@ -85,7 +107,11 @@ class ExceptionFactory
      *
      * @return Fracture\MethodNotVisibleException
      */
+<<<<<<< HEAD
     public function methodNotVisible($classname, $method, array $arguments = array())
+=======
+    public function methodNotVisible(string $classname, string $method, array $arguments = array()): Fracture\MethodNotVisibleException
+>>>>>>> v2-test
     {
         $instantiator = new Instantiator();
         $subject = $instantiator->instantiate($classname);
@@ -104,7 +130,11 @@ class ExceptionFactory
      *
      * @return Fracture\ClassNotFoundException
      */
+<<<<<<< HEAD
     public function classNotFound($classname)
+=======
+    public function classNotFound(string $classname): Fracture\ClassNotFoundException
+>>>>>>> v2-test
     {
         $message = sprintf('Class %s does not exist.', $this->presenter->presentString($classname));
 
@@ -117,7 +147,11 @@ class ExceptionFactory
      *
      * @return Fracture\PropertyNotFoundException
      */
+<<<<<<< HEAD
     public function propertyNotFound($subject, $property)
+=======
+    public function propertyNotFound($subject, $property): Fracture\PropertyNotFoundException
+>>>>>>> v2-test
     {
         $message = sprintf('Property %s not found.', $this->presenter->presentString($property));
 
@@ -129,7 +163,11 @@ class ExceptionFactory
      *
      * @return SubjectException
      */
+<<<<<<< HEAD
     public function callingMethodOnNonObject($method)
+=======
+    public function callingMethodOnNonObject(string $method): SubjectException
+>>>>>>> v2-test
     {
         return new SubjectException(sprintf(
             'Call to a member function %s on a non-object.',
@@ -142,7 +180,11 @@ class ExceptionFactory
      *
      * @return SubjectException
      */
+<<<<<<< HEAD
     public function settingPropertyOnNonObject($property)
+=======
+    public function settingPropertyOnNonObject(string $property): SubjectException
+>>>>>>> v2-test
     {
         return new SubjectException(sprintf(
             'Setting property %s on a non-object.',
@@ -155,7 +197,11 @@ class ExceptionFactory
      *
      * @return SubjectException
      */
+<<<<<<< HEAD
     public function gettingPropertyOnNonObject($property)
+=======
+    public function gettingPropertyOnNonObject(string $property): SubjectException
+>>>>>>> v2-test
     {
         return new SubjectException(sprintf(
             'Getting property %s on a non-object.',

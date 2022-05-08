@@ -185,7 +185,11 @@ interface UriInterface
      * An empty scheme is equivalent to removing the scheme.
      *
      * @param string $scheme The scheme to use with the new instance.
+<<<<<<< HEAD
      * @return self A new instance with the specified scheme.
+=======
+     * @return static A new instance with the specified scheme.
+>>>>>>> v2-test
      * @throws \InvalidArgumentException for invalid or unsupported schemes.
      */
     public function withScheme($scheme);
@@ -202,7 +206,11 @@ interface UriInterface
      *
      * @param string $user The user name to use for authority.
      * @param null|string $password The password associated with $user.
+<<<<<<< HEAD
      * @return self A new instance with the specified user information.
+=======
+     * @return static A new instance with the specified user information.
+>>>>>>> v2-test
      */
     public function withUserInfo($user, $password = null);
 
@@ -215,7 +223,11 @@ interface UriInterface
      * An empty host value is equivalent to removing the host.
      *
      * @param string $host The hostname to use with the new instance.
+<<<<<<< HEAD
      * @return self A new instance with the specified host.
+=======
+     * @return static A new instance with the specified host.
+>>>>>>> v2-test
      * @throws \InvalidArgumentException for invalid hostnames.
      */
     public function withHost($host);
@@ -234,7 +246,11 @@ interface UriInterface
      *
      * @param null|int $port The port to use with the new instance; a null value
      *     removes the port information.
+<<<<<<< HEAD
      * @return self A new instance with the specified port.
+=======
+     * @return static A new instance with the specified port.
+>>>>>>> v2-test
      * @throws \InvalidArgumentException for invalid ports.
      */
     public function withPort($port);
@@ -258,7 +274,11 @@ interface UriInterface
      * Implementations ensure the correct encoding as outlined in getPath().
      *
      * @param string $path The path to use with the new instance.
+<<<<<<< HEAD
      * @return self A new instance with the specified path.
+=======
+     * @return static A new instance with the specified path.
+>>>>>>> v2-test
      * @throws \InvalidArgumentException for invalid paths.
      */
     public function withPath($path);
@@ -275,7 +295,11 @@ interface UriInterface
      * An empty query string value is equivalent to removing the query string.
      *
      * @param string $query The query string to use with the new instance.
+<<<<<<< HEAD
      * @return self A new instance with the specified query string.
+=======
+     * @return static A new instance with the specified query string.
+>>>>>>> v2-test
      * @throws \InvalidArgumentException for invalid query strings.
      */
     public function withQuery($query);
@@ -292,7 +316,11 @@ interface UriInterface
      * An empty fragment value is equivalent to removing the fragment.
      *
      * @param string $fragment The fragment to use with the new instance.
+<<<<<<< HEAD
      * @return self A new instance with the specified fragment.
+=======
+     * @return static A new instance with the specified fragment.
+>>>>>>> v2-test
      */
     public function withFragment($fragment);
 

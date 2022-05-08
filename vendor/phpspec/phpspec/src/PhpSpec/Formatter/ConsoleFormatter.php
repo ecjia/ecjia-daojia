@@ -13,6 +13,7 @@
 
 namespace PhpSpec\Formatter;
 
+<<<<<<< HEAD
 use PhpSpec\Console\IO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Exception\Example\PendingException;
@@ -25,15 +26,38 @@ class ConsoleFormatter extends BasicFormatter implements FatalPresenter
 {
     /**
      * @var IO
+=======
+use PhpSpec\Console\ConsoleIO;
+use PhpSpec\Event\ExampleEvent;
+use PhpSpec\Exception\Example\PendingException;
+use PhpSpec\Exception\Example\SkippingException;
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\IO\IO;
+use PhpSpec\Listener\StatisticsCollector;
+use PhpSpec\Message\CurrentExampleTracker;
+
+abstract class ConsoleFormatter extends BasicFormatter implements FatalPresenter
+{
+    /**
+     * @var ConsoleIO
+>>>>>>> v2-test
      */
     private $io;
 
     /**
+<<<<<<< HEAD
      * @param PresenterInterface  $presenter
      * @param IO                  $io
      * @param StatisticsCollector $stats
      */
     public function __construct(PresenterInterface $presenter, IO $io, StatisticsCollector $stats)
+=======
+     * @param Presenter           $presenter
+     * @param ConsoleIO           $io
+     * @param StatisticsCollector $stats
+     */
+    public function __construct(Presenter $presenter, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         parent::__construct($presenter, $io, $stats);
         $this->io = $io;
@@ -42,7 +66,11 @@ class ConsoleFormatter extends BasicFormatter implements FatalPresenter
     /**
      * @return IO
      */
+<<<<<<< HEAD
     protected function getIO()
+=======
+    protected function getIO(): IO
+>>>>>>> v2-test
     {
         return $this->io;
     }
@@ -50,7 +78,11 @@ class ConsoleFormatter extends BasicFormatter implements FatalPresenter
     /**
      * @param ExampleEvent $event
      */
+<<<<<<< HEAD
     protected function printException(ExampleEvent $event)
+=======
+    protected function printException(ExampleEvent $event): void
+>>>>>>> v2-test
     {
         if (null === $exception = $event->getException()) {
             return;
@@ -60,7 +92,11 @@ class ConsoleFormatter extends BasicFormatter implements FatalPresenter
             $this->printSpecificException($event, 'pending');
         } elseif ($exception instanceof SkippingException) {
             if ($this->io->isVerbose()) {
+<<<<<<< HEAD
                 $this->printSpecificException($event, 'skipped ');
+=======
+                $this->printSpecificException($event, 'skipped');
+>>>>>>> v2-test
             }
         } elseif (ExampleEvent::FAILED === $event->getResult()) {
             $this->printSpecificException($event, 'failed');
@@ -73,7 +109,11 @@ class ConsoleFormatter extends BasicFormatter implements FatalPresenter
      * @param ExampleEvent $event
      * @param string $type
      */
+<<<<<<< HEAD
     protected function printSpecificException(ExampleEvent $event, $type)
+=======
+    protected function printSpecificException(ExampleEvent $event, string $type): void
+>>>>>>> v2-test
     {
         $title = str_replace('\\', DIRECTORY_SEPARATOR, $event->getSpecification()->getTitle());
         $message = $this->getPresenter()->presentException($event->getException(), $this->io->isVerbose());
@@ -84,7 +124,11 @@ class ConsoleFormatter extends BasicFormatter implements FatalPresenter
 
         $this->io->writeln(sprintf(
             '<lineno>%4d</lineno>  <%s>- %s</%s>',
+<<<<<<< HEAD
             $event->getExample()->getFunctionReflection()->getStartLine(),
+=======
+            $event->getExample()->getLineNumber(),
+>>>>>>> v2-test
             $type,
             $event->getExample()->getTitle(),
             $type
@@ -93,11 +137,19 @@ class ConsoleFormatter extends BasicFormatter implements FatalPresenter
         $this->io->writeln();
     }
 
+<<<<<<< HEAD
     public function displayFatal(CurrentExampleTracker $currentExample, $error)
     {
         if (
             (null !== $error && ($currentExample->getCurrentExample() || $error['type'] == E_ERROR)) ||
             (is_null($currentExample->getCurrentExample()) && defined('HHVM_VERSION'))
+=======
+    public function displayFatal(CurrentExampleTracker $currentExample, $error): void
+    {
+        if (
+            (null !== $error && ($currentExample->getCurrentExample() || $error['type'] == E_ERROR)) ||
+            (\is_null($currentExample->getCurrentExample()) && \defined('HHVM_VERSION'))
+>>>>>>> v2-test
         ) {
             ini_set('display_errors', "stderr");
             $failedOpen = ($this->io->isDecorated()) ? '<failed>' : '';

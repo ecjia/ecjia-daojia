@@ -19,16 +19,26 @@ final class BooleanTypePresenter implements TypePresenter
      * @param mixed $value
      * @return bool
      */
+<<<<<<< HEAD
     public function supports($value)
     {
         return 'boolean' === strtolower(gettype($value));
+=======
+    public function supports($value): bool
+    {
+        return 'boolean' === strtolower(\gettype($value));
+>>>>>>> v2-test
     }
 
     /**
      * @param mixed $value
      * @return string
      */
+<<<<<<< HEAD
     public function present($value)
+=======
+    public function present($value): string
+>>>>>>> v2-test
     {
         return $value ? 'true' : 'false';
     }
@@ -36,7 +46,11 @@ final class BooleanTypePresenter implements TypePresenter
     /**
      * @return int
      */
+<<<<<<< HEAD
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 40;
     }

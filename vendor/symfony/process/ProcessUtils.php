@@ -30,6 +30,7 @@ class ProcessUtils
     }
 
     /**
+<<<<<<< HEAD
      * Escapes a string to be used as a shell argument.
      *
      * @param string $argument The argument that will be escaped
@@ -75,6 +76,8 @@ class ProcessUtils
     }
 
     /**
+=======
+>>>>>>> v2-test
      * Validates and normalizes a Process input.
      *
      * @param string $caller The name of method call that validates the input
@@ -83,6 +86,7 @@ class ProcessUtils
      * @return mixed The validated input
      *
      * @throws InvalidArgumentException In case the input is not valid
+<<<<<<< HEAD
      *
      * Passing an object as an input is deprecated since version 2.5 and will be removed in 3.0.
      */
@@ -93,11 +97,22 @@ class ProcessUtils
                 return $input;
             }
             if (is_string($input)) {
+=======
+     */
+    public static function validateInput(string $caller, $input)
+    {
+        if (null !== $input) {
+            if (\is_resource($input)) {
+                return $input;
+            }
+            if (\is_string($input)) {
+>>>>>>> v2-test
                 return $input;
             }
             if (is_scalar($input)) {
                 return (string) $input;
             }
+<<<<<<< HEAD
             // deprecated as of Symfony 2.5, to be removed in 3.0
             if (is_object($input) && method_exists($input, '__toString')) {
                 @trigger_error('Passing an object as an input is deprecated since version 2.5 and will be removed in 3.0.', E_USER_DEPRECATED);
@@ -106,13 +121,29 @@ class ProcessUtils
             }
 
             throw new InvalidArgumentException(sprintf('%s only accepts strings or stream resources.', $caller));
+=======
+            if ($input instanceof Process) {
+                return $input->getIterator($input::ITER_SKIP_ERR);
+            }
+            if ($input instanceof \Iterator) {
+                return $input;
+            }
+            if ($input instanceof \Traversable) {
+                return new \IteratorIterator($input);
+            }
+
+            throw new InvalidArgumentException(sprintf('"%s" only accepts strings, Traversable objects or stream resources.', $caller));
+>>>>>>> v2-test
         }
 
         return $input;
     }
+<<<<<<< HEAD
 
     private static function isSurroundedBy($arg, $char)
     {
         return 2 < strlen($arg) && $char === $arg[0] && $char === $arg[strlen($arg) - 1];
     }
+=======
+>>>>>>> v2-test
 }

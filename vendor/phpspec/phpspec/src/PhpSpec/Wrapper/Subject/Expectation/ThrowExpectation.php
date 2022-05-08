@@ -13,7 +13,11 @@
 
 namespace PhpSpec\Wrapper\Subject\Expectation;
 
+<<<<<<< HEAD
 interface ThrowExpectation
+=======
+interface ThrowExpectation extends Expectation
+>>>>>>> v2-test
 {
     /**
      * @param string $method
@@ -21,5 +25,9 @@ interface ThrowExpectation
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public function during($method, array $arguments = array());
+=======
+    public function during(string $method, array $arguments = array());
+>>>>>>> v2-test
 }

@@ -15,5 +15,14 @@
         "psr-0": {
             "Diff": "lib/"
         }
+<<<<<<< HEAD
+=======
+    },
+    
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+>>>>>>> v2-test
     }
 }

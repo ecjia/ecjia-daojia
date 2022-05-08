@@ -21,21 +21,38 @@ interface TypeHintIndex
      * @param string $argument
      * @param string $typehint
      */
+<<<<<<< HEAD
     public function add($class, $method, $argument, $typehint);
+=======
+    public function add(string $class, string $method, string $argument, string $typehint): void;
+>>>>>>> v2-test
 
     /**
      * @param string $class
      * @param string $method
      * @param string $argument
+<<<<<<< HEAD
      * @param Exception $exception
      */
     public function addInvalid($class, $method, $argument, \Exception $exception);
+=======
+     * @param \Exception $exception
+     */
+    public function addInvalid(string $class, string $method, string $argument, \Exception $exception): void;
+>>>>>>> v2-test
 
     /**
      * @param string $class
      * @param string $method
      * @param string $argument
+<<<<<<< HEAD
      * @return string
      */
     public function lookup($class, $method, $argument);
+=======
+     *
+     * @return string|null
+     */
+    public function lookup(string $class, string $method, string $argument);
+>>>>>>> v2-test
 }

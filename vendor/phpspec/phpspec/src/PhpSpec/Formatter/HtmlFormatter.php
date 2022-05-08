@@ -16,11 +16,19 @@ namespace PhpSpec\Formatter;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Event\SpecificationEvent;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\IO\IOInterface as IO;
 use PhpSpec\Listener\StatisticsCollector;
 
 class HtmlFormatter extends BasicFormatter
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\IO\IO;
+use PhpSpec\Listener\StatisticsCollector;
+
+final class HtmlFormatter extends BasicFormatter
+>>>>>>> v2-test
 {
     /**
      * @var Html\ReportItemFactory
@@ -34,7 +42,11 @@ class HtmlFormatter extends BasicFormatter
 
     public function __construct(
         Html\ReportItemFactory $reportItemFactory,
+<<<<<<< HEAD
         PresenterInterface $presenter,
+=======
+        Presenter $presenter,
+>>>>>>> v2-test
         IO $io,
         StatisticsCollector $stats
     ) {

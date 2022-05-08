@@ -1,12 +1,19 @@
 {
+<<<<<<< HEAD
     "name":    "phpdocumentor/reflection-docblock",
     "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
     "type":    "library",
+=======
+    "name": "phpdocumentor/reflection-docblock",
+    "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
+    "type": "library",
+>>>>>>> v2-test
     "license": "MIT",
     "authors": [
         {
             "name": "Mike van Riel",
             "email": "me@mikevanriel.com"
+<<<<<<< HEAD
         }
     ],
     "require": {
@@ -24,5 +31,37 @@
     "require-dev": {
         "mockery/mockery": "^0.9.4",
         "phpunit/phpunit": "^4.4"
+=======
+        },
+        {
+            "name": "Jaap van Otterdijk",
+            "email": "account@ijaap.nl"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "phpdocumentor/type-resolver": "^1.3",
+        "webmozart/assert": "^1.9.1",
+        "phpdocumentor/reflection-common": "^2.2",
+        "ext-filter": "*"
+    },
+    "require-dev": {
+        "mockery/mockery": "~1.3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "phpDocumentor\\Reflection\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpDocumentor\\Reflection\\": "tests/unit"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        }
+>>>>>>> v2-test
     }
 }

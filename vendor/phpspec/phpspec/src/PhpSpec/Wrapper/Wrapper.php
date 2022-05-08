@@ -13,10 +13,17 @@
 
 namespace PhpSpec\Wrapper;
 
+<<<<<<< HEAD
 use PhpSpec\CodeAnalysis\AccessInspectorInterface;
 use PhpSpec\Exception\ExceptionFactory;
 use PhpSpec\Runner\MatcherManager;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\CodeAnalysis\AccessInspector;
+use PhpSpec\Exception\ExceptionFactory;
+use PhpSpec\Runner\MatcherManager;
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use PhpSpec\Loader\Node\ExampleNode;
 use PhpSpec\Wrapper\Subject\WrappedObject;
@@ -31,7 +38,11 @@ class Wrapper
      */
     private $matchers;
     /**
+<<<<<<< HEAD
      * @var PresenterInterface
+=======
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
     /**
@@ -43,12 +54,17 @@ class Wrapper
      */
     private $example;
     /**
+<<<<<<< HEAD
      * @var AccessInspectorInterface
+=======
+     * @var AccessInspector
+>>>>>>> v2-test
      */
     private $accessInspector;
 
     /**
      * @param MatcherManager $matchers
+<<<<<<< HEAD
      * @param PresenterInterface $presenter
      * @param EventDispatcherInterface $dispatcher
      * @param ExampleNode $example
@@ -60,6 +76,19 @@ class Wrapper
         EventDispatcherInterface $dispatcher,
         ExampleNode $example,
         AccessInspectorInterface $accessInspector = null
+=======
+     * @param Presenter $presenter
+     * @param EventDispatcherInterface $dispatcher
+     * @param ExampleNode $example
+     * @param AccessInspector $accessInspector
+     */
+    public function __construct(
+        MatcherManager $matchers,
+        Presenter $presenter,
+        EventDispatcherInterface $dispatcher,
+        ExampleNode $example,
+        AccessInspector $accessInspector = null
+>>>>>>> v2-test
     ) {
         $this->matchers = $matchers;
         $this->presenter = $presenter;
@@ -73,7 +102,11 @@ class Wrapper
      *
      * @return Subject
      */
+<<<<<<< HEAD
     public function wrap($value = null)
+=======
+    public function wrap($value = null): Subject
+>>>>>>> v2-test
     {
         $wrappedObject = new WrappedObject($value, $this->presenter);
         $caller = $this->createCaller($wrappedObject);
@@ -95,7 +128,11 @@ class Wrapper
      *
      * @return Caller
      */
+<<<<<<< HEAD
     private function createCaller(WrappedObject $wrappedObject)
+=======
+    private function createCaller(WrappedObject $wrappedObject): Caller
+>>>>>>> v2-test
     {
         $exceptionFactory = new ExceptionFactory($this->presenter);
 

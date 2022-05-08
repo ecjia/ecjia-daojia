@@ -13,6 +13,7 @@
 
 namespace PhpSpec\Util;
 
+<<<<<<< HEAD
 final class ReservedWordsMethodNameChecker implements NameCheckerInterface
 {
     private $reservedWords = array(
@@ -90,12 +91,25 @@ final class ReservedWordsMethodNameChecker implements NameCheckerInterface
         '__namespace__',
         '__trait__',
     );
+=======
+final class ReservedWordsMethodNameChecker implements NameChecker
+{
+    private $reservedWords = [
+        '__halt_compiler',
+    ];
+>>>>>>> v2-test
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function isNameValid($name)
     {
         return !in_array(strtolower($name), $this->reservedWords);
+=======
+    public function isNameValid(string $name): bool
+    {
+        return !\in_array(strtolower($name), $this->reservedWords);
+>>>>>>> v2-test
     }
 }

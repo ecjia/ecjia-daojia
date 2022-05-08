@@ -5,11 +5,12 @@ namespace Ecjia\System\Admins\Users;
 use Ecjia\System\Frameworks\Contracts\UserInterface;
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
 use RC_Hook;
-use RC_Uri;
+use Royalcms\Component\Support\Traits\Macroable;
 
 class AdminUser extends AbstractRepository implements UserInterface
 {
-    
+    use Macroable;
+
     protected $model = 'Ecjia\System\Admins\Users\AdminUserModel';
     
     protected $user;
@@ -22,22 +23,13 @@ class AdminUser extends AbstractRepository implements UserInterface
     
     public function __construct($userid, $purviewClass = null)
     {
-        parent::__construct();
+        $this->model = RC_Hook::apply_filters('ecjia_admin_user_model', $this->model);
         
+        parent::__construct();
+
         $this->user = $this->find($userid);
         
-        if (is_string($purviewClass) && class_exists($purviewClass)) {
-            $this->purview = new $purviewClass($userid);
-        }
-        elseif (is_callable($purviewClass)) {
-            $this->purview = $purviewClass($userid);
-        }
-        elseif (is_null($purviewClass)) {
-            $pruviewClass = config('ecjia.admin_user_purview', '\Ecjia\System\Admins\Users\AdminUserDefaultAllotPurview');
-            $this->purview = new $pruviewClass($userid);
-        }
-        
-        $this->purview = RC_Hook::apply_filters('ecjia_admin_user_allot_purview_handle', $this->purview);
+        $this->purview = (new AdminPurviewClass($userid, $purviewClass))->getPurviewInstance();
     }
     
     /**
@@ -129,44 +121,6 @@ class AdminUser extends AbstractRepository implements UserInterface
     public function getAddTime()
     {
         return $this->user->add_time;
-    }
-    
-    /**
-     * 获取退出登录地址
-     */
-    public function getLogoutUrl()
-    {
-        return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('@privilege/logout'));
-    }
-    
-    /**
-     * 获取登录地址
-     */
-    public function getLoginUrl()
-    {
-        return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('@privilege/login'));
-    }
-    
-    /**
-     * 获取个人设置地址
-     */
-    public function getProfileSettingUrl()
-    {
-        return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('@privilege/modif'));
-    }
-    
-    /**
-     * 获取个人头像地址
-     */
-    public function getAvatarUrl($default = null)
-    {
-        if (is_null($default)) {
-            $avatar = RC_Uri::system_static_url('images/user_avatar.png');
-        } else {
-            $avatar = $default;
-        }
-
-        return $avatar;
     }
     
 }

@@ -18,6 +18,7 @@ namespace Symfony\Component\CssSelector\Node;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class HashNode extends AbstractNode
 {
@@ -36,23 +37,42 @@ class HashNode extends AbstractNode
      * @param string        $id
      */
     public function __construct(NodeInterface $selector, $id)
+=======
+ *
+ * @internal
+ */
+class HashNode extends AbstractNode
+{
+    private $selector;
+    private $id;
+
+    public function __construct(NodeInterface $selector, string $id)
+>>>>>>> v2-test
     {
         $this->selector = $selector;
         $this->id = $id;
     }
 
+<<<<<<< HEAD
     /**
      * @return NodeInterface
      */
     public function getSelector()
+=======
+    public function getSelector(): NodeInterface
+>>>>>>> v2-test
     {
         return $this->selector;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getId()
+=======
+    public function getId(): string
+>>>>>>> v2-test
     {
         return $this->id;
     }
@@ -60,7 +80,11 @@ class HashNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getSpecificity()
+=======
+    public function getSpecificity(): Specificity
+>>>>>>> v2-test
     {
         return $this->selector->getSpecificity()->plus(new Specificity(1, 0, 0));
     }
@@ -68,7 +92,11 @@ class HashNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> v2-test
     {
         return sprintf('%s[%s#%s]', $this->getNodeName(), $this->selector, $this->id);
     }

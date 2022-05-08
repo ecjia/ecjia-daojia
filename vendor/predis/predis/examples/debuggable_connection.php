@@ -36,7 +36,11 @@ class SimpleDebuggableConnection extends StreamConnection
         $firtsArg = $command->getArgument(0);
         $timestamp = round(microtime(true) - $this->tstart, 4);
 
+<<<<<<< HEAD
         $debug  = $command->getId();
+=======
+        $debug = $command->getId();
+>>>>>>> v2-test
         $debug .= isset($firtsArg) ? " $firtsArg " : ' ';
         $debug .= "$direction $this";
         $debug .= " [{$timestamp}s]";

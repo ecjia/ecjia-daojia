@@ -13,17 +13,28 @@
 
 namespace PhpSpec\Listener;
 
+<<<<<<< HEAD
 use PhpSpec\Util\ReservedWordsMethodNameChecker;
 use PhpSpec\Util\NameCheckerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PhpSpec\Console\IO;
 use PhpSpec\Locator\ResourceManagerInterface;
+=======
+use PhpSpec\Util\NameChecker;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use PhpSpec\Console\ConsoleIO;
+use PhpSpec\Locator\ResourceManager;
+>>>>>>> v2-test
 use PhpSpec\CodeGenerator\GeneratorManager;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Exception\Fracture\MethodNotFoundException;
 
+<<<<<<< HEAD
 class MethodNotFoundListener implements EventSubscriberInterface
+=======
+final class MethodNotFoundListener implements EventSubscriberInterface
+>>>>>>> v2-test
 {
     private $io;
     private $resources;
@@ -31,11 +42,16 @@ class MethodNotFoundListener implements EventSubscriberInterface
     private $methods = array();
     private $wrongMethodNames = array();
     /**
+<<<<<<< HEAD
      * @var NameCheckerInterface
+=======
+     * @var NameChecker
+>>>>>>> v2-test
      */
     private $nameChecker;
 
     /**
+<<<<<<< HEAD
      * @param IO $io
      * @param ResourceManagerInterface $resources
      * @param GeneratorManager $generator
@@ -46,11 +62,27 @@ class MethodNotFoundListener implements EventSubscriberInterface
         ResourceManagerInterface $resources,
         GeneratorManager $generator,
         NameCheckerInterface $nameChecker = null
+=======
+     * @param ConsoleIO $io
+     * @param ResourceManager $resources
+     * @param GeneratorManager $generator
+     * @param NameChecker $nameChecker
+     */
+    public function __construct(
+        ConsoleIO $io,
+        ResourceManager $resources,
+        GeneratorManager $generator,
+        NameChecker $nameChecker
+>>>>>>> v2-test
     ) {
         $this->io        = $io;
         $this->resources = $resources;
         $this->generator = $generator;
+<<<<<<< HEAD
         $this->nameChecker = $nameChecker ?: new ReservedWordsMethodNameChecker();
+=======
+        $this->nameChecker = $nameChecker;
+>>>>>>> v2-test
     }
 
     public static function getSubscribedEvents()
@@ -61,7 +93,11 @@ class MethodNotFoundListener implements EventSubscriberInterface
         );
     }
 
+<<<<<<< HEAD
     public function afterExample(ExampleEvent $event)
+=======
+    public function afterExample(ExampleEvent $event): void
+>>>>>>> v2-test
     {
         if (null === $exception = $event->getException()) {
             return;
@@ -71,13 +107,21 @@ class MethodNotFoundListener implements EventSubscriberInterface
             return;
         }
 
+<<<<<<< HEAD
         $classname = get_class($exception->getSubject());
+=======
+        $classname = \get_class($exception->getSubject());
+>>>>>>> v2-test
         $methodName = $exception->getMethodName();
         $this->methods[$classname .'::'.$methodName] = $exception->getArguments();
         $this->checkIfMethodNameAllowed($methodName);
     }
 
+<<<<<<< HEAD
     public function afterSuite(SuiteEvent $event)
+=======
+    public function afterSuite(SuiteEvent $event): void
+>>>>>>> v2-test
     {
         if (!$this->io->isCodeGenerationEnabled()) {
             return;
@@ -86,7 +130,11 @@ class MethodNotFoundListener implements EventSubscriberInterface
         foreach ($this->methods as $call => $arguments) {
             list($classname, $method) = explode('::', $call);
 
+<<<<<<< HEAD
             if (in_array($method, $this->wrongMethodNames)) {
+=======
+            if (\in_array($method, $this->wrongMethodNames)) {
+>>>>>>> v2-test
                 continue;
             }
 
@@ -113,14 +161,22 @@ class MethodNotFoundListener implements EventSubscriberInterface
         }
     }
 
+<<<<<<< HEAD
     private function checkIfMethodNameAllowed($methodName)
+=======
+    private function checkIfMethodNameAllowed($methodName): void
+>>>>>>> v2-test
     {
         if (!$this->nameChecker->isNameValid($methodName)) {
             $this->wrongMethodNames[] = $methodName;
         }
     }
 
+<<<<<<< HEAD
     private function writeWrongMethodNameMessage()
+=======
+    private function writeWrongMethodNameMessage(): void
+>>>>>>> v2-test
     {
         foreach ($this->wrongMethodNames as $methodName) {
             $message = sprintf("I cannot generate the method '%s' for you because it is a reserved keyword", $methodName);

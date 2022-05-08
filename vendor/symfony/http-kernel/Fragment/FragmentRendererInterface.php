@@ -12,8 +12,13 @@
 namespace Symfony\Component\HttpKernel\Fragment;
 
 use Symfony\Component\HttpFoundation\Request;
+<<<<<<< HEAD
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpFoundation\Response;
+=======
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
+>>>>>>> v2-test
 
 /**
  * Interface implemented by all rendering strategies.
@@ -25,6 +30,7 @@ interface FragmentRendererInterface
     /**
      * Renders a URI and returns the Response content.
      *
+<<<<<<< HEAD
      * @param string|ControllerReference $uri     A URI as a string or a ControllerReference instance
      * @param Request                    $request A Request instance
      * @param array                      $options An array of options
@@ -32,6 +38,13 @@ interface FragmentRendererInterface
      * @return Response A Response instance
      */
     public function render($uri, Request $request, array $options = array());
+=======
+     * @param string|ControllerReference $uri A URI as a string or a ControllerReference instance
+     *
+     * @return Response A Response instance
+     */
+    public function render($uri, Request $request, array $options = []);
+>>>>>>> v2-test
 
     /**
      * Gets the name of the strategy.

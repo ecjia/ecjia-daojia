@@ -13,6 +13,7 @@
 
 namespace PhpSpec\Matcher;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 
@@ -20,13 +21,28 @@ class StringStartMatcher extends BasicMatcher
 {
     /**
      * @var PresenterInterface
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\Exception\Example\FailureException;
+
+final class StringStartMatcher extends BasicMatcher
+{
+    /**
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
 
     /**
+<<<<<<< HEAD
      * @param PresenterInterface $presenter
      */
     public function __construct(PresenterInterface $presenter)
+=======
+     * @param Presenter $presenter
+     */
+    public function __construct(Presenter $presenter)
+>>>>>>> v2-test
     {
         $this->presenter = $presenter;
     }
@@ -38,11 +54,19 @@ class StringStartMatcher extends BasicMatcher
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function supports($name, $subject, array $arguments)
     {
         return 'startWith' === $name
             && is_string($subject)
             && 1 == count($arguments)
+=======
+    public function supports(string $name, $subject, array $arguments): bool
+    {
+        return 'startWith' === $name
+            && \is_string($subject)
+            && 1 == \count($arguments)
+>>>>>>> v2-test
         ;
     }
 
@@ -52,7 +76,11 @@ class StringStartMatcher extends BasicMatcher
      *
      * @return bool
      */
+<<<<<<< HEAD
     protected function matches($subject, array $arguments)
+=======
+    protected function matches($subject, array $arguments): bool
+>>>>>>> v2-test
     {
         return 0 === strpos($subject, $arguments[0]);
     }
@@ -64,7 +92,11 @@ class StringStartMatcher extends BasicMatcher
      *
      * @return FailureException
      */
+<<<<<<< HEAD
     protected function getFailureException($name, $subject, array $arguments)
+=======
+    protected function getFailureException(string $name, $subject, array $arguments): FailureException
+>>>>>>> v2-test
     {
         return new FailureException(sprintf(
             'Expected %s to start with %s, but it does not.',
@@ -80,7 +112,11 @@ class StringStartMatcher extends BasicMatcher
      *
      * @return FailureException
      */
+<<<<<<< HEAD
     protected function getNegativeFailureException($name, $subject, array $arguments)
+=======
+    protected function getNegativeFailureException(string $name, $subject, array $arguments): FailureException
+>>>>>>> v2-test
     {
         return new FailureException(sprintf(
             'Expected %s not to start with %s, but it does.',

@@ -3,9 +3,14 @@
 namespace spec\PhpSpec\Loader\Node;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
 
 use PhpSpec\Locator\ResourceInterface;
+=======
+
+use PhpSpec\Locator\Resource;
+>>>>>>> v2-test
 use PhpSpec\Loader\Node\ExampleNode;
 use PhpSpec\Loader\Suite;
 
@@ -13,7 +18,11 @@ use ReflectionClass;
 
 class SpecificationNodeSpec extends ObjectBehavior
 {
+<<<<<<< HEAD
     public function let(ReflectionClass $class, ResourceInterface $resource)
+=======
+    public function let(ReflectionClass $class, Resource $resource)
+>>>>>>> v2-test
     {
         $this->beConstructedWith('specification node', $class, $resource);
     }

@@ -51,7 +51,7 @@
  * Time: 10:06 AM
  */
 
-interface api_interface extends Ecjia\App\Api\Responses\Contracts\ApiHandler
+interface api_interface extends Ecjia\Component\ApiServer\Contracts\ApiHandler
 {
 
 }

@@ -14,14 +14,14 @@
 
 namespace League\CommonMark\Inline\Element;
 
-abstract class AbstractWebResource extends AbstractInlineContainer
+abstract class AbstractWebResource extends AbstractInline
 {
     /**
      * @var string
      */
     protected $url;
 
-    public function __construct($url)
+    public function __construct(string $url)
     {
         $this->url = $url;
     }
@@ -29,7 +29,7 @@ abstract class AbstractWebResource extends AbstractInlineContainer
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -39,10 +39,15 @@ abstract class AbstractWebResource extends AbstractInlineContainer
      *
      * @return $this
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
 
         return $this;
+    }
+
+    public function isContainer(): bool
+    {
+        return true;
     }
 }

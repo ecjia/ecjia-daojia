@@ -47,13 +47,24 @@
 
 namespace Ecjia\App\Sms;
 
-use Ecjia\System\Plugin\PluginModel;
-use ecjia_config;
+use Ecjia\Component\Plugin\PluginModel;
+use Ecjia\Component\Plugin\Storages\SmsPluginStorage;
 use ecjia_error;
 
 class SmsPlugin extends PluginModel
 {
     protected $table = 'notification_channels';
+
+    /**
+     * AttributeModel constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->connection = config('ecjia.database_connection', 'default');
+
+        parent::__construct($attributes);
+    }
     
     /**
      * 当前插件种类的唯一标识字段名
@@ -68,7 +79,7 @@ class SmsPlugin extends PluginModel
      */
     public function getInstalledPlugins()
     {
-        return ecjia_config::getAddonConfig('sms_plugins', true);
+        return (new SmsPluginStorage())->getPlugins();
     }
     
     /**

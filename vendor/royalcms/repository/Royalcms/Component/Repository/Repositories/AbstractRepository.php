@@ -259,6 +259,50 @@ abstract class AbstractRepository implements RepositoryContract
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @param $column
+     * @param null $operator
+     * @param null $value
+     * @return self
+     */
+    public function addWhereQuery($column, $operator = null, $value = null)
+    {
+        return $this->addScopeQuery(function ($query) use ($column, $operator, $value) {
+            $query->where($column, $operator, $value);
+            return $query;
+        });
+    }
+
+    /**
+     * Find data by multiple fields
+     *
+     * @param array $where
+     * @param array $columns
+     *
+     * @return mixed
+     */
+    public function findCount(array $where = [])
+    {
+        $this->newQuery();
+
+        if (!empty($where)) {
+            foreach ($where as $field => $value) {
+                if (is_array($value)) {
+                    list($field, $condition, $val) = $value;
+                    $this->query->where($field, $condition, $val);
+                }
+                else {
+                    $this->query->where($field, '=', $value);
+                }
+            }
+        }
+
+        return $this->query->count();
+    }
+
+    /**
+>>>>>>> v2-test
      * Order results by.
      *
      * @param string $column

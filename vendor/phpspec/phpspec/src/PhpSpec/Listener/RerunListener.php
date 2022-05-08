@@ -14,11 +14,19 @@
 namespace PhpSpec\Listener;
 
 use PhpSpec\Event\SuiteEvent;
+<<<<<<< HEAD
 use PhpSpec\Process\Prerequisites\SuitePrerequisitesInterface;
 use PhpSpec\Process\ReRunner;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RerunListener implements EventSubscriberInterface
+=======
+use PhpSpec\Process\Prerequisites\PrerequisiteTester;
+use PhpSpec\Process\ReRunner;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+final class RerunListener implements EventSubscriberInterface
+>>>>>>> v2-test
 {
     /**
      * @var ReRunner
@@ -26,15 +34,25 @@ class RerunListener implements EventSubscriberInterface
     private $reRunner;
 
     /**
+<<<<<<< HEAD
      * @var SuitePrerequisitesInterface
+=======
+     * @var PrerequisiteTester
+>>>>>>> v2-test
      */
     private $suitePrerequisites;
 
     /**
      * @param ReRunner $reRunner
+<<<<<<< HEAD
      * @param SuitePrerequisitesInterface $suitePrerequisites
      */
     public function __construct(ReRunner $reRunner, SuitePrerequisitesInterface $suitePrerequisites)
+=======
+     * @param PrerequisiteTester $suitePrerequisites
+     */
+    public function __construct(ReRunner $reRunner, PrerequisiteTester $suitePrerequisites)
+>>>>>>> v2-test
     {
         $this->reRunner = $reRunner;
         $this->suitePrerequisites = $suitePrerequisites;
@@ -54,7 +72,11 @@ class RerunListener implements EventSubscriberInterface
     /**
      * @param SuiteEvent $suiteEvent
      */
+<<<<<<< HEAD
     public function beforeSuite(SuiteEvent $suiteEvent)
+=======
+    public function beforeSuite(SuiteEvent $suiteEvent): void
+>>>>>>> v2-test
     {
         $this->suitePrerequisites->guardPrerequisites();
     }
@@ -62,7 +84,11 @@ class RerunListener implements EventSubscriberInterface
     /**
      * @param SuiteEvent $suiteEvent
      */
+<<<<<<< HEAD
     public function afterSuite(SuiteEvent $suiteEvent)
+=======
+    public function afterSuite(SuiteEvent $suiteEvent): void
+>>>>>>> v2-test
     {
         if ($suiteEvent->isWorthRerunning()) {
             $this->reRunner->reRunSuite();

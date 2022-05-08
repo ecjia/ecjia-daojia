@@ -41,11 +41,17 @@ abstract class Helper implements HelperInterface
     /**
      * Returns the length of a string, using mb_strwidth if it is available.
      *
+<<<<<<< HEAD
      * @param string $string The string to check its length
      *
      * @return int The length of the string
      */
     public static function strlen($string)
+=======
+     * @return int The length of the string
+     */
+    public static function strlen(?string $string)
+>>>>>>> v2-test
     {
         if (false === $encoding = mb_detect_encoding($string, null, true)) {
             return \strlen($string);
@@ -57,6 +63,7 @@ abstract class Helper implements HelperInterface
     /**
      * Returns the subset of a string, using mb_substr if it is available.
      *
+<<<<<<< HEAD
      * @param string   $string String to subset
      * @param int      $from   Start offset
      * @param int|null $length Length to read
@@ -64,6 +71,11 @@ abstract class Helper implements HelperInterface
      * @return string The string subset
      */
     public static function substr($string, $from, $length = null)
+=======
+     * @return string The string subset
+     */
+    public static function substr(string $string, int $from, int $length = null)
+>>>>>>> v2-test
     {
         if (false === $encoding = mb_detect_encoding($string, null, true)) {
             return substr($string, $from, $length);
@@ -74,6 +86,7 @@ abstract class Helper implements HelperInterface
 
     public static function formatTime($secs)
     {
+<<<<<<< HEAD
         static $timeFormats = array(
             array(0, '< 1 sec'),
             array(1, '1 sec'),
@@ -85,6 +98,19 @@ abstract class Helper implements HelperInterface
             array(86400, '1 day'),
             array(172800, 'days', 86400),
         );
+=======
+        static $timeFormats = [
+            [0, '< 1 sec'],
+            [1, '1 sec'],
+            [2, 'secs', 1],
+            [60, '1 min'],
+            [120, 'mins', 60],
+            [3600, '1 hr'],
+            [7200, 'hrs', 3600],
+            [86400, '1 day'],
+            [172800, 'days', 86400],
+        ];
+>>>>>>> v2-test
 
         foreach ($timeFormats as $index => $format) {
             if ($secs >= $format[0]) {
@@ -101,7 +127,11 @@ abstract class Helper implements HelperInterface
         }
     }
 
+<<<<<<< HEAD
     public static function formatMemory($memory)
+=======
+    public static function formatMemory(int $memory)
+>>>>>>> v2-test
     {
         if ($memory >= 1024 * 1024 * 1024) {
             return sprintf('%.1f GiB', $memory / 1024 / 1024 / 1024);

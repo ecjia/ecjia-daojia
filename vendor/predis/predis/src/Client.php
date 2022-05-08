@@ -38,9 +38,15 @@ use Predis\Transaction\MultiExec as MultiExecTransaction;
  *
  * @author Daniele Alessandri <suppakilla@gmail.com>
  */
+<<<<<<< HEAD
 class Client implements ClientInterface
 {
     const VERSION = '1.0.4';
+=======
+class Client implements ClientInterface, \IteratorAggregate
+{
+    const VERSION = '1.1.6';
+>>>>>>> v2-test
 
     protected $connection;
     protected $options;
@@ -120,6 +126,7 @@ class Client implements ClientInterface
             if ($options->defined('aggregate')) {
                 $initializer = $this->getConnectionInitializerWrapper($options->aggregate);
                 $connection = $initializer($parameters, $options);
+<<<<<<< HEAD
             } else {
                 if ($options->defined('replication') && $replication = $options->replication) {
                     $connection = $replication;
@@ -127,6 +134,20 @@ class Client implements ClientInterface
                     $connection = $options->cluster;
                 }
 
+=======
+            } elseif ($options->defined('replication')) {
+                $replication = $options->replication;
+
+                if ($replication instanceof AggregateConnectionInterface) {
+                    $connection = $replication;
+                    $options->connections->aggregate($connection, $parameters);
+                } else {
+                    $initializer = $this->getConnectionInitializerWrapper($replication);
+                    $connection = $initializer($parameters, $options);
+                }
+            } else {
+                $connection = $options->cluster;
+>>>>>>> v2-test
                 $options->connections->aggregate($connection, $parameters);
             }
 
@@ -273,7 +294,11 @@ class Client implements ClientInterface
      * applying any prefix to keys or throwing exceptions on Redis errors even
      * regardless of client options.
      *
+<<<<<<< HEAD
      * It is possibile to indentify Redis error responses from normal responses
+=======
+     * It is possible to identify Redis error responses from normal responses
+>>>>>>> v2-test
      * using the second optional argument which is populated by reference.
      *
      * @param array $arguments Command arguments as defined by the command signature.
@@ -476,7 +501,11 @@ class Client implements ClientInterface
     }
 
     /**
+<<<<<<< HEAD
      * Creates a new publis/subscribe context and returns it, or starts its loop
+=======
+     * Creates a new publish/subscribe context and returns it, or starts its loop
+>>>>>>> v2-test
      * inside the optionally provided callable object.
      *
      * @param mixed ... Array of options, a callable for execution, or both.
@@ -520,4 +549,28 @@ class Client implements ClientInterface
     {
         return new MonitorConsumer($this);
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        $clients = array();
+        $connection = $this->getConnection();
+
+        if (!$connection instanceof \Traversable) {
+            return new \ArrayIterator(array(
+                (string) $connection => new static($connection, $this->getOptions())
+            ));
+        }
+
+        foreach ($connection as $node) {
+            $clients[(string) $node] = new static($node, $this->getOptions());
+        }
+
+        return new \ArrayIterator($clients);
+    }
+>>>>>>> v2-test
 }

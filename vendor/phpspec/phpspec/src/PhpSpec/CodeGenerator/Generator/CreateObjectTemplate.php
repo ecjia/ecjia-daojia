@@ -30,7 +30,11 @@ class CreateObjectTemplate
         $this->className  = $className;
     }
 
+<<<<<<< HEAD
     public function getContent()
+=======
+    public function getContent(): string
+>>>>>>> v2-test
     {
         $values = $this->getValues();
 
@@ -44,21 +48,34 @@ class CreateObjectTemplate
         return $content;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     private function getTemplate()
+=======
+    private function getTemplate(): string
+>>>>>>> v2-test
     {
         return file_get_contents(__DIR__.'/templates/named_constructor_create_object.template');
     }
 
     /**
+<<<<<<< HEAD
      * @return array
      */
     private function getValues()
     {
         $argString = count($this->arguments)
             ? '$argument'.implode(', $argument', range(1, count($this->arguments)))
+=======
+     * @return string[]
+     */
+    private function getValues(): array
+    {
+        $argString = \count($this->arguments)
+            ? '$argument'.implode(', $argument', range(1, \count($this->arguments)))
+>>>>>>> v2-test
             : ''
         ;
 

@@ -17,19 +17,34 @@
 // TODO(dcramer): handle ca_cert
 class Raven_CurlHandler
 {
+<<<<<<< HEAD
     private $join_timeout;
     private $multi_handle;
     private $options;
     private $requests;
 
     public function __construct($options, $join_timeout=5)
+=======
+    protected $join_timeout;
+    protected $multi_handle;
+    protected $options;
+    protected $requests;
+
+    public function __construct($options, $join_timeout = 5)
+>>>>>>> v2-test
     {
         $this->options = $options;
         $this->multi_handle = curl_multi_init();
         $this->requests = array();
+<<<<<<< HEAD
         $this->join_timeout = 5;
 
         register_shutdown_function(array($this, 'join'));
+=======
+        $this->join_timeout = $join_timeout;
+
+        $this->registerShutdownFunction();
+>>>>>>> v2-test
     }
 
     public function __destruct()
@@ -37,7 +52,11 @@ class Raven_CurlHandler
         $this->join();
     }
 
+<<<<<<< HEAD
     public function enqueue($url, $data=null, $headers=array())
+=======
+    public function enqueue($url, $data = null, $headers = array())
+>>>>>>> v2-test
     {
         $ch = curl_init();
 
@@ -69,7 +88,16 @@ class Raven_CurlHandler
         return $fd;
     }
 
+<<<<<<< HEAD
     public function join($timeout=null)
+=======
+    public function registerShutdownFunction()
+    {
+        register_shutdown_function(array($this, 'join'));
+    }
+
+    public function join($timeout = null)
+>>>>>>> v2-test
     {
         if (!isset($timeout)) {
             $timeout = $this->join_timeout;
@@ -84,9 +112,19 @@ class Raven_CurlHandler
         } while ($timeout !== 0 && time() - $start < $timeout);
     }
 
+<<<<<<< HEAD
     // http://se2.php.net/manual/en/function.curl-multi-exec.php
     private function select()
     {
+=======
+    /**
+     * @doc http://php.net/manual/en/function.curl-multi-exec.php
+     */
+    protected function select()
+    {
+        $active = false;
+        
+>>>>>>> v2-test
         do {
             $mrc = curl_multi_exec($this->multi_handle, $active);
         } while ($mrc == CURLM_CALL_MULTI_PERFORM);

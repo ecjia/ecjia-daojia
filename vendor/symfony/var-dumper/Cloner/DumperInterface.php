@@ -21,35 +21,59 @@ interface DumperInterface
     /**
      * Dumps a scalar value.
      *
+<<<<<<< HEAD
      * @param Cursor $cursor The Cursor position in the dump
      * @param string $type   The PHP type of the value being dumped
      * @param scalar $value  The scalar value being dumped
      */
     public function dumpScalar(Cursor $cursor, $type, $value);
+=======
+     * @param string                $type  The PHP type of the value being dumped
+     * @param string|int|float|bool $value The scalar value being dumped
+     */
+    public function dumpScalar(Cursor $cursor, string $type, $value);
+>>>>>>> v2-test
 
     /**
      * Dumps a string.
      *
+<<<<<<< HEAD
      * @param Cursor $cursor The Cursor position in the dump
      * @param string $str    The string being dumped
      * @param bool   $bin    Whether $str is UTF-8 or binary encoded
      * @param int    $cut    The number of characters $str has been cut by
      */
     public function dumpString(Cursor $cursor, $str, $bin, $cut);
+=======
+     * @param string $str The string being dumped
+     * @param bool   $bin Whether $str is UTF-8 or binary encoded
+     * @param int    $cut The number of characters $str has been cut by
+     */
+    public function dumpString(Cursor $cursor, string $str, bool $bin, int $cut);
+>>>>>>> v2-test
 
     /**
      * Dumps while entering an hash.
      *
+<<<<<<< HEAD
      * @param Cursor $cursor   The Cursor position in the dump
      * @param int    $type     A Cursor::HASH_* const for the type of hash
      * @param string $class    The object class, resource type or array count
      * @param bool   $hasChild When the dump of the hash has child item
      */
     public function enterHash(Cursor $cursor, $type, $class, $hasChild);
+=======
+     * @param int        $type     A Cursor::HASH_* const for the type of hash
+     * @param string|int $class    The object class, resource type or array count
+     * @param bool       $hasChild When the dump of the hash has child item
+     */
+    public function enterHash(Cursor $cursor, int $type, $class, bool $hasChild);
+>>>>>>> v2-test
 
     /**
      * Dumps while leaving an hash.
      *
+<<<<<<< HEAD
      * @param Cursor $cursor   The Cursor position in the dump
      * @param int    $type     A Cursor::HASH_* const for the type of hash
      * @param string $class    The object class, resource type or array count
@@ -57,4 +81,12 @@ interface DumperInterface
      * @param int    $cut      The number of items the hash has been cut by
      */
     public function leaveHash(Cursor $cursor, $type, $class, $hasChild, $cut);
+=======
+     * @param int        $type     A Cursor::HASH_* const for the type of hash
+     * @param string|int $class    The object class, resource type or array count
+     * @param bool       $hasChild When the dump of the hash has child item
+     * @param int        $cut      The number of items the hash has been cut by
+     */
+    public function leaveHash(Cursor $cursor, int $type, $class, bool $hasChild, int $cut);
+>>>>>>> v2-test
 }

@@ -54,7 +54,10 @@
 namespace Ecjia\App\Api\Transformers;
 
 
-class AddressTransformer extends Transformer
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
+
+class AddressTransformer extends Transformer implements TransformerInterface
 {
 
 
@@ -63,18 +66,18 @@ class AddressTransformer extends Transformer
 
         $outData = array(
             "id"            => 15,
-            "consignee"     => "联系人姓名",
-            "email"         => "联系人email",
-            "country"       => "国家id",
-            "province"      => "省id",
-            "city"          => "城市id",
-            "district"      => "地区id",
-            "address"       => "详细地址",
-            "zipcode"       => "邮政编码",
-            "tel"           => "联系电话",
-            "mobile"        => "手机",
-            "sign_building" => "标志建筑",
-            "best_time"     => "最佳送货时间"
+            "consignee"     => __('联系人姓名', 'api'),
+            "email"         => __('联系人email', 'api'),
+            "country"       => __('国家id', 'api'),
+            "province"      => __('省id', 'api'),
+            "city"          => __('城市id', 'api'),
+            "district"      => __('地区id', 'api'),
+            "address"       => __('详细地址', 'api'),
+            "zipcode"       => __('邮政编码', 'api'),
+            "tel"           => __('联系电话', 'api'),
+            "mobile"        => __('手机', 'api'),
+            "sign_building" => __('标志建筑', 'api'),
+            "best_time"     => __('最佳送货时间', 'api')
         );
 
         return $outData;

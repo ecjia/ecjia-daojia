@@ -20,27 +20,47 @@ class StreamWrapper
 
     private static $specTransformers = array();
 
+<<<<<<< HEAD
     public static function register()
     {
         if (in_array('phpspec', stream_get_wrappers())) {
+=======
+    public static function register(): void
+    {
+        if (\in_array('phpspec', stream_get_wrappers())) {
+>>>>>>> v2-test
             stream_wrapper_unregister('phpspec');
         }
         stream_wrapper_register('phpspec', 'PhpSpec\Loader\StreamWrapper');
     }
 
+<<<<<<< HEAD
     public static function reset()
+=======
+    public static function reset(): void
+>>>>>>> v2-test
     {
         static::$specTransformers = array();
     }
 
+<<<<<<< HEAD
     public static function addTransformer(SpecTransformer $specTransformer)
+=======
+    public static function addTransformer(SpecTransformer $specTransformer): void
+>>>>>>> v2-test
     {
         static::$specTransformers[] = $specTransformer;
     }
 
+<<<<<<< HEAD
     public static function wrapPath($path)
     {
         if (!defined('HHVM_VERSION'))
+=======
+    public static function wrapPath($path): string
+    {
+        if (!\defined('HHVM_VERSION'))
+>>>>>>> v2-test
         {
             return 'phpspec://' . $path;
         }
@@ -48,7 +68,11 @@ class StreamWrapper
         return $path;
     }
 
+<<<<<<< HEAD
     public function stream_open($path, $mode, $options, &$opened_path)
+=======
+    public function stream_open($path, $mode, $options, &$opened_path): bool
+>>>>>>> v2-test
     {
         if ($mode != 'rb') {
             throw new \RuntimeException('Cannot open phpspec url in mode "$mode"');
@@ -74,7 +98,11 @@ class StreamWrapper
         return true;
     }
 
+<<<<<<< HEAD
     public function stream_stat()
+=======
+    public function stream_stat(): array
+>>>>>>> v2-test
     {
         return stat($this->realPath);
     }
@@ -84,8 +112,20 @@ class StreamWrapper
         return fread($this->fileResource, $count);
     }
 
+<<<<<<< HEAD
     public function stream_eof()
     {
         return feof($this->fileResource);
     }
+=======
+    public function stream_eof(): bool
+    {
+        return feof($this->fileResource);
+    }
+
+    public function stream_set_option(int $option, int $arg1, int $arg2): bool
+    {
+        return false;
+    }
+>>>>>>> v2-test
 }

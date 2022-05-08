@@ -14,10 +14,18 @@
 namespace PhpSpec\Wrapper\Subject;
 
 use PhpSpec\Loader\Node\ExampleNode;
+<<<<<<< HEAD
 use PhpSpec\Matcher\MatcherInterface;
 use PhpSpec\Wrapper\Subject\Expectation\ConstructorDecorator;
 use PhpSpec\Wrapper\Subject\Expectation\DispatcherDecorator;
 use PhpSpec\Wrapper\Subject\Expectation\ExpectationInterface;
+=======
+use PhpSpec\Matcher\Matcher;
+use PhpSpec\Wrapper\Subject\Expectation\ConstructorDecorator;
+use PhpSpec\Wrapper\Subject\Expectation\DispatcherDecorator;
+use PhpSpec\Wrapper\Subject\Expectation\Expectation;
+use PhpSpec\Wrapper\Subject\Expectation\ThrowExpectation;
+>>>>>>> v2-test
 use PhpSpec\Wrapper\Subject\Expectation\UnwrapDecorator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use PhpSpec\Runner\MatcherManager;
@@ -55,9 +63,15 @@ class ExpectationFactory
      * @param mixed  $subject
      * @param array  $arguments
      *
+<<<<<<< HEAD
      * @return ExpectationInterface
      */
     public function create($expectation, $subject, array $arguments = array())
+=======
+     * @return Expectation
+     */
+    public function create(string $expectation, $subject, array $arguments = array()): Expectation
+>>>>>>> v2-test
     {
         if (0 === strpos($expectation, 'shouldNot')) {
             return $this->createNegative(lcfirst(substr($expectation, 9)), $subject, $arguments);
@@ -73,14 +87,27 @@ class ExpectationFactory
      * @param mixed  $subject
      * @param array  $arguments
      *
+<<<<<<< HEAD
      * @return ExpectationInterface
      */
     private function createPositive($name, $subject, array $arguments = array())
+=======
+     * @return Expectation
+     */
+    private function createPositive(string $name, $subject, array $arguments = array()): Expectation
+>>>>>>> v2-test
     {
         if (strtolower($name) === 'throw') {
             return $this->createDecoratedExpectation("PositiveThrow", $name, $subject, $arguments);
         }
 
+<<<<<<< HEAD
+=======
+        if (strtolower($name) === 'trigger') {
+            return $this->createDecoratedExpectation("PositiveTrigger", $name, $subject, $arguments);
+        }
+
+>>>>>>> v2-test
         return $this->createDecoratedExpectation("Positive", $name, $subject, $arguments);
     }
 
@@ -89,14 +116,27 @@ class ExpectationFactory
      * @param mixed  $subject
      * @param array  $arguments
      *
+<<<<<<< HEAD
      * @return ExpectationInterface
      */
     private function createNegative($name, $subject, array $arguments = array())
+=======
+     * @return Expectation
+     */
+    private function createNegative(string $name, $subject, array $arguments = array()): Expectation
+>>>>>>> v2-test
     {
         if (strtolower($name) === 'throw') {
             return $this->createDecoratedExpectation("NegativeThrow", $name, $subject, $arguments);
         }
 
+<<<<<<< HEAD
+=======
+        if (strtolower($name) === 'trigger') {
+            return $this->createDecoratedExpectation("NegativeTrigger", $name, $subject, $arguments);
+        }
+
+>>>>>>> v2-test
         return $this->createDecoratedExpectation("Negative", $name, $subject, $arguments);
     }
 
@@ -106,16 +146,26 @@ class ExpectationFactory
      * @param mixed  $subject
      * @param array  $arguments
      *
+<<<<<<< HEAD
      * @return ExpectationInterface
      */
     private function createDecoratedExpectation($expectation, $name, $subject, array $arguments)
+=======
+     * @return Expectation
+     */
+    private function createDecoratedExpectation(string $expectation, string $name, $subject, array $arguments): Expectation
+>>>>>>> v2-test
     {
         $matcher = $this->findMatcher($name, $subject, $arguments);
         $expectation = "\\PhpSpec\\Wrapper\\Subject\\Expectation\\".$expectation;
 
         $expectation = new $expectation($matcher);
 
+<<<<<<< HEAD
         if ($expectation instanceof Expectation\ThrowExpectation) {
+=======
+        if ($expectation instanceof ThrowExpectation) {
+>>>>>>> v2-test
             return $expectation;
         }
 
@@ -127,9 +177,15 @@ class ExpectationFactory
      * @param mixed  $subject
      * @param array  $arguments
      *
+<<<<<<< HEAD
      * @return MatcherInterface
      */
     private function findMatcher($name, $subject, array $arguments = array())
+=======
+     * @return Matcher
+     */
+    private function findMatcher(string $name, $subject, array $arguments = array()): Matcher
+>>>>>>> v2-test
     {
         $unwrapper = new Unwrapper();
         $arguments = $unwrapper->unwrapAll($arguments);
@@ -138,12 +194,21 @@ class ExpectationFactory
     }
 
     /**
+<<<<<<< HEAD
      * @param ExpectationInterface $expectation
      * @param MatcherInterface     $matcher
      *
      * @return ConstructorDecorator
      */
     private function decoratedExpectation(ExpectationInterface $expectation, MatcherInterface $matcher)
+=======
+     * @param Expectation $expectation
+     * @param Matcher     $matcher
+     *
+     * @return ConstructorDecorator
+     */
+    private function decoratedExpectation(Expectation $expectation, Matcher $matcher): ConstructorDecorator
+>>>>>>> v2-test
     {
         $dispatcherDecorator = new DispatcherDecorator($expectation, $this->dispatcher, $matcher, $this->example);
         $unwrapperDecorator = new UnwrapDecorator($dispatcherDecorator, new Unwrapper());

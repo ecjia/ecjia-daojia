@@ -11,11 +11,16 @@
 /**
  * Dependency Injection container.
  *
+<<<<<<< HEAD
  * @author Chris Corbyn
+=======
+ * @author  Chris Corbyn
+>>>>>>> v2-test
  */
 class Swift_DependencyContainer
 {
     /** Constant for literal value types */
+<<<<<<< HEAD
     const TYPE_VALUE = 0x0001;
 
     /** Constant for new instance types */
@@ -35,6 +40,30 @@ class Swift_DependencyContainer
 
     /** The current endpoint in the data container */
     private $_endPoint;
+=======
+    const TYPE_VALUE = 0x00001;
+
+    /** Constant for new instance types */
+    const TYPE_INSTANCE = 0x00010;
+
+    /** Constant for shared instance types */
+    const TYPE_SHARED = 0x00100;
+
+    /** Constant for aliases */
+    const TYPE_ALIAS = 0x01000;
+
+    /** Constant for arrays */
+    const TYPE_ARRAY = 0x10000;
+
+    /** Singleton instance */
+    private static $instance = null;
+
+    /** The data container */
+    private $store = [];
+
+    /** The current endpoint in the data container */
+    private $endPoint;
+>>>>>>> v2-test
 
     /**
      * Constructor should not be used.
@@ -48,6 +77,7 @@ class Swift_DependencyContainer
     /**
      * Returns a singleton of the DependencyContainer.
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public static function getInstance()
@@ -57,6 +87,17 @@ class Swift_DependencyContainer
         }
 
         return self::$_instance;
+=======
+     * @return self
+     */
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+>>>>>>> v2-test
     }
 
     /**
@@ -66,7 +107,11 @@ class Swift_DependencyContainer
      */
     public function listItems()
     {
+<<<<<<< HEAD
         return array_keys($this->_store);
+=======
+        return array_keys($this->store);
+>>>>>>> v2-test
     }
 
     /**
@@ -80,8 +125,13 @@ class Swift_DependencyContainer
      */
     public function has($itemName)
     {
+<<<<<<< HEAD
         return array_key_exists($itemName, $this->_store)
             && isset($this->_store[$itemName]['lookupType']);
+=======
+        return \array_key_exists($itemName, $this->store)
+            && isset($this->store[$itemName]['lookupType']);
+>>>>>>> v2-test
     }
 
     /**
@@ -91,13 +141,20 @@ class Swift_DependencyContainer
      *
      * @param string $itemName
      *
+<<<<<<< HEAD
      * @throws Swift_DependencyException If the dependency is not found
      *
      * @return mixed
+=======
+     * @return mixed
+     *
+     * @throws Swift_DependencyException If the dependency is not found
+>>>>>>> v2-test
      */
     public function lookup($itemName)
     {
         if (!$this->has($itemName)) {
+<<<<<<< HEAD
             throw new Swift_DependencyException(
                 'Cannot lookup dependency "'.$itemName.'" since it is not registered.'
                 );
@@ -112,6 +169,22 @@ class Swift_DependencyContainer
                 return $this->_createNewInstance($itemName);
             case self::TYPE_SHARED:
                 return $this->_createSharedInstance($itemName);
+=======
+            throw new Swift_DependencyException('Cannot lookup dependency "'.$itemName.'" since it is not registered.');
+        }
+
+        switch ($this->store[$itemName]['lookupType']) {
+            case self::TYPE_ALIAS:
+                return $this->createAlias($itemName);
+            case self::TYPE_VALUE:
+                return $this->getValue($itemName);
+            case self::TYPE_INSTANCE:
+                return $this->createNewInstance($itemName);
+            case self::TYPE_SHARED:
+                return $this->createSharedInstance($itemName);
+            case self::TYPE_ARRAY:
+                return $this->createDependenciesFor($itemName);
+>>>>>>> v2-test
         }
     }
 
@@ -124,9 +197,15 @@ class Swift_DependencyContainer
      */
     public function createDependenciesFor($itemName)
     {
+<<<<<<< HEAD
         $args = array();
         if (isset($this->_store[$itemName]['args'])) {
             $args = $this->_resolveArgs($this->_store[$itemName]['args']);
+=======
+        $args = [];
+        if (isset($this->store[$itemName]['args'])) {
+            $args = $this->resolveArgs($this->store[$itemName]['args']);
+>>>>>>> v2-test
         }
 
         return $args;
@@ -143,12 +222,21 @@ class Swift_DependencyContainer
      *
      * @param string $itemName
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public function register($itemName)
     {
         $this->_store[$itemName] = array();
         $this->_endPoint = &$this->_store[$itemName];
+=======
+     * @return $this
+     */
+    public function register($itemName)
+    {
+        $this->store[$itemName] = [];
+        $this->endPoint = &$this->store[$itemName];
+>>>>>>> v2-test
 
         return $this;
     }
@@ -160,11 +248,19 @@ class Swift_DependencyContainer
      *
      * @param mixed $value
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public function asValue($value)
     {
         $endPoint = &$this->_getEndPoint();
+=======
+     * @return $this
+     */
+    public function asValue($value)
+    {
+        $endPoint = &$this->getEndPoint();
+>>>>>>> v2-test
         $endPoint['lookupType'] = self::TYPE_VALUE;
         $endPoint['value'] = $value;
 
@@ -176,11 +272,19 @@ class Swift_DependencyContainer
      *
      * @param string $lookup
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public function asAliasOf($lookup)
     {
         $endPoint = &$this->_getEndPoint();
+=======
+     * @return $this
+     */
+    public function asAliasOf($lookup)
+    {
+        $endPoint = &$this->getEndPoint();
+>>>>>>> v2-test
         $endPoint['lookupType'] = self::TYPE_ALIAS;
         $endPoint['ref'] = $lookup;
 
@@ -198,11 +302,19 @@ class Swift_DependencyContainer
      *
      * @param string $className
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public function asNewInstanceOf($className)
     {
         $endPoint = &$this->_getEndPoint();
+=======
+     * @return $this
+     */
+    public function asNewInstanceOf($className)
+    {
+        $endPoint = &$this->getEndPoint();
+>>>>>>> v2-test
         $endPoint['lookupType'] = self::TYPE_INSTANCE;
         $endPoint['className'] = $className;
 
@@ -216,11 +328,19 @@ class Swift_DependencyContainer
      *
      * @param string $className
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public function asSharedInstanceOf($className)
     {
         $endPoint = &$this->_getEndPoint();
+=======
+     * @return $this
+     */
+    public function asSharedInstanceOf($className)
+    {
+        $endPoint = &$this->getEndPoint();
+>>>>>>> v2-test
         $endPoint['lookupType'] = self::TYPE_SHARED;
         $endPoint['className'] = $className;
 
@@ -228,12 +348,31 @@ class Swift_DependencyContainer
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Specify the previously registered item as array of dependencies.
+     *
+     * {@link register()} must be called before this will work.
+     *
+     * @return $this
+     */
+    public function asArray()
+    {
+        $endPoint = &$this->getEndPoint();
+        $endPoint['lookupType'] = self::TYPE_ARRAY;
+
+        return $this;
+    }
+
+    /**
+>>>>>>> v2-test
      * Specify a list of injected dependencies for the previously registered item.
      *
      * This method takes an array of lookup names.
      *
      * @see addConstructorValue(), addConstructorLookup()
      *
+<<<<<<< HEAD
      * @param array $lookups
      *
      * @return Swift_DependencyContainer
@@ -242,6 +381,14 @@ class Swift_DependencyContainer
     {
         $endPoint = &$this->_getEndPoint();
         $endPoint['args'] = array();
+=======
+     * @return $this
+     */
+    public function withDependencies(array $lookups)
+    {
+        $endPoint = &$this->getEndPoint();
+        $endPoint['args'] = [];
+>>>>>>> v2-test
         foreach ($lookups as $lookup) {
             $this->addConstructorLookup($lookup);
         }
@@ -257,6 +404,7 @@ class Swift_DependencyContainer
      *
      * @param mixed $value
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public function addConstructorValue($value)
@@ -266,6 +414,17 @@ class Swift_DependencyContainer
             $endPoint['args'] = array();
         }
         $endPoint['args'][] = array('type' => 'value', 'item' => $value);
+=======
+     * @return $this
+     */
+    public function addConstructorValue($value)
+    {
+        $endPoint = &$this->getEndPoint();
+        if (!isset($endPoint['args'])) {
+            $endPoint['args'] = [];
+        }
+        $endPoint['args'][] = ['type' => 'value', 'item' => $value];
+>>>>>>> v2-test
 
         return $this;
     }
@@ -278,6 +437,7 @@ class Swift_DependencyContainer
      *
      * @param string $lookup
      *
+<<<<<<< HEAD
      * @return Swift_DependencyContainer
      */
     public function addConstructorLookup($lookup)
@@ -287,11 +447,23 @@ class Swift_DependencyContainer
             $endPoint['args'] = array();
         }
         $endPoint['args'][] = array('type' => 'lookup', 'item' => $lookup);
+=======
+     * @return $this
+     */
+    public function addConstructorLookup($lookup)
+    {
+        $endPoint = &$this->getEndPoint();
+        if (!isset($this->endPoint['args'])) {
+            $endPoint['args'] = [];
+        }
+        $endPoint['args'][] = ['type' => 'lookup', 'item' => $lookup];
+>>>>>>> v2-test
 
         return $this;
     }
 
     /** Get the literal value with $itemName */
+<<<<<<< HEAD
     private function _getValue($itemName)
     {
         return $this->_store[$itemName]['value'];
@@ -307,6 +479,23 @@ class Swift_DependencyContainer
     private function _createNewInstance($itemName)
     {
         $reflector = new ReflectionClass($this->_store[$itemName]['className']);
+=======
+    private function getValue($itemName)
+    {
+        return $this->store[$itemName]['value'];
+    }
+
+    /** Resolve an alias to another item */
+    private function createAlias($itemName)
+    {
+        return $this->lookup($this->store[$itemName]['ref']);
+    }
+
+    /** Create a fresh instance of $itemName */
+    private function createNewInstance($itemName)
+    {
+        $reflector = new ReflectionClass($this->store[$itemName]['className']);
+>>>>>>> v2-test
         if ($reflector->getConstructor()) {
             return $reflector->newInstanceArgs(
                 $this->createDependenciesFor($itemName)
@@ -317,6 +506,7 @@ class Swift_DependencyContainer
     }
 
     /** Create and register a shared instance of $itemName */
+<<<<<<< HEAD
     private function _createSharedInstance($itemName)
     {
         if (!isset($this->_store[$itemName]['instance'])) {
@@ -346,6 +536,35 @@ class Swift_DependencyContainer
             switch ($argDefinition['type']) {
                 case 'lookup':
                     $resolved[] = $this->_lookupRecursive($argDefinition['item']);
+=======
+    private function createSharedInstance($itemName)
+    {
+        if (!isset($this->store[$itemName]['instance'])) {
+            $this->store[$itemName]['instance'] = $this->createNewInstance($itemName);
+        }
+
+        return $this->store[$itemName]['instance'];
+    }
+
+    /** Get the current endpoint in the store */
+    private function &getEndPoint()
+    {
+        if (!isset($this->endPoint)) {
+            throw new BadMethodCallException('Component must first be registered by calling register()');
+        }
+
+        return $this->endPoint;
+    }
+
+    /** Get an argument list with dependencies resolved */
+    private function resolveArgs(array $args)
+    {
+        $resolved = [];
+        foreach ($args as $argDefinition) {
+            switch ($argDefinition['type']) {
+                case 'lookup':
+                    $resolved[] = $this->lookupRecursive($argDefinition['item']);
+>>>>>>> v2-test
                     break;
                 case 'value':
                     $resolved[] = $argDefinition['item'];
@@ -357,12 +576,21 @@ class Swift_DependencyContainer
     }
 
     /** Resolve a single dependency with an collections */
+<<<<<<< HEAD
     private function _lookupRecursive($item)
     {
         if (is_array($item)) {
             $collection = array();
             foreach ($item as $k => $v) {
                 $collection[$k] = $this->_lookupRecursive($v);
+=======
+    private function lookupRecursive($item)
+    {
+        if (\is_array($item)) {
+            $collection = [];
+            foreach ($item as $k => $v) {
+                $collection[$k] = $this->lookupRecursive($v);
+>>>>>>> v2-test
             }
 
             return $collection;

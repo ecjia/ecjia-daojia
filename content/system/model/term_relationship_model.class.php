@@ -46,12 +46,16 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class term_relationship_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'term_relationship';
-		parent::__construct();
-	}
+class term_relationship_model extends Component_Model_Model
+{
+    public $table_name = '';
+
+    public function __construct()
+    {
+        $this->db_setting = config('cashier.database_connection', 'default');
+        $this->table_name = 'term_relationship';
+        parent::__construct();
+    }
 
 }
 

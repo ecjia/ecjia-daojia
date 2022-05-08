@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+version: '{build}'
+>>>>>>> v2-test
 build: false
 shallow_clone: true
 platform: x86
@@ -5,12 +9,17 @@ clone_folder: c:\projects\phpspec
 
 environment:
     matrix:
+<<<<<<< HEAD
         - PHP_DOWNLOAD_FILE: php-5.6.14-nts-Win32-VC11-x86.zip
+=======
+        - php: 7.2
+>>>>>>> v2-test
 
 skip_commits:
     message: /\[ci skip\]/
 
 cache:
+<<<<<<< HEAD
     - c:\php -> appveyor.yml
     - '%LOCALAPPDATA%\Composer'
 
@@ -18,10 +27,23 @@ init:
     - SET PATH=c:\php;%PATH%
     - SET COMPOSER_NO_INTERACTION=1
     - SET PHP=1
+=======
+    - C:\ProgramData\chocolatey\bin -> appveyor.yml
+    - C:\ProgramData\chocolatey\lib -> appveyor.yml
+    - C:\tools\php -> appveyor.yml
+    - C:\tools\composer -> appveyor.yml
+    - '%LOCALAPPDATA%\Composer\files'
+
+init:
+    - SET PATH=C:\Program Files\OpenSSL;c:\tools\php;C:\tools\composer;%PATH%
+    - SET COMPOSER_NO_INTERACTION=1
+      SET COMPOSER_ROOT_VERSION=dev-master
+>>>>>>> v2-test
     - SET ANSICON=121x90 (121x90)
     - git config --global core.autocrlf input
 
 install:
+<<<<<<< HEAD
     - IF EXIST c:\php (SET PHP=0) ELSE (mkdir c:\php)
     - cd c:\php
     - IF %PHP%==1 appveyor DownloadFile http://windows.php.net/downloads/releases/archives/%PHP_DOWNLOAD_FILE%
@@ -44,3 +66,40 @@ test_script:
     - php bin\phpspec run --format=pretty
     - php vendor\phpunit\phpunit\phpunit --testdox
     - php vendor\behat\behat\bin\behat --format=pretty --tags="~@php-version,@php5.4&&~@hhvm"
+=======
+    - ps: |
+        if (!(Test-Path c:\tools\php)) {
+            appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
+            Get-ChildItem -Path c:\tools\php
+            cd c:\tools\php
+
+            # Set PHP environment items that are always needed
+            copy php.ini-production php.ini
+            Add-Content php.ini "`n date.timezone=UTC"
+            Add-Content php.ini "`n extension_dir=ext"
+            Add-Content php.ini "`n extension=php_openssl.dll"
+            Add-Content php.ini "`n extension=php_curl.dll"
+            Add-Content php.ini "`n extension=php_mbstring.dll"
+            Add-Content php.ini "`n extension=php_fileinfo.dll"
+
+            # download Composer
+            if (!(Test-Path C:\tools\composer)) {
+                New-Item -path c:\tools -name composer -itemtype directory
+            }
+
+            if (!(Test-Path c:\tools\composer\composer.phar)) {
+                appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar -Filename C:\tools\composer\composer.phar
+                Set-Content -path 'C:\tools\composer\composer.bat' -Value ('@php C:\tools\composer\composer.phar %*')
+            }
+        }
+
+    - cd c:\projects\phpspec
+    - appveyor-retry composer self-update
+    - appveyor-retry composer install --no-progress --ansi
+
+test_script:
+    - cd c:\projects\phpspec
+    - php bin\phpspec run --format=dot
+    - php vendor\phpunit\phpunit\phpunit
+    - php vendor\behat\behat\bin\behat --format=progress --tags="~@php-version,@php5.4&&~@hhvm"
+>>>>>>> v2-test

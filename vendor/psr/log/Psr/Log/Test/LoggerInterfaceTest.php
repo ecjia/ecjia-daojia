@@ -2,6 +2,7 @@
 
 namespace Psr\Log\Test;
 
+<<<<<<< HEAD
 use Psr\Log\LogLevel;
 
 /**
@@ -10,10 +11,24 @@ use Psr\Log\LogLevel;
  * Implementors can extend the class and implement abstract methods to run this as part of their test suite
  */
 abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
+=======
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Provides a base test class for ensuring compliance with the LoggerInterface.
+ *
+ * Implementors can extend the class and implement abstract methods to run this
+ * as part of their test suite.
+ */
+abstract class LoggerInterfaceTest extends TestCase
+>>>>>>> v2-test
 {
     /**
      * @return LoggerInterface
      */
+<<<<<<< HEAD
     abstract function getLogger();
 
     /**
@@ -24,6 +39,20 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
      * @return string[]
      */
     abstract function getLogs();
+=======
+    abstract public function getLogger();
+
+    /**
+     * This must return the log messages in order.
+     *
+     * The simple formatting of the messages is: "<LOG LEVEL> <MESSAGE>".
+     *
+     * Example ->error('Foo') would yield "error Foo".
+     *
+     * @return string[]
+     */
+    abstract public function getLogs();
+>>>>>>> v2-test
 
     public function testImplements()
     {
@@ -61,7 +90,11 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @expectedException Psr\Log\InvalidArgumentException
+=======
+     * @expectedException \Psr\Log\InvalidArgumentException
+>>>>>>> v2-test
      */
     public function testThrowsOnInvalidLevel()
     {
@@ -80,16 +113,36 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
 
     public function testObjectCastToString()
     {
+<<<<<<< HEAD
         $dummy = $this->getMock('Psr\Log\Test\DummyTest', array('__toString'));
+=======
+        if (method_exists($this, 'createPartialMock')) {
+            $dummy = $this->createPartialMock('Psr\Log\Test\DummyTest', array('__toString'));
+        } else {
+            $dummy = $this->getMock('Psr\Log\Test\DummyTest', array('__toString'));
+        }
+>>>>>>> v2-test
         $dummy->expects($this->once())
             ->method('__toString')
             ->will($this->returnValue('DUMMY'));
 
         $this->getLogger()->warning($dummy);
+<<<<<<< HEAD
+=======
+
+        $expected = array('warning DUMMY');
+        $this->assertEquals($expected, $this->getLogs());
+>>>>>>> v2-test
     }
 
     public function testContextCanContainAnything()
     {
+<<<<<<< HEAD
+=======
+        $closed = fopen('php://memory', 'r');
+        fclose($closed);
+
+>>>>>>> v2-test
         $context = array(
             'bool' => true,
             'null' => null,
@@ -99,13 +152,24 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
             'nested' => array('with object' => new DummyTest),
             'object' => new \DateTime,
             'resource' => fopen('php://memory', 'r'),
+<<<<<<< HEAD
         );
 
         $this->getLogger()->warning('Crazy context data', $context);
+=======
+            'closed' => $closed,
+        );
+
+        $this->getLogger()->warning('Crazy context data', $context);
+
+        $expected = array('warning Crazy context data');
+        $this->assertEquals($expected, $this->getLogs());
+>>>>>>> v2-test
     }
 
     public function testContextExceptionKeyCanBeExceptionOrOtherValues()
     {
+<<<<<<< HEAD
         $this->getLogger()->warning('Random message', array('exception' => 'oops'));
         $this->getLogger()->critical('Uncaught Exception!', array('exception' => new \LogicException('Fail')));
     }
@@ -114,3 +178,16 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
 class DummyTest
 {
 }
+=======
+        $logger = $this->getLogger();
+        $logger->warning('Random message', array('exception' => 'oops'));
+        $logger->critical('Uncaught Exception!', array('exception' => new \LogicException('Fail')));
+
+        $expected = array(
+            'warning Random message',
+            'critical Uncaught Exception!'
+        );
+        $this->assertEquals($expected, $this->getLogs());
+    }
+}
+>>>>>>> v2-test

@@ -13,7 +13,11 @@
 
 namespace PhpSpec\Formatter\Presenter;
 
+<<<<<<< HEAD
 final class TaggingPresenter implements PresenterInterface
+=======
+final class TaggingPresenter implements Presenter
+>>>>>>> v2-test
 {
     /**
      * @var Presenter
@@ -33,7 +37,11 @@ final class TaggingPresenter implements PresenterInterface
      * @param bool $verbose
      * @return string
      */
+<<<<<<< HEAD
     public function presentException(\Exception $exception, $verbose = false)
+=======
+    public function presentException(\Exception $exception, bool $verbose = false): string
+>>>>>>> v2-test
     {
         return $this->presenter->presentException($exception, $verbose);
     }
@@ -43,7 +51,11 @@ final class TaggingPresenter implements PresenterInterface
      *
      * @return string
      */
+<<<<<<< HEAD
     public function presentString($string)
+=======
+    public function presentString(string $string): string
+>>>>>>> v2-test
     {
         return sprintf('<value>%s</value>', $string);
     }
@@ -52,7 +64,11 @@ final class TaggingPresenter implements PresenterInterface
      * @param mixed $value
      * @return string
      */
+<<<<<<< HEAD
     public function presentValue($value)
+=======
+    public function presentValue($value): string
+>>>>>>> v2-test
     {
         return $this->presentString($this->presenter->presentValue($value));
     }

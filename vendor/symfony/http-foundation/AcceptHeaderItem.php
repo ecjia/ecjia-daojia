@@ -18,6 +18,7 @@ namespace Symfony\Component\HttpFoundation;
  */
 class AcceptHeaderItem
 {
+<<<<<<< HEAD
     /**
      * @var string
      */
@@ -45,6 +46,14 @@ class AcceptHeaderItem
      * @param array  $attributes
      */
     public function __construct($value, array $attributes = array())
+=======
+    private $value;
+    private $quality = 1.0;
+    private $index = 0;
+    private $attributes = [];
+
+    public function __construct(string $value, array $attributes = [])
+>>>>>>> v2-test
     {
         $this->value = $value;
         foreach ($attributes as $name => $value) {
@@ -55,6 +64,7 @@ class AcceptHeaderItem
     /**
      * Builds an AcceptHeaderInstance instance from a string.
      *
+<<<<<<< HEAD
      * @param string $itemValue
      *
      * @return AcceptHeaderItem
@@ -83,16 +93,37 @@ class AcceptHeaderItem
 
     /**
      * Returns header  value's string representation.
+=======
+     * @return self
+     */
+    public static function fromString(?string $itemValue)
+    {
+        $parts = HeaderUtils::split($itemValue ?? '', ';=');
+
+        $part = array_shift($parts);
+        $attributes = HeaderUtils::combine($parts);
+
+        return new self($part[0], $attributes);
+    }
+
+    /**
+     * Returns header value's string representation.
+>>>>>>> v2-test
      *
      * @return string
      */
     public function __toString()
     {
         $string = $this->value.($this->quality < 1 ? ';q='.$this->quality : '');
+<<<<<<< HEAD
         if (count($this->attributes) > 0) {
             $string .= ';'.implode(';', array_map(function ($name, $value) {
                 return sprintf(preg_match('/[,;=]/', $value) ? '%s="%s"' : '%s=%s', $name, $value);
             }, array_keys($this->attributes), $this->attributes));
+=======
+        if (\count($this->attributes) > 0) {
+            $string .= '; '.HeaderUtils::toString($this->attributes, ';');
+>>>>>>> v2-test
         }
 
         return $string;
@@ -101,11 +132,17 @@ class AcceptHeaderItem
     /**
      * Set the item value.
      *
+<<<<<<< HEAD
      * @param string $value
      *
      * @return AcceptHeaderItem
      */
     public function setValue($value)
+=======
+     * @return $this
+     */
+    public function setValue(string $value)
+>>>>>>> v2-test
     {
         $this->value = $value;
 
@@ -125,11 +162,17 @@ class AcceptHeaderItem
     /**
      * Set the item quality.
      *
+<<<<<<< HEAD
      * @param float $quality
      *
      * @return AcceptHeaderItem
      */
     public function setQuality($quality)
+=======
+     * @return $this
+     */
+    public function setQuality(float $quality)
+>>>>>>> v2-test
     {
         $this->quality = $quality;
 
@@ -149,11 +192,17 @@ class AcceptHeaderItem
     /**
      * Set the item index.
      *
+<<<<<<< HEAD
      * @param int $index
      *
      * @return AcceptHeaderItem
      */
     public function setIndex($index)
+=======
+     * @return $this
+     */
+    public function setIndex(int $index)
+>>>>>>> v2-test
     {
         $this->index = $index;
 
@@ -173,11 +222,17 @@ class AcceptHeaderItem
     /**
      * Tests if an attribute exists.
      *
+<<<<<<< HEAD
      * @param string $name
      *
      * @return bool
      */
     public function hasAttribute($name)
+=======
+     * @return bool
+     */
+    public function hasAttribute(string $name)
+>>>>>>> v2-test
     {
         return isset($this->attributes[$name]);
     }
@@ -185,6 +240,7 @@ class AcceptHeaderItem
     /**
      * Returns an attribute by its name.
      *
+<<<<<<< HEAD
      * @param string $name
      * @param mixed  $default
      *
@@ -193,6 +249,15 @@ class AcceptHeaderItem
     public function getAttribute($name, $default = null)
     {
         return isset($this->attributes[$name]) ? $this->attributes[$name] : $default;
+=======
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getAttribute(string $name, $default = null)
+    {
+        return $this->attributes[$name] ?? $default;
+>>>>>>> v2-test
     }
 
     /**
@@ -208,17 +273,27 @@ class AcceptHeaderItem
     /**
      * Set an attribute.
      *
+<<<<<<< HEAD
      * @param string $name
      * @param string $value
      *
      * @return AcceptHeaderItem
      */
     public function setAttribute($name, $value)
+=======
+     * @return $this
+     */
+    public function setAttribute(string $name, string $value)
+>>>>>>> v2-test
     {
         if ('q' === $name) {
             $this->quality = (float) $value;
         } else {
+<<<<<<< HEAD
             $this->attributes[$name] = (string) $value;
+=======
+            $this->attributes[$name] = $value;
+>>>>>>> v2-test
         }
 
         return $this;

@@ -18,7 +18,11 @@ class SkippingException extends ExampleException
     /**
      * @param string $text
      */
+<<<<<<< HEAD
     public function __construct($text)
+=======
+    public function __construct(string $text)
+>>>>>>> v2-test
     {
         parent::__construct(sprintf('skipped: %s', $text));
     }

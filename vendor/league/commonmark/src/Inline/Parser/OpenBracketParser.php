@@ -18,28 +18,16 @@ use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\InlineParserContext;
 
-class OpenBracketParser extends AbstractInlineParser
+final class OpenBracketParser implements InlineParserInterface
 {
-    /**
-     * @return string[]
-     */
-    public function getCharacters()
+    public function getCharacters(): array
     {
         return ['['];
     }
 
-    /**
-     * @param InlineParserContext $inlineContext
-     *
-     * @return bool
-     */
-    public function parse(InlineParserContext $inlineContext)
+    public function parse(InlineParserContext $inlineContext): bool
     {
-        if ($inlineContext->getCursor()->getCharacter() !== '[') {
-            return false;
-        }
-
-        $inlineContext->getCursor()->advance();
+        $inlineContext->getCursor()->advanceBy(1);
         $node = new Text('[', ['delim' => true]);
         $inlineContext->getContainer()->appendChild($node);
 

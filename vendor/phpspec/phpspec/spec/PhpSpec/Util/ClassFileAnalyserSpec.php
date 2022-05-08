@@ -3,7 +3,10 @@
 namespace spec\PhpSpec\Util;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 class ClassFileAnalyserSpec extends ObjectBehavior
 {

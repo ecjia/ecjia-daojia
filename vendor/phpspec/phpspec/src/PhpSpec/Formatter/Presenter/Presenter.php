@@ -23,5 +23,9 @@ interface Presenter extends ExceptionPresenter, ValuePresenter
      *
      * @return string
      */
+<<<<<<< HEAD
     public function presentString($string);
+=======
+    public function presentString(string $string): string;
+>>>>>>> v2-test
 }

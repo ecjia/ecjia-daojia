@@ -36,11 +36,14 @@ final class Question implements Prompter
      */
     private $helper;
 
+<<<<<<< HEAD
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param QuestionHelper  $helper
      */
+=======
+>>>>>>> v2-test
     public function __construct(InputInterface $input, OutputInterface $output, QuestionHelper $helper)
     {
         $this->input = $input;
@@ -53,7 +56,11 @@ final class Question implements Prompter
      * @param boolean $default
      * @return boolean
      */
+<<<<<<< HEAD
     public function askConfirmation($question, $default = true)
+=======
+    public function askConfirmation(string $question, bool $default = true): bool
+>>>>>>> v2-test
     {
         return (bool)$this->helper->ask($this->input, $this->output, new ConfirmationQuestion($question, $default));
     }

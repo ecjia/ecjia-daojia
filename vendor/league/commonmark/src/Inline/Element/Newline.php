@@ -16,23 +16,19 @@ namespace League\CommonMark\Inline\Element;
 
 class Newline extends AbstractInline
 {
+    // Any changes to these constants should be reflected in .phpstorm.meta.php
     const HARDBREAK = 0;
     const SOFTBREAK = 1;
 
+    /** @var int */
     protected $type;
 
-    /**
-     * @param int $breakType
-     */
-    public function __construct($breakType = self::HARDBREAK)
+    public function __construct(int $breakType = self::HARDBREAK)
     {
         $this->type = $breakType;
     }
 
-    /**
-     * @return int
-     */
-    public function getType()
+    public function getType(): int
     {
         return $this->type;
     }

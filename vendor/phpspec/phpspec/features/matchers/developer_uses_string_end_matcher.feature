@@ -11,7 +11,10 @@ Feature: Developer uses string-end matcher
     namespace spec\Matchers\StringEndExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class MovieSpec extends ObjectBehavior
     {

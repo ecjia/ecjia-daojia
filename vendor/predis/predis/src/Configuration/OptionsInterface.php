@@ -11,6 +11,7 @@
 
 namespace Predis\Configuration;
 
+<<<<<<< HEAD
 /**
  * Interface defining a container for client options.
  *
@@ -21,6 +22,24 @@ namespace Predis\Configuration;
  * @property-read mixed prefix      Key prefixing strategy using the given prefix.
  * @property-read mixed profile     Server profile.
  * @property-read mixed replication Aggregate connection for replication.
+=======
+use Predis\Command\Processor\ProcessorInterface;
+use Predis\Connection\Aggregate\ClusterInterface;
+use Predis\Connection\Aggregate\ReplicationInterface;
+use Predis\Connection\FactoryInterface;
+use Predis\Profile\ProfileInterface;
+
+/**
+ * Interface defining a container for client options.
+ *
+ * @property-read callable             $aggregate   Custom connection aggregator.
+ * @property-read ClusterInterface     $cluster     Aggregate connection for clustering.
+ * @property-read FactoryInterface     $connections Connection factory.
+ * @property-read bool                 $exceptions  Toggles exceptions in client for -ERR responses.
+ * @property-read ProcessorInterface   $prefix      Key prefixing strategy using the given prefix.
+ * @property-read ProfileInterface     $profile     Server profile.
+ * @property-read ReplicationInterface $replication Aggregate connection for replication.
+>>>>>>> v2-test
  *
  * @author Daniele Alessandri <suppakilla@gmail.com>
  */

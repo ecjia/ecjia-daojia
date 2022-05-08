@@ -22,13 +22,22 @@ use Symfony\Component\CssSelector\Parser\TokenStream;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class WhitespaceHandler implements HandlerInterface
 {
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function handle(Reader $reader, TokenStream $stream)
+=======
+    public function handle(Reader $reader, TokenStream $stream): bool
+>>>>>>> v2-test
     {
         $match = $reader->findPattern('~^[ \t\r\n\f]+~');
 
@@ -37,7 +46,11 @@ class WhitespaceHandler implements HandlerInterface
         }
 
         $stream->push(new Token(Token::TYPE_WHITESPACE, $match[0], $reader->getPosition()));
+<<<<<<< HEAD
         $reader->moveForward(strlen($match[0]));
+=======
+        $reader->moveForward(\strlen($match[0]));
+>>>>>>> v2-test
 
         return true;
     }

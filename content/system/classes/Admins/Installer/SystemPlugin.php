@@ -9,7 +9,7 @@
 namespace Ecjia\System\Admins\Installer;
 
 
-class GlobalPlugin
+class SystemPlugin
 {
 
     /**

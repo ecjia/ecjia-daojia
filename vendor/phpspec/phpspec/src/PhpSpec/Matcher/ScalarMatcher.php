@@ -13,6 +13,7 @@
 
 namespace PhpSpec\Matcher;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 
@@ -20,13 +21,29 @@ class ScalarMatcher implements MatcherInterface
 {
     /**
      * @var PresenterInterface
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\Exception\Example\FailureException;
+use PhpSpec\Wrapper\DelayedCall;
+
+final class ScalarMatcher implements Matcher
+{
+    /**
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
 
     /**
+<<<<<<< HEAD
      * @param PresenterInterface $presenter
      */
     public function __construct(PresenterInterface $presenter)
+=======
+     * @param Presenter $presenter
+     */
+    public function __construct(Presenter $presenter)
+>>>>>>> v2-test
     {
         $this->presenter = $presenter;
     }
@@ -40,7 +57,11 @@ class ScalarMatcher implements MatcherInterface
      *
      * @return Boolean
      */
+<<<<<<< HEAD
     public function supports($name, $subject, array $arguments)
+=======
+    public function supports(string $name, $subject, array $arguments): bool
+>>>>>>> v2-test
     {
         $checkerName = $this->getCheckerName($name);
 
@@ -57,11 +78,19 @@ class ScalarMatcher implements MatcherInterface
      * @throws \PhpSpec\Exception\Example\FailureException
      * @return boolean
      */
+<<<<<<< HEAD
     public function positiveMatch($name, $subject, array $arguments)
     {
         $checker = $this->getCheckerName($name);
 
         if (!call_user_func($checker, $subject)) {
+=======
+    public function positiveMatch(string $name, $subject, array $arguments) : ?DelayedCall
+    {
+        $checker = $this->getCheckerName($name);
+
+        if (!\call_user_func($checker, $subject)) {
+>>>>>>> v2-test
             throw new FailureException(sprintf(
                 '%s expected to return %s, but it did not.',
                 $this->presenter->presentString(sprintf(
@@ -72,6 +101,11 @@ class ScalarMatcher implements MatcherInterface
                 $this->presenter->presentValue(true)
             ));
         }
+<<<<<<< HEAD
+=======
+
+        return null;
+>>>>>>> v2-test
     }
 
     /**
@@ -84,11 +118,19 @@ class ScalarMatcher implements MatcherInterface
      * @throws \PhpSpec\Exception\Example\FailureException
      * @return boolean
      */
+<<<<<<< HEAD
     public function negativeMatch($name, $subject, array $arguments)
     {
         $checker = $this->getCheckerName($name);
 
         if (call_user_func($checker, $subject)) {
+=======
+    public function negativeMatch(string $name, $subject, array $arguments) : ?DelayedCall
+    {
+        $checker = $this->getCheckerName($name);
+
+        if (\call_user_func($checker, $subject)) {
+>>>>>>> v2-test
             throw new FailureException(sprintf(
                 '%s not expected to return %s, but it did.',
                 $this->presenter->presentString(sprintf(
@@ -99,6 +141,11 @@ class ScalarMatcher implements MatcherInterface
                 $this->presenter->presentValue(true)
             ));
         }
+<<<<<<< HEAD
+=======
+        
+        return null;
+>>>>>>> v2-test
     }
 
     /**
@@ -106,7 +153,11 @@ class ScalarMatcher implements MatcherInterface
      *
      * @return integer
      */
+<<<<<<< HEAD
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 50;
     }
@@ -116,7 +167,11 @@ class ScalarMatcher implements MatcherInterface
      *
      * @return string|boolean
      */
+<<<<<<< HEAD
     private function getCheckerName($name)
+=======
+    private function getCheckerName(string $name)
+>>>>>>> v2-test
     {
         if (0 !== strpos($name, 'be')) {
             return false;
@@ -126,6 +181,12 @@ class ScalarMatcher implements MatcherInterface
         if ($expected == 'boolean') {
             return 'is_bool';
         }
+<<<<<<< HEAD
+=======
+        if ($expected == 'real') {
+            return 'is_float';
+        }
+>>>>>>> v2-test
 
         return 'is_'.$expected;
     }

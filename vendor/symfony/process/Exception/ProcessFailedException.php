@@ -28,10 +28,18 @@ class ProcessFailedException extends RuntimeException
             throw new InvalidArgumentException('Expected a failed process, but the given process was successful.');
         }
 
+<<<<<<< HEAD
         $error = sprintf('The command "%s" failed.'."\nExit Code: %s(%s)",
             $process->getCommandLine(),
             $process->getExitCode(),
             $process->getExitCodeText()
+=======
+        $error = sprintf('The command "%s" failed.'."\n\nExit Code: %s(%s)\n\nWorking directory: %s",
+            $process->getCommandLine(),
+            $process->getExitCode(),
+            $process->getExitCodeText(),
+            $process->getWorkingDirectory()
+>>>>>>> v2-test
         );
 
         if (!$process->isOutputDisabled()) {

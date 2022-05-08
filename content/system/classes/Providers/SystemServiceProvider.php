@@ -46,16 +46,25 @@
 //
 namespace Ecjia\System\Providers;
 
+use Ecjia\System\Mixins\EcjiaConfigMixin;
+use Ecjia\System\Mixins\EcjiaMailMixin;
+use Ecjia\System\Mixins\EcjiaSessionMixin;
+use RC_Hook;
+use RC_Loader;
+use RC_Locale;
+use RC_Mail;
+use RC_Response;
+use RC_Service;
+use RC_Session;
 use ReflectionClass;
+use Royalcms;
 use Royalcms\Component\App\AppParentServiceProvider;
-use Ecjia\System\Plugin\PluginManager;
-use Ecjia\System\Theme\ThemeManager;
-use Ecjia\System\Frameworks\Site\SiteManager;
-use Ecjia\System\Version\VersionManager;
-use Ecjia\System\Config\Config;
-use Ecjia\System\Config\ConfigModel;
-use Ecjia\System\Config\DatabaseConfigRepository;
-use Ecjia\System\Frameworks\CleanCache\CacheManger;
+use Ecjia\Component\App\AppManager;
+use Ecjia\Component\Framework\Ecjia;
+use Ecjia\Component\Plugin\PluginManager;
+use Ecjia\Component\Theme\ThemeManager;
+use Ecjia\Component\Site\SiteManager;
+use Ecjia\Component\Version\VersionManager;
 
 class SystemServiceProvider extends AppParentServiceProvider 
 {
@@ -64,14 +73,49 @@ class SystemServiceProvider extends AppParentServiceProvider
      *
      * @return void
      */
-    public function boot() {
-        $this->package('ecjia/system');
+    public function boot()
+    {
+        define('APPNAME', 'ECJIA');
+        define('VERSION', Ecjia::VERSION);
+        define('RELEASE', Ecjia::RELEASE);
+
+        if (config('system.debug')) {
+            error_reporting(E_ALL);
+        } else {
+            error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+        }
+
+        // 加载扩展函数库
+        RC_Loader::auto_load_func();
+
+        // 请求数据自动转义
+        $_POST      = rc_addslashes($_POST);
+        $_GET       = rc_addslashes($_GET);
+        $_REQUEST   = rc_addslashes($_REQUEST);
+        $_COOKIE    = rc_addslashes($_COOKIE);
+
+        // Load the default text localization domain.
+        RC_Locale::loadDefaultTextdomain();
+
+        //加载项目函数库
+        RC_Loader::load_sys_func('functions');
+
+        /**
+         * Fires after Royalcms has finished loading but before any headers are sent.
+         *
+         * @since 1.5.0
+         */
+        RC_Hook::do_action('ecjia_loading');
+
+        RC_Hook::do_action('ecjia_loading_after');
     }
-    
+
     /**
      * Guess the package path for the provider.
      *
-     * @return string
+     * @param null $namespace
+     * @return bool|string
+     * @throws \ReflectionException
      */
     public function guessPackagePath($namespace = null)
     {
@@ -87,147 +131,127 @@ class SystemServiceProvider extends AppParentServiceProvider
 	 */
 	public function register()
 	{
-	    $this->registerPluginManager();
-	    
-	    $this->registerThemeManager();
-	    
-	    $this->registerSiteManager();
-	    
-	    $this->registerVersionManager();
-	    
-	    $this->registerConfigRepository();
-	    
-	    $this->registerConfig();
+        $this->package('ecjia/system');
 
-	    $this->registerCache();
-	    
-	    $this->loadAlias();
+        $this->registerNamespaces();
 
-        if ($this->royalcms->environment() == 'local') {
-            $this->royalcms->register('Royalcms\Component\Readme\ReadmeServiceProvider');
-        }
-	}
-	
-	/**
-	 * Register the Plugin manager
-	 * @return \Ecjia\System\Plugin\PluginManager
-	 */
-	public function registerPluginManager() 
-	{
-	    $this->royalcms->bindShared('ecjia.plugin.manager', function($royalcms){
-	    	return new PluginManager($royalcms);
-	    });
-	}
-	
-	/**
-	 * Register the Theme manager
-	 * @return \Ecjia\System\Theme\ThemeManager
-	 */
-	public function registerThemeManager()
-	{
-	    $this->royalcms->bindShared('ecjia.theme.manager', function($royalcms){
-	        return new ThemeManager($royalcms);
-	    });
-	}
-	
-	/**
-	 * Register the Site manager
-	 * @return \Ecjia\System\Site\SiteManager
-	 */
-	public function registerSiteManager()
-	{
-	    $this->royalcms->bindShared('ecjia.site.manager', function($royalcms){
-	        return new SiteManager($royalcms);
-	    });
-	}
-	
-	/**
-	 * Register the Site manager
-	 * @return \Ecjia\System\Version\VersionManager
-	 */
-	public function registerVersionManager()
-	{
-	    $this->royalcms->bindShared('ecjia.version.manager', function($royalcms){
-	        return new VersionManager($royalcms);
-	    });
+        $this->registerProviders();
+
+        $this->registerLocalProviders();
+
+        $this->registerFacades();
+
+        $this->registerMixins();
+
+        $this->registerAppService();
+
+        $this->registerErrorRender();
 	}
 
     /**
-     * Register the Cache service
-     * @return \Ecjia\System\Admins\CleanCache\CacheManger
+     * Register the Namespaces
      */
-    public function registerCache()
+    protected function registerNamespaces()
     {
-        $this->royalcms->bindShared('ecjia.cache', function($royalcms)
-        {
-            return new CacheManger();
+        \Royalcms\Component\ClassLoader\ClassManager::addNamespaces(config('system::namespaces'));
+    }
+
+    /**
+     * Register the Providers
+     */
+    protected function registerProviders()
+    {
+        collect(config('system::provider'))->each(function($item) {
+            $this->royalcms->register($item);
         });
     }
-	
-	
-	/**
-	 * Register the Config service
-	 * @return \Ecjia\System\Config\Config
-	 */
-	public function registerConfig()
-	{
-	    $this->royalcms->bindShared('ecjia.config', function($royalcms)
-	    {
-	        $repository = $royalcms['ecjia.config.repository'];
-	        
-	        return new Config($repository);
-	    });
-	}
-	
-	/**
-	 * Register the Config repository service.
-	 *
-	 * @return void
-	 */
-	protected function registerConfigRepository()
-	{
-	    $this->royalcms->bindShared('ecjia.config.repository', function($royalcms)
-	    {
-	        return new DatabaseConfigRepository(new ConfigModel());
-	    });
-	}
 
-	/**
-	 * Load the alias = One less install step for the user
-	 */
-	protected function loadAlias()
-	{
-	    $this->royalcms->booting(function()
-	    {
-	        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-	        $loader->alias('Ecjia_PluginManager', 'Ecjia\System\Facades\PluginManager');
-	        $loader->alias('Ecjia_ThemeManager', 'Ecjia\System\Facades\ThemeManager');
-	        $loader->alias('Ecjia_SiteManager', 'Ecjia\System\Facades\SiteManager');
-	        $loader->alias('Ecjia_VersionManager', 'Ecjia\System\Facades\VersionManager');
-	        $loader->alias('ecjia_config', 'Ecjia\System\Facades\Config');
-	        $loader->alias('ecjia_update_cache', 'Ecjia\System\Facades\Cache');
-            $loader->alias('ecjia_admin_log', 'Ecjia\System\Facades\AdminLog');
+    /**
+     * Register the Local Providers
+     */
+    protected function registerLocalProviders() {
+        if ($this->royalcms->environment() == 'local') {
+            collect(config('system::provider_local'))->each(function($item) {
+                $this->royalcms->register($item);
+            });
+        }
+    }
 
-	        //compatible
-	        $loader->alias('ecjia_base', 'Ecjia\System\BaseController\EcjiaController');
-	        $loader->alias('ecjia_admin', 'Ecjia\System\BaseController\EcjiaAdminController');
-	        $loader->alias('ecjia_front', 'Ecjia\System\BaseController\EcjiaFrontController');
-	        $loader->alias('ecjia_error', 'Royalcms\Component\Error\Error');
-	    });
-	}
-	
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-	    return array(
-	        'ecjia.config',
-	        'ecjia.cache',
-	    );
-	}
+    /**
+     * Register the mixins
+     */
+    protected function registerMixins()
+    {
+        //注册Session驱动
+        RC_Session::mixin(new EcjiaSessionMixin());
+        //注册邮件发送方法
+        RC_Mail::mixin(new EcjiaMailMixin());
+        //注册ecjia::config用法
+        Ecjia::mixin(new EcjiaConfigMixin());
+    }
+
+
+    /**
+     * Load the alias = One less install step for the user
+     */
+    protected function registerFacades()
+    {
+        $this->royalcms->booting(function()
+        {
+            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+
+            collect(config('system::facade'))->each(function ($item, $key) use ($loader) {
+                $loader->alias($key, $item);
+            });
+
+        });
+    }
+
+
+    protected function registerAppService()
+    {
+
+    }
+
+    /**
+     * Register the error render.
+     */
+    protected function registerErrorRender()
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Application Error Handler
+        |--------------------------------------------------------------------------
+        |
+        | Here you may handle any errors that occur in your application, including
+        | logging them or displaying custom views for specific errors. You may
+        | even register several error handlers to handle different types of
+        | exceptions. If nothing is returned, the default error view is
+        | shown, which includes a detailed stack trace during debug.
+        |
+        */
+        Royalcms::errorRender(new \Ecjia\Kernel\Exceptions\Renders\ExceptionRender());
+        Royalcms::errorRender(new \Ecjia\Kernel\Exceptions\Renders\ErrorExceptionRender());
+        Royalcms::errorRender(new \Ecjia\Kernel\Exceptions\Renders\FatalThrowableErrorRender());
+        Royalcms::errorRender(new \Ecjia\Kernel\Exceptions\Renders\NotFoundHttpExceptionRender());
+        Royalcms::errorRender(new \Ecjia\Kernel\Exceptions\Renders\HttpExceptionRender());
+
+        /*
+        |--------------------------------------------------------------------------
+        | Maintenance Mode Handler
+        |--------------------------------------------------------------------------
+        |
+        | The "down" Artisan command gives you the ability to put an application
+        | into maintenance mode. Here, you will define what is displayed back
+        | to the user if maintenance mode is in effect for the application.
+        |
+        */
+
+        Royalcms::down(function()
+        {
+            return RC_Response::make("Be right back!", 503);
+        });
+    }
 
     /**
      * Get a list of files that should be compiled for the package.
@@ -236,24 +260,19 @@ class SystemServiceProvider extends AppParentServiceProvider
      */
     public static function compiles()
     {
-        $dir = __DIR__ . '/..';
+        $dir = __DIR__ . '/../';
+        $ecjia_vendor_dir = $dir . '/../vendor';
+
         return [
             $dir . "/Http/Kernel.php",
             $dir . "/Exceptions/Handler.php",
 
-            $dir . "/Facades/Config.php",
             $dir . "/Facades/ThemeManager.php",
             $dir . "/Facades/PluginManager.php",
             $dir . "/Facades/SiteManager.php",
             $dir . "/Facades/VersionManager.php",
-            $dir . "/Facades/AdminLog.php",
-            $dir . "/Admins/AdminLog/AdminLog.php",
-            $dir . "/Admins/AdminLog/CompatibleTrait.php",
-            $dir . "/Admins/AdminLog/AdminLogAction.php",
-            $dir . "/Admins/AdminLog/AdminLogObject.php",
 
             $dir . "/Frameworks/Contracts/EcjiaSessionInterface.php",
-            $dir . "/Frameworks/Contracts/EcjiaTemplateFileLoader.php",
             $dir . "/Frameworks/Contracts/PaidOrderProcessInterface.php",
             $dir . "/Frameworks/Contracts/ScriptLoaderInterface.php",
             $dir . "/Frameworks/Contracts/StyleLoaderInterface.php",
@@ -262,8 +281,6 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Frameworks/Contracts/ShopInterface.php",
             $dir . "/Frameworks/ScriptLoader/ScriptLoader.php",
             $dir . "/Frameworks/ScriptLoader/StyleLoader.php",
-            $dir . "/Frameworks/Screens/NotInstallScreen.php",
-            $dir . "/Frameworks/Screens/AllScreen.php",
 
             $dir . "/Frameworks/Model/Model.php",
             $dir . "/Frameworks/Model/InsertOnDuplicateKey.php",
@@ -272,15 +289,6 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Frameworks/Sessions/Handler/MysqlSessionHandler.php",
             $dir . "/Frameworks/Sessions/Handler/RedisSessionHandler.php",
 
-            $dir . "/Config/DatabaseConfigRepository.php",
-            $dir . "/Config/ConfigRepositoryInterface.php",
-            $dir . "/Config/ConfigModel.php",
-            $dir . "/Config/Config.php",
-            $dir . "/Config/CompatibleTrait.php",
-
-            $dir . "/Theme/ThemeManager.php",
-            $dir . "/Theme/Theme.php",
-            $dir . "/Theme/ParseThemeStyle.php",
 
             $dir . "/BaseController/BasicController.php",
             $dir . "/BaseController/EcjiaController.php",
@@ -289,10 +297,50 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/BaseController/EcjiaAdminController.php",
             $dir . "/BaseController/EcjiaFrontController.php",
 
-            $dir . "/ecjia_view.class.php",
-            $dir . "/ecjia_notification.class.php",
-            $dir . "/ecjia_loader.class.php",
-            $dir . "/ecjia_screen.class.php",
+            $dir . "/Hookers/AdminHeaderProfileLinksAction.php",
+            $dir . "/Hookers/AddMacroSendMailAction.php",
+            $dir . "/Hookers/CustomAdminUrlFilter.php",
+            $dir . "/Hookers/CustomSystemStaticUrlFilter.php",
+            $dir . "/Hookers/DisplayAdminAboutWelcomeAction.php",
+            $dir . "/Hookers/DisplayAdminCopyrightAction.php",
+            $dir . "/Hookers/DisplayAdminHeaderNavAction.php",
+            $dir . "/Hookers/DisplayAdminSidebarNavAction.php",
+            $dir . "/Hookers/DisplayAdminSidebarNavSearchAction.php",
+            $dir . "/Hookers/DisplayAdminWelcomeAction.php",
+            $dir . "/Hookers/EcjiaEchoQueryInfoAction.php",
+            $dir . "/Hookers/EcjiaFrontAccessSessionAction.php",
+            $dir . "/Hookers/EcjiaFrontCompatibleProcessAction.php",
+            $dir . "/Hookers/EcjiaInitLoadAction.php",
+            $dir . "/Hookers/EcjiaInstallApplicationLoadAction.php",
+            $dir . "/Hookers/EcjiaLoadGlobalPluginsAction.php",
+            $dir . "/Hookers/EcjiaLoadingScreenAction.php",
+            $dir . "/Hookers/EcjiaLoadLangAction.php",
+            $dir . "/Hookers/EcjiaLoadSystemApplicationFilter.php",
+            $dir . "/Hookers/LoadThemeFunctionAction.php",
+            $dir . "/Hookers/SetCurrentTimezoneFilter.php",
+            $dir . "/Hookers/SetEcjiaConfigFilter.php",
+            $dir . "/Hookers/ShopConfigUpdatedAfterAction.php",
+            $dir . "/Hookers/UploadDefaultRandomFilenameFilter.php",
+
+            $dir . "/Listeners/DatabaseQueryListener.php",
+            $dir . "/Listeners/WarningExceptionListener.php",
+
+            $dir . "/Subscribers/AdminHookSubscriber.php",
+            $dir . "/Subscribers/AllScreenSubscriber.php",
+            $dir . "/Subscribers/EcjiaAutoloadSubscriber.php",
+            $dir . "/Subscribers/InstalledScreenSubscriber.php",
+
+            $dir . "/Mixins/EcjiaMailMixin.php",
+            $dir . "/Mixins/EcjiaSessionMixin.php",
+
+            $dir . "/Providers/AuthServiceProvider.php",
+            $dir . "/Providers/EcjiaAdminServiceProvider.php",
+            $dir . "/Providers/EventServiceProvider.php",
+            $dir . "/Providers/HookerServiceProvider.php",
+            $dir . "/Providers/RouteServiceProvider.php",
+
+            $dir . "/Frameworks/Model/InsertOnDuplicateKey.php",
+
         ];
     }
 

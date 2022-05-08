@@ -12,25 +12,38 @@
 namespace Symfony\Component\Translation\Loader;
 
 use Symfony\Component\Translation\Exception\InvalidResourceException;
+<<<<<<< HEAD
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\Component\Config\Resource\FileResource;
+=======
+>>>>>>> v2-test
 
 /**
  * @copyright Copyright (c) 2010, Union of RAD http://union-of-rad.org (http://lithify.me/)
  */
+<<<<<<< HEAD
 class MoFileLoader extends ArrayLoader
+=======
+class MoFileLoader extends FileLoader
+>>>>>>> v2-test
 {
     /**
      * Magic used for validating the format of a MO file as well as
      * detecting if the machine used to create that file was little endian.
+<<<<<<< HEAD
      *
      * @var float
      */
     const MO_LITTLE_ENDIAN_MAGIC = 0x950412de;
+=======
+     */
+    public const MO_LITTLE_ENDIAN_MAGIC = 0x950412de;
+>>>>>>> v2-test
 
     /**
      * Magic used for validating the format of a MO file as well as
      * detecting if the machine used to create that file was big endian.
+<<<<<<< HEAD
      *
      * @var float
      */
@@ -73,11 +86,21 @@ class MoFileLoader extends ArrayLoader
 
         return $catalogue;
     }
+=======
+     */
+    public const MO_BIG_ENDIAN_MAGIC = 0xde120495;
+
+    /**
+     * The size of the header of a MO file in bytes.
+     */
+    public const MO_HEADER_SIZE = 28;
+>>>>>>> v2-test
 
     /**
      * Parses machine object (MO) format, independent of the machine's endian it
      * was created on. Both 32bit and 64bit systems are supported.
      *
+<<<<<<< HEAD
      * @param resource $resource
      *
      * @return array
@@ -85,6 +108,11 @@ class MoFileLoader extends ArrayLoader
      * @throws InvalidResourceException If stream content has an invalid format.
      */
     private function parse($resource)
+=======
+     * {@inheritdoc}
+     */
+    protected function loadResource($resource)
+>>>>>>> v2-test
     {
         $stream = fopen($resource, 'r');
 
@@ -96,9 +124,15 @@ class MoFileLoader extends ArrayLoader
         $magic = unpack('V1', fread($stream, 4));
         $magic = hexdec(substr(dechex(current($magic)), -8));
 
+<<<<<<< HEAD
         if ($magic == self::MO_LITTLE_ENDIAN_MAGIC) {
             $isBigEndian = false;
         } elseif ($magic == self::MO_BIG_ENDIAN_MAGIC) {
+=======
+        if (self::MO_LITTLE_ENDIAN_MAGIC == $magic) {
+            $isBigEndian = false;
+        } elseif (self::MO_BIG_ENDIAN_MAGIC == $magic) {
+>>>>>>> v2-test
             $isBigEndian = true;
         } else {
             throw new InvalidResourceException('MO stream content has an invalid format.');
@@ -114,7 +148,11 @@ class MoFileLoader extends ArrayLoader
         // offsetHashes
         $this->readLong($stream, $isBigEndian);
 
+<<<<<<< HEAD
         $messages = array();
+=======
+        $messages = [];
+>>>>>>> v2-test
 
         for ($i = 0; $i < $count; ++$i) {
             $pluralId = null;
@@ -132,8 +170,13 @@ class MoFileLoader extends ArrayLoader
             fseek($stream, $offset);
             $singularId = fread($stream, $length);
 
+<<<<<<< HEAD
             if (strpos($singularId, "\000") !== false) {
                 list($singularId, $pluralId) = explode("\000", $singularId);
+=======
+            if (false !== strpos($singularId, "\000")) {
+                [$singularId, $pluralId] = explode("\000", $singularId);
+>>>>>>> v2-test
             }
 
             fseek($stream, $offsetTranslated + $i * 8);
@@ -147,6 +190,7 @@ class MoFileLoader extends ArrayLoader
             fseek($stream, $offset);
             $translated = fread($stream, $length);
 
+<<<<<<< HEAD
             if (strpos($translated, "\000") !== false) {
                 $translated = explode("\000", $translated);
             }
@@ -165,6 +209,21 @@ class MoFileLoader extends ArrayLoader
                 }
             } elseif (!empty($item['ids']['singular'])) {
                 $messages[$item['ids']['singular']] = stripcslashes($item['translated']);
+=======
+            if (false !== strpos($translated, "\000")) {
+                $translated = explode("\000", $translated);
+            }
+
+            $ids = ['singular' => $singularId, 'plural' => $pluralId];
+            $item = compact('ids', 'translated');
+
+            if (!empty($item['ids']['singular'])) {
+                $id = $item['ids']['singular'];
+                if (isset($item['ids']['plural'])) {
+                    $id .= '|'.$item['ids']['plural'];
+                }
+                $messages[$id] = stripcslashes(implode('|', (array) $item['translated']));
+>>>>>>> v2-test
             }
         }
 
@@ -174,6 +233,7 @@ class MoFileLoader extends ArrayLoader
     }
 
     /**
+<<<<<<< HEAD
      * Reads an unsigned long from stream respecting endianess.
      *
      * @param resource $stream
@@ -182,6 +242,13 @@ class MoFileLoader extends ArrayLoader
      * @return int
      */
     private function readLong($stream, $isBigEndian)
+=======
+     * Reads an unsigned long from stream respecting endianness.
+     *
+     * @param resource $stream
+     */
+    private function readLong($stream, bool $isBigEndian): int
+>>>>>>> v2-test
     {
         $result = unpack($isBigEndian ? 'N1' : 'V1', fread($stream, 4));
         $result = current($result);

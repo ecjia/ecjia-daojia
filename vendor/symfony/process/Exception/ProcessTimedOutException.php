@@ -20,13 +20,22 @@ use Symfony\Component\Process\Process;
  */
 class ProcessTimedOutException extends RuntimeException
 {
+<<<<<<< HEAD
     const TYPE_GENERAL = 1;
     const TYPE_IDLE = 2;
+=======
+    public const TYPE_GENERAL = 1;
+    public const TYPE_IDLE = 2;
+>>>>>>> v2-test
 
     private $process;
     private $timeoutType;
 
+<<<<<<< HEAD
     public function __construct(Process $process, $timeoutType)
+=======
+    public function __construct(Process $process, int $timeoutType)
+>>>>>>> v2-test
     {
         $this->process = $process;
         $this->timeoutType = $timeoutType;
@@ -45,12 +54,20 @@ class ProcessTimedOutException extends RuntimeException
 
     public function isGeneralTimeout()
     {
+<<<<<<< HEAD
         return $this->timeoutType === self::TYPE_GENERAL;
+=======
+        return self::TYPE_GENERAL === $this->timeoutType;
+>>>>>>> v2-test
     }
 
     public function isIdleTimeout()
     {
+<<<<<<< HEAD
         return $this->timeoutType === self::TYPE_IDLE;
+=======
+        return self::TYPE_IDLE === $this->timeoutType;
+>>>>>>> v2-test
     }
 
     public function getExceededTimeout()

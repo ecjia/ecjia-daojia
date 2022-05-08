@@ -1,7 +1,10 @@
 language: php
 
+<<<<<<< HEAD
 sudo: false
 
+=======
+>>>>>>> v2-test
 before_script:
     - cp tests/acceptance.conf.php.default tests/acceptance.conf.php
     - cp tests/smoke.conf.php.default tests/smoke.conf.php
@@ -11,6 +14,7 @@ before_script:
     - gem install mailcatcher
     - mailcatcher --smtp-port 4456
 
+<<<<<<< HEAD
 script:
     - phpunit --verbose
 
@@ -25,3 +29,24 @@ matrix:
     allow_failures:
         - php: hhvm
     fast_finish: true
+=======
+script: ./vendor/bin/simple-phpunit
+
+env:
+    global:
+        - SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT=1
+
+matrix:
+    include:
+        - php: 7.0
+        - php: 7.1
+        - php: 7.2
+        - php: 7.3
+        - php: 7.4
+        - php: 8.0
+    fast_finish: true
+
+cache:
+    directories:
+        - .phpunit
+>>>>>>> v2-test

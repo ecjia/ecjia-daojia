@@ -53,9 +53,11 @@
 
 namespace Ecjia\App\Api\Transformers;
 
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
 use RC_Time;
 
-class GoodsTransformer extends Transformer
+class GoodsTransformer extends Transformer implements TransformerInterface
 {
 
     public function transformer($data)
@@ -66,45 +68,46 @@ class GoodsTransformer extends Transformer
         $data['original_img'] || $data['original_img'] = $data['goods_thumb'];
 
         $outData = array(
-            "id"            => $data['goods_id'],
-        	'goods_id'		=> $data['goods_id'],
-            "cat_id"        => $data['cat_id'],
-            "goods_sn"      => $data['goods_sn'],
-            "goods_name"    => $data['goods_name'],
+            "id"                       => $data['goods_id'],
+            'goods_id'                 => $data['goods_id'],
+            "cat_id"                   => $data['cat_id'],
+            "goods_sn"                 => $data['goods_sn'],
+            "goods_name"               => $data['goods_name'],
             // "goods_desc" =>$data['goods_desc'],
-            "collected"     => $data['collected'],
-            "market_price"  => $data['market_price'] > 0 ? ecjia_price_format($data['market_price']) : ecjia_price_format($data['shop_price']),
-        	"unformatted_market_price"  => $data['market_price'] > 0 ? $data['market_price'] : ecjia_price_format($data['shop_price']),
-            "shop_price"    => $data['shop_price'] > 0 ? ecjia_price_format($data['shop_price']) : __('免费'),
-            "integral"      => $data['integral'],
-            "click_count"   => $data['click_count'],
-            "sales_volume"  => $data['sales_volume'],
-            "brand_id"      => $data['brand_id'],
+            "collected"                => $data['collected'],
+            "market_price"             => $data['market_price'] > 0 ? ecjia_price_format($data['market_price']) : ecjia_price_format($data['shop_price']),
+            "unformatted_market_price" => $data['market_price'] > 0 ? $data['market_price'] : ecjia_price_format($data['shop_price']),
+            "shop_price"               => $data['shop_price'] > 0 ? ecjia_price_format($data['shop_price']) : __('免费', 'api'),
+            "integral"                 => $data['integral'],
+            "click_count"              => $data['click_count'],
+            "sales_volume"             => $data['sales_volume'],
+            "brand_id"                 => $data['brand_id'],
+            'area_link'                => $data['area_link'],
             // fix 没有goods_number值
-            "goods_number"  => is_numeric($data['goods_number']) ? $data['goods_number'] : 65535,
-            "goods_weight"  =>  $data['goods_weight'],
-            "promote_price" => $data['promote_price_org'],
-            "formated_promote_price"    => $data['promote_price_org'] > 0 ? ecjia_price_format($data['promote_price_org'], false) : '',
-            "promote_start_date"        => $this->bjTime($data['promote_start_date']),
-            "promote_end_date"          => $this->bjTime($data['promote_end_date']),
-            "is_shipping"   => $data['is_shipping'],
-        	"add_time"   	=> $data['add_time'],
-            "img"           => array(
-                'thumb'     => !empty($data['goods_img']) ? $photoTransformer->transformer($data['goods_img']) : '',
-                'url'       => !empty($data['original_img']) ? $photoTransformer->transformer($data['original_img']) : '',
-                'small'     => !empty($data['goods_thumb']) ? $photoTransformer->transformer($data['goods_thumb']) : ''
+            "goods_number"             => is_numeric($data['goods_number']) ? $data['goods_number'] : 65535,
+            "goods_weight"             => $data['goods_weight'],
+            "promote_price"            => $data['promote_price_org'],
+            "formated_promote_price"   => $data['promote_price_org'] > 0 ? ecjia_price_format($data['promote_price_org'], false) : '',
+            "promote_start_date"       => $this->bjTime($data['promote_start_date']),
+            "promote_end_date"         => $this->bjTime($data['promote_end_date']),
+            "is_shipping"              => $data['is_shipping'],
+            "add_time"                 => $data['add_time'],
+            "img"                      => array(
+                'thumb' => !empty($data['goods_img']) ? $photoTransformer->transformer($data['goods_img']) : '',
+                'url'   => !empty($data['original_img']) ? $photoTransformer->transformer($data['original_img']) : '',
+                'small' => !empty($data['goods_thumb']) ? $photoTransformer->transformer($data['goods_thumb']) : ''
             ),
-            "is_on_sale"    => $data['is_on_sale'],
-            "rank_prices"   => array(),
-            "pictures"      => array(),
-            "properties"    => array(),
-            "specification" => array()
+            "is_on_sale"               => $data['is_on_sale'],
+            "rank_prices"              => array(),
+            "pictures"                 => array(),
+            "properties"               => array(),
+            "specification"            => array()
         );
 
 
         foreach ($data['rank_prices'] as $key => $value) {
             $outData['rank_prices'][] = array(
-                "id"                =>  $key,
+                "id"                => $key,
                 "rank_name"         => $value['rank_name'],
                 'unformatted_price' => $value['unformatted_price'],
                 "price"             => $value['price']
@@ -113,10 +116,10 @@ class GoodsTransformer extends Transformer
 
         foreach ($data['pictures'] as $key => $value) {
             $outData['pictures'][] = array(
-                "small"     	=> $photoTransformer->transformer($value['thumb_url']),
-                "thumb"     	=> $photoTransformer->transformer($value['thumb_url']),
-                "url"       	=> $photoTransformer->transformer($value['img_url']),
-            	"product_id"    => $value['product_id'],
+                "small"      => $photoTransformer->transformer($value['thumb_url']),
+                "thumb"      => $photoTransformer->transformer($value['thumb_url']),
+                "url"        => $photoTransformer->transformer($value['img_url']),
+                "product_id" => $value['product_id'],
             );
         }
 
@@ -125,8 +128,8 @@ class GoodsTransformer extends Transformer
             foreach ($data['properties'] as $key => $value) {
                 // 处理分组
                 foreach ($value as $k => $v) {
-                    $v['value']                 = strip_tags($v['value']);
-                    $outData['properties'][]    = $v;
+                    $v['value']              = strip_tags($v['value']);
+                    $outData['properties'][] = $v;
                 }
             }
         }
@@ -143,7 +146,8 @@ class GoodsTransformer extends Transformer
     }
 
 
-    private function bjTime($Time) {
+    private function bjTime($Time)
+    {
         // $unixTime = $Time + 8*3600;
         // return date('Y/m/d H:i:s O', $unixTime);
 

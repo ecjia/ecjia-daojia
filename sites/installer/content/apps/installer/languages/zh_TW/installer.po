@@ -1,0 +1,692 @@
+# Copyright (C) 2019 Ecjia App installer
+# This file is distributed under the same license as the Ecjia App installer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App installer 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-03 16:57+0800\n"
+"PO-Revision-Date: 2019-04-03 16:57+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: classes/Controllers/IndexController.php:142
+msgid ""
+"抱歉，当前程序运行在 %s 目录下，ECJia到家程序必须运行在网站根目录下/，请您"
+"更换目录后再重新运行安装程序。"
+msgstr ""
+"抱歉，當前程序運行在 %s 目錄下，ECJia到家程序必須運行在網站根目錄下/，請您"
+"更換目錄後再重新運行安裝程序。"
+
+#: classes/Controllers/IndexController.php:180
+msgid "是"
+msgstr "是"
+
+#: classes/Controllers/IndexController.php:180
+msgid "否"
+msgstr "否"
+
+#: classes/Controllers/IndexController.php:182
+msgid "无需设置"
+msgstr "無需設置"
+
+#: classes/Controllers/IndexController.php:213
+msgid "支持（%s）"
+msgstr "支持（%s）"
+
+#: classes/Controllers/IndexController.php:361
+msgid "恭喜您，安装成功!"
+msgstr "恭喜您，安裝成功!"
+
+#: classes/Controllers/IndexController.php:379
+msgid "安装程序已经被锁定。"
+msgstr "安裝程序已經被鎖定。"
+
+#: classes/Controllers/IndexController.php:380
+msgid "如果您确定要重新安装ECJia到家，请删除%s目录下的%s。"
+msgstr "如果您確定要重新安裝ECJia到家，請刪除%s目錄下的%s。"
+
+#: classes/Controllers/IndexController.php:417
+#: classes/Controllers/IndexController.php:421
+#: classes/Controllers/IndexController.php:430
+#: classes/Controllers/IndexController.php:454 classes/Helper.php:113
+#: classes/Helper.php:179 classes/Helper.php:200 classes/Helper.php:547
+#: classes/Helper.php:560
+msgid "连接数据库失败，请检查您输入的数据库帐号是否正确。"
+msgstr "連接數據庫失敗，請檢查您輸入的數據庫帳號是否正確。"
+
+#: classes/Controllers/IndexController.php:425
+msgid "MySQL数据库版本过低，请使用5.5以上版本。"
+msgstr "MySQL數據庫版本過低，請使用5.5以上版本。"
+
+#: classes/Controllers/IndexController.php:435
+msgid "当前MySQL数据库不支持InnoDB引擎，请检查后再进行安装。"
+msgstr "當前MySQL數據庫不支持InnoDB引擎，請檢查後再進行安裝。"
+
+#: classes/Controllers/IndexController.php:592
+msgid "管理员名称不能为空"
+msgstr "管理員名稱不能為空"
+
+#: classes/Controllers/IndexController.php:596
+msgid "密码不能为空"
+msgstr "密碼不能為空"
+
+#: classes/Controllers/IndexController.php:600
+#: classes/Controllers/IndexController.php:604 configs/jslang.php:68
+msgid "密码必须同时包含字母及数字"
+msgstr "密碼必須同時包含字母及數字"
+
+#: classes/Controllers/IndexController.php:608 configs/jslang.php:69
+msgid "密码不相同"
+msgstr "密碼不相同"
+
+#: classes/Helper.php:140
+msgid "目录"
+msgstr "目錄"
+
+#: classes/Helper.php:206
+msgid "连接数据库失败，无法创建数据库"
+msgstr "連接數據庫失敗，無法創建數據庫"
+
+#: classes/Helper.php:265
+msgid "创建管理员帐号失败"
+msgstr "創建管理員帳號失敗"
+
+#: classes/Helper.php:304
+msgid "写入配置文件出错"
+msgstr "寫入配置文件出錯"
+
+#: classes/hooks/admin_installer.class.php:57
+msgid "您还没有删除 %s 文件夹，出于安全的考虑，我们建议您删除 %s 文件夹。"
+msgstr "您還沒有刪除 %s 文件夾，出於安全的考慮，我們建議您刪除 %s 文件夾。"
+
+#: configs/jslang.php:57
+msgid "请输入数据库主机名称"
+msgstr "請輸入數據庫主機名稱"
+
+#: configs/jslang.php:58
+msgid "请输入数据库端口号"
+msgstr "請輸入數據庫端口號"
+
+#: configs/jslang.php:59
+msgid "请输入数据库用户名"
+msgstr "請輸入數據庫用戶名"
+
+#: configs/jslang.php:60
+msgid "请输入数据库名称"
+msgstr "請輸入數據庫名稱"
+
+#: configs/jslang.php:61
+msgid "请输入数据库前缀"
+msgstr "請輸入數據庫前綴"
+
+#: configs/jslang.php:62
+msgid "请输入管理员名称"
+msgstr "請輸入管理員名稱"
+
+#: configs/jslang.php:63
+msgid "请输入管理员登录密码"
+msgstr "請輸入管理員登錄密碼"
+
+#: configs/jslang.php:64
+msgid "请输入管理员登录确认密码"
+msgstr "請輸入管理員登錄確認密碼"
+
+#: configs/jslang.php:65
+msgid "请输入管理员电子邮箱"
+msgstr "請輸入管理員電子郵箱"
+
+#: configs/jslang.php:66
+msgid "请输入正确的email格式"
+msgstr "請輸入正確的email格式"
+
+#: configs/jslang.php:67
+msgid "密码长度不能小于8"
+msgstr "密碼長度不能小於8"
+
+#: configs/jslang.php:71
+msgid "创建配置文件"
+msgstr "創建配置文件"
+
+#: configs/jslang.php:72
+msgid "创建数据库"
+msgstr "創建數據庫"
+
+#: configs/jslang.php:73
+msgid "安装进程已中止"
+msgstr "安裝進程已中止"
+
+#: configs/jslang.php:75
+msgid "当前配置不满足ECJIA到家安装需求，无法继续安装！"
+msgstr "當前配置不滿足ECJIA到家安裝需求，無法繼續安裝！"
+
+#: configs/jslang.php:76
+msgid "该数据库名称已存在，确定要覆盖该数据库信息吗？"
+msgstr "該數據庫名稱已存在，確定要覆蓋該數據庫信息嗎？"
+
+#: configs/jslang.php:77
+msgid "请输入名称！"
+msgstr "請輸入名稱！"
+
+#: configs/jslang.php:78
+msgid "安装完成"
+msgstr "安裝完成"
+
+#: configs/jslang.php:80
+msgid "安装基础数据"
+msgstr "安裝基礎數據"
+
+#: configs/jslang.php:81
+msgid "安装演示数据"
+msgstr "安裝演示數據"
+
+#: configs/jslang.php:82
+msgid "创建管理员帐号"
+msgstr "創建管理員帳號"
+
+#: configs/jslang.php:85
+msgid "成功"
+msgstr "成功"
+
+#: configs/jslang.php:86
+msgid "失败"
+msgstr "失敗"
+
+#: configs/jslang.php:87
+msgid "提示："
+msgstr "提示："
+
+#: configs/jslang.php:88
+msgid "剩余"
+msgstr "剩余"
+
+#: configs/jslang.php:89
+msgid "个"
+msgstr "個"
+
+#: configs/jslang.php:91
+msgid "安装数据库结构"
+msgstr "安裝數據庫結構"
+
+#: configs/jslang.php:93
+msgid "确定"
+msgstr "確定"
+
+#: configs/jslang.php:94
+msgid "取消"
+msgstr "取消"
+
+#: configs/package.php:52
+msgid "安装器"
+msgstr "安裝器"
+
+#: configs/package.php:53
+msgid "用来安装ECJIA项目的安装器"
+msgstr "用來安裝ECJIA項目的安裝器"
+
+#: content/apps/installer/templates/front/finish.dwt.php:17
+msgid "您的用户名是："
+msgstr "您的用戶名是："
+
+#: content/apps/installer/templates/front/finish.dwt.php:18
+msgid "您的密码是："
+msgstr "您的密碼是："
+
+#: content/apps/installer/templates/front/finish.dwt.php:23
+msgid ""
+"<a target=\"_blank\" href=\"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia"
+"%E5%88%B0%E5%AE%B6\">前往ECJIA WIKI，查看帮助文档，使您快速上手。</a>"
+msgstr ""
+"<a target=\"_blank\" href=\"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia"
+"%E5%88%B0%E5%AE%B6\">前往ECJIA WIKI，查看幫助文檔，使您快速上手。</a>"
+
+#: content/apps/installer/templates/front/finish.dwt.php:27
+msgid "您可以将下面链接保存到您的收藏夹哦"
+msgstr "您可以將下面鏈接保存到您的收藏夾哦"
+
+#: content/apps/installer/templates/front/finish.dwt.php:29
+msgid "点击这里进入ECJIA到家首页"
+msgstr "點擊這裏進入ECJIA到家首頁"
+
+#: content/apps/installer/templates/front/finish.dwt.php:30
+msgid "点击这里进入ECJIA到家H5端"
+msgstr "點擊這裡進入ECJIA到家H5端"
+
+#: content/apps/installer/templates/front/finish.dwt.php:31
+msgid "点击这里进入ECJIA到家平台后台"
+msgstr "點擊這裏進入ECJIA到家平臺後臺"
+
+#: content/apps/installer/templates/front/finish.dwt.php:32
+msgid "点击这里进入ECJIA到家商家后台"
+msgstr "點擊這裏進入ECJIA到家商家後臺"
+
+#: content/apps/installer/templates/front/finish.dwt.php:35
+msgid "各种体验，希望您能尽情享用ECJIA到家带来的乐趣！"
+msgstr "各種體驗，希望您能盡情享用ECJIA到家帶來的樂趣！"
+
+#: content/apps/installer/templates/front/ecjia_installer.dwt.php:7
+msgid "ECJIA到家安装程序"
+msgstr "ECJIA到家安裝程序"
+
+#: content/apps/installer/templates/front/welcome.dwt.php:10
+#: content/apps/installer/templates/front/library/header.lbi.php:4
+msgid "欢迎使用"
+msgstr "歡迎使用"
+
+#: content/apps/installer/templates/front/welcome.dwt.php:12
+msgid ""
+"<h4>安装说明</h4>\n"
+"                        <p><strong>本安装程序将自动检测服务器环境是否符合最"
+"低配置需求。如果不符合，将在上方出现提示信息，请按照提示信息检查您的主机配"
+"置。 如果服务器环境符合要求， 将在下方出现 \"开始下一步\" 的按钮， 点击此按"
+"钮即可一步完成安装。</strong></p>\n"
+"                        <h4>许可及协议</h4>\n"
+"                        <p>请您在安装前仔细阅读本协议内容。<br>\n"
+"                            感谢您选择上海商创网络科技有限公司（模板堂）独"
+"立研发ECJia到家新零售商城系统，即ECJia到家。在我们的不断努力中，为用户提供全"
+"新，功能强大，使用便捷的O2O产品。<br>\n"
+"                            模板堂是ECJia到家新零售商城系统的开发商，ECJia官方"
+"网站为 <a href=\"https://ecjia.com/\" target=\"_blank\">https://ecjia.com/"
+"</a>。<br>\n"
+"                            本授权协议适用且仅适用于ECJia到家V 1.3版本以及"
+"后续的升级版本，模板堂拥有对本授权协议的最终解释权。\n"
+"                        </p>\n"
+"                        <p>\n"
+"                            一、使用许可和权利<br>\n"
+"                            1. 在用户完全遵守本最终协议的基础上，可以将"
+"ECJia到家用于以下场景：非商业用途(包括个人用途：不具备法人资格的自然人，以"
+"个人名义从事电子商务活动；非盈利性用途：从事非盈利活动的商业机构及非盈利性"
+"组织，将ECJia到家系统用且仅用于产品的展示曝光，期间不存在任何利益环节和利益"
+"目的)。<br>\n"
+"                            2. 用户可以在ECJia到家使用协议规定的范围内，对"
+"ECJia到家源代码或者界面设计进行相应的改动，以满足您对ECJia到家系统的使用需"
+"求（如有提供的话）。<br>\n"
+"                            3. 用户拥有使用本产品中的全部内容资料、商品信息"
+"及其他信息的所有权，并独立承担与其内容相关的法律义务。<br>\n"
+"                            4. 用户在购买商业授权后，即可将ECJia到家系统用"
+"于商业用途，满足用户获取盈利的需求。并且可以在授权协议购买的即刻起，享受在"
+"授权协议规定的时间内以及指定范围内的ECJia到家技术支持售后服务。<br><br>\n"
+"\n"
+"                            二、使用限制和义务<br>\n"
+"                            1. ECJia到家系统不得用于商业用途（即商业活动为"
+"目的，通过商业行为从而获得收益。包括但不限于企业法人经营的电商网站、经营性"
+"网站、以盈利为目或实现盈利的网站、以盈利性为目的招募入驻商家等行为），否则"
+"一经查证，模板堂将始终保留法律追责的权力。<br>\n"
+"                            2. 用户在没有购买官方ECJia到家授权之前，不得在"
+"ECJia到家系统的任意部分进行开发，以此产生的任何派生版本或者第三方版本，模板"
+"堂将始终保留法律追责的权力。<br>\n"
+"                            3. 用户无法遵守本协议内容，将被终止授权使用，并"
+"取消所有使用许可和权利，并承担相应法律责任。<br><br>\n"
+"\n"
+"                            三、有限担保和免责声明<br>\n"
+"                            1. ECJia到家安装包及所附带的文件不包含任何明确"
+"或隐藏的赔偿、担保内容。<br>\n"
+"                            2. 用户自愿下载使用本系统，必须了解使用风险，未"
+"购买官方ECJia到家授权之前，一律不对用户提供技术支持和担保，也不承担使用"
+"ECJia到家系统而产生任何问题的责任。<br>\n"
+"                            3. 模板堂不对使用ECJia到家系统搭建的O2O电商平台"
+"的内容信息承担责任，但在不侵犯用户隐私信息的前提下，保留以任何方式获取用户"
+"信息及商品信息的权利。<br>\n"
+"                        </p>\n"
+"                        <p>有关本产品最终用户授权协议、商业授权与技术服务的"
+"详细内容，均由上海商创网络科技有限公司独家提供。上海商创网络科技有限公司拥"
+"有在不事先通知的情况下，修改授权协议的权力，修改后的协议对改变之日起的新授"
+"权用户生效。电子文本形式的授权协议如同双方书面签署的协议一样，具有完全的和"
+"等同的法律效力。您一旦开始修改、安装或使用本产品，即被视为完全理解并接受本"
+"协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。协议"
+"许可范围以外的行为，将直接违反本授权协议并构成侵权，我们有权随时终止授权，"
+"责令停止损害，并保留追究相关责任的权力。</p>\n"
+"                        <p>ECJIA到家软件由上海商创网络科技有限公司提供支"
+"持，核心开发团队负责维护程序日常开发工作以及新特性的制定。如果您遇到使用上"
+"的问题，程序中的 BUG，以及期许的新功能，欢迎您在社区中交流或者直接向我们贡"
+"献代码。对于贡献突出者，他的名字将出现在贡献者名单中。</p>"
+msgstr ""
+"<h4>安裝說明</h4>\n"
+"                        <p><strong>本安裝程序將自動檢測服務器環境是否符合最"
+"低配置需求。如果不符合，將在上方出現提示信息，請按照提示信息檢查您的主機配"
+"置。 如果服務器環境符合要求， 將在下方出現 \"開始下一步\" 的按鈕， 點擊此按"
+"鈕即可一步完成安裝。</strong></p>\n"
+"                        <h4>許可及協議</h4>\n"
+"                        <p>請您在安裝前仔細閱讀本協議內容。<br>\n"
+"                            感謝您選擇上海商創網絡科技有限公司（模板堂）獨"
+"立研發ECJia到家O2O商城系統，即ECJia到家。在我們的不斷努力中，為用戶提供全"
+"新，功能強大，使用便捷的O2O產品。<br>\n"
+"                            模板堂是ECJia到家O2O商城系統的開發商，ECJia官方"
+"網站為 <a href=\"https://ecjia.com/\" target=\"_blank\">https://ecjia.com/"
+"</a>。<br>\n"
+"                            本授權協議適用且僅適用於ECJia到家V 1.3版本以及"
+"後續的升級版本，模板堂擁有對本授權協議的最終解釋權。\n"
+"                        </p>\n"
+"                        <p>\n"
+"                            一、使用許可和權利<br>\n"
+"                            1. 在用戶完全遵守本最終協議的基礎上，可以將"
+"ECJia到家用於以下場景：非商業用途(包括個人用途：不具備法人資格的自然人，以"
+"個人名義從事電子商務活動；非盈利性用途：從事非盈利活動的商業機構及非盈利性"
+"組織，將ECJia到家系統用且僅用於產品的展示曝光，期間不存在任何利益環節和利益"
+"目的)。<br>\n"
+"                            2. 用戶可以在ECJia到家使用協議規定的範圍內，對"
+"ECJia到家源代碼或者界面設計進行相應的改動，以滿足您對ECJia到家系統的使用需"
+"求（如有提供的話）。<br>\n"
+"                            3. 用戶擁有使用本產品中的全部內容資料、商品信息"
+"及其他信息的所有權，並獨立承擔與其內容相關的法律義務。<br>\n"
+"                            4. 用戶在購買商業授權後，即可將ECJia到家系統用"
+"於商業用途，滿足用戶獲取盈利的需求。並且可以在授權協議購買的即刻起，享受在"
+"授權協議規定的時間內以及指定範圍內的ECJia到家技術支持售後服務。<br><br>\n"
+"\n"
+"                            二、使用限制和義務<br>\n"
+"                            1. ECJia到家系統不得用於商業用途（即商業活動為"
+"目的，通過商業行為從而獲得收益。包括但不限於企業法人經營的電商網站、經營性"
+"網站、以盈利為目或實現盈利的網站、以盈利性為目的招募入駐商家等行為），否則"
+"一經查證，模板堂將始終保留法律追責的權力。<br>\n"
+"                            2. 用戶在沒有購買官方ECJia到家授權之前，不得在"
+"ECJia到家系統的任意部分進行開發，以此產生的任何派生版本或者第三方版本，模板"
+"堂將始終保留法律追責的權力。<br>\n"
+"                            3. 用戶無法遵守本協議內容，將被終止授權使用，並"
+"取消所有使用許可和權利，並承擔相應法律責任。<br><br>\n"
+"\n"
+"                            三、有限擔保和免責聲明<br>\n"
+"                            1. ECJia到家安裝包及所附帶的文件不包含任何明確"
+"或隱藏的賠償、擔保內容。<br>\n"
+"                            2. 用戶自願下載使用本系統，必須了解使用風險，未"
+"購買官方ECJia到家授權之前，一律不對用戶提供技術支持和擔保，也不承擔使用"
+"ECJia到家系統而產生任何問題的責任。<br>\n"
+"                            3. 模板堂不對使用ECJia到家系統搭建的O2O電商平臺"
+"的內容信息承擔責任，但在不侵犯用戶隱私信息的前提下，保留以任何方式獲取用戶"
+"信息及商品信息的權利。<br>\n"
+"                        </p>\n"
+"                        <p>有關本產品最終用戶授權協議、商業授權與技術服務的"
+"詳細內容，均由上海商創網絡科技有限公司獨家提供。上海商創網絡科技有限公司擁"
+"有在不事先通知的情況下，修改授權協議的權力，修改後的協議對改變之日起的新授"
+"權用戶生效。電子文本形式的授權協議如同雙方書面簽署的協議一樣，具有完全的和"
+"等同的法律效力。您一旦開始修改、安裝或使用本產品，即被視為完全理解並接受本"
+"協議的各項條款，在享有上述條款授予的權力的同時，受到相關的約束和限制。協議"
+"許可範圍以外的行為，將直接違反本授權協議並構成侵權，我們有權隨時終止授權，"
+"責令停止損害，並保留追究相關責任的權力。</p>\n"
+"                        <p>ECJIA到家軟件由上海商創網絡科技有限公司提供支"
+"持，核心開發團隊負責維護程序日常開發工作以及新特性的制定。如果您遇到使用上"
+"的問題，程序中的 BUG，以及期許的新功能，歡迎您在社區中交流或者直接向我們貢"
+"獻代碼。對於貢獻突出者，他的名字將出現在貢獻者名單中。</p>"
+
+#: content/apps/installer/templates/front/welcome.dwt.php:40
+msgid "我已仔细阅读，并同意上述条款中的所有内容"
+msgstr "我已仔細閱讀，並同意上述條款中的所有內容"
+
+#: content/apps/installer/templates/front/welcome.dwt.php:42
+msgid "我准备好了，开始下一步"
+msgstr "我準備好了，開始下一步"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:10
+msgid "确认您的配置"
+msgstr "確認您的配置"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:12
+msgid "数据库配置"
+msgstr "數據庫配置"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:15
+msgid "数据库主机"
+msgstr "數據庫主機"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:17
+msgid "您可能会使用\"%1\""
+msgstr "您可能會使用\"%1\""
+
+#: content/apps/installer/templates/front/deploy.dwt.php:21
+msgid "数据库端口"
+msgstr "數據庫端口"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:23
+msgid "如果您不知道此选项的意义， 请保留默认设置"
+msgstr "如果您不知道此選項的意義， 請保留默認設置"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:27
+msgid "数据库用户名"
+msgstr "數據庫用戶名"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:29
+msgid "您可能会使用 \"%1\""
+msgstr "您可能會使用 \"%1\""
+
+#: content/apps/installer/templates/front/deploy.dwt.php:34
+msgid "数据库密码"
+msgstr "數據庫密碼"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:41
+msgid "数据库名称"
+msgstr "數據庫名稱"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:44
+msgid "请您指定数据库名称"
+msgstr "請您指定數據庫名稱"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:48
+msgid "数据库前缀"
+msgstr "數據庫前綴"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:50
+msgid "默认前缀是 \"%1\""
+msgstr "默認前綴是 \"%1\""
+
+#: content/apps/installer/templates/front/deploy.dwt.php:54
+msgid "创建您的管理员帐号"
+msgstr "創建您的管理員帳號"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:57
+msgid "管理员名称"
+msgstr "管理員名稱"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:59
+msgid "请填写您的用户名"
+msgstr "請填寫您的用戶名"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:63
+msgid "登录密码"
+msgstr "登錄密碼"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:69
+msgid "确认密码"
+msgstr "確認密碼"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:75
+msgid "电子邮箱"
+msgstr "電子郵箱"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:77
+msgid "请填写一个您的常用邮箱"
+msgstr "請填寫一個您的常用郵箱"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:81
+msgid "杂项"
+msgstr "雜項"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:85
+msgid "设置时区"
+msgstr "設置時區"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:97
+msgid "安装测试数据"
+msgstr "安裝測試數據"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:98
+msgid "选择此项，将默认安装有关商品以及店铺等默认数据（可选填）"
+msgstr "選擇此項，將默認安裝有關商品以及店鋪等默認數據（可選填）"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:117
+msgid "确认，立即安装"
+msgstr "確認，立即安裝"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:123
+msgid "正在安装"
+msgstr "正在安裝"
+
+#: content/apps/installer/templates/front/deploy.dwt.php:134
+msgid "返回配置系统"
+msgstr "返回配置系統"
+
+#: content/apps/installer/templates/front/library/footer.lbi.php:5
+msgid "版权所有 © %1 %2，并保留所有权利。"
+msgstr "版權所有 © %1 %2，並保留所有權利。"
+
+#: content/apps/installer/templates/front/library/header.lbi.php:5
+msgid "检查环境"
+msgstr "檢查環境"
+
+#: content/apps/installer/templates/front/library/header.lbi.php:6
+msgid "初始化配置"
+msgstr "初始化配置"
+
+#: content/apps/installer/templates/front/library/header.lbi.php:7
+msgid "开始安装"
+msgstr "開始安裝"
+
+#: content/apps/installer/templates/front/library/header.lbi.php:8
+msgid "安装成功"
+msgstr "安裝成功"
+
+#: content/apps/installer/templates/front/detect.dwt.php:14
+msgid "系统环境"
+msgstr "系統環境"
+
+#: content/apps/installer/templates/front/detect.dwt.php:19
+msgid "检查项目"
+msgstr "檢查項目"
+
+#: content/apps/installer/templates/front/detect.dwt.php:20
+msgid "当前环境"
+msgstr "當前環境"
+
+#: content/apps/installer/templates/front/detect.dwt.php:21
+msgid "ECJIA到家建议"
+msgstr "ECJIA到家建議"
+
+#: content/apps/installer/templates/front/detect.dwt.php:22
+msgid "功能影响"
+msgstr "功能影響"
+
+#: content/apps/installer/templates/front/detect.dwt.php:27
+msgid "服务器操作系统"
+msgstr "服務器操作系統"
+
+#: content/apps/installer/templates/front/detect.dwt.php:34
+msgid "WEB服务器"
+msgstr "WEB服務器"
+
+#: content/apps/installer/templates/front/detect.dwt.php:36
+msgid "推荐%1"
+msgstr "推薦%1"
+
+#: content/apps/installer/templates/front/detect.dwt.php:41
+msgid "PHP版本"
+msgstr "PHP版本"
+
+#: content/apps/installer/templates/front/detect.dwt.php:43
+msgid "5.5及以上"
+msgstr "5.5及以上"
+
+#: content/apps/installer/templates/front/detect.dwt.php:48
+msgid "MySQLi扩展"
+msgstr "MySQLi擴展"
+
+#: content/apps/installer/templates/front/detect.dwt.php:50
+msgid "必须开启，请使用MySQL5.5以上版本"
+msgstr "必須開啟，請使用MySQL5.5以上版本"
+
+#: content/apps/installer/templates/front/detect.dwt.php:55
+msgid "PDO扩展"
+msgstr "PDO擴展"
+
+#: content/apps/installer/templates/front/detect.dwt.php:57
+#: content/apps/installer/templates/front/detect.dwt.php:64
+#: content/apps/installer/templates/front/detect.dwt.php:71
+#: content/apps/installer/templates/front/detect.dwt.php:78
+#: content/apps/installer/templates/front/detect.dwt.php:85
+#: content/apps/installer/templates/front/detect.dwt.php:92
+#: content/apps/installer/templates/front/detect.dwt.php:99
+msgid "必须开启"
+msgstr "必須開啟"
+
+#: content/apps/installer/templates/front/detect.dwt.php:69
+msgid "Socket支持"
+msgstr "Socket支持"
+
+#: content/apps/installer/templates/front/detect.dwt.php:76
+msgid "GD扩展"
+msgstr "GD擴展"
+
+#: content/apps/installer/templates/front/detect.dwt.php:83
+msgid "CURL扩展"
+msgstr "CURL擴展"
+
+#: content/apps/installer/templates/front/detect.dwt.php:90
+msgid "Fileinfo扩展"
+msgstr "Fileinfo擴展"
+
+#: content/apps/installer/templates/front/detect.dwt.php:97
+msgid "ZLIB扩展"
+msgstr "ZLIB擴展"
+
+#: content/apps/installer/templates/front/detect.dwt.php:104
+msgid "DNS解析"
+msgstr "DNS解析"
+
+#: content/apps/installer/templates/front/detect.dwt.php:106
+msgid "建议设置正确"
+msgstr "建議設置正確"
+
+#: content/apps/installer/templates/front/detect.dwt.php:111
+msgid "安全模式"
+msgstr "安全模式"
+
+#: content/apps/installer/templates/front/detect.dwt.php:118
+msgid "文件上传大小"
+msgstr "文件上傳大小"
+
+#: content/apps/installer/templates/front/detect.dwt.php:120
+msgid "2M及以上"
+msgstr "2M及以上"
+
+#: content/apps/installer/templates/front/detect.dwt.php:127
+msgid "目录权限检测"
+msgstr "目錄權限檢測"
+
+#: content/apps/installer/templates/front/detect.dwt.php:132
+msgid "目录文件"
+msgstr "目錄文件"
+
+#: content/apps/installer/templates/front/detect.dwt.php:133
+msgid "当前状态"
+msgstr "當前狀態"
+
+#: content/apps/installer/templates/front/detect.dwt.php:134
+msgid "所需状态"
+msgstr "所需狀態"
+
+#: content/apps/installer/templates/front/detect.dwt.php:141
+#: content/apps/installer/templates/front/detect.dwt.php:142
+msgid "可写"
+msgstr "可寫"
+
+#: content/apps/installer/templates/front/detect.dwt.php:141
+msgid "不可写"
+msgstr "不可寫"
+
+#: content/apps/installer/templates/front/detect.dwt.php:149
+msgid "模板可写性检查"
+msgstr "模板可寫性檢查"
+
+#: content/apps/installer/templates/front/detect.dwt.php:152
+msgid "所有模板，全部可写"
+msgstr "所有模板，全部可寫"
+
+#: content/apps/installer/templates/front/detect.dwt.php:154
+msgid "模板无法写入，请检查目录权限"
+msgstr "模板無法寫入，請檢查目錄權限"
+
+#: content/apps/installer/templates/front/detect.dwt.php:159
+msgid "开始下一步：配置系统"
+msgstr "開始下一步：配置系統"

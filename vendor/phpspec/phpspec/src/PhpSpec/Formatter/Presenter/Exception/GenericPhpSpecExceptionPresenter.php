@@ -35,11 +35,19 @@ final class GenericPhpSpecExceptionPresenter extends AbstractPhpSpecExceptionPre
      *
      * @return string
      */
+<<<<<<< HEAD
     protected function presentFileCode($file, $lineno, $context = 6)
     {
         $lines  = explode(PHP_EOL, file_get_contents($file));
         $offset = max(0, $lineno - ceil($context / 2));
         $lines  = array_slice($lines, $offset, $context);
+=======
+    protected function presentFileCode(string $file, int $lineno, int $context = 6): string
+    {
+        $lines  = explode(PHP_EOL, file_get_contents($file));
+        $offset = max(0, $lineno - ceil($context / 2));
+        $lines  = \array_slice($lines, $offset, $context);
+>>>>>>> v2-test
 
         $text = PHP_EOL;
         foreach ($lines as $line) {

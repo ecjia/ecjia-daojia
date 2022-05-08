@@ -11,7 +11,10 @@ Feature: Developer uses string-start matcher
     namespace spec\Matchers\StringStartExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class MovieSpec extends ObjectBehavior
     {

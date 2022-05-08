@@ -90,6 +90,7 @@ class ReplicationStrategy
     }
 
     /**
+<<<<<<< HEAD
      * Checks if a SORT command is a readable operation by parsing the arguments
      * array of the specified commad instance.
      *
@@ -115,6 +116,8 @@ class ReplicationStrategy
     }
 
     /**
+=======
+>>>>>>> v2-test
      * Checks if BITFIELD performs a read-only operation by looking for certain
      * SET and INCRYBY modifiers in the arguments array of the command.
      *
@@ -292,7 +295,10 @@ class ReplicationStrategy
             'BITPOS' => true,
             'TIME' => true,
             'PFCOUNT' => true,
+<<<<<<< HEAD
             'SORT' => array($this, 'isSortReadOnly'),
+=======
+>>>>>>> v2-test
             'BITFIELD' => array($this, 'isBitfieldReadOnly'),
             'GEOHASH' => true,
             'GEOPOS' => true,

@@ -63,4 +63,5 @@ return [
     'system/get_password/reset_pwd_mail',
     'system/get_password/reset_pwd_form',
     'system/get_password/reset_pwd',
+    'system/admin_auto_login/init',
 ];

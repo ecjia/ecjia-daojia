@@ -63,7 +63,7 @@ function smarty_function_insert_scripts($params, Smarty_Internal_Template $templ
 	foreach ($arr AS $val) {
 		if (in_array($val, $scripts) == false) {
 			$scripts[] = $val;
-			if ($val{0} == '.') {
+			if ($val[0] == '.') {
 				$str .= '<script type="text/javascript" src="' . $val . '"></script>';
 			} else {
 				//$str .= '<script type="text/javascript" src="' . _FILE_TPL() . 'js/' . $val . '"></script>';

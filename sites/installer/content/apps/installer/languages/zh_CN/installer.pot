@@ -1,0 +1,653 @@
+# Copyright (C) 2020 Ecjia App installer
+# This file is distributed under the same license as the Ecjia App installer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App installer 2.18.1\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2020-07-16 07:12:07+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: classes/Checkers/DNSCheck.php:45
+msgid "DNS解析"
+msgstr ""
+
+#: classes/Checkers/DNSCheck.php:46 classes/Checkers/TimezoneCheck.php:21
+msgid "建议设置正确"
+msgstr ""
+
+#: classes/Checkers/DirectoryPermissionCheck.php:26
+#: classes/Checkers/DirectoryPermissionCheck.php:44
+msgid "可写"
+msgstr ""
+
+#: classes/Checkers/DirectoryPermissionCheck.php:29
+msgid "不可写"
+msgstr ""
+
+#: classes/Checkers/DirectoryPermissionCheck.php:74 classes/Helper.php:139
+msgid "目录"
+msgstr ""
+
+#: classes/Checkers/ExtensionCurlCheck.php:30
+#: classes/Checkers/ExtensionFileinfoCheck.php:30
+#: classes/Checkers/ExtensionMysqliCheck.php:30
+#: classes/Checkers/ExtensionOpensslCheck.php:30
+#: classes/Checkers/ExtensionPdoMysqlCheck.php:30
+#: classes/Checkers/ExtensionSocketCheck.php:30
+#: classes/Checkers/ExtensionZlibCheck.php:24
+msgid "开启"
+msgstr ""
+
+#: classes/Checkers/ExtensionCurlCheck.php:30
+#: classes/Checkers/ExtensionFileinfoCheck.php:30
+#: classes/Checkers/ExtensionGDCheck.php:46
+#: classes/Checkers/ExtensionMysqliCheck.php:30
+#: classes/Checkers/ExtensionOpensslCheck.php:30
+#: classes/Checkers/ExtensionPdoMysqlCheck.php:30
+#: classes/Checkers/ExtensionSocketCheck.php:30
+#: classes/Checkers/ExtensionZlibCheck.php:24
+msgid "关闭"
+msgstr ""
+
+#: classes/Checkers/ExtensionCurlCheck.php:33
+msgid "CURL扩展"
+msgstr ""
+
+#: classes/Checkers/ExtensionCurlCheck.php:34
+#: classes/Checkers/ExtensionFileinfoCheck.php:34
+#: classes/Checkers/ExtensionGDCheck.php:50
+#: classes/Checkers/ExtensionOpensslCheck.php:34
+#: classes/Checkers/ExtensionSocketCheck.php:34
+#: classes/Checkers/ExtensionZlibCheck.php:28
+msgid "必须开启"
+msgstr ""
+
+#: classes/Checkers/ExtensionFileinfoCheck.php:33
+msgid "Fileinfo扩展"
+msgstr ""
+
+#: classes/Checkers/ExtensionGDCheck.php:34
+msgid "支持（%s）"
+msgstr ""
+
+#: classes/Checkers/ExtensionGDCheck.php:49
+msgid "GD扩展"
+msgstr ""
+
+#: classes/Checkers/ExtensionMysqliCheck.php:33
+msgid "MySQLi扩展"
+msgstr ""
+
+#: classes/Checkers/ExtensionMysqliCheck.php:34
+#: classes/Checkers/ExtensionPdoMysqlCheck.php:34
+msgid "必须开启，请使用MySQL5.5以上版本"
+msgstr ""
+
+#: classes/Checkers/ExtensionOpensslCheck.php:33
+msgid "OpenSSL扩展"
+msgstr ""
+
+#: classes/Checkers/ExtensionPdoMysqlCheck.php:33
+msgid "PDO扩展"
+msgstr ""
+
+#: classes/Checkers/ExtensionSocketCheck.php:33
+msgid "Socket支持"
+msgstr ""
+
+#: classes/Checkers/ExtensionZlibCheck.php:27
+msgid "ZLIB扩展"
+msgstr ""
+
+#: classes/Checkers/PHPOSCheck.php:35
+msgid "服务器操作系统"
+msgstr ""
+
+#: classes/Checkers/PHPOSCheck.php:36
+msgid "Windows_NT/Linux/Freebsd/Darwin"
+msgstr ""
+
+#: classes/Checkers/PHPVersionCheck.php:34
+msgid "PHP版本"
+msgstr ""
+
+#: classes/Checkers/PHPVersionCheck.php:35
+msgid "%s及以上"
+msgstr ""
+
+#: classes/Checkers/SafeModeCheck.php:26
+msgid "否"
+msgstr ""
+
+#: classes/Checkers/SafeModeCheck.php:26
+msgid "是"
+msgstr ""
+
+#: classes/Checkers/SafeModeCheck.php:29
+msgid "安全模式"
+msgstr ""
+
+#: classes/Checkers/SafeModeCheck.php:30
+msgid "否，建议关闭"
+msgstr ""
+
+#: classes/Checkers/TimezoneCheck.php:14
+msgid "无需设置"
+msgstr ""
+
+#: classes/Checkers/TimezoneCheck.php:20
+msgid "时区检查"
+msgstr ""
+
+#: classes/Checkers/UploadMaxFilesizeCheck.php:35
+msgid "文件上传大小"
+msgstr ""
+
+#: classes/Checkers/UploadMaxFilesizeCheck.php:36
+msgid "2M及以上"
+msgstr ""
+
+#: classes/Checkers/WebPathCheck.php:24
+msgid ""
+"抱歉，当前程序运行在 %s 目录下，ECJia到家程序必须运行在网站根目录下/，请您更"
+"换目录后再重新运行安装程序。"
+msgstr ""
+
+#: classes/Checkers/WebServerCheck.php:37
+msgid "WEB服务器"
+msgstr ""
+
+#: classes/Checkers/WebServerCheck.php:38
+msgid "推荐Apache/Nginx/IIS"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:267
+msgid "恭喜您，安装成功!"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:296
+msgid "安装程序已经被锁定。"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:297
+msgid "如果您确定要重新安装ECJia到家，请删除%s目录下的%s。"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:337
+#: classes/Controllers/IndexController.php:342
+#: classes/Controllers/IndexController.php:351
+#: classes/Controllers/IndexController.php:379 classes/Helper.php:552
+#: classes/InstallDatabase.php:63 classes/InstallDatabase.php:82
+#: classes/InstallDatabase.php:115 classes/InstallDatabase.php:126
+#: classes/InstallDatabase.php:162
+msgid "连接数据库失败，请检查您输入的数据库帐号是否正确。"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:346
+msgid "MySQL数据库版本过低，请使用5.5以上版本。"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:356
+msgid "当前MySQL数据库不支持InnoDB引擎，请检查后再进行安装。"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:534
+msgid "管理员名称不能为空"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:538
+msgid "密码不能为空"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:542
+#: classes/Controllers/IndexController.php:546 configs/jslang.php:68
+msgid "密码必须同时包含字母及数字"
+msgstr ""
+
+#: classes/Controllers/IndexController.php:550 configs/jslang.php:69
+msgid "密码不相同"
+msgstr ""
+
+#: classes/Helper.php:242
+msgid "商品列表|index.php?m=goods&c=admin&a=init"
+msgstr ""
+
+#: classes/Helper.php:243
+msgid "订单列表|index.php?m=orders&c=admin&a=init"
+msgstr ""
+
+#: classes/Helper.php:244
+msgid "会员列表|index.php?m=user&c=admin&a=init"
+msgstr ""
+
+#: classes/Helper.php:245
+msgid "自营店铺|index.php?m=store&c=admin&a=init"
+msgstr ""
+
+#: classes/Helper.php:270
+msgid "创建管理员帐号失败"
+msgstr ""
+
+#: classes/InstallDatabase.php:89
+msgid "连接数据库失败，无法创建数据库"
+msgstr ""
+
+#: classes/InstallEnvConfig.php:74
+msgid "写入配置文件出错"
+msgstr ""
+
+#: classes/Subscribers/AdminHookSubscriber.php:19
+msgid "您还没有删除 %s 文件夹，出于安全的考虑，我们建议您删除 %s 文件夹。"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "请输入数据库主机名称"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "请输入数据库端口号"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "请输入数据库用户名"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "请输入数据库名称"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "请输入数据库前缀"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "请输入管理员名称"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "请输入管理员登录密码"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "请输入管理员登录确认密码"
+msgstr ""
+
+#: configs/jslang.php:65
+msgid "请输入管理员电子邮箱"
+msgstr ""
+
+#: configs/jslang.php:66
+msgid "请输入正确的email格式"
+msgstr ""
+
+#: configs/jslang.php:67
+msgid "密码长度不能小于8"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "创建配置文件"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "创建数据库"
+msgstr ""
+
+#: configs/jslang.php:73
+msgid "安装进程已中止"
+msgstr ""
+
+#: configs/jslang.php:75
+msgid "当前配置不满足ECJIA到家安装需求，无法继续安装！"
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "该数据库名称已存在，确定要覆盖该数据库信息吗？"
+msgstr ""
+
+#: configs/jslang.php:77
+msgid "请输入名称！"
+msgstr ""
+
+#: configs/jslang.php:78
+msgid "安装完成"
+msgstr ""
+
+#: configs/jslang.php:80
+msgid "安装基础数据"
+msgstr ""
+
+#: configs/jslang.php:81
+msgid "安装演示数据"
+msgstr ""
+
+#: configs/jslang.php:82
+msgid "创建管理员帐号"
+msgstr ""
+
+#: configs/jslang.php:85
+msgid "成功"
+msgstr ""
+
+#: configs/jslang.php:86
+msgid "失败"
+msgstr ""
+
+#: configs/jslang.php:87
+msgid "提示："
+msgstr ""
+
+#: configs/jslang.php:88
+msgid "剩余"
+msgstr ""
+
+#: configs/jslang.php:89
+msgid "个"
+msgstr ""
+
+#: configs/jslang.php:91
+msgid "安装数据库结构"
+msgstr ""
+
+#: configs/jslang.php:93
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:94
+msgid "取消"
+msgstr ""
+
+#: configs/package.php:52
+msgid "安装器"
+msgstr ""
+
+#: configs/package.php:53
+msgid "用来安装ECJIA项目的安装器"
+msgstr ""
+
+#: configs/timezones.php:50
+msgid "亚洲，中国，上海"
+msgstr ""
+
+#: configs/timezones.php:51
+msgid "亚洲，中国，台北"
+msgstr ""
+
+#: configs/timezones.php:52 configs/timezones.php:53
+msgid "亚洲，中国，重庆"
+msgstr ""
+
+#: configs/timezones.php:54
+msgid "亚洲，中国，哈尔滨"
+msgstr ""
+
+#: configs/timezones.php:55
+msgid "亚洲，中国，乌鲁木齐"
+msgstr ""
+
+#: configs/timezones.php:56 configs/timezones.php:57
+msgid "亚洲，中国，香港"
+msgstr ""
+
+#: configs/timezones.php:58 configs/timezones.php:59
+msgid "亚洲，中国，澳门"
+msgstr ""
+
+#: configs/timezones.php:60 configs/timezones.php:61
+msgid "亚洲，新加坡"
+msgstr ""
+
+#: configs/timezones.php:62
+msgid "亚洲，韩国，首尔"
+msgstr ""
+
+#: configs/timezones.php:63
+msgid "亚洲，日本，东京"
+msgstr ""
+
+#: configs/timezones.php:64
+msgid "欧洲，德国，柏林"
+msgstr ""
+
+#: configs/timezones.php:65
+msgid "欧洲，德国，都柏林"
+msgstr ""
+
+#: configs/timezones.php:66
+msgid "欧洲，法国，巴黎"
+msgstr ""
+
+#: configs/timezones.php:67
+msgid "中华人民共和国"
+msgstr ""
+
+#: configs/timezones.php:68
+msgid "UTC"
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:17
+msgid "您的用户名是："
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:18
+msgid "您的密码是："
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:23
+msgid ""
+"<a target=\"_blank\" href=\"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia"
+"%E5%88%B0%E5%AE%B6\">前往ECJIA WIKI，查看帮助文档，使您快速上手。</a>"
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:27
+msgid "您可以将下面链接保存到您的收藏夹哦"
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:29
+msgid "点击这里进入ECJIA到家首页"
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:30
+msgid "点击这里进入ECJIA到家H5端"
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:31
+msgid "点击这里进入ECJIA到家平台后台"
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:32
+msgid "点击这里进入ECJIA到家商家后台"
+msgstr ""
+
+#: /content/apps/installer/templates/front/finish.dwt.php:35
+msgid "各种体验，希望您能尽情享用ECJIA到家带来的乐趣！"
+msgstr ""
+
+#: /content/apps/installer/templates/front/ecjia_installer.dwt.php:7
+msgid "ECJIA到家安装程序"
+msgstr ""
+
+#: /content/apps/installer/templates/front/welcome.dwt.php:10
+#: /content/apps/installer/templates/front/library/header.lbi.php:4
+msgid "欢迎使用"
+msgstr ""
+
+#: /content/apps/installer/templates/front/welcome.dwt.php:14
+msgid "我已仔细阅读，并同意上述条款中的所有内容"
+msgstr ""
+
+#: /content/apps/installer/templates/front/welcome.dwt.php:16
+msgid "我准备好了，开始下一步"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:10
+msgid "确认您的配置"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:12
+msgid "数据库配置"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:15
+msgid "数据库主机"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:17
+msgid "您可能会使用\"%1\""
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:21
+msgid "数据库端口"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:23
+msgid "如果您不知道此选项的意义， 请保留默认设置"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:27
+msgid "数据库用户名"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:29
+msgid "您可能会使用 \"%1\""
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:34
+msgid "数据库密码"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:41
+msgid "数据库名称"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:44
+msgid "请您指定数据库名称"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:48
+msgid "数据库前缀"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:50
+msgid "默认前缀是 \"%1\""
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:54
+msgid "创建您的管理员帐号"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:57
+msgid "管理员名称"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:59
+msgid "请填写您的用户名"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:63
+msgid "登录密码"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:69
+msgid "确认密码"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:75
+msgid "电子邮箱"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:77
+msgid "请填写一个您的常用邮箱"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:81
+msgid "杂项"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:85
+msgid "设置时区"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:97
+msgid "安装测试数据"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:98
+msgid "选择此项，将默认安装有关商品以及店铺等默认数据（可选填）"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:117
+msgid "确认，立即安装"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:123
+msgid "正在安装"
+msgstr ""
+
+#: /content/apps/installer/templates/front/deploy.dwt.php:134
+msgid "返回配置系统"
+msgstr ""
+
+#: /content/apps/installer/templates/front/library/footer.lbi.php:5
+msgid "版权所有 © %1 %2，并保留所有权利。"
+msgstr ""
+
+#: /content/apps/installer/templates/front/library/header.lbi.php:5
+msgid "检查环境"
+msgstr ""
+
+#: /content/apps/installer/templates/front/library/header.lbi.php:6
+msgid "初始化配置"
+msgstr ""
+
+#: /content/apps/installer/templates/front/library/header.lbi.php:7
+msgid "开始安装"
+msgstr ""
+
+#: /content/apps/installer/templates/front/library/header.lbi.php:8
+msgid "安装成功"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:17
+msgid "系统环境"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:22
+msgid "检查项目"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:23
+msgid "当前环境"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:24
+msgid "ECJIA建议"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:25
+msgid "功能影响"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:42
+msgid "目录权限检测"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:47
+msgid "目录文件"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:48
+msgid "当前状态"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:49
+msgid "所需状态"
+msgstr ""
+
+#: /content/apps/installer/templates/front/detect.dwt.php:67
+msgid "开始下一步：配置系统"
+msgstr ""

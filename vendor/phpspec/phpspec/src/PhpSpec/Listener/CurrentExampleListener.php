@@ -39,17 +39,29 @@ final class CurrentExampleListener implements EventSubscriberInterface {
         $this->currentExample = $currentExample;
     }
 
+<<<<<<< HEAD
     public function beforeCurrentExample(ExampleEvent $event)
+=======
+    public function beforeCurrentExample(ExampleEvent $event): void
+>>>>>>> v2-test
     {
         $this->currentExample->setCurrentExample($event->getTitle());
     }
 
+<<<<<<< HEAD
     public function afterCurrentExample()
+=======
+    public function afterCurrentExample(): void
+>>>>>>> v2-test
     {
         $this->currentExample->setCurrentExample(null);
     }
 
+<<<<<<< HEAD
     public function afterSuiteEvent(SuiteEvent $event)
+=======
+    public function afterSuiteEvent(SuiteEvent $event): void
+>>>>>>> v2-test
     {
         $this->currentExample->setCurrentExample('Exited with code: ' . $event->getResult());
     }

@@ -15,6 +15,7 @@
 namespace PhpSpec\CodeGenerator\Generator;
 
 use PhpSpec\CodeGenerator\TemplateRenderer;
+<<<<<<< HEAD
 use PhpSpec\Console\IO;
 use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\CodeGenerator\Writer\CodeWriter;
@@ -25,6 +26,17 @@ final class PrivateConstructorGenerator implements GeneratorInterface
 {
     /**
      * @var IO
+=======
+use PhpSpec\Console\ConsoleIO;
+use PhpSpec\Locator\Resource;
+use PhpSpec\CodeGenerator\Writer\CodeWriter;
+use PhpSpec\Util\Filesystem;
+
+final class PrivateConstructorGenerator implements Generator
+{
+    /**
+     * @var ConsoleIO
+>>>>>>> v2-test
      */
     private $io;
 
@@ -44,6 +56,7 @@ final class PrivateConstructorGenerator implements GeneratorInterface
     private $codeWriter;
 
     /**
+<<<<<<< HEAD
      * @param IO               $io
      * @param TemplateRenderer $templates
      * @param Filesystem       $filesystem
@@ -64,15 +77,38 @@ final class PrivateConstructorGenerator implements GeneratorInterface
      * @return bool
      */
     public function supports(ResourceInterface $resource, $generation, array $data)
+=======
+     * @param ConsoleIO $io
+     * @param TemplateRenderer $templates
+     * @param Filesystem $filesystem
+     * @param CodeWriter $codeWriter
+     */
+    public function __construct(ConsoleIO $io, TemplateRenderer $templates, Filesystem $filesystem, CodeWriter $codeWriter)
+    {
+        $this->io         = $io;
+        $this->templates  = $templates;
+        $this->filesystem = $filesystem;
+        $this->codeWriter = $codeWriter;
+    }
+
+    public function supports(Resource $resource, string $generation, array $data): bool
+>>>>>>> v2-test
     {
         return 'private-constructor' === $generation;
     }
 
     /**
+<<<<<<< HEAD
      * @param ResourceInterface $resource
      * @param array $data
      */
     public function generate(ResourceInterface $resource, array $data)
+=======
+     * @param Resource $resource
+     * @param array $data
+     */
+    public function generate(Resource $resource, array $data): void
+>>>>>>> v2-test
     {
         $filepath  = $resource->getSrcFilename();
 
@@ -90,18 +126,26 @@ final class PrivateConstructorGenerator implements GeneratorInterface
         $this->io->writeln("<info>Private constructor has been created.</info>\n", 2);
     }
 
+<<<<<<< HEAD
     /**
      * @return int
      */
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 0;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     protected function getTemplate()
+=======
+    protected function getTemplate(): string
+>>>>>>> v2-test
     {
         return file_get_contents(__DIR__.'/templates/private-constructor.template');
     }

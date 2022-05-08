@@ -16,6 +16,10 @@ namespace Symfony\Component\Yaml\Exception;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 interface ExceptionInterface
+=======
+interface ExceptionInterface extends \Throwable
+>>>>>>> v2-test
 {
 }

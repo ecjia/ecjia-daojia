@@ -13,9 +13,15 @@ namespace Symfony\Component\CssSelector\Parser\Handler;
 
 use Symfony\Component\CssSelector\Parser\Reader;
 use Symfony\Component\CssSelector\Parser\Token;
+<<<<<<< HEAD
 use Symfony\Component\CssSelector\Parser\TokenStream;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
+=======
+use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
+use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
+use Symfony\Component\CssSelector\Parser\TokenStream;
+>>>>>>> v2-test
 
 /**
  * CSS selector comment handler.
@@ -24,6 +30,7 @@ use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class IdentifierHandler implements HandlerInterface
 {
@@ -41,6 +48,16 @@ class IdentifierHandler implements HandlerInterface
      * @param TokenizerPatterns $patterns
      * @param TokenizerEscaping $escaping
      */
+=======
+ *
+ * @internal
+ */
+class IdentifierHandler implements HandlerInterface
+{
+    private $patterns;
+    private $escaping;
+
+>>>>>>> v2-test
     public function __construct(TokenizerPatterns $patterns, TokenizerEscaping $escaping)
     {
         $this->patterns = $patterns;
@@ -50,7 +67,11 @@ class IdentifierHandler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function handle(Reader $reader, TokenStream $stream)
+=======
+    public function handle(Reader $reader, TokenStream $stream): bool
+>>>>>>> v2-test
     {
         $match = $reader->findPattern($this->patterns->getIdentifierPattern());
 
@@ -60,7 +81,11 @@ class IdentifierHandler implements HandlerInterface
 
         $value = $this->escaping->escapeUnicode($match[0]);
         $stream->push(new Token(Token::TYPE_IDENTIFIER, $value, $reader->getPosition()));
+<<<<<<< HEAD
         $reader->moveForward(strlen($match[0]));
+=======
+        $reader->moveForward(\strlen($match[0]));
+>>>>>>> v2-test
 
         return true;
     }

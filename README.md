@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ECJia到家
 ===
 
@@ -168,3 +169,6 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 #### ECJia到家H5首页
 ![](http://file.ecjia.com/images/daojia/ECJia到家_H5首页.png)
 
+=======
+# ecjia-daojia-v2
+>>>>>>> v2-test

@@ -49,23 +49,29 @@ namespace Ecjia\App\Api\Requests;
 class ApiModel
 {
     protected $data = array();
-    
+
     protected static $registered_instance = array();
-    
-    
-    public function __get($name) {
+
+    public function __construct(array $input = [])
+    {
+        $this->data = $input;
+    }
+
+    public function __get($name)
+    {
         if (isset($this->data[$name])) {
             return $this->data[$name];
         }
-        
+
         return null;
     }
-    
-    public function __isset($name) {
+
+    public function __isset($name)
+    {
         if (isset($this->data[$name])) {
             return true;
         }
-    
+
         return false;
     }
 
@@ -74,23 +80,23 @@ class ApiModel
      */
     public function __toString()
     {
-        echo get_class($this);
+        return get_class($this);
     }
-    
+
     //自身迭代
-    public static function make(array $input = array()) {
+    public static function make(array $input = array())
+    {
         $key = get_called_class();
         $md5 = md5(serialize($input));
         $key = $key . ':' . $md5;
-        
-        if ( ! isset(static::$registered_instance[$key])) {
+
+        if (!isset(static::$registered_instance[$key])) {
             static::$registered_instance[$key] = new static($input);
         }
 
         return static::$registered_instance[$key];
     }
-    
-    
+
 }
 
 // end

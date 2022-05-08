@@ -53,6 +53,8 @@ class AdminUserModel extends Model
 {
     use Metable;
 
+    protected $with = ['meta'];
+
 	protected $table = 'admin_user';
 	
 	protected $primaryKey = 'user_id';
@@ -95,9 +97,10 @@ class AdminUserModel extends Model
     }
 
     /**
-     * @return \Royalcms\Component\Database\Eloquent\Relations\HasMany
      * 一对多
      * 用户的操作日志
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function admin_log_collection()
     {
@@ -105,9 +108,10 @@ class AdminUserModel extends Model
     }
 
     /**
-     * @return \Royalcms\Component\Database\Eloquent\Relations\HasMany
      * 一对多
      * 用户的留言记录
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function admin_message_collection()
     {

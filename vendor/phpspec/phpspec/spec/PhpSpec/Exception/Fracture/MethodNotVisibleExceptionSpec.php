@@ -3,7 +3,10 @@
 namespace spec\PhpSpec\Exception\Fracture;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 class MethodNotVisibleExceptionSpec extends ObjectBehavior
 {

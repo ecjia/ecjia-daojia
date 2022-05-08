@@ -53,34 +53,18 @@ use ecjia_error;
 
 class Helper
 {
-    
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content()
+
+    public static function check_mobile($mobile, $callback = null)
     {
-        ecjia_admin_log::instance()->add_object('sms_template', __('短信模板', 'sms'));
-        ecjia_admin_log::instance()->add_object('sms_config', __('短信配置', 'sms'));
-        ecjia_admin_log::instance()->add_object('sms_record', __('短信记录', 'sms'));
-        ecjia_admin_log::instance()->add_object('sms_channel', __('短信渠道', 'sms'));
-        ecjia_admin_log::instance()->add_object('sms_channel_sort', __('短信渠道排序', 'sms'));
-        ecjia_admin_log::instance()->add_object('sms',__('短信', 'sms'));
-        ecjia_admin_log::instance()->add_object('sms_events', __('短信事件', 'sms'));
-        
-        ecjia_admin_log::instance()->add_action('batch_setup', __('批量设置', 'sms'));
-        ecjia_admin_log::instance()->add_action('close', __('关闭', 'sms'));
-    }
-    
-    public static function check_mobile($mobile, $callback = null) {
         if (is_null($callback)) {
             $callback = array(__CLASS__, 'check_china_mobile_filter');
         }
-        
+
         $callback = RC_Hook::apply_filters('filter_check_mobile_rule', $callback);
-        
+
         return call_user_func_array($callback, [$mobile]);
     }
-    
+
     //RC_Hook::add_filter('filter_check_mobile_rule', function($callback){ return function($mobile) {return true;} });
     public static function check_china_mobile_filter($mobile)
     {
@@ -91,7 +75,7 @@ class Helper
         if (!preg_match($chars, $mobile)) {
             return new ecjia_error('error_mobile', __('手机号码格式错误', 'sms'));
         }
-        
+
         return true;
     }
 

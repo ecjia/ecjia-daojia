@@ -40,10 +40,19 @@ class ErrorListener implements EventSubscriberInterface
         $error = $event->getError();
 
         if (!$inputString = $this->getInputString($event)) {
+<<<<<<< HEAD
             return $this->logger->error('An error occurred while using the console. Message: "{message}"', array('exception' => $error, 'message' => $error->getMessage()));
         }
 
         $this->logger->error('Error thrown while running command "{command}". Message: "{message}"', array('exception' => $error, 'command' => $inputString, 'message' => $error->getMessage()));
+=======
+            $this->logger->error('An error occurred while using the console. Message: "{message}"', ['exception' => $error, 'message' => $error->getMessage()]);
+
+            return;
+        }
+
+        $this->logger->error('Error thrown while running command "{command}". Message: "{message}"', ['exception' => $error, 'command' => $inputString, 'message' => $error->getMessage()]);
+>>>>>>> v2-test
     }
 
     public function onConsoleTerminate(ConsoleTerminateEvent $event)
@@ -59,14 +68,24 @@ class ErrorListener implements EventSubscriberInterface
         }
 
         if (!$inputString = $this->getInputString($event)) {
+<<<<<<< HEAD
             return $this->logger->debug('The console exited with code "{code}"', array('code' => $exitCode));
         }
 
         $this->logger->debug('Command "{command}" exited with code "{code}"', array('command' => $inputString, 'code' => $exitCode));
+=======
+            $this->logger->debug('The console exited with code "{code}"', ['code' => $exitCode]);
+
+            return;
+        }
+
+        $this->logger->debug('Command "{command}" exited with code "{code}"', ['command' => $inputString, 'code' => $exitCode]);
+>>>>>>> v2-test
     }
 
     public static function getSubscribedEvents()
     {
+<<<<<<< HEAD
         return array(
             ConsoleEvents::ERROR => array('onConsoleError', -128),
             ConsoleEvents::TERMINATE => array('onConsoleTerminate', -128),
@@ -74,13 +93,26 @@ class ErrorListener implements EventSubscriberInterface
     }
 
     private static function getInputString(ConsoleEvent $event)
+=======
+        return [
+            ConsoleEvents::ERROR => ['onConsoleError', -128],
+            ConsoleEvents::TERMINATE => ['onConsoleTerminate', -128],
+        ];
+    }
+
+    private static function getInputString(ConsoleEvent $event): ?string
+>>>>>>> v2-test
     {
         $commandName = $event->getCommand() ? $event->getCommand()->getName() : null;
         $input = $event->getInput();
 
         if (method_exists($input, '__toString')) {
             if ($commandName) {
+<<<<<<< HEAD
                 return str_replace(array("'$commandName'", "\"$commandName\""), $commandName, (string) $input);
+=======
+                return str_replace(["'$commandName'", "\"$commandName\""], $commandName, (string) $input);
+>>>>>>> v2-test
             }
 
             return (string) $input;

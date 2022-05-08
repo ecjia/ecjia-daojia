@@ -23,6 +23,7 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class HtmlExtension extends AbstractExtension
 {
@@ -31,6 +32,13 @@ class HtmlExtension extends AbstractExtension
      *
      * @param Translator $translator
      */
+=======
+ *
+ * @internal
+ */
+class HtmlExtension extends AbstractExtension
+{
+>>>>>>> v2-test
     public function __construct(Translator $translator)
     {
         $translator
@@ -42,6 +50,7 @@ class HtmlExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getPseudoClassTranslators()
     {
         return array(
@@ -54,11 +63,26 @@ class HtmlExtension extends AbstractExtension
             'hover' => array($this, 'translateHover'),
             'visited' => array($this, 'translateVisited'),
         );
+=======
+    public function getPseudoClassTranslators(): array
+    {
+        return [
+            'checked' => [$this, 'translateChecked'],
+            'link' => [$this, 'translateLink'],
+            'disabled' => [$this, 'translateDisabled'],
+            'enabled' => [$this, 'translateEnabled'],
+            'selected' => [$this, 'translateSelected'],
+            'invalid' => [$this, 'translateInvalid'],
+            'hover' => [$this, 'translateHover'],
+            'visited' => [$this, 'translateVisited'],
+        ];
+>>>>>>> v2-test
     }
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getFunctionTranslators()
     {
         return array(
@@ -72,6 +96,16 @@ class HtmlExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateChecked(XPathExpr $xpath)
+=======
+    public function getFunctionTranslators(): array
+    {
+        return [
+            'lang' => [$this, 'translateLang'],
+        ];
+    }
+
+    public function translateChecked(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition(
             '(@checked '
@@ -80,22 +114,30 @@ class HtmlExtension extends AbstractExtension
         );
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      *
      * @return XPathExpr
      */
     public function translateLink(XPathExpr $xpath)
+=======
+    public function translateLink(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition("@href and (name(.) = 'a' or name(.) = 'link' or name(.) = 'area')");
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      *
      * @return XPathExpr
      */
     public function translateDisabled(XPathExpr $xpath)
+=======
+    public function translateDisabled(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition(
             '('
@@ -121,12 +163,16 @@ class HtmlExtension extends AbstractExtension
         // todo: in the second half, add "and is not a descendant of that fieldset element's first legend element child, if any."
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      *
      * @return XPathExpr
      */
     public function translateEnabled(XPathExpr $xpath)
+=======
+    public function translateEnabled(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition(
             '('
@@ -160,6 +206,7 @@ class HtmlExtension extends AbstractExtension
     }
 
     /**
+<<<<<<< HEAD
      * @param XPathExpr    $xpath
      * @param FunctionNode $function
      *
@@ -168,14 +215,23 @@ class HtmlExtension extends AbstractExtension
      * @throws ExpressionErrorException
      */
     public function translateLang(XPathExpr $xpath, FunctionNode $function)
+=======
+     * @throws ExpressionErrorException
+     */
+    public function translateLang(XPathExpr $xpath, FunctionNode $function): XPathExpr
+>>>>>>> v2-test
     {
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
+<<<<<<< HEAD
                 throw new ExpressionErrorException(
                     'Expected a single string or identifier for :lang(), got '
                     .implode(', ', $arguments)
                 );
+=======
+                throw new ExpressionErrorException('Expected a single string or identifier for :lang(), got '.implode(', ', $arguments));
+>>>>>>> v2-test
             }
         }
 
@@ -188,42 +244,58 @@ class HtmlExtension extends AbstractExtension
         ));
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      *
      * @return XPathExpr
      */
     public function translateSelected(XPathExpr $xpath)
+=======
+    public function translateSelected(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition("(@selected and name(.) = 'option')");
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      *
      * @return XPathExpr
      */
     public function translateInvalid(XPathExpr $xpath)
+=======
+    public function translateInvalid(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition('0');
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      *
      * @return XPathExpr
      */
     public function translateHover(XPathExpr $xpath)
+=======
+    public function translateHover(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition('0');
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      *
      * @return XPathExpr
      */
     public function translateVisited(XPathExpr $xpath)
+=======
+    public function translateVisited(XPathExpr $xpath): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition('0');
     }
@@ -231,7 +303,11 @@ class HtmlExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getName()
+=======
+    public function getName(): string
+>>>>>>> v2-test
     {
         return 'html';
     }

@@ -3,7 +3,11 @@ Feature: Developer generates a class
   I want the tests to automatically rerun after code generation events
   In order to avoid repetitive tasks and interruptions in development flow
 
+<<<<<<< HEAD
   @smoke @php:~5.4||~7.0
+=======
+  @smoke
+>>>>>>> v2-test
   Scenario: Rerun after class generation
     Given I have started describing the "CodeGeneration/RerunExample1/Markdown" class
     When I run phpspec and answer "y" when asked if I want to generate the code
@@ -17,7 +21,10 @@ Feature: Developer generates a class
       namespace spec\CodeGeneration\RerunExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {

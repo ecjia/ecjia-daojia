@@ -3,7 +3,11 @@
     "type": "library",
     "description": "Swiftmailer, free feature-rich PHP mailer",
     "keywords": ["mail","mailer","email"],
+<<<<<<< HEAD
     "homepage": "http://swiftmailer.org",
+=======
+    "homepage": "https://swiftmailer.symfony.com",
+>>>>>>> v2-test
     "license": "MIT",
     "authors": [
         {
@@ -15,15 +19,31 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.3.3"
     },
     "require-dev": {
         "mockery/mockery": "~0.9.1"
+=======
+        "php": ">=7.0.0",
+        "egulias/email-validator": "^2.0",
+        "symfony/polyfill-iconv": "^1.0",
+        "symfony/polyfill-mbstring": "^1.0",
+        "symfony/polyfill-intl-idn": "^1.10"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.0",
+        "symfony/phpunit-bridge": "^4.4|^5.0"
+    },
+    "suggest": {
+        "ext-intl": "Needed to support internationalized email addresses"
+>>>>>>> v2-test
     },
     "autoload": {
         "files": ["lib/swift_required.php"]
     },
     "autoload-dev": {
+<<<<<<< HEAD
         "psr-0": {
             "Swift_": "tests/unit"
         }
@@ -31,6 +51,13 @@
     "extra": {
         "branch-alias": {
             "dev-master": "5.4-dev"
+=======
+        "psr-0": { "Swift_": "tests/unit" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "6.2-dev"
+>>>>>>> v2-test
         }
     }
 }

@@ -7,12 +7,24 @@ namespace Psr\Log;
  */
 trait LoggerAwareTrait
 {
+<<<<<<< HEAD
     /** @var LoggerInterface */
+=======
+    /**
+     * The logger instance.
+     *
+     * @var LoggerInterface
+     */
+>>>>>>> v2-test
     protected $logger;
 
     /**
      * Sets a logger.
+<<<<<<< HEAD
      * 
+=======
+     *
+>>>>>>> v2-test
      * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger)

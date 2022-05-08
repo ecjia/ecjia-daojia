@@ -21,8 +21,12 @@ class HookServiceProvider extends ServiceProvider {
 	 */
 	protected function registerHookService()
 	{
+<<<<<<< HEAD
 		$this->royalcms->singleton('hook', function($royalcms)
 		{
+=======
+		$this->royalcms->singleton('hook', function($royalcms) {
+>>>>>>> v2-test
 			return new Hooks();
 		});
 	}

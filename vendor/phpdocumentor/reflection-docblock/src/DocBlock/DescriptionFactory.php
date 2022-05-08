@@ -1,18 +1,42 @@
 <?php
+<<<<<<< HEAD
+=======
+
+declare(strict_types=1);
+
+>>>>>>> v2-test
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
+<<<<<<< HEAD
  * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
+=======
+>>>>>>> v2-test
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\DocBlock;
 
 use phpDocumentor\Reflection\Types\Context as TypeContext;
+<<<<<<< HEAD
+=======
+use phpDocumentor\Reflection\Utils;
+use function count;
+use function explode;
+use function implode;
+use function ltrim;
+use function min;
+use function str_replace;
+use function strlen;
+use function strpos;
+use function substr;
+use function trim;
+use const PREG_SPLIT_DELIM_CAPTURE;
+>>>>>>> v2-test
 
 /**
  * Creates a new Description object given a body of text.
@@ -38,8 +62,11 @@ class DescriptionFactory
 
     /**
      * Initializes this factory with the means to construct (inline) tags.
+<<<<<<< HEAD
      *
      * @param TagFactory $tagFactory
+=======
+>>>>>>> v2-test
      */
     public function __construct(TagFactory $tagFactory)
     {
@@ -48,6 +75,7 @@ class DescriptionFactory
 
     /**
      * Returns the parsed text of this description.
+<<<<<<< HEAD
      *
      * @param string $contents
      * @param TypeContext $context
@@ -59,16 +87,46 @@ class DescriptionFactory
         list($text, $tags) = $this->parse($this->lex($contents), $context);
 
         return new Description($text, $tags);
+=======
+     */
+    public function create(string $contents, ?TypeContext $context = null) : Description
+    {
+        $tokens   = $this->lex($contents);
+        $count    = count($tokens);
+        $tagCount = 0;
+        $tags     = [];
+
+        for ($i = 1; $i < $count; $i += 2) {
+            $tags[]     = $this->tagFactory->create($tokens[$i], $context);
+            $tokens[$i] = '%' . ++$tagCount . '$s';
+        }
+
+        //In order to allow "literal" inline tags, the otherwise invalid
+        //sequence "{@}" is changed to "@", and "{}" is changed to "}".
+        //"%" is escaped to "%%" because of vsprintf.
+        //See unit tests for examples.
+        for ($i = 0; $i < $count; $i += 2) {
+            $tokens[$i] = str_replace(['{@}', '{}', '%'], ['@', '}', '%%'], $tokens[$i]);
+        }
+
+        return new Description(implode('', $tokens), $tags);
+>>>>>>> v2-test
     }
 
     /**
      * Strips the contents from superfluous whitespace and splits the description into a series of tokens.
      *
+<<<<<<< HEAD
      * @param string $contents
      *
      * @return string[] A series of tokens of which the description text is composed.
      */
     private function lex($contents)
+=======
+     * @return string[] A series of tokens of which the description text is composed.
+     */
+    private function lex(string $contents) : array
+>>>>>>> v2-test
     {
         $contents = $this->removeSuperfluousStartingWhitespace($contents);
 
@@ -77,7 +135,11 @@ class DescriptionFactory
             return [$contents];
         }
 
+<<<<<<< HEAD
         return preg_split(
+=======
+        return Utils::pregSplit(
+>>>>>>> v2-test
             '/\{
                 # "{@}" is not a valid inline tag. This ensures that we do not treat it as one, but treat it literally.
                 (?!@\})
@@ -103,12 +165,17 @@ class DescriptionFactory
                 )
             \}/Sux',
             $contents,
+<<<<<<< HEAD
             null,
+=======
+            0,
+>>>>>>> v2-test
             PREG_SPLIT_DELIM_CAPTURE
         );
     }
 
     /**
+<<<<<<< HEAD
      * Parses the stream of tokens in to a new set of tokens containing Tags.
      *
      * @param string[] $tokens
@@ -138,6 +205,8 @@ class DescriptionFactory
     }
 
     /**
+=======
+>>>>>>> v2-test
      * Removes the superfluous from a multi-line description.
      *
      * When a description has more than one line then it can happen that the second and subsequent lines have an
@@ -150,12 +219,17 @@ class DescriptionFactory
      *
      * If we do not normalize the indentation then we have superfluous whitespace on the second and subsequent
      * lines and this may cause rendering issues when, for example, using a Markdown converter.
+<<<<<<< HEAD
      *
      * @param string $contents
      *
      * @return string
      */
     private function removeSuperfluousStartingWhitespace($contents)
+=======
+     */
+    private function removeSuperfluousStartingWhitespace(string $contents) : string
+>>>>>>> v2-test
     {
         $lines = explode("\n", $contents);
 
@@ -167,9 +241,15 @@ class DescriptionFactory
 
         // determine how many whitespace characters need to be stripped
         $startingSpaceCount = 9999999;
+<<<<<<< HEAD
         for ($i = 1; $i < count($lines); $i++) {
             // lines with a no length do not count as they are not indented at all
             if (strlen(trim($lines[$i])) === 0) {
+=======
+        for ($i = 1, $iMax = count($lines); $i < $iMax; ++$i) {
+            // lines with a no length do not count as they are not indented at all
+            if (trim($lines[$i]) === '') {
+>>>>>>> v2-test
                 continue;
             }
 
@@ -180,12 +260,19 @@ class DescriptionFactory
 
         // strip the number of spaces from each line
         if ($startingSpaceCount > 0) {
+<<<<<<< HEAD
             for ($i = 1; $i < count($lines); $i++) {
+=======
+            for ($i = 1, $iMax = count($lines); $i < $iMax; ++$i) {
+>>>>>>> v2-test
                 $lines[$i] = substr($lines[$i], $startingSpaceCount);
             }
         }
 
         return implode("\n", $lines);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> v2-test
 }

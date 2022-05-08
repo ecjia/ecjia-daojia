@@ -34,7 +34,11 @@ abstract class Descriptor implements DescriptorInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function describe(OutputInterface $output, $object, array $options = array())
+=======
+    public function describe(OutputInterface $output, $object, array $options = [])
+>>>>>>> v2-test
     {
         $this->output = $output;
 
@@ -55,17 +59,26 @@ abstract class Descriptor implements DescriptorInterface
                 $this->describeApplication($object, $options);
                 break;
             default:
+<<<<<<< HEAD
                 throw new InvalidArgumentException(sprintf('Object of type "%s" is not describable.', \get_class($object)));
+=======
+                throw new InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_debug_type($object)));
+>>>>>>> v2-test
         }
     }
 
     /**
      * Writes content to output.
+<<<<<<< HEAD
      *
      * @param string $content
      * @param bool   $decorated
      */
     protected function write($content, $decorated = false)
+=======
+     */
+    protected function write(string $content, bool $decorated = false)
+>>>>>>> v2-test
     {
         $this->output->write($content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW);
     }
@@ -75,33 +88,53 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @return string|mixed
      */
+<<<<<<< HEAD
     abstract protected function describeInputArgument(InputArgument $argument, array $options = array());
+=======
+    abstract protected function describeInputArgument(InputArgument $argument, array $options = []);
+>>>>>>> v2-test
 
     /**
      * Describes an InputOption instance.
      *
      * @return string|mixed
      */
+<<<<<<< HEAD
     abstract protected function describeInputOption(InputOption $option, array $options = array());
+=======
+    abstract protected function describeInputOption(InputOption $option, array $options = []);
+>>>>>>> v2-test
 
     /**
      * Describes an InputDefinition instance.
      *
      * @return string|mixed
      */
+<<<<<<< HEAD
     abstract protected function describeInputDefinition(InputDefinition $definition, array $options = array());
+=======
+    abstract protected function describeInputDefinition(InputDefinition $definition, array $options = []);
+>>>>>>> v2-test
 
     /**
      * Describes a Command instance.
      *
      * @return string|mixed
      */
+<<<<<<< HEAD
     abstract protected function describeCommand(Command $command, array $options = array());
+=======
+    abstract protected function describeCommand(Command $command, array $options = []);
+>>>>>>> v2-test
 
     /**
      * Describes an Application instance.
      *
      * @return string|mixed
      */
+<<<<<<< HEAD
     abstract protected function describeApplication(Application $application, array $options = array());
+=======
+    abstract protected function describeApplication(Application $application, array $options = []);
+>>>>>>> v2-test
 }

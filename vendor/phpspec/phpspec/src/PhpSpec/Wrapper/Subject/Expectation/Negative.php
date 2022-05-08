@@ -13,19 +13,34 @@
 
 namespace PhpSpec\Wrapper\Subject\Expectation;
 
+<<<<<<< HEAD
 use PhpSpec\Matcher\MatcherInterface;
 
 class Negative implements ExpectationInterface
 {
     /**
      * @var MatcherInterface
+=======
+use PhpSpec\Matcher\Matcher;
+
+final class Negative implements Expectation
+{
+    /**
+     * @var Matcher
+>>>>>>> v2-test
      */
     private $matcher;
 
     /**
+<<<<<<< HEAD
      * @param MatcherInterface $matcher
      */
     public function __construct(MatcherInterface $matcher)
+=======
+     * @param Matcher $matcher
+     */
+    public function __construct(Matcher $matcher)
+>>>>>>> v2-test
     {
         $this->matcher = $matcher;
     }
@@ -37,7 +52,11 @@ class Negative implements ExpectationInterface
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public function match($alias, $subject, array $arguments = array())
+=======
+    public function match(string $alias, $subject, array $arguments = array())
+>>>>>>> v2-test
     {
         return $this->matcher->negativeMatch($alias, $subject, $arguments);
     }

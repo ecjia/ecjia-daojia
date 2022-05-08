@@ -13,6 +13,10 @@ namespace Predis\Configuration;
 
 use Predis\Connection\Aggregate\MasterSlaveReplication;
 use Predis\Connection\Aggregate\ReplicationInterface;
+<<<<<<< HEAD
+=======
+use Predis\Connection\Aggregate\SentinelReplication;
+>>>>>>> v2-test
 
 /**
  * Configures an aggregate connection used for master/slave replication among
@@ -35,15 +39,32 @@ class ReplicationOption implements OptionInterface
             return $value;
         }
 
+<<<<<<< HEAD
         if (is_bool($value) || $value === null) {
             return $value ? $this->getDefault($options) : null;
+=======
+        if ($value === 'sentinel') {
+            return function ($sentinels, $options) {
+                return new SentinelReplication($options->service, $sentinels, $options->connections);
+            };
+>>>>>>> v2-test
         }
 
         if (
             !is_object($value) &&
             null !== $asbool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
         ) {
+<<<<<<< HEAD
             return $asbool ? $this->getDefault($options) : null;
+=======
+            if (true === $asbool) {
+                return $this->getDefault($options);
+            } else {
+                throw new \InvalidArgumentException(
+                    "Values evaluating to FALSE are not accepted for `replication`"
+                );
+            }
+>>>>>>> v2-test
         }
 
         throw new \InvalidArgumentException(
@@ -56,6 +77,17 @@ class ReplicationOption implements OptionInterface
      */
     public function getDefault(OptionsInterface $options)
     {
+<<<<<<< HEAD
         return new MasterSlaveReplication();
+=======
+        $replication = new MasterSlaveReplication();
+
+        if ($options->autodiscovery) {
+            $replication->setConnectionFactory($options->connections);
+            $replication->setAutoDiscovery(true);
+        }
+
+        return $replication;
+>>>>>>> v2-test
     }
 }

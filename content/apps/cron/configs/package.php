@@ -50,16 +50,29 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 计划任务
  */
 return array(
-	'identifier' 	=> 'ecjia.cron',
-	'directory' 	=> 'cron',
-	'name'			=> __('计划任务', 'cron'),
-	'description' 	=> __('是ECJIA管理系统提供的一项使系统在您设定的时刻,自动执行某项任务的功能。', 'cron'),
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.30.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
-    'namespace'     => 'Ecjia\App\Cron',
-    'provider'      => 'CronServiceProvider',
+    'identifier'  => 'ecjia.cron',
+    'directory'   => 'cron',
+    'name'        => __('计划任务', 'cron'),
+    'description' => __('是ECJIA管理系统提供的一项使系统在您设定的时刻,自动执行某项任务的功能。', 'cron'),
+    'author'      => 'ECJIA TEAM',            /* 作者 */
+    'website'     => 'http://www.ecjia.com',    /* 网址 */
+    'version'     => '2.1.0',                    /* 版本号 */
+    'copyright'   => 'ECJIA Copyright 2015 ~ 2019.',
+    'namespace'   => 'Ecjia\App\Cron',
+    'provider'    => 'CronServiceProvider',
+    'autoload'    => array(
+        'psr-4' => array(
+            "Ecjia\\App\\Cron\\" => "classes/"
+        )
+    ),
+    'discover'    => array(
+        'providers' => array(
+            "Ecjia\\App\\Cron\\CronServiceProvider"
+        ),
+        'aliases'   => [
+
+        ]
+    ),
 );
 
 // end

@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
  */
 abstract class Extension extends BaseExtension
 {
+<<<<<<< HEAD
     private $classes = array();
 
     /**
@@ -40,5 +41,27 @@ abstract class Extension extends BaseExtension
     public function addClassesToCompile(array $classes)
     {
         $this->classes = array_merge($this->classes, $classes);
+=======
+    private $annotatedClasses = [];
+
+    /**
+     * Gets the annotated classes to cache.
+     *
+     * @return array An array of classes
+     */
+    public function getAnnotatedClassesToCompile()
+    {
+        return $this->annotatedClasses;
+    }
+
+    /**
+     * Adds annotated classes to the class cache.
+     *
+     * @param array $annotatedClasses An array of class patterns
+     */
+    public function addAnnotatedClassesToCompile(array $annotatedClasses)
+    {
+        $this->annotatedClasses = array_merge($this->annotatedClasses, $annotatedClasses);
+>>>>>>> v2-test
     }
 }

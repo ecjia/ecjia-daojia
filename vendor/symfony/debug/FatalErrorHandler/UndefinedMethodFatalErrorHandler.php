@@ -14,10 +14,20 @@ namespace Symfony\Component\Debug\FatalErrorHandler;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\Debug\Exception\UndefinedMethodException;
 
+<<<<<<< HEAD
+=======
+@trigger_error(sprintf('The "%s" class is deprecated since Symfony 4.4, use "%s" instead.', UndefinedMethodFatalErrorHandler::class, \Symfony\Component\ErrorHandler\ErrorEnhancer\UndefinedMethodErrorEnhancer::class), \E_USER_DEPRECATED);
+
+>>>>>>> v2-test
 /**
  * ErrorHandler for undefined methods.
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
+<<<<<<< HEAD
+=======
+ *
+ * @deprecated since Symfony 4.4, use Symfony\Component\ErrorHandler\ErrorEnhancer\UndefinedMethodErrorEnhancer instead.
+>>>>>>> v2-test
  */
 class UndefinedMethodFatalErrorHandler implements FatalErrorHandlerInterface
 {
@@ -28,7 +38,11 @@ class UndefinedMethodFatalErrorHandler implements FatalErrorHandlerInterface
     {
         preg_match('/^Call to undefined method (.*)::(.*)\(\)$/', $error['message'], $matches);
         if (!$matches) {
+<<<<<<< HEAD
             return;
+=======
+            return null;
+>>>>>>> v2-test
         }
 
         $className = $matches[1];
@@ -36,10 +50,22 @@ class UndefinedMethodFatalErrorHandler implements FatalErrorHandlerInterface
 
         $message = sprintf('Attempted to call an undefined method named "%s" of class "%s".', $methodName, $className);
 
+<<<<<<< HEAD
         $candidates = array();
         foreach (get_class_methods($className) as $definedMethodName) {
             $lev = levenshtein($methodName, $definedMethodName);
             if ($lev <= strlen($methodName) / 3 || false !== strpos($definedMethodName, $methodName)) {
+=======
+        if (!class_exists($className) || null === $methods = get_class_methods($className)) {
+            // failed to get the class or its methods on which an unknown method was called (for example on an anonymous class)
+            return new UndefinedMethodException($message, $exception);
+        }
+
+        $candidates = [];
+        foreach ($methods as $definedMethodName) {
+            $lev = levenshtein($methodName, $definedMethodName);
+            if ($lev <= \strlen($methodName) / 3 || false !== strpos($definedMethodName, $methodName)) {
+>>>>>>> v2-test
                 $candidates[] = $definedMethodName;
             }
         }
@@ -52,6 +78,10 @@ class UndefinedMethodFatalErrorHandler implements FatalErrorHandlerInterface
             } else {
                 $candidates = '"'.$last;
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> v2-test
             $message .= "\nDid you mean to call ".$candidates;
         }
 

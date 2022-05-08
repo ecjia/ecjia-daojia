@@ -1,24 +1,26 @@
-# Copyright (C) 2019 Ecjia App mail
+# Copyright (C) 2020 Ecjia App mail
 # This file is distributed under the same license as the Ecjia App mail package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App mail 1.30.0\n"
+"Project-Id-Version: Ecjia App mail 2.18.1\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-12 04:02:22+00:00\n"
+"POT-Creation-Date: 2020-07-16 07:12:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
 #: admin.php:73 admin.php:83 admin.php:95 admin.php:131 admin.php:225
-#: admin.php:227 apis/mail_service_menu_api.class.php:63 classes/Helper.php:60
+#: admin.php:227 classes/Helper.php:60 classes/Services/AdminMenuService.php:26
+#: functions/global.func.php:52
 msgid "邮件模板"
 msgstr ""
 
 #: admin.php:86 admin.php:91 admin.php:121 admin_email_list.php:82
-#: admin_mail_settings.php:81 admin_view_sendlist.php:78
+#: admin_view_sendlist.php:78
+#: classes/Controllers/AdminMailSettingsController.php:60
 msgid "概述"
 msgstr ""
 
@@ -42,8 +44,8 @@ msgstr ""
 msgid "欢迎访问ECJia智能后台编辑邮件模板页面，可以在此编辑相应的邮件模板信息。"
 msgstr ""
 
-#: admin.php:126 admin_email_list.php:87 admin_mail_settings.php:87
-#: admin_view_sendlist.php:83
+#: admin.php:126 admin_email_list.php:87 admin_view_sendlist.php:83
+#: classes/Controllers/AdminMailSettingsController.php:66
 msgid "更多信息："
 msgstr ""
 
@@ -72,8 +74,8 @@ msgid "保存模板内容失败。"
 msgstr ""
 
 #: admin_email_list.php:79 admin_email_list.php:90
-#: apis/mail_admin_purview_api.class.php:57
-#: apis/mail_service_menu_api.class.php:60
+#: classes/Services/AdminMenuService.php:23
+#: classes/Services/AdminPurviewService.php:19
 msgid "邮件订阅管理"
 msgstr ""
 
@@ -115,49 +117,9 @@ msgstr ""
 msgid "批量确认成功"
 msgstr ""
 
-#: admin_mail_settings.php:75 admin_mail_settings.php:76
-#: apis/mail_admin_purview_api.class.php:68
-#: apis/mail_setting_menu_api.class.php:56
-msgid "邮件服务器设置"
-msgstr ""
-
-#: admin_mail_settings.php:77 admin_mail_settings.php:158
-msgid "测试邮件"
-msgstr ""
-
-#: admin_mail_settings.php:83
-msgid "欢迎访问ECJia智能后台邮件服务器设置页面，可通过以下两种方式进行配置。"
-msgstr ""
-
-#: admin_mail_settings.php:88
-msgid "关于邮件服务器设置帮助文档"
-msgstr ""
-
-#: admin_mail_settings.php:126
-msgid "修改邮件服务器设置"
-msgstr ""
-
-#: admin_mail_settings.php:128
-msgid "邮件服务器设置成功。"
-msgstr ""
-
-#: admin_mail_settings.php:158
-msgid ""
-"您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器"
-"设置正确！您可以进行其它邮件发送的操作了！"
-msgstr ""
-
-#: admin_mail_settings.php:160
-msgid "测试邮件发送失败！%s"
-msgstr ""
-
-#: admin_mail_settings.php:162
-msgid "恭喜！测试邮件已成功发送到 %s。"
-msgstr ""
-
 #: admin_view_sendlist.php:75 admin_view_sendlist.php:87
-#: apis/mail_admin_purview_api.class.php:61
-#: apis/mail_service_menu_api.class.php:61
+#: classes/Services/AdminMenuService.php:24
+#: classes/Services/AdminPurviewService.php:23
 msgid "邮件队列管理"
 msgstr ""
 
@@ -190,60 +152,106 @@ msgstr ""
 msgid "没有选择消息"
 msgstr ""
 
-#: apis/mail_admin_purview_api.class.php:58
-msgid "邮件订阅更新"
+#: classes/Controllers/AdminMailSettingsController.php:53
+#: classes/Controllers/AdminMailSettingsController.php:55
+#: classes/Services/AdminPurviewService.php:30
+#: classes/Services/SettingMenuService.php:20
+msgid "邮件服务器设置"
 msgstr ""
 
-#: apis/mail_admin_purview_api.class.php:59
-msgid "邮件订阅删除"
+#: classes/Controllers/AdminMailSettingsController.php:56
+#: classes/Controllers/AdminMailSettingsController.php:130
+msgid "测试邮件"
 msgstr ""
 
-#: apis/mail_admin_purview_api.class.php:62
-msgid "邮件队列发送"
+#: classes/Controllers/AdminMailSettingsController.php:62
+msgid "欢迎访问ECJia智能后台邮件服务器设置页面，可通过以下两种方式进行配置。"
 msgstr ""
 
-#: apis/mail_admin_purview_api.class.php:63
-msgid "邮件队列删除"
+#: classes/Controllers/AdminMailSettingsController.php:67
+msgid "关于邮件服务器设置帮助文档"
 msgstr ""
 
-#: apis/mail_admin_purview_api.class.php:65
-msgid "邮件模板管理"
+#: classes/Controllers/AdminMailSettingsController.php:96
+msgid "邮件服务器"
 msgstr ""
 
-#: apis/mail_admin_purview_api.class.php:66
-msgid "邮件模板更新"
+#: classes/Controllers/AdminMailSettingsController.php:97
+msgid "修改邮件服务器设置"
 msgstr ""
 
-#: apis/mail_service_menu_api.class.php:57
-msgid "邮件管理"
+#: classes/Controllers/AdminMailSettingsController.php:99
+msgid "邮件服务器设置成功。"
+msgstr ""
+
+#: classes/Controllers/AdminMailSettingsController.php:130
+msgid ""
+"您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器"
+"设置正确！您可以进行其它邮件发送的操作了！"
+msgstr ""
+
+#: classes/Controllers/AdminMailSettingsController.php:132
+msgid "测试邮件发送失败！%s"
+msgstr ""
+
+#: classes/Controllers/AdminMailSettingsController.php:134
+msgid "恭喜！测试邮件已成功发送到 %s。"
 msgstr ""
 
 #: classes/Helper.php:58
 msgid "邮件地址"
 msgstr ""
 
-#: classes/Helper.php:59
+#: classes/Helper.php:59 functions/global.func.php:51
 msgid "订阅邮件"
 msgstr ""
 
-#: classes/Helper.php:62
+#: classes/Helper.php:62 functions/global.func.php:54
 msgid "批量发送"
 msgstr ""
 
-#: classes/Helper.php:63
+#: classes/Helper.php:63 functions/global.func.php:55
 msgid "全部发送"
 msgstr ""
 
-#: classes/Helper.php:65
+#: classes/Helper.php:65 functions/global.func.php:57
 msgid "批量退订"
 msgstr ""
 
-#: classes/Helper.php:66
+#: classes/Helper.php:66 functions/global.func.php:58
 msgid "批量确定"
 msgstr ""
 
-#: classes/Helper.php:68
+#: classes/Helper.php:68 functions/global.func.php:60
 msgid "批量设置"
+msgstr ""
+
+#: classes/Services/AdminMenuService.php:20
+msgid "邮件管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:20
+msgid "邮件订阅更新"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:21
+msgid "邮件订阅删除"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:24
+msgid "邮件队列发送"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:25
+msgid "邮件队列删除"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:27
+msgid "邮件模板管理"
+msgstr ""
+
+#: classes/Services/AdminPurviewService.php:28
+msgid "邮件模板更新"
 msgstr ""
 
 #: configs/jslang.php:57
@@ -398,7 +406,7 @@ msgstr ""
 msgid "关注订阅"
 msgstr ""
 
-#: configs/package.php:55
+#: configs/package.php:55 functions/global.func.php:50
 msgid "邮件"
 msgstr ""
 
@@ -410,156 +418,156 @@ msgid ""
 "度。"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:23
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:25
+#: /content/apps/mail/templates/admin/email_list.dwt.php:23
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:25
 msgid "批量操作"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:27
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:29
+#: /content/apps/mail/templates/admin/email_list.dwt.php:27
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:29
 msgid "您确定要删除选中的邮件吗？"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:27
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:29
+#: /content/apps/mail/templates/admin/email_list.dwt.php:27
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:29
 msgid "请先选中要删除的邮件！"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:27
+#: /content/apps/mail/templates/admin/email_list.dwt.php:27
 msgid "删除订阅邮件"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:28
+#: /content/apps/mail/templates/admin/email_list.dwt.php:28
 msgid "您确定要确认选中的邮件订阅吗？"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:28
+#: /content/apps/mail/templates/admin/email_list.dwt.php:28
 msgid "请先选中要确认的邮件订阅！"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:28
+#: /content/apps/mail/templates/admin/email_list.dwt.php:28
 msgid "确认订阅邮件"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:29
+#: /content/apps/mail/templates/admin/email_list.dwt.php:29
 msgid "您确定要退订选中的邮件订阅吗？"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:29
+#: /content/apps/mail/templates/admin/email_list.dwt.php:29
 msgid "请先选中要退订的邮件订阅！"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:29
+#: /content/apps/mail/templates/admin/email_list.dwt.php:29
 msgid "退订订阅邮件"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:33
+#: /content/apps/mail/templates/admin/email_list.dwt.php:33
 msgid "导出列表"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:44
-#: content/apps/mail/templates/admin/mail_template_list.dwt.php:20
+#: /content/apps/mail/templates/admin/email_list.dwt.php:44
+#: /content/apps/mail/templates/admin/mail_template_list.dwt.php:20
 msgid "编号"
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_info.dwt.php:25
+#: /content/apps/mail/templates/admin/mail_template_info.dwt.php:25
 msgid "邮件模板："
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_info.dwt.php:31
+#: /content/apps/mail/templates/admin/mail_template_info.dwt.php:31
 msgid "邮件主题："
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_info.dwt.php:38
+#: /content/apps/mail/templates/admin/mail_template_info.dwt.php:38
 msgid "邮件类型："
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_info.dwt.php:40
+#: /content/apps/mail/templates/admin/mail_template_info.dwt.php:40
 msgid "纯文本邮件"
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_info.dwt.php:41
+#: /content/apps/mail/templates/admin/mail_template_info.dwt.php:41
 msgid "HTML 邮件"
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_info.dwt.php:45
+#: /content/apps/mail/templates/admin/mail_template_info.dwt.php:45
 msgid "模板内容："
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_info.dwt.php:57
+#: /content/apps/mail/templates/admin/mail_template_info.dwt.php:57
 msgid "更新"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:29
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:29
 msgid "删除邮件发送"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:30
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:30
 msgid "选择邮件发送"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:45
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:45
 msgid "所有邮件类型"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:51
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:51
 msgid "所有级别"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:55
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:55
 msgid "筛选"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:71
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:71
 msgid "邮件标题"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:83
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:83
 msgid "次发送错误"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:86
-msgid "上次发送于"
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:86
+msgid "上次发送于%1"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:89
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:89
 msgid "您确定要删除该邮件信息吗？"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:89
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:89
 msgid "移除"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:89
+#: /content/apps/mail/templates/admin/view_sendlist.dwt.php:89
 msgid "删除"
 msgstr ""
 
-#: content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:13
+#: /content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:13
 msgid "提示："
 msgstr ""
 
-#: content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:13
+#: /content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:13
 msgid ""
 "如果您的服务器支持 Mail 函数（具体信息请咨询您的空间提供商）。我们建议您使用"
 "系统的 Mail 函数。"
 msgstr ""
 
-#: content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:13
+#: /content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:13
 msgid "当您的服务器不支持 Mail 函数的时候您也可以选用 SMTP 作为邮件服务器。"
 msgstr ""
 
-#: content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:37
+#: /content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:37
 msgid "邮件地址："
 msgstr ""
 
-#: content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:40
+#: /content/apps/mail/templates/admin/shop_config_mail_settings.dwt.php:40
 msgid "发送测试邮件"
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_list.dwt.php:22
+#: /content/apps/mail/templates/admin/mail_template_list.dwt.php:22
 msgid "操作"
 msgstr ""
 
-#: content/apps/mail/templates/admin/mail_template_list.dwt.php:31
+#: /content/apps/mail/templates/admin/mail_template_list.dwt.php:31
 msgid "编辑"
 msgstr ""

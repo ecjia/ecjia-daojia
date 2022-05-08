@@ -51,7 +51,12 @@ class KeywordPatch implements ClassPatchInterface
      *
      * @return int Priority number (higher - earlier)
      */
+<<<<<<< HEAD
     public function getPriority() {
+=======
+    public function getPriority()
+    {
+>>>>>>> v2-test
         return 49;
     }
 
@@ -60,6 +65,7 @@ class KeywordPatch implements ClassPatchInterface
      *
      * @return array
      */
+<<<<<<< HEAD
     private function getKeywords() {
 
         return array(
@@ -131,5 +137,10 @@ class KeywordPatch implements ClassPatchInterface
             'xor',
             'yield',
         );
+=======
+    private function getKeywords()
+    {
+        return ['__halt_compiler'];
+>>>>>>> v2-test
     }
 }

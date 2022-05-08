@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Class Preloader.
  *
@@ -12,6 +14,9 @@
 
 namespace ClassPreloader;
 
+use ClassPreloader\ClassLoader\ClassList;
+use ClassPreloader\ClassLoader\Config;
+
 /**
  * This is the class loader class.
  *
@@ -19,12 +24,12 @@ namespace ClassPreloader;
  * in order that files must be included. This autoloader proxies to all other
  * underlying autoloaders.
  */
-class ClassLoader
+final class ClassLoader
 {
     /**
      * The list of loaded classes.
      *
-     * @var \ClassPreloader\ClassList
+     * @var \ClassPreloader\ClassLoader\ClassList
      */
     public $classList;
 
@@ -55,12 +60,12 @@ class ClassLoader
      *
      * @param callable $func
      *
-     * @return \ClassPreloader\Config
+     * @return \ClassPreloader\ClassLoader\Config
      */
-    public static function getIncludes($func)
+    public static function getIncludes(callable $func)
     {
-        $loader = new static();
-        call_user_func($func, $loader);
+        $loader = new self();
+        $func($loader);
         $loader->unregister();
 
         $config = new Config();
@@ -98,45 +103,50 @@ class ClassLoader
      *
      * @param string $class
      *
-     * @return bool
+     * @return void
      */
-    public function loadClass($class)
+    public function loadClass(string $class)
     {
-        foreach (spl_autoload_functions() as $func) {
-            if (is_array($func) && $func[0] === $this) {
-                continue;
-            }
-            $this->classList->push($class);
-            if (call_user_func($func, $class)) {
-                break;
+        $funcs = spl_autoload_functions();
+
+        if ($funcs !== false) {
+            foreach ($funcs as $func) {
+                if (is_array($func) && $func[0] === $this) {
+                    continue;
+                }
+                $this->classList->push($class);
+                if ($func($class)) {
+                    break;
+                }
             }
         }
 
         $this->classList->next();
-
-        return true;
     }
 
     /**
      * Get an array of loaded file names in order of loading.
      *
-     * @return array
+     * @return string[]
      */
     public function getFilenames()
     {
+        /** @var string[] */
         $files = [];
+
         foreach ($this->classList->getClasses() as $class) {
             // Push interfaces before classes if not already loaded
             try {
                 $r = new \ReflectionClass($class);
                 foreach ($r->getInterfaces() as $inf) {
                     $name = $inf->getFileName();
-                    if ($name && !in_array($name, $files)) {
+                    if ($name !== false && !in_array($name, $files, true)) {
                         $files[] = $name;
                     }
                 }
-                if (!in_array($r->getFileName(), $files)) {
-                    $files[] = $r->getFileName();
+                $name = $r->getFileName();
+                if ($name !== false && !in_array($name, $files, true)) {
+                    $files[] = $name;
                 }
             } catch (\ReflectionException $e) {
                 // We ignore all exceptions related to reflection because in

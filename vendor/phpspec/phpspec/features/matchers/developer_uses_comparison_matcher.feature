@@ -11,7 +11,10 @@ Feature: Developer uses comparison matcher
     namespace spec\Matchers\ComparisonExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class StringCalculatorSpec extends ObjectBehavior
     {

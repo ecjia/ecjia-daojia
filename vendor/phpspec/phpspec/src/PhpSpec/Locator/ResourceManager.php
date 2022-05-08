@@ -13,6 +13,7 @@
 
 namespace PhpSpec\Locator;
 
+<<<<<<< HEAD
 use PhpSpec\Exception\Locator\ResourceCreationException;
 
 class ResourceManager implements ResourceManagerInterface
@@ -57,10 +58,21 @@ class ResourceManager implements ResourceManagerInterface
 
         return $this->removeDuplicateResources($resources);
     }
+=======
+interface ResourceManager
+{
+    /**
+     * @param string $query
+     *
+     * @return \PhpSpec\Locator\Resource[]
+     */
+    public function locateResources(string $query): array;
+>>>>>>> v2-test
 
     /**
      * @param string $classname
      *
+<<<<<<< HEAD
      * @return ResourceInterface
      *
      * @throws \RuntimeException
@@ -98,4 +110,9 @@ class ResourceManager implements ResourceManagerInterface
 
         return array_values($filteredResources);
     }
+=======
+     * @return \PhpSpec\Locator\Resource
+     */
+    public function createResource(string $classname): \PhpSpec\Locator\Resource;
+>>>>>>> v2-test
 }

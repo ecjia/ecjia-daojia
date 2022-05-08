@@ -2,12 +2,17 @@
 
 namespace spec\PhpSpec\Formatter;
 
+<<<<<<< HEAD
 use PhpSpec\Console\IO;
+=======
+use PhpSpec\Console\ConsoleIO;
+>>>>>>> v2-test
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SpecificationEvent;
 use PhpSpec\Loader\Node\ExampleNode;
 use PhpSpec\Loader\Node\SpecificationNode;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Listener\StatisticsCollector;
 use PhpSpec\ObjectBehavior;
@@ -16,6 +21,15 @@ use Prophecy\Argument;
 class TapFormatterSpec extends ObjectBehavior
 {
     function let(PresenterInterface $presenter, IO $io, StatisticsCollector $stats)
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\Listener\StatisticsCollector;
+use PhpSpec\ObjectBehavior;
+
+class TapFormatterSpec extends ObjectBehavior
+{
+    function let(Presenter $presenter, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $this->beConstructedWith($presenter, $io, $stats);
     }
@@ -25,14 +39,22 @@ class TapFormatterSpec extends ObjectBehavior
         $this->shouldHaveType('Symfony\Component\EventDispatcher\EventSubscriberInterface');
     }
 
+<<<<<<< HEAD
     function it_outputs_version_on_beforesuite_event(SuiteEvent $event, IO $io)
+=======
+    function it_outputs_version_on_beforesuite_event(SuiteEvent $event, ConsoleIO $io)
+>>>>>>> v2-test
     {
         $this->beforeSuite($event);
         $expected = 'TAP version 13';
         $io->writeln($expected)->shouldHaveBeenCalled();
     }
 
+<<<<<<< HEAD
     function it_outputs_plan_on_aftersuite_event(SuiteEvent $suiteEvent, ExampleEvent $exampleEvent, ExampleNode $example, IO $io, StatisticsCollector $stats)
+=======
+    function it_outputs_plan_on_aftersuite_event(SuiteEvent $suiteEvent, ExampleEvent $exampleEvent, ExampleNode $example, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $stats->getEventsCount()->willReturn(3);
         $exampleEvent->getExample()->willReturn($example);
@@ -45,7 +67,11 @@ class TapFormatterSpec extends ObjectBehavior
         $io->writeln('1..3')->shouldHaveBeenCalled();
     }
 
+<<<<<<< HEAD
     function it_outputs_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, IO $io, StatisticsCollector $stats)
+=======
+    function it_outputs_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $specEvent->getSpecification()->willReturn($spec);
         $exampleEvent->getExample()->willReturn($example);
@@ -67,7 +93,11 @@ class TapFormatterSpec extends ObjectBehavior
         $io->writeln($expected2)->shouldHaveBeenCalled();
     }
 
+<<<<<<< HEAD
     function it_outputs_failure_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, IO $io, StatisticsCollector $stats)
+=======
+    function it_outputs_failure_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $specEvent->getSpecification()->willReturn($spec);
         $exampleEvent->getExample()->willReturn($example);
@@ -83,7 +113,11 @@ class TapFormatterSpec extends ObjectBehavior
         $io->writeln($expected)->shouldHaveBeenCalled();
     }
 
+<<<<<<< HEAD
     function it_outputs_skip_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, IO $io, StatisticsCollector $stats)
+=======
+    function it_outputs_skip_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $specEvent->getSpecification()->willReturn($spec);
         $exampleEvent->getExample()->willReturn($example);
@@ -99,7 +133,11 @@ class TapFormatterSpec extends ObjectBehavior
         $io->writeln($expected)->shouldHaveBeenCalled();
     }
 
+<<<<<<< HEAD
     function it_outputs_todo_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, IO $io, StatisticsCollector $stats)
+=======
+    function it_outputs_todo_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $specEvent->getSpecification()->willReturn($spec);
         $exampleEvent->getExample()->willReturn($example);
@@ -115,7 +153,11 @@ class TapFormatterSpec extends ObjectBehavior
         $io->writeln($expected)->shouldHaveBeenCalled();
     }
 
+<<<<<<< HEAD
     function it_outputs_broken_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, IO $io, StatisticsCollector $stats)
+=======
+    function it_outputs_broken_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $specEvent->getSpecification()->willReturn($spec);
         $exampleEvent->getExample()->willReturn($example);
@@ -131,7 +173,11 @@ class TapFormatterSpec extends ObjectBehavior
         $io->writeln($expected)->shouldHaveBeenCalled();
     }
 
+<<<<<<< HEAD
     function it_outputs_undefined_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, IO $io, StatisticsCollector $stats)
+=======
+    function it_outputs_undefined_progress_on_afterexample_event(SpecificationEvent $specEvent, ExampleEvent $exampleEvent, ExampleNode $example, SpecificationNode $spec, ConsoleIO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $specEvent->getSpecification()->willReturn($spec);
         $exampleEvent->getExample()->willReturn($example);

@@ -2,11 +2,17 @@
 
 namespace spec\PhpSpec\Formatter\Presenter\Exception;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\Exception\ExceptionElementPresenter;
 use PhpSpec\Formatter\Presenter\Value\ExceptionTypePresenter;
 use PhpSpec\Formatter\Presenter\Value\ValuePresenter;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+=======
+use PhpSpec\Formatter\Presenter\Value\ExceptionTypePresenter;
+use PhpSpec\Formatter\Presenter\Value\ValuePresenter;
+use PhpSpec\ObjectBehavior;
+>>>>>>> v2-test
 
 class TaggingExceptionElementPresenterSpec extends ObjectBehavior
 {

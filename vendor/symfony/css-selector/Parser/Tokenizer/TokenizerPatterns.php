@@ -18,6 +18,7 @@ namespace Symfony\Component\CssSelector\Parser\Tokenizer;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class TokenizerPatterns
 {
@@ -84,6 +85,26 @@ class TokenizerPatterns
     /**
      * Constructor.
      */
+=======
+ *
+ * @internal
+ */
+class TokenizerPatterns
+{
+    private $unicodeEscapePattern;
+    private $simpleEscapePattern;
+    private $newLineEscapePattern;
+    private $escapePattern;
+    private $stringEscapePattern;
+    private $nonAsciiPattern;
+    private $nmCharPattern;
+    private $nmStartPattern;
+    private $identifierPattern;
+    private $hashPattern;
+    private $numberPattern;
+    private $quotedStringPattern;
+
+>>>>>>> v2-test
     public function __construct()
     {
         $this->unicodeEscapePattern = '\\\\([0-9a-f]{1,6})(?:\r\n|[ \n\r\t\f])?';
@@ -94,66 +115,98 @@ class TokenizerPatterns
         $this->nonAsciiPattern = '[^\x00-\x7F]';
         $this->nmCharPattern = '[_a-z0-9-]|'.$this->escapePattern.'|'.$this->nonAsciiPattern;
         $this->nmStartPattern = '[_a-z]|'.$this->escapePattern.'|'.$this->nonAsciiPattern;
+<<<<<<< HEAD
         $this->identifierPattern = '(?:'.$this->nmStartPattern.')(?:'.$this->nmCharPattern.')*';
+=======
+        $this->identifierPattern = '-?(?:'.$this->nmStartPattern.')(?:'.$this->nmCharPattern.')*';
+>>>>>>> v2-test
         $this->hashPattern = '#((?:'.$this->nmCharPattern.')+)';
         $this->numberPattern = '[+-]?(?:[0-9]*\.[0-9]+|[0-9]+)';
         $this->quotedStringPattern = '([^\n\r\f%s]|'.$this->stringEscapePattern.')*';
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getNewLineEscapePattern()
+=======
+    public function getNewLineEscapePattern(): string
+>>>>>>> v2-test
     {
         return '~^'.$this->newLineEscapePattern.'~';
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getSimpleEscapePattern()
+=======
+    public function getSimpleEscapePattern(): string
+>>>>>>> v2-test
     {
         return '~^'.$this->simpleEscapePattern.'~';
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getUnicodeEscapePattern()
+=======
+    public function getUnicodeEscapePattern(): string
+>>>>>>> v2-test
     {
         return '~^'.$this->unicodeEscapePattern.'~i';
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getIdentifierPattern()
+=======
+    public function getIdentifierPattern(): string
+>>>>>>> v2-test
     {
         return '~^'.$this->identifierPattern.'~i';
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getHashPattern()
+=======
+    public function getHashPattern(): string
+>>>>>>> v2-test
     {
         return '~^'.$this->hashPattern.'~i';
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getNumberPattern()
+=======
+    public function getNumberPattern(): string
+>>>>>>> v2-test
     {
         return '~^'.$this->numberPattern.'~';
     }
 
+<<<<<<< HEAD
     /**
      * @param string $quote
      *
      * @return string
      */
     public function getQuotedStringPattern($quote)
+=======
+    public function getQuotedStringPattern(string $quote): string
+>>>>>>> v2-test
     {
         return '~^'.sprintf($this->quotedStringPattern, $quote).'~i';
     }

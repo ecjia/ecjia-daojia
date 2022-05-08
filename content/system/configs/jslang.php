@@ -101,7 +101,7 @@ return array(
 		
 	//角色管理
 	'role_page' => array(
-		'pls_name'	=> __('请输入用户名！')
+		'pls_name'	=> __('请输入角色名称！')
 	),
 		
 	//更新缓存

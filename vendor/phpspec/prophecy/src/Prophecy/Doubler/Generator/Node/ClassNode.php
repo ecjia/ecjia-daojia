@@ -100,7 +100,11 @@ class ClassNode
         return $this->methods;
     }
 
+<<<<<<< HEAD
     public function addMethod(MethodNode $method)
+=======
+    public function addMethod(MethodNode $method, $force = false)
+>>>>>>> v2-test
     {
         if (!$this->isExtendable($method->getName())){
             $message = sprintf(
@@ -108,7 +112,14 @@ class ClassNode
             );
             throw new MethodNotExtendableException($message, $this->getParentClass(), $method->getName());
         }
+<<<<<<< HEAD
         $this->methods[$method->getName()] = $method;
+=======
+
+        if ($force || !isset($this->methods[$method->getName()])) {
+            $this->methods[$method->getName()] = $method;
+        }
+>>>>>>> v2-test
     }
 
     public function removeMethod($name)

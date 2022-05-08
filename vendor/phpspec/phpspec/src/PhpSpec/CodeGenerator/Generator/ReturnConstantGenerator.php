@@ -14,6 +14,7 @@
 namespace PhpSpec\CodeGenerator\Generator;
 
 use PhpSpec\CodeGenerator\TemplateRenderer;
+<<<<<<< HEAD
 use PhpSpec\Console\IO;
 use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\Util\Filesystem;
@@ -22,6 +23,16 @@ class ReturnConstantGenerator implements GeneratorInterface
 {
     /**
      * @var IO
+=======
+use PhpSpec\Console\ConsoleIO;
+use PhpSpec\Locator\Resource;
+use PhpSpec\Util\Filesystem;
+
+final class ReturnConstantGenerator implements Generator
+{
+    /**
+     * @var ConsoleIO
+>>>>>>> v2-test
      */
     private $io;
     /**
@@ -34,6 +45,7 @@ class ReturnConstantGenerator implements GeneratorInterface
     private $filesystem;
 
     /**
+<<<<<<< HEAD
      * @param IO               $io
      * @param TemplateRenderer $templates
      * @param Filesystem       $filesystem
@@ -53,15 +65,36 @@ class ReturnConstantGenerator implements GeneratorInterface
      * @return bool
      */
     public function supports(ResourceInterface $resource, $generation, array $data)
+=======
+     * @param ConsoleIO        $io
+     * @param TemplateRenderer $templates
+     * @param Filesystem       $filesystem
+     */
+    public function __construct(ConsoleIO $io, TemplateRenderer $templates, Filesystem $filesystem)
+    {
+        $this->io = $io;
+        $this->templates = $templates;
+        $this->filesystem = $filesystem;
+    }
+
+    public function supports(Resource $resource, string $generation, array $data): bool
+>>>>>>> v2-test
     {
         return 'returnConstant' == $generation;
     }
 
     /**
+<<<<<<< HEAD
      * @param ResourceInterface $resource
      * @param array             $data
      */
     public function generate(ResourceInterface $resource, array $data)
+=======
+     * @param Resource $resource
+     * @param array             $data
+     */
+    public function generate(Resource $resource, array $data): void
+>>>>>>> v2-test
     {
         $method = $data['method'];
         $expected = $data['expected'];
@@ -90,18 +123,26 @@ class ReturnConstantGenerator implements GeneratorInterface
         ), 2);
     }
 
+<<<<<<< HEAD
     /**
      * @return int
      */
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 0;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     protected function getTemplate()
+=======
+    protected function getTemplate(): string
+>>>>>>> v2-test
     {
         return file_get_contents(__DIR__.'/templates/returnconstant.template');
     }

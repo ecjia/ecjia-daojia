@@ -13,19 +13,34 @@
 
 namespace PhpSpec\Process\Prerequisites;
 
+<<<<<<< HEAD
 use PhpSpec\Process\Context\ExecutionContextInterface;
 
 final class SuitePrerequisites implements SuitePrerequisitesInterface
 {
     /**
      * @var ExecutionContextInterface
+=======
+use PhpSpec\Process\Context\ExecutionContext;
+
+final class SuitePrerequisites implements PrerequisiteTester
+{
+    /**
+     * @var ExecutionContext
+>>>>>>> v2-test
      */
     private $executionContext;
 
     /**
+<<<<<<< HEAD
      * @param ExecutionContextInterface $executionContext
      */
     public function __construct(ExecutionContextInterface $executionContext)
+=======
+     * @param ExecutionContext $executionContext
+     */
+    public function __construct(ExecutionContext $executionContext)
+>>>>>>> v2-test
     {
         $this->executionContext = $executionContext;
     }
@@ -33,7 +48,11 @@ final class SuitePrerequisites implements SuitePrerequisitesInterface
     /**
      * @throws PrerequisiteFailedException
      */
+<<<<<<< HEAD
     public function guardPrerequisites()
+=======
+    public function guardPrerequisites(): void
+>>>>>>> v2-test
     {
         $undefinedTypes = array();
 
@@ -46,9 +65,15 @@ final class SuitePrerequisites implements SuitePrerequisitesInterface
         if ($undefinedTypes) {
             throw new PrerequisiteFailedException(sprintf(
                 "The type%s %s %s generated but could not be loaded. Do you need to configure an autoloader?\n",
+<<<<<<< HEAD
                 count($undefinedTypes) > 1 ? 's' : '',
                 join(', ', $undefinedTypes),
                 count($undefinedTypes) > 1 ? 'were' : 'was'
+=======
+                \count($undefinedTypes) > 1 ? 's' : '',
+                join(', ', $undefinedTypes),
+                \count($undefinedTypes) > 1 ? 'were' : 'was'
+>>>>>>> v2-test
             ));
         }
     }

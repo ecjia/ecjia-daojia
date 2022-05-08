@@ -45,7 +45,11 @@ class ChoiceFormField extends FormField
     public function hasValue()
     {
         // don't send a value for unchecked checkboxes
+<<<<<<< HEAD
         if (in_array($this->type, array('checkbox', 'radio')) && null === $this->value) {
+=======
+        if (\in_array($this->type, ['checkbox', 'radio']) && null === $this->value) {
+>>>>>>> v2-test
             return false;
         }
 
@@ -75,7 +79,11 @@ class ChoiceFormField extends FormField
     /**
      * Sets the value of the field.
      *
+<<<<<<< HEAD
      * @param string $value The value of the field
+=======
+     * @param string|array $value The value of the field
+>>>>>>> v2-test
      */
     public function select($value)
     {
@@ -97,14 +105,22 @@ class ChoiceFormField extends FormField
     }
 
     /**
+<<<<<<< HEAD
      * Ticks a checkbox.
+=======
+     * Unticks a checkbox.
+>>>>>>> v2-test
      *
      * @throws \LogicException When the type provided is not correct
      */
     public function untick()
     {
         if ('checkbox' !== $this->type) {
+<<<<<<< HEAD
             throw new \LogicException(sprintf('You cannot tick "%s" as it is not a checkbox (%s).', $this->name, $this->type));
+=======
+            throw new \LogicException(sprintf('You cannot untick "%s" as it is not a checkbox (%s).', $this->name, $this->type));
+>>>>>>> v2-test
         }
 
         $this->setValue(false);
@@ -113,7 +129,11 @@ class ChoiceFormField extends FormField
     /**
      * Sets the value of the field.
      *
+<<<<<<< HEAD
      * @param string $value The value of the field
+=======
+     * @param string|array|bool|null $value The value of the field
+>>>>>>> v2-test
      *
      * @throws \InvalidArgumentException When value type provided is not correct
      */
@@ -126,25 +146,41 @@ class ChoiceFormField extends FormField
             // check
             $this->value = $this->options[0]['value'];
         } else {
+<<<<<<< HEAD
             if (is_array($value)) {
+=======
+            if (\is_array($value)) {
+>>>>>>> v2-test
                 if (!$this->multiple) {
                     throw new \InvalidArgumentException(sprintf('The value for "%s" cannot be an array.', $this->name));
                 }
 
                 foreach ($value as $v) {
                     if (!$this->containsOption($v, $this->options)) {
+<<<<<<< HEAD
                         throw new \InvalidArgumentException(sprintf('Input "%s" cannot take "%s" as a value (possible values: %s).', $this->name, $v, implode(', ', $this->availableOptionValues())));
                     }
                 }
             } elseif (!$this->containsOption($value, $this->options)) {
                 throw new \InvalidArgumentException(sprintf('Input "%s" cannot take "%s" as a value (possible values: %s).', $this->name, $value, implode(', ', $this->availableOptionValues())));
+=======
+                        throw new \InvalidArgumentException(sprintf('Input "%s" cannot take "%s" as a value (possible values: "%s").', $this->name, $v, implode('", "', $this->availableOptionValues())));
+                    }
+                }
+            } elseif (!$this->containsOption($value, $this->options)) {
+                throw new \InvalidArgumentException(sprintf('Input "%s" cannot take "%s" as a value (possible values: "%s").', $this->name, $value, implode('", "', $this->availableOptionValues())));
+>>>>>>> v2-test
             }
 
             if ($this->multiple) {
                 $value = (array) $value;
             }
 
+<<<<<<< HEAD
             if (is_array($value)) {
+=======
+            if (\is_array($value)) {
+>>>>>>> v2-test
                 $this->value = $value;
             } else {
                 parent::setValue($value);
@@ -155,11 +191,17 @@ class ChoiceFormField extends FormField
     /**
      * Adds a choice to the current ones.
      *
+<<<<<<< HEAD
      * This method should only be used internally.
      *
      * @param \DOMElement $node
      *
      * @throws \LogicException When choice provided is not multiple nor radio
+=======
+     * @throws \LogicException When choice provided is not multiple nor radio
+     *
+     * @internal
+>>>>>>> v2-test
      */
     public function addChoice(\DOMElement $node)
     {
@@ -207,11 +249,19 @@ class ChoiceFormField extends FormField
         }
 
         if ('input' === $this->node->nodeName && 'checkbox' !== strtolower($this->node->getAttribute('type')) && 'radio' !== strtolower($this->node->getAttribute('type'))) {
+<<<<<<< HEAD
             throw new \LogicException(sprintf('A ChoiceFormField can only be created from an input tag with a type of checkbox or radio (given type is %s).', $this->node->getAttribute('type')));
         }
 
         $this->value = null;
         $this->options = array();
+=======
+            throw new \LogicException(sprintf('A ChoiceFormField can only be created from an input tag with a type of checkbox or radio (given type is "%s").', $this->node->getAttribute('type')));
+        }
+
+        $this->value = null;
+        $this->options = [];
+>>>>>>> v2-test
         $this->multiple = false;
 
         if ('input' == $this->node->nodeName) {
@@ -226,7 +276,11 @@ class ChoiceFormField extends FormField
             $this->type = 'select';
             if ($this->node->hasAttribute('multiple')) {
                 $this->multiple = true;
+<<<<<<< HEAD
                 $this->value = array();
+=======
+                $this->value = [];
+>>>>>>> v2-test
                 $this->name = str_replace('[]', '', $this->name);
             }
 
@@ -254,6 +308,7 @@ class ChoiceFormField extends FormField
 
     /**
      * Returns option value with associated disabled flag.
+<<<<<<< HEAD
      *
      * @param \DOMElement $node
      *
@@ -262,6 +317,12 @@ class ChoiceFormField extends FormField
     private function buildOptionValue(\DOMElement $node)
     {
         $option = array();
+=======
+     */
+    private function buildOptionValue(\DOMElement $node): array
+    {
+        $option = [];
+>>>>>>> v2-test
 
         $defaultDefaultValue = 'select' === $this->node->nodeName ? '' : 'on';
         $defaultValue = (isset($node->nodeValue) && !empty($node->nodeValue)) ? $node->nodeValue : $defaultDefaultValue;
@@ -274,12 +335,18 @@ class ChoiceFormField extends FormField
     /**
      * Checks whether given value is in the existing options.
      *
+<<<<<<< HEAD
      * @param string $optionValue
      * @param array  $options
      *
      * @return bool
      */
     public function containsOption($optionValue, $options)
+=======
+     * @return bool
+     */
+    public function containsOption(string $optionValue, array $options)
+>>>>>>> v2-test
     {
         if ($this->validationDisabled) {
             return true;
@@ -301,7 +368,11 @@ class ChoiceFormField extends FormField
      */
     public function availableOptionValues()
     {
+<<<<<<< HEAD
         $values = array();
+=======
+        $values = [];
+>>>>>>> v2-test
 
         foreach ($this->options as $option) {
             $values[] = $option['value'];

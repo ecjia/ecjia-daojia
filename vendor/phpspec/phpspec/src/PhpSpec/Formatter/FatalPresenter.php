@@ -17,5 +17,9 @@ use PhpSpec\Message\CurrentExampleTracker;
 
 interface FatalPresenter
 {
+<<<<<<< HEAD
     public function displayFatal(CurrentExampleTracker $currentExample, $error);
+=======
+    public function displayFatal(CurrentExampleTracker $currentExample, $error): void;
+>>>>>>> v2-test
 }

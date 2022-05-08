@@ -5,10 +5,17 @@
  * PHP version 5
  *
  * Copyright (c) 2009 Chris Boulton <chris.boulton@interspire.com>
+<<<<<<< HEAD
  * 
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without 
+=======
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+>>>>>>> v2-test
  * modification, are permitted provided that the following conditions are met:
  *
  *  - Redistributions of source code must retain the above copyright notice,
@@ -16,6 +23,7 @@
  *  - Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
+<<<<<<< HEAD
  *  - Neither the name of the Chris Boulton nor the names of its contributors 
  *    may be used to endorse or promote products derived from this software 
  *    without specific prior written permission.
@@ -30,6 +38,22 @@
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+=======
+ *  - Neither the name of the Chris Boulton nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+>>>>>>> v2-test
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package DiffLib
@@ -82,12 +106,27 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
 
 						list($start, $end) = $this->getChangeExtent($fromLine, $toLine);
 						if($start != 0 || $end != 0) {
+<<<<<<< HEAD
 							$last = $end + strlen($fromLine);
 							$fromLine = substr_replace($fromLine, "\0", $start, 0);
 							$fromLine = substr_replace($fromLine, "\1", $last + 1, 0);
 							$last = $end + strlen($toLine);
 							$toLine = substr_replace($toLine, "\0", $start, 0);
 							$toLine = substr_replace($toLine, "\1", $last + 1, 0);
+=======
+                            $realEnd = mb_strlen($fromLine) + $end;
+                            $fromLine = mb_substr($fromLine, 0, $start)
+                                . "\0"
+                                . mb_substr($fromLine, $start, $realEnd - $start)
+                                . "\1"
+                                . mb_substr($fromLine, $realEnd);
+                            $realEnd = mb_strlen($toLine) + $end;
+                            $toLine = mb_substr($toLine, 0, $start)
+                                . "\0"
+                                . mb_substr($toLine, $start, $realEnd - $start)
+                                . "\1"
+                                . mb_substr($toLine, $realEnd);
+>>>>>>> v2-test
 							$a[$i1 + $i] = $fromLine;
 							$b[$j1 + $i] = $toLine;
 						}
@@ -149,13 +188,22 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
 	private function getChangeExtent($fromLine, $toLine)
 	{
 		$start = 0;
+<<<<<<< HEAD
 		$limit = min(strlen($fromLine), strlen($toLine));
 		while($start < $limit && $fromLine{$start} == $toLine{$start}) {
+=======
+		$limit = min(mb_strlen($fromLine), mb_strlen($toLine));
+		while($start < $limit && mb_substr($fromLine, $start, 1) == mb_substr($toLine, $start, 1)) {
+>>>>>>> v2-test
 			++$start;
 		}
 		$end = -1;
 		$limit = $limit - $start;
+<<<<<<< HEAD
 		while(-$end <= $limit && substr($fromLine, $end, 1) == substr($toLine, $end, 1)) {
+=======
+		while(-$end <= $limit && mb_substr($fromLine, $end, 1) == mb_substr($toLine, $end, 1)) {
+>>>>>>> v2-test
 			--$end;
 		}
 		return array(
@@ -174,7 +222,13 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
 	 */
 	private function formatLines($lines)
 	{
+<<<<<<< HEAD
 		$lines = array_map(array($this, 'ExpandTabs'), $lines);
+=======
+		if ($this->options['tabSize'] !== false) {
+			$lines = array_map(array($this, 'ExpandTabs'), $lines);
+		}
+>>>>>>> v2-test
 		$lines = array_map(array($this, 'HtmlSafe'), $lines);
 		foreach($lines as &$line) {
 			$line = preg_replace_callback('# ( +)|^ #', __CLASS__."::fixSpaces", $line);
@@ -222,4 +276,8 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
 	{
 		return htmlspecialchars($string, ENT_NOQUOTES, 'UTF-8');
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> v2-test

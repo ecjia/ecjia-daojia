@@ -23,6 +23,11 @@ use Symfony\Component\CssSelector\Parser\TokenStream;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class Tokenizer
 {
@@ -31,32 +36,48 @@ class Tokenizer
      */
     private $handlers;
 
+<<<<<<< HEAD
     /**
      * Constructor.
      */
+=======
+>>>>>>> v2-test
     public function __construct()
     {
         $patterns = new TokenizerPatterns();
         $escaping = new TokenizerEscaping($patterns);
 
+<<<<<<< HEAD
         $this->handlers = array(
+=======
+        $this->handlers = [
+>>>>>>> v2-test
             new Handler\WhitespaceHandler(),
             new Handler\IdentifierHandler($patterns, $escaping),
             new Handler\HashHandler($patterns, $escaping),
             new Handler\StringHandler($patterns, $escaping),
             new Handler\NumberHandler($patterns),
             new Handler\CommentHandler(),
+<<<<<<< HEAD
         );
+=======
+        ];
+>>>>>>> v2-test
     }
 
     /**
      * Tokenize selector source code.
+<<<<<<< HEAD
      *
      * @param Reader $reader
      *
      * @return TokenStream
      */
     public function tokenize(Reader $reader)
+=======
+     */
+    public function tokenize(Reader $reader): TokenStream
+>>>>>>> v2-test
     {
         $stream = new TokenStream();
 

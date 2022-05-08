@@ -1,0 +1,144 @@
+<?php
+/**
+ * User: royalwang
+ * Date: 2019/1/14
+ * Time: 14:27
+ */
+
+namespace Ecjia\Component\Gettext\Console;
+
+class AddTextdomain extends GettextConsoleAbstract
+{
+
+    protected $modified_contents = '';
+
+    protected $funcs;
+
+    /**
+     * Constructor.
+     */
+    public function __construct($console)
+    {
+        parent::__construct($console);
+
+        $makepot = new MakePOT($console);
+        $this->funcs = array_keys( $makepot->rules );
+        $this->funcs[] = 'translate_nooped_plural';
+    }
+
+    /**
+     * Prints CLI usage.
+     */
+    public function usage()
+    {
+        $this->console->info('Usage: ');
+        $this->console->line('ecjia ecjia:gettext-textdomain [-i] <domain> <file>');
+        $this->console->line('Adds the string <domain> as a last argument to all i18n function calls in <file>');
+        $this->console->line('and prints the modified php file on standard output.');
+        $this->console->line('');
+        $this->console->line('Options:');
+        $this->console->info('    -i    Modifies the PHP file in place, instead of printing it to standard output.');
+        exit(1);
+    }
+
+    /**
+     * Adds textdomain to a single file.
+     *
+     * @see AddTextdomain::process_string()
+     *
+     * @param string $domain          Text domain.
+     * @param string $source_filename Filename with optional path.
+     * @param bool   $inplace         True to modifies the PHP file in place. False to print to standard output.
+     */
+    public function process_file( $domain, $source_filename, $inplace )
+    {
+        $new_source = $this->process_string( $domain, file_get_contents( $source_filename ) );
+
+        if ( $inplace ) {
+            $f = fopen( $source_filename, 'w' );
+            fwrite( $f, $new_source );
+            fclose( $f );
+        } else {
+            echo $new_source;
+        }
+    }
+
+    /**
+     * Adds textdomain to a string of PHP.
+     *
+     * Functions calls should be wrapped in opening and closing PHP delimiters as usual.
+     *
+     * @see AddTextdomain::process_tokens()
+     *
+     * @param string $domain Text domain.
+     * @param string $string PHP code to parse.
+     * @return string Modified source.
+     */
+    public function process_string( $domain, $string )
+    {
+        $tokens = token_get_all( $string );
+        return $this->process_tokens( $domain, $tokens );
+    }
+
+    /**
+     * Adds textdomain to a set of PHP tokens.
+     *
+     * @param string $domain Text domain.
+     * @param array  $tokens PHP tokens. An array of token identifiers. Each individual token identifier is either a
+     *                       single character (i.e.: ;, ., >, !, etc.), or a three element array containing the token
+     *                       index in element 0, the string content of the original token in element 1 and the line
+     *                       number in element 2.
+     * @return string Modified source.
+     */
+    public function process_tokens( $domain, $tokens )
+    {
+        $this->modified_contents = '';
+        $domain = addslashes( $domain );
+
+        $in_func = false;
+        $args_started = false;
+        $parens_balance = 0;
+        $found_domain = false;
+
+        foreach($tokens as $index => $token) {
+            $string_success = false;
+            if (is_array($token)) {
+                list($id, $text) = $token;
+                if (T_STRING == $id && in_array($text, $this->funcs)) {
+                    $in_func = true;
+                    $parens_balance = 0;
+                    $args_started = false;
+                    $found_domain = false;
+                } elseif (T_CONSTANT_ENCAPSED_STRING == $id && ("'$domain'" == $text || "\"$domain\"" == $text)) {
+                    if ($in_func && $args_started) {
+                        $found_domain = true;
+                    }
+                }
+                $token = $text;
+            } elseif ('(' == $token) {
+                $args_started = true;
+                ++$parens_balance;
+            } elseif (')' == $token) {
+                --$parens_balance;
+                if ($in_func && 0 == $parens_balance) {
+                    if ( ! $found_domain ) {
+                        $token = ", '$domain'";
+                        if ( T_WHITESPACE == $tokens[ $index - 1 ][0] ) {
+                            $token .= ' '; // Maintain code standards if previously present
+                            // Remove previous whitespace token to account for it.
+                            $this->modified_contents = trim( $this->modified_contents );
+                        }
+                        $token .= ')';
+                    }
+                    $in_func = false;
+                    $args_started = false;
+                    $found_domain = false;
+                }
+            }
+            $this->modified_contents .= $token;
+        }
+
+        return $this->modified_contents;
+    }
+
+}

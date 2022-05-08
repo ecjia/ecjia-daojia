@@ -146,7 +146,11 @@ class ObjectProphecy implements ProphecyInterface
             ), $methodProphecy);
         }
 
+<<<<<<< HEAD
         $methodName = $methodProphecy->getMethodName();
+=======
+        $methodName = strtolower($methodProphecy->getMethodName());
+>>>>>>> v2-test
 
         if (!isset($this->methodProphecies[$methodName])) {
             $this->methodProphecies[$methodName] = array();
@@ -168,6 +172,11 @@ class ObjectProphecy implements ProphecyInterface
             return $this->methodProphecies;
         }
 
+<<<<<<< HEAD
+=======
+        $methodName = strtolower($methodName);
+
+>>>>>>> v2-test
         if (!isset($this->methodProphecies[$methodName])) {
             return array();
         }
@@ -208,12 +217,21 @@ class ObjectProphecy implements ProphecyInterface
      * Checks that registered method predictions do not fail.
      *
      * @throws \Prophecy\Exception\Prediction\AggregateException If any of registered predictions fail
+<<<<<<< HEAD
+=======
+     * @throws \Prophecy\Exception\Call\UnexpectedCallException
+>>>>>>> v2-test
      */
     public function checkProphecyMethodsPredictions()
     {
         $exception = new AggregateException(sprintf("%s:\n", get_class($this->reveal())));
         $exception->setObjectProphecy($this);
 
+<<<<<<< HEAD
+=======
+        $this->callCenter->checkUnexpectedCalls();
+
+>>>>>>> v2-test
         foreach ($this->methodProphecies as $prophecies) {
             foreach ($prophecies as $prophecy) {
                 try {

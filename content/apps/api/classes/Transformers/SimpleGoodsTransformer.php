@@ -54,7 +54,10 @@
 namespace Ecjia\App\Api\Transformers;
 
 
-class SimpleGoodsTransformer extends Transformer
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
+
+class SimpleGoodsTransformer extends Transformer implements TransformerInterface
 {
 
 
@@ -69,9 +72,9 @@ class SimpleGoodsTransformer extends Transformer
             'shop_price'    => $data['shop_price'],
             'promote_price' => $data['promote_price'],
             'img'           => array(
-                'thumb'     => $photoTransformer->transformer($data['goods_img']),
-                'url'       => $photoTransformer->transformer($data['original_img']),
-                'small'     => $photoTransformer->transformer($data['goods_thumb'])
+                'thumb' => $photoTransformer->transformer($data['goods_img']),
+                'url'   => $photoTransformer->transformer($data['original_img']),
+                'small' => $photoTransformer->transformer($data['goods_thumb'])
             )
         );
 

@@ -14,6 +14,7 @@ namespace Symfony\Component\HttpFoundation\Session\Flash;
 /**
  * FlashBag flash message container.
  *
+<<<<<<< HEAD
  * \IteratorAggregate implementation is deprecated and will be removed in 3.0.
  *
  * @author Drak <drak@zikula.org>
@@ -42,6 +43,20 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
      * @param string $storageKey The key used to store flashes in the session
      */
     public function __construct($storageKey = '_sf2_flashes')
+=======
+ * @author Drak <drak@zikula.org>
+ */
+class FlashBag implements FlashBagInterface
+{
+    private $name = 'flashes';
+    private $flashes = [];
+    private $storageKey;
+
+    /**
+     * @param string $storageKey The key used to store flashes in the session
+     */
+    public function __construct(string $storageKey = '_symfony_flashes')
+>>>>>>> v2-test
     {
         $this->storageKey = $storageKey;
     }
@@ -54,7 +69,11 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
         return $this->name;
     }
 
+<<<<<<< HEAD
     public function setName($name)
+=======
+    public function setName(string $name)
+>>>>>>> v2-test
     {
         $this->name = $name;
     }
@@ -70,7 +89,11 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function add($type, $message)
+=======
+    public function add(string $type, $message)
+>>>>>>> v2-test
     {
         $this->flashes[$type][] = $message;
     }
@@ -78,7 +101,11 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function peek($type, array $default = array())
+=======
+    public function peek(string $type, array $default = [])
+>>>>>>> v2-test
     {
         return $this->has($type) ? $this->flashes[$type] : $default;
     }
@@ -94,7 +121,11 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function get($type, array $default = array())
+=======
+    public function get(string $type, array $default = [])
+>>>>>>> v2-test
     {
         if (!$this->has($type)) {
             return $default;
@@ -113,7 +144,11 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
     public function all()
     {
         $return = $this->peekAll();
+<<<<<<< HEAD
         $this->flashes = array();
+=======
+        $this->flashes = [];
+>>>>>>> v2-test
 
         return $return;
     }
@@ -121,7 +156,11 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function set($type, $messages)
+=======
+    public function set(string $type, $messages)
+>>>>>>> v2-test
     {
         $this->flashes[$type] = (array) $messages;
     }
@@ -137,9 +176,15 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function has($type)
     {
         return array_key_exists($type, $this->flashes) && $this->flashes[$type];
+=======
+    public function has(string $type)
+    {
+        return \array_key_exists($type, $this->flashes) && $this->flashes[$type];
+>>>>>>> v2-test
     }
 
     /**
@@ -165,6 +210,7 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
     {
         return $this->all();
     }
+<<<<<<< HEAD
 
     /**
      * Returns an iterator for flashes.
@@ -179,4 +225,6 @@ class FlashBag implements FlashBagInterface, \IteratorAggregate
 
         return new \ArrayIterator($this->all());
     }
+=======
+>>>>>>> v2-test
 }

@@ -38,16 +38,36 @@ class ExampleNode
      * @param string                     $title
      * @param ReflectionFunctionAbstract $function
      */
+<<<<<<< HEAD
     public function __construct($title, ReflectionFunctionAbstract $function)
     {
         $this->title    = $title;
+=======
+    public function __construct(string $title, ReflectionFunctionAbstract $function)
+    {
+        $this->setTitle($title);
+>>>>>>> v2-test
         $this->function = $function;
+    }
+
+    /**
+<<<<<<< HEAD
+     * @return string
+     */
+    public function getTitle()
+=======
+     * @param string $title
+     */
+    public function setTitle(string $title)
+    {
+      $this->title = $title;
     }
 
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
+>>>>>>> v2-test
     {
         return $this->title;
     }
@@ -55,7 +75,11 @@ class ExampleNode
     /**
      * @param bool $isPending
      */
+<<<<<<< HEAD
     public function markAsPending($isPending = true)
+=======
+    public function markAsPending(bool $isPending = true): void
+>>>>>>> v2-test
     {
         $this->isPending = $isPending;
     }
@@ -63,7 +87,11 @@ class ExampleNode
     /**
      * @return bool
      */
+<<<<<<< HEAD
     public function isPending()
+=======
+    public function isPending(): bool
+>>>>>>> v2-test
     {
         return $this->isPending;
     }
@@ -71,7 +99,11 @@ class ExampleNode
     /**
      * @return ReflectionFunctionAbstract
      */
+<<<<<<< HEAD
     public function getFunctionReflection()
+=======
+    public function getFunctionReflection(): ReflectionFunctionAbstract
+>>>>>>> v2-test
     {
         return $this->function;
     }
@@ -79,7 +111,11 @@ class ExampleNode
     /**
      * @param SpecificationNode $specification
      */
+<<<<<<< HEAD
     public function setSpecification(SpecificationNode $specification)
+=======
+    public function setSpecification(SpecificationNode $specification): void
+>>>>>>> v2-test
     {
         $this->specification = $specification;
     }
@@ -91,4 +127,15 @@ class ExampleNode
     {
         return $this->specification;
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @return int
+     */
+    public function getLineNumber(): int
+    {
+        return $this->function->isClosure() ? 0 : $this->function->getStartLine();
+    }
+>>>>>>> v2-test
 }

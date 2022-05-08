@@ -7,10 +7,18 @@ use PhpSpec\CodeAnalysis\TokenizedTypeHintRewriter;
 use PhpSpec\Loader\StreamWrapper;
 use PhpSpec\Loader\Transformer\InMemoryTypeHintIndex;
 use PhpSpec\Loader\Transformer\TypeHintRewriter;
+<<<<<<< HEAD
 
 class StreamWrapperTest extends \PHPUnit_Framework_Testcase
 {
     function setUp()
+=======
+use PHPUnit\Framework\TestCase;
+
+class StreamWrapperTest extends TestCase
+{
+    function setUp() : void
+>>>>>>> v2-test
     {
         $wrapper = new StreamWrapper();
         $wrapper->addTransformer(new TypeHintRewriter(new TokenizedTypeHintRewriter(new InMemoryTypeHintIndex(), new TokenizedNamespaceResolver())));
@@ -30,6 +38,10 @@ class StreamWrapperTest extends \PHPUnit_Framework_Testcase
         $method = $reflection->getMethod('it_requires_a_stdclass');
         $parameters = $method->getParameters();
 
+<<<<<<< HEAD
         $this->assertNull($parameters[0]->getClass());
+=======
+        $this->assertNull($parameters[0]->getType());
+>>>>>>> v2-test
     }
 }

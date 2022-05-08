@@ -25,6 +25,7 @@ class KeyExists extends Command
     {
         return 'EXISTS';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class KeyExists extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

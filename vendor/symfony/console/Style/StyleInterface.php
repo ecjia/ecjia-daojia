@@ -20,6 +20,7 @@ interface StyleInterface
 {
     /**
      * Formats a command title.
+<<<<<<< HEAD
      *
      * @param string $message
      */
@@ -31,6 +32,15 @@ interface StyleInterface
      * @param string $message
      */
     public function section($message);
+=======
+     */
+    public function title(string $message);
+
+    /**
+     * Formats a section title.
+     */
+    public function section(string $message);
+>>>>>>> v2-test
 
     /**
      * Formats a list.
@@ -87,6 +97,7 @@ interface StyleInterface
     /**
      * Asks a question.
      *
+<<<<<<< HEAD
      * @param string        $question
      * @param string|null   $default
      * @param callable|null $validator
@@ -94,36 +105,57 @@ interface StyleInterface
      * @return mixed
      */
     public function ask($question, $default = null, $validator = null);
+=======
+     * @return mixed
+     */
+    public function ask(string $question, ?string $default = null, callable $validator = null);
+>>>>>>> v2-test
 
     /**
      * Asks a question with the user input hidden.
      *
+<<<<<<< HEAD
      * @param string        $question
      * @param callable|null $validator
      *
      * @return mixed
      */
     public function askHidden($question, $validator = null);
+=======
+     * @return mixed
+     */
+    public function askHidden(string $question, callable $validator = null);
+>>>>>>> v2-test
 
     /**
      * Asks for confirmation.
      *
+<<<<<<< HEAD
      * @param string $question
      * @param bool   $default
      *
      * @return bool
      */
     public function confirm($question, $default = true);
+=======
+     * @return bool
+     */
+    public function confirm(string $question, bool $default = true);
+>>>>>>> v2-test
 
     /**
      * Asks a choice question.
      *
+<<<<<<< HEAD
      * @param string          $question
      * @param array           $choices
+=======
+>>>>>>> v2-test
      * @param string|int|null $default
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public function choice($question, array $choices, $default = null);
 
     /**
@@ -146,6 +178,24 @@ interface StyleInterface
      * @param int $step Number of steps to advance
      */
     public function progressAdvance($step = 1);
+=======
+    public function choice(string $question, array $choices, $default = null);
+
+    /**
+     * Add newline(s).
+     */
+    public function newLine(int $count = 1);
+
+    /**
+     * Starts the progress output.
+     */
+    public function progressStart(int $max = 0);
+
+    /**
+     * Advances the progress output X steps.
+     */
+    public function progressAdvance(int $step = 1);
+>>>>>>> v2-test
 
     /**
      * Finishes the progress output.

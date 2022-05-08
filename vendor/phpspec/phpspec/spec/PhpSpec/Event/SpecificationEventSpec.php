@@ -19,8 +19,13 @@ class SpecificationEventSpec extends ObjectBehavior
 
     function it_is_an_event()
     {
+<<<<<<< HEAD
         $this->shouldBeAnInstanceOf('Symfony\Component\EventDispatcher\Event');
         $this->shouldBeAnInstanceOf('PhpSpec\Event\EventInterface');
+=======
+        $this->shouldBeAnInstanceOf('PhpSpec\Event\BaseEvent');
+        $this->shouldBeAnInstanceOf('PhpSpec\Event\PhpSpecEvent');
+>>>>>>> v2-test
     }
 
     function it_provides_a_link_to_suite($suite)
@@ -35,11 +40,32 @@ class SpecificationEventSpec extends ObjectBehavior
 
     function it_provides_a_link_to_time()
     {
+<<<<<<< HEAD
         $this->getTime()->shouldReturn(10);
+=======
+        $this->getTime()->shouldReturn(10.0);
+>>>>>>> v2-test
     }
 
     function it_provides_a_link_to_result()
     {
         $this->getResult()->shouldReturn(Example::FAILED);
     }
+<<<<<<< HEAD
+=======
+
+    function it_initializes_a_default_result(SpecificationNode $specification)
+    {
+        $this->beConstructedWith($specification);
+
+        $this->getResult()->shouldReturn(Example::PASSED);
+    }
+
+    function it_initializes_a_default_time(SpecificationNode $specification)
+    {
+        $this->beConstructedWith($specification);
+
+        $this->getTime()->shouldReturn((double) 0.0);
+    }
+>>>>>>> v2-test
 }

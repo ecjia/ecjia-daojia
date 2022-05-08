@@ -11,7 +11,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithStringsSpec extends ObjectBehavior
       {
@@ -53,7 +56,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithArraysSpec extends ObjectBehavior
       {
@@ -97,6 +103,62 @@ Feature: Developer is shown diffs
                ]
       """
 
+<<<<<<< HEAD
+=======
+  Scenario: Array of object diffing
+    Given the spec file "spec/Diffs/DiffExample2/ClassWithArraysOfObjectsSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\Diffs\DiffExample2;
+
+      use PhpSpec\ObjectBehavior;
+
+      class ClassWithArraysOfObjectsSpec extends ObjectBehavior
+      {
+          function it_is_equal()
+          {
+              $std = new \stdClass;
+              $std->test = 'anotherProperty';
+              $this->getArray()->shouldBeLike([$std]);
+          }
+      }
+
+      """
+    And the class file "src/Diffs/DiffExample2/ClassWithArraysOfObjects.php" contains:
+      """
+      <?php
+
+      namespace Diffs\DiffExample2;
+
+      class ClassWithArraysOfObjects
+      {
+          public function getArray()
+          {
+              $std = new \stdClass;
+              $std->property = 'testValue';
+              $std->hash = 'fooHash';
+
+              return [$std];
+          }
+      }
+
+      """
+    When I run phpspec with the "verbose" option
+    Then I should see:
+      """
+          -        'test' => 'anotherProperty'
+      """
+    And I should see:
+      """
+          +        'property' => 'testValue'
+      """
+    And I should see:
+      """
+          +        'hash' => 'fooHash'
+      """
+
+>>>>>>> v2-test
   Scenario: Object diffing
     Given the spec file "spec/Diffs/DiffExample3/ClassWithObjectsSpec.php" contains:
       """
@@ -105,7 +167,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithObjectsSpec extends ObjectBehavior
       {
@@ -160,7 +225,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample4;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use Diffs\DiffExample4\ClassBeingMocked;
 
       class ClassUnderSpecificationSpec extends ObjectBehavior
@@ -216,7 +284,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample5;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use Diffs\DiffExample5\ClassBeingMocked;
 
       class ClassUnderSpecificationSpec extends ObjectBehavior
@@ -280,7 +351,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample6;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use Diffs\DiffExample6\ClassBeingMocked;
 
       class ClassUnderSpecificationSpec extends ObjectBehavior
@@ -347,7 +421,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample7;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use Diffs\DiffExample7\ClassBeingMocked;
 
       class ClassUnderSpecificationSpec extends ObjectBehavior
@@ -392,6 +469,7 @@ Feature: Developer is shown diffs
       }
       """
     When I run phpspec with the "verbose" option
+<<<<<<< HEAD
     Then I should see:
       """
             method call:
@@ -399,6 +477,9 @@ Feature: Developer is shown diffs
             on Double\Diffs\DiffExample7\ClassBeingMocked\P14 was not expected, expected calls were:
               - methodOne(exact("value"))
       """
+=======
+    Then I should see the error that 'methodTwo("value")' was not expected on "Double\Diffs\DiffExample7\ClassBeingMocked\P13"
+>>>>>>> v2-test
 
   Scenario: Unexpected method call when another prophecy for that call with not matching arguments exists
     Given the spec file "spec/Diffs/DiffExample8/ClassUnderSpecificationSpec.php" contains:
@@ -408,7 +489,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample8;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use Diffs\DiffExample8\ClassBeingMocked;
 
       class ClassUnderSpecificationSpec extends ObjectBehavior
@@ -456,6 +540,7 @@ Feature: Developer is shown diffs
       }
       """
     When I run phpspec with the "verbose" option
+<<<<<<< HEAD
     Then I should see:
       """
             method call:
@@ -464,6 +549,9 @@ Feature: Developer is shown diffs
               - methodTwo(exact("value"))
               - methodOne(exact("another value"))
       """
+=======
+    Then I should see the error that 'methodTwo("another value")' was not expected on "Double\Diffs\DiffExample8\ClassBeingMocked\P14"
+>>>>>>> v2-test
 
   Scenario: Array diffing with long strings
     Given the spec file "spec/Diffs/DiffExample9/ClassWithArraysSpec.php" contains:
@@ -473,7 +561,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample9;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithArraysSpec extends ObjectBehavior
       {
@@ -521,7 +612,10 @@ Feature: Developer is shown diffs
       namespace spec\Diffs\DiffExample10;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ClassWithArraysSpec extends ObjectBehavior
       {
@@ -564,3 +658,45 @@ Feature: Developer is shown diffs
             +            Integer euismod in nunc nec lobortis",
                ]
       """
+<<<<<<< HEAD
+=======
+
+  Scenario: Integer diff in verbose mode
+    Given the spec file "spec/Diffs/DiffExample11/CalculatorSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\Diffs\DiffExample11;
+
+      use PhpSpec\ObjectBehavior;
+
+      class CalculatorSpec extends ObjectBehavior
+      {
+          function it_is_equal()
+          {
+              $this->calculate()->shouldReturn(2);
+          }
+      }
+
+      """
+    And the class file "src/Diffs/DiffExample11/Calculator.php" contains:
+      """
+      <?php
+
+      namespace Diffs\DiffExample11;
+
+      class Calculator
+      {
+          public function calculate()
+          {
+              return 1;
+          }
+      }
+
+      """
+    When I run phpspec with the "verbose" option
+    Then I should see:
+      """
+        expected [integer:2], but got [integer:1]
+      """
+>>>>>>> v2-test

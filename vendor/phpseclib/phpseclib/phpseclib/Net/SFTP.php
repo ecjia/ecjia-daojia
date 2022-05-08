@@ -109,11 +109,19 @@ class SFTP extends SSH2
      * The request ID exists in the off chance that a packet is sent out-of-order.  Of course, this library doesn't support
      * concurrent actions, so it's somewhat academic, here.
      *
+<<<<<<< HEAD
      * @var int
      * @see self::_send_sftp_packet()
      * @access private
      */
     var $request_id = false;
+=======
+     * @var boolean
+     * @see self::_send_sftp_packet()
+     * @access private
+     */
+    var $use_request_id = false;
+>>>>>>> v2-test
 
     /**
      * The Packet Type
@@ -251,6 +259,28 @@ class SFTP extends SSH2
     var $canonicalize_paths = true;
 
     /**
+<<<<<<< HEAD
+=======
+     * Request Buffers
+     *
+     * @see self::_get_sftp_packet()
+     * @var array
+     * @access private
+     */
+    var $requestBuffer = array();
+
+    /**
+     * Preserve timestamps on file downloads / uploads
+     *
+     * @see self::get()
+     * @see self::put()
+     * @var bool
+     * @access private
+     */
+    var $preserveTime = false;
+
+    /**
+>>>>>>> v2-test
      * Default Constructor.
      *
      * Connects to an SFTP server
@@ -388,20 +418,33 @@ class SFTP extends SSH2
         if (!defined('NET_SFTP_QUEUE_SIZE')) {
             define('NET_SFTP_QUEUE_SIZE', 32);
         }
+<<<<<<< HEAD
+=======
+        if (!defined('NET_SFTP_UPLOAD_QUEUE_SIZE')) {
+            define('NET_SFTP_UPLOAD_QUEUE_SIZE', 1024);
+        }
+>>>>>>> v2-test
     }
 
     /**
      * Login
      *
      * @param string $username
+<<<<<<< HEAD
      * @param string $password
+=======
+>>>>>>> v2-test
      * @return bool
      * @access public
      */
     function login($username)
     {
+<<<<<<< HEAD
         $args = func_get_args();
         if (!call_user_func_array(array(&$this, '_login'), $args)) {
+=======
+        if (!call_user_func_array('parent::login', func_get_args())) {
+>>>>>>> v2-test
             return false;
         }
 
@@ -519,7 +562,11 @@ class SFTP extends SSH2
         }
         */
 
+<<<<<<< HEAD
         $this->request_id = 1;
+=======
+        $this->use_request_id = true;
+>>>>>>> v2-test
 
         /*
          A Note on SFTPv4/5/6 support:
@@ -708,7 +755,11 @@ class SFTP extends SSH2
             }
         }
 
+<<<<<<< HEAD
         if ($path[0] != '/') {
+=======
+        if (!strlen($path) || $path[0] != '/') {
+>>>>>>> v2-test
             $path = $this->pwd . '/' . $path;
         }
 
@@ -833,6 +884,10 @@ class SFTP extends SSH2
             }
             if (is_array($this->_query_stat_cache($this->_realpath($dir . '/' . $value)))) {
                 $temp = $this->_nlist_helper($dir . '/' . $value, true, $relativeDir . $value . '/');
+<<<<<<< HEAD
+=======
+                $temp = is_array($temp) ? $temp : array();
+>>>>>>> v2-test
                 $result = array_merge($result, $temp);
             } else {
                 $result[] = $relativeDir . $value;
@@ -864,7 +919,21 @@ class SFTP extends SSH2
                 unset($files[$key]);
                 continue;
             }
+<<<<<<< HEAD
             if ($key != '.' && $key != '..' && is_array($this->_query_stat_cache($this->_realpath($dir . '/' . $key)))) {
+=======
+            $is_directory = false;
+            if ($key != '.' && $key != '..') {
+                if ($this->use_stat_cache) {
+                    $is_directory = is_array($this->_query_stat_cache($this->_realpath($dir . '/' . $key)));
+                } else {
+                    $stat = $this->lstat($dir . '/' . $key);
+                    $is_directory = $stat && $stat['type'] === NET_SFTP_TYPE_DIRECTORY;
+                }
+            }
+
+            if ($is_directory) {
+>>>>>>> v2-test
                 $depth++;
                 $files[$key] = $this->rawlist($dir . '/' . $key, true);
                 $depth--;
@@ -1176,6 +1245,12 @@ class SFTP extends SSH2
         $temp = &$this->stat_cache;
         $max = count($dirs) - 1;
         foreach ($dirs as $i => $dir) {
+<<<<<<< HEAD
+=======
+            if (!is_array($temp)) {
+                return false;
+            }
+>>>>>>> v2-test
             if ($i === $max) {
                 unset($temp[$dir]);
                 return true;
@@ -1192,7 +1267,11 @@ class SFTP extends SSH2
      *
      * Mainly used by file_exists
      *
+<<<<<<< HEAD
      * @param string $dir
+=======
+     * @param string $path
+>>>>>>> v2-test
      * @return mixed
      * @access private
      */
@@ -1202,6 +1281,12 @@ class SFTP extends SSH2
 
         $temp = &$this->stat_cache;
         foreach ($dirs as $dir) {
+<<<<<<< HEAD
+=======
+            if (!is_array($temp)) {
+                return null;
+            }
+>>>>>>> v2-test
             if (!isset($temp[$dir])) {
                 return null;
             }
@@ -1744,6 +1829,11 @@ class SFTP extends SSH2
      * Creates a directory.
      *
      * @param string $dir
+<<<<<<< HEAD
+=======
+     * @param int $mode
+     * @param bool $recursive
+>>>>>>> v2-test
      * @return bool
      * @access public
      */
@@ -1754,9 +1844,12 @@ class SFTP extends SSH2
         }
 
         $dir = $this->_realpath($dir);
+<<<<<<< HEAD
         // by not providing any permissions, hopefully the server will use the logged in users umask - their
         // default permissions.
         $attr = $mode == -1 ? "\0\0\0\0" : pack('N2', NET_SFTP_ATTR_PERMISSIONS, $mode & 07777);
+=======
+>>>>>>> v2-test
 
         if ($recursive) {
             $dirs = explode('/', preg_replace('#/(?=/)|/$#', '', $dir));
@@ -1767,24 +1860,43 @@ class SFTP extends SSH2
             for ($i = 0; $i < count($dirs); $i++) {
                 $temp = array_slice($dirs, 0, $i + 1);
                 $temp = implode('/', $temp);
+<<<<<<< HEAD
                 $result = $this->_mkdir_helper($temp, $attr);
+=======
+                $result = $this->_mkdir_helper($temp, $mode);
+>>>>>>> v2-test
             }
             return $result;
         }
 
+<<<<<<< HEAD
         return $this->_mkdir_helper($dir, $attr);
+=======
+        return $this->_mkdir_helper($dir, $mode);
+>>>>>>> v2-test
     }
 
     /**
      * Helper function for directory creation
      *
      * @param string $dir
+<<<<<<< HEAD
      * @return bool
      * @access private
      */
     function _mkdir_helper($dir, $attr)
     {
         if (!$this->_send_sftp_packet(NET_SFTP_MKDIR, pack('Na*a*', strlen($dir), $dir, $attr))) {
+=======
+     * @param int $mode
+     * @return bool
+     * @access private
+     */
+    function _mkdir_helper($dir, $mode)
+    {
+        // send SSH_FXP_MKDIR without any attributes (that's what the \0\0\0\0 is doing)
+        if (!$this->_send_sftp_packet(NET_SFTP_MKDIR, pack('Na*a*', strlen($dir), $dir, "\0\0\0\0"))) {
+>>>>>>> v2-test
             return false;
         }
 
@@ -1803,6 +1915,13 @@ class SFTP extends SSH2
             return false;
         }
 
+<<<<<<< HEAD
+=======
+        if ($mode !== -1) {
+            $this->chmod($mode, $dir);
+        }
+
+>>>>>>> v2-test
         return true;
     }
 
@@ -1994,10 +2113,17 @@ class SFTP extends SSH2
         $sent = 0;
         $size = $size < 0 ? ($size & 0x7FFFFFFF) + 0x80000000 : $size;
 
+<<<<<<< HEAD
         $sftp_packet_size = 4096; // PuTTY uses 4096
         // make the SFTP packet be exactly 4096 bytes by including the bytes in the NET_SFTP_WRITE packets "header"
         $sftp_packet_size-= strlen($handle) + 25;
         $i = 0;
+=======
+        $sftp_packet_size = $this->max_sftp_packet;
+        // make the SFTP packet be exactly the SFTP packet size by including the bytes in the NET_SFTP_WRITE packets "header"
+        $sftp_packet_size-= strlen($handle) + 25;
+        $i = $j = 0;
+>>>>>>> v2-test
         while ($dataCallback || ($size === 0 || $sent < $size)) {
             if ($dataCallback) {
                 $temp = call_user_func($dataCallback, $sftp_packet_size);
@@ -2013,7 +2139,11 @@ class SFTP extends SSH2
 
             $subtemp = $offset + $sent;
             $packet = pack('Na*N3a*', strlen($handle), $handle, $subtemp / 4294967296, $subtemp, strlen($temp), $temp);
+<<<<<<< HEAD
             if (!$this->_send_sftp_packet(NET_SFTP_WRITE, $packet)) {
+=======
+            if (!$this->_send_sftp_packet(NET_SFTP_WRITE, $packet, $j)) {
+>>>>>>> v2-test
                 if ($mode & self::SOURCE_LOCAL_FILE) {
                     fclose($fp);
                 }
@@ -2025,8 +2155,14 @@ class SFTP extends SSH2
             }
 
             $i++;
+<<<<<<< HEAD
 
             if ($i == NET_SFTP_QUEUE_SIZE) {
+=======
+            $j++;
+
+            if ($i == NET_SFTP_UPLOAD_QUEUE_SIZE) {
+>>>>>>> v2-test
                 if (!$this->_read_put_responses($i)) {
                     $i = 0;
                     break;
@@ -2044,7 +2180,18 @@ class SFTP extends SSH2
         }
 
         if ($mode & self::SOURCE_LOCAL_FILE) {
+<<<<<<< HEAD
             fclose($fp);
+=======
+            if ($this->preserveTime) {
+                $stat = fstat($fp);
+                $this->touch($remote_file, $stat['mtime'], $stat['atime']);
+            }
+
+            if (isset($fp) && is_resource($fp)) {
+                fclose($fp);
+            }
+>>>>>>> v2-test
         }
 
         return $this->_close_handle($handle);
@@ -2128,10 +2275,18 @@ class SFTP extends SSH2
      * @param string $local_file
      * @param int $offset
      * @param int $length
+<<<<<<< HEAD
      * @return mixed
      * @access public
      */
     function get($remote_file, $local_file = false, $offset = 0, $length = -1)
+=======
+     * @param callable|null $progressCallback
+     * @return mixed
+     * @access public
+     */
+    function get($remote_file, $local_file = false, $offset = 0, $length = -1, $progressCallback = null)
+>>>>>>> v2-test
     {
         if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return false;
@@ -2166,7 +2321,11 @@ class SFTP extends SSH2
             $res_offset = $stat['size'];
         } else {
             $res_offset = 0;
+<<<<<<< HEAD
             if ($local_file !== false) {
+=======
+            if ($local_file !== false && !is_callable($local_file)) {
+>>>>>>> v2-test
                 $fp = fopen($local_file, 'wb');
                 if (!$fp) {
                     return false;
@@ -2176,7 +2335,11 @@ class SFTP extends SSH2
             }
         }
 
+<<<<<<< HEAD
         $fclose_check = $local_file !== false && !is_resource($local_file);
+=======
+        $fclose_check = $local_file !== false && !is_callable($local_file) && !is_resource($local_file);
+>>>>>>> v2-test
 
         $start = $offset;
         $read = 0;
@@ -2189,7 +2352,11 @@ class SFTP extends SSH2
                 $packet_size = $length > 0 ? min($this->max_sftp_packet, $length - $read) : $this->max_sftp_packet;
 
                 $packet = pack('Na*N3', strlen($handle), $handle, $tempoffset / 4294967296, $tempoffset, $packet_size);
+<<<<<<< HEAD
                 if (!$this->_send_sftp_packet(NET_SFTP_READ, $packet)) {
+=======
+                if (!$this->_send_sftp_packet(NET_SFTP_READ, $packet, $i)) {
+>>>>>>> v2-test
                     if ($fclose_check) {
                         fclose($fp);
                     }
@@ -2204,15 +2371,27 @@ class SFTP extends SSH2
                 break;
             }
 
+<<<<<<< HEAD
+=======
+            $packets_sent = $i - 1;
+
+>>>>>>> v2-test
             $clear_responses = false;
             while ($i > 0) {
                 $i--;
 
                 if ($clear_responses) {
+<<<<<<< HEAD
                     $this->_get_sftp_packet();
                     continue;
                 } else {
                     $response = $this->_get_sftp_packet();
+=======
+                    $this->_get_sftp_packet($packets_sent - $i);
+                    continue;
+                } else {
+                    $response = $this->_get_sftp_packet($packets_sent - $i);
+>>>>>>> v2-test
                 }
 
                 switch ($this->packet_type) {
@@ -2221,9 +2400,20 @@ class SFTP extends SSH2
                         $offset+= strlen($temp);
                         if ($local_file === false) {
                             $content.= $temp;
+<<<<<<< HEAD
                         } else {
                             fputs($fp, $temp);
                         }
+=======
+                        } elseif (is_callable($local_file)) {
+                            $local_file($temp);
+                        } else {
+                            fputs($fp, $temp);
+                        }
+                        if (is_callable($progressCallback)) {
+                            call_user_func($progressCallback, $offset);
+                        }
+>>>>>>> v2-test
                         $temp = null;
                         break;
                     case NET_SFTP_STATUS:
@@ -2255,6 +2445,14 @@ class SFTP extends SSH2
 
         if ($fclose_check) {
             fclose($fp);
+<<<<<<< HEAD
+=======
+
+            if ($this->preserveTime) {
+                $stat = $this->stat($remote_file);
+                touch($local_file, $stat['mtime'], $stat['atime']);
+            }
+>>>>>>> v2-test
         }
 
         if (!$this->_close_handle($handle)) {
@@ -2676,6 +2874,10 @@ class SFTP extends SSH2
      *
      * @param string $path
      * @param string $prop
+<<<<<<< HEAD
+=======
+     * @param mixed $type
+>>>>>>> v2-test
      * @return mixed
      * @access private
      */
@@ -2916,15 +3118,30 @@ class SFTP extends SSH2
      *
      * @param int $type
      * @param string $data
+<<<<<<< HEAD
+=======
+     * @param int $request_id
+>>>>>>> v2-test
      * @see self::_get_sftp_packet()
      * @see self::_send_channel_packet()
      * @return bool
      * @access private
      */
+<<<<<<< HEAD
     function _send_sftp_packet($type, $data)
     {
         $packet = $this->request_id !== false ?
             pack('NCNa*', strlen($data) + 5, $type, $this->request_id, $data) :
+=======
+    function _send_sftp_packet($type, $data, $request_id = 1)
+    {
+        // in SSH2.php the timeout is cumulative per function call. eg. exec() will
+        // timeout after 10s. but for SFTP.php it's cumulative per packet
+        $this->curTimeout = $this->timeout;
+
+        $packet = $this->use_request_id ?
+            pack('NCNa*', strlen($data) + 5, $type, $request_id, $data) :
+>>>>>>> v2-test
             pack('NCa*',  strlen($data) + 1, $type, $data);
 
         $start = strtok(microtime(), ' ') + strtok(''); // http://php.net/microtime#61838
@@ -2950,6 +3167,23 @@ class SFTP extends SSH2
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Resets a connection for re-use
+     *
+     * @param int $reason
+     * @access private
+     */
+    function _reset_connection($reason)
+    {
+        parent::_reset_connection($reason);
+        $this->use_request_id = false;
+        $this->pwd = false;
+        $this->requestBuffer = array();
+    }
+
+    /**
+>>>>>>> v2-test
      * Receives SFTP Packets
      *
      * See '6. General Packet Format' of draft-ietf-secsh-filexfer-13 for more info.
@@ -2962,9 +3196,24 @@ class SFTP extends SSH2
      * @return string
      * @access private
      */
+<<<<<<< HEAD
     function _get_sftp_packet()
     {
         $this->curTimeout = false;
+=======
+    function _get_sftp_packet($request_id = null)
+    {
+        if (isset($request_id) && isset($this->requestBuffer[$request_id])) {
+            $this->packet_type = $this->requestBuffer[$request_id]['packet_type'];
+            $temp = $this->requestBuffer[$request_id]['packet'];
+            unset($this->requestBuffer[$request_id]);
+            return $temp;
+        }
+
+        // in SSH2.php the timeout is cumulative per function call. eg. exec() will
+        // timeout after 10s. but for SFTP.php it's cumulative per packet
+        $this->curTimeout = $this->timeout;
+>>>>>>> v2-test
 
         $start = strtok(microtime(), ' ') + strtok(''); // http://php.net/microtime#61838
 
@@ -2985,6 +3234,16 @@ class SFTP extends SSH2
         $tempLength = $length;
         $tempLength-= strlen($this->packet_buffer);
 
+<<<<<<< HEAD
+=======
+
+        // 256 * 1024 is what SFTP_MAX_MSG_LENGTH is set to in OpenSSH's sftp-common.h
+        if ($tempLength > 256 * 1024) {
+            user_error('Invalid SFTP packet size');
+            return false;
+        }
+
+>>>>>>> v2-test
         // SFTP packet type and data payload
         while ($tempLength > 0) {
             $temp = $this->_get_channel_packet(self::CHANNEL, true);
@@ -3001,8 +3260,13 @@ class SFTP extends SSH2
 
         $this->packet_type = ord($this->_string_shift($this->packet_buffer));
 
+<<<<<<< HEAD
         if ($this->request_id !== false) {
             $this->_string_shift($this->packet_buffer, 4); // remove the request id
+=======
+        if ($this->use_request_id) {
+            extract(unpack('Npacket_id', $this->_string_shift($this->packet_buffer, 4))); // remove the request id
+>>>>>>> v2-test
             $length-= 5; // account for the request id and the packet type
         } else {
             $length-= 1; // account for the packet type
@@ -3025,6 +3289,17 @@ class SFTP extends SSH2
             }
         }
 
+<<<<<<< HEAD
+=======
+        if (isset($request_id) && $this->use_request_id && $packet_id != $request_id) {
+            $this->requestBuffer[$packet_id] = array(
+                'packet_type' => $this->packet_type,
+                'packet' => $packet
+            );
+            return $this->_get_sftp_packet($request_id);
+        }
+
+>>>>>>> v2-test
         return $packet;
     }
 
@@ -3101,4 +3376,27 @@ class SFTP extends SSH2
         $this->pwd = false;
         parent::_disconnect($reason);
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Enable Date Preservation
+     *
+     * @access public
+     */
+    function enableDatePreservation()
+    {
+        $this->preserveTime = true;
+    }
+
+    /**
+     * Disable Date Preservation
+     *
+     * @access public
+     */
+    function disableDatePreservation()
+    {
+        $this->preserveTime = false;
+    }
+>>>>>>> v2-test
 }

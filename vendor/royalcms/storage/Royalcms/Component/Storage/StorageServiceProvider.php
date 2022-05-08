@@ -2,6 +2,7 @@
 
 namespace Royalcms\Component\Storage;
 
+<<<<<<< HEAD
 use Royalcms\Component\Support\ServiceProvider;
 
 class StorageServiceProvider extends ServiceProvider
@@ -14,6 +15,14 @@ class StorageServiceProvider extends ServiceProvider
      */
     protected $defer = true;
 
+=======
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Royalcms\Component\Support\ServiceProvider;
+
+class StorageServiceProvider extends ServiceProvider implements DeferrableProvider
+{
+
+>>>>>>> v2-test
 	/**
 	 * Register the service provider.
 	 *
@@ -25,12 +34,20 @@ class StorageServiceProvider extends ServiceProvider
 
 		$this->registerManager();
 
+<<<<<<< HEAD
 		$this->royalcms->bindShared('storage.disk', function($royalcms)
+=======
+		$this->royalcms->singleton('storage.disk', function($royalcms)
+>>>>>>> v2-test
 		{
 			return $royalcms['storage']->disk($this->getDefaultDriver());
 		});
 
+<<<<<<< HEAD
 		$this->royalcms->bindShared('storage.cloud', function($royalcms)
+=======
+		$this->royalcms->singleton('storage.cloud', function($royalcms)
+>>>>>>> v2-test
 		{
 			return $royalcms['storage']->disk($this->getCloudDriver());
 		});
@@ -43,7 +60,11 @@ class StorageServiceProvider extends ServiceProvider
 	 */
 	protected function registerManager()
 	{
+<<<<<<< HEAD
 		$this->royalcms->bindShared('storage', function($royalcms)
+=======
+		$this->royalcms->singleton('storage', function($royalcms)
+>>>>>>> v2-test
 		{
 			return new FilesystemManager($royalcms);
 		});
@@ -56,7 +77,11 @@ class StorageServiceProvider extends ServiceProvider
 	 */
 	protected function getDefaultDriver()
 	{
+<<<<<<< HEAD
 		return $this->royalcms['config']['filesystems.default'];
+=======
+		return $this->royalcms['config']['storage.default'];
+>>>>>>> v2-test
 	}
 
 	/**
@@ -66,7 +91,11 @@ class StorageServiceProvider extends ServiceProvider
 	 */
 	protected function getCloudDriver()
 	{
+<<<<<<< HEAD
 		return $this->royalcms['config']['filesystems.cloud'];
+=======
+		return $this->royalcms['config']['storage.cloud'];
+>>>>>>> v2-test
 	}
 
     /**
@@ -90,7 +119,10 @@ class StorageServiceProvider extends ServiceProvider
 
         return [
             $dir . "/Contracts/StorageInterface.php",
+<<<<<<< HEAD
             $dir . "/Adapter/Aliyunoss.php",
+=======
+>>>>>>> v2-test
             $dir . "/Adapter/Direct.php",
             $dir . "/Adapter/Local.php",
             $dir . "/Filesystem.php",

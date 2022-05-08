@@ -18,25 +18,16 @@ use League\CommonMark\Inline\Element\HtmlInline;
 use League\CommonMark\InlineParserContext;
 use League\CommonMark\Util\RegexHelper;
 
-class HtmlInlineParser extends AbstractInlineParser
+final class HtmlInlineParser implements InlineParserInterface
 {
-    /**
-     * @return string[]
-     */
-    public function getCharacters()
+    public function getCharacters(): array
     {
         return ['<'];
     }
 
-    /**
-     * @param InlineParserContext $inlineContext
-     *
-     * @return bool
-     */
-    public function parse(InlineParserContext $inlineContext)
+    public function parse(InlineParserContext $inlineContext): bool
     {
-        $cursor = $inlineContext->getCursor();
-        if ($m = $cursor->match('/^' . RegexHelper::PARTIAL_HTMLTAG . '/i')) {
+        if ($m = $inlineContext->getCursor()->match('/^' . RegexHelper::PARTIAL_HTMLTAG . '/i')) {
             $inlineContext->getContainer()->appendChild(new HtmlInline($m));
 
             return true;

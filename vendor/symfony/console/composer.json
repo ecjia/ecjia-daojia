@@ -1,8 +1,13 @@
 {
     "name": "symfony/console",
     "type": "library",
+<<<<<<< HEAD
     "description": "Symfony Console Component",
     "keywords": [],
+=======
+    "description": "Eases the creation of beautiful and testable command line interfaces",
+    "keywords": ["console", "cli", "command line", "terminal"],
+>>>>>>> v2-test
     "homepage": "https://symfony.com",
     "license": "MIT",
     "authors": [
@@ -16,6 +21,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": "^5.5.9|>=7.0.8",
         "symfony/polyfill-mbstring": "~1.0",
         "symfony/debug": "~2.8|~3.0|~4.0"
@@ -28,15 +34,47 @@
         "symfony/process": "~3.3|~4.0",
         "psr/log": "~1.0"
     },
+=======
+        "php": ">=7.2.5",
+        "symfony/polyfill-mbstring": "~1.0",
+        "symfony/polyfill-php73": "^1.8",
+        "symfony/polyfill-php80": "^1.15",
+        "symfony/service-contracts": "^1.1|^2",
+        "symfony/string": "^5.1"
+    },
+    "require-dev": {
+        "symfony/config": "^4.4|^5.0",
+        "symfony/event-dispatcher": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/lock": "^4.4|^5.0",
+        "symfony/process": "^4.4|^5.0",
+        "symfony/var-dumper": "^4.4|^5.0",
+        "psr/log": "~1.0"
+    },
+    "provide": {
+        "psr/log-implementation": "1.0"
+    },
+>>>>>>> v2-test
     "suggest": {
         "symfony/event-dispatcher": "",
         "symfony/lock": "",
         "symfony/process": "",
+<<<<<<< HEAD
         "psr/log-implementation": "For using the console logger"
     },
     "conflict": {
         "symfony/dependency-injection": "<3.4",
         "symfony/process": "<3.3"
+=======
+        "psr/log": "For using the console logger"
+    },
+    "conflict": {
+        "symfony/dependency-injection": "<4.4",
+        "symfony/dotenv": "<5.1",
+        "symfony/event-dispatcher": "<4.4",
+        "symfony/lock": "<4.4",
+        "symfony/process": "<4.4"
+>>>>>>> v2-test
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Console\\": "" },
@@ -44,10 +82,14 @@
             "/Tests/"
         ]
     },
+<<<<<<< HEAD
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "3.4-dev"
         }
     }
+=======
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

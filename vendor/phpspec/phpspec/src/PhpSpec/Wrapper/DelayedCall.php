@@ -23,7 +23,11 @@ class DelayedCall
     /**
      * @param callable $callable
      */
+<<<<<<< HEAD
     public function __construct($callable)
+=======
+    public function __construct(callable $callable)
+>>>>>>> v2-test
     {
         $this->callable = $callable;
     }
@@ -34,8 +38,14 @@ class DelayedCall
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public function __call($method, array $arguments)
     {
         return call_user_func($this->callable, $method, $arguments);
+=======
+    public function __call(string $method, array $arguments)
+    {
+        return \call_user_func($this->callable, $method, $arguments);
+>>>>>>> v2-test
     }
 }

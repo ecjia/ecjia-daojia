@@ -49,10 +49,27 @@ namespace Ecjia\App\Sms\Models;
 
 use Royalcms\Component\Database\Eloquent\Model;
 
+/**
+ * Class SmsTemplateModel
+ * @package Ecjia\App\Sms\Models
+ *
+ * @method \Royalcms\Component\Database\Eloquent\Builder sms()
+ * @method \Royalcms\Component\Database\Eloquent\Builder plugin($code)
+ */
 class SmsTemplateModel extends Model
 {
     protected $table = 'notification_templates';
-    
+
+    /**
+     * AttributeModel constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->connection = config('ecjia.database_connection', 'default');
+
+        parent::__construct($attributes);
+    }
     
     /**
      * 限制查询只包括短信模板。
@@ -90,7 +107,7 @@ class SmsTemplateModel extends Model
     /**
      * 获取模板内容
      * @param string $code
-     * @return array template_id, template_content
+     * @return array|bool template_id, template_content
      */
     public function getTemplateContentByCode($code, $plugin)
     {
@@ -107,11 +124,11 @@ class SmsTemplateModel extends Model
     /**
      * 获取模板ID
      * @param string $code
-     * @return array template_id, template_content
+     * @return array|bool template_id, template_content
      */
-    public function getTemplateIdByCode($code)
+    public function getTemplateIdByCode($code, $plugin)
     {
-        $data = $this->getTemplateByCode($code);
+        $data = $this->getTemplateByCode($code, $plugin);
     
         if ($data) {
             return array($data['template_id']);

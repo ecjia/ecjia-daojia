@@ -20,25 +20,22 @@ use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Util\Xml;
 
-class IndentedCodeRenderer implements BlockRendererInterface
+final class IndentedCodeRenderer implements BlockRendererInterface
 {
     /**
-     * @param AbstractBlock            $block
+     * @param IndentedCode             $block
      * @param ElementRendererInterface $htmlRenderer
      * @param bool                     $inTightList
      *
      * @return HtmlElement
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
+    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, bool $inTightList = false)
     {
         if (!($block instanceof IndentedCode)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
+            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
         }
 
-        $attrs = [];
-        foreach ($block->getData('attributes', []) as $key => $value) {
-            $attrs[$key] = Xml::escape($value, true);
-        }
+        $attrs = $block->getData('attributes', []);
 
         return new HtmlElement(
             'pre',

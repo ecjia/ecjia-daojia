@@ -18,6 +18,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 class ImmutableEventDispatcher implements EventDispatcherInterface
 {
+<<<<<<< HEAD
     /**
      * The proxied dispatcher.
      *
@@ -30,6 +31,10 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
      *
      * @param EventDispatcherInterface $dispatcher The proxied event dispatcher
      */
+=======
+    private $dispatcher;
+
+>>>>>>> v2-test
     public function __construct(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
@@ -38,15 +43,25 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function dispatch($eventName, Event $event = null)
     {
         return $this->dispatcher->dispatch($eventName, $event);
+=======
+    public function dispatch(object $event, string $eventName = null): object
+    {
+        return $this->dispatcher->dispatch($event, $eventName);
+>>>>>>> v2-test
     }
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function addListener($eventName, $listener, $priority = 0)
+=======
+    public function addListener(string $eventName, $listener, int $priority = 0)
+>>>>>>> v2-test
     {
         throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
@@ -62,7 +77,11 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function removeListener($eventName, $listener)
+=======
+    public function removeListener(string $eventName, $listener)
+>>>>>>> v2-test
     {
         throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
@@ -78,7 +97,11 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getListeners($eventName = null)
+=======
+    public function getListeners(string $eventName = null)
+>>>>>>> v2-test
     {
         return $this->dispatcher->getListeners($eventName);
     }
@@ -86,7 +109,11 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getListenerPriority($eventName, $listener)
+=======
+    public function getListenerPriority(string $eventName, $listener)
+>>>>>>> v2-test
     {
         return $this->dispatcher->getListenerPriority($eventName, $listener);
     }
@@ -94,7 +121,11 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function hasListeners($eventName = null)
+=======
+    public function hasListeners(string $eventName = null)
+>>>>>>> v2-test
     {
         return $this->dispatcher->hasListeners($eventName);
     }

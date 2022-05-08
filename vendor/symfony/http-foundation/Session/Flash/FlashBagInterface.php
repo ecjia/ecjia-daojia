@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 interface FlashBagInterface extends SessionBagInterface
 {
     /**
+<<<<<<< HEAD
      * Adds a flash message for type.
      *
      * @param string $type
@@ -35,6 +36,20 @@ interface FlashBagInterface extends SessionBagInterface
      * @param string|array $message
      */
     public function set($type, $message);
+=======
+     * Adds a flash message for the given type.
+     *
+     * @param mixed $message
+     */
+    public function add(string $type, $message);
+
+    /**
+     * Registers one or more messages for a given type.
+     *
+     * @param string|array $messages
+     */
+    public function set(string $type, $messages);
+>>>>>>> v2-test
 
     /**
      * Gets flash messages for a given type.
@@ -44,7 +59,11 @@ interface FlashBagInterface extends SessionBagInterface
      *
      * @return array
      */
+<<<<<<< HEAD
     public function peek($type, array $default = array());
+=======
+    public function peek(string $type, array $default = []);
+>>>>>>> v2-test
 
     /**
      * Gets all flash messages.
@@ -56,12 +75,20 @@ interface FlashBagInterface extends SessionBagInterface
     /**
      * Gets and clears flash from the stack.
      *
+<<<<<<< HEAD
      * @param string $type
      * @param array  $default Default value if $type does not exist
      *
      * @return array
      */
     public function get($type, array $default = array());
+=======
+     * @param array $default Default value if $type does not exist
+     *
+     * @return array
+     */
+    public function get(string $type, array $default = []);
+>>>>>>> v2-test
 
     /**
      * Gets and clears flashes from the stack.
@@ -72,19 +99,28 @@ interface FlashBagInterface extends SessionBagInterface
 
     /**
      * Sets all flash messages.
+<<<<<<< HEAD
      *
      * @param array $messages
+=======
+>>>>>>> v2-test
      */
     public function setAll(array $messages);
 
     /**
      * Has flash messages for a given type?
      *
+<<<<<<< HEAD
      * @param string $type
      *
      * @return bool
      */
     public function has($type);
+=======
+     * @return bool
+     */
+    public function has(string $type);
+>>>>>>> v2-test
 
     /**
      * Returns a list of all defined types.

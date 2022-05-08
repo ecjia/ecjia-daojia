@@ -34,7 +34,11 @@ class PropertyNotFoundException extends FractureException
      * @param mixed  $subject
      * @param string $property
      */
+<<<<<<< HEAD
     public function __construct($message, $subject, $property)
+=======
+    public function __construct(string $message, $subject, $property)
+>>>>>>> v2-test
     {
         parent::__construct($message);
 
@@ -53,7 +57,11 @@ class PropertyNotFoundException extends FractureException
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getProperty()
+=======
+    public function getProperty(): string
+>>>>>>> v2-test
     {
         return $this->property;
     }

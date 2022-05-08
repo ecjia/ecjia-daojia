@@ -16,6 +16,10 @@ namespace Symfony\Component\HttpKernel\Event;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
+<<<<<<< HEAD
 class FinishRequestEvent extends KernelEvent
+=======
+final class FinishRequestEvent extends KernelEvent
+>>>>>>> v2-test
 {
 }

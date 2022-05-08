@@ -41,10 +41,14 @@ class ReportPendingItem
         $this->event = $event;
     }
 
+<<<<<<< HEAD
     /**
      *
      */
     public function write()
+=======
+    public function write(): void
+>>>>>>> v2-test
     {
         $this->template->render(Template::DIR.'/Template/ReportPending.html', array(
             'title' => $this->event->getTitle(),

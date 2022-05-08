@@ -48,17 +48,15 @@
 namespace Ecjia\System\BaseController;
 
 use ecjia;
-use Ecjia\System\Frameworks\Component\ShowMessage\Options\JsonShowMessageOption;
-use Ecjia\System\Frameworks\Component\ShowMessage\Options\PjaxShowMessageOption;
-use Ecjia\System\Frameworks\Component\ShowMessage\ShowMessage;
+use Ecjia\Component\ShowMessage\Options\JsonShowMessageOption;
+use Ecjia\Component\ShowMessage\Options\PjaxShowMessageOption;
+use Ecjia\Component\ShowMessage\ShowMessage;
 use ecjia_utility;
-use RC_DB;
 use RC_Redirect;
 use RC_Response;
 use RC_Package;
 use Royalcms\Component\Routing\Controller as RoyalcmsController;
 
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * ECJIA 控制器基础类
@@ -144,14 +142,7 @@ abstract class EcjiaController extends RoyalcmsController
         static::$controller = & $this;
         static::$view_object = & $this->view;
 
-        if (ecjia::is_debug_display() && config('system.debug_display_query') === true) {
-            RC_DB::enableQueryLog();
-        }
-
         $this->load_hooks();
-
-        RC_Response::header('X-XSS-Protection', '1; mode=block');
-        RC_Response::header('X-Frame-Options', 'SAMEORIGIN');
     }
     
     
@@ -170,6 +161,13 @@ abstract class EcjiaController extends RoyalcmsController
     public function getRequest()
     {
         return $this->request;
+    }
+
+    public function setResponse($response)
+    {
+        royalcms()->instance('response', $response);
+
+        return $response;
     }
 
     protected function registerServiceProvider()
@@ -191,14 +189,24 @@ abstract class EcjiaController extends RoyalcmsController
      */
     public function isVerificationPublicRoute()
     {
-        $route_m = (ROUTE_M == config('system.admin_entrance')) ? 'system' : ROUTE_M;
-        $route_controller = $route_m . '/' . ROUTE_C . '/' . ROUTE_A;
+        $route_controller = $this->getRouteController();
         if (in_array($route_controller, $this->public_route)) {
             return true;
         } else {
             return false;
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getRouteController()
+    {
+        $route_m = (royalcms('default-router')->getModule() == config('system.admin_entrance')) ? 'system' : royalcms('default-router')->getModule();
+        $route_controller = $route_m . '/' . royalcms('default-router')->getController() . '/' . royalcms('default-router')->getAction();
+        return $route_controller;
+    }
+
 
     /**
      * Ajax输出
@@ -382,7 +390,7 @@ abstract class EcjiaController extends RoyalcmsController
      *
      * @param string $msg 显示内容
      */
-    protected function displayContent($content, $content_type = null)
+    public function displayContent($content, $content_type = null)
     {
         $response = royalcms('response');
         if ($content_type) {
@@ -414,6 +422,25 @@ abstract class EcjiaController extends RoyalcmsController
         $resource_name = RC_Package::package('app::'.$app)->loadTemplate($resource_name, true);
         return $this->display($resource_name, $cache_id, $show, $options);
     }
+
+    /**
+     * 显示视图
+     *
+     * @param string   $app            应用目录
+     * @param string   $tpl_file       模板文件
+     * @param null     $cache_id       缓存id
+     * @param string   $cache_path     缓存目录
+     * @param bool     $stat           是否返回解析结果
+     * @param string   $content_type   文件类型
+     * @param string   $charset        字符集
+     * @param bool     $show           是否显示
+     * @return mixed $stat = false, $content_type = 'text/html', $charset = ''
+     */
+    public function fetchAppTemplate($app, $resource_name, $cache_id = null, $options = array())
+    {
+        $resource_name = RC_Package::package('app::'.$app)->loadTemplate($resource_name, true);
+        return $this->fetch($resource_name, $cache_id, $options);
+    }
     
     /**
      * 载入项目常量
@@ -430,7 +457,7 @@ abstract class EcjiaController extends RoyalcmsController
      * @param       string      $message      	消息内容
      * @param       int         $type        	消息类型， (0:html, 1:alert, 2:json, 3:xml)(0:错误，1:成功，2:消息, 3:询问)
      * @param		array		$options		消息可选参数
-     * @return      string | \Royalcms\Component\HttpKernel\Response
+     * @return      string | \Royalcms\Component\Http\Response
      */
     public function showmessage($message, $msgtype = ecjia::MSGTYPE_HTML, $options = array()) {
         $state = $msgtype & 0x0F;
@@ -472,11 +499,18 @@ abstract class EcjiaController extends RoyalcmsController
 		// ALERT消息提醒
 		elseif ($type === ecjia::MSGTYPE_ALERT) {
             //alert支持PJAXurl的跳转
-            $url = '';
-            if (!empty($options) && !empty($options['pjaxurl'])) {
-                $url = $options['pjaxurl'];
+            if ($options instanceof PjaxShowMessageOption) {
+                $options->setMessage($message);
+                $options->setState($state);
+                return (new ShowMessage($message, $msgtype, $options))->getResponse();
             }
-            return $this->alert($message, $url);
+            else {
+                $url = '';
+                if (!empty($options) && !empty($options['pjaxurl'])) {
+                    $url = $options['pjaxurl'];
+                }
+                return $this->alert($message, $url);
+            }
         }
  
         // JSON消息提醒

@@ -7,9 +7,18 @@ feel free to do this, but remember to follow this few simple rules:
 Branching strategy
 -------------------
 
+<<<<<<< HEAD
 - __Always__ base your changes on the `master` branch (all new development happens here),
 - When you create Pull Request, always select `master` branch as target, otherwise it
 will be closed (this is selected by default).
+=======
+At any given point there are three active branches:
+
+* Bug fixes that apply to old versions should target the current bugfix branch, which will be named after the last minor 
+version supported (e.g. `5.3`, `6.2`)
+* New features, refactoring and general cleanup should target the `main` branch and maintain backward compatibility
+* Any changes or refactoring that would introduce a backward incompatibility should target the `next` branch
+>>>>>>> v2-test
 
 Coverage
 --------

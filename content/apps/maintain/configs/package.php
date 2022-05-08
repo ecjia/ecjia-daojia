@@ -56,10 +56,23 @@ return array(
 	'description' => __('使用户方便维护指定功能', 'maintain'),
 	'author' 	  => 'ECJIA TEAM',			/* 作者 */
 	'website' 	  => 'http://www.ecjia.com',	/* 网址 */
-	'version' 	  => '1.30.0',					/* 版本号 */
+	'version' 	  => '2.0.0',					/* 版本号 */
 	'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'   => 'Ecjia\App\Maintain',
     'provider'    => 'MaintainServiceProvider',
+    'autoload'    => array(
+        'psr-4' => array(
+            "Ecjia\\App\\Maintain\\" => "classes/"
+        )
+    ),
+    'discover' => array(
+        'providers' => array(
+            "Ecjia\\App\\Maintain\\MaintainServiceProvider"
+        ),
+        'aliases' => [
+
+        ]
+    ),
 );
 
 // end

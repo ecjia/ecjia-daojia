@@ -1,10 +1,10 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
-<!-- {extends file="ecjia.dwt.php"} -->
+<!-- {extends file="plugin_config.dwt.php"} -->
 
 <!-- {block name="footer"} -->
 <!-- {/block} -->
 
-<!-- {block name="main_content"} -->
+<!-- {block name="admin_plugin_list"} -->
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->

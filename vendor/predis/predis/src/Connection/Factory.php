@@ -20,10 +20,21 @@ use Predis\Command\RawCommand;
  */
 class Factory implements FactoryInterface
 {
+<<<<<<< HEAD
     protected $schemes = array(
         'tcp' => 'Predis\Connection\StreamConnection',
         'unix' => 'Predis\Connection\StreamConnection',
         'redis' => 'Predis\Connection\StreamConnection',
+=======
+    private $defaults = array();
+
+    protected $schemes = array(
+        'tcp' => 'Predis\Connection\StreamConnection',
+        'unix' => 'Predis\Connection\StreamConnection',
+        'tls' => 'Predis\Connection\StreamConnection',
+        'redis' => 'Predis\Connection\StreamConnection',
+        'rediss' => 'Predis\Connection\StreamConnection',
+>>>>>>> v2-test
         'http' => 'Predis\Connection\WebdisConnection',
     );
 
@@ -116,6 +127,32 @@ class Factory implements FactoryInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Assigns a default set of parameters applied to new connections.
+     *
+     * The set of parameters passed to create a new connection have precedence
+     * over the default values set for the connection factory.
+     *
+     * @param array $parameters Set of connection parameters.
+     */
+    public function setDefaultParameters(array $parameters)
+    {
+        $this->defaults = $parameters;
+    }
+
+    /**
+     * Returns the default set of parameters applied to new connections.
+     *
+     * @return array
+     */
+    public function getDefaultParameters()
+    {
+        return $this->defaults;
+    }
+
+    /**
+>>>>>>> v2-test
      * Creates a connection parameters instance from the supplied argument.
      *
      * @param mixed $parameters Original connection parameters.
@@ -124,7 +161,21 @@ class Factory implements FactoryInterface
      */
     protected function createParameters($parameters)
     {
+<<<<<<< HEAD
         return Parameters::create($parameters);
+=======
+        if (is_string($parameters)) {
+            $parameters = Parameters::parse($parameters);
+        } else {
+            $parameters = $parameters ?: array();
+        }
+
+        if ($this->defaults) {
+            $parameters += $this->defaults;
+        }
+
+        return new Parameters($parameters);
+>>>>>>> v2-test
     }
 
     /**
@@ -136,6 +187,7 @@ class Factory implements FactoryInterface
     {
         $parameters = $connection->getParameters();
 
+<<<<<<< HEAD
         if (isset($parameters->password)) {
             $connection->addConnectCommand(
                 new RawCommand(array('AUTH', $parameters->password))
@@ -143,6 +195,19 @@ class Factory implements FactoryInterface
         }
 
         if (isset($parameters->database)) {
+=======
+        if (isset($parameters->password) && strlen($parameters->password)) {
+            $cmdAuthArgs = isset($parameters->username) && strlen($parameters->username)
+                ? array('AUTH', $parameters->username, $parameters->password)
+                : array('AUTH', $parameters->password);
+
+            $connection->addConnectCommand(
+                new RawCommand($cmdAuthArgs)
+            );
+        }
+
+        if (isset($parameters->database) && strlen($parameters->database)) {
+>>>>>>> v2-test
             $connection->addConnectCommand(
                 new RawCommand(array('SELECT', $parameters->database))
             );

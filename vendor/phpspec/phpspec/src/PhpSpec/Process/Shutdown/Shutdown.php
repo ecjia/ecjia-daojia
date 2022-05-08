@@ -22,18 +22,30 @@ final class Shutdown
         $this->actions = array();
     }
 
+<<<<<<< HEAD
     public function registerShutdown()
+=======
+    public function registerShutdown(): void
+>>>>>>> v2-test
     {
         error_reporting(error_reporting() & ~E_ERROR);
         register_shutdown_function(array($this, 'runShutdown'));
     }
 
+<<<<<<< HEAD
     public function registerAction(ShutdownActionInterface $action)
+=======
+    public function registerAction(ShutdownAction $action): void
+>>>>>>> v2-test
     {
         $this->actions[] = $action;
     }
 
+<<<<<<< HEAD
     public function runShutdown()
+=======
+    public function runShutdown(): void
+>>>>>>> v2-test
     {
         $error = $this->getFatalError();
 

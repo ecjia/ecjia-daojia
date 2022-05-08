@@ -24,7 +24,11 @@ final class ClassFileAnalyser
      * @param string $class
      * @return int
      */
+<<<<<<< HEAD
     public function getStartLineOfFirstMethod($class)
+=======
+    public function getStartLineOfFirstMethod(string $class): int
+>>>>>>> v2-test
     {
         $tokens = $this->getTokensForClass($class);
         $index = $this->offsetForDocblock($tokens, $this->findIndexOfFirstMethod($tokens));
@@ -35,7 +39,11 @@ final class ClassFileAnalyser
      * @param string $class
      * @return int
      */
+<<<<<<< HEAD
     public function getEndLineOfLastMethod($class)
+=======
+    public function getEndLineOfLastMethod(string $class): int
+>>>>>>> v2-test
     {
         $tokens = $this->getTokensForClass($class);
         $index = $this->findEndOfLastMethod($tokens, $this->findIndexOfClassEnd($tokens));
@@ -46,10 +54,17 @@ final class ClassFileAnalyser
      * @param string $class
      * @return bool
      */
+<<<<<<< HEAD
     public function classHasMethods($class)
     {
         foreach ($this->getTokensForClass($class) as $token) {
             if (!is_array($token)) {
+=======
+    public function classHasMethods(string $class): bool
+    {
+        foreach ($this->getTokensForClass($class) as $token) {
+            if (!\is_array($token)) {
+>>>>>>> v2-test
                 continue;
             }
 
@@ -66,7 +81,11 @@ final class ClassFileAnalyser
      * @param string $methodName
      * @return int
      */
+<<<<<<< HEAD
     public function getEndLineOfNamedMethod($class, $methodName)
+=======
+    public function getEndLineOfNamedMethod(string $class, string $methodName): int
+>>>>>>> v2-test
     {
         $tokens = $this->getTokensForClass($class);
 
@@ -78,9 +97,15 @@ final class ClassFileAnalyser
      * @param array $tokens
      * @return int
      */
+<<<<<<< HEAD
     private function findIndexOfFirstMethod(array $tokens)
     {
         for ($i = 0, $max = count($tokens); $i < $max; $i++) {
+=======
+    private function findIndexOfFirstMethod(array $tokens): int
+    {
+        for ($i = 0, $max = \count($tokens); $i < $max; $i++) {
+>>>>>>> v2-test
             if ($this->tokenIsFunction($tokens[$i])) {
                 return $i;
             }
@@ -92,7 +117,11 @@ final class ClassFileAnalyser
      * @param int $index
      * @return int
      */
+<<<<<<< HEAD
     private function offsetForDocblock(array $tokens, $index)
+=======
+    private function offsetForDocblock(array $tokens, int $index): int
+>>>>>>> v2-test
     {
         $allowedTokens = array(
             T_FINAL,
@@ -107,11 +136,19 @@ final class ClassFileAnalyser
         for ($i = $index - 1; $i >= 0; $i--) {
             $token = $tokens[$i];
 
+<<<<<<< HEAD
             if (!is_array($token)) {
                 return $index;
             }
 
             if (in_array($token[0], $allowedTokens)) {
+=======
+            if (!\is_array($token)) {
+                return $index;
+            }
+
+            if (\in_array($token[0], $allowedTokens)) {
+>>>>>>> v2-test
                 continue;
             }
 
@@ -127,11 +164,19 @@ final class ClassFileAnalyser
      * @param $class
      * @return array
      */
+<<<<<<< HEAD
     private function getTokensForClass($class)
     {
         $hash = md5($class);
 
         if (!in_array($hash, $this->tokenLists)) {
+=======
+    private function getTokensForClass($class): array
+    {
+        $hash = md5($class);
+
+        if (!\in_array($hash, $this->tokenLists)) {
+>>>>>>> v2-test
             $this->tokenLists[$hash] = token_get_all($class);
         }
 
@@ -143,7 +188,11 @@ final class ClassFileAnalyser
      * @param string $methodName
      * @return int
      */
+<<<<<<< HEAD
     private function findIndexOfNamedMethodEnd(array $tokens, $methodName)
+=======
+    private function findIndexOfNamedMethodEnd(array $tokens, string $methodName): int
+>>>>>>> v2-test
     {
         $index = $this->findIndexOfNamedMethod($tokens, $methodName);
         return $this->findIndexOfMethodOrClassEnd($tokens, $index);
@@ -155,6 +204,7 @@ final class ClassFileAnalyser
      * @return int
      * @throws NamedMethodNotFoundException
      */
+<<<<<<< HEAD
     private function findIndexOfNamedMethod(array $tokens, $methodName)
     {
         $searching = false;
@@ -163,6 +213,16 @@ final class ClassFileAnalyser
             $token = $tokens[$i];
 
             if (!is_array($token)) {
+=======
+    private function findIndexOfNamedMethod(array $tokens, string $methodName): int
+    {
+        $searching = false;
+
+        for ($i = 0, $max = \count($tokens); $i < $max; $i++) {
+            $token = $tokens[$i];
+
+            if (!\is_array($token)) {
+>>>>>>> v2-test
                 continue;
             }
 
@@ -191,11 +251,19 @@ final class ClassFileAnalyser
      * @param int $index
      * @return int
      */
+<<<<<<< HEAD
     private function findIndexOfMethodOrClassEnd(array $tokens, $index)
     {
         $braceCount = 0;
 
         for ($i = $index, $max = count($tokens); $i < $max; $i++) {
+=======
+    private function findIndexOfMethodOrClassEnd(array $tokens, int $index): int
+    {
+        $braceCount = 0;
+
+        for ($i = $index, $max = \count($tokens); $i < $max; $i++) {
+>>>>>>> v2-test
             $token = $tokens[$i];
 
             if ('{' === $token || $this->isSpecialBraceToken($token)) {
@@ -212,9 +280,15 @@ final class ClassFileAnalyser
         }
     }
 
+<<<<<<< HEAD
     private function isSpecialBraceToken($token)
     {
         if (!is_array($token)) {
+=======
+    private function isSpecialBraceToken($token): bool
+    {
+        if (!\is_array($token)) {
+>>>>>>> v2-test
             return false;
         }
 
@@ -225,19 +299,32 @@ final class ClassFileAnalyser
      * @param mixed $token
      * @return bool
      */
+<<<<<<< HEAD
     private function tokenIsFunction($token)
     {
         return is_array($token) && $token[0] === T_FUNCTION;
+=======
+    private function tokenIsFunction($token): bool
+    {
+        return \is_array($token) && $token[0] === T_FUNCTION;
+>>>>>>> v2-test
     }
 
     /**
      * @param array $tokens
      * @return int
      */
+<<<<<<< HEAD
     private function findIndexOfClassEnd(array $tokens)
     {
         $classTokens = array_filter($tokens, function ($token) {
             return is_array($token) && $token[0] === T_CLASS;
+=======
+    private function findIndexOfClassEnd(array $tokens): int
+    {
+        $classTokens = array_filter($tokens, function ($token) {
+            return \is_array($token) && $token[0] === T_CLASS;
+>>>>>>> v2-test
         });
         $classTokenIndex = key($classTokens);
         return $this->findIndexOfMethodOrClassEnd($tokens, $classTokenIndex) - 1;
@@ -248,7 +335,11 @@ final class ClassFileAnalyser
      * @param int $index
      * @return int
      */
+<<<<<<< HEAD
     public function findEndOfLastMethod(array $tokens, $index)
+=======
+    public function findEndOfLastMethod(array $tokens, int $index): int
+>>>>>>> v2-test
     {
         for ($i = $index - 1; $i > 0; $i--) {
             if ($tokens[$i] == "}") {

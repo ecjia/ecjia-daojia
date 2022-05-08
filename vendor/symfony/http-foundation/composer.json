@@ -1,7 +1,11 @@
 {
     "name": "symfony/http-foundation",
     "type": "library",
+<<<<<<< HEAD
     "description": "Symfony HttpFoundation Component",
+=======
+    "description": "Defines an object-oriented layer for the HTTP specification",
+>>>>>>> v2-test
     "keywords": [],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,6 +20,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.3.9",
         "symfony/polyfill-mbstring": "~1.1"
     },
@@ -25,14 +30,36 @@
     "autoload": {
         "psr-4": { "Symfony\\Component\\HttpFoundation\\": "" },
         "classmap": [ "Resources/stubs" ],
+=======
+        "php": ">=7.2.5",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/polyfill-mbstring": "~1.1",
+        "symfony/polyfill-php80": "^1.15"
+    },
+    "require-dev": {
+        "predis/predis": "~1.0",
+        "symfony/cache": "^4.4|^5.0",
+        "symfony/mime": "^4.4|^5.0",
+        "symfony/expression-language": "^4.4|^5.0"
+    },
+    "suggest" : {
+        "symfony/mime": "To use the file extension guesser"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\HttpFoundation\\": "" },
+>>>>>>> v2-test
         "exclude-from-classmap": [
             "/Tests/"
         ]
     },
+<<<<<<< HEAD
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.7-dev"
         }
     }
+=======
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

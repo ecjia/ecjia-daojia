@@ -1,9 +1,29 @@
 {
     "name": "doctrine/dbal",
     "type": "library",
-    "description": "Database Abstraction Layer",
-    "keywords": ["dbal", "database", "persistence", "queryobject"],
-    "homepage": "http://www.doctrine-project.org",
+    "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
+    "keywords": [
+        "abstraction",
+        "database",
+        "dbal",
+        "db2",
+        "mariadb",
+        "mssql",
+        "mysql",
+        "pgsql",
+        "postgresql",
+        "oci8",
+        "oracle",
+        "pdo",
+        "queryobject",
+        "sasql",
+        "sql",
+        "sqlanywhere",
+        "sqlite",
+        "sqlserver",
+        "sqlsrv"
+    ],
+    "homepage": "https://www.doctrine-project.org/projects/dbal.html",
     "license": "MIT",
     "authors": [
         {"name": "Guilherme Blanco", "email": "guilhermeblanco@gmail.com"},
@@ -12,29 +32,39 @@
         {"name": "Jonathan Wage", "email": "jonwage@gmail.com"}
     ],
     "require": {
-        "php": ">=5.4",
-        "doctrine/common": "~2.4"
+        "php": "^7.3 || ^8",
+        "ext-pdo": "*",
+        "doctrine/cache": "^1.0",
+        "doctrine/event-manager": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*",
-        "symfony/console": "2.*"
+        "doctrine/coding-standard": "^8.1",
+        "jetbrains/phpstorm-stubs": "^2019.1",
+        "phpstan/phpstan": "^0.12.40",
+        "phpunit/phpunit": "^9.4",
+        "psalm/plugin-phpunit": "^0.10.0",
+        "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
+        "vimeo/psalm": "^3.17.2"
     },
     "suggest": {
         "symfony/console": "For helpful console commands such as SQL execution and import of files."
     },
     "bin": ["bin/doctrine-dbal"],
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.3.0"
+        }
+    },
     "autoload": {
-        "psr-0": { "Doctrine\\DBAL\\": "lib/" }
+        "psr-4": { "Doctrine\\DBAL\\": "lib/Doctrine/DBAL" }
     },
     "autoload-dev": {
-        "psr-0": { "Doctrine\\Tests\\": "tests/" }
+        "psr-4": { "Doctrine\\Tests\\": "tests/Doctrine/Tests" }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.6.x-dev"
+            "dev-master": "4.0.x-dev"
         }
-    },
-    "archive": {
-        "exclude": ["!vendor", "tests", "*phpunit.xml", ".travis.yml", "build.xml", "build.properties", "composer.phar"]
     }
 }

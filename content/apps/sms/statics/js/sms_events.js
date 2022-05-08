@@ -20,37 +20,7 @@
 								ecjia.admin.showmessage(data);
 							})
 						}
-					}, {ok:js_lang_events.ok, cancel:js_lang_events.cancel});
-				} 
-			});
-	    	
-	    	$('.all_close').on('click', function() {
-				var $this = $(this);
-				var message = $this.attr('data-msg');
-				var url = $this.attr('data-href');
-				if (message != undefined) {
-					smoke.confirm(message, function(e) {
-						if (e) {
-							$.get(url, function(data){
-								ecjia.admin.showmessage(data);
-							})
-						}
-					}, {ok:js_lang_events.ok, cancel:js_lang_events.cancel});
-				} 
-			});
-	    	
-	    	$('.all_open').on('click', function() {
-				var $this = $(this);
-				var message = $this.attr('data-msg');
-				var url = $this.attr('data-href');
-				if (message != undefined) {
-					smoke.confirm(message, function(e) {
-						if (e) {
-							$.get(url, function(data){
-								ecjia.admin.showmessage(data);
-							})
-						}
-					}, {ok:js_lang_events.ok, cancel:js_lang_events.cancel});
+					}, {ok:js_lang_sms_events.ok, cancel:js_lang_sms_events.cancel});
 				} 
 			});
         },

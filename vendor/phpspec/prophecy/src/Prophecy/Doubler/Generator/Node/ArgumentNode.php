@@ -19,18 +19,31 @@ namespace Prophecy\Doubler\Generator\Node;
 class ArgumentNode
 {
     private $name;
+<<<<<<< HEAD
     private $typeHint;
+=======
+>>>>>>> v2-test
     private $default;
     private $optional    = false;
     private $byReference = false;
     private $isVariadic  = false;
 
+<<<<<<< HEAD
+=======
+    /** @var ArgumentTypeNode */
+    private $typeNode;
+
+>>>>>>> v2-test
     /**
      * @param string $name
      */
     public function __construct($name)
     {
         $this->name = $name;
+<<<<<<< HEAD
+=======
+        $this->typeNode = new ArgumentTypeNode();
+>>>>>>> v2-test
     }
 
     public function getName()
@@ -38,6 +51,7 @@ class ArgumentNode
         return $this->name;
     }
 
+<<<<<<< HEAD
     public function getTypeHint()
     {
         return $this->typeHint;
@@ -46,6 +60,16 @@ class ArgumentNode
     public function setTypeHint($typeHint = null)
     {
         $this->typeHint = $typeHint;
+=======
+    public function setTypeNode(ArgumentTypeNode $typeNode)
+    {
+        $this->typeNode = $typeNode;
+    }
+
+    public function getTypeNode() : ArgumentTypeNode
+    {
+        return $this->typeNode;
+>>>>>>> v2-test
     }
 
     public function hasDefault()
@@ -88,4 +112,46 @@ class ArgumentNode
     {
         return $this->isVariadic;
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @deprecated use getArgumentTypeNode instead
+     * @return string|null
+     */
+    public function getTypeHint()
+    {
+        $type = $this->typeNode->getNonNullTypes() ? $this->typeNode->getNonNullTypes()[0] : null;
+
+        return $type ? ltrim($type, '\\') : null;
+    }
+
+    /**
+     * @deprecated use setArgumentTypeNode instead
+     * @param string|null $typeHint
+     */
+    public function setTypeHint($typeHint = null)
+    {
+        $this->typeNode = ($typeHint === null) ? new ArgumentTypeNode() : new ArgumentTypeNode($typeHint);
+    }
+
+    /**
+     * @deprecated use getArgumentTypeNode instead
+     * @return bool
+     */
+    public function isNullable()
+    {
+        return $this->typeNode->canUseNullShorthand();
+    }
+
+    /**
+     * @deprecated use getArgumentTypeNode instead
+     * @param bool $isNullable
+     */
+    public function setAsNullable($isNullable = true)
+    {
+        $nonNullTypes = $this->typeNode->getNonNullTypes();
+        $this->typeNode = $isNullable ? new ArgumentTypeNode('null', ...$nonNullTypes) : new ArgumentTypeNode(...$nonNullTypes);
+    }
+>>>>>>> v2-test
 }

@@ -46,6 +46,9 @@
 //
 namespace Ecjia\App\Api\BaseControllers;
 
+use Ecjia\App\Api\BaseControllers\Traits\EcjiaApiTemplateTrait;
+use Ecjia\App\Api\BaseControllers\User\VisitorUserSession;
+use Ecjia\Component\Contracts\EcjiaTemplateFileLoader;
 use RC_Hook;
 use RC_Session;
 use RC_Config;
@@ -54,43 +57,52 @@ use RC_Config;
  * api_front
  * @author will
  */
-abstract class EcjiaApiFrontController extends EcjiaApi
+abstract class EcjiaApiFrontController extends EcjiaApi implements EcjiaTemplateFileLoader
 {
+    use EcjiaApiTemplateTrait;
 
-	public function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         $this->authSession();
-        
-	}
+
+    }
 
 
-	protected function session_start()
+    protected function session_start()
     {
         if ($this->api_driver == 'local') {
             return null;
         }
 
-		RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
-			return RC_Config::get('session.session_name');
-		});
-	
-		RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
-			return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
-		});
-	
-		RC_Session::start();
-	}
-	
-	/**
-	 * 登录session授权
-	 */
-	public function authSession()
+        RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
+            return RC_Config::get('session.session_name');
+        });
+
+        RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
+            return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
+        });
+
+        RC_Session::start();
+    }
+
+    /**
+     * 游客状态也需要设置一下session值
+     */
+    protected function visitorSession()
+    {
+        (new VisitorUserSession)->resetSession();
+    }
+
+    /**
+     * 登录session授权
+     */
+    public function authSession()
     {
 
-	}
-	
+    }
+
 }
 
 // end

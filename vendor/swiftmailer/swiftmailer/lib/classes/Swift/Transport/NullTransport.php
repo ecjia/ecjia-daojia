@@ -16,14 +16,22 @@
 class Swift_Transport_NullTransport implements Swift_Transport
 {
     /** The event dispatcher from the plugin API */
+<<<<<<< HEAD
     private $_eventDispatcher;
+=======
+    private $eventDispatcher;
+>>>>>>> v2-test
 
     /**
      * Constructor.
      */
     public function __construct(Swift_Events_EventDispatcher $eventDispatcher)
     {
+<<<<<<< HEAD
         $this->_eventDispatcher = $eventDispatcher;
+=======
+        $this->eventDispatcher = $eventDispatcher;
+>>>>>>> v2-test
     }
 
     /**
@@ -51,6 +59,7 @@ class Swift_Transport_NullTransport implements Swift_Transport
     }
 
     /**
+<<<<<<< HEAD
      * Sends the given message.
      *
      * @param Swift_Mime_Message $message
@@ -62,6 +71,26 @@ class Swift_Transport_NullTransport implements Swift_Transport
     {
         if ($evt = $this->_eventDispatcher->createSendEvent($this, $message)) {
             $this->_eventDispatcher->dispatchEvent($evt, 'beforeSendPerformed');
+=======
+     * {@inheritdoc}
+     */
+    public function ping()
+    {
+        return true;
+    }
+
+    /**
+     * Sends the given message.
+     *
+     * @param string[] $failedRecipients An array of failures by-reference
+     *
+     * @return int The number of sent emails
+     */
+    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
+    {
+        if ($evt = $this->eventDispatcher->createSendEvent($this, $message)) {
+            $this->eventDispatcher->dispatchEvent($evt, 'beforeSendPerformed');
+>>>>>>> v2-test
             if ($evt->bubbleCancelled()) {
                 return 0;
             }
@@ -69,6 +98,7 @@ class Swift_Transport_NullTransport implements Swift_Transport
 
         if ($evt) {
             $evt->setResult(Swift_Events_SendEvent::RESULT_SUCCESS);
+<<<<<<< HEAD
             $this->_eventDispatcher->dispatchEvent($evt, 'sendPerformed');
         }
 
@@ -76,6 +106,15 @@ class Swift_Transport_NullTransport implements Swift_Transport
             count((array) $message->getTo())
             + count((array) $message->getCc())
             + count((array) $message->getBcc())
+=======
+            $this->eventDispatcher->dispatchEvent($evt, 'sendPerformed');
+        }
+
+        $count = (
+            \count((array) $message->getTo())
+            + \count((array) $message->getCc())
+            + \count((array) $message->getBcc())
+>>>>>>> v2-test
             );
 
         return $count;
@@ -83,11 +122,18 @@ class Swift_Transport_NullTransport implements Swift_Transport
 
     /**
      * Register a plugin.
+<<<<<<< HEAD
      *
      * @param Swift_Events_EventListener $plugin
      */
     public function registerPlugin(Swift_Events_EventListener $plugin)
     {
         $this->_eventDispatcher->bindEventListener($plugin);
+=======
+     */
+    public function registerPlugin(Swift_Events_EventListener $plugin)
+    {
+        $this->eventDispatcher->bindEventListener($plugin);
+>>>>>>> v2-test
     }
 }

@@ -1,7 +1,11 @@
 {
     "name": "symfony/event-dispatcher",
     "type": "library",
+<<<<<<< HEAD
     "description": "Symfony EventDispatcher Component",
+=======
+    "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
+>>>>>>> v2-test
     "keywords": [],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,6 +20,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.3.9"
     },
     "require-dev": {
@@ -25,6 +30,30 @@
         "symfony/stopwatch": "~2.3|~3.0.0",
         "psr/log": "~1.0"
     },
+=======
+        "php": ">=7.2.5",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/event-dispatcher-contracts": "^2",
+        "symfony/polyfill-php80": "^1.15"
+    },
+    "require-dev": {
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/expression-language": "^4.4|^5.0",
+        "symfony/config": "^4.4|^5.0",
+        "symfony/error-handler": "^4.4|^5.0",
+        "symfony/http-foundation": "^4.4|^5.0",
+        "symfony/service-contracts": "^1.1|^2",
+        "symfony/stopwatch": "^4.4|^5.0",
+        "psr/log": "~1.0"
+    },
+    "conflict": {
+        "symfony/dependency-injection": "<4.4"
+    },
+    "provide": {
+        "psr/event-dispatcher-implementation": "1.0",
+        "symfony/event-dispatcher-implementation": "2.0"
+    },
+>>>>>>> v2-test
     "suggest": {
         "symfony/dependency-injection": "",
         "symfony/http-kernel": ""
@@ -35,10 +64,14 @@
             "/Tests/"
         ]
     },
+<<<<<<< HEAD
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.8-dev"
         }
     }
+=======
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

@@ -11,7 +11,10 @@
 /**
  * Base Class of Signer Infrastructure.
  *
+<<<<<<< HEAD
  *
+=======
+>>>>>>> v2-test
  * @author Xavier De Cock <xdecock@gmail.com>
  */
 interface Swift_Signer

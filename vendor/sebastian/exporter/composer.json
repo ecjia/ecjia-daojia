@@ -23,6 +23,7 @@
         },
         {
             "name": "Bernhard Schussek",
+<<<<<<< HEAD
             "email": "bschussek@2bepublished.at"
         }
     ],
@@ -32,6 +33,25 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.4",
+=======
+            "email": "bschussek@gmail.com"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.3",
+        "sebastian/recursion-context": "^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+>>>>>>> v2-test
         "ext-mbstring": "*"
     },
     "autoload": {
@@ -41,7 +61,11 @@
     },
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-master": "1.3.x-dev"
+=======
+            "dev-master": "4.0-dev"
+>>>>>>> v2-test
         }
     }
 }

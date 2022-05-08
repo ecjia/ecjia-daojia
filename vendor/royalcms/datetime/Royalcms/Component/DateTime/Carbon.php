@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\DateTime;
 
 /*
@@ -2263,3 +2264,15 @@ class Carbon extends DateTime
         return $this->format('md') === $dt->format('md');
     }
 }
+=======
+<?php
+
+namespace Royalcms\Component\DateTime;
+
+use Carbon\Carbon as BaseCarbon;
+
+class Carbon extends BaseCarbon
+{
+}
+
+>>>>>>> v2-test

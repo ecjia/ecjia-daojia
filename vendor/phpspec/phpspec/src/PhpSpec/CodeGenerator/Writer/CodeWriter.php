@@ -15,6 +15,7 @@ namespace PhpSpec\CodeGenerator\Writer;
 
 interface CodeWriter
 {
+<<<<<<< HEAD
     /**
      * @param string $class
      * @param string $method
@@ -36,4 +37,11 @@ interface CodeWriter
      * @return string
      */
     public function insertAfterMethod($class, $methodName, $method);
+=======
+    public function insertMethodFirstInClass(string $class, string $method): string;
+
+    public function insertMethodLastInClass(string $class, string $method): string;
+
+    public function insertAfterMethod(string $class, string $methodName, string $method): string;
+>>>>>>> v2-test
 }

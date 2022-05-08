@@ -13,12 +13,17 @@
 
 namespace PhpSpec\CodeGenerator\Generator;
 
+<<<<<<< HEAD
 use PhpSpec\Locator\ResourceInterface;
+=======
+use PhpSpec\Locator\Resource;
+>>>>>>> v2-test
 
 /**
  * The Interface Generator is responsible for generating the interface from a resource
  * in the appropriate folder using the template provided
  */
+<<<<<<< HEAD
 class InterfaceGenerator extends PromptingGenerator
 {
     /**
@@ -29,18 +34,28 @@ class InterfaceGenerator extends PromptingGenerator
      * @return bool
      */
     public function supports(ResourceInterface $resource, $generation, array $data)
+=======
+final class InterfaceGenerator extends PromptingGenerator
+{
+    public function supports(Resource $resource, string $generation, array $data): bool
+>>>>>>> v2-test
     {
         return 'interface' === $generation;
     }
 
+<<<<<<< HEAD
     /**
      * @return int
      */
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 0;
     }
 
+<<<<<<< HEAD
     /**
      * @param ResourceInterface $resource
      * @param string            $filepath
@@ -48,6 +63,9 @@ class InterfaceGenerator extends PromptingGenerator
      * @return string
      */
     protected function renderTemplate(ResourceInterface $resource, $filepath)
+=======
+    protected function renderTemplate(Resource $resource, string $filepath): string
+>>>>>>> v2-test
     {
         $values = array(
             '%filepath%'        => $filepath,
@@ -67,24 +85,33 @@ class InterfaceGenerator extends PromptingGenerator
         return $content;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     protected function getTemplate()
+=======
+    protected function getTemplate(): string
+>>>>>>> v2-test
     {
         return file_get_contents(__DIR__.'/templates/interface.template');
     }
 
+<<<<<<< HEAD
     /**
      * @param ResourceInterface $resource
      *
      * @return string
      */
     protected function getFilePath(ResourceInterface $resource)
+=======
+    protected function getFilePath(Resource $resource): string
+>>>>>>> v2-test
     {
         return $resource->getSrcFilename();
     }
 
+<<<<<<< HEAD
     /**
      * @param ResourceInterface $resource
      * @param string            $filepath
@@ -92,6 +119,9 @@ class InterfaceGenerator extends PromptingGenerator
      * @return string
      */
     protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
+=======
+    protected function getGeneratedMessage(Resource $resource, string $filepath): string
+>>>>>>> v2-test
     {
         return sprintf(
             "<info>Interface <value>%s</value> created in <value>%s</value>.</info>\n",

@@ -23,7 +23,11 @@ class ReflectionFactory
      * @param $class
      * @return \ReflectionClass
      */
+<<<<<<< HEAD
     public function create($class)
+=======
+    public function create($class): \ReflectionClass
+>>>>>>> v2-test
     {
         return new \ReflectionClass($class);
     }

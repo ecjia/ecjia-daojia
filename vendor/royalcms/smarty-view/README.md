@@ -1,0 +1,1 @@
+# royalcms-smarty-view

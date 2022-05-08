@@ -11,7 +11,10 @@ Feature: Developer generates a method returning a constant
       namespace spec\CodeGeneration\ConstantExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -60,7 +63,10 @@ Feature: Developer generates a method returning a constant
       namespace spec\CodeGeneration\ConstantExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -114,7 +120,10 @@ Feature: Developer generates a method returning a constant
       namespace spec\CodeGeneration\ConstantExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -151,7 +160,10 @@ Feature: Developer generates a method returning a constant
       namespace spec\CodeGeneration\ConstantExample4;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -192,7 +204,10 @@ Feature: Developer generates a method returning a constant
       namespace spec\CodeGeneration\ConstantExample5;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -228,7 +243,10 @@ Feature: Developer generates a method returning a constant
       namespace spec\CodeGeneration\ConstantExample6;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -260,7 +278,10 @@ Feature: Developer generates a method returning a constant
     When I run phpspec interactively
     Then I should be prompted for code generation
 
+<<<<<<< HEAD
   @php:~5.4||~7.0
+=======
+>>>>>>> v2-test
   Scenario: Generating a scalar return type when method is in trait
     Given the spec file "spec/CodeGeneration/ConstantExample7/MarkdownSpec.php" contains:
       """
@@ -269,7 +290,10 @@ Feature: Developer generates a method returning a constant
       namespace spec\CodeGeneration\ConstantExample7;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -322,3 +346,198 @@ Feature: Developer generates a method returning a constant
       }
 
       """
+<<<<<<< HEAD
+=======
+
+  Scenario: Generating a scalar return type for positive matcher when method exists
+    Given the spec file "spec/CodeGeneration/ConstantExample8/MyFeatureSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\CodeGeneration\ConstantExample8;
+
+      use PhpSpec\ObjectBehavior;
+
+      class MyFeatureSpec extends ObjectBehavior
+      {
+          function it_should_be_active()
+          {
+              $this->shouldBeActive();
+          }
+      }
+
+      """
+    And the class file "src/CodeGeneration/ConstantExample8/MyFeature.php" contains:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample8;
+
+      class MyFeature
+      {
+          public function isActive()
+          {}
+      }
+
+      """
+    When I run phpspec with the option "fake" and answer "y" when asked if I want to generate the code
+    Then the class in "src/CodeGeneration/ConstantExample8/MyFeature.php" should contain:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample8;
+
+      class MyFeature
+      {
+          public function isActive()
+          {
+              return true;
+          }
+      }
+
+      """
+
+  Scenario: Generating a scalar return type for negative matcher when method exists
+    Given the spec file "spec/CodeGeneration/ConstantExample9/MyFeatureSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\CodeGeneration\ConstantExample9;
+
+      use PhpSpec\ObjectBehavior;
+
+      class MyFeatureSpec extends ObjectBehavior
+      {
+          function it_should_not_be_active()
+          {
+              $this->shouldNotBeActive();
+          }
+      }
+
+      """
+    And the class file "src/CodeGeneration/ConstantExample9/MyFeature.php" contains:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample9;
+
+      class MyFeature
+      {
+          public function isActive()
+          {}
+      }
+
+      """
+    When I run phpspec with the option "fake" and answer "y" when asked if I want to generate the code
+    Then the class in "src/CodeGeneration/ConstantExample9/MyFeature.php" should contain:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample9;
+
+      class MyFeature
+      {
+          public function isActive()
+          {
+              return false;
+          }
+      }
+
+      """
+
+  Scenario: Generating a scalar return type for has positive matcher when method exists
+    Given the spec file "spec/CodeGeneration/ConstantExample10/MyFeatureSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\CodeGeneration\ConstantExample10;
+
+      use PhpSpec\ObjectBehavior;
+
+      class MyFeatureSpec extends ObjectBehavior
+      {
+          function it_should_have_availability()
+          {
+              $this->shouldHaveAvailability();
+          }
+      }
+
+      """
+    And the class file "src/CodeGeneration/ConstantExample10/MyFeature.php" contains:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample10;
+
+      class MyFeature
+      {
+          public function hasAvailability()
+          {}
+      }
+
+      """
+    When I run phpspec with the option "fake" and answer "y" when asked if I want to generate the code
+    Then the class in "src/CodeGeneration/ConstantExample10/MyFeature.php" should contain:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample10;
+
+      class MyFeature
+      {
+          public function hasAvailability()
+          {
+              return true;
+          }
+      }
+
+      """
+
+  Scenario: Generating a scalar return type for has negative matcher when method exists
+    Given the spec file "spec/CodeGeneration/ConstantExample11/MyFeatureSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\CodeGeneration\ConstantExample11;
+
+      use PhpSpec\ObjectBehavior;
+
+      class MyFeatureSpec extends ObjectBehavior
+      {
+          function it_should_not_have_availability()
+          {
+              $this->shouldNotHaveAvailability();
+          }
+      }
+
+      """
+    And the class file "src/CodeGeneration/ConstantExample11/MyFeature.php" contains:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample11;
+
+      class MyFeature
+      {
+          public function hasAvailability()
+          {}
+      }
+
+      """
+    When I run phpspec with the option "fake" and answer "y" when asked if I want to generate the code
+    Then the class in "src/CodeGeneration/ConstantExample11/MyFeature.php" should contain:
+      """
+      <?php
+
+      namespace CodeGeneration\ConstantExample11;
+
+      class MyFeature
+      {
+          public function hasAvailability()
+          {
+              return false;
+          }
+      }
+
+      """
+>>>>>>> v2-test

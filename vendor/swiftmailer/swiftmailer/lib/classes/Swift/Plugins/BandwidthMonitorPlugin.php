@@ -20,17 +20,28 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      *
      * @var int
      */
+<<<<<<< HEAD
     private $_out = 0;
+=======
+    private $out = 0;
+>>>>>>> v2-test
 
     /**
      * The incoming traffic counter.
      *
      * @var int
      */
+<<<<<<< HEAD
     private $_in = 0;
 
     /** Bound byte streams */
     private $_mirrors = array();
+=======
+    private $in = 0;
+
+    /** Bound byte streams */
+    private $mirrors = [];
+>>>>>>> v2-test
 
     /**
      * Not used.
@@ -41,8 +52,11 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
 
     /**
      * Invoked immediately after the Message is sent.
+<<<<<<< HEAD
      *
      * @param Swift_Events_SendEvent $evt
+=======
+>>>>>>> v2-test
      */
     public function sendPerformed(Swift_Events_SendEvent $evt)
     {
@@ -52,24 +66,38 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
 
     /**
      * Invoked immediately following a command being sent.
+<<<<<<< HEAD
      *
      * @param Swift_Events_CommandEvent $evt
+=======
+>>>>>>> v2-test
      */
     public function commandSent(Swift_Events_CommandEvent $evt)
     {
         $command = $evt->getCommand();
+<<<<<<< HEAD
         $this->_out += strlen($command);
+=======
+        $this->out += \strlen($command);
+>>>>>>> v2-test
     }
 
     /**
      * Invoked immediately following a response coming back.
+<<<<<<< HEAD
      *
      * @param Swift_Events_ResponseEvent $evt
+=======
+>>>>>>> v2-test
      */
     public function responseReceived(Swift_Events_ResponseEvent $evt)
     {
         $response = $evt->getResponse();
+<<<<<<< HEAD
         $this->_in += strlen($response);
+=======
+        $this->in += \strlen($response);
+>>>>>>> v2-test
     }
 
     /**
@@ -79,8 +107,13 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      */
     public function write($bytes)
     {
+<<<<<<< HEAD
         $this->_out += strlen($bytes);
         foreach ($this->_mirrors as $stream) {
+=======
+        $this->out += \strlen($bytes);
+        foreach ($this->mirrors as $stream) {
+>>>>>>> v2-test
             $stream->write($bytes);
         }
     }
@@ -97,12 +130,19 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      *
      * The stream acts as an observer, receiving all data that is written.
      * All {@link write()} and {@link flushBuffers()} operations will be mirrored.
+<<<<<<< HEAD
      *
      * @param Swift_InputByteStream $is
      */
     public function bind(Swift_InputByteStream $is)
     {
         $this->_mirrors[] = $is;
+=======
+     */
+    public function bind(Swift_InputByteStream $is)
+    {
+        $this->mirrors[] = $is;
+>>>>>>> v2-test
     }
 
     /**
@@ -111,6 +151,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      * If $is is not bound, no errors will be raised.
      * If the stream currently has any buffered data it will be written to $is
      * before unbinding occurs.
+<<<<<<< HEAD
      *
      * @param Swift_InputByteStream $is
      */
@@ -119,6 +160,14 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
         foreach ($this->_mirrors as $k => $stream) {
             if ($is === $stream) {
                 unset($this->_mirrors[$k]);
+=======
+     */
+    public function unbind(Swift_InputByteStream $is)
+    {
+        foreach ($this->mirrors as $k => $stream) {
+            if ($is === $stream) {
+                unset($this->mirrors[$k]);
+>>>>>>> v2-test
             }
         }
     }
@@ -128,7 +177,11 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      */
     public function flushBuffers()
     {
+<<<<<<< HEAD
         foreach ($this->_mirrors as $stream) {
+=======
+        foreach ($this->mirrors as $stream) {
+>>>>>>> v2-test
             $stream->flushBuffers();
         }
     }
@@ -140,7 +193,11 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      */
     public function getBytesOut()
     {
+<<<<<<< HEAD
         return $this->_out;
+=======
+        return $this->out;
+>>>>>>> v2-test
     }
 
     /**
@@ -150,7 +207,11 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      */
     public function getBytesIn()
     {
+<<<<<<< HEAD
         return $this->_in;
+=======
+        return $this->in;
+>>>>>>> v2-test
     }
 
     /**
@@ -158,7 +219,12 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      */
     public function reset()
     {
+<<<<<<< HEAD
         $this->_out = 0;
         $this->_in = 0;
+=======
+        $this->out = 0;
+        $this->in = 0;
+>>>>>>> v2-test
     }
 }

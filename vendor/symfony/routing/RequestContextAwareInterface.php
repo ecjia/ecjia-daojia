@@ -15,8 +15,11 @@ interface RequestContextAwareInterface
 {
     /**
      * Sets the request context.
+<<<<<<< HEAD
      *
      * @param RequestContext $context The context
+=======
+>>>>>>> v2-test
      */
     public function setContext(RequestContext $context);
 

@@ -18,7 +18,11 @@ use PhpSpec\Event\SpecificationEvent;
 use PhpSpec\Event\ExampleEvent;
 use Symfony\Component\Yaml\Yaml;
 
+<<<<<<< HEAD
 class TapFormatter extends ConsoleFormatter
+=======
+final class TapFormatter extends ConsoleFormatter
+>>>>>>> v2-test
 {
 
     const VERSION = 'TAP version 13';
@@ -123,7 +127,11 @@ class TapFormatter extends ConsoleFormatter
      * @param int $result
      * @return string
      */
+<<<<<<< HEAD
     private function getResultData(ExampleEvent $event, $result = null)
+=======
+    private function getResultData(ExampleEvent $event, int $result = null): string
+>>>>>>> v2-test
     {
         if (null === $result) {
             return $this->stripNewlines($event->getException()->getMessage());
@@ -159,7 +167,11 @@ class TapFormatter extends ConsoleFormatter
      * @param string $string
      * @return string
      */
+<<<<<<< HEAD
     private function stripNewlines($string)
+=======
+    private function stripNewlines(string $string): string
+>>>>>>> v2-test
     {
         return str_replace(array("\r\n", "\n", "\r"), ' / ', $string);
     }
@@ -168,7 +180,11 @@ class TapFormatter extends ConsoleFormatter
      * @param string $string
      * @return string
      */
+<<<<<<< HEAD
     private function indent($string)
+=======
+    private function indent(string $string): string
+>>>>>>> v2-test
     {
         return preg_replace(
             array("%(^[^\n\r])%", "%([\n\r]{1,2})%", "%\s+...[\n\r]{1,2}\s+---%"),

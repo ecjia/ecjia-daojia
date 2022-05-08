@@ -13,22 +13,37 @@
 
 namespace PhpSpec\Process\ReRunner;
 
+<<<<<<< HEAD
 use PhpSpec\Process\Context\ExecutionContextInterface;
+=======
+use PhpSpec\Process\Context\ExecutionContext;
+>>>>>>> v2-test
 use Symfony\Component\Process\PhpExecutableFinder;
 
 final class ProcOpenReRunner extends PhpExecutableReRunner
 {
     /**
+<<<<<<< HEAD
      * @var ExecutionContextInterface
+=======
+     * @var ExecutionContext
+>>>>>>> v2-test
      */
     private $executionContext;
 
     /**
      * @param PhpExecutableFinder $phpExecutableFinder
+<<<<<<< HEAD
      * @param ExecutionContextInterface $executionContext
      * @return static
      */
     public static function withExecutionContext(PhpExecutableFinder $phpExecutableFinder, ExecutionContextInterface $executionContext)
+=======
+     * @param ExecutionContext $executionContext
+     * @return static
+     */
+    public static function withExecutionContext(PhpExecutableFinder $phpExecutableFinder, ExecutionContext $executionContext)
+>>>>>>> v2-test
     {
         $reRunner = new static($phpExecutableFinder);
         $reRunner->executionContext = $executionContext;
@@ -39,7 +54,11 @@ final class ProcOpenReRunner extends PhpExecutableReRunner
     /**
      * @return boolean
      */
+<<<<<<< HEAD
     public function isSupported()
+=======
+    public function isSupported(): bool
+>>>>>>> v2-test
     {
         return (php_sapi_name() == 'cli')
             && $this->getExecutablePath()
@@ -47,16 +66,28 @@ final class ProcOpenReRunner extends PhpExecutableReRunner
             && (stripos(PHP_OS, "win") !== 0);
     }
 
+<<<<<<< HEAD
     public function reRunSuite()
+=======
+    public function reRunSuite(): void
+>>>>>>> v2-test
     {
         $args = $_SERVER['argv'];
         $command = $this->buildArgString() . escapeshellcmd($this->getExecutablePath()).' '.join(' ', array_map('escapeshellarg', $args)) . ' 2>&1';
 
+<<<<<<< HEAD
         $desc = array(
             0 => array('file', 'php://stdin', 'r'),
             1 => array('file', 'php://stdout', 'w'),
             2 => array('file', 'php://stderr', 'w'),
         );
+=======
+        $desc = [
+            0 => ['file', 'php://stdin', 'r'],
+            1 => ['file', 'php://stdout', 'w'],
+            2 => ['file', 'php://stderr', 'w'],
+        ];
+>>>>>>> v2-test
         $proc = proc_open( $command, $desc, $pipes );
 
         do {
@@ -67,7 +98,11 @@ final class ProcOpenReRunner extends PhpExecutableReRunner
         exit($status['exitcode']);
     }
 
+<<<<<<< HEAD
     private function buildArgString()
+=======
+    private function buildArgString() : string
+>>>>>>> v2-test
     {
         $argstring = '';
 

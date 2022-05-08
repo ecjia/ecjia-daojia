@@ -18,6 +18,7 @@ namespace Symfony\Component\CssSelector\Node;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 interface NodeInterface
 {
@@ -41,4 +42,16 @@ interface NodeInterface
      * @return string
      */
     public function __toString();
+=======
+ *
+ * @internal
+ */
+interface NodeInterface
+{
+    public function getNodeName(): string;
+
+    public function getSpecificity(): Specificity;
+
+    public function __toString(): string;
+>>>>>>> v2-test
 }

@@ -20,24 +20,39 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      *
      * @var array
      */
+<<<<<<< HEAD
     private $_contents = array();
+=======
+    private $contents = [];
+>>>>>>> v2-test
 
     /**
      * An InputStream for cloning.
      *
      * @var Swift_KeyCache_KeyCacheInputStream
      */
+<<<<<<< HEAD
     private $_stream;
+=======
+    private $stream;
+>>>>>>> v2-test
 
     /**
      * Create a new ArrayKeyCache with the given $stream for cloning to make
      * InputByteStreams.
+<<<<<<< HEAD
      *
      * @param Swift_KeyCache_KeyCacheInputStream $stream
      */
     public function __construct(Swift_KeyCache_KeyCacheInputStream $stream)
     {
         $this->_stream = $stream;
+=======
+     */
+    public function __construct(Swift_KeyCache_KeyCacheInputStream $stream)
+    {
+        $this->stream = $stream;
+>>>>>>> v2-test
     }
 
     /**
@@ -52,6 +67,7 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      */
     public function setString($nsKey, $itemKey, $string, $mode)
     {
+<<<<<<< HEAD
         $this->_prepareCache($nsKey);
         switch ($mode) {
             case self::MODE_WRITE:
@@ -68,6 +84,21 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
                     'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
                     );
+=======
+        $this->prepareCache($nsKey);
+        switch ($mode) {
+            case self::MODE_WRITE:
+                $this->contents[$nsKey][$itemKey] = $string;
+                break;
+            case self::MODE_APPEND:
+                if (!$this->hasKey($nsKey, $itemKey)) {
+                    $this->contents[$nsKey][$itemKey] = '';
+                }
+                $this->contents[$nsKey][$itemKey] .= $string;
+                break;
+            default:
+                throw new Swift_SwiftException('Invalid mode ['.$mode.'] used to set nsKey='.$nsKey.', itemKey='.$itemKey);
+>>>>>>> v2-test
         }
     }
 
@@ -76,6 +107,7 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      *
      * @see MODE_WRITE, MODE_APPEND
      *
+<<<<<<< HEAD
      * @param string                 $nsKey
      * @param string                 $itemKey
      * @param Swift_OutputByteStream $os
@@ -100,6 +132,29 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
                     'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
                     );
+=======
+     * @param string $nsKey
+     * @param string $itemKey
+     * @param int    $mode
+     */
+    public function importFromByteStream($nsKey, $itemKey, Swift_OutputByteStream $os, $mode)
+    {
+        $this->prepareCache($nsKey);
+        switch ($mode) {
+            case self::MODE_WRITE:
+                $this->clearKey($nsKey, $itemKey);
+                // no break
+            case self::MODE_APPEND:
+                if (!$this->hasKey($nsKey, $itemKey)) {
+                    $this->contents[$nsKey][$itemKey] = '';
+                }
+                while (false !== $bytes = $os->read(8192)) {
+                    $this->contents[$nsKey][$itemKey] .= $bytes;
+                }
+                break;
+            default:
+                throw new Swift_SwiftException('Invalid mode ['.$mode.'] used to set nsKey='.$nsKey.', itemKey='.$itemKey);
+>>>>>>> v2-test
         }
     }
 
@@ -108,15 +163,24 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      *
      * NOTE: The stream will always write in append mode.
      *
+<<<<<<< HEAD
      * @param string                $nsKey
      * @param string                $itemKey
      * @param Swift_InputByteStream $writeThrough
+=======
+     * @param string $nsKey
+     * @param string $itemKey
+>>>>>>> v2-test
      *
      * @return Swift_InputByteStream
      */
     public function getInputByteStream($nsKey, $itemKey, Swift_InputByteStream $writeThrough = null)
     {
+<<<<<<< HEAD
         $is = clone $this->_stream;
+=======
+        $is = clone $this->stream;
+>>>>>>> v2-test
         $is->setKeyCache($this);
         $is->setNsKey($nsKey);
         $is->setItemKey($itemKey);
@@ -137,9 +201,15 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      */
     public function getString($nsKey, $itemKey)
     {
+<<<<<<< HEAD
         $this->_prepareCache($nsKey);
         if ($this->hasKey($nsKey, $itemKey)) {
             return $this->_contents[$nsKey][$itemKey];
+=======
+        $this->prepareCache($nsKey);
+        if ($this->hasKey($nsKey, $itemKey)) {
+            return $this->contents[$nsKey][$itemKey];
+>>>>>>> v2-test
         }
     }
 
@@ -152,7 +222,11 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      */
     public function exportToByteStream($nsKey, $itemKey, Swift_InputByteStream $is)
     {
+<<<<<<< HEAD
         $this->_prepareCache($nsKey);
+=======
+        $this->prepareCache($nsKey);
+>>>>>>> v2-test
         $is->write($this->getString($nsKey, $itemKey));
     }
 
@@ -166,9 +240,15 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      */
     public function hasKey($nsKey, $itemKey)
     {
+<<<<<<< HEAD
         $this->_prepareCache($nsKey);
 
         return array_key_exists($itemKey, $this->_contents[$nsKey]);
+=======
+        $this->prepareCache($nsKey);
+
+        return \array_key_exists($itemKey, $this->contents[$nsKey]);
+>>>>>>> v2-test
     }
 
     /**
@@ -179,7 +259,11 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      */
     public function clearKey($nsKey, $itemKey)
     {
+<<<<<<< HEAD
         unset($this->_contents[$nsKey][$itemKey]);
+=======
+        unset($this->contents[$nsKey][$itemKey]);
+>>>>>>> v2-test
     }
 
     /**
@@ -189,7 +273,11 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      */
     public function clearAll($nsKey)
     {
+<<<<<<< HEAD
         unset($this->_contents[$nsKey]);
+=======
+        unset($this->contents[$nsKey]);
+>>>>>>> v2-test
     }
 
     /**
@@ -197,10 +285,17 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
      *
      * @param string $nsKey
      */
+<<<<<<< HEAD
     private function _prepareCache($nsKey)
     {
         if (!array_key_exists($nsKey, $this->_contents)) {
             $this->_contents[$nsKey] = array();
+=======
+    private function prepareCache($nsKey)
+    {
+        if (!\array_key_exists($nsKey, $this->contents)) {
+            $this->contents[$nsKey] = [];
+>>>>>>> v2-test
         }
     }
 }

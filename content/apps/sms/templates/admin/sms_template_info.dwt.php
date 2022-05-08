@@ -39,18 +39,18 @@
 				</div>
 								
 				<div class="control-group formSep">
-					<label class="control-label">{t domain="sms"}短信主题：{/t}</label>
+					<label class="control-label">{t domain="sms"}短信主题{/t}</label>
 					<div class="controls">
 						<input type="text" name="subject" id="subject" value="{$data.template_subject}" class="span6"/>
-						<span class="input-must">*</span>
+						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">{t domain="sms"}模板内容：{/t}</label>
+					<label class="control-label">{t domain="sms"}模板内容{/t}</label>
 					<div class="controls">
 						<textarea class="span6 h200" name="content" id="content" >{$data.template_content}</textarea>
-						<span class="input-must">*</span>
+						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 						<span class="help-block">
 							{if $desc}
 								<!-- {foreach from=$desc item=list} -->
@@ -66,7 +66,7 @@
 						<label class="control-label">{t domain="sms"}短信模板ID：{/t}</label>
 						<div class="controls">
 							<input type="text" name="template_id" id="template_id" value="{$data.template_id}" class="span6"/>
-							<span class="input-must">*</span>
+							<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 						</div>
 					</div>
 				{/if}
@@ -76,7 +76,7 @@
 						<label class="control-label">{t domain="sms"}签名：{/t}</label>
 						<div class="controls">
 							<input type="text" name="sign_name" id="sign_name" value="{$data.sign_name}" class="span6"/>
-							<span class="input-must">*</span>
+							<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 						</div>
 					</div>
 				{/if}

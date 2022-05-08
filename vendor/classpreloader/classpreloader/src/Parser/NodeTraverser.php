@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Class Preloader.
  *
@@ -24,12 +26,12 @@ class NodeTraverser extends BaseTraverser
     /**
      * Transverse the file.
      *
-     * @param array  $nodes
-     * @param string $filename
+     * @param \PhpParser\Node\Stmt[] $nodes
+     * @param string                 $filename
      *
      * @return \PhpParser\Node[]
      */
-    public function traverseFile(array $nodes, $filename)
+    public function traverseFile(array $nodes, string $filename)
     {
         // Set the correct state on each visitor
         foreach ($this->visitors as $visitor) {

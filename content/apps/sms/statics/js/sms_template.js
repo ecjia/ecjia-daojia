@@ -14,16 +14,16 @@
                 "aaSorting": [[2, "asc"]],
                 "oLanguage": {
                     "oPaginate": {
-                        "sFirst": js_lang_template.sFirst,
-                        "sLast": js_lang_template.sLast,
-                        "sPrevious": js_lang_template.sPrevious,
-                        "sNext": js_lang_template.sNext
+                        "sFirst": js_lang_sms_template.sFirst,
+                        "sLast": js_lang_sms_template.sLast,
+                        "sPrevious": js_lang_sms_template.sPrevious,
+                        "sNext": js_lang_sms_template.sNext
                     },
-                    "sInfo": js_lang_template.sInfo,
-                    "sZeroRecords": js_lang_template.sZeroRecords,
-                    "sEmptyTable": js_lang_template.sEmptyTable,
-                    "sInfoEmpty": js_lang_template.sInfoEmpty,
-                    "sInfoFiltered": js_lang_template.sInfoFiltered
+                    "sInfo": js_lang_sms_template.sInfo,
+                    "sZeroRecords": js_lang_sms_template.sZeroRecords,
+                    "sEmptyTable": js_lang_sms_template.sEmptyTable,
+                    "sInfoEmpty": js_lang_sms_template.sInfoEmpty,
+                    "sInfoFiltered": js_lang_sms_template.sInfoFiltered
                 },
                 "aoColumns": [
                     {
@@ -66,10 +66,10 @@
                  },
                  messages: {
                  	mobile: {
-                         required: "请输入手机号"
+                         required: js_lang_sms_template.enter_mobile
                      },
                      sign_name: {
-                         required: "请输入签名"
+                         required: js_lang_sms_template.enter_sign
                      }
                  },
                  submitHandler: function () {
@@ -150,16 +150,16 @@
                 },
                 messages: {
                     subject: {
-                        required: js_lang_template.subject_required
+                        required: js_lang_sms_template.subject_required
                     },
                     content: {
-                        required: js_lang_template.content_required
+                        required: js_lang_sms_template.content_required
                     },
                     template_id: {
-                        required: js_lang_template.id_required
+                        required: js_lang_sms_template.template_id_required
                     },
                     sign_name: {
-                        required: js_lang_template.enter_signature
+                        required: js_lang_sms_template.enter_sign
                     }
                 },
                 submitHandler: function () {

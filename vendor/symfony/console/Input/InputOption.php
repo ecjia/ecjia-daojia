@@ -21,10 +21,17 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class InputOption
 {
+<<<<<<< HEAD
     const VALUE_NONE = 1;
     const VALUE_REQUIRED = 2;
     const VALUE_OPTIONAL = 4;
     const VALUE_IS_ARRAY = 8;
+=======
+    public const VALUE_NONE = 1;
+    public const VALUE_REQUIRED = 2;
+    public const VALUE_OPTIONAL = 4;
+    public const VALUE_IS_ARRAY = 8;
+>>>>>>> v2-test
 
     private $name;
     private $shortcut;
@@ -33,6 +40,7 @@ class InputOption
     private $description;
 
     /**
+<<<<<<< HEAD
      * @param string       $name        The option name
      * @param string|array $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
      * @param int          $mode        The option mode: One of the VALUE_* constants
@@ -42,6 +50,17 @@ class InputOption
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
     public function __construct($name, $shortcut = null, $mode = null, $description = '', $default = null)
+=======
+     * @param string                        $name        The option name
+     * @param string|array|null             $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+     * @param int|null                      $mode        The option mode: One of the VALUE_* constants
+     * @param string                        $description A description text
+     * @param string|string[]|int|bool|null $default     The default value (must be null for self::VALUE_NONE)
+     *
+     * @throws InvalidArgumentException If option mode is invalid or incompatible
+     */
+    public function __construct(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
+>>>>>>> v2-test
     {
         if (0 === strpos($name, '--')) {
             $name = substr($name, 2);
@@ -70,7 +89,11 @@ class InputOption
 
         if (null === $mode) {
             $mode = self::VALUE_NONE;
+<<<<<<< HEAD
         } elseif (!\is_int($mode) || $mode > 15 || $mode < 1) {
+=======
+        } elseif ($mode > 15 || $mode < 1) {
+>>>>>>> v2-test
             throw new InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
         }
 
@@ -89,7 +112,11 @@ class InputOption
     /**
      * Returns the option shortcut.
      *
+<<<<<<< HEAD
      * @return string The shortcut
+=======
+     * @return string|null The shortcut
+>>>>>>> v2-test
      */
     public function getShortcut()
     {
@@ -149,7 +176,11 @@ class InputOption
     /**
      * Sets the default value.
      *
+<<<<<<< HEAD
      * @param mixed $default The default value
+=======
+     * @param string|string[]|int|bool|null $default The default value
+>>>>>>> v2-test
      *
      * @throws LogicException When incorrect default value is given
      */
@@ -161,7 +192,11 @@ class InputOption
 
         if ($this->isArray()) {
             if (null === $default) {
+<<<<<<< HEAD
                 $default = array();
+=======
+                $default = [];
+>>>>>>> v2-test
             } elseif (!\is_array($default)) {
                 throw new LogicException('A default value for an array option must be an array.');
             }
@@ -173,7 +208,11 @@ class InputOption
     /**
      * Returns the default value.
      *
+<<<<<<< HEAD
      * @return mixed The default value
+=======
+     * @return string|string[]|int|bool|null The default value
+>>>>>>> v2-test
      */
     public function getDefault()
     {

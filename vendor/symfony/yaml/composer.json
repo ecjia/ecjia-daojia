@@ -1,7 +1,11 @@
 {
     "name": "symfony/yaml",
     "type": "library",
+<<<<<<< HEAD
     "description": "Symfony Yaml Component",
+=======
+    "description": "Loads and dumps YAML files",
+>>>>>>> v2-test
     "keywords": [],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,7 +20,22 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.5.9"
+=======
+        "php": ">=7.2.5",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/polyfill-ctype": "~1.8"
+    },
+    "require-dev": {
+        "symfony/console": "^4.4|^5.0"
+    },
+    "conflict": {
+        "symfony/console": "<4.4"
+    },
+    "suggest": {
+        "symfony/console": "For validating YAML files using the lint command"
+>>>>>>> v2-test
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Yaml\\": "" },
@@ -24,10 +43,17 @@
             "/Tests/"
         ]
     },
+<<<<<<< HEAD
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "3.1-dev"
         }
     }
+=======
+    "bin": [
+        "Resources/bin/yaml-lint"
+    ],
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

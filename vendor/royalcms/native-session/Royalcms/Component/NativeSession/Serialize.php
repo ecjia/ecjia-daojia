@@ -2,6 +2,11 @@
 
 namespace Royalcms\Component\NativeSession;
 
+<<<<<<< HEAD
+=======
+use Exception;
+
+>>>>>>> v2-test
 class Serialize
 {
     public static function unserialize($session_data)
@@ -14,18 +19,52 @@ class Serialize
         	case "php_binary":
         	    return self::unserialize_phpbinary($session_data);
         	    break;
+<<<<<<< HEAD
         	default:
         	    throw new \Exception("Unsupported session.serialize_handler: " . $method . ". Supported: php, php_binary");
         }
     }
     
+=======
+            case "php_serialize":
+                return self::unserialize_php_serialize($session_data);
+                break;
+        	default:
+        	    throw new Exception("Unsupported session.serialize_handler: " . $method . ". Supported: php, php_binary");
+        }
+    }
+
+    /**
+     * 反序列化 php_serialize 驱动类型
+     *
+     * @param $session_data
+     * @return array
+     * @throws \Exception
+     */
+    private static function unserialize_php_serialize($session_data)
+    {
+        return unserialize($session_data);
+    }
+
+    /**
+     * 反序列化 php 驱动类型
+     *
+     * @param $session_data
+     * @return array
+     * @throws \Exception
+     */
+>>>>>>> v2-test
     private static function unserialize_php($session_data)
     {
         $return_data = array();
         $offset = 0;
         while ($offset < strlen($session_data)) {
             if (! strstr(substr($session_data, $offset), "|")) {
+<<<<<<< HEAD
                 throw new \Exception("invalid data, remaining: " . substr($session_data, $offset));
+=======
+                throw new Exception("invalid data, remaining: " . substr($session_data, $offset));
+>>>>>>> v2-test
             }
             $pos = strpos($session_data, "|", $offset);
             $num = $pos - $offset;
@@ -37,7 +76,17 @@ class Serialize
         }
         return $return_data;
     }
+<<<<<<< HEAD
     
+=======
+
+    /**
+     * 反序列化 phpbinary 驱动类型
+     *
+     * @param $session_data
+     * @return array
+     */
+>>>>>>> v2-test
     private static function unserialize_phpbinary($session_data)
     {
         $return_data = array();

@@ -19,7 +19,11 @@ use Symfony\Component\Console\Exception\InvalidOptionException;
  *
  * Usage:
  *
+<<<<<<< HEAD
  *     $input = new ArrayInput(array('name' => 'foo', '--bar' => 'foobar'));
+=======
+ *     $input = new ArrayInput(['command' => 'foo:bar', 'foo' => 'bar', '--bar' => 'foobar']);
+>>>>>>> v2-test
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -39,19 +43,33 @@ class ArrayInput extends Input
      */
     public function getFirstArgument()
     {
+<<<<<<< HEAD
         foreach ($this->parameters as $key => $value) {
             if ($key && '-' === $key[0]) {
+=======
+        foreach ($this->parameters as $param => $value) {
+            if ($param && \is_string($param) && '-' === $param[0]) {
+>>>>>>> v2-test
                 continue;
             }
 
             return $value;
         }
+<<<<<<< HEAD
+=======
+
+        return null;
+>>>>>>> v2-test
     }
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function hasParameterOption($values, $onlyParams = false)
+=======
+    public function hasParameterOption($values, bool $onlyParams = false)
+>>>>>>> v2-test
     {
         $values = (array) $values;
 
@@ -75,7 +93,11 @@ class ArrayInput extends Input
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getParameterOption($values, $default = false, $onlyParams = false)
+=======
+    public function getParameterOption($values, $default = false, bool $onlyParams = false)
+>>>>>>> v2-test
     {
         $values = (array) $values;
 
@@ -103,9 +125,15 @@ class ArrayInput extends Input
      */
     public function __toString()
     {
+<<<<<<< HEAD
         $params = array();
         foreach ($this->parameters as $param => $val) {
             if ($param && '-' === $param[0]) {
+=======
+        $params = [];
+        foreach ($this->parameters as $param => $val) {
+            if ($param && \is_string($param) && '-' === $param[0]) {
+>>>>>>> v2-test
                 if (\is_array($val)) {
                     foreach ($val as $v) {
                         $params[] = $param.('' != $v ? '='.$this->escapeToken($v) : '');
@@ -114,7 +142,11 @@ class ArrayInput extends Input
                     $params[] = $param.('' != $val ? '='.$this->escapeToken($val) : '');
                 }
             } else {
+<<<<<<< HEAD
                 $params[] = \is_array($val) ? implode(' ', array_map(array($this, 'escapeToken'), $val)) : $this->escapeToken($val);
+=======
+                $params[] = \is_array($val) ? implode(' ', array_map([$this, 'escapeToken'], $val)) : $this->escapeToken($val);
+>>>>>>> v2-test
             }
         }
 
@@ -132,7 +164,11 @@ class ArrayInput extends Input
             }
             if (0 === strpos($key, '--')) {
                 $this->addLongOption(substr($key, 2), $value);
+<<<<<<< HEAD
             } elseif ('-' === $key[0]) {
+=======
+            } elseif (0 === strpos($key, '-')) {
+>>>>>>> v2-test
                 $this->addShortOption(substr($key, 1), $value);
             } else {
                 $this->addArgument($key, $value);
@@ -143,12 +179,18 @@ class ArrayInput extends Input
     /**
      * Adds a short option value.
      *
+<<<<<<< HEAD
      * @param string $shortcut The short option key
      * @param mixed  $value    The value for the option
      *
      * @throws InvalidOptionException When option given doesn't exist
      */
     private function addShortOption($shortcut, $value)
+=======
+     * @throws InvalidOptionException When option given doesn't exist
+     */
+    private function addShortOption(string $shortcut, $value)
+>>>>>>> v2-test
     {
         if (!$this->definition->hasShortcut($shortcut)) {
             throw new InvalidOptionException(sprintf('The "-%s" option does not exist.', $shortcut));
@@ -160,6 +202,7 @@ class ArrayInput extends Input
     /**
      * Adds a long option value.
      *
+<<<<<<< HEAD
      * @param string $name  The long option key
      * @param mixed  $value The value for the option
      *
@@ -167,6 +210,12 @@ class ArrayInput extends Input
      * @throws InvalidOptionException When a required value is missing
      */
     private function addLongOption($name, $value)
+=======
+     * @throws InvalidOptionException When option given doesn't exist
+     * @throws InvalidOptionException When a required value is missing
+     */
+    private function addLongOption(string $name, $value)
+>>>>>>> v2-test
     {
         if (!$this->definition->hasOption($name)) {
             throw new InvalidOptionException(sprintf('The "--%s" option does not exist.', $name));
@@ -190,8 +239,13 @@ class ArrayInput extends Input
     /**
      * Adds an argument value.
      *
+<<<<<<< HEAD
      * @param string $name  The argument name
      * @param mixed  $value The value for the argument
+=======
+     * @param string|int $name  The argument name
+     * @param mixed      $value The value for the argument
+>>>>>>> v2-test
      *
      * @throws InvalidArgumentException When argument given doesn't exist
      */

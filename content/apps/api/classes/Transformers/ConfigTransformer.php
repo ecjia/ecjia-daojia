@@ -54,7 +54,10 @@
 namespace Ecjia\App\Api\Transformers;
 
 
-class ConfigTransformer extends Transformer
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
+
+class ConfigTransformer extends Transformer implements TransformerInterface
 {
 
 
@@ -62,7 +65,7 @@ class ConfigTransformer extends Transformer
     {
         $outData = array(
             "shop_closed"   => 0,
-            "close_comment" => "关闭原因"
+            "close_comment" => __('关闭原因', 'api')
         );
 
         return $outData;

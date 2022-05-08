@@ -48,6 +48,7 @@
 
 namespace Ecjia\System\Admins\Plugin;
 
+use Ecjia\Component\Menu\AdminMenu;
 use RC_Cache;
 use RC_Api;
 use RC_Object;
@@ -147,7 +148,7 @@ class ConfigMenu extends RC_Object
     /**
      * 检查管理员菜单权限
      */
-    protected function checkAdminMenuPrivilege(admin_menu $admin_menu) {
+    protected function checkAdminMenuPrivilege(AdminMenu $admin_menu) {
         if ($admin_menu->has_purview()) {
             if (is_array($admin_menu->purview())) {
                 $boole = false;

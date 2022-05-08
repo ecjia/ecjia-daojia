@@ -37,10 +37,14 @@ class ReportPassedItem
         $this->event = $event;
     }
 
+<<<<<<< HEAD
     /**
      *
      */
     public function write()
+=======
+    public function write(): void
+>>>>>>> v2-test
     {
         $this->template->render(Template::DIR.'/Template/ReportPass.html', array(
             'title' => $this->event->getTitle()

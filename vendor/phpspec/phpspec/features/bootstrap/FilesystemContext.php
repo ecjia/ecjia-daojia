@@ -2,6 +2,10 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+<<<<<<< HEAD
+=======
+use PHPUnit\Framework\Assert;
+>>>>>>> v2-test
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -35,6 +39,18 @@ class FilesystemContext implements Context
         $this->filesystem->mkdir($this->workingDirectory);
         chdir($this->workingDirectory);
 
+<<<<<<< HEAD
+=======
+        $fakeHomeDirectory = sprintf('%s/fake-home/', $this->workingDirectory);
+        $this->filesystem->mkdir($fakeHomeDirectory . '.phpspec');
+
+        if (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
+            $_SERVER['HOMEPATH'] = substr($fakeHomeDirectory, 2);
+        } else {
+            putenv(sprintf('HOME=%s', $fakeHomeDirectory));
+        }
+
+>>>>>>> v2-test
         $this->filesystem->mkdir($this->workingDirectory . '/vendor');
         $this->filesystem->copy(
             __DIR__ . '/autoloader/autoload.php',
@@ -55,6 +71,17 @@ class FilesystemContext implements Context
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @Given I have a custom :template template that contains:
+     */
+    public function iHaveACustomTemplateThatContains($template, PyStringNode $contents)
+    {
+        $this->filesystem->dumpFile(sprintf('fake-home/.phpspec/%s.tpl', $template), $contents);
+    }
+
+    /**
+>>>>>>> v2-test
      * @Given the bootstrap file :file contains:
      */
     public function theFileContains($file, PyStringNode $contents)
@@ -64,6 +91,10 @@ class FilesystemContext implements Context
 
     /**
      * @Given the class file :file contains:
+<<<<<<< HEAD
+=======
+     * @Given the interface file :file contains:
+>>>>>>> v2-test
      * @Given the trait file :file contains:
      */
     public function theClassOrTraitFileContains($file, PyStringNode $contents)
@@ -102,7 +133,11 @@ class FilesystemContext implements Context
     }
 
     /**
+<<<<<<< HEAD
      * @Then the class in :file should contain:
+=======
+     * @Then the class/interface in :file should contain:
+>>>>>>> v2-test
      * @Then a new class/spec should be generated in the :file:
      */
     public function theFileShouldContain($file, PyStringNode $contents)
@@ -140,4 +175,15 @@ class FilesystemContext implements Context
     {
         $this->filesystem->remove($this->workingDirectory . '/vendor/autoload.php');
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @Given there should be no file :path
+     */
+    public function thereShouldBeNoFile($path)
+    {
+        Assert::assertFileNotExists($path);
+    }
+>>>>>>> v2-test
 }

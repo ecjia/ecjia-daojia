@@ -5,11 +5,19 @@ namespace spec\PhpSpec\Matcher;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 
 class StringStartMatcherSpec extends ObjectBehavior
 {
     function let(PresenterInterface $presenter)
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+
+class StringStartMatcherSpec extends ObjectBehavior
+{
+    function let(Presenter $presenter)
+>>>>>>> v2-test
     {
         $presenter->presentString(Argument::type('string'))->willReturnArgument();
 
@@ -18,7 +26,11 @@ class StringStartMatcherSpec extends ObjectBehavior
 
     function it_is_a_matcher()
     {
+<<<<<<< HEAD
         $this->shouldBeAnInstanceOf('PhpSpec\Matcher\MatcherInterface');
+=======
+        $this->shouldBeAnInstanceOf('PhpSpec\Matcher\Matcher');
+>>>>>>> v2-test
     }
 
     function it_supports_startWith_keyword_and_string_subject()

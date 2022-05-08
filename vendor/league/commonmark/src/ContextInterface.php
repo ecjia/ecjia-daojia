@@ -16,59 +16,60 @@ namespace League\CommonMark;
 
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Document;
+use League\CommonMark\Reference\ReferenceParser;
 
 interface ContextInterface
 {
     /**
      * @return Document
      */
-    public function getDocument();
+    public function getDocument(): Document;
 
     /**
-     * @return AbstractBlock
+     * @return AbstractBlock|null
      */
-    public function getTip();
+    public function getTip(): ?AbstractBlock;
 
     /**
-     * @param AbstractBlock $block
+     * @param AbstractBlock|null $block
      *
-     * @return $this
+     * @return void
      */
-    public function setTip(AbstractBlock $block);
+    public function setTip(?AbstractBlock $block);
 
     /**
      * @return int
      */
-    public function getLineNumber();
+    public function getLineNumber(): int;
 
     /**
      * @return string
      */
-    public function getLine();
+    public function getLine(): string;
 
     /**
      * Finalize and close any unmatched blocks
      *
      * @return UnmatchedBlockCloser
      */
-    public function getBlockCloser();
+    public function getBlockCloser(): UnmatchedBlockCloser;
 
     /**
      * @return AbstractBlock
      */
-    public function getContainer();
+    public function getContainer(): AbstractBlock;
 
     /**
-     * @param AbstractBlock $getDocument
+     * @param AbstractBlock $container
      *
-     * @return $this
+     * @return void
      */
-    public function setContainer($getDocument);
+    public function setContainer(AbstractBlock $container);
 
     /**
      * @param AbstractBlock $block
      *
-     * @return AbstractBlock
+     * @return void
      */
     public function addBlock(AbstractBlock $block);
 
@@ -82,17 +83,17 @@ interface ContextInterface
     /**
      * @return bool
      */
-    public function getBlocksParsed();
+    public function getBlocksParsed(): bool;
 
     /**
      * @param bool $bool
      *
      * @return $this
      */
-    public function setBlocksParsed($bool);
+    public function setBlocksParsed(bool $bool);
 
     /**
      * @return ReferenceParser
      */
-    public function getReferenceParser();
+    public function getReferenceParser(): ReferenceParser;
 }

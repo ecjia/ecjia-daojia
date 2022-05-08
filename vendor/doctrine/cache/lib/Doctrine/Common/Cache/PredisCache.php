@@ -3,24 +3,21 @@
 namespace Doctrine\Common\Cache;
 
 use Predis\ClientInterface;
+use function array_combine;
+use function array_filter;
+use function array_map;
+use function call_user_func_array;
+use function serialize;
+use function unserialize;
 
 /**
  * Predis cache provider.
- *
- * @author othillo <othillo@othillo.nl>
  */
 class PredisCache extends CacheProvider
 {
-    /**
-     * @var ClientInterface
-     */
+    /** @var ClientInterface */
     private $client;
 
-    /**
-     * @param ClientInterface $client
-     *
-     * @return void
-     */
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
@@ -32,7 +29,7 @@ class PredisCache extends CacheProvider
     protected function doFetch($id)
     {
         $result = $this->client->get($id);
-        if (null === $result) {
+        if ($result === null) {
             return false;
         }
 
@@ -44,7 +41,7 @@ class PredisCache extends CacheProvider
      */
     protected function doFetchMultiple(array $keys)
     {
-        $fetchedItems = call_user_func_array(array($this->client, 'mget'), $keys);
+        $fetchedItems = call_user_func_array([$this->client, 'mget'], $keys);
 
         return array_map('unserialize', array_filter(array_combine($keys, $fetchedItems)));
     }
@@ -52,9 +49,39 @@ class PredisCache extends CacheProvider
     /**
      * {@inheritdoc}
      */
+    protected function doSaveMultiple(array $keysAndValues, $lifetime = 0)
+    {
+        if ($lifetime) {
+            $success = true;
+
+            // Keys have lifetime, use SETEX for each of them
+            foreach ($keysAndValues as $key => $value) {
+                $response = (string) $this->client->setex($key, $lifetime, serialize($value));
+
+                if ($response == 'OK') {
+                    continue;
+                }
+
+                $success = false;
+            }
+
+            return $success;
+        }
+
+        // No lifetime, use MSET
+        $response = $this->client->mset(array_map(static function ($value) {
+            return serialize($value);
+        }, $keysAndValues));
+
+        return (string) $response == 'OK';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function doContains($id)
     {
-        return $this->client->exists($id);
+        return (bool) $this->client->exists($id);
     }
 
     /**
@@ -83,6 +110,14 @@ class PredisCache extends CacheProvider
     /**
      * {@inheritdoc}
      */
+    protected function doDeleteMultiple(array $keys)
+    {
+        return $this->client->del($keys) >= 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function doFlush()
     {
         $response = $this->client->flushdb();
@@ -97,12 +132,12 @@ class PredisCache extends CacheProvider
     {
         $info = $this->client->info();
 
-        return array(
+        return [
             Cache::STATS_HITS              => $info['Stats']['keyspace_hits'],
             Cache::STATS_MISSES            => $info['Stats']['keyspace_misses'],
             Cache::STATS_UPTIME            => $info['Server']['uptime_in_seconds'],
             Cache::STATS_MEMORY_USAGE      => $info['Memory']['used_memory'],
-            Cache::STATS_MEMORY_AVAILABLE  => false
-        );
+            Cache::STATS_MEMORY_AVAILABLE  => false,
+        ];
     }
 }

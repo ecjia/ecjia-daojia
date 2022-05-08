@@ -11,7 +11,10 @@ Feature: Developer uses string-regex matcher
     namespace spec\Matchers\StringRegexExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class MovieSpec extends ObjectBehavior
     {

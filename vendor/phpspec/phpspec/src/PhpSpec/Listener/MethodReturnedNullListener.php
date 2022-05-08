@@ -14,7 +14,11 @@
 namespace PhpSpec\Listener;
 
 use PhpSpec\CodeGenerator\GeneratorManager;
+<<<<<<< HEAD
 use PhpSpec\Console\IO;
+=======
+use PhpSpec\Console\ConsoleIO;
+>>>>>>> v2-test
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\MethodCallEvent;
 use PhpSpec\Event\SuiteEvent;
@@ -23,10 +27,17 @@ use PhpSpec\Locator\ResourceManager;
 use PhpSpec\Util\MethodAnalyser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+<<<<<<< HEAD
 class MethodReturnedNullListener implements EventSubscriberInterface
 {
     /**
      * @var IO
+=======
+final class MethodReturnedNullListener implements EventSubscriberInterface
+{
+    /**
+     * @var ConsoleIO
+>>>>>>> v2-test
      */
     private $io;
 
@@ -53,12 +64,22 @@ class MethodReturnedNullListener implements EventSubscriberInterface
     private $methodAnalyser;
 
     /**
+<<<<<<< HEAD
      * @param IO               $io
      * @param ResourceManager  $resources
      * @param GeneratorManager $generator
      */
     public function __construct(
         IO $io,
+=======
+     * @param ConsoleIO $io
+     * @param ResourceManager $resources
+     * @param GeneratorManager $generator
+     * @param MethodAnalyser $methodAnalyser
+     */
+    public function __construct(
+        ConsoleIO $io,
+>>>>>>> v2-test
         ResourceManager $resources,
         GeneratorManager $generator,
         MethodAnalyser $methodAnalyser
@@ -81,12 +102,20 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         );
     }
 
+<<<<<<< HEAD
     public function afterMethodCall(MethodCallEvent $methodCallEvent)
+=======
+    public function afterMethodCall(MethodCallEvent $methodCallEvent): void
+>>>>>>> v2-test
     {
         $this->lastMethodCallEvent = $methodCallEvent;
     }
 
+<<<<<<< HEAD
     public function afterExample(ExampleEvent $exampleEvent)
+=======
+    public function afterExample(ExampleEvent $exampleEvent): void
+>>>>>>> v2-test
     {
         $exception = $exampleEvent->getException();
 
@@ -98,20 +127,40 @@ class MethodReturnedNullListener implements EventSubscriberInterface
             return;
         }
 
+<<<<<<< HEAD
         if (is_object($exception->getExpected())
          || is_array($exception->getExpected())
          || is_resource($exception->getExpected())
+=======
+        if (\is_object($exception->getExpected())
+         || \is_array($exception->getExpected())
+         || \is_resource($exception->getExpected())
+>>>>>>> v2-test
         ) {
             return;
         }
 
         if (!$this->lastMethodCallEvent) {
+<<<<<<< HEAD
             return;
         }
 
         $class = get_class($this->lastMethodCallEvent->getSubject());
         $method = $this->lastMethodCallEvent->getMethod();
 
+=======
+            $subject = $exception->getSubject();
+            $method = $exception->getMethod();
+            if (is_null($subject) || is_null($method)) {
+                return;
+            }
+            $class = \get_class($subject);
+        } else {
+            $class = \get_class($this->lastMethodCallEvent->getSubject());
+            $method = $this->lastMethodCallEvent->getMethod();
+        }
+
+>>>>>>> v2-test
         if (!$this->methodAnalyser->methodIsEmpty($class, $method)) {
             return;
         }
@@ -129,7 +178,11 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         $this->nullMethods[$key]['expected'][] = $exception->getExpected();
     }
 
+<<<<<<< HEAD
     public function afterSuite(SuiteEvent $event)
+=======
+    public function afterSuite(SuiteEvent $event): void
+>>>>>>> v2-test
     {
         if (!$this->io->isCodeGenerationEnabled()) {
             return;
@@ -142,7 +195,11 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         foreach ($this->nullMethods as $methodString => $failedCall) {
             $failedCall['expected'] = array_unique($failedCall['expected']);
 
+<<<<<<< HEAD
             if (count($failedCall['expected'])>1) {
+=======
+            if (\count($failedCall['expected'])>1) {
+>>>>>>> v2-test
                 continue;
             }
 

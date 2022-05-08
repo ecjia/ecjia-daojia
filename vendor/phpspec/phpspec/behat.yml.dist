@@ -9,9 +9,20 @@ default:
     smoke:
       contexts: [ IsolatedProcessContext, FilesystemContext ]
       filters: { tags: "@smoke && ~@isolated" }
+<<<<<<< HEAD
   extensions:
     Cjm\Behat\VersionBasedTestSkipperExtension: ~
 
 no-smoke:
   suites:
     smoke: ~
+=======
+
+phar:
+  suites:
+    application: false
+    isolated:
+      contexts: [ PharProcessContext, FilesystemContext ]
+    smoke:
+      contexts: [ PharProcessContext, FilesystemContext ]
+>>>>>>> v2-test

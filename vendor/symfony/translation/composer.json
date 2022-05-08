@@ -1,7 +1,11 @@
 {
     "name": "symfony/translation",
     "type": "library",
+<<<<<<< HEAD
     "description": "Symfony Translation Component",
+=======
+    "description": "Provides tools to internationalize your application",
+>>>>>>> v2-test
     "keywords": [],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,6 +20,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.3.9"
     },
     "require-dev": {
@@ -26,22 +31,60 @@
     },
     "conflict": {
         "symfony/config": "<2.7"
+=======
+        "php": ">=7.2.5",
+        "symfony/polyfill-mbstring": "~1.0",
+        "symfony/polyfill-php80": "^1.15",
+        "symfony/translation-contracts": "^2.3"
+    },
+    "require-dev": {
+        "symfony/config": "^4.4|^5.0",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/dependency-injection": "^5.0",
+        "symfony/http-kernel": "^5.0",
+        "symfony/intl": "^4.4|^5.0",
+        "symfony/service-contracts": "^1.1.2|^2",
+        "symfony/yaml": "^4.4|^5.0",
+        "symfony/finder": "^4.4|^5.0",
+        "psr/log": "~1.0"
+    },
+    "conflict": {
+        "symfony/config": "<4.4",
+        "symfony/dependency-injection": "<5.0",
+        "symfony/http-kernel": "<5.0",
+        "symfony/twig-bundle": "<5.0",
+        "symfony/yaml": "<4.4"
+    },
+    "provide": {
+        "symfony/translation-implementation": "2.0"
+>>>>>>> v2-test
     },
     "suggest": {
         "symfony/config": "",
         "symfony/yaml": "",
+<<<<<<< HEAD
         "psr/log": "To use logging capability in translator"
     },
     "autoload": {
+=======
+        "psr/log-implementation": "To use logging capability in translator"
+    },
+    "autoload": {
+        "files": [ "Resources/functions.php" ],
+>>>>>>> v2-test
         "psr-4": { "Symfony\\Component\\Translation\\": "" },
         "exclude-from-classmap": [
             "/Tests/"
         ]
     },
+<<<<<<< HEAD
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.7-dev"
         }
     }
+=======
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

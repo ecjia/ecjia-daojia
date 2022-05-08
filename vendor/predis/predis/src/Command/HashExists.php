@@ -25,6 +25,7 @@ class HashExists extends Command
     {
         return 'HEXISTS';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class HashExists extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

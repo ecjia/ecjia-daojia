@@ -13,9 +13,15 @@
 
 namespace PhpSpec\Locator\PSR0;
 
+<<<<<<< HEAD
 use PhpSpec\Locator\ResourceInterface;
 
 class PSR0Resource implements ResourceInterface
+=======
+use PhpSpec\Locator\Resource;
+
+final class PSR0Resource implements Resource
+>>>>>>> v2-test
 {
     /**
      * @var array
@@ -37,9 +43,15 @@ class PSR0Resource implements ResourceInterface
     }
 
     /**
+<<<<<<< HEAD
      * @return mixed
      */
     public function getName()
+=======
+     * @return string
+     */
+    public function getName(): string
+>>>>>>> v2-test
     {
         return end($this->parts);
     }
@@ -47,7 +59,11 @@ class PSR0Resource implements ResourceInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSpecName()
+=======
+    public function getSpecName(): string
+>>>>>>> v2-test
     {
         return $this->getName().'Spec';
     }
@@ -55,7 +71,11 @@ class PSR0Resource implements ResourceInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSrcFilename()
+=======
+    public function getSrcFilename(): string
+>>>>>>> v2-test
     {
         if ($this->locator->isPSR4()) {
             return $this->locator->getFullSrcPath().implode(DIRECTORY_SEPARATOR, $this->parts).'.php';
@@ -71,7 +91,11 @@ class PSR0Resource implements ResourceInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSrcNamespace()
+=======
+    public function getSrcNamespace(): string
+>>>>>>> v2-test
     {
         $nsParts = $this->parts;
         array_pop($nsParts);
@@ -82,7 +106,11 @@ class PSR0Resource implements ResourceInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSrcClassname()
+=======
+    public function getSrcClassname(): string
+>>>>>>> v2-test
     {
         return $this->locator->getSrcNamespace().implode('\\', $this->parts);
     }
@@ -90,7 +118,11 @@ class PSR0Resource implements ResourceInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSpecFilename()
+=======
+    public function getSpecFilename(): string
+>>>>>>> v2-test
     {
         if ($this->locator->isPSR4()) {
             return $this->locator->getFullSpecPath().
@@ -108,7 +140,11 @@ class PSR0Resource implements ResourceInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSpecNamespace()
+=======
+    public function getSpecNamespace(): string
+>>>>>>> v2-test
     {
         $nsParts = $this->parts;
         array_pop($nsParts);
@@ -119,7 +155,11 @@ class PSR0Resource implements ResourceInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSpecClassname()
+=======
+    public function getSpecClassname(): string
+>>>>>>> v2-test
     {
         return $this->locator->getSpecNamespace().implode('\\', $this->parts).'Spec';
     }

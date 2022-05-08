@@ -14,18 +14,30 @@
 namespace PhpSpec\Runner\Maintainer;
 
 use PhpSpec\Loader\Node\ExampleNode;
+<<<<<<< HEAD
 use PhpSpec\SpecificationInterface;
 use PhpSpec\Runner\MatcherManager;
 use PhpSpec\Runner\CollaboratorManager;
 
 class LetAndLetgoMaintainer implements MaintainerInterface
+=======
+use PhpSpec\Specification;
+use PhpSpec\Runner\MatcherManager;
+use PhpSpec\Runner\CollaboratorManager;
+
+class LetAndLetgoMaintainer implements Maintainer
+>>>>>>> v2-test
 {
     /**
      * @param ExampleNode $example
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function supports(ExampleNode $example)
+=======
+    public function supports(ExampleNode $example): bool
+>>>>>>> v2-test
     {
         return $example->getSpecification()->getClassReflection()->hasMethod('let')
             || $example->getSpecification()->getClassReflection()->hasMethod('letgo')
@@ -34,16 +46,27 @@ class LetAndLetgoMaintainer implements MaintainerInterface
 
     /**
      * @param ExampleNode            $example
+<<<<<<< HEAD
      * @param SpecificationInterface $context
+=======
+     * @param Specification $context
+>>>>>>> v2-test
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
     public function prepare(
         ExampleNode $example,
+<<<<<<< HEAD
         SpecificationInterface $context,
         MatcherManager $matchers,
         CollaboratorManager $collaborators
     ) {
+=======
+        Specification $context,
+        MatcherManager $matchers,
+        CollaboratorManager $collaborators
+    ): void {
+>>>>>>> v2-test
         if (!$example->getSpecification()->getClassReflection()->hasMethod('let')) {
             return;
         }
@@ -54,16 +77,27 @@ class LetAndLetgoMaintainer implements MaintainerInterface
 
     /**
      * @param ExampleNode            $example
+<<<<<<< HEAD
      * @param SpecificationInterface $context
+=======
+     * @param Specification $context
+>>>>>>> v2-test
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
     public function teardown(
         ExampleNode $example,
+<<<<<<< HEAD
         SpecificationInterface $context,
         MatcherManager $matchers,
         CollaboratorManager $collaborators
     ) {
+=======
+        Specification $context,
+        MatcherManager $matchers,
+        CollaboratorManager $collaborators
+    ): void {
+>>>>>>> v2-test
         if (!$example->getSpecification()->getClassReflection()->hasMethod('letgo')) {
             return;
         }
@@ -75,7 +109,11 @@ class LetAndLetgoMaintainer implements MaintainerInterface
     /**
      * @return int
      */
+<<<<<<< HEAD
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 10;
     }

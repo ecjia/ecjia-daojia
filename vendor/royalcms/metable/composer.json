@@ -1,0 +1,39 @@
+{
+    "name": "royalcms/metable",
+    "description": "The Royalcms metable package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Metable\\": "Royalcms/Component/Metable"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Metable\\MetableServiceProvider"
+            ],
+            "aliases": {
+                "RC_Metable": "Royalcms\\Component\\Metable\\Facades\\Metable"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

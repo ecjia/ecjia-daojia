@@ -13,8 +13,13 @@
 
 namespace PhpSpec\Formatter;
 
+<<<<<<< HEAD
 use PhpSpec\IO\IOInterface as IO;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\IO\IO;
+>>>>>>> v2-test
 use PhpSpec\Listener\StatisticsCollector;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Event\SpecificationEvent;
@@ -29,7 +34,11 @@ abstract class BasicFormatter implements EventSubscriberInterface
     private $io;
 
     /**
+<<<<<<< HEAD
      * @var PresenterInterface
+=======
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
 
@@ -38,7 +47,11 @@ abstract class BasicFormatter implements EventSubscriberInterface
      */
     private $stats;
 
+<<<<<<< HEAD
     public function __construct(PresenterInterface $presenter, IO $io, StatisticsCollector $stats)
+=======
+    public function __construct(Presenter $presenter, IO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         $this->presenter = $presenter;
         $this->io = $io;
@@ -48,7 +61,11 @@ abstract class BasicFormatter implements EventSubscriberInterface
     /**
      * @return array
      */
+<<<<<<< HEAD
     public static function getSubscribedEvents()
+=======
+    public static function getSubscribedEvents(): array
+>>>>>>> v2-test
     {
         $events = array(
             'beforeSuite', 'afterSuite',
@@ -62,15 +79,25 @@ abstract class BasicFormatter implements EventSubscriberInterface
     /**
      * @return IO
      */
+<<<<<<< HEAD
     protected function getIO()
+=======
+    protected function getIO(): IO
+>>>>>>> v2-test
     {
         return $this->io;
     }
 
     /**
+<<<<<<< HEAD
      * @return PresenterInterface
      */
     protected function getPresenter()
+=======
+     * @return Presenter
+     */
+    protected function getPresenter(): Presenter
+>>>>>>> v2-test
     {
         return $this->presenter;
     }
@@ -78,7 +105,11 @@ abstract class BasicFormatter implements EventSubscriberInterface
     /**
      * @return StatisticsCollector
      */
+<<<<<<< HEAD
     protected function getStatisticsCollector()
+=======
+    protected function getStatisticsCollector(): StatisticsCollector
+>>>>>>> v2-test
     {
         return $this->stats;
     }

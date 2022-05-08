@@ -61,6 +61,11 @@ class CRC16 implements HashGeneratorInterface
         // CRC-CCITT-16 algorithm
         $crc = 0;
         $CCITT_16 = self::$CCITT_16;
+<<<<<<< HEAD
+=======
+
+        $value = (string) $value;
+>>>>>>> v2-test
         $strlen = strlen($value);
 
         for ($i = 0; $i < $strlen; ++$i) {

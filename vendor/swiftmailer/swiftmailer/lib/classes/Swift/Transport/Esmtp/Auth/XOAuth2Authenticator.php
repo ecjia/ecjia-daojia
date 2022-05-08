@@ -13,7 +13,11 @@
  *
  * Example:
  * <code>
+<<<<<<< HEAD
  * $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
+=======
+ * $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+>>>>>>> v2-test
  *   ->setAuthMode('XOAUTH2')
  *   ->setUsername('YOUR_EMAIL_ADDRESS')
  *   ->setPassword('YOUR_ACCESS_TOKEN');
@@ -36,6 +40,7 @@ class Swift_Transport_Esmtp_Auth_XOAuth2Authenticator implements Swift_Transport
     }
 
     /**
+<<<<<<< HEAD
      * Try to authenticate the user with $email and $token.
      *
      * @param Swift_Transport_SmtpAgent $agent
@@ -43,11 +48,15 @@ class Swift_Transport_Esmtp_Auth_XOAuth2Authenticator implements Swift_Transport
      * @param string                    $token
      *
      * @return bool
+=======
+     * {@inheritdoc}
+>>>>>>> v2-test
      */
     public function authenticate(Swift_Transport_SmtpAgent $agent, $email, $token)
     {
         try {
             $param = $this->constructXOAuth2Params($email, $token);
+<<<<<<< HEAD
             $agent->executeCommand('AUTH XOAUTH2 '.$param."\r\n", array(235));
 
             return true;
@@ -55,6 +64,15 @@ class Swift_Transport_Esmtp_Auth_XOAuth2Authenticator implements Swift_Transport
             $agent->executeCommand("RSET\r\n", array(250));
 
             return false;
+=======
+            $agent->executeCommand('AUTH XOAUTH2 '.$param."\r\n", [235]);
+
+            return true;
+        } catch (Swift_TransportException $e) {
+            $agent->executeCommand("RSET\r\n", [250]);
+
+            throw $e;
+>>>>>>> v2-test
         }
     }
 

@@ -43,8 +43,12 @@ class MemcacheServiceProvider extends ServiceProvider {
 	 */
 	protected function bindMemcache()
 	{
+<<<<<<< HEAD
 	    $this->royalcms->bindShared('memcache', function($royalcms)
 	    {
+=======
+	    $this->royalcms->singleton('memcache', function($royalcms) {
+>>>>>>> v2-test
 	        $config = $royalcms['config']->get('memcache::config');
 	        $server = array_head($config['servers']);
 	        return new Repository($server['hostname'], $server['port'], $config['driver']);

@@ -20,5 +20,9 @@ interface ExceptionPresenter
      * @param bool $verbose
      * @return string
      */
+<<<<<<< HEAD
     public function presentException(\Exception $exception, $verbose = false);
+=======
+    public function presentException(\Exception $exception, bool $verbose = false): string;
+>>>>>>> v2-test
 }

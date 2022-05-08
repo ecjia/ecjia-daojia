@@ -11,7 +11,11 @@
 
 namespace Symfony\Component\Console\Output;
 
+<<<<<<< HEAD
 use Symfony\Component\Console\Formatter\OutputFormatter;
+=======
+use Symfony\Component\Console\Formatter\NullOutputFormatter;
+>>>>>>> v2-test
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 
 /**
@@ -24,6 +28,11 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  */
 class NullOutput implements OutputInterface
 {
+<<<<<<< HEAD
+=======
+    private $formatter;
+
+>>>>>>> v2-test
     /**
      * {@inheritdoc}
      */
@@ -37,14 +46,26 @@ class NullOutput implements OutputInterface
      */
     public function getFormatter()
     {
+<<<<<<< HEAD
         // to comply with the interface we must return a OutputFormatterInterface
         return new OutputFormatter();
+=======
+        if ($this->formatter) {
+            return $this->formatter;
+        }
+        // to comply with the interface we must return a OutputFormatterInterface
+        return $this->formatter = new NullOutputFormatter();
+>>>>>>> v2-test
     }
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setDecorated($decorated)
+=======
+    public function setDecorated(bool $decorated)
+>>>>>>> v2-test
     {
         // do nothing
     }
@@ -60,7 +81,11 @@ class NullOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setVerbosity($level)
+=======
+    public function setVerbosity(int $level)
+>>>>>>> v2-test
     {
         // do nothing
     }
@@ -108,7 +133,11 @@ class NullOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function writeln($messages, $options = self::OUTPUT_NORMAL)
+=======
+    public function writeln($messages, int $options = self::OUTPUT_NORMAL)
+>>>>>>> v2-test
     {
         // do nothing
     }
@@ -116,7 +145,11 @@ class NullOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function write($messages, $newline = false, $options = self::OUTPUT_NORMAL)
+=======
+    public function write($messages, bool $newline = false, int $options = self::OUTPUT_NORMAL)
+>>>>>>> v2-test
     {
         // do nothing
     }

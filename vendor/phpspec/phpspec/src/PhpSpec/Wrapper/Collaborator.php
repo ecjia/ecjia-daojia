@@ -15,7 +15,11 @@ namespace PhpSpec\Wrapper;
 
 use Prophecy\Prophecy\ObjectProphecy;
 
+<<<<<<< HEAD
 class Collaborator implements WrapperInterface
+=======
+final class Collaborator implements ObjectWrapper
+>>>>>>> v2-test
 {
     /**
      * @var ObjectProphecy
@@ -33,7 +37,11 @@ class Collaborator implements WrapperInterface
     /**
      * @param string $classOrInterface
      */
+<<<<<<< HEAD
     public function beADoubleOf($classOrInterface)
+=======
+    public function beADoubleOf(string $classOrInterface): void
+>>>>>>> v2-test
     {
         if (interface_exists($classOrInterface)) {
             $this->prophecy->willImplement($classOrInterface);
@@ -45,7 +53,11 @@ class Collaborator implements WrapperInterface
     /**
      * @param array $arguments
      */
+<<<<<<< HEAD
     public function beConstructedWith(array $arguments = null)
+=======
+    public function beConstructedWith(array $arguments = null): void
+>>>>>>> v2-test
     {
         $this->prophecy->willBeConstructedWith($arguments);
     }
@@ -53,7 +65,11 @@ class Collaborator implements WrapperInterface
     /**
      * @param string $interface
      */
+<<<<<<< HEAD
     public function implement($interface)
+=======
+    public function implement(string $interface): void
+>>>>>>> v2-test
     {
         $this->prophecy->willImplement($interface);
     }
@@ -64,16 +80,26 @@ class Collaborator implements WrapperInterface
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public function __call($method, array $arguments)
     {
         return call_user_func_array(array($this->prophecy, '__call'), array($method, $arguments));
+=======
+    public function __call(string $method, array $arguments)
+    {
+        return \call_user_func_array(array($this->prophecy, '__call'), array($method, $arguments));
+>>>>>>> v2-test
     }
 
     /**
      * @param string $parameter
      * @param mixed  $value
      */
+<<<<<<< HEAD
     public function __set($parameter, $value)
+=======
+    public function __set(string $parameter, $value)
+>>>>>>> v2-test
     {
         $this->prophecy->$parameter = $value;
     }
@@ -83,7 +109,11 @@ class Collaborator implements WrapperInterface
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public function __get($parameter)
+=======
+    public function __get(string $parameter)
+>>>>>>> v2-test
     {
         return $this->prophecy->$parameter;
     }

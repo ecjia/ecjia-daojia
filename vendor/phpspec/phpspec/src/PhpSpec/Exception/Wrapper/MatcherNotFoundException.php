@@ -42,7 +42,11 @@ class MatcherNotFoundException extends Exception
      * @param mixed  $subject
      * @param array  $arguments
      */
+<<<<<<< HEAD
     public function __construct($message, $keyword, $subject, array $arguments)
+=======
+    public function __construct(string $message, string $keyword, $subject, array $arguments)
+>>>>>>> v2-test
     {
         parent::__construct($message);
 
@@ -54,7 +58,11 @@ class MatcherNotFoundException extends Exception
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getKeyword()
+=======
+    public function getKeyword(): string
+>>>>>>> v2-test
     {
         return $this->keyword;
     }
@@ -70,7 +78,11 @@ class MatcherNotFoundException extends Exception
     /**
      * @return array
      */
+<<<<<<< HEAD
     public function getArguments()
+=======
+    public function getArguments(): array
+>>>>>>> v2-test
     {
         return $this->arguments;
     }

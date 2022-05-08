@@ -1,0 +1,39 @@
+{
+    "name": "royalcms/upload",
+    "description": "The Royalcms upload package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Upload\\": "Royalcms/Component/Upload"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Upload\\UploadServiceProvider"
+            ],
+            "aliases": {
+                "RC_Upload": "Royalcms\\Component\\Upload\\Facades\\Upload"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

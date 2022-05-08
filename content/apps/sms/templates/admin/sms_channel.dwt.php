@@ -8,12 +8,12 @@
 <!-- {/block} -->
 
 <!-- {block name="admin_plugin_list"} -->
-<h3 class="heading">{if $ur_here}{$ur_here}{/if}（发送短信的渠道是按照该列表第一条优先执行）</h3>
+<h3 class="heading">{if $ur_here}{$ur_here}{/if} {t domain="sms"}（发送短信的渠道是按照该列表第一条优先执行）{/t}</h3>
 
 <table class="table table-striped table-hide-edit" data-rowlink="a">
 	<thead>
 		<tr>
-			<th class="w150">{t domain="sms"}名称{/t}</th>
+			<th class="w150">{t domain="sms"}用户名{/t}</th>
 			<th>{t domain="sms"}描述{/t}</th>
 			<th class="w80">{t domain="sms"}排序{/t}</th>
 			<th class="w80">{t domain="sms"}是否开启{/t}</th>
@@ -35,8 +35,8 @@
 				<!-- {if $val.enabled == 1} -->
 					<div class="edit-list">
 						<a class="data-pjax" href='{RC_Uri::url("sms/admin_plugin/edit", "code={$val.channel_code}")}' title='{t domain="sms"}编辑{/t}'>{t domain="sms"}编辑{/t}</a>&nbsp;|&nbsp;
-						<a class="switch ecjiafc-red" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/switch_state", "code={$val.channel_code}")}&enabled=0' title='{t domain="sms"}禁用{/t}'>{t domain="sms"}禁用{/t}</a>&nbsp;|&nbsp;
-						<a class="check" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/check_balance", "code={$val.channel_code}")}' title='{t domain="sms"}查看余额{/t}' >{t domain="sms"}查看余额{/t}</a>
+						<a class="switch ecjiafc-red" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/switch_state", "code={$val.channel_code}")}&enabled=0' title='{t domain="sms"}注销短信服务{/t}'>{t domain="sms"}注销短信服务{/t}</a>&nbsp;|&nbsp;
+						<a class="check" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/check_balance", "code={$val.channel_code}")}' title='{t domain="sms"}查看余额{/t}'>{t domain="sms"}查看余额{/t}</a>
 					</div>
 				<!-- {else} -->
 					<div class="edit-list">

@@ -1,7 +1,11 @@
 {
     "name": "symfony/var-dumper",
     "type": "library",
+<<<<<<< HEAD
     "description": "Symfony mechanism for exploring and dumping PHP variables",
+=======
+    "description": "Provides mechanisms for walking through any arbitrary PHP variable",
+>>>>>>> v2-test
     "keywords": ["dump", "debug"],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,10 +20,31 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.3.9"
     },
     "suggest": {
         "ext-symfony_debug": ""
+=======
+        "php": ">=7.2.5",
+        "symfony/polyfill-mbstring": "~1.0",
+        "symfony/polyfill-php80": "^1.15"
+    },
+    "require-dev": {
+        "ext-iconv": "*",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/process": "^4.4|^5.0",
+        "twig/twig": "^2.13|^3.0.4"
+    },
+    "conflict": {
+        "phpunit/phpunit": "<5.4.3",
+        "symfony/console": "<4.4"
+    },
+    "suggest": {
+        "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
+        "ext-intl": "To show region name in time zone dump",
+        "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
+>>>>>>> v2-test
     },
     "autoload": {
         "files": [ "Resources/functions/dump.php" ],
@@ -28,10 +53,17 @@
             "/Tests/"
         ]
     },
+<<<<<<< HEAD
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.7-dev"
         }
     }
+=======
+    "bin": [
+        "Resources/bin/var-dump-server"
+    ],
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

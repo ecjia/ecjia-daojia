@@ -4,14 +4,21 @@ Feature: Developer has defined a supporting class and should not see a silent er
   So that I can better trace where my changes caused a fatal error
 
   @isolated
+<<<<<<< HEAD
   Scenario: Spec attempts to run a class with an undeclared interface, outputs to stdout
+=======
+  Scenario: Spec attempts to run a class with trying to implement throwable, outputs to stdout
+>>>>>>> v2-test
     Given the spec file "spec/SomethingSpec.php" contains:
       """
       <?php
         namespace spec;
 
         use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
         use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
         class SomethingSpec extends ObjectBehavior
         {
@@ -21,7 +28,11 @@ Feature: Developer has defined a supporting class and should not see a silent er
             }
         }
 
+<<<<<<< HEAD
         class ExampleClass implements NotDefinedInterface
+=======
+        class ExampleClass implements \Throwable
+>>>>>>> v2-test
         {
         }
 

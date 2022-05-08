@@ -25,6 +25,7 @@ class KeyMove extends Command
     {
         return 'MOVE';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class KeyMove extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

@@ -33,6 +33,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function newLine($count = 1)
     {
         $this->output->write(str_repeat(PHP_EOL, $count));
@@ -44,6 +45,17 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
      * @return ProgressBar
      */
     public function createProgressBar($max = 0)
+=======
+    public function newLine(int $count = 1)
+    {
+        $this->output->write(str_repeat(\PHP_EOL, $count));
+    }
+
+    /**
+     * @return ProgressBar
+     */
+    public function createProgressBar(int $max = 0)
+>>>>>>> v2-test
     {
         return new ProgressBar($this->output, $max);
     }
@@ -51,7 +63,11 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function write($messages, $newline = false, $type = self::OUTPUT_NORMAL)
+=======
+    public function write($messages, bool $newline = false, int $type = self::OUTPUT_NORMAL)
+>>>>>>> v2-test
     {
         $this->output->write($messages, $newline, $type);
     }
@@ -59,7 +75,11 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function writeln($messages, $type = self::OUTPUT_NORMAL)
+=======
+    public function writeln($messages, int $type = self::OUTPUT_NORMAL)
+>>>>>>> v2-test
     {
         $this->output->writeln($messages, $type);
     }
@@ -67,7 +87,11 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setVerbosity($level)
+=======
+    public function setVerbosity(int $level)
+>>>>>>> v2-test
     {
         $this->output->setVerbosity($level);
     }
@@ -83,7 +107,11 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setDecorated($decorated)
+=======
+    public function setDecorated(bool $decorated)
+>>>>>>> v2-test
     {
         $this->output->setDecorated($decorated);
     }

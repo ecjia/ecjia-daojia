@@ -13,11 +13,19 @@
 
 namespace PhpSpec\Formatter;
 
+<<<<<<< HEAD
 use PhpSpec\Console\IO;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Event\ExampleEvent;
 
 class ProgressFormatter extends ConsoleFormatter
+=======
+use PhpSpec\Console\ConsoleIO;
+use PhpSpec\Event\SuiteEvent;
+use PhpSpec\Event\ExampleEvent;
+
+final class ProgressFormatter extends ConsoleFormatter
+>>>>>>> v2-test
 {
     const FPS = 10;
 
@@ -55,7 +63,11 @@ class ProgressFormatter extends ConsoleFormatter
         $count = $stats->getEventsCount();
         $plural = $count !== 1 ? 's' : '';
         $io->write(sprintf("%d example%s ", $count, $plural));
+<<<<<<< HEAD
         if (count($counts)) {
+=======
+        if (\count($counts)) {
+>>>>>>> v2-test
             $io->write(sprintf("(%s)", implode(', ', $counts)));
         }
 
@@ -68,7 +80,11 @@ class ProgressFormatter extends ConsoleFormatter
      * @param $counts
      * @return array
      */
+<<<<<<< HEAD
     private function getPercentages($total, $counts)
+=======
+    private function getPercentages($total, $counts): array
+>>>>>>> v2-test
     {
         return array_map(
             function ($count) use ($total) {
@@ -88,7 +104,11 @@ class ProgressFormatter extends ConsoleFormatter
      * @param array $counts
      * @return array
      */
+<<<<<<< HEAD
     private function getBarLengths($counts)
+=======
+    private function getBarLengths(array $counts): array
+>>>>>>> v2-test
     {
         $stats = $this->getStatisticsCollector();
         $totalSpecsCount = $stats->getTotalSpecsCount();
@@ -109,7 +129,11 @@ class ProgressFormatter extends ConsoleFormatter
      * @param  boolean $isDecorated
      * @return array
      */
+<<<<<<< HEAD
     private function formatProgressOutput($barLengths, $percents, $isDecorated)
+=======
+    private function formatProgressOutput(array $barLengths, array $percents, bool $isDecorated): array
+>>>>>>> v2-test
     {
         $size = $this->getIO()->getBlockWidth();
         $progress = array();
@@ -120,7 +144,11 @@ class ProgressFormatter extends ConsoleFormatter
             $size = $size - $length;
 
             if ($isDecorated) {
+<<<<<<< HEAD
                 if ($length > strlen($text) + 2) {
+=======
+                if ($length > \strlen($text) + 2) {
+>>>>>>> v2-test
                     $text = str_pad($text, $length, ' ', STR_PAD_BOTH);
                 } else {
                     $text = str_pad('', $length, ' ');
@@ -142,6 +170,7 @@ class ProgressFormatter extends ConsoleFormatter
     }
 
     /**
+<<<<<<< HEAD
      * @param IO    $io
      * @param array $progress
      * @param int   $total
@@ -151,13 +180,28 @@ class ProgressFormatter extends ConsoleFormatter
         if ($io->isDecorated()) {
             $progressBar = implode('', $progress);
             $pad = $this->getIO()->getBlockWidth() - strlen(strip_tags($progressBar));
+=======
+     * @param ConsoleIO $io
+     * @param array     $progress
+     * @param int       $total
+     */
+    private function updateProgressBar(ConsoleIO $io, array $progress, int $total): void
+    {
+        if ($io->isDecorated()) {
+            $progressBar = implode('', $progress);
+            $pad = $this->getIO()->getBlockWidth() - \strlen(strip_tags($progressBar));
+>>>>>>> v2-test
             $io->writeTemp($progressBar.str_repeat(' ', $pad + 1).$total);
         } else {
             $io->writeTemp('/'.implode('/', $progress).'/  '.$total.' examples');
         }
     }
 
+<<<<<<< HEAD
     private function drawStats()
+=======
+    private function drawStats(): void
+>>>>>>> v2-test
     {
         $io = $this->getIO();
         $stats = $this->getStatisticsCollector();

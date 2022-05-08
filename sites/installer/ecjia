@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+define('RC_SITE', 'installer');
+define('USE_SUB_DOMAIN', false);
+define('USE_AUTONOMY_CONFIG', true);
+define('USE_AUTONOMY_CONFIG_GROUP', 'bundles');
+
+define('IN_ECJIA', true);
+//define('NO_CHECK_INSTALL', true);
+define('ARTISAN_BINARY', 'ecjia');
+
+// 站点根目录
+define('SITE_ROOT', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
+define('VENDOR_DIR', SITE_ROOT . 'vendor');
+
+require SITE_ROOT . 'content/bootstrap/console.php';

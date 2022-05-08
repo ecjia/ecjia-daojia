@@ -44,8 +44,11 @@ abstract class FormField
     protected $disabled;
 
     /**
+<<<<<<< HEAD
      * Constructor.
      *
+=======
+>>>>>>> v2-test
      * @param \DOMElement $node The node associated with this field
      */
     public function __construct(\DOMElement $node)
@@ -58,6 +61,30 @@ abstract class FormField
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Returns the label tag associated to the field or null if none.
+     *
+     * @return \DOMElement|null
+     */
+    public function getLabel()
+    {
+        $xpath = new \DOMXPath($this->node->ownerDocument);
+
+        if ($this->node->hasAttribute('id')) {
+            $labels = $xpath->query(sprintf('descendant::label[@for="%s"]', $this->node->getAttribute('id')));
+            if ($labels->length > 0) {
+                return $labels->item(0);
+            }
+        }
+
+        $labels = $xpath->query('ancestor::label[1]', $this->node);
+
+        return $labels->length > 0 ? $labels->item(0) : null;
+    }
+
+    /**
+>>>>>>> v2-test
      * Returns the name of the field.
      *
      * @return string The name of the field
@@ -79,12 +106,19 @@ abstract class FormField
 
     /**
      * Sets the value of the field.
+<<<<<<< HEAD
      *
      * @param string $value The value of the field
      */
     public function setValue($value)
     {
         $this->value = (string) $value;
+=======
+     */
+    public function setValue(?string $value)
+    {
+        $this->value = $value ?? '';
+>>>>>>> v2-test
     }
 
     /**

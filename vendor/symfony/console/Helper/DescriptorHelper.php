@@ -29,7 +29,11 @@ class DescriptorHelper extends Helper
     /**
      * @var DescriptorInterface[]
      */
+<<<<<<< HEAD
     private $descriptors = array();
+=======
+    private $descriptors = [];
+>>>>>>> v2-test
 
     public function __construct()
     {
@@ -48,6 +52,7 @@ class DescriptorHelper extends Helper
      * * format: string, the output format name
      * * raw_text: boolean, sets output type as raw
      *
+<<<<<<< HEAD
      * @param OutputInterface $output
      * @param object          $object
      * @param array           $options
@@ -60,6 +65,16 @@ class DescriptorHelper extends Helper
             'raw_text' => false,
             'format' => 'txt',
         ), $options);
+=======
+     * @throws InvalidArgumentException when the given format is not supported
+     */
+    public function describe(OutputInterface $output, ?object $object, array $options = [])
+    {
+        $options = array_merge([
+            'raw_text' => false,
+            'format' => 'txt',
+        ], $options);
+>>>>>>> v2-test
 
         if (!isset($this->descriptors[$options['format']])) {
             throw new InvalidArgumentException(sprintf('Unsupported format "%s".', $options['format']));
@@ -72,12 +87,18 @@ class DescriptorHelper extends Helper
     /**
      * Registers a descriptor.
      *
+<<<<<<< HEAD
      * @param string              $format
      * @param DescriptorInterface $descriptor
      *
      * @return $this
      */
     public function register($format, DescriptorInterface $descriptor)
+=======
+     * @return $this
+     */
+    public function register(string $format, DescriptorInterface $descriptor)
+>>>>>>> v2-test
     {
         $this->descriptors[$format] = $descriptor;
 

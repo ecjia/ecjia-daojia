@@ -85,7 +85,11 @@ interface Swift_Mime_Header
     public function getFieldBody();
 
     /**
+<<<<<<< HEAD
      * Get this Header rendered as a compliant string.
+=======
+     * Get this Header rendered as a compliant string, including trailing CRLF.
+>>>>>>> v2-test
      *
      * @return string
      */

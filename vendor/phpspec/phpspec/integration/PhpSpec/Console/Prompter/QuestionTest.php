@@ -3,12 +3,20 @@
 namespace integration\PhpSpec\Console\Prompter;
 
 use PhpSpec\Console\Prompter\Question;
+<<<<<<< HEAD
+=======
+use PHPUnit\Framework\TestCase;
+>>>>>>> v2-test
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @requires function \Symfony\Component\Console\Helper\QuestionHelper::ask
  */
+<<<<<<< HEAD
 class QuestionTest extends \PHPUnit_Framework_TestCase
+=======
+class QuestionTest extends TestCase
+>>>>>>> v2-test
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
@@ -30,11 +38,19 @@ class QuestionTest extends \PHPUnit_Framework_TestCase
      */
     private $prompter;
 
+<<<<<<< HEAD
     protected function setUp()
     {
         $this->input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
         $this->output = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
         $this->questionHelper = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper');
+=======
+    protected function setUp() : void
+    {
+        $this->input = $this->createMock('Symfony\Component\Console\Input\InputInterface');
+        $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->questionHelper = $this->createMock('Symfony\Component\Console\Helper\QuestionHelper');
+>>>>>>> v2-test
 
         $this->prompter = new Question($this->input, $this->output, $this->questionHelper);
     }

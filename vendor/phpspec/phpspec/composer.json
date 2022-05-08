@@ -1,6 +1,10 @@
 {
     "name":         "phpspec/phpspec",
+<<<<<<< HEAD
     "description":  "Specification-oriented BDD framework for PHP 5.3+",
+=======
+    "description":  "Specification-oriented BDD framework for PHP 7.1+",
+>>>>>>> v2-test
     "keywords":     ["BDD", "SpecBDD", "TDD", "spec", "specification", "tests", "testing"],
     "homepage":     "http://phpspec.net/",
     "type":         "library",
@@ -14,10 +18,18 @@
         {
             "name":      "Marcello Duarte",
             "homepage":  "http://marcelloduarte.net/"
+<<<<<<< HEAD
+=======
+        },
+        {
+            "name":      "Ciaran McNulty",
+            "homepage":  "https://ciaranmcnulty.com/"
+>>>>>>> v2-test
         }
     ],
 
     "require": {
+<<<<<<< HEAD
         "php":                      ">=5.3.3",
         "phpspec/prophecy":         "~1.4",
         "phpspec/php-diff":         "~1.0.0",
@@ -28,10 +40,23 @@
         "symfony/finder":           "~2.1|~3.0",
         "symfony/yaml":             "~2.1|~3.0",
         "doctrine/instantiator":    "^1.0.1",
+=======
+        "php":                      "^7.2 || 8.0.*",
+        "phpspec/prophecy":         "^1.9",
+        "phpspec/php-diff":         "^1.0.0",
+        "sebastian/exporter":       "^1.0 || ^2.0 || ^3.0 || ^4.0",
+        "symfony/console":          "^3.4 || ^4.0 || ^5.0",
+        "symfony/event-dispatcher": "^3.4 || ^4.0 || ^5.0",
+        "symfony/process":          "^3.4 || ^4.0 || ^5.0",
+        "symfony/finder":           "^3.4 || ^4.0 || ^5.0",
+        "symfony/yaml":             "^3.4 || ^4.0 || ^5.0",
+        "doctrine/instantiator":    "^1.0.5",
+>>>>>>> v2-test
         "ext-tokenizer":            "*"
     },
 
     "require-dev": {
+<<<<<<< HEAD
         "behat/behat":           "^3.0.11",
         "symfony/filesystem":    "~2.1|~3.0",
         "phpunit/phpunit":       "~4.4",
@@ -40,6 +65,19 @@
 
     "suggest": {
         "phpspec/nyan-formatters": "~1.0 – Adds Nyan formatters"
+=======
+        "behat/behat":           "^3.3",
+        "symfony/filesystem":    "^3.4 || ^4.0 || ^5.0",
+        "phpunit/phpunit":       "^8.0 || ^9.0"
+    },
+
+    "suggest": {
+        "phpspec/nyan-formatters": "Adds Nyan formatters"
+    },
+
+    "conflict": {
+        "sebastian/comparator" : "<1.2.4"
+>>>>>>> v2-test
     },
 
     "autoload": {
@@ -58,7 +96,14 @@
 
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-master": "2.5.x-dev"
         }
     }
+=======
+            "dev-master": "6.3.x-dev"
+        }
+    }
+
+>>>>>>> v2-test
 }

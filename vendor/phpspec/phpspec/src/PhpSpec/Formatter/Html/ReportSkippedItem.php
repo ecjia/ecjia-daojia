@@ -37,10 +37,14 @@ class ReportSkippedItem
         $this->event    = $event;
     }
 
+<<<<<<< HEAD
     /**
      *
      */
     public function write()
+=======
+    public function write(): void
+>>>>>>> v2-test
     {
         $this->template->render(Template::DIR.'/Template/ReportSkipped.html', array(
             'title' => htmlentities(strip_tags($this->event->getTitle())),

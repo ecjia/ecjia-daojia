@@ -17,12 +17,20 @@ final class CurrentExampleTracker
 {
     private $currentExample;
 
+<<<<<<< HEAD
     public function setCurrentExample($currentExample)
+=======
+    public function setCurrentExample(string $currentExample = null)
+>>>>>>> v2-test
     {
         $this->currentExample = $currentExample;
     }
 
+<<<<<<< HEAD
     public function getCurrentExample()
+=======
+    public function getCurrentExample() : ?string
+>>>>>>> v2-test
     {
         return $this->currentExample;
     }

@@ -6,8 +6,14 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use PhpSpec\Event\ExampleEvent;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface as Presenter;
 use PhpSpec\Formatter\Html\Template;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\Formatter\Template;
+use PhpSpec\Formatter\Html\Template as HtmlTemplate;
+>>>>>>> v2-test
 
 class ReportFailedItemSpec extends ObjectBehavior
 {
@@ -30,7 +36,11 @@ class ReportFailedItemSpec extends ObjectBehavior
         $event->getMessage()->willReturn(self::EVENT_MESSAGE);
         $event->getBacktrace()->willReturn(self::$BACKTRACE);
         $event->getException()->willReturn(new \Exception());
+<<<<<<< HEAD
         $template->render(Template::DIR.'/Template/ReportFailed.html', array(
+=======
+        $template->render(HtmlTemplate::DIR.'/Template/ReportFailed.html', array(
+>>>>>>> v2-test
             'title' => self::EVENT_TITLE,
             'message' => self::EVENT_MESSAGE,
             'backtrace' => self::BACKTRACE,

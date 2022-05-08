@@ -1,0 +1,6 @@
+.git/
+vendor/
+coverage/
+.idea/
+.source
+composer.lock

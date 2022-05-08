@@ -2,9 +2,13 @@
 
 namespace spec\PhpSpec\Exception\Example;
 
+<<<<<<< HEAD
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+=======
+use PhpSpec\ObjectBehavior;
+>>>>>>> v2-test
 
 class StopOnFailureExceptionSpec extends ObjectBehavior
 {

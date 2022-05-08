@@ -11,7 +11,11 @@
 /**
  * Sends Messages over SMTP with ESMTP support.
  *
+<<<<<<< HEAD
  * @author Chris Corbyn
+=======
+ * @author     Chris Corbyn
+>>>>>>> v2-test
  *
  * @method Swift_SmtpTransport setUsername(string $username) Set the username to authenticate with.
  * @method string              getUsername()                 Get the username to authenticate with.
@@ -23,6 +27,7 @@
 class Swift_SmtpTransport extends Swift_Transport_EsmtpTransport
 {
     /**
+<<<<<<< HEAD
      * Create a new SmtpTransport, optionally with $host, $port and $security.
      *
      * @param string $host
@@ -33,12 +38,23 @@ class Swift_SmtpTransport extends Swift_Transport_EsmtpTransport
     {
         call_user_func_array(
             array($this, 'Swift_Transport_EsmtpTransport::__construct'),
+=======
+     * @param string $host
+     * @param int    $port
+     * @param string $encryption
+     */
+    public function __construct($host = 'localhost', $port = 25, $encryption = null)
+    {
+        \call_user_func_array(
+            [$this, 'Swift_Transport_EsmtpTransport::__construct'],
+>>>>>>> v2-test
             Swift_DependencyContainer::getInstance()
                 ->createDependenciesFor('transport.smtp')
             );
 
         $this->setHost($host);
         $this->setPort($port);
+<<<<<<< HEAD
         $this->setEncryption($security);
     }
 
@@ -54,5 +70,8 @@ class Swift_SmtpTransport extends Swift_Transport_EsmtpTransport
     public static function newInstance($host = 'localhost', $port = 25, $security = null)
     {
         return new self($host, $port, $security);
+=======
+        $this->setEncryption($encryption);
+>>>>>>> v2-test
     }
 }

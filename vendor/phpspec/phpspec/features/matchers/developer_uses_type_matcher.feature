@@ -11,7 +11,10 @@ Feature: Developer uses type matcher
     namespace spec\Matchers\TypeExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class CarSpec extends ObjectBehavior
     {
@@ -45,7 +48,10 @@ Feature: Developer uses type matcher
     namespace spec\Matchers\TypeExample2;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class CarSpec extends ObjectBehavior
     {
@@ -82,7 +88,10 @@ Feature: Developer uses type matcher
     namespace spec\Matchers\TypeExample3;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class CarSpec extends ObjectBehavior
     {
@@ -119,7 +128,10 @@ Feature: Developer uses type matcher
     namespace spec\Matchers\TypeExample4;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class CarSpec extends ObjectBehavior
     {

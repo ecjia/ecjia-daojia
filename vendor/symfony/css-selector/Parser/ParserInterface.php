@@ -20,15 +20,26 @@ use Symfony\Component\CssSelector\Node\SelectorNode;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 interface ParserInterface
 {
     /**
      * Parses given selector source into an array of tokens.
      *
+<<<<<<< HEAD
      * @param string $source
      *
      * @return SelectorNode[]
      */
     public function parse($source);
+=======
+     * @return SelectorNode[]
+     */
+    public function parse(string $source): array;
+>>>>>>> v2-test
 }

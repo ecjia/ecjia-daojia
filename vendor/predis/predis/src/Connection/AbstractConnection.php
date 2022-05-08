@@ -55,6 +55,7 @@ abstract class AbstractConnection implements NodeConnectionInterface
      *
      * @return ParametersInterface
      */
+<<<<<<< HEAD
     protected function assertParameters(ParametersInterface $parameters)
     {
         switch ($parameters->scheme) {
@@ -69,6 +70,9 @@ abstract class AbstractConnection implements NodeConnectionInterface
 
         return $parameters;
     }
+=======
+    abstract protected function assertParameters(ParametersInterface $parameters);
+>>>>>>> v2-test
 
     /**
      * Creates the underlying resource used to communicate with Redis.

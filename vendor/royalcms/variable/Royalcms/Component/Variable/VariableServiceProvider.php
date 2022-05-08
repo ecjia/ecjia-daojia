@@ -18,8 +18,12 @@ class VariableServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+<<<<<<< HEAD
 		$this->royalcms->bindShared('variable', function($royalcms)
 		{
+=======
+		$this->royalcms->singleton('variable', function($royalcms) {
+>>>>>>> v2-test
 			return new Variable;
 		});
 	}

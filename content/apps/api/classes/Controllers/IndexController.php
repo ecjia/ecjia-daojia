@@ -46,8 +46,10 @@
 //
 namespace Ecjia\App\Api\Controllers;
 
-use Ecjia\App\Api\Responses\ApiManager;
+use Ecjia\Component\ApiServer\Responses\ApiManager;
+use Ecjia\Component\ApiServer\Responses\ApiResponse;
 use Ecjia\System\BaseController\BasicController;
+use ecjia_error;
 use RC_Loader;
 
 class IndexController extends BasicController
@@ -59,30 +61,22 @@ class IndexController extends BasicController
         ini_set('memory_limit', -1);
 
         RC_Loader::load_app_func('functions');
-        
+
+        $this->middleware(config('app-api::middlewares'));
+
     }
 
     public function init()
     {
-        $request = royalcms('request');
-
-        $response = with(new ApiManager($request))->handleRequest();
-
-        $data = $response->getOriginalContent();
-        $error_code = array_get($data, 'status.error_code');
-
-        if (in_array($error_code, [
-            'url_param_not_exists',
-            'api_not_exists',
-            'api_not_handle',
-            'api_not_instanceof',
-        ])) {
-            $error_desc = array_get($data, 'status.error_desc');
-            $response->setOriginalContent($error_desc);
+        try {
+            $request = royalcms('request');
+            $response = (new ApiManager($request))->handleRequest();
+        } catch (\Exception $exception) {
+            $response = new ApiResponse(new ecjia_error(get_class($exception), $exception->getMessage()));
+        } finally {
+            royalcms()->instance('response', $response);
+            return $response;
         }
-
-        royalcms()->instance('response', $response);
-        return $response;
     }
 }
 

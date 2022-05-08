@@ -14,7 +14,11 @@
 namespace PhpSpec\Wrapper\Subject;
 
 use PhpSpec\Wrapper\Unwrapper;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\Exception\Wrapper\SubjectException;
 use PhpSpec\Exception\Fracture\InterfaceNotImplementedException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,7 +30,11 @@ class SubjectWithArrayAccess
      */
     private $caller;
     /**
+<<<<<<< HEAD
      * @var PresenterInterface
+=======
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
     /**
@@ -36,12 +44,20 @@ class SubjectWithArrayAccess
 
     /**
      * @param Caller                   $caller
+<<<<<<< HEAD
      * @param PresenterInterface       $presenter
+=======
+     * @param Presenter       $presenter
+>>>>>>> v2-test
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
         Caller $caller,
+<<<<<<< HEAD
         PresenterInterface $presenter,
+=======
+        Presenter $presenter,
+>>>>>>> v2-test
         EventDispatcherInterface $dispatcher
     ) {
         $this->caller     = $caller;
@@ -54,7 +70,11 @@ class SubjectWithArrayAccess
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function offsetExists($key)
+=======
+    public function offsetExists($key): bool
+>>>>>>> v2-test
     {
         $unwrapper = new Unwrapper();
         $subject = $this->caller->getWrappedObject();
@@ -85,7 +105,11 @@ class SubjectWithArrayAccess
      * @param string|integer $key
      * @param mixed          $value
      */
+<<<<<<< HEAD
     public function offsetSet($key, $value)
+=======
+    public function offsetSet($key, $value): void
+>>>>>>> v2-test
     {
         $unwrapper = new Unwrapper();
         $subject = $this->caller->getWrappedObject();
@@ -100,7 +124,11 @@ class SubjectWithArrayAccess
     /**
      * @param string|integer $key
      */
+<<<<<<< HEAD
     public function offsetUnset($key)
+=======
+    public function offsetUnset($key): void
+>>>>>>> v2-test
     {
         $unwrapper = new Unwrapper();
         $subject = $this->caller->getWrappedObject();
@@ -117,11 +145,19 @@ class SubjectWithArrayAccess
      * @throws \PhpSpec\Exception\Wrapper\SubjectException
      * @throws \PhpSpec\Exception\Fracture\InterfaceNotImplementedException
      */
+<<<<<<< HEAD
     private function checkIfSubjectImplementsArrayAccess($subject)
     {
         if (is_object($subject) && !($subject instanceof \ArrayAccess)) {
             throw $this->interfaceNotImplemented();
         } elseif (!($subject instanceof \ArrayAccess) && !is_array($subject)) {
+=======
+    private function checkIfSubjectImplementsArrayAccess($subject): void
+    {
+        if (\is_object($subject) && !($subject instanceof \ArrayAccess)) {
+            throw $this->interfaceNotImplemented();
+        } elseif (!($subject instanceof \ArrayAccess) && !\is_array($subject)) {
+>>>>>>> v2-test
             throw $this->cantUseAsArray($subject);
         }
     }
@@ -129,7 +165,11 @@ class SubjectWithArrayAccess
     /**
      * @return InterfaceNotImplementedException
      */
+<<<<<<< HEAD
     private function interfaceNotImplemented()
+=======
+    private function interfaceNotImplemented(): InterfaceNotImplementedException
+>>>>>>> v2-test
     {
         return new InterfaceNotImplementedException(
             sprintf(
@@ -147,7 +187,11 @@ class SubjectWithArrayAccess
      *
      * @return SubjectException
      */
+<<<<<<< HEAD
     private function cantUseAsArray($subject)
+=======
+    private function cantUseAsArray($subject): SubjectException
+>>>>>>> v2-test
     {
         return new SubjectException(sprintf(
             'Can not use %s as array.',

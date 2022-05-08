@@ -25,11 +25,20 @@ interface Swift_Transport_Esmtp_Authenticator
     /**
      * Try to authenticate the user with $username and $password.
      *
+<<<<<<< HEAD
      * @param Swift_Transport_SmtpAgent $agent
      * @param string                    $username
      * @param string                    $password
      *
      * @return bool
+=======
+     * @param string $username
+     * @param string $password
+     *
+     * @return bool true if authentication worked (returning false is deprecated, throw a Swift_TransportException instead)
+     *
+     * @throws Swift_TransportException Allows the message to bubble up when authentication was not successful
+>>>>>>> v2-test
      */
     public function authenticate(Swift_Transport_SmtpAgent $agent, $username, $password);
 }

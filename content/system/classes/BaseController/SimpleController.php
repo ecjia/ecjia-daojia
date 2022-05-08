@@ -46,7 +46,9 @@
 //
 namespace Ecjia\System\BaseController;
 
-use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
+use Ecjia\Component\BrowserEvent\PageEventManager;
+use Ecjia\Component\BrowserEvent\PageScriptPrint;
+use Ecjia\Component\Contracts\EcjiaTemplateFileLoader;
 use ecjia_view;
 use RC_File;
 use RC_Config;
@@ -56,13 +58,27 @@ use RC_Uri;
 use RC_Response;
 use RC_Hook;
 use RC_Theme;
-use RC_Api;
 use ecjia_app;
 use ecjia_loader;
 
+/**
+ * Class SimpleController
+ * @package Ecjia\System\BaseController
+ */
 abstract class SimpleController extends EcjiaController implements EcjiaTemplateFileLoader
 {
-    
+
+    /**
+     * 控制器对象静态属性
+     * @var \Ecjia\System\BaseController\SimpleController
+     */
+    public static $controller;
+
+    /**
+     * @var PageEventManager
+     */
+    protected $page_event;
+
     public function __construct()
     {
         parent::__construct();
@@ -75,14 +91,10 @@ abstract class SimpleController extends EcjiaController implements EcjiaTemplate
     
         //title信息
         $this->assign_title();
-        
-        if (RC_Config::get('system.debug')) {
-            error_reporting(E_ALL);
-        } else {
-            error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-        }
 
         $this->load_default_script_style();
+
+        $this->page_event = new PageEventManager($this->getRouteController());
     
         RC_Hook::do_action('ecjia_simple_finish_launching');
     }
@@ -165,9 +177,18 @@ abstract class SimpleController extends EcjiaController implements EcjiaTemplate
             }
         }
     }
-    
+
+    /**
+     * @param null $tpl_file
+     * @param null $cache_id
+     * @param bool $show
+     * @param array $options
+     * @return string
+     */
     public final function display($tpl_file = null, $cache_id = null, $show = true, $options = array())
     {
+        $this->loadPageScript($this->page_event);
+
         if (strpos($tpl_file, 'string:') !== 0) {
             if (RC_File::file_suffix($tpl_file) !== 'php') {
                 $tpl_file = $tpl_file . '.php';
@@ -178,9 +199,17 @@ abstract class SimpleController extends EcjiaController implements EcjiaTemplate
         }
         return parent::display($tpl_file, $cache_id, $show, $options);
     }
-    
+
+    /**
+     * @param null $tpl_file
+     * @param null $cache_id
+     * @param array $options
+     * @return string
+     */
     public final function fetch($tpl_file = null, $cache_id = null, $options = array())
     {
+        $this->loadPageScript($this->page_event);
+
         if (strpos($tpl_file, 'string:') !== 0) {
             if (RC_File::file_suffix($tpl_file) !== 'php') {
                 $tpl_file = $tpl_file . '.php';
@@ -318,5 +347,20 @@ abstract class SimpleController extends EcjiaController implements EcjiaTemplate
     {
         ecjia_loader::print_late_styles();
     }
+
+    public function loadPageScript($page)
+    {
+        RC_Hook::add_action( 'front_print_footer_scripts',	array(new PageScriptPrint($page), 'printFooterScripts'), 30 );
+    }
+
+    /**
+     * @return PageEventManager
+     */
+    public function getPageEvent(): PageEventManager
+    {
+        return $this->page_event;
+    }
+
+
 
 }

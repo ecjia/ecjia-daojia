@@ -24,22 +24,38 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
      *
      * @var array
      */
+<<<<<<< HEAD
     private $_params = array(
+=======
+    private $params = [
+>>>>>>> v2-test
         'timeout' => 30,
         'blocking' => 1,
         'command' => '/usr/sbin/sendmail -bs',
         'type' => Swift_Transport_IoBuffer::TYPE_PROCESS,
+<<<<<<< HEAD
         );
+=======
+        ];
+>>>>>>> v2-test
 
     /**
      * Create a new SendmailTransport with $buf for I/O.
      *
+<<<<<<< HEAD
      * @param Swift_Transport_IoBuffer     $buf
      * @param Swift_Events_EventDispatcher $dispatcher
      */
     public function __construct(Swift_Transport_IoBuffer $buf, Swift_Events_EventDispatcher $dispatcher)
     {
         parent::__construct($buf, $dispatcher);
+=======
+     * @param string $localDomain
+     */
+    public function __construct(Swift_Transport_IoBuffer $buf, Swift_Events_EventDispatcher $dispatcher, $localDomain = '127.0.0.1', Swift_AddressEncoder $addressEncoder = null)
+    {
+        parent::__construct($buf, $dispatcher, $localDomain, $addressEncoder);
+>>>>>>> v2-test
     }
 
     /**
@@ -64,11 +80,19 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
      *
      * @param string $command
      *
+<<<<<<< HEAD
      * @return Swift_Transport_SendmailTransport
      */
     public function setCommand($command)
     {
         $this->_params['command'] = $command;
+=======
+     * @return $this
+     */
+    public function setCommand($command)
+    {
+        $this->params['command'] = $command;
+>>>>>>> v2-test
 
         return $this;
     }
@@ -80,7 +104,11 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
      */
     public function getCommand()
     {
+<<<<<<< HEAD
         return $this->_params['command'];
+=======
+        return $this->params['command'];
+>>>>>>> v2-test
     }
 
     /**
@@ -92,12 +120,20 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
      * NOTE: If using 'sendmail -t' you will not be aware of any failures until
      * they bounce (i.e. send() will always return 100% success).
      *
+<<<<<<< HEAD
      * @param Swift_Mime_Message $message
      * @param string[]           $failedRecipients An array of failures by-reference
      *
      * @return int
      */
     public function send(Swift_Mime_Message $message, &$failedRecipients = null)
+=======
+     * @param string[] $failedRecipients An array of failures by-reference
+     *
+     * @return int
+     */
+    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
+>>>>>>> v2-test
     {
         $failedRecipients = (array) $failedRecipients;
         $command = $this->getCommand();
@@ -105,14 +141,20 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
         $count = 0;
 
         if (false !== strpos($command, ' -t')) {
+<<<<<<< HEAD
             if ($evt = $this->_eventDispatcher->createSendEvent($this, $message)) {
                 $this->_eventDispatcher->dispatchEvent($evt, 'beforeSendPerformed');
+=======
+            if ($evt = $this->eventDispatcher->createSendEvent($this, $message)) {
+                $this->eventDispatcher->dispatchEvent($evt, 'beforeSendPerformed');
+>>>>>>> v2-test
                 if ($evt->bubbleCancelled()) {
                     return 0;
                 }
             }
 
             if (false === strpos($command, ' -f')) {
+<<<<<<< HEAD
                 $command .= ' -f'.escapeshellarg($this->_getReversePath($message));
             }
 
@@ -131,19 +173,47 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
             $message->toByteStream($buffer);
             $buffer->flushBuffers();
             $buffer->setWriteTranslations(array());
+=======
+                $command .= ' -f'.escapeshellarg($this->getReversePath($message));
+            }
+
+            $buffer->initialize(array_merge($this->params, ['command' => $command]));
+
+            if (false === strpos($command, ' -i') && false === strpos($command, ' -oi')) {
+                $buffer->setWriteTranslations(["\r\n" => "\n", "\n." => "\n.."]);
+            } else {
+                $buffer->setWriteTranslations(["\r\n" => "\n"]);
+            }
+
+            $count = \count((array) $message->getTo())
+                + \count((array) $message->getCc())
+                + \count((array) $message->getBcc())
+                ;
+            $message->toByteStream($buffer);
+            $buffer->flushBuffers();
+            $buffer->setWriteTranslations([]);
+>>>>>>> v2-test
             $buffer->terminate();
 
             if ($evt) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_SUCCESS);
                 $evt->setFailedRecipients($failedRecipients);
+<<<<<<< HEAD
                 $this->_eventDispatcher->dispatchEvent($evt, 'sendPerformed');
+=======
+                $this->eventDispatcher->dispatchEvent($evt, 'sendPerformed');
+>>>>>>> v2-test
             }
 
             $message->generateId();
         } elseif (false !== strpos($command, ' -bs')) {
             $count = parent::send($message, $failedRecipients);
         } else {
+<<<<<<< HEAD
             $this->_throwException(new Swift_TransportException(
+=======
+            $this->throwException(new Swift_TransportException(
+>>>>>>> v2-test
                 'Unsupported sendmail command flags ['.$command.']. '.
                 'Must be one of "-bs" or "-t" but can include additional flags.'
                 ));
@@ -153,8 +223,14 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
     }
 
     /** Get the params to initialize the buffer */
+<<<<<<< HEAD
     protected function _getBufferParams()
     {
         return $this->_params;
+=======
+    protected function getBufferParams()
+    {
+        return $this->params;
+>>>>>>> v2-test
     }
 }

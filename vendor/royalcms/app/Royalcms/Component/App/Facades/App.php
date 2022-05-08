@@ -3,6 +3,11 @@
 namespace Royalcms\Component\App\Facades;
 
 use RC_Hook;
+<<<<<<< HEAD
+=======
+use Royalcms\Component\App\ApplicationLoader;
+use Royalcms\Component\Support\Facades\File as RC_File;
+>>>>>>> v2-test
 use Royalcms\Component\Support\Facades\Lang;
 use Royalcms\Component\Support\Facades\Cache as RC_Cache;
 use RC_Uri;
@@ -109,6 +114,7 @@ class App extends Facade
      *
      * @return array Key is the application file path and the value is an array of the application data.
      */
+<<<<<<< HEAD
     public static function get_apps($application_identifier = '') {
         if (defined('RC_SITE')) {
             $cache_key = 'applications' . constant('RC_SITE');
@@ -117,12 +123,20 @@ class App extends Facade
         }
 
         $cache_applications = RC_Cache::app_cache_get($cache_key, 'system');
+=======
+    public static function get_apps($application_identifier = '')
+    {
+        $loader = royalcms('app')->getApplicationLoader();
+
+        $cache_applications = $loader->toArray($loader->loadAppsWithIdentifier());
+>>>>>>> v2-test
         if ( $cache_applications ) {
             if ($application_identifier && isset($cache_applications[ $application_identifier ])) {
                 return $cache_applications[ $application_identifier ];
             } else {
                 return $cache_applications;
             }
+<<<<<<< HEAD
         }        
 
         $rc_apps = array ();
@@ -163,6 +177,9 @@ class App extends Facade
      */
     public static function _sort_uname_callback($a, $b) {
         return strnatcasecmp( $a['name'], $b['name'] );
+=======
+        }
+>>>>>>> v2-test
     }
     
     /**
@@ -377,7 +394,11 @@ class App extends Facade
                 }
             }
         } else {
+<<<<<<< HEAD
             $alias_directory = \RC_Config::get('app');
+=======
+            $alias_directory = \RC_Config::get('bundles');
+>>>>>>> v2-test
         }
 
         return RC_Hook::apply_filters('app_alias_directory_handle', $alias_directory);

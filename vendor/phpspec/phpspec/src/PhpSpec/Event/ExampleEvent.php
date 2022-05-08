@@ -13,13 +13,22 @@
 
 namespace PhpSpec\Event;
 
+<<<<<<< HEAD
 use Symfony\Component\EventDispatcher\Event;
+=======
+use PhpSpec\Loader\Node\SpecificationNode;
+use PhpSpec\Loader\Suite;
+>>>>>>> v2-test
 use PhpSpec\Loader\Node\ExampleNode;
 
 /**
  * Class ExampleEvent holds the information about the example event
  */
+<<<<<<< HEAD
 class ExampleEvent extends Event implements EventInterface
+=======
+class ExampleEvent extends BaseEvent implements PhpSpecEvent
+>>>>>>> v2-test
 {
     /**
      * Spec passed
@@ -74,8 +83,13 @@ class ExampleEvent extends Event implements EventInterface
      */
     public function __construct(
         ExampleNode $example,
+<<<<<<< HEAD
         $time = null,
         $result = null,
+=======
+        float $time = 0.0,
+        int $result = self::PASSED,
+>>>>>>> v2-test
         \Exception $exception = null
     ) {
         $this->example   = $example;
@@ -87,23 +101,39 @@ class ExampleEvent extends Event implements EventInterface
     /**
      * @return ExampleNode
      */
+<<<<<<< HEAD
     public function getExample()
+=======
+    public function getExample(): ExampleNode
+>>>>>>> v2-test
     {
         return $this->example;
     }
 
     /**
+<<<<<<< HEAD
      * @return \PhpSpec\Loader\Node\SpecificationNode
      */
     public function getSpecification()
+=======
+     * @return SpecificationNode
+     */
+    public function getSpecification(): SpecificationNode
+>>>>>>> v2-test
     {
         return $this->example->getSpecification();
     }
 
     /**
+<<<<<<< HEAD
      * @return \PhpSpec\Loader\Suite
      */
     public function getSuite()
+=======
+     * @return Suite
+     */
+    public function getSuite(): Suite
+>>>>>>> v2-test
     {
         return $this->getSpecification()->getSuite();
     }
@@ -111,7 +141,11 @@ class ExampleEvent extends Event implements EventInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getTitle()
+=======
+    public function getTitle(): string
+>>>>>>> v2-test
     {
         return $this->example->getTitle();
     }
@@ -119,7 +153,11 @@ class ExampleEvent extends Event implements EventInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getMessage()
+=======
+    public function getMessage(): string
+>>>>>>> v2-test
     {
         return $this->exception->getMessage();
     }
@@ -127,7 +165,11 @@ class ExampleEvent extends Event implements EventInterface
     /**
      * @return array
      */
+<<<<<<< HEAD
     public function getBacktrace()
+=======
+    public function getBacktrace(): array
+>>>>>>> v2-test
     {
         return $this->exception->getTrace();
     }
@@ -135,7 +177,11 @@ class ExampleEvent extends Event implements EventInterface
     /**
      * @return float
      */
+<<<<<<< HEAD
     public function getTime()
+=======
+    public function getTime(): float
+>>>>>>> v2-test
     {
         return $this->time;
     }
@@ -143,13 +189,21 @@ class ExampleEvent extends Event implements EventInterface
     /**
      * @return integer
      */
+<<<<<<< HEAD
     public function getResult()
+=======
+    public function getResult(): int
+>>>>>>> v2-test
     {
         return $this->result;
     }
 
     /**
+<<<<<<< HEAD
      * @return \Exception
+=======
+     * @return \Exception|null
+>>>>>>> v2-test
      */
     public function getException()
     {

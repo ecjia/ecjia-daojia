@@ -1,0 +1,33 @@
+{
+  "name": "dropper",
+  "version": "1.0.1",
+  "title": "Dropper",
+  "author": {
+    "name": "Ben Plum",
+    "email": "mr@benplum.com",
+    "url": "http://www.benplum.com"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "description": "A jQuery plugin for simple drag and drop uploads. Part of the Formstone Library.",
+  "keywords": [
+    "upload",
+    "form",
+    "ajax",
+    "javascript",
+    "jquery",
+    "formstone"
+  ],
+  "docs": "http://formstone.it/dropper/",
+  "demo": "http://formstone.it/dropper/",
+  "download": "https://github.com/Formstone/Dropper",
+  "bugs": "https://github.com/Formstone/Dropper/issues",
+  "homepage": "http://formstone.it/dropper/"
+}

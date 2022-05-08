@@ -61,11 +61,19 @@ class ObjectStateToken implements TokenInterface
             $actual = call_user_func(array($argument, $this->name));
 
             $comparator = $this->comparatorFactory->getComparatorFor(
+<<<<<<< HEAD
                 $actual, $this->value
             );
 
             try {
                 $comparator->assertEquals($actual, $this->value);
+=======
+                $this->value, $actual
+            );
+
+            try {
+                $comparator->assertEquals($this->value, $actual);
+>>>>>>> v2-test
                 return 8;
             } catch (ComparisonFailure $failure) {
                 return false;

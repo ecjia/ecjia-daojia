@@ -11,7 +11,11 @@ class ErrorServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+<<<<<<< HEAD
 	    $this->royalcms->bindShared('error', function($royalcms)
+=======
+	    $this->royalcms->singleton('error', function($royalcms)
+>>>>>>> v2-test
 	    {
 	        return new Error();
 	    });

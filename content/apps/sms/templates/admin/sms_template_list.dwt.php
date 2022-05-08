@@ -55,8 +55,8 @@
 					 <td class="hide-edit-area hide_edit_area_bottom">{$list.template_code}
 						<div class="edit-list">
 						 <a class="data-pjax no-underline" href='{url path="sms/admin_template/edit" args="id={$list.id}&channel_code={$channel_code}&event_code={$list.template_code}"}' title='{t domain="sms"}编辑{/t}'>{t domain="sms"}编辑{/t}</a>&nbsp;|&nbsp;
-		                 <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="sms"}您确认要删除这条记录吗?{/t}' href='{RC_Uri::url("sms/admin_template/remove", "id={$list.id}&channel_code={$channel_code}")}' title='{t domain="sms"}删除{/t}'>{t domain="sms"}删除{/t}</a>
-		                &nbsp;|&nbsp; <a class="data-pjax no-underline" href='{url path="sms/admin_template/test" args="id={$list.id}&channel_code={$channel_code}&event_code={$list.template_code}"}'  title='{t domain="sms"}短信测试{/t}' >{t domain="sms"}短信测试{/t}</a>
+		                 <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="sms"}您确定要删除该短信模板吗？{/t}' href='{RC_Uri::url("sms/admin_template/remove", "id={$list.id}&channel_code={$channel_code}")}' title='{t domain="sms"}删除{/t}'>{t domain="sms"}删除{/t}</a>
+		                &nbsp;|&nbsp; <a class="data-pjax no-underline" href='{url path="sms/admin_template/test" args="id={$list.id}&channel_code={$channel_code}&event_code={$list.template_code}"}'  title='{t domain="sms"}短信测试{/t}'>{t domain="sms"}短信测试{/t}</a>
 						</div>
 					 </td>
 					<td>{$list.template_subject}</td>

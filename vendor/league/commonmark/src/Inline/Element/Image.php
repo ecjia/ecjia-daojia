@@ -16,16 +16,11 @@ namespace League\CommonMark\Inline\Element;
 
 class Image extends AbstractWebResource
 {
-    /**
-     * @param string $url
-     * @param string $label
-     * @param string $title
-     */
-    public function __construct($url, $label = '', $title = '')
+    public function __construct(string $url, ?string $label = null, ?string $title = null)
     {
         parent::__construct($url);
 
-        if (is_string($label)) {
+        if (!empty($label)) {
             $this->appendChild(new Text($label));
         }
 

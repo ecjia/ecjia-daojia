@@ -14,14 +14,22 @@
 namespace PhpSpec\Runner;
 
 use PhpSpec\Exception\Wrapper\CollaboratorException;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\Wrapper\Collaborator;
 use ReflectionFunctionAbstract;
 
 class CollaboratorManager
 {
     /**
+<<<<<<< HEAD
      * @var PresenterInterface
+=======
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
     /**
@@ -30,18 +38,30 @@ class CollaboratorManager
     private $collaborators = array();
 
     /**
+<<<<<<< HEAD
      * @param PresenterInterface $presenter
      */
     public function __construct(PresenterInterface $presenter)
+=======
+     * @param Presenter $presenter
+     */
+    public function __construct(Presenter $presenter)
+>>>>>>> v2-test
     {
         $this->presenter = $presenter;
     }
 
     /**
      * @param string       $name
+<<<<<<< HEAD
      * @param Collaborator $collaborator
      */
     public function set($name, $collaborator)
+=======
+     * @param object $collaborator
+     */
+    public function set(string $name, $collaborator): void
+>>>>>>> v2-test
     {
         $this->collaborators[$name] = $collaborator;
     }
@@ -51,7 +71,11 @@ class CollaboratorManager
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function has($name)
+=======
+    public function has(string $name): bool
+>>>>>>> v2-test
     {
         return isset($this->collaborators[$name]);
     }
@@ -59,11 +83,19 @@ class CollaboratorManager
     /**
      * @param string $name
      *
+<<<<<<< HEAD
      * @return Collaborator
      *
      * @throws \PhpSpec\Exception\Wrapper\CollaboratorException
      */
     public function get($name)
+=======
+     * @return object
+     *
+     * @throws \PhpSpec\Exception\Wrapper\CollaboratorException
+     */
+    public function get(string $name)
+>>>>>>> v2-test
     {
         if (!$this->has($name)) {
             throw new CollaboratorException(
@@ -79,7 +111,11 @@ class CollaboratorManager
      *
      * @return array
      */
+<<<<<<< HEAD
     public function getArgumentsFor(ReflectionFunctionAbstract $function)
+=======
+    public function getArgumentsFor(ReflectionFunctionAbstract $function): array
+>>>>>>> v2-test
     {
         $parameters = array();
         foreach ($function->getParameters() as $parameter) {

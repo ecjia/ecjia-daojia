@@ -56,7 +56,11 @@ class UploadProcess extends UploadProcessAbstract
         }
 
         $result = new UploadResult();
+<<<<<<< HEAD
         $result->setType($upload_file->getClientMimeType())->setSize($upload_file->getClientSize());
+=======
+        $result->setType($upload_file->getClientMimeType())->setSize($upload_file->getSize());
+>>>>>>> v2-test
         $result->setName($name)->setSavePath($save_path);
         $result->setTmpName($tmp_name);
 

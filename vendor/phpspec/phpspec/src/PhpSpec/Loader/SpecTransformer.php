@@ -15,5 +15,9 @@ namespace PhpSpec\Loader;
 
 interface SpecTransformer
 {
+<<<<<<< HEAD
     function transform($spec);
+=======
+    function transform(string $spec): string;
+>>>>>>> v2-test
 }

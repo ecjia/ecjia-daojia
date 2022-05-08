@@ -24,6 +24,7 @@ class ExistingConstructorTemplate
     private $arguments;
     private $methodName;
 
+<<<<<<< HEAD
     /**
      * @param TemplateRenderer $templates
      * @param string           $class
@@ -32,6 +33,9 @@ class ExistingConstructorTemplate
      * @param string           $methodName
      */
     public function __construct(TemplateRenderer $templates, $methodName, array $arguments, $className, $class)
+=======
+    public function __construct(TemplateRenderer $templates, string $methodName, array $arguments, string $className, string $class)
+>>>>>>> v2-test
     {
         $this->templates  = $templates;
         $this->class      = $class;
@@ -40,10 +44,14 @@ class ExistingConstructorTemplate
         $this->methodName = $methodName;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getContent()
+=======
+    public function getContent(): string
+>>>>>>> v2-test
     {
         if (!$this->numberOfConstructorArgumentsMatchMethod()) {
             return $this->getExceptionContent();
@@ -52,10 +60,14 @@ class ExistingConstructorTemplate
         return $this->getCreateObjectContent();
     }
 
+<<<<<<< HEAD
     /**
      * @return bool
      */
     private function numberOfConstructorArgumentsMatchMethod()
+=======
+    private function numberOfConstructorArgumentsMatchMethod(): bool
+>>>>>>> v2-test
     {
         $constructorArguments = 0;
 
@@ -68,6 +80,7 @@ class ExistingConstructorTemplate
             }
         }
 
+<<<<<<< HEAD
         return $constructorArguments == count($this->arguments);
     }
 
@@ -75,6 +88,12 @@ class ExistingConstructorTemplate
      * @return string
      */
     private function getExceptionContent()
+=======
+        return $constructorArguments == \count($this->arguments);
+    }
+
+    private function getExceptionContent(): string
+>>>>>>> v2-test
     {
         $values = $this->getValues();
 
@@ -88,10 +107,14 @@ class ExistingConstructorTemplate
         return $content;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     private function getCreateObjectContent()
+=======
+    private function getCreateObjectContent(): string
+>>>>>>> v2-test
     {
         $values = $this->getValues(true);
 
@@ -106,6 +129,7 @@ class ExistingConstructorTemplate
     }
 
     /**
+<<<<<<< HEAD
      * @param  bool  $constructorArguments
      * @return array
      */
@@ -113,6 +137,14 @@ class ExistingConstructorTemplate
     {
         $argString = count($this->arguments)
             ? '$argument'.implode(', $argument', range(1, count($this->arguments)))
+=======
+     * @return string[]
+     */
+    private function getValues(bool $constructorArguments = false): array
+    {
+        $argString = \count($this->arguments)
+            ? '$argument'.implode(', $argument', range(1, \count($this->arguments)))
+>>>>>>> v2-test
             : ''
         ;
 
@@ -128,7 +160,11 @@ class ExistingConstructorTemplate
     /**
      * @return string
      */
+<<<<<<< HEAD
     private function getCreateObjectTemplate()
+=======
+    private function getCreateObjectTemplate(): string
+>>>>>>> v2-test
     {
         return file_get_contents(__DIR__.'/templates/named_constructor_create_object.template');
     }
@@ -136,7 +172,11 @@ class ExistingConstructorTemplate
     /**
      * @return string
      */
+<<<<<<< HEAD
     private function getExceptionTemplate()
+=======
+    private function getExceptionTemplate(): string
+>>>>>>> v2-test
     {
         return file_get_contents(__DIR__.'/templates/named_constructor_exception.template');
     }

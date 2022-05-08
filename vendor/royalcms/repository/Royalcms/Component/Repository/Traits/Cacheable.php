@@ -3,8 +3,13 @@
 namespace Royalcms\Component\Repository\Traits;
 
 use Closure;
+<<<<<<< HEAD
 use Royalcms\Component\DateTime\Carbon;
 use Royalcms\Component\Cache\CacheManager;
+=======
+use Illuminate\Cache\CacheManager;
+use Royalcms\Component\DateTime\Carbon;
+>>>>>>> v2-test
 use Royalcms\Component\Database\Eloquent\Model;
 
 trait Cacheable

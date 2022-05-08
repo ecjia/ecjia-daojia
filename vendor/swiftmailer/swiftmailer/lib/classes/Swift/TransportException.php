@@ -18,9 +18,14 @@ class Swift_TransportException extends Swift_IoException
     /**
      * Create a new TransportException with $message.
      *
+<<<<<<< HEAD
      * @param string    $message
      * @param int       $code
      * @param Exception $previous
+=======
+     * @param string $message
+     * @param int    $code
+>>>>>>> v2-test
      */
     public function __construct($message, $code = 0, Exception $previous = null)
     {

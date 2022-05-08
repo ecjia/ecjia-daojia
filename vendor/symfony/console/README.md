@@ -7,7 +7,11 @@ interfaces.
 Resources
 ---------
 
+<<<<<<< HEAD
   * [Documentation](https://symfony.com/doc/current/components/console/index.html)
+=======
+  * [Documentation](https://symfony.com/doc/current/components/console.html)
+>>>>>>> v2-test
   * [Contributing](https://symfony.com/doc/current/contributing/index.html)
   * [Report issues](https://github.com/symfony/symfony/issues) and
     [send Pull Requests](https://github.com/symfony/symfony/pulls)

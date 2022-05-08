@@ -14,12 +14,19 @@
 namespace PhpSpec\Event;
 
 use PhpSpec\Loader\Suite;
+<<<<<<< HEAD
 use Symfony\Component\EventDispatcher\Event;
+=======
+>>>>>>> v2-test
 
 /**
  * Class SuiteEvent holds information about the suite event
  */
+<<<<<<< HEAD
 class SuiteEvent extends Event implements EventInterface
+=======
+class SuiteEvent extends BaseEvent implements PhpSpecEvent
+>>>>>>> v2-test
 {
     /**
      * @var Suite
@@ -46,7 +53,11 @@ class SuiteEvent extends Event implements EventInterface
      * @param float   $time
      * @param integer $result
      */
+<<<<<<< HEAD
     public function __construct(Suite $suite, $time = null, $result = null)
+=======
+    public function __construct(Suite $suite, float $time = 0.0, int $result = 0)
+>>>>>>> v2-test
     {
         $this->suite  = $suite;
         $this->time   = $time;
@@ -56,7 +67,11 @@ class SuiteEvent extends Event implements EventInterface
     /**
      * @return Suite
      */
+<<<<<<< HEAD
     public function getSuite()
+=======
+    public function getSuite(): Suite
+>>>>>>> v2-test
     {
         return $this->suite;
     }
@@ -64,7 +79,11 @@ class SuiteEvent extends Event implements EventInterface
     /**
      * @return float
      */
+<<<<<<< HEAD
     public function getTime()
+=======
+    public function getTime(): float
+>>>>>>> v2-test
     {
         return $this->time;
     }
@@ -72,7 +91,11 @@ class SuiteEvent extends Event implements EventInterface
     /**
      * @return integer
      */
+<<<<<<< HEAD
     public function getResult()
+=======
+    public function getResult(): int
+>>>>>>> v2-test
     {
         return $this->result;
     }
@@ -80,17 +103,29 @@ class SuiteEvent extends Event implements EventInterface
     /**
      * @return bool
      */
+<<<<<<< HEAD
     public function isWorthRerunning()
+=======
+    public function isWorthRerunning(): bool
+>>>>>>> v2-test
     {
         return $this->worthRerunning;
     }
 
+<<<<<<< HEAD
     public function markAsWorthRerunning()
+=======
+    public function markAsWorthRerunning(): void
+>>>>>>> v2-test
     {
         $this->worthRerunning = true;
     }
 
+<<<<<<< HEAD
     public function markAsNotWorthRerunning()
+=======
+    public function markAsNotWorthRerunning(): void
+>>>>>>> v2-test
     {
         $this->worthRerunning = false;
     }

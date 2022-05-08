@@ -80,7 +80,11 @@ interface ServerRequestInterface extends RequestInterface
      * updated cookie values.
      *
      * @param array $cookies Array of key/value pairs representing cookies.
+<<<<<<< HEAD
      * @return self
+=======
+     * @return static
+>>>>>>> v2-test
      */
     public function withCookieParams(array $cookies);
 
@@ -118,7 +122,11 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @param array $query Array of query string arguments, typically from
      *     $_GET.
+<<<<<<< HEAD
      * @return self
+=======
+     * @return static
+>>>>>>> v2-test
      */
     public function withQueryParams(array $query);
 
@@ -143,8 +151,13 @@ interface ServerRequestInterface extends RequestInterface
      * immutability of the message, and MUST return an instance that has the
      * updated body parameters.
      *
+<<<<<<< HEAD
      * @param array An array tree of UploadedFileInterface instances.
      * @return self
+=======
+     * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
+     * @return static
+>>>>>>> v2-test
      * @throws \InvalidArgumentException if an invalid structure is provided.
      */
     public function withUploadedFiles(array $uploadedFiles);
@@ -190,7 +203,11 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @param null|array|object $data The deserialized body data. This will
      *     typically be in an array or object.
+<<<<<<< HEAD
      * @return self
+=======
+     * @return static
+>>>>>>> v2-test
      * @throws \InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
@@ -239,7 +256,11 @@ interface ServerRequestInterface extends RequestInterface
      * @see getAttributes()
      * @param string $name The attribute name.
      * @param mixed $value The value of the attribute.
+<<<<<<< HEAD
      * @return self
+=======
+     * @return static
+>>>>>>> v2-test
      */
     public function withAttribute($name, $value);
 
@@ -255,7 +276,11 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @see getAttributes()
      * @param string $name The attribute name.
+<<<<<<< HEAD
      * @return self
+=======
+     * @return static
+>>>>>>> v2-test
      */
     public function withoutAttribute($name);
 }

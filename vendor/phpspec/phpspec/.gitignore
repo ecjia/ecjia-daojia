@@ -3,4 +3,7 @@
 behat.yml
 vendor
 composer.lock
+<<<<<<< HEAD
 phpspec.phar
+=======
+>>>>>>> v2-test

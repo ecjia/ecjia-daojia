@@ -16,7 +16,11 @@ class ObjectEngineSpec extends ObjectBehavior
 
     function it_is_a_differ_engine()
     {
+<<<<<<< HEAD
         $this->shouldHaveType('PhpSpec\Formatter\Presenter\Differ\EngineInterface');
+=======
+        $this->shouldHaveType('PhpSpec\Formatter\Presenter\Differ\DifferEngine');
+>>>>>>> v2-test
     }
 
     function it_does_not_support_scalars()

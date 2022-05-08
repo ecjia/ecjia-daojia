@@ -21,7 +21,11 @@ abstract class AbstractPhpSpecExceptionPresenter
      * @param Exception $exception
      * @return string
      */
+<<<<<<< HEAD
     public function presentException(Exception $exception)
+=======
+    public function presentException(Exception $exception): string
+>>>>>>> v2-test
     {
         list($file, $line) = $this->getExceptionExamplePosition($exception);
 
@@ -32,7 +36,11 @@ abstract class AbstractPhpSpecExceptionPresenter
      * @param Exception $exception
      * @return array
      */
+<<<<<<< HEAD
     private function getExceptionExamplePosition(Exception $exception)
+=======
+    private function getExceptionExamplePosition(Exception $exception): array
+>>>>>>> v2-test
     {
         $cause = $exception->getCause();
 
@@ -41,7 +49,11 @@ abstract class AbstractPhpSpecExceptionPresenter
                 continue;
             }
 
+<<<<<<< HEAD
             if (!empty($cause) && $cause->getFilename() === $call['file']) {
+=======
+            if (!empty($cause) && $cause->getFileName() === $call['file']) {
+>>>>>>> v2-test
                 return array($call['file'], $call['line']);
             }
         }
@@ -56,5 +68,9 @@ abstract class AbstractPhpSpecExceptionPresenter
      *
      * @return string
      */
+<<<<<<< HEAD
     abstract protected function presentFileCode($file, $lineno, $context = 6);
+=======
+    abstract protected function presentFileCode(string $file, int $lineno, int $context = 6): string;
+>>>>>>> v2-test
 }

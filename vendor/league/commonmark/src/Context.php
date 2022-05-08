@@ -16,19 +16,20 @@ namespace League\CommonMark;
 
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Document;
+use League\CommonMark\Reference\ReferenceParser;
 
 /**
- * Parses Markdown into an AST
+ * Maintains the current state of the Markdown parser engine
  */
 class Context implements ContextInterface
 {
     /**
-     * @var Environment
+     * @var EnvironmentInterface
      */
     protected $environment;
 
     /**
-     * @var AbstractBlock
+     * @var Document
      */
     protected $doc;
 
@@ -62,9 +63,12 @@ class Context implements ContextInterface
      */
     protected $blocksParsed = false;
 
+    /**
+     * @var ReferenceParser
+     */
     protected $referenceParser;
 
-    public function __construct(Document $document, Environment $environment)
+    public function __construct(Document $document, EnvironmentInterface $environment)
     {
         $this->doc = $document;
         $this->tip = $this->doc;
@@ -79,25 +83,21 @@ class Context implements ContextInterface
 
     /**
      * @param string $line
+     *
+     * @return void
      */
-    public function setNextLine($line)
+    public function setNextLine(string $line)
     {
         ++$this->lineNumber;
         $this->line = $line;
     }
 
-    /**
-     * @return Document
-     */
-    public function getDocument()
+    public function getDocument(): Document
     {
         return $this->doc;
     }
 
-    /**
-     * @return AbstractBlock|null
-     */
-    public function getTip()
+    public function getTip(): ?AbstractBlock
     {
         return $this->tip;
     }
@@ -107,43 +107,29 @@ class Context implements ContextInterface
      *
      * @return $this
      */
-    public function setTip(AbstractBlock $block = null)
+    public function setTip(?AbstractBlock $block)
     {
         $this->tip = $block;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLineNumber()
+    public function getLineNumber(): int
     {
         return $this->lineNumber;
     }
 
-    /**
-     * @return string
-     */
-    public function getLine()
+    public function getLine(): string
     {
         return $this->line;
     }
 
-    /**
-     * Finalize and close any unmatched blocks
-     *
-     * @return UnmatchedBlockCloser
-     */
-    public function getBlockCloser()
+    public function getBlockCloser(): UnmatchedBlockCloser
     {
         return $this->blockCloser;
     }
 
-    /**
-     * @return AbstractBlock
-     */
-    public function getContainer()
+    public function getContainer(): AbstractBlock
     {
         return $this->container;
     }
@@ -153,52 +139,45 @@ class Context implements ContextInterface
      *
      * @return $this
      */
-    public function setContainer($container)
+    public function setContainer(AbstractBlock $container)
     {
         $this->container = $container;
 
         return $this;
     }
 
-    /**
-     * @param AbstractBlock $block
-     *
-     * @return AbstractBlock
-     */
     public function addBlock(AbstractBlock $block)
     {
-        $this->getBlockCloser()->closeUnmatchedBlocks();
+        $this->blockCloser->closeUnmatchedBlocks();
         $block->setStartLine($this->lineNumber);
-        while (!$this->tip->canContain($block)) {
+
+        while ($this->tip !== null && !$this->tip->canContain($block)) {
             $this->tip->finalize($this, $this->lineNumber);
         }
 
-        $this->tip->appendChild($block);
-        $this->tip = $block;
-        $this->container = $block;
-
-        return $block;
-    }
-
-    /**
-     * @param AbstractBlock $replacement
-     */
-    public function replaceContainerBlock(AbstractBlock $replacement)
-    {
-        $this->getBlockCloser()->closeUnmatchedBlocks();
-        $this->getContainer()->replaceWith($replacement);
-
-        if ($this->getTip() === $this->getContainer()) {
-            $this->setTip($replacement);
+        // This should always be true
+        if ($this->tip !== null) {
+            $this->tip->appendChild($block);
         }
 
-        $this->setContainer($replacement);
+        $this->tip = $block;
+        $this->container = $block;
     }
 
-    /**
-     * @return bool
-     */
-    public function getBlocksParsed()
+    public function replaceContainerBlock(AbstractBlock $replacement)
+    {
+        $this->blockCloser->closeUnmatchedBlocks();
+        $replacement->setStartLine($this->container->getStartLine());
+        $this->container->replaceWith($replacement);
+
+        if ($this->tip === $this->container) {
+            $this->tip = $replacement;
+        }
+
+        $this->container = $replacement;
+    }
+
+    public function getBlocksParsed(): bool
     {
         return $this->blocksParsed;
     }
@@ -208,17 +187,14 @@ class Context implements ContextInterface
      *
      * @return $this
      */
-    public function setBlocksParsed($bool)
+    public function setBlocksParsed(bool $bool)
     {
         $this->blocksParsed = $bool;
 
         return $this;
     }
 
-    /**
-     * @return ReferenceParser
-     */
-    public function getReferenceParser()
+    public function getReferenceParser(): ReferenceParser
     {
         return $this->referenceParser;
     }

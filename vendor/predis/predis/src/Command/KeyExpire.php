@@ -25,6 +25,7 @@ class KeyExpire extends Command
     {
         return 'EXPIRE';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class KeyExpire extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

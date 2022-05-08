@@ -24,7 +24,11 @@ class WidgetServiceProvider extends ServiceProvider
     public function register()
     {
 
+<<<<<<< HEAD
         $this->royalcms['widget'] = $this->royalcms->share(function($royalcms)
+=======
+        $this->royalcms->singleton('widget', function($royalcms)
+>>>>>>> v2-test
         {
             return new WidgetManager($royalcms);
         });

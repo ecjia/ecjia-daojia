@@ -5,6 +5,10 @@ namespace Royalcms\Component\App;
 use Royalcms\Component\DefaultRoute\HttpQueryRoute;
 use RC_Hook;
 use Royalcms\Component\Error\Error;
+<<<<<<< HEAD
+=======
+use Royalcms\Component\Pipeline\Pipeline;
+>>>>>>> v2-test
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
@@ -20,10 +24,28 @@ class AppControllerDispatcher
     protected $manager;
     
     protected $routePath;
+<<<<<<< HEAD
     
     public function __construct()
     {
         $this->route = royalcms('default-router');
+=======
+
+    protected $container;
+    
+    public function __construct($route = null)
+    {
+        $this->container = royalcms();
+
+        if (is_null($route)) {
+            $this->route = royalcms('default-router');
+        }
+        else {
+            $this->route = $route;
+        }
+
+        $this->route->parser();
+>>>>>>> v2-test
 
         $this->manager = royalcms('app');
         
@@ -48,6 +70,7 @@ class AppControllerDispatcher
      */
     public function dispatch()
     {
+<<<<<<< HEAD
         // First we will make an instance of this controller via the IoC container instance
         // so that we can call the methods on it. We will also apply any "after" filters
         // to the route so that they will be run by the routers after this processing.
@@ -84,6 +107,36 @@ class AppControllerDispatcher
 
         }
 
+=======
+        try {
+            // First we will make an instance of this controller via the IoC container instance
+            // so that we can call the methods on it. We will also apply any "after" filters
+            // to the route so that they will be run by the routers after this processing.
+            $controller = $this->makeController();
+
+            if ( $controller instanceof RoyalcmsResponse) {
+                return $controller;
+            }
+
+            if (is_rc_error($controller)) {
+                return $this->handlerNotFoundController($controller);
+            }
+
+            $route = $this->routePath;
+            $request = royalcms('request');
+            $method = $this->route->getAction();
+            $this->container->singleton($controller);
+            $instance = $this->container->make($controller);
+            $response = $this->callWithinStack($instance, $route, $request, $method);
+            return $response;
+        } catch (NotFoundHttpException $e) {
+            abort(404, $e->getMessage());
+        } catch (AccessDeniedHttpException $e) {
+            abort(401, $e->getMessage());
+        } catch (\Exception $e) {
+            abort(500, $e->getMessage());
+        }
+>>>>>>> v2-test
     }
 
     /**
@@ -100,7 +153,11 @@ class AppControllerDispatcher
             RC_Hook::do_action($this->routePath);
             return royalcms('response');
         } else {
+<<<<<<< HEAD
             abort(403, $error->get_error_message());
+=======
+            abort(404, $error->get_error_message());
+>>>>>>> v2-test
         }
     }
     
@@ -121,6 +178,7 @@ class AppControllerDispatcher
             if ( ! $bundle) {
                 abort(404, "App {$this->route->getModule()} does not found.");
             }
+<<<<<<< HEAD
             
             $controller = $bundle->getControllerClassName($this->route->getController());
 
@@ -129,6 +187,96 @@ class AppControllerDispatcher
             abort(403, $e->getMessage());
         }
     }
+=======
+
+            $controller = $bundle->getControllerClassName($this->route->getController());
+            
+            return $controller;
+        } catch (InvalidArgumentException $e) {
+            abort(404, $e->getMessage());
+        }
+    }
+
+    /**
+     * Call the given controller instance method.
+     *
+     * @param  \Royalcms\Component\Routing\Controller  $instance
+     * @param  \Royalcms\Component\Routing\Route  $route
+     * @param  \Royalcms\Component\Http\Request  $request
+     * @param  string  $method
+     * @return mixed
+     */
+    protected function callWithinStack($instance, $route, $request, $method)
+    {
+//        $shouldSkipMiddleware = $this->container->bound('middleware.disable') &&
+//        $this->container->make('middleware.disable') === true;
+//
+//        $middleware = $shouldSkipMiddleware ? [] : $this->getMiddleware($instance, $method);
+
+        // Here we will make a stack onion instance to execute this request in, which gives
+        // us the ability to define middlewares on controllers. We will return the given
+        // response back out so that "after" filters can be run after the middlewares.
+//        return (new Pipeline($this->container))
+//                ->send($request)
+//                ->through($middleware)
+//                ->then(function ($request) use ($instance, $route, $method) {
+//                        return $this->call($instance, $route, $method);
+//        });
+
+        return $this->call($instance, $route, $method);
+    }
+
+    /**
+     * Get the middleware for the controller instance.
+     *
+     * @param  \Royalcms\Component\Routing\Controller  $controller
+     * @param  string  $method
+     * @return array
+     */
+    public function getMiddleware($controller, $method)
+    {
+        if (! method_exists($controller, 'getMiddleware')) {
+            return [];
+        }
+
+        $results = [];
+
+        foreach ($controller->getMiddleware() as $data) {
+            $name = $data['middleware'];
+            if (! $this->methodExcludedByOptions($method, $data['options'])) {
+                $results[] = $this->resolveMiddlewareClassName($name);
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * Determine if the given options exclude a particular method.
+     *
+     * @param  string  $method
+     * @param  array  $options
+     * @return bool
+     */
+    protected static function methodExcludedByOptions($method, array $options)
+    {
+        return (isset($options['only']) && ! in_array($method, (array) $options['only'])) ||
+            (! empty($options['except']) && in_array($method, (array) $options['except']));
+    }
+
+    /**
+     * Resolve the middleware name to a class name preserving passed parameters.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    public function resolveMiddlewareClassName($name)
+    {
+        list($name, $parameters) = array_pad(explode(':', $name, 2), 2, null);
+
+        return $name.($parameters !== null ? ':'.$parameters : '');
+    }
+>>>>>>> v2-test
     
     /**
      * Call the given controller instance method.
@@ -140,9 +288,29 @@ class AppControllerDispatcher
      */
     protected function call($instance, $route, $method)
     {
+<<<<<<< HEAD
         $parameters = $route->parametersWithoutNulls();
         
         return $instance->callAction($method, $parameters);
+=======
+        //优化判断hook路由方法
+        if (RC_Hook::has_action($route)) {
+            if (RC_Hook::has_filter('royalcms_handler_controller_instance')) {
+                $instance = RC_Hook::apply_filters('royalcms_handler_controller_instance', $instance, $route);
+            }
+            RC_Hook::do_action($route, $instance);
+            return royalcms('response');
+        }
+
+        $response = $this->route->runControllerAction(get_class($instance), $method);
+        if (is_null($response)) {
+            return royalcms('response');
+        }
+        elseif (is_rc_error($response)) {
+            return royalcms('response')->setContent($response->get_error_message());
+        }
+        return $response;
+>>>>>>> v2-test
     }
     
 }

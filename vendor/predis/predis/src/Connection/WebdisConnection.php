@@ -33,7 +33,11 @@ use Predis\Response\Status as StatusResponse;
  *  - scheme: must be 'http'.
  *  - host: hostname or IP address of the server.
  *  - port: TCP port of the server.
+<<<<<<< HEAD
  *  - timeout: timeout to perform the connection.
+=======
+ *  - timeout: timeout to perform the connection (default is 5 seconds).
+>>>>>>> v2-test
  *  - user: username for authentication.
  *  - pass: password for authentication.
  *
@@ -117,14 +121,24 @@ class WebdisConnection implements NodeConnectionInterface
     private function createCurl()
     {
         $parameters = $this->getParameters();
+<<<<<<< HEAD
 
         if (filter_var($host = $parameters->host, FILTER_VALIDATE_IP)) {
+=======
+        $timeout = (isset($parameters->timeout) ? (float) $parameters->timeout : 5.0) * 1000;
+
+        if (filter_var($host = $parameters->host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+>>>>>>> v2-test
             $host = "[$host]";
         }
 
         $options = array(
             CURLOPT_FAILONERROR => true,
+<<<<<<< HEAD
             CURLOPT_CONNECTTIMEOUT_MS => $parameters->timeout * 1000,
+=======
+            CURLOPT_CONNECTTIMEOUT_MS => $timeout,
+>>>>>>> v2-test
             CURLOPT_URL => "$parameters->scheme://$host:$parameters->port",
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_POST => true,
@@ -162,9 +176,21 @@ class WebdisConnection implements NodeConnectionInterface
      */
     protected function getStatusHandler()
     {
+<<<<<<< HEAD
         return function ($payload) {
             return StatusResponse::get($payload);
         };
+=======
+        static $statusHandler;
+
+        if (!$statusHandler) {
+            $statusHandler = function ($payload) {
+                return StatusResponse::get($payload);
+            };
+        }
+
+        return $statusHandler;
+>>>>>>> v2-test
     }
 
     /**
@@ -174,9 +200,21 @@ class WebdisConnection implements NodeConnectionInterface
      */
     protected function getErrorHandler()
     {
+<<<<<<< HEAD
         return function ($payload) {
             return new ErrorResponse($payload);
         };
+=======
+        static $errorHandler;
+
+        if (!$errorHandler) {
+            $errorHandler = function ($errorMessage) {
+                return new ErrorResponse($errorMessage);
+            };
+        }
+
+        return $errorHandler;
+>>>>>>> v2-test
     }
 
     /**

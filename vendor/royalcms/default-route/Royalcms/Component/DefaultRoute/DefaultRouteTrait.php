@@ -32,7 +32,11 @@ trait DefaultRouteTrait
 
         $route = royalcms('router')->getCurrentRoute();
 
+<<<<<<< HEAD
         return $dispatcher->dispatch($route, $request, $class, $method);
+=======
+        return $dispatcher->dispatch($route, $class, $method);
+>>>>>>> v2-test
     }
 
     /**
@@ -53,7 +57,11 @@ trait DefaultRouteTrait
 
         $route = royalcms('router')->getCurrentRoute();
 
+<<<<<<< HEAD
         return $dispatcher->dispatch($route, $request, $controller, $method);
+=======
+        return $dispatcher->dispatch($route, $controller, $method);
+>>>>>>> v2-test
     }
 
     /**

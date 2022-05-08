@@ -1,0 +1,33 @@
+{
+    "name": "datto/json-rpc",
+    "type": "library",
+    "description": "Fully unit-tested JSON-RPC 2.0 for PHP",
+    "keywords": ["php", "json", "rpc", "jsonrpc", "json-rpc", "php-json-rpc"],
+    "homepage": "http://datto.com",
+    "license": "LGPL-3.0+",
+    "authors": [
+        {
+            "name": "Spencer Mortensen",
+            "email": "smortensen@datto.com",
+            "homepage": "http://spencermortensen.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Datto\\JsonRpc\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Datto\\JsonRpc\\Examples\\": "examples/src",
+            "Datto\\JsonRpc\\Tests\\": "tests"
+        }
+    }
+}

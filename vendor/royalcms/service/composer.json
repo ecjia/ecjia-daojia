@@ -1,0 +1,40 @@
+{
+    "name": "royalcms/service",
+    "description": "The Royalcms service package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Service\\": "Royalcms/Component/Service"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Service\\ServiceServiceProvider"
+            ],
+            "aliases": {
+                "RC_Service": "Royalcms\\Component\\Service\\Facades\\Service",
+                "RC_Api": "Royalcms\\Component\\Service\\ApiCall"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

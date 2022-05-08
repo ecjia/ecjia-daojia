@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Class Preloader.
  *
@@ -35,7 +37,7 @@ abstract class AbstractNodeVisitor extends NodeVisitorAbstract
      *
      * @return \ClassPreloader\Parser\AbstractNodeVisitor
      */
-    public function setFilename($filename)
+    public function setFilename(string $filename)
     {
         $this->filename = $filename;
 

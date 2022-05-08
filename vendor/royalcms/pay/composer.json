@@ -18,9 +18,14 @@
         "php": ">=5.5.9",
         "ext-openssl": "*",
         "ext-simplexml":"*",
+<<<<<<< HEAD
         "royalcms/supports": "^5.0",
         "monolog/monolog": "^1.23",
         "symfony/http-foundation": "^3.0|^4.0"
+=======
+        "monolog/monolog": "^2.0",
+        "symfony/http-foundation": "^3.0|^4.0|^5.0"
+>>>>>>> v2-test
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2",
@@ -30,5 +35,23 @@
         "psr-4": {
             "Royalcms\\Component\\Pay\\": "Royalcms/Component/Pay"
         }
+<<<<<<< HEAD
     }
+=======
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Pay\\PayServiceProvider"
+            ],
+            "aliases": {
+                "RC_Pay": "Royalcms\\Component\\Pay\\Facades\\Pay"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

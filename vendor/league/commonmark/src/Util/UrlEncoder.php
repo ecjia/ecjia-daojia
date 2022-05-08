@@ -14,87 +14,47 @@
 
 namespace League\CommonMark\Util;
 
+use League\CommonMark\Exception\UnexpectedEncodingException;
+
 final class UrlEncoder
 {
-    protected static $dontEncode = [
-        '%21' => '!',
-        '%23' => '#',
-        '%24' => '$',
-        '%26' => '&',
-        '%27' => '\'',
-        '%28' => '(',
-        '%29' => ')',
-        '%2A' => '*',
-        '%2B' => '+',
-        '%2C' => ',',
-        '%2D' => '-',
-        '%2E' => '.',
-        '%2F' => '/',
-        '%3A' => ':',
-        '%3B' => ';',
-        '%3D' => '=',
-        '%3F' => '?',
-        '%40' => '@',
-        '%5F' => '_',
-        '%7E' => '~',
-    ];
+    /** @var string[] */
+    private static $encodeCache = ['%00', '%01', '%02', '%03', '%04', '%05', '%06', '%07', '%08', '%09', '%0A', '%0B', '%0C', '%0D', '%0E', '%0F', '%10', '%11', '%12', '%13', '%14', '%15', '%16', '%17', '%18', '%19', '%1A', '%1B', '%1C', '%1D', '%1E', '%1F', '%20', '!', '%22', '#', '$', '%25', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '%3C', '=', '%3E', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '%5B', '%5C', '%5D', '%5E', '_', '%60', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '%7B', '%7C', '%7D', '~', '%7F'];
 
-    /**
-     * @param string $uri
-     *
-     * @return string
-     */
-    public static function unescapeAndEncode($uri)
+    public static function unescapeAndEncode(string $uri): string
     {
-        $decoded = html_entity_decode($uri);
+        // Optimization: if the URL only includes characters we know will be kept as-is, then just return the URL as-is.
+        if (\preg_match('/^[A-Za-z0-9~!@#$&*()\-_=+;:,.\/?]+$/', $uri)) {
+            return $uri;
+        }
 
-        return self::encode(self::decode($decoded));
-    }
+        $result = '';
 
-    /**
-     * Decode a percent-encoded URI
-     *
-     * @param string $uri
-     *
-     * @return string
-     */
-    private static function decode($uri)
-    {
-        return preg_replace_callback('/%([0-9a-f]{2})/iu', function ($matches) {
-            // Convert percent-encoded codes to uppercase
-            $upper = strtoupper($matches[0]);
-            // Keep excluded characters as-is
-            if (array_key_exists($upper, self::$dontEncode)) {
-                return $upper;
+        $chars = \preg_split('//u', $uri, -1, \PREG_SPLIT_NO_EMPTY);
+
+        if (!\is_array($chars) || !\mb_check_encoding($uri, 'UTF-8')) {
+            throw new UnexpectedEncodingException('Unexpected encoding - UTF-8 or ASCII was expected');
+        }
+
+        $l = \count($chars);
+        for ($i = 0; $i < $l; $i++) {
+            $code = $chars[$i];
+            if ($code === '%' && $i + 2 < $l) {
+                if (\preg_match('/^[0-9a-f]{2}$/i', $chars[$i + 1] . $chars[$i + 2]) === 1) {
+                    $result .= '%' . $chars[$i + 1] . $chars[$i + 2];
+                    $i += 2;
+                    continue;
+                }
             }
 
-            // Otherwise, return the character for this codepoint
-            return chr(hexdec($matches[1]));
-        }, $uri);
-    }
-
-    /**
-     * Encode a URI, preserving already-encoded and excluded characters
-     *
-     * @param string $uri
-     *
-     * @return string
-     */
-    private static function encode($uri)
-    {
-        return preg_replace_callback('/(%[0-9a-f]{2})|./iu', function ($matches) {
-            // Keep already-encoded characters as-is
-            if (count($matches) > 1) {
-                return $matches[0];
+            if (\ord($code) < 128) {
+                $result .= self::$encodeCache[\ord($code)];
+                continue;
             }
 
-            // Keep excluded characters as-is
-            if (in_array($matches[0], self::$dontEncode)) {
-                return $matches[0];
-            }
+            $result .= \rawurlencode($code);
+        }
 
-            // Otherwise, encode the character
-            return rawurlencode($matches[0]);
-        }, $uri);
+        return $result;
     }
 }

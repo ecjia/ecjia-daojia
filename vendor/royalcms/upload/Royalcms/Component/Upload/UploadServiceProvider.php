@@ -38,8 +38,12 @@ class UploadServiceProvider extends ServiceProvider
      */
     protected function registerManager()
     {
+<<<<<<< HEAD
         $this->royalcms->bindShared('upload', function($royalcms)
         {
+=======
+        $this->royalcms->singleton('upload', function($royalcms) {
+>>>>>>> v2-test
             return new UploadManager($royalcms);
         });
     }

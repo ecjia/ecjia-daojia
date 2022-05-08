@@ -16,19 +16,34 @@ namespace PhpSpec\Listener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Exception\Example\StopOnFailureException;
+<<<<<<< HEAD
 use PhpSpec\Console\IO;
 
 class StopOnFailureListener implements EventSubscriberInterface
 {
     /**
      * @var IO
+=======
+use PhpSpec\Console\ConsoleIO;
+
+final class StopOnFailureListener implements EventSubscriberInterface
+{
+    /**
+     * @var ConsoleIO
+>>>>>>> v2-test
      */
     private $io;
 
     /**
+<<<<<<< HEAD
      * @param IO $io
      */
     public function __construct(IO $io)
+=======
+     * @param ConsoleIO $io
+     */
+    public function __construct(ConsoleIO $io)
+>>>>>>> v2-test
     {
         $this->io = $io;
     }
@@ -36,7 +51,11 @@ class StopOnFailureListener implements EventSubscriberInterface
     /**
      * @return array
      */
+<<<<<<< HEAD
     public static function getSubscribedEvents()
+=======
+    public static function getSubscribedEvents(): array
+>>>>>>> v2-test
     {
         return array(
             'afterExample' => array('afterExample', -100),
@@ -48,7 +67,11 @@ class StopOnFailureListener implements EventSubscriberInterface
      *
      * @throws \PhpSpec\Exception\Example\StopOnFailureException
      */
+<<<<<<< HEAD
     public function afterExample(ExampleEvent $event)
+=======
+    public function afterExample(ExampleEvent $event): void
+>>>>>>> v2-test
     {
         if (!$this->io->isStopOnFailureEnabled()) {
             return;

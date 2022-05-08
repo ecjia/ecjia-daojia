@@ -17,11 +17,27 @@
             "email": "aharvey@php.net"
         }
     ],
+<<<<<<< HEAD
     "require": {
         "php": ">=5.3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.4"
+=======
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3"
+>>>>>>> v2-test
     },
     "autoload": {
         "classmap": [
@@ -30,7 +46,11 @@
     },
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-master": "1.0.x-dev"
+=======
+            "dev-master": "4.0-dev"
+>>>>>>> v2-test
         }
     }
 }

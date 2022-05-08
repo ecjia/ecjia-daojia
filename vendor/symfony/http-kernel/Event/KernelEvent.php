@@ -11,9 +11,15 @@
 
 namespace Symfony\Component\HttpKernel\Event;
 
+<<<<<<< HEAD
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\Event;
+=======
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Contracts\EventDispatcher\Event;
+>>>>>>> v2-test
 
 /**
  * Base class for events thrown in the HttpKernel component.
@@ -22,6 +28,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class KernelEvent extends Event
 {
+<<<<<<< HEAD
     /**
      * The kernel in which this event was thrown.
      *
@@ -45,6 +52,17 @@ class KernelEvent extends Event
     private $requestType;
 
     public function __construct(HttpKernelInterface $kernel, Request $request, $requestType)
+=======
+    private $kernel;
+    private $request;
+    private $requestType;
+
+    /**
+     * @param int $requestType The request type the kernel is currently processing; one of
+     *                         HttpKernelInterface::MASTER_REQUEST or HttpKernelInterface::SUB_REQUEST
+     */
+    public function __construct(HttpKernelInterface $kernel, Request $request, ?int $requestType)
+>>>>>>> v2-test
     {
         $this->kernel = $kernel;
         $this->request = $request;

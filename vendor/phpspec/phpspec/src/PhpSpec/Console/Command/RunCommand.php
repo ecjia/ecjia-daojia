@@ -15,7 +15,11 @@ namespace PhpSpec\Console\Command;
 
 use PhpSpec\Formatter\FatalPresenter;
 use PhpSpec\Process\Shutdown\UpdateConsoleAction;
+<<<<<<< HEAD
 use PhpSpec\ServiceContainer;
+=======
+use PhpSpec\ServiceContainer\IndexedServiceContainer;
+>>>>>>> v2-test
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,8 +29,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Main command, responsible for running the specs
+<<<<<<< HEAD
  */
 class RunCommand extends Command
+=======
+ *
+ * @internal
+ */
+final class RunCommand extends Command
+>>>>>>> v2-test
 {
     protected function configure()
     {
@@ -87,6 +98,13 @@ Will run all the specifications in the spec directory.
 
 Will run only the ClassNameSpec.
 
+<<<<<<< HEAD
+=======
+  <info>php %command.full_name% spec/ClassNameSpec.php:56</info>
+
+Will run only specification defined in the ClassNameSpec on line 56.
+
+>>>>>>> v2-test
 You can choose the bootstrap file with the bootstrap option e.g.:
 
   <info>php %command.full_name% --bootstrap=bootstrap.php</info>
@@ -144,7 +162,11 @@ EOF
 
         if ($currentFormatter instanceof FatalPresenter) {
 
+<<<<<<< HEAD
             $container->setShared('process.shutdown.update_console_action', function(ServiceContainer $c) use ($currentFormatter) {
+=======
+            $container->define('process.shutdown.update_console_action', function (IndexedServiceContainer $c) use ($currentFormatter) {
+>>>>>>> v2-test
                 return new UpdateConsoleAction(
                     $c->get('current_example'),
                     $currentFormatter
@@ -165,7 +187,11 @@ EOF
             list($_, $locator, $linenum) = $matches;
         }
 
+<<<<<<< HEAD
         $suite       = $container->get('loader.resource_loader')->load($locator, $linenum);
+=======
+        $suite       = $container->get('loader.resource_loader')->load((string)$locator, $linenum);
+>>>>>>> v2-test
         $suiteRunner = $container->get('runner.suite');
 
         return $container->get('console.result_converter')->convert(

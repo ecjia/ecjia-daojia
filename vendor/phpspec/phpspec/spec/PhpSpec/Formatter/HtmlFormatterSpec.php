@@ -2,14 +2,24 @@
 
 namespace spec\PhpSpec\Formatter;
 
+<<<<<<< HEAD
+=======
+use PhpSpec\IO\IO;
+>>>>>>> v2-test
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use PhpSpec\Event\ExampleEvent;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Html\IO;
 use PhpSpec\Formatter\Html\ReportItem;
 use PhpSpec\Formatter\Html\ReportItemFactory;
 use PhpSpec\Formatter\Presenter\PresenterInterface as Presenter;
+=======
+use PhpSpec\Formatter\Html\ReportItem;
+use PhpSpec\Formatter\Html\ReportItemFactory;
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\Listener\StatisticsCollector;
 
 class HtmlFormatterSpec extends ObjectBehavior

@@ -16,6 +16,23 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
 /**
  * Represents an operation on catalogue(s).
  *
+<<<<<<< HEAD
+=======
+ * An instance of this interface performs an operation on one or more catalogues and
+ * stores intermediate and final results of the operation.
+ *
+ * The first catalogue in its argument(s) is called the 'source catalogue' or 'source' and
+ * the following results are stored:
+ *
+ * Messages: also called 'all', are valid messages for the given domain after the operation is performed.
+ *
+ * New Messages: also called 'new' (new = all ∖ source = {x: x ∈ all ∧ x ∉ source}).
+ *
+ * Obsolete Messages: also called 'obsolete' (obsolete = source ∖ all = {x: x ∈ source ∧ x ∉ all}).
+ *
+ * Result: also called 'result', is the resulting catalogue for the given domain that holds the same messages as 'all'.
+ *
+>>>>>>> v2-test
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
  */
 interface OperationInterface
@@ -28,6 +45,7 @@ interface OperationInterface
     public function getDomains();
 
     /**
+<<<<<<< HEAD
      * Returns all valid messages after operation.
      *
      * @param string $domain
@@ -56,6 +74,30 @@ interface OperationInterface
 
     /**
      * Returns resulting catalogue.
+=======
+     * Returns all valid messages ('all') after operation.
+     *
+     * @return array
+     */
+    public function getMessages(string $domain);
+
+    /**
+     * Returns new messages ('new') after operation.
+     *
+     * @return array
+     */
+    public function getNewMessages(string $domain);
+
+    /**
+     * Returns obsolete messages ('obsolete') after operation.
+     *
+     * @return array
+     */
+    public function getObsoleteMessages(string $domain);
+
+    /**
+     * Returns resulting catalogue ('result').
+>>>>>>> v2-test
      *
      * @return MessageCatalogueInterface
      */

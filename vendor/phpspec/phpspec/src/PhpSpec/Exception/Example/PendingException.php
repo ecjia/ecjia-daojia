@@ -21,7 +21,11 @@ class PendingException extends ExampleException
     /**
      * @param string $text
      */
+<<<<<<< HEAD
     public function __construct($text = 'write pending example')
+=======
+    public function __construct(string $text = 'write pending example')
+>>>>>>> v2-test
     {
         parent::__construct(sprintf('todo: %s', $text));
     }

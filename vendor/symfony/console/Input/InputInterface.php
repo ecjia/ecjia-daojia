@@ -41,7 +41,11 @@ interface InputInterface
      *
      * @return bool true if the value is contained in the raw parameters
      */
+<<<<<<< HEAD
     public function hasParameterOption($values, $onlyParams = false);
+=======
+    public function hasParameterOption($values, bool $onlyParams = false);
+>>>>>>> v2-test
 
     /**
      * Returns the value of a raw option (not parsed).
@@ -57,10 +61,19 @@ interface InputInterface
      *
      * @return mixed The option value
      */
+<<<<<<< HEAD
     public function getParameterOption($values, $default = false, $onlyParams = false);
 
     /**
      * Binds the current Input instance with the given arguments and options.
+=======
+    public function getParameterOption($values, $default = false, bool $onlyParams = false);
+
+    /**
+     * Binds the current Input instance with the given arguments and options.
+     *
+     * @throws RuntimeException
+>>>>>>> v2-test
      */
     public function bind(InputDefinition $definition);
 
@@ -81,6 +94,7 @@ interface InputInterface
     /**
      * Returns the argument value for a given argument name.
      *
+<<<<<<< HEAD
      * @param string $name The argument name
      *
      * @return mixed The argument value
@@ -88,16 +102,31 @@ interface InputInterface
      * @throws InvalidArgumentException When argument given doesn't exist
      */
     public function getArgument($name);
+=======
+     * @return string|string[]|null The argument value
+     *
+     * @throws InvalidArgumentException When argument given doesn't exist
+     */
+    public function getArgument(string $name);
+>>>>>>> v2-test
 
     /**
      * Sets an argument value by name.
      *
+<<<<<<< HEAD
      * @param string $name  The argument name
      * @param string $value The argument value
      *
      * @throws InvalidArgumentException When argument given doesn't exist
      */
     public function setArgument($name, $value);
+=======
+     * @param string|string[]|null $value The argument value
+     *
+     * @throws InvalidArgumentException When argument given doesn't exist
+     */
+    public function setArgument(string $name, $value);
+>>>>>>> v2-test
 
     /**
      * Returns true if an InputArgument object exists by name or position.
@@ -118,6 +147,7 @@ interface InputInterface
     /**
      * Returns the option value for a given option name.
      *
+<<<<<<< HEAD
      * @param string $name The option name
      *
      * @return mixed The option value
@@ -125,25 +155,46 @@ interface InputInterface
      * @throws InvalidArgumentException When option given doesn't exist
      */
     public function getOption($name);
+=======
+     * @return string|string[]|bool|null The option value
+     *
+     * @throws InvalidArgumentException When option given doesn't exist
+     */
+    public function getOption(string $name);
+>>>>>>> v2-test
 
     /**
      * Sets an option value by name.
      *
+<<<<<<< HEAD
      * @param string      $name  The option name
      * @param string|bool $value The option value
      *
      * @throws InvalidArgumentException When option given doesn't exist
      */
     public function setOption($name, $value);
+=======
+     * @param string|string[]|bool|null $value The option value
+     *
+     * @throws InvalidArgumentException When option given doesn't exist
+     */
+    public function setOption(string $name, $value);
+>>>>>>> v2-test
 
     /**
      * Returns true if an InputOption object exists by name.
      *
+<<<<<<< HEAD
      * @param string $name The InputOption name
      *
      * @return bool true if the InputOption object exists, false otherwise
      */
     public function hasOption($name);
+=======
+     * @return bool true if the InputOption object exists, false otherwise
+     */
+    public function hasOption(string $name);
+>>>>>>> v2-test
 
     /**
      * Is this input means interactive?
@@ -154,8 +205,13 @@ interface InputInterface
 
     /**
      * Sets the input interactivity.
+<<<<<<< HEAD
      *
      * @param bool $interactive If the input should be interactive
      */
     public function setInteractive($interactive);
+=======
+     */
+    public function setInteractive(bool $interactive);
+>>>>>>> v2-test
 }

@@ -1,10 +1,25 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Model;
 
 use Royalcms\Component\Model\Database\DatabaseFactory;
+=======
+<?php
+
+namespace Royalcms\Component\Model;
+
+use Royalcms\Component\Model\Database\DatabaseFactory;
+use Royalcms\Component\Model\Traits\DatabaseTrait;
+use Royalcms\Component\Model\Traits\ModelVersion;
+use Royalcms\Component\Model\Traits\TableFieldTrait;
+use Royalcms\Component\Model\Traits\TableTrait;
+use Royalcms\Component\Model\Traits\TransactionTrait;
+use Royalcms\Component\Model\Traits\TriggerTrait;
+>>>>>>> v2-test
 
 /**
  * 数据模型基类
  */
+<<<<<<< HEAD
 
 class Model
 {
@@ -24,11 +39,38 @@ class Model
     public $auto = array(); // 自动完成
     public $map = array(); // 字段映射
     
+=======
+class Model
+{
+    use ModelVersion;
+    use DatabaseTrait;
+    use TableTrait;
+    use TableFieldTrait;
+    use TriggerTrait;
+    use TransactionTrait;
+
+    protected $db_config        = array(); // 数据库配置
+    protected $db               = null;    // 数据库连接
+    protected $db_setting       = null;    // 调用数据库的配置项
+    protected $table_name       = null;    // 数据表带前缀的表名
+    protected $table_short_name = null;    // 数据表名
+    protected $table_full_name  = null;    // 数据表带数据库带前缀的表名
+    public    $db_tablepre      = null;    // 表前缀
+    public    $error            = null;    // 验证不通过的错误信息
+    public    $trigger          = true;    // 触发器,开启时执行__after_delete等方法
+    public    $join_table       = array(); // 要关联的表
+    public    $data             = array(); // 增、改操作数据
+    public    $validate         = array(); // 验证规则
+    public    $auto             = array(); // 自动完成
+    public    $map              = array(); // 字段映射
+
+>>>>>>> v2-test
     public function __construct()
     {
         if (empty($this->db_config)) {
             $this->db_config = \RC_Config::get('database.connections');
         }
+<<<<<<< HEAD
         
         if (! $this->db_setting || ! isset($this->db_config[$this->db_setting])) {
             $this->db_setting = \RC_Config::get('database.default');
@@ -42,21 +84,45 @@ class Model
             $this->table_full_name = '`' . $this->db_config[$this->db_setting]['database'] . '`.' . $this->table_name;
         }
         
+=======
+
+        if (!$this->db_setting || !isset($this->db_config[$this->db_setting])) {
+            $this->db_setting = \RC_Config::get('database.default');
+        }
+
+        $this->db_tablepre = $this->db_config[$this->db_setting]['prefix'];
+
+        if (!empty($this->table_name)) {
+            $this->table_short_name = $this->table_name;
+            $this->table_name       = $this->db_tablepre . $this->table_name;
+            $this->table_full_name  = '`' . $this->db_config[$this->db_setting]['database'] . '`.' . $this->table_name;
+        }
+
+>>>>>>> v2-test
         $this->db = DatabaseFactory::get_instance($this->db_config)->get_database($this->db_setting, $this->table_name);
     }
 
     /**
      * 魔术方法 设置模型属性如表名字段名
      *
+<<<<<<< HEAD
      * @param string $var
      *            属性名
      * @param mixed $value
      *            值
+=======
+     * @param string $var 属性名
+     * @param mixed $value 值
+>>>>>>> v2-test
      */
     public function __set($var, $value)
     {
         // 如果为模型方法时，执行模型方法如 $this->where="id=1"
+<<<<<<< HEAD
         $_var = strtolower($var);
+=======
+        $_var     = strtolower($var);
+>>>>>>> v2-test
         $property = array_keys($this->db->opt);
         if (in_array($_var, $property)) {
             $this->$_var($value);
@@ -68,8 +134,13 @@ class Model
     /**
      * 获得$this->data值
      *
+<<<<<<< HEAD
      * @param unknown $name            
      * @return Ambigous <NULL, multitype:>
+=======
+     * @param unknown $name
+     * @return
+>>>>>>> v2-test
      */
     public function __get($name)
     {
@@ -79,6 +150,7 @@ class Model
     /**
      * ============================== 自动处理开始 ==========================
      */
+<<<<<<< HEAD
     
     /**
      * 执行自动映射、自动验证、自动完成
@@ -86,38 +158,70 @@ class Model
      * @param array $data
      *            如果为空使用$_POST
      * @return bool
+=======
+
+    /**
+     * 执行自动映射、自动验证、自动完成
+     *
+     * @param array $data 如果为空使用$_POST
+     * @return $this
+>>>>>>> v2-test
      */
     public function create($data = array())
     {
         // 验证令牌
+<<<<<<< HEAD
         if (! $this->token()) {
+=======
+        if (!$this->token()) {
+>>>>>>> v2-test
             return false;
         }
         // 获得数据
         $this->data($data);
         // 自动验证
+<<<<<<< HEAD
         if (! $this->validate()) {
+=======
+        if (!$this->validate()) {
+>>>>>>> v2-test
             return false;
         }
         // 自动完成
         $this->auto();
         // 字段映射
         $this->map();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         return $this;
     }
 
     /**
      * 验证令牌
+<<<<<<< HEAD
+=======
+     * @return bool
+>>>>>>> v2-test
      */
     public function token()
     {
         // TODO: 未实现
+<<<<<<< HEAD
         $token_on = \RC_Config::get('system.token_on');
         $token_name = \RC_Config::get('system.token_name');
         if ($token_on || isset($_POST[$token_name]) || isset($_GET[$token_name])) {
             // RC_Loader::load_core_class('RC.RCToken', false);
             if (! \RC_Token::check()) {
+=======
+        $token_on   = \RC_Config::get('system.token_on');
+        $token_name = \RC_Config::get('system.token_name');
+        if ($token_on || isset($_POST[$token_name]) || isset($_GET[$token_name])) {
+            // RC_Loader::load_core_class('RC.RCToken', false);
+            if (!\RC_Token::check()) {
+>>>>>>> v2-test
                 $this->error = '表单令牌错误';
                 return false;
             }
@@ -129,6 +233,7 @@ class Model
      * 获得添加、插入数据
      *
      * @param array $data
+<<<<<<< HEAD
      *            void
      * @return array null
      */
@@ -141,6 +246,19 @@ class Model
                 $this->data = $_POST;
             }
         
+=======
+     * @return array
+     */
+    public function data($data = array())
+    {
+        if (is_array($data) && !empty($data)) {
+            $this->data = $data;
+        } else
+            if (empty($this->data)) {
+                $this->data = $_POST;
+            }
+
+>>>>>>> v2-test
         foreach ($this->data as $key => $val) {
             if (MAGIC_QUOTES_GPC && is_string($val)) {
                 $this->data[$key] = stripslashes($val);
@@ -157,8 +275,13 @@ class Model
         $this->data($data);
         // 当前方法
         $current_method = $this->current_method();
+<<<<<<< HEAD
         $_data = & $this->data;
         if (! is_array($this->validate) || empty($this->validate)) {
+=======
+        $_data          = &$this->data;
+        if (!is_array($this->validate) || empty($this->validate)) {
+>>>>>>> v2-test
             return true;
         }
         foreach ($this->validate as $v) {
@@ -170,13 +293,21 @@ class Model
             // 3、插入与更新都验证
             $action = isset($v[4]) ? $v[4] : 3;
             // 当前时机（插入、更新）不需要验证
+<<<<<<< HEAD
             if (! in_array($action, array(
+=======
+            if (!in_array($action, array(
+>>>>>>> v2-test
                 $current_method,
                 3
             ))) {
                 continue;
             }
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> v2-test
             // 1、为默认验证方式
             // 2、有POST这个变量就验证
             $condition = isset($v[3]) ? $v[3] : 1;
@@ -185,6 +316,7 @@ class Model
             switch ($condition) {
                 // 有POST这个变量就验证
                 case 1:
+<<<<<<< HEAD
                     if (! isset($_data[$name])) {
                         continue 2;
                     }
@@ -193,22 +325,46 @@ class Model
                 // 必须验证
                 case 2:
                     if (! isset($_data[$name])) {
+=======
+                    if (!isset($_data[$name])) {
+                        continue 2;
+                    }
+                    break;
+
+                // 必须验证
+                case 2:
+                    if (!isset($_data[$name])) {
+>>>>>>> v2-test
                         $this->error = $msg;
                         return false;
                     }
                     break;
+<<<<<<< HEAD
                 
                 // 不为空验证
                 case 3:
                     if (! isset($_data[$name]) || empty($_data[$name])) {
+=======
+
+                // 不为空验证
+                case 3:
+                    if (!isset($_data[$name]) || empty($_data[$name])) {
+>>>>>>> v2-test
                         continue 2;
                     }
                     break;
             }
+<<<<<<< HEAD
             
             $method = explode(":", $v[1]);
             $func = $method[0];
             $args = isset($method[1]) ? str_replace(" ", '', $method[1]) : '';
+=======
+
+            $method = explode(":", $v[1]);
+            $func   = $method[0];
+            $args   = isset($method[1]) ? str_replace(" ", '', $method[1]) : '';
+>>>>>>> v2-test
             if (method_exists($this, $func)) {
                 $res = call_user_func_array(array(
                     $this,
@@ -224,7 +380,11 @@ class Model
                 }
                 $this->error = $res;
                 return false;
+<<<<<<< HEAD
             } else 
+=======
+            } else
+>>>>>>> v2-test
                 if (function_exists($func)) {
                     $res = $func($name, $_data[$name], $msg, $args);
                     if ($res === true) {
@@ -235,7 +395,11 @@ class Model
                 } else {
                     // TODO: validate方法未完成
                     $validate = new \Royalcms\Component\Foundation\Validate();
+<<<<<<< HEAD
                     $func = '_' . $func;
+=======
+                    $func     = '_' . $func;
+>>>>>>> v2-test
                     if (method_exists($validate, $func)) {
                         $res = call_user_func_array(array(
                             $validate,
@@ -254,19 +418,31 @@ class Model
                     }
                 }
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         return true;
     }
 
     /**
      * 自动完成
      *
+<<<<<<< HEAD
      * @param array $data            
+=======
+     * @param array $data
+>>>>>>> v2-test
      */
     public function auto($data = array())
     {
         $this->data($data);
+<<<<<<< HEAD
         $_data = & $this->data;
+=======
+        $_data  = &$this->data;
+>>>>>>> v2-test
         $motion = $this->current_method();
         foreach ($this->auto as $v) {
             // 1、插入时处理
@@ -290,6 +466,7 @@ class Model
             switch ($condition) {
                 // 有POST这个变量就处理
                 case 1:
+<<<<<<< HEAD
                     if (! isset($_data[$name])) {
                         continue 2;
                     }
@@ -302,6 +479,20 @@ class Model
                     }
                     break;
                 
+=======
+                    if (!isset($_data[$name])) {
+                        continue 2;
+                    }
+                    break;
+
+                // 必须处理
+                case 2:
+                    if (!isset($_data[$name])) {
+                        $_data[$name] = '';
+                    }
+                    break;
+
+>>>>>>> v2-test
                 // 不为空验证
                 case 3:
                     if (empty($_data[$name])) {
@@ -309,12 +500,20 @@ class Model
                     }
                     break;
             }
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> v2-test
             // 处理类型
             // function 函数
             // method 模型方法
             // string 字符串
+<<<<<<< HEAD
             $handle = isset($v[2]) ? $v[2] : "string";
+=======
+            $handle       = isset($v[2]) ? $v[2] : "string";
+>>>>>>> v2-test
             $_data[$name] = isset($_data[$name]) ? $_data[$name] : null;
             switch (strtolower($handle)) {
                 case "function":
@@ -322,19 +521,31 @@ class Model
                         $_data[$name] = $action($data[$name]);
                     }
                     break;
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> v2-test
                 case "method":
                     if (method_exists($this, $action)) {
                         $_data[$name] = $this->$action($_data[$name]);
                     }
                     break;
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> v2-test
                 case "string":
                     $_data[$name] = $action;
                     break;
             }
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         return true;
     }
 
@@ -346,9 +557,15 @@ class Model
         if (empty($this->map)) {
             return;
         }
+<<<<<<< HEAD
         
         $this->data();
         
+=======
+
+        $this->data();
+
+>>>>>>> v2-test
         foreach ($this->map as $k => $v) {
             // 处理POST
             if (isset($this->data[$k])) {
@@ -373,7 +590,11 @@ class Model
     /**
      * 返回模型错误
      *
+<<<<<<< HEAD
      * @param $error 错误信息            
+=======
+     * @param $error 错误信息
+>>>>>>> v2-test
      */
     public function error()
     {
@@ -383,6 +604,7 @@ class Model
     /**
      * ============================== 自动处理结束 ==========================
      */
+<<<<<<< HEAD
     
     /**
      * 设置关联模型
@@ -401,16 +623,41 @@ class Model
                     $this->join_table = $table;
                 }
         
+=======
+
+    /**
+     * 设置关联模型
+     *
+     * @param string $table
+     */
+    public function join($table = false)
+    {
+        if (!$table) {
+            $this->join_table = false;
+        } else
+            if (is_string($table)) {
+                $this->join_table = explode(",", $table);
+            } else
+                if (is_array($table)) {
+                    $this->join_table = $table;
+                }
+
+>>>>>>> v2-test
         return $this;
     }
 
     /**
      * 临时更改操作表
      *
+<<<<<<< HEAD
      * @param string $table
      *            表名
      * @param bool $full
      *            是否带表前缀
+=======
+     * @param string $table 表名
+     * @param bool $full 是否带表前缀
+>>>>>>> v2-test
      * @return $this
      */
     public function table($table, $full = false)
@@ -418,7 +665,11 @@ class Model
         if ($full !== true) {
             $table = $this->db_tablepre . $table;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         $this->db->table($table);
         $this->join(false);
         $this->trigger(false);
@@ -428,7 +679,11 @@ class Model
     /**
      * =========================== 查询语句 =====================
      */
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> v2-test
     /**
      * 设置字段
      * 示例：$Db->field("username,age")->limit(6)->all();
@@ -455,7 +710,11 @@ class Model
     /**
      * SQL中的LIKE规则
      *
+<<<<<<< HEAD
      * @param array $arg            
+=======
+     * @param array $arg
+>>>>>>> v2-test
      * @return model
      */
     public function like($arg = array())
@@ -463,7 +722,11 @@ class Model
         if (empty($arg)) {
             return $this;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         $this->db->like($arg);
         return $this;
     }
@@ -471,14 +734,22 @@ class Model
     /**
      * GROUP语句定义
      *
+<<<<<<< HEAD
      * @param array $arg            
+=======
+     * @param array $arg
+>>>>>>> v2-test
      */
     public function group($arg = array())
     {
         if (empty($arg)) {
             return $this;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         $this->db->group($arg);
         return $this;
     }
@@ -486,14 +757,22 @@ class Model
     /**
      * HAVING语句定义
      *
+<<<<<<< HEAD
      * @param array $arg            
+=======
+     * @param array $arg
+>>>>>>> v2-test
      */
     public function having($arg = array())
     {
         if (empty($arg)) {
             return $this;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         $this->db->having($arg);
         return $this;
     }
@@ -507,7 +786,11 @@ class Model
         if (empty($arg)) {
             return $this;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         $this->db->order($arg);
         return $this;
     }
@@ -521,7 +804,11 @@ class Model
         if (empty($arg)) {
             return $this;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         $this->db->in($arg, $is_not_in);
         return $this;
     }
@@ -532,12 +819,21 @@ class Model
      */
     public function delete($data = array())
     {
+<<<<<<< HEAD
         $trigger = $this->trigger;
         $this->trigger = true;
         
         $trigger and $this->__before_delete($data);
         $result = $this->db->delete($data);
         
+=======
+        $trigger       = $this->trigger;
+        $this->trigger = true;
+
+        $trigger and $this->__before_delete($data);
+        $result = $this->db->delete($data);
+
+>>>>>>> v2-test
         $this->error = $this->db->error;
         $trigger and $this->__after_delete($result);
         return $result;
@@ -579,15 +875,26 @@ class Model
     {
         if (is_null($start)) {
             return $this;
+<<<<<<< HEAD
         } else 
             if (! is_null($end)) {
+=======
+        } else
+            if (!is_null($end)) {
+>>>>>>> v2-test
                 $limit = $start . "," . $end;
             } else {
                 $limit = $start;
             }
+<<<<<<< HEAD
         
         $this->db->limit($limit);
         
+=======
+
+        $this->db->limit($limit);
+
+>>>>>>> v2-test
         return $this;
     }
 
@@ -599,7 +906,11 @@ class Model
     {
         $this->limit(1);
         $result = $this->select($data);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         return is_array($result) && isset($result[0]) ? $result[0] : $result;
     }
 
@@ -609,6 +920,7 @@ class Model
      */
     public function select($args = array())
     {
+<<<<<<< HEAD
         $trigger = $this->trigger;
         $this->trigger = true;
         
@@ -618,6 +930,17 @@ class Model
         $trigger and $this->__after_select($result);
         $this->error = $this->db->error;
         
+=======
+        $trigger       = $this->trigger;
+        $this->trigger = true;
+
+        $trigger and $this->__before_select($args);
+        $result = $this->db->select($args);
+
+        $trigger and $this->__after_select($result);
+        $this->error = $this->db->error;
+
+>>>>>>> v2-test
         return $result;
     }
 
@@ -627,7 +950,11 @@ class Model
      */
     public function where($args = array())
     {
+<<<<<<< HEAD
         if (! empty($args)) {
+=======
+        if (!empty($args)) {
+>>>>>>> v2-test
             $this->db->where($args);
         }
         return $this;
@@ -642,7 +969,11 @@ class Model
         // 设置字段
         $this->field($field);
         $result = $this->select();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         if ($result) {
             // 字段数组
             $field = explode(',', preg_replace('@\s@', '', $field));
@@ -653,7 +984,11 @@ class Model
                     $data[$v[$field[0]]] = $v;
                 }
                 return $data;
+<<<<<<< HEAD
             } else 
+=======
+            } else
+>>>>>>> v2-test
                 if ($return_all) {
                     // 只有一个字段，且返回多条记录
                     $data = array();
@@ -675,16 +1010,26 @@ class Model
     /**
      * ======================= 插入或更新语句 ====================
      */
+<<<<<<< HEAD
     
     /**
      * 插入数据
      *
      * @param unknown $data            
      * @param string $type            
+=======
+
+    /**
+     * 插入数据
+     *
+     * @param unknown $data
+     * @param string $type
+>>>>>>> v2-test
      */
     public function insert($data = array(), $type = "INSERT")
     {
         $this->data($data);
+<<<<<<< HEAD
         $data = $this->data;
         $this->data = array();
         
@@ -696,34 +1041,65 @@ class Model
         $this->error = $this->db->error;
         $trigger and $this->__after_insert($result);
         
+=======
+        $data       = $this->data;
+        $this->data = array();
+
+        $trigger       = $this->trigger;
+        $this->trigger = true;
+        $trigger and $this->__before_insert($data);
+
+        $result      = $this->db->insert($data, $type);
+        $this->error = $this->db->error;
+        $trigger and $this->__after_insert($result);
+
+>>>>>>> v2-test
         return $result;
     }
 
     /**
      * 批量插入数据
      *
+<<<<<<< HEAD
      * @param unknown $data            
      * @param string $type            
      * @return Ambigous <NULL, multitype:NULL >
+=======
+     * @param unknown $data
+     * @param string $type
+     * @return null|int
+>>>>>>> v2-test
      */
     public function batch_insert($data, $type = "INSERT")
     {
         $id = array();
+<<<<<<< HEAD
         if (is_array($data) && ! empty($data)) {
+=======
+        if (is_array($data) && !empty($data)) {
+>>>>>>> v2-test
             foreach ($data as $d) {
                 if (is_array($d)) {
                     $id[] = $this->insert($d, $type);
                 }
             }
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         return empty($id) ? null : $id;
     }
 
     /**
      * replace INTO方式插入数据
      *
+<<<<<<< HEAD
      * @param unknown $data            
+=======
+     * @param unknown $data
+>>>>>>> v2-test
      */
     public function replace($data = array())
     {
@@ -733,7 +1109,11 @@ class Model
     /**
      * INSERT IGNORE INTO方式插入数据
      *
+<<<<<<< HEAD
      * @param unknown $data            
+=======
+     * @param unknown $data
+>>>>>>> v2-test
      */
     public function insert_ignore($data = array())
     {
@@ -743,8 +1123,13 @@ class Model
     /**
      * 插入数据失败时自动转为更新数据
      *
+<<<<<<< HEAD
      * @param array $field_values            
      * @param array $update_values            
+=======
+     * @param array $field_values
+     * @param array $update_values
+>>>>>>> v2-test
      * @return Ambigous <boolean, number>|boolean
      */
     public function auto_replace($field_values, $update_values)
@@ -755,35 +1140,59 @@ class Model
     /**
      * 更新数据
      *
+<<<<<<< HEAD
      * @param unknown $data            
+=======
+     * @param unknown $data
+>>>>>>> v2-test
      */
     public function update($data = array())
     {
         $this->data($data);
         $data = $this->data;
+<<<<<<< HEAD
         
         $this->data = array();
         $trigger = $this->trigger;
         $this->trigger = true;
         
+=======
+
+        $this->data    = array();
+        $trigger       = $this->trigger;
+        $this->trigger = true;
+
+>>>>>>> v2-test
         $trigger and $this->__before_update($data);
         if (empty($data)) {
             // TODO: 语言包整理
             $this->error = "没有任何数据用于UPDATE！";
             return false;
         }
+<<<<<<< HEAD
         
         $this->error = $this->db->error;
         $result = $this->db->update($data);
         $trigger and $this->__after_update($result);
         
+=======
+
+        $this->error = $this->db->error;
+        $result      = $this->db->update($data);
+        $trigger and $this->__after_update($result);
+
+>>>>>>> v2-test
         return $result;
     }
 
     /**
      * 统计
      *
+<<<<<<< HEAD
      * @param array $args            
+=======
+     * @param array $args
+>>>>>>> v2-test
      */
     public function count($args = array())
     {
@@ -794,7 +1203,11 @@ class Model
     /**
      * 求最大值
      *
+<<<<<<< HEAD
      * @param unknown $args            
+=======
+     * @param unknown $args
+>>>>>>> v2-test
      */
     public function max($args = array())
     {
@@ -805,7 +1218,11 @@ class Model
     /**
      * 求最小值
      *
+<<<<<<< HEAD
      * @param unknown $args            
+=======
+     * @param unknown $args
+>>>>>>> v2-test
      */
     public function min($args = array())
     {
@@ -816,7 +1233,11 @@ class Model
     /**
      * 求平均值
      *
+<<<<<<< HEAD
      * @param unknown $args            
+=======
+     * @param unknown $args
+>>>>>>> v2-test
      */
     public function avg($args = array())
     {
@@ -827,7 +1248,11 @@ class Model
     /**
      * SQL中的SUM计算
      *
+<<<<<<< HEAD
      * @param unknown $args            
+=======
+     * @param unknown $args
+>>>>>>> v2-test
      */
     public function sum($args = array())
     {
@@ -840,8 +1265,13 @@ class Model
      * 示例：$Db->dec("price","id=20",188)
      * 将id为20的记录的price字段值增加188
      *
+<<<<<<< HEAD
      * @param $field 字段名            
      * @param $where 条件            
+=======
+     * @param $field 字段名
+     * @param $where 条件
+>>>>>>> v2-test
      * @param int $step
      *            增加数
      * @return mixed
@@ -855,9 +1285,15 @@ class Model
     /**
      * 减少字段值
      *
+<<<<<<< HEAD
      * @param unknown $field            
      * @param unknown $where            
      * @param number $step            
+=======
+     * @param unknown $field
+     * @param unknown $where
+     * @param number $step
+>>>>>>> v2-test
      */
     public function dec($field, $where, $step = 1)
     {
@@ -868,14 +1304,22 @@ class Model
     /**
      * 过滤字段
      *
+<<<<<<< HEAD
      * @param unknown $data            
+=======
+     * @param unknown $data
+>>>>>>> v2-test
      */
     public function field_filter($data = array())
     {
         $this->data($data);
         $data = $this->data;
         $data = $data ? $data : $_GET;
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v2-test
         return $this->db->field_filter($data);
     }
 
@@ -912,6 +1356,7 @@ class Model
     }
 
     /**
+<<<<<<< HEAD
      * ====================== 数据库操作 ==========================
      */
     
@@ -1029,10 +1474,21 @@ class Model
     public function execute_sql($str)
     {
         $str = str_replace("\r", "\n", $str);
+=======
+     * 执行SQL语句
+     *
+     * @param string $str 传入SQL字符串
+     * @return bool
+     */
+    public function execute_sql($str)
+    {
+        $str     = str_replace("\r", "\n", $str);
+>>>>>>> v2-test
         $sql_arr = explode(";\n", trim($str));
         foreach ($sql_arr as $s) {
             $this->execute($s);
         }
+<<<<<<< HEAD
         
         return true;
     }
@@ -1292,6 +1748,13 @@ class Model
     {
         return $this->db->version();
     }
+=======
+
+        return true;
+    }
+
+
+>>>>>>> v2-test
 }
 
 // end

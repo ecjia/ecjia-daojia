@@ -11,7 +11,10 @@ Feature: Developer uses array-key-value matcher
     namespace spec\Matchers\ArrayKeyValueExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class MovieSpec extends ObjectBehavior
     {

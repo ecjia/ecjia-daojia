@@ -1,5 +1,8 @@
 <?php
 
+use Royalcms\Component\ClassLoader\ClassManager;
+
+
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader
@@ -12,47 +15,25 @@
 |
 */
 
-require SITE_ROOT . 'vendor/autoload.php';
+//royalcms
+require VENDOR_DIR . '/royalcms/framework/royalcms.php';
+//helpers
+require VENDOR_DIR . '/royalcms/framework/src/Royalcms/Component/Foundation/Helpers/royalcms-hooks.php';
+require VENDOR_DIR . '/royalcms/framework/src/Royalcms/Component/Foundation/Helpers/foundation-helpers.php';
+//vendor
+require VENDOR_DIR . '/autoload.php';
 
-/*
-|--------------------------------------------------------------------------
-| Include The Compiled Class File
-|--------------------------------------------------------------------------
-|
-| To dramatically increase your application's performance, you may use a
-| compiled class file which contains all of the classes commonly used
-| by a request. The Artisan "optimize" is used to create this file.
-|
-*/
-
-$compiledPath = __DIR__.'/cache/compiled.php';
-
-if (file_exists($compiledPath))
-{
-	require $compiledPath;
+// 判断PHP最低版本
+if (version_compare(PHP_VERSION, Royalcms\Component\Foundation\RoyalcmsConstant::PHP_REQUIRED, '<')) {
+    header($_SERVER['SERVER_PROTOCOL'] . " 500 " . PHP_VERSION);
+    echo 'Current PHP Version: ' . PHP_VERSION . ', Required Version: ' . Royalcms\Component\Foundation\RoyalcmsConstant::PHP_REQUIRED;
+    exit();
 }
 
 
-if (file_exists($classmap_file = __DIR__ . '/classmap.php'))
-{
-    $classmap = include $classmap_file;
-    if (is_array($classmap)) {
-        ComposerAutoloaderInit::getLoader()->addClassMap($classmap);
-    }
-}
+date_default_timezone_set('PRC');
+setlocale(LC_ALL, 'C');
 
-
-$contentDir = realpath(__DIR__ . '/../');
-$namespacemap = [
-    'Ecjia\\System\\' => [$contentDir . '/system/classes'],
-];
-foreach ($namespacemap as $namespace => $path) {
-    ComposerAutoloaderInit::getLoader()->setPsr4($namespace, $path);
-}
-
-if (PHP_VERSION_ID > 70100) {
-    ComposerAutoloaderInit::getLoader()->setPsr4('Symfony\Component\VarDumper\\', VENDOR_DIR . '/symfony/var-dumper-php71');
-}
 
 /*
 |--------------------------------------------------------------------------
@@ -65,4 +46,40 @@ if (PHP_VERSION_ID > 70100) {
 |
 */
 
-Royalcms\Component\Support\ClassLoader::register();
+ClassManager::register();
+\Royalcms\Component\ClassLoader\ClassLoader::register();
+\Royalcms\Component\Foundation\AliasLoader::getInstance()->register();
+
+if (file_exists($aliasPath = __DIR__ . '/cache/aliases.php')) {
+    \Royalcms\Component\Foundation\AliasLoader::getInstance(require $aliasPath)->register();
+}
+
+if (file_exists($classmap_file = __DIR__ . '/classmap.php')) {
+    $classmap = include $classmap_file;
+    if (is_array($classmap)) {
+        ClassManager::getLoader()->addClassMap($classmap);
+    }
+}
+
+if (file_exists($aliasPath = __DIR__ . '/classalias.php')) {
+    \Royalcms\Component\Foundation\AliasLoader::getInstance(require $aliasPath)->register();
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Include The Compiled Class File
+|--------------------------------------------------------------------------
+|
+| To dramatically increase your application's performance, you may use a
+| compiled class file which contains all of the classes commonly used
+| by a request. The Artisan "optimize:compile" is used to create this file.
+|
+*/
+
+$compiledPath = __DIR__ . '/cache/compiled.php';
+
+if (file_exists($compiledPath)) {
+    require $compiledPath;
+}
+

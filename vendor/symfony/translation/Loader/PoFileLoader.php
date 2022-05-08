@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Translation\Loader;
 
+<<<<<<< HEAD
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\Component\Config\Resource\FileResource;
@@ -56,6 +57,18 @@ class PoFileLoader extends ArrayLoader
      * Parses portable object (PO) format.
      *
      * From http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
+=======
+/**
+ * @copyright Copyright (c) 2010, Union of RAD https://github.com/UnionOfRAD/lithium
+ * @copyright Copyright (c) 2012, Clemens Tolboom
+ */
+class PoFileLoader extends FileLoader
+{
+    /**
+     * Parses portable object (PO) format.
+     *
+     * From https://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
+>>>>>>> v2-test
      * we should be able to parse files having:
      *
      * white-space
@@ -93,6 +106,7 @@ class PoFileLoader extends ArrayLoader
      *
      * Items with an empty id are ignored.
      *
+<<<<<<< HEAD
      * @param resource $resource
      *
      * @return array
@@ -109,10 +123,27 @@ class PoFileLoader extends ArrayLoader
         $messages = array();
         $item = $defaults;
         $flags = array();
+=======
+     * {@inheritdoc}
+     */
+    protected function loadResource($resource)
+    {
+        $stream = fopen($resource, 'r');
+
+        $defaults = [
+            'ids' => [],
+            'translated' => null,
+        ];
+
+        $messages = [];
+        $item = $defaults;
+        $flags = [];
+>>>>>>> v2-test
 
         while ($line = fgets($stream)) {
             $line = trim($line);
 
+<<<<<<< HEAD
             if ($line === '') {
                 // Whitespace indicated current item is done
                 if (!in_array('fuzzy', $flags)) {
@@ -123,31 +154,62 @@ class PoFileLoader extends ArrayLoader
             } elseif (substr($line, 0, 2) === '#,') {
                 $flags = array_map('trim', explode(',', substr($line, 2)));
             } elseif (substr($line, 0, 7) === 'msgid "') {
+=======
+            if ('' === $line) {
+                // Whitespace indicated current item is done
+                if (!\in_array('fuzzy', $flags)) {
+                    $this->addMessage($messages, $item);
+                }
+                $item = $defaults;
+                $flags = [];
+            } elseif ('#,' === substr($line, 0, 2)) {
+                $flags = array_map('trim', explode(',', substr($line, 2)));
+            } elseif ('msgid "' === substr($line, 0, 7)) {
+>>>>>>> v2-test
                 // We start a new msg so save previous
                 // TODO: this fails when comments or contexts are added
                 $this->addMessage($messages, $item);
                 $item = $defaults;
                 $item['ids']['singular'] = substr($line, 7, -1);
+<<<<<<< HEAD
             } elseif (substr($line, 0, 8) === 'msgstr "') {
                 $item['translated'] = substr($line, 8, -1);
             } elseif ($line[0] === '"') {
                 $continues = isset($item['translated']) ? 'translated' : 'ids';
 
                 if (is_array($item[$continues])) {
+=======
+            } elseif ('msgstr "' === substr($line, 0, 8)) {
+                $item['translated'] = substr($line, 8, -1);
+            } elseif ('"' === $line[0]) {
+                $continues = isset($item['translated']) ? 'translated' : 'ids';
+
+                if (\is_array($item[$continues])) {
+>>>>>>> v2-test
                     end($item[$continues]);
                     $item[$continues][key($item[$continues])] .= substr($line, 1, -1);
                 } else {
                     $item[$continues] .= substr($line, 1, -1);
                 }
+<<<<<<< HEAD
             } elseif (substr($line, 0, 14) === 'msgid_plural "') {
                 $item['ids']['plural'] = substr($line, 14, -1);
             } elseif (substr($line, 0, 7) === 'msgstr[') {
+=======
+            } elseif ('msgid_plural "' === substr($line, 0, 14)) {
+                $item['ids']['plural'] = substr($line, 14, -1);
+            } elseif ('msgstr[' === substr($line, 0, 7)) {
+>>>>>>> v2-test
                 $size = strpos($line, ']');
                 $item['translated'][(int) substr($line, 7, 1)] = substr($line, $size + 3, -1);
             }
         }
         // save last item
+<<<<<<< HEAD
         if (!in_array('fuzzy', $flags)) {
+=======
+        if (!\in_array('fuzzy', $flags)) {
+>>>>>>> v2-test
             $this->addMessage($messages, $item);
         }
         fclose($stream);
@@ -160,6 +222,7 @@ class PoFileLoader extends ArrayLoader
      *
      * A .po file could contain by error missing plural indexes. We need to
      * fix these before saving them.
+<<<<<<< HEAD
      *
      * @param array $messages
      * @param array $item
@@ -183,6 +246,29 @@ class PoFileLoader extends ArrayLoader
             }
         } elseif (!empty($item['ids']['singular'])) {
             $messages[stripcslashes($item['ids']['singular'])] = stripcslashes($item['translated']);
+=======
+     */
+    private function addMessage(array &$messages, array $item)
+    {
+        if (!empty($item['ids']['singular'])) {
+            $id = stripcslashes($item['ids']['singular']);
+            if (isset($item['ids']['plural'])) {
+                $id .= '|'.stripcslashes($item['ids']['plural']);
+            }
+
+            $translated = (array) $item['translated'];
+            // PO are by definition indexed so sort by index.
+            ksort($translated);
+            // Make sure every index is filled.
+            end($translated);
+            $count = key($translated);
+            // Fill missing spots with '-'.
+            $empties = array_fill(0, $count + 1, '-');
+            $translated += $empties;
+            ksort($translated);
+
+            $messages[$id] = stripcslashes(implode('|', $translated));
+>>>>>>> v2-test
         }
     }
 }

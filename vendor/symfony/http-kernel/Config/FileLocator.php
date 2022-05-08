@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class FileLocator extends BaseFileLocator
 {
     private $kernel;
+<<<<<<< HEAD
     private $path;
 
     /**
@@ -40,15 +41,32 @@ class FileLocator extends BaseFileLocator
         }
 
         parent::__construct($paths);
+=======
+
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+
+        parent::__construct();
+>>>>>>> v2-test
     }
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function locate($file, $currentPath = null, $first = true)
     {
         if (isset($file[0]) && '@' === $file[0]) {
             return $this->kernel->locateResource($file, $this->path, $first);
+=======
+    public function locate(string $file, string $currentPath = null, bool $first = true)
+    {
+        if (isset($file[0]) && '@' === $file[0]) {
+            $resource = $this->kernel->locateResource($file);
+
+            return $first ? $resource : [$resource];
+>>>>>>> v2-test
         }
 
         return parent::locate($file, $currentPath, $first);

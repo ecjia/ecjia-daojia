@@ -21,6 +21,7 @@ use Symfony\Component\CssSelector\Parser\TokenStream;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 interface HandlerInterface
 {
@@ -31,4 +32,12 @@ interface HandlerInterface
      * @return bool
      */
     public function handle(Reader $reader, TokenStream $stream);
+=======
+ *
+ * @internal
+ */
+interface HandlerInterface
+{
+    public function handle(Reader $reader, TokenStream $stream): bool;
+>>>>>>> v2-test
 }

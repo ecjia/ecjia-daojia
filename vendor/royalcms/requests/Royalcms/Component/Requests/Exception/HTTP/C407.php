@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 namespace Royalcms\Component\Requests\Transport\HTTP;
+=======
+namespace Royalcms\Component\Requests\Exception\HTTP;
+>>>>>>> v2-test
 
 use Royalcms\Component\Requests\Exception\HTTP;
 

@@ -11,6 +11,11 @@
 
 namespace Symfony\Component\HttpKernel\Log;
 
+<<<<<<< HEAD
+=======
+use Symfony\Component\HttpFoundation\Request;
+
+>>>>>>> v2-test
 /**
  * DebugLoggerInterface.
  *
@@ -27,12 +32,25 @@ interface DebugLoggerInterface
      *
      * @return array An array of logs
      */
+<<<<<<< HEAD
     public function getLogs();
+=======
+    public function getLogs(Request $request = null);
+>>>>>>> v2-test
 
     /**
      * Returns the number of errors.
      *
      * @return int The number of errors
      */
+<<<<<<< HEAD
     public function countErrors();
+=======
+    public function countErrors(Request $request = null);
+
+    /**
+     * Removes all log records.
+     */
+    public function clear();
+>>>>>>> v2-test
 }

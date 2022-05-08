@@ -1,0 +1,39 @@
+{
+  "name": "royalcms/laravel-security",
+  "type": "package",
+  "description": "Laravel-Security helps you secure your Laravel apps by setting various HTTP headers. it can help!",
+  "authors": [
+    {
+      "name": "Royal Wang",
+      "email": "hxroyal@gmail.com"
+    },
+    {
+      "name": "Yasser Ameur el idrissi",
+      "email": "spookyframework@gmail.com"
+    }
+  ],
+  "keywords": [
+    "security",
+    "laravel",
+    "xss",
+    "x-powered-by",
+    "cors",
+    "dns",
+    "clickjacking",
+    "noSniff",
+    "no-cache",
+    "attack",
+    "Vulnerability"
+  ],
+  "license": "MIT",
+  "require": {
+
+  },
+  "autoload": {
+    "psr-4": {
+      "Royalcms\\Laravel\\Security\\": "src/Security/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

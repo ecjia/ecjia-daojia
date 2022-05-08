@@ -100,7 +100,11 @@ class Upload extends Facade {
     public static function custom_upload_url($path = '', $disk = null)
     {
         //统一使用Storage来获取上传存储地址
+<<<<<<< HEAD
         $url = rtrim(SITE_UPLOAD_URL, '/');
+=======
+        $url = rtrim(RC_Uri::original_upload_url(), '/');
+>>>>>>> v2-test
         $url = rtrim($url, '/');
 
         if ($path && is_string($path)) {
@@ -240,7 +244,11 @@ class Upload extends Facade {
 
         if (! $url = Config::get('upload.url_path')) {
             if (empty($upload_path) || ('content/uploads' == $upload_path) || ($upload_path == $dir)) {
+<<<<<<< HEAD
                 $url = SITE_UPLOAD_URL;
+=======
+                $url = RC_Uri::original_upload_url();
+>>>>>>> v2-test
             } else {
                 $url = Format::trailingslashit($siteurl) . $upload_path;
             }

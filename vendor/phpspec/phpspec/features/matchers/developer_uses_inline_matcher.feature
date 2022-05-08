@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Feature: Developer uses identity matcher
+=======
+Feature: Developer uses inline matcher
+>>>>>>> v2-test
   As a Developer
   I want an inline matcher
   So I can create expectations in a language closer to the domain I am describing
@@ -11,7 +15,10 @@ Feature: Developer uses identity matcher
       namespace spec\Matchers\InlineExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class CalculatorSpec extends ObjectBehavior
       {
@@ -21,7 +28,11 @@ Feature: Developer uses identity matcher
               $this->shouldBePositive();
           }
 
+<<<<<<< HEAD
           function getMatchers()
+=======
+          function getMatchers(): array
+>>>>>>> v2-test
           {
               return array ('bePositive' => function($subject) {
                   return $subject->getTotal() > 0;
@@ -64,7 +75,10 @@ Feature: Developer uses identity matcher
       namespace spec\Matchers\InlineExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class CalculatorSpec extends ObjectBehavior
       {
@@ -74,7 +88,11 @@ Feature: Developer uses identity matcher
               $this->shouldTotal(3);
           }
 
+<<<<<<< HEAD
           function getMatchers()
+=======
+          function getMatchers() : array
+>>>>>>> v2-test
           {
               return array ('total' => function($subject, $total) {
                   return $subject->getTotal() === $total;
@@ -117,7 +135,10 @@ Feature: Developer uses identity matcher
       namespace spec\Matchers\InlineExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use PhpSpec\Exception\Example\FailureException;
 
       class CalculatorSpec extends ObjectBehavior
@@ -127,7 +148,11 @@ Feature: Developer uses identity matcher
               $this->shouldDoSomething('abc');
           }
 
+<<<<<<< HEAD
           function getMatchers()
+=======
+          function getMatchers(): array
+>>>>>>> v2-test
           {
               return array ('doSomething' => function($subject, $param) {
                   throw new FailureException(sprintf(

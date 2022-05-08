@@ -13,13 +13,21 @@
 
 namespace spec\PhpSpec\Matcher;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class StringContainMatcherSpec extends ObjectBehavior
 {
+<<<<<<< HEAD
     function let(PresenterInterface $presenter)
+=======
+    function let(Presenter $presenter)
+>>>>>>> v2-test
     {
         $presenter->presentString(Argument::type('string'))->willReturnArgument();
 
@@ -28,7 +36,11 @@ class StringContainMatcherSpec extends ObjectBehavior
 
     function it_is_a_matcher()
     {
+<<<<<<< HEAD
         $this->shouldBeAnInstanceOf('PhpSpec\Matcher\MatcherInterface');
+=======
+        $this->shouldBeAnInstanceOf('PhpSpec\Matcher\Matcher');
+>>>>>>> v2-test
     }
 
     function it_supports_contain_keyword_string_subject_and_argument()

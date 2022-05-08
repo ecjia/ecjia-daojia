@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Model;
+=======
+<?php
+
+namespace Royalcms\Component\Model;
+>>>>>>> v2-test
 
 /**
  * 视图模型处理类

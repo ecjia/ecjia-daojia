@@ -14,10 +14,9 @@
 
 namespace League\CommonMark\Reference;
 
-/**
- * Link reference
- */
-class Reference
+use League\CommonMark\Normalizer\TextNormalizer;
+
+final class Reference implements ReferenceInterface
 {
     /**
      * @var string
@@ -34,40 +33,24 @@ class Reference
      */
     protected $title;
 
-    /**
-     * Constructor
-     *
-     * @param string $label
-     * @param string $destination
-     * @param string $title
-     */
-    public function __construct($label, $destination, $title)
+    public function __construct(string $label, string $destination, string $title)
     {
-        $this->label = self::normalizeReference($label);
+        $this->label = $label;
         $this->destination = $destination;
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return string
-     */
-    public function getDestination()
+    public function getDestination(): string
     {
         return $this->destination;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -80,13 +63,14 @@ class Reference
      * @param string $string
      *
      * @return string
+     *
+     * @deprecated Use TextNormalizer::normalize() instead
+     * @group legacy
      */
-    public static function normalizeReference($string)
+    public static function normalizeReference(string $string): string
     {
-        // Collapse internal whitespace to single space and remove
-        // leading/trailing whitespace
-        $string = preg_replace('/\s+/', ' ', trim($string));
+        @trigger_error(sprintf('%s::normlizeReference() is deprecated; use %s::normalize() instead', self::class, TextNormalizer::class), E_USER_DEPRECATED);
 
-        return mb_strtoupper($string, 'UTF-8');
+        return (new TextNormalizer())->normalize($string);
     }
 }

@@ -10,7 +10,10 @@ Feature: Developer uses unsupported collaborator type hinting
       namespace spec\InvalidUsage\InvalidUsageExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class StorageSpec extends ObjectBehavior
       {
@@ -43,7 +46,10 @@ Feature: Developer uses unsupported collaborator type hinting
             spec\InvalidUsage\InvalidUsageExample1\StorageSpec::it_can_store_data.
       """
 
+<<<<<<< HEAD
   @php:~5.4||~7.0
+=======
+>>>>>>> v2-test
   Scenario: Callable collaborator type hinting
     Given the spec file "spec/InvalidUsage/InvalidUsageExample2/InvokerSpec.php" contains:
       """
@@ -52,7 +58,10 @@ Feature: Developer uses unsupported collaborator type hinting
       namespace spec\InvalidUsage\InvalidUsageExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class InvokerSpec extends ObjectBehavior
       {
@@ -85,8 +94,11 @@ Feature: Developer uses unsupported collaborator type hinting
             spec\InvalidUsage\InvalidUsageExample2\InvokerSpec::it_invokes_callable.
       """
 
+<<<<<<< HEAD
 
   @php:~7.0
+=======
+>>>>>>> v2-test
   Scenario: Integer collaborator type hinting
     Given the spec file "spec/InvalidUsage/InvalidUsageExample3/StorageSpec.php" contains:
       """
@@ -95,7 +107,10 @@ Feature: Developer uses unsupported collaborator type hinting
       namespace spec\InvalidUsage\InvalidUsageExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class StorageSpec extends ObjectBehavior
       {

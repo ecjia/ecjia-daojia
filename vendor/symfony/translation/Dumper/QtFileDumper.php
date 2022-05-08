@@ -23,7 +23,11 @@ class QtFileDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function format(MessageCatalogue $messages, $domain)
+=======
+    public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = [])
+>>>>>>> v2-test
     {
         $dom = new \DOMDocument('1.0', 'utf-8');
         $dom->formatOutput = true;
@@ -33,6 +37,20 @@ class QtFileDumper extends FileDumper
 
         foreach ($messages->all($domain) as $source => $target) {
             $message = $context->appendChild($dom->createElement('message'));
+<<<<<<< HEAD
+=======
+            $metadata = $messages->getMetadata($source, $domain);
+            if (isset($metadata['sources'])) {
+                foreach ((array) $metadata['sources'] as $location) {
+                    $loc = explode(':', $location, 2);
+                    $location = $message->appendChild($dom->createElement('location'));
+                    $location->setAttribute('filename', $loc[0]);
+                    if (isset($loc[1])) {
+                        $location->setAttribute('line', $loc[1]);
+                    }
+                }
+            }
+>>>>>>> v2-test
             $message->appendChild($dom->createElement('source', $source));
             $message->appendChild($dom->createElement('translation', $target));
         }

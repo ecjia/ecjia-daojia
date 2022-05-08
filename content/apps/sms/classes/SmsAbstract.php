@@ -46,21 +46,22 @@
 //
 namespace Ecjia\App\Sms;
 
-use Ecjia\System\Plugin\AbstractPlugin;
+use Ecjia\Component\Plugin\AbstractPlugin;
 
 /**
  * 短信插件抽象类
  * @author royalwang
  */
-abstract class SmsAbstract extends AbstractPlugin {
-	
+abstract class SmsAbstract extends AbstractPlugin
+{
+
     protected $agent;
-    
+
     public function getSmsAgent()
     {
         return $this->agent;
     }
-    
+
     /**
      * 获取模板ID字段是否必填
      */
@@ -68,7 +69,7 @@ abstract class SmsAbstract extends AbstractPlugin {
     {
         return $this->loadConfig('required_templateid', false);
     }
-    
+
     /**
      * 获取签名字段是否必填
      */
@@ -76,7 +77,7 @@ abstract class SmsAbstract extends AbstractPlugin {
     {
         return $this->loadConfig('required_signname', false);
     }
-    
+
     /**
      * 检测是否支持余额查询
      */
@@ -84,13 +85,13 @@ abstract class SmsAbstract extends AbstractPlugin {
     {
         return $this->loadConfig('check_balance', false);
     }
-    
-    
+
+
     public function __call($method, $parameters)
     {
         return call_user_func_array(array($this->agent, $method), $parameters);
     }
-   
+
 }
 
 // end

@@ -22,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  *
+<<<<<<< HEAD
  * @see http://www.php-fig.org/psr/psr-3/
  */
 class ConsoleLogger extends AbstractLogger
@@ -31,6 +32,17 @@ class ConsoleLogger extends AbstractLogger
 
     private $output;
     private $verbosityLevelMap = array(
+=======
+ * @see https://www.php-fig.org/psr/psr-3/
+ */
+class ConsoleLogger extends AbstractLogger
+{
+    public const INFO = 'info';
+    public const ERROR = 'error';
+
+    private $output;
+    private $verbosityLevelMap = [
+>>>>>>> v2-test
         LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ALERT => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::CRITICAL => OutputInterface::VERBOSITY_NORMAL,
@@ -39,8 +51,13 @@ class ConsoleLogger extends AbstractLogger
         LogLevel::NOTICE => OutputInterface::VERBOSITY_VERBOSE,
         LogLevel::INFO => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::DEBUG => OutputInterface::VERBOSITY_DEBUG,
+<<<<<<< HEAD
     );
     private $formatLevelMap = array(
+=======
+    ];
+    private $formatLevelMap = [
+>>>>>>> v2-test
         LogLevel::EMERGENCY => self::ERROR,
         LogLevel::ALERT => self::ERROR,
         LogLevel::CRITICAL => self::ERROR,
@@ -49,10 +66,17 @@ class ConsoleLogger extends AbstractLogger
         LogLevel::NOTICE => self::INFO,
         LogLevel::INFO => self::INFO,
         LogLevel::DEBUG => self::INFO,
+<<<<<<< HEAD
     );
     private $errored = false;
 
     public function __construct(OutputInterface $output, array $verbosityLevelMap = array(), array $formatLevelMap = array())
+=======
+    ];
+    private $errored = false;
+
+    public function __construct(OutputInterface $output, array $verbosityLevelMap = [], array $formatLevelMap = [])
+>>>>>>> v2-test
     {
         $this->output = $output;
         $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelMap;
@@ -61,8 +85,15 @@ class ConsoleLogger extends AbstractLogger
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
      */
     public function log($level, $message, array $context = array())
+=======
+     *
+     * @return void
+     */
+    public function log($level, $message, array $context = [])
+>>>>>>> v2-test
     {
         if (!isset($this->verbosityLevelMap[$level])) {
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
@@ -99,6 +130,7 @@ class ConsoleLogger extends AbstractLogger
      * Interpolates context values into the message placeholders.
      *
      * @author PHP Framework Interoperability Group
+<<<<<<< HEAD
      *
      * @param string $message
      * @param array  $context
@@ -106,12 +138,20 @@ class ConsoleLogger extends AbstractLogger
      * @return string
      */
     private function interpolate($message, array $context)
+=======
+     */
+    private function interpolate(string $message, array $context): string
+>>>>>>> v2-test
     {
         if (false === strpos($message, '{')) {
             return $message;
         }
 
+<<<<<<< HEAD
         $replacements = array();
+=======
+        $replacements = [];
+>>>>>>> v2-test
         foreach ($context as $key => $val) {
             if (null === $val || is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
                 $replacements["{{$key}}"] = $val;

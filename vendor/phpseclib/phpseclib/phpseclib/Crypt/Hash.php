@@ -113,6 +113,18 @@ class Hash
     var $key = false;
 
     /**
+<<<<<<< HEAD
+=======
+     * Computed Key
+     *
+     * @see self::_computeKey()
+     * @var string
+     * @access private
+     */
+    var $computedKey = false;
+
+    /**
+>>>>>>> v2-test
      * Outer XOR (Internal HMAC)
      *
      * @see self::setKey()
@@ -131,6 +143,18 @@ class Hash
     var $ipad;
 
     /**
+<<<<<<< HEAD
+=======
+     * Engine
+     *
+     * @see self::setHash()
+     * @var string
+     * @access private
+     */
+    var $engine;
+
+    /**
+>>>>>>> v2-test
      * Default Constructor.
      *
      * @param string $hash
@@ -166,6 +190,46 @@ class Hash
     function setKey($key = false)
     {
         $this->key = $key;
+<<<<<<< HEAD
+=======
+        $this->_computeKey();
+    }
+
+    /**
+     * Pre-compute the key used by the HMAC
+     *
+     * Quoting http://tools.ietf.org/html/rfc2104#section-2, "Applications that use keys longer than B bytes
+     * will first hash the key using H and then use the resultant L byte string as the actual key to HMAC."
+     *
+     * As documented in https://www.reddit.com/r/PHP/comments/9nct2l/symfonypolyfill_hash_pbkdf2_correct_fix_for/
+     * when doing an HMAC multiple times it's faster to compute the hash once instead of computing it during
+     * every call
+     *
+     * @access private
+     */
+    function _computeKey()
+    {
+        if ($this->key === false) {
+            $this->computedKey = false;
+            return;
+        }
+
+        if (strlen($this->key) <= $this->b) {
+            $this->computedKey = $this->key;
+            return;
+        }
+
+        switch ($this->engine) {
+            case self::MODE_MHASH:
+                $this->computedKey = mhash($this->hash, $this->key);
+                break;
+            case self::MODE_HASH:
+                $this->computedKey = hash($this->hash, $this->key, true);
+                break;
+            case self::MODE_INTERNAL:
+                $this->computedKey = call_user_func($this->hash, $this->key);
+        }
+>>>>>>> v2-test
     }
 
     /**
@@ -216,12 +280,37 @@ class Hash
         }
 
         switch ($hash) {
+<<<<<<< HEAD
             case 'md2':
                 $mode = CRYPT_HASH_MODE == self::MODE_HASH && in_array('md2', hash_algos()) ?
+=======
+            case 'md2-96':
+            case 'md2':
+                $this->b = 16;
+            case 'md5-96':
+            case 'sha1-96':
+            case 'sha224-96':
+            case 'sha256-96':
+            case 'md2':
+            case 'md5':
+            case 'sha1':
+            case 'sha224':
+            case 'sha256':
+                $this->b = 64;
+                break;
+            default:
+                $this->b = 128;
+        }
+
+        switch ($hash) {
+            case 'md2':
+                $this->engine = CRYPT_HASH_MODE == self::MODE_HASH && in_array('md2', hash_algos()) ?
+>>>>>>> v2-test
                     self::MODE_HASH : self::MODE_INTERNAL;
                 break;
             case 'sha384':
             case 'sha512':
+<<<<<<< HEAD
                 $mode = CRYPT_HASH_MODE == self::MODE_MHASH ? self::MODE_INTERNAL : CRYPT_HASH_MODE;
                 break;
             default:
@@ -229,6 +318,15 @@ class Hash
         }
 
         switch ($mode) {
+=======
+                $this->engine = CRYPT_HASH_MODE == self::MODE_MHASH ? self::MODE_INTERNAL : CRYPT_HASH_MODE;
+                break;
+            default:
+                $this->engine = CRYPT_HASH_MODE;
+        }
+
+        switch ($this->engine) {
+>>>>>>> v2-test
             case self::MODE_MHASH:
                 switch ($hash) {
                     case 'md5':
@@ -241,6 +339,10 @@ class Hash
                     default:
                         $this->hash = MHASH_SHA1;
                 }
+<<<<<<< HEAD
+=======
+                $this->_computeKey(self::MODE_MHASH);
+>>>>>>> v2-test
                 return;
             case self::MODE_HASH:
                 switch ($hash) {
@@ -257,11 +359,16 @@ class Hash
                     default:
                         $this->hash = 'sha1';
                 }
+<<<<<<< HEAD
+=======
+                $this->_computeKey(self::MODE_HASH);
+>>>>>>> v2-test
                 return;
         }
 
         switch ($hash) {
             case 'md2':
+<<<<<<< HEAD
                 $this->b = 16;
                 $this->hash = array($this, '_md2');
                 break;
@@ -271,21 +378,40 @@ class Hash
                 break;
             case 'sha256':
                 $this->b = 64;
+=======
+                $this->hash = array($this, '_md2');
+                break;
+            case 'md5':
+                $this->hash = array($this, '_md5');
+                break;
+            case 'sha256':
+>>>>>>> v2-test
                 $this->hash = array($this, '_sha256');
                 break;
             case 'sha384':
             case 'sha512':
+<<<<<<< HEAD
                 $this->b = 128;
+=======
+>>>>>>> v2-test
                 $this->hash = array($this, '_sha512');
                 break;
             case 'sha1':
             default:
+<<<<<<< HEAD
                 $this->b = 64;
+=======
+>>>>>>> v2-test
                 $this->hash = array($this, '_sha1');
         }
 
         $this->ipad = str_repeat(chr(0x36), $this->b);
         $this->opad = str_repeat(chr(0x5C), $this->b);
+<<<<<<< HEAD
+=======
+
+        $this->_computeKey(self::MODE_INTERNAL);
+>>>>>>> v2-test
     }
 
     /**
@@ -297,6 +423,7 @@ class Hash
      */
     function hash($text)
     {
+<<<<<<< HEAD
         $mode = is_array($this->hash) ? self::MODE_INTERNAL : CRYPT_HASH_MODE;
 
         if (!empty($this->key) || is_string($this->key)) {
@@ -324,6 +451,27 @@ class Hash
             }
         } else {
             switch ($mode) {
+=======
+        if (!empty($this->key) || is_string($this->key)) {
+            switch ($this->engine) {
+                case self::MODE_MHASH:
+                    $output = mhash($this->hash, $text, $this->computedKey);
+                    break;
+                case self::MODE_HASH:
+                    $output = hash_hmac($this->hash, $text, $this->computedKey, true);
+                    break;
+                case self::MODE_INTERNAL:
+                    $key    = str_pad($this->computedKey, $this->b, chr(0)); // step 1
+                    $temp   = $this->ipad ^ $key;                            // step 2
+                    $temp  .= $text;                                         // step 3
+                    $temp   = call_user_func($this->hash, $temp);            // step 4
+                    $output = $this->opad ^ $key;                            // step 5
+                    $output.= $temp;                                         // step 6
+                    $output = call_user_func($this->hash, $output);          // step 7
+            }
+        } else {
+            switch ($this->engine) {
+>>>>>>> v2-test
                 case self::MODE_MHASH:
                     $output = mhash($this->hash, $text);
                     break;
@@ -784,7 +932,10 @@ class Hash
      * _sha256() adds multiple unsigned 32-bit integers.  Since PHP doesn't support unsigned integers and since the
      * possibility of overflow exists, care has to be taken.  BigInteger could be used but this should be faster.
      *
+<<<<<<< HEAD
      * @param int $...
+=======
+>>>>>>> v2-test
      * @return int
      * @see self::_sha256()
      * @access private

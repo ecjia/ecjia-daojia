@@ -1,6 +1,165 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
+=======
+5.2.0
+-----
+
+ * added support for `X-Forwarded-Prefix` header
+ * added `HeaderUtils::parseQuery()`: it does the same as `parse_str()` but preserves dots in variable names
+ * added `File::getContent()`
+ * added ability to use comma separated ip addresses for `RequestMatcher::matchIps()`
+ * added `Request::toArray()` to parse a JSON request body to an array
+ * added `RateLimiter\RequestRateLimiterInterface` and `RateLimiter\AbstractRequestRateLimiter`
+ * deprecated not passing a `Closure` together with `FILTER_CALLBACK` to `ParameterBag::filter()`; wrap your filter in a closure instead.
+ * Deprecated the `Request::HEADER_X_FORWARDED_ALL` constant, use either `HEADER_X_FORWARDED_FOR | HEADER_X_FORWARDED_HOST | HEADER_X_FORWARDED_PORT | HEADER_X_FORWARDED_PROTO` or `HEADER_X_FORWARDED_AWS_ELB` or `HEADER_X_FORWARDED_TRAEFIK` constants instead.
+ * Deprecated `BinaryFileResponse::create()`, use `__construct()` instead
+
+5.1.0
+-----
+
+ * added `Cookie::withValue`, `Cookie::withDomain`, `Cookie::withExpires`,
+   `Cookie::withPath`, `Cookie::withSecure`, `Cookie::withHttpOnly`,
+   `Cookie::withRaw`, `Cookie::withSameSite`
+ * Deprecate `Response::create()`, `JsonResponse::create()`,
+   `RedirectResponse::create()`, and `StreamedResponse::create()` methods (use
+   `__construct()` instead)
+ * added `Request::preferSafeContent()` and `Response::setContentSafe()` to handle "safe" HTTP preference
+   according to [RFC 8674](https://tools.ietf.org/html/rfc8674)
+ * made the Mime component an optional dependency
+ * added `MarshallingSessionHandler`, `IdentityMarshaller`
+ * made `Session` accept a callback to report when the session is being used
+ * Add support for all core cache control directives
+ * Added `Symfony\Component\HttpFoundation\InputBag`
+ * Deprecated retrieving non-string values using `InputBag::get()`, use `InputBag::all()` if you need access to the collection of values
+
+5.0.0
+-----
+
+ * made `Cookie` auto-secure and lax by default
+ * removed classes in the `MimeType` namespace, use the Symfony Mime component instead
+ * removed method `UploadedFile::getClientSize()` and the related constructor argument
+ * made `Request::getSession()` throw if the session has not been set before
+ * removed `Response::HTTP_RESERVED_FOR_WEBDAV_ADVANCED_COLLECTIONS_EXPIRED_PROPOSAL`
+ * passing a null url when instantiating a `RedirectResponse` is not allowed
+
+4.4.0
+-----
+
+ * passing arguments to `Request::isMethodSafe()` is deprecated.
+ * `ApacheRequest` is deprecated, use the `Request` class instead.
+ * passing a third argument to `HeaderBag::get()` is deprecated, use method `all()` instead
+ * [BC BREAK] `PdoSessionHandler` with MySQL changed the type of the lifetime column,
+   make sure to run `ALTER TABLE sessions MODIFY sess_lifetime INTEGER UNSIGNED NOT NULL` to
+   update your database.
+ * `PdoSessionHandler` now precalculates the expiry timestamp in the lifetime column,
+    make sure to run `CREATE INDEX EXPIRY ON sessions (sess_lifetime)` to update your database
+    to speed up garbage collection of expired sessions.
+ * added `SessionHandlerFactory` to create session handlers with a DSN
+ * added `IpUtils::anonymize()` to help with GDPR compliance.
+
+4.3.0
+-----
+
+ * added PHPUnit constraints: `RequestAttributeValueSame`, `ResponseCookieValueSame`, `ResponseHasCookie`,
+   `ResponseHasHeader`, `ResponseHeaderSame`, `ResponseIsRedirected`, `ResponseIsSuccessful`, and `ResponseStatusCodeSame`
+ * deprecated `MimeTypeGuesserInterface` and `ExtensionGuesserInterface` in favor of `Symfony\Component\Mime\MimeTypesInterface`.
+ * deprecated `MimeType` and `MimeTypeExtensionGuesser` in favor of `Symfony\Component\Mime\MimeTypes`.
+ * deprecated `FileBinaryMimeTypeGuesser` in favor of `Symfony\Component\Mime\FileBinaryMimeTypeGuesser`.
+ * deprecated `FileinfoMimeTypeGuesser` in favor of `Symfony\Component\Mime\FileinfoMimeTypeGuesser`.
+ * added `UrlHelper` that allows to get an absolute URL and a relative path for a given path
+
+4.2.0
+-----
+
+ * the default value of the "$secure" and "$samesite" arguments of Cookie's constructor
+   will respectively change from "false" to "null" and from "null" to "lax" in Symfony
+   5.0, you should define their values explicitly or use "Cookie::create()" instead.
+ * added `matchPort()` in RequestMatcher
+
+4.1.3
+-----
+
+ * [BC BREAK] Support for the IIS-only `X_ORIGINAL_URL` and `X_REWRITE_URL`
+   HTTP headers has been dropped for security reasons.
+
+4.1.0
+-----
+
+ * Query string normalization uses `parse_str()` instead of custom parsing logic.
+ * Passing the file size to the constructor of the `UploadedFile` class is deprecated.
+ * The `getClientSize()` method of the `UploadedFile` class is deprecated. Use `getSize()` instead.
+ * added `RedisSessionHandler` to use Redis as a session storage
+ * The `get()` method of the `AcceptHeader` class now takes into account the
+   `*` and `*/*` default values (if they are present in the Accept HTTP header)
+   when looking for items.
+ * deprecated `Request::getSession()` when no session has been set. Use `Request::hasSession()` instead.
+ * added `CannotWriteFileException`, `ExtensionFileException`, `FormSizeFileException`,
+   `IniSizeFileException`, `NoFileException`, `NoTmpDirFileException`, `PartialFileException` to
+   handle failed `UploadedFile`.
+ * added `MigratingSessionHandler` for migrating between two session handlers without losing sessions
+ * added `HeaderUtils`.
+
+4.0.0
+-----
+
+ * the `Request::setTrustedHeaderName()` and `Request::getTrustedHeaderName()`
+   methods have been removed
+ * the `Request::HEADER_CLIENT_IP` constant has been removed, use
+   `Request::HEADER_X_FORWARDED_FOR` instead
+ * the `Request::HEADER_CLIENT_HOST` constant has been removed, use
+   `Request::HEADER_X_FORWARDED_HOST` instead
+ * the `Request::HEADER_CLIENT_PROTO` constant has been removed, use
+   `Request::HEADER_X_FORWARDED_PROTO` instead
+ * the `Request::HEADER_CLIENT_PORT` constant has been removed, use
+   `Request::HEADER_X_FORWARDED_PORT` instead
+ * checking for cacheable HTTP methods using the `Request::isMethodSafe()`
+   method (by not passing `false` as its argument) is not supported anymore and
+   throws a `\BadMethodCallException`
+ * the `WriteCheckSessionHandler`, `NativeSessionHandler` and `NativeProxy` classes have been removed
+ * setting session save handlers that do not implement `\SessionHandlerInterface` in
+   `NativeSessionStorage::setSaveHandler()` is not supported anymore and throws a
+   `\TypeError`
+
+3.4.0
+-----
+
+ * implemented PHP 7.0's `SessionUpdateTimestampHandlerInterface` with a new
+   `AbstractSessionHandler` base class and a new `StrictSessionHandler` wrapper
+ * deprecated the `WriteCheckSessionHandler`, `NativeSessionHandler` and `NativeProxy` classes
+ * deprecated setting session save handlers that do not implement `\SessionHandlerInterface` in `NativeSessionStorage::setSaveHandler()`
+ * deprecated using `MongoDbSessionHandler` with the legacy mongo extension; use it with the mongodb/mongodb package and ext-mongodb instead
+ * deprecated `MemcacheSessionHandler`; use `MemcachedSessionHandler` instead
+
+3.3.0
+-----
+
+ * the `Request::setTrustedProxies()` method takes a new `$trustedHeaderSet` argument,
+   see https://symfony.com/doc/current/deployment/proxies.html for more info,
+ * deprecated the `Request::setTrustedHeaderName()` and `Request::getTrustedHeaderName()` methods,
+ * added `File\Stream`, to be passed to `BinaryFileResponse` when the size of the served file is unknown,
+   disabling `Range` and `Content-Length` handling, switching to chunked encoding instead
+ * added the `Cookie::fromString()` method that allows to create a cookie from a
+   raw header string
+
+3.1.0
+-----
+
+ * Added support for creating `JsonResponse` with a string of JSON data
+
+3.0.0
+-----
+
+ * The precedence of parameters returned from `Request::get()` changed from "GET, PATH, BODY" to "PATH, GET, BODY"
+
+2.8.0
+-----
+
+ * Finding deep items in `ParameterBag::get()` is deprecated since version 2.8 and
+   will be removed in 3.0.
+
+>>>>>>> v2-test
 2.6.0
 -----
 
@@ -101,10 +260,17 @@ CHANGELOG
  * Added `FlashBag`. Flashes expire when retrieved by `get()` or `all()`. This
    implementation is ESI compatible.
  * Added `AutoExpireFlashBag` (default) to replicate Symfony 2.0.x auto expire
+<<<<<<< HEAD
    behaviour of messages auto expiring after one page page load.  Messages must
    be retrieved by `get()` or `all()`.
  * Added `Symfony\Component\HttpFoundation\Attribute\AttributeBag` to replicate
    attributes storage behaviour from 2.0.x (default).
+=======
+   behavior of messages auto expiring after one page page load.  Messages must
+   be retrieved by `get()` or `all()`.
+ * Added `Symfony\Component\HttpFoundation\Attribute\AttributeBag` to replicate
+   attributes storage behavior from 2.0.x (default).
+>>>>>>> v2-test
  * Added `Symfony\Component\HttpFoundation\Attribute\NamespacedAttributeBag` for
    namespace session attributes.
  * Flash API can stores messages in an array so there may be multiple messages

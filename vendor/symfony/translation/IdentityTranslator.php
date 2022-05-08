@@ -11,11 +11,19 @@
 
 namespace Symfony\Component\Translation;
 
+<<<<<<< HEAD
+=======
+use Symfony\Contracts\Translation\LocaleAwareInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorTrait;
+
+>>>>>>> v2-test
 /**
  * IdentityTranslator does not translate anything.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 class IdentityTranslator implements TranslatorInterface
 {
     private $selector;
@@ -62,4 +70,9 @@ class IdentityTranslator implements TranslatorInterface
     {
         return strtr($this->selector->choose((string) $id, (int) $number, $locale ?: $this->getLocale()), $parameters);
     }
+=======
+class IdentityTranslator implements TranslatorInterface, LocaleAwareInterface
+{
+    use TranslatorTrait;
+>>>>>>> v2-test
 }

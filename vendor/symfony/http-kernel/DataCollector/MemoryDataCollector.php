@@ -18,21 +18,34 @@ use Symfony\Component\HttpFoundation\Response;
  * MemoryDataCollector.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+<<<<<<< HEAD
+=======
+ *
+ * @final
+>>>>>>> v2-test
  */
 class MemoryDataCollector extends DataCollector implements LateDataCollectorInterface
 {
     public function __construct()
     {
+<<<<<<< HEAD
         $this->data = array(
             'memory' => 0,
             'memory_limit' => $this->convertToBytes(ini_get('memory_limit')),
         );
+=======
+        $this->reset();
+>>>>>>> v2-test
     }
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, \Exception $exception = null)
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null)
+>>>>>>> v2-test
     {
         $this->updateMemoryUsage();
     }
@@ -40,6 +53,20 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
+=======
+    public function reset()
+    {
+        $this->data = [
+            'memory' => 0,
+            'memory_limit' => $this->convertToBytes(ini_get('memory_limit')),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+>>>>>>> v2-test
     public function lateCollect()
     {
         $this->updateMemoryUsage();
@@ -81,7 +108,14 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
         return 'memory';
     }
 
+<<<<<<< HEAD
     private function convertToBytes($memoryLimit)
+=======
+    /**
+     * @return int|float
+     */
+    private function convertToBytes(string $memoryLimit)
+>>>>>>> v2-test
     {
         if ('-1' === $memoryLimit) {
             return -1;
@@ -90,17 +124,31 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
         $memoryLimit = strtolower($memoryLimit);
         $max = strtolower(ltrim($memoryLimit, '+'));
         if (0 === strpos($max, '0x')) {
+<<<<<<< HEAD
             $max = intval($max, 16);
         } elseif (0 === strpos($max, '0')) {
             $max = intval($max, 8);
+=======
+            $max = \intval($max, 16);
+        } elseif (0 === strpos($max, '0')) {
+            $max = \intval($max, 8);
+>>>>>>> v2-test
         } else {
             $max = (int) $max;
         }
 
         switch (substr($memoryLimit, -1)) {
             case 't': $max *= 1024;
+<<<<<<< HEAD
             case 'g': $max *= 1024;
             case 'm': $max *= 1024;
+=======
+            // no break
+            case 'g': $max *= 1024;
+            // no break
+            case 'm': $max *= 1024;
+            // no break
+>>>>>>> v2-test
             case 'k': $max *= 1024;
         }
 

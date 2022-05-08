@@ -22,5 +22,9 @@ interface PhpSpecExceptionPresenter
      * @param Exception $exception
      * @return string
      */
+<<<<<<< HEAD
     public function presentException(Exception $exception);
+=======
+    public function presentException(Exception $exception): string;
+>>>>>>> v2-test
 }

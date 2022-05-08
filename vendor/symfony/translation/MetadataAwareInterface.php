@@ -30,7 +30,11 @@ interface MetadataAwareInterface
      *
      * @return mixed The value that was set or an array with the domains/keys or null
      */
+<<<<<<< HEAD
     public function getMetadata($key = '', $domain = 'messages');
+=======
+    public function getMetadata(string $key = '', string $domain = 'messages');
+>>>>>>> v2-test
 
     /**
      * Adds metadata to a message domain.
@@ -39,7 +43,11 @@ interface MetadataAwareInterface
      * @param mixed  $value  The value
      * @param string $domain The domain name
      */
+<<<<<<< HEAD
     public function setMetadata($key, $value, $domain = 'messages');
+=======
+    public function setMetadata(string $key, $value, string $domain = 'messages');
+>>>>>>> v2-test
 
     /**
      * Deletes metadata for the given key and domain.
@@ -50,5 +58,9 @@ interface MetadataAwareInterface
      * @param string $key    The key
      * @param string $domain The domain name
      */
+<<<<<<< HEAD
     public function deleteMetadata($key = '', $domain = 'messages');
+=======
+    public function deleteMetadata(string $key = '', string $domain = 'messages');
+>>>>>>> v2-test
 }

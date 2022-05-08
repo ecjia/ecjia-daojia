@@ -12,7 +12,10 @@
 namespace Symfony\Component\Console\Event;
 
 use Symfony\Component\Console\Command\Command;
+<<<<<<< HEAD
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+=======
+>>>>>>> v2-test
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -26,6 +29,7 @@ final class ConsoleErrorEvent extends ConsoleEvent
     private $error;
     private $exitCode;
 
+<<<<<<< HEAD
     public function __construct(InputInterface $input, OutputInterface $output, $error, Command $command = null)
     {
         parent::__construct($command, $input, $output);
@@ -39,10 +43,21 @@ final class ConsoleErrorEvent extends ConsoleEvent
      * @return \Throwable
      */
     public function getError()
+=======
+    public function __construct(InputInterface $input, OutputInterface $output, \Throwable $error, Command $command = null)
+    {
+        parent::__construct($command, $input, $output);
+
+        $this->error = $error;
+    }
+
+    public function getError(): \Throwable
+>>>>>>> v2-test
     {
         return $this->error;
     }
 
+<<<<<<< HEAD
     /**
      * Replaces the thrown error/exception.
      *
@@ -65,18 +80,32 @@ final class ConsoleErrorEvent extends ConsoleEvent
     public function setExitCode($exitCode)
     {
         $this->exitCode = (int) $exitCode;
+=======
+    public function setError(\Throwable $error): void
+    {
+        $this->error = $error;
+    }
+
+    public function setExitCode(int $exitCode): void
+    {
+        $this->exitCode = $exitCode;
+>>>>>>> v2-test
 
         $r = new \ReflectionProperty($this->error, 'code');
         $r->setAccessible(true);
         $r->setValue($this->error, $this->exitCode);
     }
 
+<<<<<<< HEAD
     /**
      * Gets the exit code.
      *
      * @return int The command exit code
      */
     public function getExitCode()
+=======
+    public function getExitCode(): int
+>>>>>>> v2-test
     {
         return null !== $this->exitCode ? $this->exitCode : (\is_int($this->error->getCode()) && 0 !== $this->error->getCode() ? $this->error->getCode() : 1);
     }

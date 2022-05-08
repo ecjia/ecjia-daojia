@@ -59,7 +59,11 @@ spl_autoload_register(function (\$class) {
         }
     }
 });
+<<<<<<< HEAD
 __HALT_COMPILER();
+=======
+__halt_compiler();
+>>>>>>> v2-test
 EOSTUB;
 }
 

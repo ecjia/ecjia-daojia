@@ -7,6 +7,7 @@ use Royalcms\Component\App\BundleAbstract;
 
 class SystemBundle extends BundleAbstract implements BundlePackage
 {
+<<<<<<< HEAD
     
     public function __construct()
     {
@@ -24,6 +25,35 @@ class SystemBundle extends BundleAbstract implements BundlePackage
         $this->site = defined('RC_SITE') ? RC_SITE : 'default';
         
         $this->makeControllerPath();
+=======
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->packageInit('system', config('system.admin_entrance'));
+    }
+
+    public function packageInit($app_floder, $app_alias = null)
+    {
+        $this->directory = $app_floder;
+
+        if (is_null($app_alias)) {
+            $this->alias = $app_floder;
+        } else {
+            $this->alias = $app_alias;
+        }
+        
+        $this->makeControllerPath();
+
+        $this->makeAppPackage();
+
+        if (! empty($this->package)) {
+            $this->identifier = $this->getPackage('identifier');
+
+            $this->namespace = $this->getPackage('namespace');
+            $this->provider = $this->namespace . '\\' . $this->getPackage('provider');
+        }
+>>>>>>> v2-test
     }
     
     protected function makeControllerPath()
@@ -43,6 +73,20 @@ class SystemBundle extends BundleAbstract implements BundlePackage
         return $path;
     }
 
+<<<<<<< HEAD
+=======
+    public function getPackageConfig()
+    {
+        $path = $this->getAbsolutePath() . 'configs/package.php';
+
+        if (file_exists($path)) {
+            return include $path;
+        }
+
+        return null;
+    }
+
+>>>>>>> v2-test
     /**
      * Get application provider container name
      * @return string

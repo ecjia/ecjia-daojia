@@ -11,13 +11,25 @@
 
 namespace Symfony\Component\Debug\FatalErrorHandler;
 
+<<<<<<< HEAD
 use Symfony\Component\Debug\Exception\UndefinedFunctionException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
+=======
+use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\Debug\Exception\UndefinedFunctionException;
+
+@trigger_error(sprintf('The "%s" class is deprecated since Symfony 4.4, use "%s" instead.', UndefinedFunctionFatalErrorHandler::class, \Symfony\Component\ErrorHandler\ErrorEnhancer\UndefinedFunctionErrorEnhancer::class), \E_USER_DEPRECATED);
+>>>>>>> v2-test
 
 /**
  * ErrorHandler for undefined functions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+<<<<<<< HEAD
+=======
+ *
+ * @deprecated since Symfony 4.4, use Symfony\Component\ErrorHandler\ErrorEnhancer\UndefinedFunctionErrorEnhancer instead.
+>>>>>>> v2-test
  */
 class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
 {
@@ -26,6 +38,7 @@ class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
      */
     public function handleError(array $error, FatalErrorException $exception)
     {
+<<<<<<< HEAD
         $messageLen = strlen($error['message']);
         $notFoundSuffix = '()';
         $notFoundSuffixLen = strlen($notFoundSuffix);
@@ -41,6 +54,23 @@ class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
         $prefixLen = strlen($prefix);
         if (0 !== strpos($error['message'], $prefix)) {
             return;
+=======
+        $messageLen = \strlen($error['message']);
+        $notFoundSuffix = '()';
+        $notFoundSuffixLen = \strlen($notFoundSuffix);
+        if ($notFoundSuffixLen > $messageLen) {
+            return null;
+        }
+
+        if (0 !== substr_compare($error['message'], $notFoundSuffix, -$notFoundSuffixLen)) {
+            return null;
+        }
+
+        $prefix = 'Call to undefined function ';
+        $prefixLen = \strlen($prefix);
+        if (0 !== strpos($error['message'], $prefix)) {
+            return null;
+>>>>>>> v2-test
         }
 
         $fullyQualifiedFunctionName = substr($error['message'], $prefixLen, -$notFoundSuffixLen);
@@ -53,7 +83,11 @@ class UndefinedFunctionFatalErrorHandler implements FatalErrorHandlerInterface
             $message = sprintf('Attempted to call function "%s" from the global namespace.', $functionName);
         }
 
+<<<<<<< HEAD
         $candidates = array();
+=======
+        $candidates = [];
+>>>>>>> v2-test
         foreach (get_defined_functions() as $type => $definedFunctionNames) {
             foreach ($definedFunctionNames as $definedFunctionName) {
                 if (false !== $namespaceSeparatorIndex = strrpos($definedFunctionName, '\\')) {

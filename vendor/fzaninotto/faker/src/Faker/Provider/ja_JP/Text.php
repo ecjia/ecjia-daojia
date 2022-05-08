@@ -598,7 +598,7 @@ EOT;
     protected static function explode($text)
     {
         $chars = array();
-        foreach (preg_split('//u', preg_replace('/\s+/', '', $text)) as $char) {
+        foreach (preg_split('//u', preg_replace('/\s+/u', '', $text)) as $char) {
             if ($char !== '') {
                 $chars[] = $char;
             }
@@ -620,7 +620,7 @@ EOT;
     {
         // extract the last char of $text
         if (function_exists('mb_substr')) {
-            $last = mb_substr($text, mb_strlen($text)-1, 'UTF-8');
+            $last = mb_substr($text, 0, mb_strlen($text) - 1, 'UTF-8');
         } else {
             $chars = static::split($text);
             $last = end($chars);
@@ -630,6 +630,6 @@ EOT;
             $text = preg_replace('/.$/u', '', $text);
         }
         // if the last char is not a valid punctuation, append a default one.
-        return in_array($last, static::$endPunct) ? $text : $text.'。';
+        return in_array($last, static::$endPunct) ? $text : $text . '。';
     }
 }

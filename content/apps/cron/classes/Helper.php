@@ -46,19 +46,11 @@
 //
 namespace Ecjia\App\Cron;
 
-use ecjia_admin_log;
-use RC_Lang;
+class Helper
+{
 
-class Helper {
-    
-    public static function assign_adminlog_content() {
-        ecjia_admin_log::instance()->add_action('enabled', __('启用', 'cron'));
-        ecjia_admin_log::instance()->add_action('disable', __('禁用', 'cron'));
-        ecjia_admin_log::instance()->add_action('run', __('执行', 'cron'));
-        ecjia_admin_log::instance()->add_object('cron', __('计划任务', 'cron'));
-    }
-    
-    public static function get_minute($cron_minute) {
+    public static function get_minute($cron_minute)
+    {
         $cron_minute = explode(',', $cron_minute);
         $cron_minute = array_unique($cron_minute);
         foreach ($cron_minute as $key => $val) {
@@ -71,24 +63,25 @@ class Helper {
         }
         return trim(implode(',', $cron_minute));
     }
-    
-    
-    public static function get_dwh() {
+
+
+    public static function get_dwh()
+    {
         $days = $week = $hours = array();
-        for ($i = 1 ; $i<=31 ; $i++) {
-            $days[$i] = $i.__('日', 'cron');
+        for ($i = 1; $i <= 31; $i++) {
+            $days[$i] = $i . __('日', 'cron');
         }
-    
-        for ($i = 1 ; $i<8 ; $i++) {
+
+        for ($i = 1; $i < 8; $i++) {
             $week[$i] = sprintf(__('每周%s', 'cron'), $i);
         }
-    
-        for ($i = 0 ; $i<24 ; $i++) {
-            $hours[$i] = $i.__('时', 'cron');
+
+        for ($i = 0; $i < 24; $i++) {
+            $hours[$i] = $i . __('时', 'cron');
         }
-        return array($days,$week,$hours);
+        return array($days, $week, $hours);
     }
-    
+
     /**
      * 获取下一次运行时间，获取GMT时间，用于存储数据库
      * @return string
@@ -96,16 +89,16 @@ class Helper {
     public static function getNextRunTime($cron_expression)
     {
         $times = with(new CronExpression)->getProvidesMultipleRunDates($cron_expression);
-        if (date('Y-m-d H:i').':00' == $times[0]->format('Y-m-d H:i:s')) {
+        if (date('Y-m-d H:i') . ':00' == $times[0]->format('Y-m-d H:i:s')) {
             $date = $times[1];
         } else {
             $date = $times[0];
         }
-         
+
         return \RC_Time::gmstr2time($date->format('Y-m-d H:i:s'));
     }
-    
-    
+
+
 }
 
 // end

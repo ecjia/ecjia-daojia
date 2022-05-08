@@ -7,6 +7,18 @@
 </script>
 <!-- {/block} -->
 
+{*
+<!-- {block name="admin_shop_config_nav"} -->
+<div class="setting-group">
+    <span class="setting-group-title"><i class="fontello-icon-cog"></i>设置</span>
+    <ul class="nav nav-list m_t10">
+        <li class="nav-header">计划任务</li>
+        <li><a class="setting-group-item llv-active" href="{url path='cron/admin_config/init'}">计划任务</a></li>
+    </ul>
+</div>
+<!-- {/block} -->
+*}
+
 <!-- {block name="admin_config_form"} -->
 <div class="row-fluid">
 	<form method="post" class="form-horizontal" action="{$form_action}" name="theForm" >
@@ -63,17 +75,22 @@
 	<div class="message_content">
 		<p>{t domain="cron"}如果您没有Shell访问您的服务器，您可以轻松使用在线cronjob服务（Google知道一些好的提供商）。此提供程序将以定义的间隔运行Cron的路由。 Cron路由必须受到保护，因为如果服务提供者之间的其他人调用它，我们的作业将被执行得太频繁。因此，除了路由路径之外，我们还需要一个安全密钥。该密钥可以通过重置命令后生成调用，并且必须在cron配置文件中设置密钥cronSecretKey。{/t}</p>
 		<p>{t domain="cron"}现在您必须在在线cronjob服务提供商配置地址和运行间隔。集成Cron路由的地址始终为{/t}</p>
-		<p><strong>http://yourdomain.com/index.php/cron.php?key=securitykey</strong></p>
+		<p><strong>http://yourdomain.com/sites/cron/?key=securitykey</strong></p>
 		<p>{t domain="cron"}对于上述示例，此地址可以是{/t}</p>
-		<p><strong>http://exampledomain.com/cron.php?key=1PBgabAXdoLTy3JDyi0xRpTR2qNrkkQy</strong>{t domain="cron"}，并且运行间隔必须是每分钟。{/t}</p>
+		<p><strong>http://exampledomain.com/sites/cron/?key=1PBgabAXdoLTy3JDyi0xRpTR2qNrkkQy</strong>{t domain="cron"}，并且运行间隔必须是每分钟。{/t}</p>
 		<p>{t domain="cron"}方式一：Linux服务器上运行，可以使用crontab计划任务执行。{/t}<p>
-		<div class="api_secret_cron">
+		<div class="api_secret_cron" style="height:50px;">
 			<p>* * * * * wget  -t 1 -T 0 -q --spider {$cron_url}<p>
 		</div>
-		<p style="margin-top: 10px;">{t domain="cron"}方式二：在线cronjob服务器，可以配置地址和运行时间间隔。{/t}</p>
+		<p style="margin-top: 10px;">{t domain="cron"}方式二：Linux服务器上运行，可以使用crontab计划任务执行。{/t}</p>
+        <p>{t domain="cron"}注：path 换成你网站的根路径{/t}</p>
 		<div class="api_secret_cron" style="height:50px;">
-			<p>{$cron_url}<p>
+            <p>*/1 * * * * /path/ecjia cron:run<p>
 		</div>
+        <p style="margin-top: 10px;">{t domain="cron"}方式三：在线cronjob服务器，可以配置地址和运行时间间隔。{/t}</p>
+        <div class="api_secret_cron" style="height:50px;">
+            <p>{$cron_url}<p>
+        </div>
 	</div>
 </div>
 <!-- {/block} -->

@@ -3,11 +3,18 @@
 namespace spec\PhpSpec\Formatter\Html;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
 
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Formatter\Template;
 use PhpSpec\Formatter\Presenter\PresenterInterface as Presenter;
+=======
+
+use PhpSpec\Event\ExampleEvent;
+use PhpSpec\Formatter\Template;
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 
 class ReportItemFactorySpec extends ObjectBehavior
 {

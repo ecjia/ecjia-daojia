@@ -23,7 +23,11 @@ class MethodAnalyser
      *
      * @return boolean
      */
+<<<<<<< HEAD
     public function methodIsEmpty($class, $method)
+=======
+    public function methodIsEmpty(string $class, string $method): bool
+>>>>>>> v2-test
     {
         return $this->reflectionMethodIsEmpty(new \ReflectionMethod($class, $method));
     }
@@ -33,7 +37,11 @@ class MethodAnalyser
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function reflectionMethodIsEmpty(\ReflectionMethod $method)
+=======
+    public function reflectionMethodIsEmpty(\ReflectionMethod $method): bool
+>>>>>>> v2-test
     {
         if ($this->isNotImplementedInPhp($method)) {
             return false;
@@ -51,7 +59,11 @@ class MethodAnalyser
      *
      * @return string
      */
+<<<<<<< HEAD
     public function getMethodOwnerName($class, $method)
+=======
+    public function getMethodOwnerName(string $class, string $method): string
+>>>>>>> v2-test
     {
         $reflectionMethod = new \ReflectionMethod($class, $method);
         $startLine = $reflectionMethod->getStartLine();
@@ -66,7 +78,11 @@ class MethodAnalyser
      *
      * @return string
      */
+<<<<<<< HEAD
     private function getCodeBody(\ReflectionMethod $reflectionMethod)
+=======
+    private function getCodeBody(\ReflectionMethod $reflectionMethod): string
+>>>>>>> v2-test
     {
         $endLine = $reflectionMethod->getEndLine();
         $startLine = $reflectionMethod->getStartLine();
@@ -74,7 +90,11 @@ class MethodAnalyser
 
         $length = $endLine - $startLine;
         $lines = file(StreamWrapper::wrapPath($reflectionClass->getFileName()));
+<<<<<<< HEAD
         $code = join(PHP_EOL, array_slice($lines, $startLine - 1, $length + 1));
+=======
+        $code = join(PHP_EOL, \array_slice($lines, $startLine - 1, $length + 1));
+>>>>>>> v2-test
 
         return preg_replace('/.*function[^{]+{/s', '', $code);
     }
@@ -86,6 +106,7 @@ class MethodAnalyser
      *
      * @return \ReflectionClass
      */
+<<<<<<< HEAD
     private function getMethodOwner(\ReflectionMethod $reflectionMethod, $methodStartLine, $methodEndLine)
     {
         $reflectionClass = $reflectionMethod->getDeclaringClass();
@@ -95,6 +116,12 @@ class MethodAnalyser
             return $reflectionClass;
         }
 
+=======
+    private function getMethodOwner(\ReflectionMethod $reflectionMethod, int $methodStartLine, int $methodEndLine): \ReflectionClass
+    {
+        $reflectionClass = $reflectionMethod->getDeclaringClass();
+
+>>>>>>> v2-test
         $fileName = $reflectionMethod->getFileName();
         $trait = $this->getDeclaringTrait($reflectionClass->getTraits(), $fileName, $methodStartLine, $methodEndLine);
 
@@ -109,7 +136,11 @@ class MethodAnalyser
      *
      * @return null|\ReflectionClass
      */
+<<<<<<< HEAD
     private function getDeclaringTrait(array $traits, $file, $start, $end)
+=======
+    private function getDeclaringTrait(array $traits, string $file, int $start, int $end): ?\ReflectionClass
+>>>>>>> v2-test
     {
         foreach ($traits as $trait) {
             if ($trait->getFileName() == $file && $trait->getStartLine() <= $start && $trait->getEndLine() >= $end) {
@@ -127,7 +158,11 @@ class MethodAnalyser
      * @param  string $code
      * @return string
      */
+<<<<<<< HEAD
     private function stripComments($code)
+=======
+    private function stripComments(string $code): string
+>>>>>>> v2-test
     {
         $tokens = token_get_all('<?php ' . $code);
 
@@ -138,7 +173,11 @@ class MethodAnalyser
             array_filter(
                 $tokens,
                 function ($token) {
+<<<<<<< HEAD
                     return is_array($token) && in_array($token[0], array(T_COMMENT, T_DOC_COMMENT));
+=======
+                    return \is_array($token) && \in_array($token[0], array(T_COMMENT, T_DOC_COMMENT));
+>>>>>>> v2-test
                 })
         );
 
@@ -151,7 +190,11 @@ class MethodAnalyser
      * @param  string $codeWithoutComments
      * @return bool
      */
+<<<<<<< HEAD
     private function codeIsOnlyBlocksAndWhitespace($codeWithoutComments)
+=======
+    private function codeIsOnlyBlocksAndWhitespace(string $codeWithoutComments): bool
+>>>>>>> v2-test
     {
         return (bool) preg_match('/^[\s{}]*$/s', $codeWithoutComments);
     }
@@ -160,7 +203,11 @@ class MethodAnalyser
      * @param  \ReflectionMethod $method
      * @return bool
      */
+<<<<<<< HEAD
     private function isNotImplementedInPhp(\ReflectionMethod $method)
+=======
+    private function isNotImplementedInPhp(\ReflectionMethod $method): bool
+>>>>>>> v2-test
     {
         $filename = $method->getDeclaringClass()->getFileName();
 

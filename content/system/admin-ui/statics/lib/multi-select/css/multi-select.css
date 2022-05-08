@@ -1,0 +1,175 @@
+.ms-container{
+  background: transparent url('../img/switch.gif') no-repeat 50% 50%;
+}
+
+.ms-container:after{
+  content: "."; display: block; height: 0; line-height: 0; font-size: 0; clear: both; min-height: 0; visibility: hidden;
+}
+
+.ms-container .ms-selectable, .ms-container .ms-selection {
+  background: #fff;
+  color: #333;
+  float: left;
+  width: 45%;
+}
+
+.ms-container .ms-list{
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+	border: 1px solid #ddd;
+}
+
+.ms-selected{
+  display:none;
+}
+.ms-container .ms-selectable{
+  margin-right: 10%;
+}
+
+.ms-container .ms-list.ms-focus{
+	border-color: #5ca9e4;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	outline: 0;
+	outline: thin dotted \9;
+}
+
+.ms-container ul{
+  margin: 0;
+  list-style-type: none;
+}
+
+.ms-container .ms-optgroup-container{
+  width: 100%;
+}
+
+.ms-container ul.ms-list{
+  height: 300px;
+  padding: 0px;
+  overflow-y: auto;
+}
+
+.ms-container .ms-optgroup-label{
+  margin: 0;
+  padding: 5px 0px 0px 5px;
+  cursor: pointer;
+  color: #999;
+}
+
+.ms-container .ms-selectable li.ms-elem-selectable,
+.ms-container .ms-selection li.ms-elem-selection{
+  border-bottom: 1px #f2f2f2 solid;
+  padding: 4px 10px 3px;
+  color: #555;
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ms-container .ms-selectable li:last-child.ms-elem-selectable,
+.ms-container .ms-selection li:last-child.ms-elem-selection {
+	border: none;
+}
+
+.ms-container .ms-selectable li.disabled,
+.ms-container .ms-selection li.disabled{
+  background-color: #eee;
+  color: #aaa;
+}
+
+.ms-container .ms-optgroup-label{
+  padding: 2px 0px 0px 5px;
+  cursor: pointer;
+  color: #666;
+  border-bottom: 1px solid #e2e2e2;
+  background: #f2f2f2;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.ms-container li.ms-elem-selectable:not(.disabled).ms-hover,
+.ms-container .ms-selection li:not(.disabled).ms-hover{
+  cursor: pointer;
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #48A6D2;
+  border-color: #48A6D2;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+
+.ms-container .custom-header {
+	background: #efefef;
+	color: #555;
+	text-align: center;
+	font-size: 11px;
+	line-height: 26px;
+	-webkit-border-radius: 4px 4px 0px 0px;
+    border-radius: 4px 4px 0px 0px;
+	border-width: 1px 1px 0 1px;
+	border-style: solid;
+	border-color: #ddd;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.ms-container .search-header,
+.ms-container .search-selected {
+	height: 32px;
+}
+.ms-container .search-header input {
+	margin: 0;
+	padding: 2px 6px;
+	height: 28px;
+	line-height: 28px;
+	font-size: 13px;
+}
+
+/*ms的扩展，拖动ms*/
+.draggable .ui-sortable-placeholder{
+  background: none repeat scroll 0 0 transparent;
+  border: 1px dashed #aaa;
+  background: #eee;
+  height: 25px !important;
+  margin-bottom: 20px;
+  visibility: visible !important;
+}
+.draggable .ms-container .ms-selectable li.ms-elem-selectable,
+.draggable .ms-container .ms-selection li.ms-elem-selection{
+  background: #fff;
+}
+.draggable .ms-container .ms-selection li.ms-elem-selection{
+  cursor: move;
+}
+.draggable .ms-container .ms-selectable li.ms-elem-selectable i,
+.draggable .ms-container .ms-selection li.ms-elem-selection i{
+  float: right;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.2s ease 0s;
+}
+.draggable .ms-container .ms-selectable li.ms-elem-selectable i{
+  color: #08c;
+}
+.draggable .ms-container .ms-selection li.ms-elem-selection i{
+  color: #c62626;
+}
+/*.draggable .ms-container .ms-selectable li.ms-elem-selectable.disabled i{
+  color: #666;
+}*/
+.draggable .ms-container .ms-selectable li.ms-elem-selectable.disabled{
+  /*cursor: ;*/
+}
+
+.draggable .ms-container .ms-selectable li:hover.ms-elem-selectable i,
+.draggable .ms-container .ms-selection li:hover.ms-elem-selection i{
+  opacity: 1;
+}
+/*ms的扩展，拖动ms*/

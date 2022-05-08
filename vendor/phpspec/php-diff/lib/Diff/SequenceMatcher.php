@@ -69,6 +69,13 @@ class Diff_SequenceMatcher
 
 	private $options = array();
 
+<<<<<<< HEAD
+=======
+    private $matchingBlocks = null;
+    private $opCodes = null;
+    private $fullBCount = null;
+
+>>>>>>> v2-test
 	private $defaultOptions = array(
 		'ignoreNewLines' => false,
 		'ignoreWhitespace' => false,
@@ -85,7 +92,11 @@ class Diff_SequenceMatcher
 	 * @param string|array $junkCallback Either an array or string that references a callback function (if there is one) to determine 'junk' characters.
 	 * @param array $options
 	 */
+<<<<<<< HEAD
 	public function __construct($a, $b, $junkCallback=null, $options)
+=======
+	public function __construct($a, $b, $junkCallback=null, $options=[])
+>>>>>>> v2-test
 	{
 		$this->a = null;
 		$this->b = null;
@@ -217,7 +228,11 @@ class Diff_SequenceMatcher
 	 */
 	private function isBJunk($b)
 	{
+<<<<<<< HEAD
 		if(isset($this->juncDict[$b])) {
+=======
+		if(isset($this->junkDict[$b])) {
+>>>>>>> v2-test
 			return true;
 		}
 
@@ -258,7 +273,11 @@ class Diff_SequenceMatcher
 		for($i = $alo; $i < $ahi; ++$i) {
 			$newJ2Len = array();
 			$jDict = $this->arrayGetDefault($this->b2j, $a[$i], $nothing);
+<<<<<<< HEAD
 			foreach($jDict as $jKey => $j) {
+=======
+			foreach($jDict as $j) {
+>>>>>>> v2-test
 				if($j < $blo) {
 					continue;
 				}
@@ -291,7 +310,11 @@ class Diff_SequenceMatcher
 		}
 
 		while($bestI > $alo && $bestJ > $blo && $this->isBJunk($b[$bestJ - 1]) &&
+<<<<<<< HEAD
 			!$this->isLineDifferent($bestI - 1, $bestJ - 1)) {
+=======
+			!$this->linesAreDifferent($bestI - 1, $bestJ - 1)) {
+>>>>>>> v2-test
 				--$bestI;
 				--$bestJ;
 				++$bestSize;
@@ -745,4 +768,8 @@ class Diff_SequenceMatcher
 			return 1;
 		}
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> v2-test

@@ -13,12 +13,17 @@ namespace Symfony\Component\HttpKernel\DataCollector;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+<<<<<<< HEAD
+=======
+use Symfony\Contracts\Service\ResetInterface;
+>>>>>>> v2-test
 
 /**
  * DataCollectorInterface.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 interface DataCollectorInterface
 {
     /**
@@ -29,6 +34,14 @@ interface DataCollectorInterface
      * @param \Exception $exception An Exception instance
      */
     public function collect(Request $request, Response $response, \Exception $exception = null);
+=======
+interface DataCollectorInterface extends ResetInterface
+{
+    /**
+     * Collects data for the given Request and Response.
+     */
+    public function collect(Request $request, Response $response, \Throwable $exception = null);
+>>>>>>> v2-test
 
     /**
      * Returns the name of the collector.

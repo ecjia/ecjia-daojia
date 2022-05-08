@@ -20,6 +20,7 @@ class Swift_Encoder_Rfc2231Encoder implements Swift_Encoder
      *
      * @var Swift_CharacterStream
      */
+<<<<<<< HEAD
     private $_charStream;
 
     /**
@@ -30,6 +31,16 @@ class Swift_Encoder_Rfc2231Encoder implements Swift_Encoder
     public function __construct(Swift_CharacterStream $charStream)
     {
         $this->_charStream = $charStream;
+=======
+    private $charStream;
+
+    /**
+     * Creates a new Rfc2231Encoder using the given character stream instance.
+     */
+    public function __construct(Swift_CharacterStream $charStream)
+    {
+        $this->charStream = $charStream;
+>>>>>>> v2-test
     }
 
     /**
@@ -44,7 +55,11 @@ class Swift_Encoder_Rfc2231Encoder implements Swift_Encoder
      */
     public function encodeString($string, $firstLineOffset = 0, $maxLineLength = 0)
     {
+<<<<<<< HEAD
         $lines = array();
+=======
+        $lines = [];
+>>>>>>> v2-test
         $lineCount = 0;
         $lines[] = '';
         $currentLine = &$lines[$lineCount++];
@@ -53,6 +68,7 @@ class Swift_Encoder_Rfc2231Encoder implements Swift_Encoder
             $maxLineLength = 75;
         }
 
+<<<<<<< HEAD
         $this->_charStream->flushContents();
         $this->_charStream->importString($string);
 
@@ -62,6 +78,17 @@ class Swift_Encoder_Rfc2231Encoder implements Swift_Encoder
             $encodedChar = rawurlencode($char);
             if (0 != strlen($currentLine)
                 && strlen($currentLine.$encodedChar) > $thisLineLength) {
+=======
+        $this->charStream->flushContents();
+        $this->charStream->importString($string);
+
+        $thisLineLength = $maxLineLength - $firstLineOffset;
+
+        while (false !== $char = $this->charStream->read(4)) {
+            $encodedChar = rawurlencode($char);
+            if (0 != \strlen($currentLine)
+                && \strlen($currentLine.$encodedChar) > $thisLineLength) {
+>>>>>>> v2-test
                 $lines[] = '';
                 $currentLine = &$lines[$lineCount++];
                 $thisLineLength = $maxLineLength;
@@ -79,7 +106,11 @@ class Swift_Encoder_Rfc2231Encoder implements Swift_Encoder
      */
     public function charsetChanged($charset)
     {
+<<<<<<< HEAD
         $this->_charStream->setCharacterSet($charset);
+=======
+        $this->charStream->setCharacterSet($charset);
+>>>>>>> v2-test
     }
 
     /**
@@ -87,6 +118,10 @@ class Swift_Encoder_Rfc2231Encoder implements Swift_Encoder
      */
     public function __clone()
     {
+<<<<<<< HEAD
         $this->_charStream = clone $this->_charStream;
+=======
+        $this->charStream = clone $this->charStream;
+>>>>>>> v2-test
     }
 }

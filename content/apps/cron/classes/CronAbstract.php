@@ -46,10 +46,9 @@
 //
 namespace Ecjia\App\Cron;
 
-use Ecjia\System\Plugin\AbstractPlugin;
 
+use Ecjia\Component\Plugin\AbstractPlugin;
 use RC_Ip;
-use RC_Config;
 use RC_Time;
 use RC_Logger;
 use ecjia_error;
@@ -58,14 +57,15 @@ use ecjia_error;
  * 计划任务抽象类
  * @author royalwang
  */
-abstract class CronAbstract extends AbstractPlugin {
-    
+abstract class CronAbstract extends AbstractPlugin
+{
+
     /**
      * 计划任务信息
      * @var \Ecjia\App\Cron\CronPlugin
      */
     protected $cron;
-    
+
     /**
      * 设置配置方式
      * @param \Ecjia\App\Cron\CronPlugin $payment
@@ -73,10 +73,10 @@ abstract class CronAbstract extends AbstractPlugin {
     public function setCron(CronPlugin $cron)
     {
         $this->cron = $cron;
-    
+
         return $this;
     }
-    
+
     /**
      * 获取计划任务数据对象
      * @return \Ecjia\App\Cron\CronPlugin $cron
@@ -85,84 +85,88 @@ abstract class CronAbstract extends AbstractPlugin {
     {
         return $this->cron;
     }
-    
-    
+
+
     /**
      * 计划任务执行方法
      */
-	abstract public function run();
-	
-	
-	/**
-	 * 检查设置了允许ip
-	 */
-	public function checkAllowIp() {
-	    if (! $this->cron['allow_ip']) {
-	        return true;
-	    }
-	     
-	    $allow_ip = explode(',', $this->cron['allow_ip']);
-	    $server_ip = RC_Ip::server_ip();
-	    if (!in_array($server_ip, $allow_ip)) {
-	        return false;
-	    }
-	    
-	    return true;
-	}
-	
-	/**
-	 * 运行处理
-	 */
-	public function runHandle()
-	{
-	    if (!$this->checkAllowIp()) {
-	        return false;
-	    }
-	    
-	    $result = $this->run();
-	    
-	    $this->saveRunTime();
-	    
-	    if (is_ecjia_error($result)) {
-	        $this->writeErrorLog($result);
-	        return $result;
-	    }
+    abstract public function run();
 
-	    RC_Logger::getLogger('cron')->info(sprintf("Cron job %s run complete.", $this->cron['cron_code']));
-	    return $result;
-	}
-	
-	/**
-	 * 获取下一次运行时间，获取GMT时间，用于存储数据库
-	 * @return string
-	 */
-	public function getNextRunTime() {
-	    return Helper::getNextRunTime($this->cron['cron_expression']);
-	}
-	
-	/**
-	 * 记录运行时间
-	 */
-	public function saveRunTime() {
-	    $close = $this->cron['run_once'] ? 0 : 1;
-	    
-	    $this->cron->runtime = RC_Time::gmtime();
-	    $this->cron->nexttime = $this->getNextRunTime();
-	    $this->cron->enabled = $close;
-	    $this->cron->save();
-	}
-	
-	/**
-	 * 保存错误日志
-	 * @param $error \ecjia_error
-	 */
-	protected function writeErrorLog(ecjia_error $error) {
-	    $message = $error->get_error_message();
-	    if ( ! empty($message)) {
-	        RC_Logger::getLogger('cron')->error($message);
-	    }
-	}
-	
+
+    /**
+     * 检查设置了允许ip
+     */
+    public function checkAllowIp()
+    {
+        if (!$this->cron['allow_ip']) {
+            return true;
+        }
+
+        $allow_ip  = explode(',', $this->cron['allow_ip']);
+        $server_ip = RC_Ip::server_ip();
+        if (!in_array($server_ip, $allow_ip)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 运行处理
+     */
+    public function runHandle()
+    {
+        if (!$this->checkAllowIp()) {
+            return false;
+        }
+
+        $result = $this->run();
+
+        $this->saveRunTime();
+
+        if (is_ecjia_error($result)) {
+            $this->writeErrorLog($result);
+            return $result;
+        }
+
+        RC_Logger::getLogger('cron')->info(sprintf("Cron job %s run complete.", $this->cron['cron_code']));
+        return $result;
+    }
+
+    /**
+     * 获取下一次运行时间，获取GMT时间，用于存储数据库
+     * @return string
+     */
+    public function getNextRunTime()
+    {
+        return Helper::getNextRunTime($this->cron['cron_expression']);
+    }
+
+    /**
+     * 记录运行时间
+     */
+    public function saveRunTime()
+    {
+        $close = $this->cron['run_once'] ? 0 : 1;
+
+        $this->cron->runtime  = RC_Time::gmtime();
+        $this->cron->nexttime = $this->getNextRunTime();
+        $this->cron->enabled  = $close;
+        $this->cron->save();
+    }
+
+    /**
+     * 保存错误日志
+     * @param $error \ecjia_error
+     */
+    protected function writeErrorLog(ecjia_error $error)
+    {
+        $message = $error->get_error_message();
+        if (!empty($message)) {
+            RC_Logger::getLogger('cron')->error($message);
+        }
+    }
+
 }
 
 // end

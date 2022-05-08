@@ -15,7 +15,11 @@ namespace PhpSpec\Process\ReRunner;
 
 use PhpSpec\Process\ReRunner;
 
+<<<<<<< HEAD
 class CompositeReRunner implements ReRunner
+=======
+final class CompositeReRunner implements ReRunner
+>>>>>>> v2-test
 {
     /**
      * @var ReRunner
@@ -35,7 +39,11 @@ class CompositeReRunner implements ReRunner
         }
     }
 
+<<<<<<< HEAD
     public function reRunSuite()
+=======
+    public function reRunSuite(): void
+>>>>>>> v2-test
     {
         $this->reRunner->reRunSuite();
     }

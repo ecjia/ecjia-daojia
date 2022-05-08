@@ -15,7 +15,7 @@ return array(
     |
     */
 
-    'default' => 'local',
+    'default' => env('STORAGE_DEFAULT_DRIVER', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ return array(
     |
     */
 
-    'cloud' => 'aliyunoss',
+    'cloud' => env('STORAGE_CLOUD_DRIVER', 'aliyunoss'),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,23 +48,24 @@ return array(
         'local' => array(
             'driver' => 'local',
             'root'   => SITE_UPLOAD_PATH,
-            'url'    => SITE_UPLOAD_URL,
+            'url'    => '',
         ),
 
         'direct' => array(
             'driver' => 'direct',
             'root'   => SITE_UPLOAD_PATH,
-            'url'    => SITE_UPLOAD_URL,
+            'url'    => '',
         ),
 
         'aliyunoss' => array(
             'driver'          => 'aliyunoss',
-            'key'             => '',
-            'secret'          => '',
-            'bucket'          => '',
-            'server'          => 'http://oss-cn-hangzhou.aliyuncs.com',
-            'server_internal' => 'http://oss-cn-hangzhou.aliyuncs.com',
-            'is_internal'     => false,
+            'key'             => env('STORAGE_ALIYUNOSS_APPKEY', ''),
+            'secret'          => env('STORAGE_ALIYUNOSS_APPSECRET', ''),
+            'bucket'          => env('STORAGE_ALIYUNOSS_BUCKET', ''),
+            'server'          => env('STORAGE_ALIYUNOSS_SERVER', 'https://oss-cn-hangzhou.aliyuncs.com'),
+            'server_internal' => env('STORAGE_ALIYUNOSS_SERVER_INTERNAL', 'https://oss-cn-hangzhou-internal.aliyuncs.com'),
+            'is_internal'     => env('STORAGE_ALIYUNOSS_IS_INTERNAL', false),
+            'url'             => '',
         ),
 
     ),

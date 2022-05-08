@@ -1,14 +1,33 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Package;
 
 class SystemPackage extends Package implements PackageInterface {
+=======
+<?php
+
+namespace Royalcms\Component\Package;
+
+use Royalcms\Component\Package\Contracts\LoaderInterface;
+use Royalcms\Component\Package\Contracts\PackageInterface;
+
+class SystemPackage extends Package implements PackageInterface
+{
+>>>>>>> v2-test
 
     public function __construct(LoaderInterface $loader, $alias)
     {
         parent::__construct($loader);
+<<<<<<< HEAD
         
         $this->alias = $alias;
     }
     
+=======
+
+        $this->alias = $alias;
+    }
+
+>>>>>>> v2-test
     /**
      * 加载控制器
      * @see \Royalcms\Component\Package\PackageInterface::loadController()
@@ -16,6 +35,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadController($classname, $initialize = true)
     {
         static $classes = array();
+<<<<<<< HEAD
         
         $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
         $class = basename($classname);
@@ -45,6 +65,30 @@ class SystemPackage extends Package implements PackageInterface {
         }
     }
     
+=======
+
+        $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
+        $class     = basename($classname);
+
+        $key = md5($classname . $initialize);
+        if (isset($classes[$key])) {
+            return $classes[$key];
+        }
+
+        if ($this->loader->loadController($classname)) {
+            if ($initialize) {
+                $classes[$key] = new $class();
+            } else {
+                $classes[$key] = true;
+            }
+
+            return $classes[$key];
+        } else {
+            return false;
+        }
+    }
+
+>>>>>>> v2-test
     /**
      * 加载数据模型
      * @see \Royalcms\Component\Package\PackageInterface::loadModel()
@@ -52,6 +96,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadModel($classname, $initialize = true)
     {
         static $classes = array();
+<<<<<<< HEAD
         
         $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
         $class = basename($classname);
@@ -81,6 +126,30 @@ class SystemPackage extends Package implements PackageInterface {
         }
     }
     
+=======
+
+        $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
+        $class     = basename($classname);
+
+        $key = md5($classname . $initialize);
+        if (isset($classes[$key])) {
+            return $classes[$key];
+        }
+
+        if ($this->loader->loadModel($classname)) {
+            if ($initialize) {
+                $classes[$key] = new $class();
+            } else {
+                $classes[$key] = true;
+            }
+
+            return $classes[$key];
+        } else {
+            return false;
+        }
+    }
+
+>>>>>>> v2-test
     /**
      * 加载模块
      * @see \Royalcms\Component\Package\PackageInterface::loadModule()
@@ -88,6 +157,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadModule($classname, $initialize = true)
     {
         static $classes = array();
+<<<<<<< HEAD
         
         $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
         $class = basename($classname);
@@ -117,6 +187,30 @@ class SystemPackage extends Package implements PackageInterface {
         }
     }
     
+=======
+
+        $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
+        $class     = basename($classname);
+
+        $key = md5($classname . $initialize);
+        if (isset($classes[$key])) {
+            return $classes[$key];
+        }
+
+        if ($this->loader->loadModule($classname)) {
+            if ($initialize) {
+                $classes[$key] = new $class();
+            } else {
+                $classes[$key] = true;
+            }
+
+            return $classes[$key];
+        } else {
+            return false;
+        }
+    }
+
+>>>>>>> v2-test
     /**
      * 加载类库
      * @see \Royalcms\Component\Package\PackageInterface::loadClass()
@@ -124,6 +218,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadClass($classname, $initialize = true)
     {
         static $classes = array();
+<<<<<<< HEAD
         
         $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
         $class = basename($classname);
@@ -153,6 +248,30 @@ class SystemPackage extends Package implements PackageInterface {
         }
     }
     
+=======
+
+        $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
+        $class     = basename($classname);
+
+        $key = md5($classname . $initialize);
+        if (isset($classes[$key])) {
+            return $classes[$key];
+        }
+
+        if ($this->loader->loadClass($classname)) {
+            if ($initialize) {
+                $classes[$key] = new $class();
+            } else {
+                $classes[$key] = true;
+            }
+
+            return $classes[$key];
+        } else {
+            return false;
+        }
+    }
+
+>>>>>>> v2-test
     /**
      * 加载API
      * @see \Royalcms\Component\Package\PackageInterface::loadApi()
@@ -160,6 +279,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadApi($apiname, $initialize = true)
     {
         static $classes = array();
+<<<<<<< HEAD
         
         $classname = str_replace(".", DIRECTORY_SEPARATOR, $apiname);
         $apikey = basename($classname);
@@ -191,6 +311,32 @@ class SystemPackage extends Package implements PackageInterface {
         }
     }
     
+=======
+
+        $classname     = str_replace(".", DIRECTORY_SEPARATOR, $apiname);
+        $apikey        = basename($classname);
+        $new_classname = 'system_' . $apikey . '_api';
+        $classname     = str_replace($apikey, $new_classname, $classname);
+
+        $key = md5($classname . $initialize);
+        if (isset($classes[$key])) {
+            return $classes[$key];
+        }
+
+        if ($this->loader->loadApi($classname)) {
+            if ($initialize) {
+                $classes[$key] = new $new_classname();
+            } else {
+                $classes[$key] = true;
+            }
+
+            return $classes[$key];
+        } else {
+            return false;
+        }
+    }
+
+>>>>>>> v2-test
     /**
      * 加载配置文件
      * @see \Royalcms\Component\Package\PackageInterface::loadConfig()
@@ -198,6 +344,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadConfig($cfgname)
     {
         static $configs = array();
+<<<<<<< HEAD
         
         $cfgname = str_replace(".", DIRECTORY_SEPARATOR, $cfgname);
         
@@ -212,6 +359,21 @@ class SystemPackage extends Package implements PackageInterface {
         return $configs[$key];
     }
     
+=======
+
+        $cfgname = str_replace(".", DIRECTORY_SEPARATOR, $cfgname);
+
+        $key = md5($cfgname);
+        if (isset($configs[$key])) {
+            return $configs[$key];
+        }
+
+        $configs[$key] = $this->loader->loadConfig($cfgname);
+
+        return $configs[$key];
+    }
+
+>>>>>>> v2-test
     /**
      * 加载语言文件
      * @see \Royalcms\Component\Package\PackageInterface::loadLanguage()
@@ -219,6 +381,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadLanguage($langname)
     {
         static $languages = array();
+<<<<<<< HEAD
         
         $langname = str_replace(".", DIRECTORY_SEPARATOR, $langname);
         
@@ -233,6 +396,21 @@ class SystemPackage extends Package implements PackageInterface {
         return $languages[$key];
     }
     
+=======
+
+        $langname = str_replace(".", DIRECTORY_SEPARATOR, $langname);
+
+        $key = md5($langname);
+        if (isset($languages[$key])) {
+            return $languages[$key];
+        }
+
+        $languages[$key] = $this->loader->loadLanguage($langname);
+
+        return $languages[$key];
+    }
+
+>>>>>>> v2-test
     /**
      * 加载函数库
      * @see \Royalcms\Component\Package\PackageInterface::loadFunction()
@@ -240,6 +418,7 @@ class SystemPackage extends Package implements PackageInterface {
     public function loadFunction($filename)
     {
         static $files = array();
+<<<<<<< HEAD
         
         $filename = str_replace(".", DIRECTORY_SEPARATOR, $filename);
         
@@ -254,6 +433,21 @@ class SystemPackage extends Package implements PackageInterface {
         return $files[$key];
     }
     
+=======
+
+        $filename = str_replace(".", DIRECTORY_SEPARATOR, $filename);
+
+        $key = md5($filename);
+        if (isset($files[$key])) {
+            return $files[$key];
+        }
+
+        $files[$key] = $this->loader->loadFunction($filename);
+
+        return $files[$key];
+    }
+
+>>>>>>> v2-test
     /**
      * 加载模板文件
      * @see \Royalcms\Component\Package\PackageInterface::loadTemplate()
@@ -263,6 +457,7 @@ class SystemPackage extends Package implements PackageInterface {
         static $templates = array();
 
         $key = md5($templatename);
+<<<<<<< HEAD
         if (isset($templates[$key]))
         {
             return $templates[$key];
@@ -280,4 +475,19 @@ class SystemPackage extends Package implements PackageInterface {
         }
     }
     
+=======
+        if (isset($templates[$key])) {
+            return $templates[$key];
+        }
+
+        $templates[$key] = $this->loader->loadTemplate($templatename);
+
+        if ($returnPath) {
+            return $this->loader->filePath();
+        } else {
+            return $templates[$key];
+        }
+    }
+
+>>>>>>> v2-test
 }

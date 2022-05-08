@@ -19,7 +19,11 @@ final class NullTypePresenter implements TypePresenter
      * @param mixed $value
      * @return bool
      */
+<<<<<<< HEAD
     public function supports($value)
+=======
+    public function supports($value): bool
+>>>>>>> v2-test
     {
         return null === $value;
     }
@@ -28,7 +32,11 @@ final class NullTypePresenter implements TypePresenter
      * @param mixed $value
      * @return string
      */
+<<<<<<< HEAD
     public function present($value)
+=======
+    public function present($value): string
+>>>>>>> v2-test
     {
         return 'null';
     }
@@ -36,7 +44,11 @@ final class NullTypePresenter implements TypePresenter
     /**
      * @return int
      */
+<<<<<<< HEAD
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 50;
     }

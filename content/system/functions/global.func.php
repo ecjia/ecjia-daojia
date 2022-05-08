@@ -252,20 +252,20 @@ function trim_right($str)
 {
     $len = strlen($str);
     /* 为空或单个字符直接返回 */
-    if ($len == 0 || ord($str{$len - 1}) < 127) {
+    if ($len == 0 || ord($str [$len - 1]) < 127) {
         return $str;
     }
     /* 有前导字符的直接把前导字符去掉 */
-    if (ord($str{$len - 1}) >= 192) {
+    if (ord($str [$len - 1]) >= 192) {
         return substr($str, 0, $len - 1);
     }
     /* 有非独立的字符，先把非独立字符去掉，再验证非独立的字符是不是一个完整的字，不是连原来前导字符也截取掉 */
     $r_len = strlen(rtrim($str, "\x80..\xBF"));
-    if ($r_len == 0 || ord($str{$r_len - 1}) < 127) {
+    if ($r_len == 0 || ord($str [$r_len - 1]) < 127) {
         return RC_String::sub_str($str, 0, $r_len);
     }
     
-    $as_num = ord(~ $str{$r_len - 1});
+    $as_num = ord(~ $str [$r_len - 1]);
     if ($as_num > (1 << (6 + $r_len - $len))) {
         return $str;
     } else {
@@ -691,8 +691,12 @@ if ( ! function_exists('ecjia_price_format'))
         } else {
             $price = number_format($price, 2, '.', '');
         }
-    
-        return sprintf(ecjia::config('currency_format'), $price);
+        
+        $currency_format = ecjia::config('currency_format');
+    	if ($currency_format != '￥%s') {
+    		$currency_format = config('site.currency_format');
+    	}
+        return sprintf($currency_format, $price);
     }
 }
 
@@ -901,11 +905,11 @@ if (! function_exists('ecjia_cache'))
     /**
      * APP缓存对象获取
      * @param string $app
-     * @return \Ecjia\System\Frameworks\Component\Cache
+     * @return \Ecjia\Component\Cache\Cache
      */
     function ecjia_cache($app, $driver = null)
     {
-        return Ecjia\System\Frameworks\Component\Cache::singleton()->app($app, $driver);
+        return \Ecjia\Component\Cache\Cache::singleton()->app($app, $driver);
     }
 }
 
@@ -1020,17 +1024,6 @@ if (! function_exists('ecjia_order_deposit_sn')) {
     function ecjia_order_deposit_sn()
     {
         return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_DEPOSIT))->generation();
-    }
-}
-
-
-if (! function_exists('ecjia_order_affiliate_sn')) {
-    /**
-     * 获取会员分佣的订单号
-     */
-    function ecjia_order_affiliate_sn()
-    {
-        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_AFFILIATE))->generation();
     }
 }
 
@@ -1190,6 +1183,13 @@ if (! function_exists('ecjia_filter_request_input'))
         }
 
         return intval($data);
+    }
+}
+
+if (! function_exists('ecjia_time_display'))
+{
+    function ecjia_time_display($time) {
+        return RC_Time::local_date(ecjia::config('time_format'), $time);
     }
 }
 

@@ -1,6 +1,124 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
+=======
+5.2.0
+-----
+
+ * added support for calling `trans` with ICU formatted messages
+ * added `PseudoLocalizationTranslator`
+ * added `TranslatableMessage` objects that represent a message that can be translated
+ * added the `t()` function to easily create `TranslatableMessage` objects
+ * Added support for extracting messages from `TranslatableMessage` objects
+
+5.1.0
+-----
+
+ * added support for `name` attribute on `unit` element from xliff2 to be used as a translation key instead of always the `source` element
+
+5.0.0
+-----
+
+ * removed support for using `null` as the locale in `Translator`
+ * removed `TranslatorInterface`
+ * removed `MessageSelector`
+ * removed `ChoiceMessageFormatterInterface`
+ * removed `PluralizationRule`
+ * removed `Interval`
+ * removed `transChoice()` methods, use the trans() method instead with a %count% parameter
+ * removed `FileDumper::setBackup()` and `TranslationWriter::disableBackup()`
+ * removed `MessageFormatter::choiceFormat()`
+ * added argument `$filename` to `PhpExtractor::parseTokens()`
+ * removed support for implicit STDIN usage in the `lint:xliff` command, use `lint:xliff -` (append a dash) instead to make it explicit.
+
+4.4.0
+-----
+
+ * deprecated support for using `null` as the locale in `Translator`
+ * deprecated accepting STDIN implicitly when using the `lint:xliff` command, use `lint:xliff -` (append a dash) instead to make it explicit.
+ * Marked the `TranslationDataCollector` class as `@final`.
+
+4.3.0
+-----
+
+ * Improved Xliff 1.2 loader to load the original file's metadata
+ * Added `TranslatorPathsPass`
+
+4.2.0
+-----
+
+ * Started using ICU parent locales as fallback locales.
+ * allow using the ICU message format using domains with the "+intl-icu" suffix
+ * deprecated `Translator::transChoice()` in favor of using `Translator::trans()` with a `%count%` parameter
+ * deprecated `TranslatorInterface` in favor of `Symfony\Contracts\Translation\TranslatorInterface`
+ * deprecated `MessageSelector`, `Interval` and `PluralizationRules`; use `IdentityTranslator` instead
+ * Added `IntlFormatter` and `IntlFormatterInterface`
+ * added support for multiple files and directories in `XliffLintCommand`
+ * Marked `Translator::getFallbackLocales()` and `TranslationDataCollector::getFallbackLocales()` as internal
+
+4.1.0
+-----
+
+ * The `FileDumper::setBackup()` method is deprecated.
+ * The `TranslationWriter::disableBackup()` method is deprecated.
+ * The `XliffFileDumper` will write "name" on the "unit" node when dumping XLIFF 2.0.
+
+4.0.0
+-----
+
+ * removed the backup feature of the `FileDumper` class
+ * removed `TranslationWriter::writeTranslations()` method
+ * removed support for passing `MessageSelector` instances to the constructor of the `Translator` class
+
+3.4.0
+-----
+
+ * Added `TranslationDumperPass`
+ * Added `TranslationExtractorPass`
+ * Added `TranslatorPass`
+ * Added `TranslationReader` and `TranslationReaderInterface`
+ * Added `<notes>` section to the Xliff 2.0 dumper.
+ * Improved Xliff 2.0 loader to load `<notes>` section.
+ * Added `TranslationWriterInterface`
+ * Deprecated `TranslationWriter::writeTranslations` in favor of `TranslationWriter::write`
+ * added support for adding custom message formatter and decoupling the default one.
+ * Added `PhpExtractor`
+ * Added `PhpStringTokenParser`
+
+3.2.0
+-----
+
+ * Added support for escaping `|` in plural translations with double pipe.
+
+3.1.0
+-----
+
+ * Deprecated the backup feature of the file dumper classes.
+
+3.0.0
+-----
+
+ * removed `FileDumper::format()` method.
+ * Changed the visibility of the locale property in `Translator` from protected to private.
+
+2.8.0
+-----
+
+ * deprecated FileDumper::format(), overwrite FileDumper::formatCatalogue() instead.
+ * deprecated Translator::getMessages(), rely on TranslatorBagInterface::getCatalogue() instead.
+ * added `FileDumper::formatCatalogue` which allows format the catalogue without dumping it into file.
+ * added option `json_encoding` to JsonFileDumper
+ * added options `as_tree`, `inline` to YamlFileDumper
+ * added support for XLIFF 2.0.
+ * added support for XLIFF target and tool attributes.
+ * added message parameters to DataCollectorTranslator.
+ * [DEPRECATION] The `DiffOperation` class has been deprecated and
+   will be removed in Symfony 3.0, since its operation has nothing to do with 'diff',
+   so the class name is misleading. The `TargetOperation` class should be used for
+   this use-case instead.
+
+>>>>>>> v2-test
 2.7.0
 -----
 

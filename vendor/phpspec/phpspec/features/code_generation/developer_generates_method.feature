@@ -11,7 +11,10 @@ Feature: Developer generates a method
       namespace spec\CodeGeneration\MethodExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -57,7 +60,10 @@ Feature: Developer generates a method
       namespace spec\Behat\Tests\MyNamespace;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class PrefixSpec extends ObjectBehavior
       {
@@ -110,7 +116,10 @@ Feature: Developer generates a method
       namespace spec\MyNamespace;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ConstructorSpec extends ObjectBehavior
       {
@@ -166,7 +175,10 @@ Feature: Developer generates a method
       namespace spec\MyNamespace;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ConstructorFirstSpec extends ObjectBehavior
       {
@@ -213,7 +225,10 @@ Feature: Developer generates a method
       namespace spec\MyNamespace;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ExistingMethodSpec extends ObjectBehavior
       {
@@ -270,7 +285,10 @@ Feature: Developer generates a method
       namespace spec\MyNamespace;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class ExistingMethodAnonymousFunctionSpec extends ObjectBehavior
       {
@@ -331,7 +349,10 @@ Feature: Developer generates a method
       namespace spec\MyNamespace;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class CommentMethodSpec extends ObjectBehavior
       {
@@ -372,14 +393,21 @@ Feature: Developer generates a method
 
       """
 
+<<<<<<< HEAD
   Scenario: Generating a method named with a restricted keyword
     Given the spec file "spec/MyNamespace/RestrictedSpec.php" contains:
+=======
+  @php:~7 @isolated
+  Scenario: Successful generation of a method named with a reserved keyword in previous PHP versions
+    Given the spec file "spec/MyNamespace/KeywordMethodSpec.php" contains:
+>>>>>>> v2-test
       """
       <?php
 
       namespace spec\MyNamespace;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
 
       class RestrictedSpec extends ObjectBehavior
@@ -387,31 +415,65 @@ Feature: Developer generates a method
           function it_tries_to_call_wrong_method()
           {
               $this->throw()->shouldReturn();
+=======
+
+      class KeywordMethodSpec extends ObjectBehavior
+      {
+          function it_tries_to_call_wrong_method()
+          {
+              $this->throw()->shouldReturn(null);
+>>>>>>> v2-test
           }
       }
 
       """
+<<<<<<< HEAD
     And the class file "src/MyNamespace/Restricted.php" contains:
+=======
+    And the class file "src/MyNamespace/KeywordMethod.php" contains:
+>>>>>>> v2-test
       """
       <?php
 
       namespace MyNamespace;
 
+<<<<<<< HEAD
       class Restricted
+=======
+      class KeywordMethod
+>>>>>>> v2-test
       {
       }
 
       """
+<<<<<<< HEAD
     When I run phpspec interactively
     Then I should see "I cannot generate the method 'throw' for you"
     And the class in "src/MyNamespace/Restricted.php" should contain:
+=======
+    When I run phpspec and answer "y" when asked if I want to generate the code
+    Then the class in "src/MyNamespace/KeywordMethod.php" should contain:
+>>>>>>> v2-test
       """
       <?php
 
       namespace MyNamespace;
 
+<<<<<<< HEAD
       class Restricted
       {
       }
 
       """
+=======
+      class KeywordMethod
+      {
+          public function throw()
+          {
+              // TODO: write logic here
+          }
+      }
+
+      """
+    And the suite should pass
+>>>>>>> v2-test

@@ -21,9 +21,15 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class InputArgument
 {
+<<<<<<< HEAD
     const REQUIRED = 1;
     const OPTIONAL = 2;
     const IS_ARRAY = 4;
+=======
+    public const REQUIRED = 1;
+    public const OPTIONAL = 2;
+    public const IS_ARRAY = 4;
+>>>>>>> v2-test
 
     private $name;
     private $mode;
@@ -31,6 +37,7 @@ class InputArgument
     private $description;
 
     /**
+<<<<<<< HEAD
      * @param string $name        The argument name
      * @param int    $mode        The argument mode: self::REQUIRED or self::OPTIONAL
      * @param string $description A description text
@@ -43,6 +50,20 @@ class InputArgument
         if (null === $mode) {
             $mode = self::OPTIONAL;
         } elseif (!\is_int($mode) || $mode > 7 || $mode < 1) {
+=======
+     * @param string               $name        The argument name
+     * @param int|null             $mode        The argument mode: self::REQUIRED or self::OPTIONAL
+     * @param string               $description A description text
+     * @param string|string[]|null $default     The default value (for self::OPTIONAL mode only)
+     *
+     * @throws InvalidArgumentException When argument mode is not valid
+     */
+    public function __construct(string $name, int $mode = null, string $description = '', $default = null)
+    {
+        if (null === $mode) {
+            $mode = self::OPTIONAL;
+        } elseif ($mode > 7 || $mode < 1) {
+>>>>>>> v2-test
             throw new InvalidArgumentException(sprintf('Argument mode "%s" is not valid.', $mode));
         }
 
@@ -86,7 +107,11 @@ class InputArgument
     /**
      * Sets the default value.
      *
+<<<<<<< HEAD
      * @param mixed $default The default value
+=======
+     * @param string|string[]|null $default The default value
+>>>>>>> v2-test
      *
      * @throws LogicException When incorrect default value is given
      */
@@ -98,7 +123,11 @@ class InputArgument
 
         if ($this->isArray()) {
             if (null === $default) {
+<<<<<<< HEAD
                 $default = array();
+=======
+                $default = [];
+>>>>>>> v2-test
             } elseif (!\is_array($default)) {
                 throw new LogicException('A default value for an array argument must be an array.');
             }
@@ -110,7 +139,11 @@ class InputArgument
     /**
      * Returns the default value.
      *
+<<<<<<< HEAD
      * @return mixed The default value
+=======
+     * @return string|string[]|null The default value
+>>>>>>> v2-test
      */
     public function getDefault()
     {

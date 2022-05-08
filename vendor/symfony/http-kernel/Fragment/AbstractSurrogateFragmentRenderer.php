@@ -29,6 +29,7 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
     private $signer;
 
     /**
+<<<<<<< HEAD
      * Constructor.
      *
      * The "fallback" strategy when surrogate is not available should always be an
@@ -37,6 +38,12 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
      * @param SurrogateInterface        $surrogate      An Surrogate instance
      * @param FragmentRendererInterface $inlineStrategy The inline strategy to use when the surrogate is not supported
      * @param UriSigner                 $signer
+=======
+     * The "fallback" strategy when surrogate is not available should always be an
+     * instance of InlineFragmentRenderer.
+     *
+     * @param FragmentRendererInterface $inlineStrategy The inline strategy to use when the surrogate is not supported
+>>>>>>> v2-test
      */
     public function __construct(SurrogateInterface $surrogate = null, FragmentRendererInterface $inlineStrategy, UriSigner $signer = null)
     {
@@ -61,9 +68,19 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
      *
      * @see Symfony\Component\HttpKernel\HttpCache\SurrogateInterface
      */
+<<<<<<< HEAD
     public function render($uri, Request $request, array $options = array())
     {
         if (!$this->surrogate || !$this->surrogate->hasSurrogateCapability($request)) {
+=======
+    public function render($uri, Request $request, array $options = [])
+    {
+        if (!$this->surrogate || !$this->surrogate->hasSurrogateCapability($request)) {
+            if ($uri instanceof ControllerReference && $this->containsNonScalars($uri->attributes)) {
+                throw new \InvalidArgumentException('Passing non-scalar values as part of URI attributes to the ESI and SSI rendering strategies is not supported. Use a different rendering strategy or pass scalar values.');
+            }
+
+>>>>>>> v2-test
             return $this->inlineStrategy->render($uri, $request, $options);
         }
 
@@ -71,17 +88,29 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
             $uri = $this->generateSignedFragmentUri($uri, $request);
         }
 
+<<<<<<< HEAD
         $alt = isset($options['alt']) ? $options['alt'] : null;
+=======
+        $alt = $options['alt'] ?? null;
+>>>>>>> v2-test
         if ($alt instanceof ControllerReference) {
             $alt = $this->generateSignedFragmentUri($alt, $request);
         }
 
+<<<<<<< HEAD
         $tag = $this->surrogate->renderIncludeTag($uri, $alt, isset($options['ignore_errors']) ? $options['ignore_errors'] : false, isset($options['comment']) ? $options['comment'] : '');
+=======
+        $tag = $this->surrogate->renderIncludeTag($uri, $alt, $options['ignore_errors'] ?? false, $options['comment'] ?? '');
+>>>>>>> v2-test
 
         return new Response($tag);
     }
 
+<<<<<<< HEAD
     private function generateSignedFragmentUri($uri, Request $request)
+=======
+    private function generateSignedFragmentUri(ControllerReference $uri, Request $request): string
+>>>>>>> v2-test
     {
         if (null === $this->signer) {
             throw new \LogicException('You must use a URI when using the ESI rendering strategy or set a URL signer.');
@@ -90,6 +119,23 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
         // we need to sign the absolute URI, but want to return the path only.
         $fragmentUri = $this->signer->sign($this->generateFragmentUri($uri, $request, true));
 
+<<<<<<< HEAD
         return substr($fragmentUri, strlen($request->getSchemeAndHttpHost()));
+=======
+        return substr($fragmentUri, \strlen($request->getSchemeAndHttpHost()));
+    }
+
+    private function containsNonScalars(array $values): bool
+    {
+        foreach ($values as $value) {
+            if (\is_array($value)) {
+                return $this->containsNonScalars($value);
+            } elseif (!is_scalar($value) && null !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+>>>>>>> v2-test
     }
 }

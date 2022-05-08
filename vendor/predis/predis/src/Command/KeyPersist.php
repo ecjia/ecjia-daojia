@@ -25,6 +25,7 @@ class KeyPersist extends Command
     {
         return 'PERSIST';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class KeyPersist extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

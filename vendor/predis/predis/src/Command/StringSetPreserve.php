@@ -25,6 +25,7 @@ class StringSetPreserve extends Command
     {
         return 'SETNX';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class StringSetPreserve extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

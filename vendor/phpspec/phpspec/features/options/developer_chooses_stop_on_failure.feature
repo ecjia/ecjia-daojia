@@ -12,7 +12,10 @@ Feature: Developer chooses stop on failure
       namespace spec\SkipOnFailure\SpecExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class FirstFailSpec extends ObjectBehavior
       {
@@ -59,7 +62,10 @@ Feature: Developer chooses stop on failure
       namespace spec\SkipOnFailure\SpecExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class FirstFailSpec extends ObjectBehavior
       {
@@ -107,7 +113,10 @@ Feature: Developer chooses stop on failure
       namespace spec\SkipOnFailure\SpecExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class FirstFailSpec extends ObjectBehavior
       {

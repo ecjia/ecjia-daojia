@@ -27,9 +27,12 @@ interface TerminableInterface
      * Terminates a request/response cycle.
      *
      * Should be called after sending the response and before shutting down the kernel.
+<<<<<<< HEAD
      *
      * @param Request  $request  A Request instance
      * @param Response $response A Response instance
+=======
+>>>>>>> v2-test
      */
     public function terminate(Request $request, Response $response);
 }

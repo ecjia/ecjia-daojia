@@ -23,9 +23,15 @@ class ArrayLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function load($resource, $locale, $domain = 'messages')
     {
         $this->flatten($resource);
+=======
+    public function load($resource, string $locale, string $domain = 'messages')
+    {
+        $resource = $this->flatten($resource);
+>>>>>>> v2-test
         $catalogue = new MessageCatalogue($locale);
         $catalogue->add($resource, $domain);
 
@@ -36,6 +42,7 @@ class ArrayLoader implements LoaderInterface
      * Flattens an nested array of translations.
      *
      * The scheme used is:
+<<<<<<< HEAD
      *   'key' => array('key2' => array('key3' => 'value'))
      * Becomes:
      *   'key.key2.key3' => 'value'
@@ -62,5 +69,25 @@ class ArrayLoader implements LoaderInterface
                 $messages[$path.'.'.$key] = $value;
             }
         }
+=======
+     *   'key' => ['key2' => ['key3' => 'value']]
+     * Becomes:
+     *   'key.key2.key3' => 'value'
+     */
+    private function flatten(array $messages): array
+    {
+        $result = [];
+        foreach ($messages as $key => $value) {
+            if (\is_array($value)) {
+                foreach ($this->flatten($value) as $k => $v) {
+                    $result[$key.'.'.$k] = $v;
+                }
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+>>>>>>> v2-test
     }
 }

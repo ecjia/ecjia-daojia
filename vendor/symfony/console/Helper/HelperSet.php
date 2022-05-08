@@ -24,19 +24,28 @@ class HelperSet implements \IteratorAggregate
     /**
      * @var Helper[]
      */
+<<<<<<< HEAD
     private $helpers = array();
+=======
+    private $helpers = [];
+>>>>>>> v2-test
     private $command;
 
     /**
      * @param Helper[] $helpers An array of helper
      */
+<<<<<<< HEAD
     public function __construct(array $helpers = array())
+=======
+    public function __construct(array $helpers = [])
+>>>>>>> v2-test
     {
         foreach ($helpers as $alias => $helper) {
             $this->set($helper, \is_int($alias) ? null : $alias);
         }
     }
 
+<<<<<<< HEAD
     /**
      * Sets a helper.
      *
@@ -44,6 +53,9 @@ class HelperSet implements \IteratorAggregate
      * @param string          $alias  An alias
      */
     public function set(HelperInterface $helper, $alias = null)
+=======
+    public function set(HelperInterface $helper, string $alias = null)
+>>>>>>> v2-test
     {
         $this->helpers[$helper->getName()] = $helper;
         if (null !== $alias) {
@@ -56,11 +68,17 @@ class HelperSet implements \IteratorAggregate
     /**
      * Returns true if the helper if defined.
      *
+<<<<<<< HEAD
      * @param string $name The helper name
      *
      * @return bool true if the helper is defined, false otherwise
      */
     public function has($name)
+=======
+     * @return bool true if the helper is defined, false otherwise
+     */
+    public function has(string $name)
+>>>>>>> v2-test
     {
         return isset($this->helpers[$name]);
     }
@@ -68,13 +86,20 @@ class HelperSet implements \IteratorAggregate
     /**
      * Gets a helper value.
      *
+<<<<<<< HEAD
      * @param string $name The helper name
      *
+=======
+>>>>>>> v2-test
      * @return HelperInterface The helper instance
      *
      * @throws InvalidArgumentException if the helper is not defined
      */
+<<<<<<< HEAD
     public function get($name)
+=======
+    public function get(string $name)
+>>>>>>> v2-test
     {
         if (!$this->has($name)) {
             throw new InvalidArgumentException(sprintf('The helper "%s" is not defined.', $name));

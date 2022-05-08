@@ -812,6 +812,10 @@ class SSH1
      * @see self::interactiveRead()
      * @see self::interactiveWrite()
      * @param string $cmd
+<<<<<<< HEAD
+=======
+     * @param bool $block
+>>>>>>> v2-test
      * @return mixed
      * @access public
      */
@@ -1124,6 +1128,12 @@ class SSH1
 
         while ($length > 0) {
             $temp = fread($this->fsock, $length);
+<<<<<<< HEAD
+=======
+            if (strlen($temp) != $length) {
+                return false;
+            }
+>>>>>>> v2-test
             $raw.= $temp;
             $length-= strlen($temp);
         }
@@ -1382,7 +1392,10 @@ class SSH1
      * named constants from it, using the value as the name of the constant and the index as the value of the constant.
      * If any of the constants that would be defined already exists, none of the constants will be defined.
      *
+<<<<<<< HEAD
      * @param array $array
+=======
+>>>>>>> v2-test
      * @access private
      */
     function _define_array()
@@ -1581,7 +1594,12 @@ class SSH1
      *
      * Makes sure that only the last 1MB worth of packets will be logged
      *
+<<<<<<< HEAD
      * @param string $data
+=======
+     * @param int $protocol_flags
+     * @param string $message
+>>>>>>> v2-test
      * @access private
      */
     function _append_log($protocol_flags, $message)

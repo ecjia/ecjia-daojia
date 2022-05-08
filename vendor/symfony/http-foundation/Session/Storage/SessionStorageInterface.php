@@ -26,7 +26,11 @@ interface SessionStorageInterface
      *
      * @return bool True if started
      *
+<<<<<<< HEAD
      * @throws \RuntimeException If something goes wrong starting the session.
+=======
+     * @throws \RuntimeException if something goes wrong starting the session
+>>>>>>> v2-test
      */
     public function start();
 
@@ -46,24 +50,38 @@ interface SessionStorageInterface
 
     /**
      * Sets the session ID.
+<<<<<<< HEAD
      *
      * @param string $id
      */
     public function setId($id);
+=======
+     */
+    public function setId(string $id);
+>>>>>>> v2-test
 
     /**
      * Returns the session name.
      *
+<<<<<<< HEAD
      * @return mixed The session name
+=======
+     * @return string The session name
+>>>>>>> v2-test
      */
     public function getName();
 
     /**
      * Sets the session name.
+<<<<<<< HEAD
      *
      * @param string $name
      */
     public function setName($name);
+=======
+     */
+    public function setName(string $name);
+>>>>>>> v2-test
 
     /**
      * Regenerates id that represents this storage.
@@ -77,7 +95,11 @@ interface SessionStorageInterface
      * only delete the session data from persistent storage.
      *
      * Care: When regenerating the session ID no locking is involved in PHP's
+<<<<<<< HEAD
      * session design. See https://bugs.php.net/bug.php?id=61470 for a discussion.
+=======
+     * session design. See https://bugs.php.net/61470 for a discussion.
+>>>>>>> v2-test
      * So you must make sure the regenerated session is saved BEFORE sending the
      * headers with the new ID. Symfony's HttpKernel offers a listener for this.
      * See Symfony\Component\HttpKernel\EventListener\SaveSessionListener.
@@ -94,7 +116,11 @@ interface SessionStorageInterface
      *
      * @throws \RuntimeException If an error occurs while regenerating this storage
      */
+<<<<<<< HEAD
     public function regenerate($destroy = false, $lifetime = null);
+=======
+    public function regenerate(bool $destroy = false, int $lifetime = null);
+>>>>>>> v2-test
 
     /**
      * Force the session to be saved and closed.
@@ -104,8 +130,13 @@ interface SessionStorageInterface
      * a real PHP session would interfere with testing, in which case
      * it should actually persist the session data if required.
      *
+<<<<<<< HEAD
      * @throws \RuntimeException If the session is saved without being started, or if the session
      *                           is already closed.
+=======
+     * @throws \RuntimeException if the session is saved without being started, or if the session
+     *                           is already closed
+>>>>>>> v2-test
      */
     public function save();
 
@@ -117,18 +148,28 @@ interface SessionStorageInterface
     /**
      * Gets a SessionBagInterface by name.
      *
+<<<<<<< HEAD
      * @param string $name
      *
+=======
+>>>>>>> v2-test
      * @return SessionBagInterface
      *
      * @throws \InvalidArgumentException If the bag does not exist
      */
+<<<<<<< HEAD
     public function getBag($name);
 
     /**
      * Registers a SessionBagInterface for use.
      *
      * @param SessionBagInterface $bag
+=======
+    public function getBag(string $name);
+
+    /**
+     * Registers a SessionBagInterface for use.
+>>>>>>> v2-test
      */
     public function registerBag(SessionBagInterface $bag);
 

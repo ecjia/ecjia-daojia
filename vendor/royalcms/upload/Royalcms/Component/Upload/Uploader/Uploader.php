@@ -183,7 +183,11 @@ class Uploader extends UploaderAbstract
         }
 
         /* 检查文件大小 */
+<<<<<<< HEAD
         if (! $this->check_size($upload_file->getClientSize())) {
+=======
+        if (! $this->check_size($upload_file->getSize())) {
+>>>>>>> v2-test
             $this->add_error('upload_file_size_not_match', __('上传文件大小不符！', 'royalcms-upload'));
             return false;
         }
@@ -284,7 +288,11 @@ class Uploader extends UploaderAbstract
             $upload_file = $file;
         }
         elseif (is_array($file) && isset($file['name'])) {
+<<<<<<< HEAD
             $upload_file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['size'], $file['error']);
+=======
+            $upload_file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['error']);
+>>>>>>> v2-test
         }
         else {
             $upload_file = $this->getRequest()->file($file);

@@ -9,7 +9,11 @@ Feature: Config directory can be used in spec and src paths
       suites:
         behat_suite:
           namespace: MilkyWay\OrionCygnusArm
+<<<<<<< HEAD
           spec_path: %paths.config%
+=======
+          spec_path: "%paths.config%"
+>>>>>>> v2-test
       """
     When I start describing the "MilkyWay/OrionCygnusArm/LocalBubble" class with the "Awesome/phpspec.yml" custom config
     Then a new spec should be generated in the "Awesome/spec/MilkyWay/OrionCygnusArm/LocalBubbleSpec.php":
@@ -18,14 +22,23 @@ Feature: Config directory can be used in spec and src paths
 
       namespace spec\MilkyWay\OrionCygnusArm;
 
+<<<<<<< HEAD
       use PhpSpec\ObjectBehavior;
       use Prophecy\Argument;
+=======
+      use MilkyWay\OrionCygnusArm\LocalBubble;
+      use PhpSpec\ObjectBehavior;
+>>>>>>> v2-test
 
       class LocalBubbleSpec extends ObjectBehavior
       {
           function it_is_initializable()
           {
+<<<<<<< HEAD
               $this->shouldHaveType('MilkyWay\OrionCygnusArm\LocalBubble');
+=======
+              $this->shouldHaveType(LocalBubble::class);
+>>>>>>> v2-test
           }
       }
 
@@ -45,14 +58,23 @@ Feature: Config directory can be used in spec and src paths
 
       namespace spec\MilkyWay\OrionCygnusArm;
 
+<<<<<<< HEAD
       use PhpSpec\ObjectBehavior;
       use Prophecy\Argument;
+=======
+      use MilkyWay\OrionCygnusArm\ButterflyCluster;
+      use PhpSpec\ObjectBehavior;
+>>>>>>> v2-test
 
       class ButterflyClusterSpec extends ObjectBehavior
       {
           function it_is_initializable()
           {
+<<<<<<< HEAD
               $this->shouldHaveType('MilkyWay\OrionCygnusArm\ButterflyCluster');
+=======
+              $this->shouldHaveType(ButterflyCluster::class);
+>>>>>>> v2-test
           }
       }
 
@@ -64,7 +86,11 @@ Feature: Config directory can be used in spec and src paths
       suites:
         behat_suite:
           namespace: MilkyWay\OrionCygnusArm
+<<<<<<< HEAD
           src_path: %paths.config%/src
+=======
+          src_path: "%paths.config%/src"
+>>>>>>> v2-test
       """
     And I have started describing the "MilkyWay/OrionCygnusArm/Pleiades/Alcyone" class with the "Awesome/phpspec.yml" custom config
     When I run phpspec with the "Awesome/phpspec.yml" custom config and answer "y" when asked if I want to generate the code

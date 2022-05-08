@@ -17,6 +17,7 @@
 class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_Plugins_Decorator_Replacements
 {
     /** The replacement map */
+<<<<<<< HEAD
     private $_replacements;
 
     /** The body as it was before replacements */
@@ -30,6 +31,21 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
 
     /** The Message that was last replaced */
     private $_lastMessage;
+=======
+    private $replacements;
+
+    /** The body as it was before replacements */
+    private $originalBody;
+
+    /** The original headers of the message, before replacements */
+    private $originalHeaders = [];
+
+    /** Bodies of children before they are replaced */
+    private $originalChildBodies = [];
+
+    /** The Message that was last replaced */
+    private $lastMessage;
+>>>>>>> v2-test
 
     /**
      * Create a new DecoratorPlugin with $replacements.
@@ -66,21 +82,34 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
     public function setReplacements($replacements)
     {
         if (!($replacements instanceof Swift_Plugins_Decorator_Replacements)) {
+<<<<<<< HEAD
             $this->_replacements = (array) $replacements;
         } else {
             $this->_replacements = $replacements;
+=======
+            $this->replacements = (array) $replacements;
+        } else {
+            $this->replacements = $replacements;
+>>>>>>> v2-test
         }
     }
 
     /**
      * Invoked immediately before the Message is sent.
+<<<<<<< HEAD
      *
      * @param Swift_Events_SendEvent $evt
+=======
+>>>>>>> v2-test
      */
     public function beforeSendPerformed(Swift_Events_SendEvent $evt)
     {
         $message = $evt->getMessage();
+<<<<<<< HEAD
         $this->_restoreMessage($message);
+=======
+        $this->restoreMessage($message);
+>>>>>>> v2-test
         $to = array_keys($message->getTo());
         $address = array_shift($to);
         if ($replacements = $this->getReplacementsFor($address)) {
@@ -91,13 +120,18 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
                 $search, $replace, $body
                 );
             if ($body != $bodyReplaced) {
+<<<<<<< HEAD
                 $this->_originalBody = $body;
+=======
+                $this->originalBody = $body;
+>>>>>>> v2-test
                 $message->setBody($bodyReplaced);
             }
 
             foreach ($message->getHeaders()->getAll() as $header) {
                 $body = $header->getFieldBodyModel();
                 $count = 0;
+<<<<<<< HEAD
                 if (is_array($body)) {
                     $bodyReplaced = array();
                     foreach ($body as $key => $value) {
@@ -105,18 +139,35 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
                         $count2 = 0;
                         $key = is_string($key) ? str_replace($search, $replace, $key, $count1) : $key;
                         $value = is_string($value) ? str_replace($search, $replace, $value, $count2) : $value;
+=======
+                if (\is_array($body)) {
+                    $bodyReplaced = [];
+                    foreach ($body as $key => $value) {
+                        $count1 = 0;
+                        $count2 = 0;
+                        $key = \is_string($key) ? str_replace($search, $replace, $key, $count1) : $key;
+                        $value = \is_string($value) ? str_replace($search, $replace, $value, $count2) : $value;
+>>>>>>> v2-test
                         $bodyReplaced[$key] = $value;
 
                         if (!$count && ($count1 || $count2)) {
                             $count = 1;
                         }
                     }
+<<<<<<< HEAD
                 } else {
+=======
+                } elseif (\is_string($body)) {
+>>>>>>> v2-test
                     $bodyReplaced = str_replace($search, $replace, $body, $count);
                 }
 
                 if ($count) {
+<<<<<<< HEAD
                     $this->_originalHeaders[$header->getFieldName()] = $body;
+=======
+                    $this->originalHeaders[$header->getFieldName()] = $body;
+>>>>>>> v2-test
                     $header->setFieldBodyModel($bodyReplaced);
                 }
             }
@@ -131,11 +182,19 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
                         );
                     if ($body != $bodyReplaced) {
                         $child->setBody($bodyReplaced);
+<<<<<<< HEAD
                         $this->_originalChildBodies[$child->getId()] = $body;
                     }
                 }
             }
             $this->_lastMessage = $message;
+=======
+                        $this->originalChildBodies[$child->getId()] = $body;
+                    }
+                }
+            }
+            $this->lastMessage = $message;
+>>>>>>> v2-test
         }
     }
 
@@ -155,15 +214,24 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
      */
     public function getReplacementsFor($address)
     {
+<<<<<<< HEAD
         if ($this->_replacements instanceof Swift_Plugins_Decorator_Replacements) {
             return $this->_replacements->getReplacementsFor($address);
         }
 
         return isset($this->_replacements[$address]) ? $this->_replacements[$address] : null;
+=======
+        if ($this->replacements instanceof Swift_Plugins_Decorator_Replacements) {
+            return $this->replacements->getReplacementsFor($address);
+        }
+
+        return $this->replacements[$address] ?? null;
+>>>>>>> v2-test
     }
 
     /**
      * Invoked immediately after the Message is sent.
+<<<<<<< HEAD
      *
      * @param Swift_Events_SendEvent $evt
      */
@@ -199,6 +267,41 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
                 $this->_originalChildBodies = array();
             }
             $this->_lastMessage = null;
+=======
+     */
+    public function sendPerformed(Swift_Events_SendEvent $evt)
+    {
+        $this->restoreMessage($evt->getMessage());
+    }
+
+    /** Restore a changed message back to its original state */
+    private function restoreMessage(Swift_Mime_SimpleMessage $message)
+    {
+        if ($this->lastMessage === $message) {
+            if (isset($this->originalBody)) {
+                $message->setBody($this->originalBody);
+                $this->originalBody = null;
+            }
+            if (!empty($this->originalHeaders)) {
+                foreach ($message->getHeaders()->getAll() as $header) {
+                    if (\array_key_exists($header->getFieldName(), $this->originalHeaders)) {
+                        $header->setFieldBodyModel($this->originalHeaders[$header->getFieldName()]);
+                    }
+                }
+                $this->originalHeaders = [];
+            }
+            if (!empty($this->originalChildBodies)) {
+                $children = (array) $message->getChildren();
+                foreach ($children as $child) {
+                    $id = $child->getId();
+                    if (\array_key_exists($id, $this->originalChildBodies)) {
+                        $child->setBody($this->originalChildBodies[$id]);
+                    }
+                }
+                $this->originalChildBodies = [];
+            }
+            $this->lastMessage = null;
+>>>>>>> v2-test
         }
     }
 }

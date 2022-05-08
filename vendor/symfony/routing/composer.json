@@ -1,7 +1,11 @@
 {
     "name": "symfony/routing",
     "type": "library",
+<<<<<<< HEAD
     "description": "Symfony Routing Component",
+=======
+    "description": "Maps an HTTP request to a set of configuration variables",
+>>>>>>> v2-test
     "keywords": ["routing", "router", "URL", "URI"],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,6 +20,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.3.9"
     },
     "require-dev": {
@@ -29,6 +34,25 @@
     },
     "conflict": {
         "symfony/config": "<2.7"
+=======
+        "php": ">=7.2.5",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/polyfill-php80": "^1.15"
+    },
+    "require-dev": {
+        "symfony/config": "^5.0",
+        "symfony/http-foundation": "^4.4|^5.0",
+        "symfony/yaml": "^4.4|^5.0",
+        "symfony/expression-language": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "doctrine/annotations": "^1.10.4",
+        "psr/log": "~1.0"
+    },
+    "conflict": {
+        "symfony/config": "<5.0",
+        "symfony/dependency-injection": "<4.4",
+        "symfony/yaml": "<4.4"
+>>>>>>> v2-test
     },
     "suggest": {
         "symfony/http-foundation": "For using a Symfony Request object",
@@ -43,10 +67,14 @@
             "/Tests/"
         ]
     },
+<<<<<<< HEAD
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.7-dev"
         }
     }
+=======
+    "minimum-stability": "dev"
+>>>>>>> v2-test
 }

@@ -413,7 +413,11 @@ abstract class Base
      * @var mixed
      * @access private
      */
+<<<<<<< HEAD
     var $use_inline_crypt;
+=======
+    var $use_inline_crypt = true;
+>>>>>>> v2-test
 
     /**
      * If OpenSSL can be used in ECB but not in CTR we can emulate CTR
@@ -495,11 +499,14 @@ abstract class Base
         }
 
         $this->_setEngine();
+<<<<<<< HEAD
 
         // Determining whether inline crypting can be used by the cipher
         if ($this->use_inline_crypt !== false) {
             $this->use_inline_crypt = version_compare(PHP_VERSION, '5.3.0') >= 0 || function_exists('create_function');
         }
+=======
+>>>>>>> v2-test
     }
 
     /**
@@ -649,10 +656,17 @@ abstract class Base
                     case !function_exists('hash_algos'):
                     case !in_array($hash, hash_algos()):
                         $i = 1;
+<<<<<<< HEAD
                         while (strlen($key) < $dkLen) {
                             $hmac = new Hash();
                             $hmac->setHash($hash);
                             $hmac->setKey($password);
+=======
+                        $hmac = new Hash();
+                        $hmac->setHash($hash);
+                        $hmac->setKey($password);
+                        while (strlen($key) < $dkLen) {
+>>>>>>> v2-test
                             $f = $u = $hmac->hash($salt . pack('N', $i++));
                             for ($j = 2; $j <= $count; ++$j) {
                                 $u = $hmac->hash($u);
@@ -707,7 +721,11 @@ abstract class Base
                 case self::MODE_STREAM:
                     return openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options);
                 case self::MODE_ECB:
+<<<<<<< HEAD
                     $result = openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options);
+=======
+                    $result = @openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options);
+>>>>>>> v2-test
                     return !defined('OPENSSL_RAW_DATA') ? substr($result, 0, -$this->block_size) : $result;
                 case self::MODE_CBC:
                     $result = openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options, $this->encryptIV);
@@ -1040,14 +1058,22 @@ abstract class Base
                     break;
                 case self::MODE_ECB:
                     if (!defined('OPENSSL_RAW_DATA')) {
+<<<<<<< HEAD
                         $ciphertext.= openssl_encrypt('', $this->cipher_name_openssl_ecb, $this->key, true);
+=======
+                        $ciphertext.= @openssl_encrypt('', $this->cipher_name_openssl_ecb, $this->key, true);
+>>>>>>> v2-test
                     }
                     $plaintext = openssl_decrypt($ciphertext, $this->cipher_name_openssl, $this->key, $this->openssl_options);
                     break;
                 case self::MODE_CBC:
                     if (!defined('OPENSSL_RAW_DATA')) {
                         $padding = str_repeat(chr($this->block_size), $this->block_size) ^ substr($ciphertext, -$this->block_size);
+<<<<<<< HEAD
                         $ciphertext.= substr(openssl_encrypt($padding, $this->cipher_name_openssl_ecb, $this->key, true), 0, $this->block_size);
+=======
+                        $ciphertext.= substr(@openssl_encrypt($padding, $this->cipher_name_openssl_ecb, $this->key, true), 0, $this->block_size);
+>>>>>>> v2-test
                         $offset = 2 * $this->block_size;
                     } else {
                         $offset = $this->block_size;
@@ -1358,7 +1384,11 @@ abstract class Base
                 for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
                     $block = substr($plaintext, $i, $block_size);
                     if (strlen($block) > strlen($buffer['ciphertext'])) {
+<<<<<<< HEAD
                         $result = openssl_encrypt($xor, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+=======
+                        $result = @openssl_encrypt($xor, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+>>>>>>> v2-test
                         $result = !defined('OPENSSL_RAW_DATA') ? substr($result, 0, -$this->block_size) : $result;
                         $buffer['ciphertext'].= $result;
                     }
@@ -1369,7 +1399,11 @@ abstract class Base
             } else {
                 for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
                     $block = substr($plaintext, $i, $block_size);
+<<<<<<< HEAD
                     $otp = openssl_encrypt($xor, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+=======
+                    $otp = @openssl_encrypt($xor, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+>>>>>>> v2-test
                     $otp = !defined('OPENSSL_RAW_DATA') ? substr($otp, 0, -$this->block_size) : $otp;
                     $this->_increment_str($xor);
                     $ciphertext.= $block ^ $otp;
@@ -1413,7 +1447,11 @@ abstract class Base
         }
         if ($this->continuousBuffer) {
             if (!defined('OPENSSL_RAW_DATA')) {
+<<<<<<< HEAD
                 $encryptIV.= openssl_encrypt('', $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+=======
+                $encryptIV.= @openssl_encrypt('', $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+>>>>>>> v2-test
             }
             $encryptIV = openssl_decrypt($encryptIV, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
             if ($overflow) {
@@ -2602,12 +2640,17 @@ abstract class Base
         }
 
         // Create the $inline function and return its name as string. Ready to run!
+<<<<<<< HEAD
         if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
             eval('$func = function ($_action, &$self, $_text) { ' . $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' } };');
             return $func;
         }
 
         return create_function('$_action, &$self, $_text', $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' }');
+=======
+        eval('$func = function ($_action, &$self, $_text) { ' . $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' } };');
+        return $func;
+>>>>>>> v2-test
     }
 
     /**
@@ -2636,7 +2679,11 @@ abstract class Base
      *
      * @see self::_setupInlineCrypt()
      * @access private
+<<<<<<< HEAD
      * @param $bytes
+=======
+     * @param string $bytes
+>>>>>>> v2-test
      * @return string
      */
     function _hashInlineCryptFunction($bytes)

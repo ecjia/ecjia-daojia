@@ -83,7 +83,7 @@
 						<!-- {elseif $val.error eq -1} -->
 							{t domain="sms"}待发送{/t}
 						<!-- {else} -->
-                            <a class="hint--left  hint--error" style="text-decoration:none;"  {if $val.last_error_message}data-hint="{$val.last_error_message|escape}"{/if}><span class="ecjiafc-red">{if $val.last_error_message}<u>{$val.error} {t domain="sms"}次发送错误{/t}</u>{else}{$val.error} {t domain="sms"}次发送错误{/t}{/if}</span></a><br>
+                            <a class="hint--left  hint--error" style="text-decoration:none;"  {if $val.last_error_message}data-hint="{$val.last_error_message|escape}"{/if}><span class="ecjiafc-red">{if $val.last_error_message}<u>{t domain="sms" 1={$val.error}}%1次发送错误{/t}</u>{else}{t domain="sms" 1={$val.error}}%1次发送错误{/t}{/if}</span></a><br>
 							<!-- {if $val.error gt 0}  -->
 								<a class="ajaxsms" href='{RC_Uri::url("sms/admin/resend", "id={$val.id}")}'>{t domain="sms"}再次发送{/t}</a>
 							<!-- {/if} -->

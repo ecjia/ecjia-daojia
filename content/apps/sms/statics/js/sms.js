@@ -15,7 +15,7 @@
                 var end_date = $("input[name='end_date']").val();
                 if (start_date > end_date && (start_date != '' && end_date != '')) {
                     var data = {
-                        message: js_lang.start_lt_end_time,
+                        message: js_lang_sms.start_lt_end_time,
                         state: "error",
                     };
                     ecjia.admin.showmessage(data);
@@ -43,6 +43,45 @@
             });
         }
     };
+ 
+    /* **编辑** */
+    app.sms_edit = {
+        init: function () {
+            app.sms_edit.submit_form();
+        },
+        submit_form: function (formobj) {
+            var $form = $("form[name='theForm']");
+            var option = {
+                rules: {
+                    send_num: {
+                        required: true
+                    },
+                    msg: {
+                        required: true
+                    },
+                },
+                messages: {
+                    send_num: {
+                        required: js_lang_sms.send_num_required
+                    },
+                    msg: {
+                        required: js_lang_sms.msg_required
+                    },
+                },
+                submitHandler: function () {
+                    $form.ajaxSubmit({
+                        dataType: "json",
+                        success: function (data) {
+                            ecjia.admin.showmessage(data);
+                        }
+                    });
+                }
+            }
+            var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+            $form.validate(options);
+        }
+    };
+ 
 })(ecjia.admin, jQuery);
  
 // end

@@ -2,6 +2,12 @@
 
 namespace Royalcms\Component\DefaultRoute;
 
+<<<<<<< HEAD
+=======
+use Royalcms\Component\DefaultRoute\MatchRules\DefaultMatch;
+use Royalcms\Component\DefaultRoute\MatchRules\QueryRMatch;
+use Royalcms\Component\DefaultRoute\MatchRules\QueryStringMatch;
+>>>>>>> v2-test
 use Royalcms\Component\Http\Request;
 use Royalcms\Component\Rewrite\Facades\Rewrite;
 
@@ -27,20 +33,39 @@ class HttpQueryRoute
     
     
     protected $defaultRoute;
+<<<<<<< HEAD
     
+=======
+
+    /**
+     * 路由匹配优先级
+     * @var array
+     */
+    protected $matchRules = [
+        QueryRMatch::class,
+        QueryStringMatch::class,
+        DefaultMatch::class
+    ];
+>>>>>>> v2-test
     
     public function __construct()
     {
         $this->request = royalcms('request');
+<<<<<<< HEAD
         
         $this->defaultRoute = config('route.'.SITE_HOST, config('route.default'));
 
         $this->match($this->request);
         
+=======
+
+        $this->defaultRoute = config('route.'.SITE_HOST, config('route.default'));
+>>>>>>> v2-test
     }
     
     /**
      * Find the first route matching a given request.
+<<<<<<< HEAD
      *
      * @param  \Royalcms\Component\Http\Request  $request
      * @return \Royalcms\Component\Routing\Route
@@ -109,6 +134,31 @@ class HttpQueryRoute
         $this->module = $this->ksesString($this->module);
         $this->controller = $this->ksesString($this->controller);
         $this->action = $this->ksesString($this->action);
+=======
+     */
+    public function parser()
+    {
+        //匹配路由
+        collect($this->matchRules)->each(function ($item) {
+            $match = new $item($this);
+            if ($match instanceof RouteMatchInterface) {
+                return ! $match->handle();
+            }
+
+            //继续下一个匹配
+            return true;
+        });
+        
+        //安全过滤
+        $this->module = $this->ksesString($this->module);
+        $this->controller = $this->ksesString($this->controller);
+        $this->action = $this->ksesString($this->action);
+
+        // define ROUTE_M ROUTE_C ROUTE_A
+        define('ROUTE_M', $this->getModule());
+        define('ROUTE_C', $this->getController());
+        define('ROUTE_A', $this->getAction());
+>>>>>>> v2-test
     }
 
     /**
@@ -177,5 +227,51 @@ class HttpQueryRoute
             return false;
         }
     }
+<<<<<<< HEAD
     
+=======
+
+    /**
+     * @param mixed $module
+     */
+    public function setModule($module): void
+    {
+        $this->module = $module;
+    }
+
+    /**
+     * @param mixed $controller
+     */
+    public function setController($controller): void
+    {
+        $this->controller = $controller;
+    }
+
+    /**
+     * @param mixed $action
+     */
+    public function setAction($action): void
+    {
+        $this->action = $action;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function setRequest(Request $request): void
+    {
+        $this->request = $request;
+    }
+
+
+
+>>>>>>> v2-test
 }

@@ -3,11 +3,24 @@
 
 namespace Ecjia\System\Providers;
 
-use Ecjia\System\Admins\AdminLog\AdminLog;
 use Royalcms\Component\App\AppParentServiceProvider;
+use Royalcms\Component\Hook\Dispatcher;
 
 class EcjiaAdminServiceProvider extends AppParentServiceProvider
 {
+
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
+
+    public function boot(Dispatcher $dispatcher)
+    {
+//        $dispatcher->subscribe('Ecjia\System\Subscribers\AdminSystemSubscriber');
+    }
 
     /**
      * Register the service provider.
@@ -16,17 +29,11 @@ class EcjiaAdminServiceProvider extends AppParentServiceProvider
      */
     public function register()
     {
-        $this->registerAdminLog();
+
 
     }
 
 
-    public function registerAdminLog()
-    {
-        $this->royalcms->bindShared('ecjia.admin.log', function($royalcms) {
-            return AdminLog::instance();
-        });
-    }
 
     /**
      * Get the services provided by the provider.
@@ -35,9 +42,7 @@ class EcjiaAdminServiceProvider extends AppParentServiceProvider
      */
     public function provides()
     {
-        return array(
-            'ecjia.admin.log',
-        );
+        return [];
     }
 
 }

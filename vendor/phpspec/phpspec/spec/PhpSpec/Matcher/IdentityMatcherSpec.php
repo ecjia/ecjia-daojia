@@ -5,12 +5,20 @@ namespace spec\PhpSpec\Matcher;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\Exception\Example\FailureException;
 
 class IdentityMatcherSpec extends ObjectBehavior
 {
+<<<<<<< HEAD
     function let(PresenterInterface $presenter)
+=======
+    function let(Presenter $presenter)
+>>>>>>> v2-test
     {
         $presenter->presentValue(Argument::any())->willReturn('val1', 'val2');
 
@@ -19,7 +27,11 @@ class IdentityMatcherSpec extends ObjectBehavior
 
     function it_is_a_matcher()
     {
+<<<<<<< HEAD
         $this->shouldBeAnInstanceOf('PhpSpec\Matcher\MatcherInterface');
+=======
+        $this->shouldBeAnInstanceOf('PhpSpec\Matcher\Matcher');
+>>>>>>> v2-test
     }
 
     function it_responds_to_return()

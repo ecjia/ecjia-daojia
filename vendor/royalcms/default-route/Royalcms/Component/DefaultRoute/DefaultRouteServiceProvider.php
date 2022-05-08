@@ -17,6 +17,7 @@ class DefaultRouteServiceProvider extends ServiceProvider
 
     public function register()
     {
+<<<<<<< HEAD
         $this->royalcms['default-router'] = $this->royalcms->share(function($royalcms) {
             $route = new HttpQueryRoute();
 
@@ -24,6 +25,10 @@ class DefaultRouteServiceProvider extends ServiceProvider
             define('ROUTE_C', $route->getController());
             define('ROUTE_A', $route->getAction());
 
+=======
+        $this->royalcms->singleton('default-router', function($royalcms) {
+            $route = new HttpQueryRoute();
+>>>>>>> v2-test
             return $route;
         });
     }

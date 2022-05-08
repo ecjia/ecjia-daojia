@@ -12,13 +12,17 @@
 namespace Symfony\Component\HttpKernel\Exception;
 
 /**
+<<<<<<< HEAD
  * UnprocessableEntityHttpException.
  *
+=======
+>>>>>>> v2-test
  * @author Steve Hutchins <hutchinsteve@gmail.com>
  */
 class UnprocessableEntityHttpException extends HttpException
 {
     /**
+<<<<<<< HEAD
      * Constructor.
      *
      * @param string     $message  The internal exception message
@@ -28,5 +32,14 @@ class UnprocessableEntityHttpException extends HttpException
     public function __construct($message = null, \Exception $previous = null, $code = 0)
     {
         parent::__construct(422, $message, $previous, array(), $code);
+=======
+     * @param string     $message  The internal exception message
+     * @param \Throwable $previous The previous exception
+     * @param int        $code     The internal exception code
+     */
+    public function __construct(string $message = null, \Throwable $previous = null, int $code = 0, array $headers = [])
+    {
+        parent::__construct(422, $message, $previous, $headers, $code);
+>>>>>>> v2-test
     }
 }

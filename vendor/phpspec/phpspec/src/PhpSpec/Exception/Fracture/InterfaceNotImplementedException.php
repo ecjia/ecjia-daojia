@@ -34,7 +34,11 @@ class InterfaceNotImplementedException extends FractureException
      * @param mixed  $subject
      * @param string $interface
      */
+<<<<<<< HEAD
     public function __construct($message, $subject, $interface)
+=======
+    public function __construct(string $message, $subject, $interface)
+>>>>>>> v2-test
     {
         parent::__construct($message);
 
@@ -53,7 +57,11 @@ class InterfaceNotImplementedException extends FractureException
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getInterface()
+=======
+    public function getInterface(): string
+>>>>>>> v2-test
     {
         return $this->interface;
     }

@@ -1,0 +1,34 @@
+.gebo-upload {margin-bottom:6px}
+.plupload_disabled,a.plupload_disabled:hover{color:#737373;cursor:default;opacity:.8}
+.plupload_add{background-position:-181px center}
+.plupload_wrapper{font:normal 11px Verdana,sans-serif;width:100%}
+.plupload_container input{border:1px solid #DDD;font:normal 11px Verdana,sans-serif;width:98%}
+.plupload_header{background:#2A2C2E url("../img/backgrounds.gif") repeat-x}
+.plupload_header_content{background:url("../img/backgrounds.gif") no-repeat 0 -317px;min-height:56px;padding-left:60px;color:#FFF}
+.plupload_header_title{font:normal 18px sans-serif;padding:6px 0 3px}
+.plupload_header_text{font:normal 12px sans-serif}
+.plupload_filelist{list-style:none;margin:0;padding:0}
+.plupload_scroll .plupload_filelist{height:132px;background:#fcfcfc;overflow-y:scroll}
+.plupload_filelist li{background:#fafafa;border-bottom:1px solid #ddd;padding:5px 8px}
+.plupload_filelist_header,.plupload_filelist_footer{line-height:20px;background:#f2f2f2;padding:6px 8px;border-width:1px 0;border-style:solid;border-color:#ccc;vertical-align:middle}
+.plupload_filelist_footer {position:relative;top:-1px}
+.plupload_file_name{float:left;overflow:hidden}
+.plupload_file_status{color:#777}
+.plupload_file_status span{color:#42454A}
+.plupload_file_size,.plupload_file_status,.plupload_progress{float:right;width:80px}
+.plupload_file_size,.plupload_file_status,.plupload_file_action{text-align:right}
+.plupload_filelist .plupload_file_name{width:50%}
+.plupload_file_action{float:right;width:16px;height:16px;margin-left:15px}
+.plupload_file_action *{display:none;width:16px;height:16px}
+li.plupload_uploading{background:#ECF3DC url("../img/backgrounds.gif") repeat-x 0 -238px}
+li.plupload_done{color:#AAA}
+li.plupload_delete a{background:url("../img/delete.gif")}
+li.plupload_failed a{background:url("../img/error.gif");cursor:default}
+li.plupload_done a{background:url("../img/done.gif");cursor:default}
+.plupload_progress,.plupload_upload_status{display:none}
+.plupload_progress_container{margin-top:3px;border:1px solid #CCC;background:#FFF;padding:1px}
+.plupload_progress_bar{width:0;height:7px;background:#CDEB8B}
+.plupload_scroll .plupload_filelist_header .plupload_file_action,.plupload_scroll .plupload_filelist_footer .plupload_file_action{margin-right:17px}
+.plupload_clear,.plupload_clearer{clear:both}
+.plupload_clearer,.plupload_progress_bar{display:block;font-size:0;line-height:0}
+li.plupload_droptext{text-align:center;border:0;line-height:120px !important;background:transparent;margin:0}

@@ -20,19 +20,31 @@ use League\CommonMark\Block\Element\ListItem;
 use League\CommonMark\Block\Element\Paragraph;
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
+use League\CommonMark\Util\ConfigurationAwareInterface;
+use League\CommonMark\Util\ConfigurationInterface;
 use League\CommonMark\Util\RegexHelper;
 
-class ListParser extends AbstractBlockParser
+final class ListParser implements BlockParserInterface, ConfigurationAwareInterface
 {
-    /**
-     * @param ContextInterface $context
-     * @param Cursor           $cursor
-     *
-     * @return bool
-     */
-    public function parse(ContextInterface $context, Cursor $cursor)
+    /** @var ConfigurationInterface|null */
+    private $config;
+
+    /** @var string|null */
+    private $listMarkerRegex;
+
+    public function setConfiguration(ConfigurationInterface $configuration)
+    {
+        $this->config = $configuration;
+    }
+
+    public function parse(ContextInterface $context, Cursor $cursor): bool
     {
         if ($cursor->isIndented() && !($context->getContainer() instanceof ListBlock)) {
+            return false;
+        }
+
+        $indent = $cursor->getIndent();
+        if ($indent >= 4) {
             return false;
         }
 
@@ -40,20 +52,21 @@ class ListParser extends AbstractBlockParser
         $tmpCursor->advanceToNextNonSpaceOrTab();
         $rest = $tmpCursor->getRemainder();
 
-        $data = new ListData();
-        $data->markerOffset = $cursor->getIndent();
-
-        if (preg_match('/^[*+-]/', $rest) === 1) {
-            $data->type = ListBlock::TYPE_UNORDERED;
+        if (\preg_match($this->listMarkerRegex ?? $this->generateListMarkerRegex(), $rest) === 1) {
+            $data = new ListData();
+            $data->markerOffset = $indent;
+            $data->type = ListBlock::TYPE_BULLET;
             $data->delimiter = null;
             $data->bulletChar = $rest[0];
             $markerLength = 1;
         } elseif (($matches = RegexHelper::matchAll('/^(\d{1,9})([.)])/', $rest)) && (!($context->getContainer() instanceof Paragraph) || $matches[1] === '1')) {
+            $data = new ListData();
+            $data->markerOffset = $indent;
             $data->type = ListBlock::TYPE_ORDERED;
             $data->start = (int) $matches[1];
             $data->delimiter = $matches[2];
             $data->bulletChar = null;
-            $markerLength = strlen($matches[0]);
+            $markerLength = \strlen($matches[0]);
         } else {
             return false;
         }
@@ -76,7 +89,7 @@ class ListParser extends AbstractBlockParser
         $data->padding = $this->calculateListMarkerPadding($cursor, $markerLength);
 
         // add the list if needed
-        if (!$container || !($container instanceof ListBlock) || !$data->equals($container->getListData())) {
+        if (!($container instanceof ListBlock) || !$data->equals($container->getListData())) {
             $context->addBlock(new ListBlock($data));
         }
 
@@ -92,7 +105,7 @@ class ListParser extends AbstractBlockParser
      *
      * @return int
      */
-    private function calculateListMarkerPadding(Cursor $cursor, $markerLength)
+    private function calculateListMarkerPadding(Cursor $cursor, int $markerLength): int
     {
         $start = $cursor->saveState();
         $spacesStartCol = $cursor->getColumn();
@@ -114,5 +127,21 @@ class ListParser extends AbstractBlockParser
         }
 
         return $markerLength + $spacesAfterMarker;
+    }
+
+    private function generateListMarkerRegex(): string
+    {
+        // No configuration given - use the defaults
+        if ($this->config === null) {
+            return $this->listMarkerRegex = '/^[*+-]/';
+        }
+
+        $markers = $this->config->get('unordered_list_markers', ['*', '+', '-']);
+
+        if (!\is_array($markers)) {
+            throw new \RuntimeException('Invalid configuration option "unordered_list_markers": value must be an array of strings');
+        }
+
+        return $this->listMarkerRegex = '/^[' . \preg_quote(\implode('', $markers), '/') . ']/';
     }
 }

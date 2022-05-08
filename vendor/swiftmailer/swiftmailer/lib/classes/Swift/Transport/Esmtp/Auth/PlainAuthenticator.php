@@ -26,6 +26,7 @@ class Swift_Transport_Esmtp_Auth_PlainAuthenticator implements Swift_Transport_E
     }
 
     /**
+<<<<<<< HEAD
      * Try to authenticate the user with $username and $password.
      *
      * @param Swift_Transport_SmtpAgent $agent
@@ -33,10 +34,14 @@ class Swift_Transport_Esmtp_Auth_PlainAuthenticator implements Swift_Transport_E
      * @param string                    $password
      *
      * @return bool
+=======
+     * {@inheritdoc}
+>>>>>>> v2-test
      */
     public function authenticate(Swift_Transport_SmtpAgent $agent, $username, $password)
     {
         try {
+<<<<<<< HEAD
             $message = base64_encode($username.chr(0).$username.chr(0).$password);
             $agent->executeCommand(sprintf("AUTH PLAIN %s\r\n", $message), array(235));
 
@@ -45,6 +50,16 @@ class Swift_Transport_Esmtp_Auth_PlainAuthenticator implements Swift_Transport_E
             $agent->executeCommand("RSET\r\n", array(250));
 
             return false;
+=======
+            $message = base64_encode($username.\chr(0).$username.\chr(0).$password);
+            $agent->executeCommand(sprintf("AUTH PLAIN %s\r\n", $message), [235]);
+
+            return true;
+        } catch (Swift_TransportException $e) {
+            $agent->executeCommand("RSET\r\n", [250]);
+
+            throw $e;
+>>>>>>> v2-test
         }
     }
 }

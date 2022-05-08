@@ -22,8 +22,13 @@ class ExampleEventSpec extends ObjectBehavior
 
     function it_is_an_event()
     {
+<<<<<<< HEAD
         $this->shouldBeAnInstanceOf('Symfony\Component\EventDispatcher\Event');
         $this->shouldBeAnInstanceOf('PhpSpec\Event\EventInterface');
+=======
+        $this->shouldBeAnInstanceOf('PhpSpec\Event\BaseEvent');
+        $this->shouldBeAnInstanceOf('PhpSpec\Event\PhpSpecEvent');
+>>>>>>> v2-test
     }
 
     function it_provides_a_link_to_example($example)
@@ -43,7 +48,11 @@ class ExampleEventSpec extends ObjectBehavior
 
     function it_provides_a_link_to_time()
     {
+<<<<<<< HEAD
         $this->getTime()->shouldReturn(10);
+=======
+        $this->getTime()->shouldReturn((double)10.0);
+>>>>>>> v2-test
     }
 
     function it_provides_a_link_to_result()
@@ -55,4 +64,21 @@ class ExampleEventSpec extends ObjectBehavior
     {
         $this->getException()->shouldReturn($exception);
     }
+<<<<<<< HEAD
+=======
+
+    function it_initializes_a_default_result(ExampleNode $example)
+    {
+        $this->beConstructedWith($example);
+
+        $this->getResult()->shouldReturn($this->PASSED);
+    }
+
+    function it_initializes_a_default_time(ExampleNode $example)
+    {
+        $this->beConstructedWith($example);
+
+        $this->getTime()->shouldReturn((double)0.0);
+    }
+>>>>>>> v2-test
 }

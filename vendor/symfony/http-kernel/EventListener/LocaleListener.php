@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+<<<<<<< HEAD
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -18,16 +19,32 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContextAwareInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+=======
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Routing\RequestContextAwareInterface;
+>>>>>>> v2-test
 
 /**
  * Initializes the locale based on the current request.
  *
+<<<<<<< HEAD
  * This listener works in 2 modes:
  *
  *  * 2.3 compatibility mode where you must call setRequest whenever the Request changes.
  *  * 2.4+ mode where you must pass a RequestStack instance in the constructor.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+=======
+ * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @final
+>>>>>>> v2-test
  */
 class LocaleListener implements EventSubscriberInterface
 {
@@ -35,16 +52,21 @@ class LocaleListener implements EventSubscriberInterface
     private $defaultLocale;
     private $requestStack;
 
+<<<<<<< HEAD
     /**
      * RequestStack will become required in 3.0.
      */
     public function __construct($defaultLocale = 'en', RequestContextAwareInterface $router = null, RequestStack $requestStack = null)
+=======
+    public function __construct(RequestStack $requestStack, string $defaultLocale = 'en', RequestContextAwareInterface $router = null)
+>>>>>>> v2-test
     {
         $this->defaultLocale = $defaultLocale;
         $this->requestStack = $requestStack;
         $this->router = $router;
     }
 
+<<<<<<< HEAD
     /**
      * Sets the current Request.
      *
@@ -72,6 +94,16 @@ class LocaleListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
         $request->setDefaultLocale($this->defaultLocale);
+=======
+    public function setDefaultLocale(KernelEvent $event)
+    {
+        $event->getRequest()->setDefaultLocale($this->defaultLocale);
+    }
+
+    public function onKernelRequest(RequestEvent $event)
+    {
+        $request = $event->getRequest();
+>>>>>>> v2-test
 
         $this->setLocale($request);
         $this->setRouterContext($request);
@@ -79,10 +111,13 @@ class LocaleListener implements EventSubscriberInterface
 
     public function onKernelFinishRequest(FinishRequestEvent $event)
     {
+<<<<<<< HEAD
         if (null === $this->requestStack) {
             return; // removed when requestStack is required
         }
 
+=======
+>>>>>>> v2-test
         if (null !== $parentRequest = $this->requestStack->getParentRequest()) {
             $this->setRouterContext($parentRequest);
         }
@@ -102,6 +137,7 @@ class LocaleListener implements EventSubscriberInterface
         }
     }
 
+<<<<<<< HEAD
     public static function getSubscribedEvents()
     {
         return array(
@@ -109,5 +145,17 @@ class LocaleListener implements EventSubscriberInterface
             KernelEvents::REQUEST => array(array('onKernelRequest', 16)),
             KernelEvents::FINISH_REQUEST => array(array('onKernelFinishRequest', 0)),
         );
+=======
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            KernelEvents::REQUEST => [
+                ['setDefaultLocale', 100],
+                // must be registered after the Router to have access to the _locale
+                ['onKernelRequest', 16],
+            ],
+            KernelEvents::FINISH_REQUEST => [['onKernelFinishRequest', 0]],
+        ];
+>>>>>>> v2-test
     }
 }

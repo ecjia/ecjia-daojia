@@ -18,15 +18,14 @@ use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Image;
-use League\CommonMark\Util\Configuration;
 use League\CommonMark\Util\ConfigurationAwareInterface;
+use League\CommonMark\Util\ConfigurationInterface;
 use League\CommonMark\Util\RegexHelper;
-use League\CommonMark\Util\Xml;
 
-class ImageRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class ImageRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
     /**
-     * @var Configuration
+     * @var ConfigurationInterface
      */
     protected $config;
 
@@ -39,36 +38,30 @@ class ImageRenderer implements InlineRendererInterface, ConfigurationAwareInterf
     public function render(AbstractInline $inline, ElementRendererInterface $htmlRenderer)
     {
         if (!($inline instanceof Image)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . get_class($inline));
+            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
-        $attrs = [];
-        foreach ($inline->getData('attributes', []) as $key => $value) {
-            $attrs[$key] = Xml::escape($value, true);
-        }
+        $attrs = $inline->getData('attributes', []);
 
-        $forbidUnsafeLinks = $this->config->getConfig('safe') || !$this->config->getConfig('allow_unsafe_links');
+        $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
         if ($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl())) {
             $attrs['src'] = '';
         } else {
-            $attrs['src'] = Xml::escape($inline->getUrl(), true);
+            $attrs['src'] = $inline->getUrl();
         }
 
         $alt = $htmlRenderer->renderInlines($inline->children());
-        $alt = preg_replace('/\<[^>]*alt="([^"]*)"[^>]*\>/', '$1', $alt);
-        $attrs['alt'] = preg_replace('/\<[^>]*\>/', '', $alt);
+        $alt = \preg_replace('/\<[^>]*alt="([^"]*)"[^>]*\>/', '$1', $alt);
+        $attrs['alt'] = \preg_replace('/\<[^>]*\>/', '', $alt);
 
         if (isset($inline->data['title'])) {
-            $attrs['title'] = Xml::escape($inline->data['title'], true);
+            $attrs['title'] = $inline->data['title'];
         }
 
         return new HtmlElement('img', $attrs, '', true);
     }
 
-    /**
-     * @param Configuration $configuration
-     */
-    public function setConfiguration(Configuration $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration)
     {
         $this->config = $configuration;
     }

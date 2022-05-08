@@ -49,6 +49,7 @@ class FilesystemManager extends BaseFilesystemManager
         ), $config));
     }
 
+<<<<<<< HEAD
 	/**
 	 * Create an instance of the Aliyun oss driver.
 	 *
@@ -62,6 +63,8 @@ class FilesystemManager extends BaseFilesystemManager
 		return $this->adapt($this->createFilesystem(new Aliyunoss($ossConfig), $ossConfig));
 	}
 
+=======
+>>>>>>> v2-test
     /**
      * Create a Storage instance with the given adapter.
      *
@@ -69,7 +72,11 @@ class FilesystemManager extends BaseFilesystemManager
      * @param  array  $config
      * @return \Royalcms\Component\Storage\Filesystem
      */
+<<<<<<< HEAD
     protected function createFilesystem(AbstractAdapter $adapter, array $config)
+=======
+    public function createFilesystem(AbstractAdapter $adapter, array $config)
+>>>>>>> v2-test
     {
         return new Filesystem($adapter, count($config) > 0 ? $config : null);
     }
@@ -80,7 +87,11 @@ class FilesystemManager extends BaseFilesystemManager
 	 * @param  \League\Flysystem\FilesystemInterface  $filesystem
 	 * @return \Royalcms\Component\Contracts\Filesystem\Filesystem
 	 */
+<<<<<<< HEAD
 	protected function adapt(FilesystemInterface $filesystem)
+=======
+    public function adapt(FilesystemInterface $filesystem)
+>>>>>>> v2-test
 	{
 		return new FilesystemAdapter($filesystem);
 	}
@@ -93,7 +104,11 @@ class FilesystemManager extends BaseFilesystemManager
      */
     protected function getConfig($name)
     {
+<<<<<<< HEAD
         return $this->royalcms['config']["storage.disks.{$name}"];
+=======
+        return $this->app['config']["storage.disks.{$name}"];
+>>>>>>> v2-test
     }
 
     /**
@@ -103,6 +118,10 @@ class FilesystemManager extends BaseFilesystemManager
      */
     public function getDefaultDriver()
     {
+<<<<<<< HEAD
         return $this->royalcms['config']['storage.default'];
+=======
+        return $this->app['config']['storage.default'];
+>>>>>>> v2-test
     }
 }

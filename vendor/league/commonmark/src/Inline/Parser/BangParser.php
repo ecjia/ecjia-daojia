@@ -18,22 +18,14 @@ use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\InlineParserContext;
 
-class BangParser extends AbstractInlineParser
+final class BangParser implements InlineParserInterface
 {
-    /**
-     * @return string[]
-     */
-    public function getCharacters()
+    public function getCharacters(): array
     {
         return ['!'];
     }
 
-    /**
-     * @param InlineParserContext $inlineContext
-     *
-     * @return bool
-     */
-    public function parse(InlineParserContext $inlineContext)
+    public function parse(InlineParserContext $inlineContext): bool
     {
         $cursor = $inlineContext->getCursor();
         if ($cursor->peek() === '[') {

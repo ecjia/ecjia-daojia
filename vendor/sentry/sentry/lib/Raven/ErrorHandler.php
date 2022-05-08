@@ -26,6 +26,7 @@
 // currently are not used outside of the fatal handler.
 class Raven_ErrorHandler
 {
+<<<<<<< HEAD
     private $old_exception_handler;
     private $call_existing_exception_handler = false;
     private $old_error_handler;
@@ -33,6 +34,17 @@ class Raven_ErrorHandler
     private $reservedMemory;
     private $send_errors_last = false;
     private $fatal_error_types = array(
+=======
+    protected $old_exception_handler;
+    protected $call_existing_exception_handler = false;
+    protected $old_error_handler;
+    protected $call_existing_error_handler = false;
+    protected $reservedMemory;
+    /** @var Raven_Client */
+    protected $client;
+    protected $send_errors_last = false;
+    protected $fatal_error_types = array(
+>>>>>>> v2-test
         E_ERROR,
         E_PARSE,
         E_CORE_ERROR,
@@ -47,7 +59,14 @@ class Raven_ErrorHandler
      * Error types which should be processed by the handler.
      * A 'null' value implies "whatever error_reporting is at time of error".
      */
+<<<<<<< HEAD
     private $error_types = null;
+=======
+    protected $error_types = null;
+
+    /** @var \Exception|null */
+    private $lastHandledException;
+>>>>>>> v2-test
 
     public function __construct($client, $send_errors_last = false, $error_types = null,
                                 $__error_types = null)
@@ -59,18 +78,49 @@ class Raven_ErrorHandler
 
         $this->client = $client;
         $this->error_types = $error_types;
+<<<<<<< HEAD
+=======
+        $this->fatal_error_types = array_reduce($this->fatal_error_types, array($this, 'bitwiseOr'));
+>>>>>>> v2-test
         if ($send_errors_last) {
             $this->send_errors_last = true;
             $this->client->store_errors_for_bulk_send = true;
         }
     }
 
+<<<<<<< HEAD
     public function handleException($e, $isError = false, $vars = null)
     {
         $e->event_id = $this->client->captureException($e, null, null, $vars);
 
         if (!$isError && $this->call_existing_exception_handler && $this->old_exception_handler) {
             call_user_func($this->old_exception_handler, $e);
+=======
+    public function bitwiseOr($a, $b)
+    {
+        return $a | $b;
+    }
+
+    public function handleException($e, $isError = false, $vars = null)
+    {
+        $event_id = $this->client->captureException($e, null, null, $vars);
+
+        try {
+            $e->event_id = $event_id;
+        } catch (\Exception $e) {
+            // Ignore any errors while setting the event id on the exception object
+            // @see: https://github.com/getsentry/sentry-php/issues/579
+        }
+
+        $this->lastHandledException = $e;
+
+        if (!$isError && $this->call_existing_exception_handler) {
+            if ($this->old_exception_handler !== null) {
+                call_user_func($this->old_exception_handler, $e);
+            } else {
+                throw $e;
+            }
+>>>>>>> v2-test
         }
     }
 
@@ -106,6 +156,10 @@ class Raven_ErrorHandler
                 return false;
             }
         }
+<<<<<<< HEAD
+=======
+        return true;
+>>>>>>> v2-test
     }
 
     public function handleFatalError()
@@ -116,22 +170,66 @@ class Raven_ErrorHandler
             return;
         }
 
+<<<<<<< HEAD
         if ($error['type'] & $this->fatal_error_types) {
+=======
+        if ($this->shouldCaptureFatalError($error['type'], $error['message'])) {
+>>>>>>> v2-test
             $e = new ErrorException(
                 @$error['message'], 0, @$error['type'],
                 @$error['file'], @$error['line']
             );
+<<<<<<< HEAD
+=======
+
+            $this->client->useCompression = $this->client->useCompression && PHP_VERSION_ID > 70000;
+>>>>>>> v2-test
             $this->handleException($e, true);
         }
     }
 
     /**
+<<<<<<< HEAD
      * Register a handler which will intercept unhnalded exceptions and report them to the
+=======
+     * @param int $type
+     * @param string|null $message
+     * @return bool
+     */
+    public function shouldCaptureFatalError($type, $message = null)
+    {
+        if (PHP_VERSION_ID >= 70000 && $this->lastHandledException) {
+            if ($type === E_CORE_ERROR && strpos($message, 'Exception thrown without a stack frame') === 0) {
+                return false;
+            }
+
+            if ($type === E_ERROR) {
+                $expectedMessage = 'Uncaught '
+                    . \get_class($this->lastHandledException)
+                    . ': '
+                    . $this->lastHandledException->getMessage();
+
+                if (strpos($message, $expectedMessage) === 0) {
+                    return false;
+                }
+            }
+        }
+
+        return (bool) ($type & $this->fatal_error_types);
+    }
+
+    /**
+     * Register a handler which will intercept unhandled exceptions and report them to the
+>>>>>>> v2-test
      * associated Sentry client.
      *
      * @param bool $call_existing Call any existing exception handlers after processing
      *                            this instance.
+<<<<<<< HEAD
      * @return $this
+=======
+     * @return Raven_ErrorHandler
+>>>>>>> v2-test
      */
     public function registerExceptionHandler($call_existing = true)
     {
@@ -144,9 +242,16 @@ class Raven_ErrorHandler
      * Register a handler which will intercept standard PHP errors and report them to the
      * associated Sentry client.
      *
+<<<<<<< HEAD
      * @param bool $call_existing Call any existing errors handlers after processing
      *                            this instance.
      * @return array
+=======
+     * @param bool  $call_existing Call any existing errors handlers after processing
+     *                             this instance.
+     * @param array $error_types   All error types that should be sent.
+     * @return Raven_ErrorHandler
+>>>>>>> v2-test
      */
     public function registerErrorHandler($call_existing = true, $error_types = null)
     {
@@ -164,7 +269,11 @@ class Raven_ErrorHandler
      *
      * @param int $reservedMemorySize Number of kilobytes memory space to reserve,
      *                                which is utilized when handling fatal errors.
+<<<<<<< HEAD
      * @return $this
+=======
+     * @return Raven_ErrorHandler
+>>>>>>> v2-test
      */
     public function registerShutdownFunction($reservedMemorySize = 10)
     {

@@ -23,7 +23,11 @@ class Suite implements \Countable
     /**
      * @param Node\SpecificationNode $spec
      */
+<<<<<<< HEAD
     public function addSpecification(Node\SpecificationNode $spec)
+=======
+    public function addSpecification(Node\SpecificationNode $spec): void
+>>>>>>> v2-test
     {
         $this->specs[] = $spec;
         $spec->setSuite($this);
@@ -32,15 +36,25 @@ class Suite implements \Countable
     /**
      * @return Node\SpecificationNode[]
      */
+<<<<<<< HEAD
     public function getSpecifications()
+=======
+    public function getSpecifications(): array
+>>>>>>> v2-test
     {
         return $this->specs;
     }
 
     /**
+<<<<<<< HEAD
      * @return number
      */
     public function count()
+=======
+     * @return int
+     */
+    public function count(): int
+>>>>>>> v2-test
     {
         return array_sum(array_map('count', $this->specs));
     }

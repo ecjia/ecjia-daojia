@@ -18,8 +18,12 @@ interface Swift_Filterable
     /**
      * Add a new StreamFilter, referenced by $key.
      *
+<<<<<<< HEAD
      * @param Swift_StreamFilter $filter
      * @param string             $key
+=======
+     * @param string $key
+>>>>>>> v2-test
      */
     public function addFilter(Swift_StreamFilter $filter, $key);
 

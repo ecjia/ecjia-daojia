@@ -37,6 +37,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
     private $directorySeparator = '/';
 
     /**
+<<<<<<< HEAD
      * Constructor.
      *
      * @param string $path
@@ -46,6 +47,11 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      * @throws \RuntimeException
      */
     public function __construct($path, $flags, $ignoreUnreadableDirs = false)
+=======
+     * @throws \RuntimeException
+     */
+    public function __construct(string $path, int $flags, bool $ignoreUnreadableDirs = false)
+>>>>>>> v2-test
     {
         if ($flags & (self::CURRENT_AS_PATHNAME | self::CURRENT_AS_SELF)) {
             throw new \RuntimeException('This iterator only support returning current as fileinfo.');
@@ -53,9 +59,15 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
 
         parent::__construct($path, $flags);
         $this->ignoreUnreadableDirs = $ignoreUnreadableDirs;
+<<<<<<< HEAD
         $this->rootPath = (string) $path;
         if ('/' !== DIRECTORY_SEPARATOR && !($flags & self::UNIX_PATHS)) {
             $this->directorySeparator = DIRECTORY_SEPARATOR;
+=======
+        $this->rootPath = $path;
+        if ('/' !== \DIRECTORY_SEPARATOR && !($flags & self::UNIX_PATHS)) {
+            $this->directorySeparator = \DIRECTORY_SEPARATOR;
+>>>>>>> v2-test
         }
     }
 
@@ -76,7 +88,15 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
         }
         $subPathname .= $this->getFilename();
 
+<<<<<<< HEAD
         return new SplFileInfo($this->rootPath.$this->directorySeparator.$subPathname, $this->subPath, $subPathname);
+=======
+        if ('/' !== $basePath = $this->rootPath) {
+            $basePath .= $this->directorySeparator;
+        }
+
+        return new SplFileInfo($basePath.$subPathname, $this->subPath, $subPathname);
+>>>>>>> v2-test
     }
 
     /**
@@ -102,7 +122,11 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
         } catch (\UnexpectedValueException $e) {
             if ($this->ignoreUnreadableDirs) {
                 // If directory is unreadable and finder is set to ignore it, a fake empty content is returned.
+<<<<<<< HEAD
                 return new \RecursiveArrayIterator(array());
+=======
+                return new \RecursiveArrayIterator([]);
+>>>>>>> v2-test
             } else {
                 throw new AccessDeniedException($e->getMessage(), $e->getCode(), $e);
             }
@@ -118,11 +142,14 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
             return;
         }
 
+<<<<<<< HEAD
         // @see https://bugs.php.net/68557
         if (PHP_VERSION_ID < 50523 || PHP_VERSION_ID >= 50600 && PHP_VERSION_ID < 50607) {
             parent::next();
         }
 
+=======
+>>>>>>> v2-test
         parent::rewind();
     }
 

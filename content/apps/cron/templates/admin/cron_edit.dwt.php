@@ -4,6 +4,7 @@
 <!-- {block name="footer"} -->
 <script type="text/javascript">
 	ecjia.admin.cron.init();
+    {$inline_script}
 </script>
 
 <!-- {/block} -->

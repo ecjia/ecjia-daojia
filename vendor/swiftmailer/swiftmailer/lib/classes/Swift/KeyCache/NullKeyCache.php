@@ -34,10 +34,16 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
      *
      * @see MODE_WRITE, MODE_APPEND
      *
+<<<<<<< HEAD
      * @param string                 $nsKey
      * @param string                 $itemKey
      * @param Swift_OutputByteStream $os
      * @param int                    $mode
+=======
+     * @param string $nsKey
+     * @param string $itemKey
+     * @param int    $mode
+>>>>>>> v2-test
      */
     public function importFromByteStream($nsKey, $itemKey, Swift_OutputByteStream $os, $mode)
     {
@@ -48,9 +54,14 @@ class Swift_KeyCache_NullKeyCache implements Swift_KeyCache
      *
      * NOTE: The stream will always write in append mode.
      *
+<<<<<<< HEAD
      * @param string                $nsKey
      * @param string                $itemKey
      * @param Swift_InputByteStream $writeThrough
+=======
+     * @param string $nsKey
+     * @param string $itemKey
+>>>>>>> v2-test
      *
      * @return Swift_InputByteStream
      */

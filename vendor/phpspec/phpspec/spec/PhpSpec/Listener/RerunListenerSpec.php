@@ -4,6 +4,7 @@ namespace spec\PhpSpec\Listener;
 
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use PhpSpec\Process\Prerequisites\SuitePrerequisitesInterface;
 use PhpSpec\Process\ReRunner;
 use Prophecy\Argument;
@@ -11,6 +12,14 @@ use Prophecy\Argument;
 class RerunListenerSpec extends ObjectBehavior
 {
     function let(ReRunner $reRunner, SuitePrerequisitesInterface $suitePrerequisites)
+=======
+use PhpSpec\Process\Prerequisites\PrerequisiteTester;
+use PhpSpec\Process\ReRunner;
+
+class RerunListenerSpec extends ObjectBehavior
+{
+    function let(ReRunner $reRunner, PrerequisiteTester $suitePrerequisites)
+>>>>>>> v2-test
     {
         $this->beConstructedWith($reRunner, $suitePrerequisites);
     }

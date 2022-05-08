@@ -25,6 +25,7 @@ class SetMove extends Command
     {
         return 'SMOVE';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class SetMove extends Command
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

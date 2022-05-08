@@ -46,7 +46,8 @@
 //
 namespace Ecjia\App\Cron;
 
-use Ecjia\System\Plugin\PluginModel;
+use Ecjia\Component\Plugin\PluginModel;
+use Ecjia\Component\Plugin\Storages\CronPluginStorage;
 use ecjia_config;
 use ecjia_error;
 
@@ -56,7 +57,6 @@ use ecjia_error;
  */
 class CronPlugin extends PluginModel
 {
-
     protected $table = 'crons';
     
     protected $primaryKey = 'cron_id';
@@ -87,6 +87,17 @@ class CronPlugin extends PluginModel
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * AttributeModel constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->connection = 'ecjia';
+
+        parent::__construct($attributes);
+    }
     
     /**
      * 当前插件种类的唯一标识字段名
@@ -101,7 +112,7 @@ class CronPlugin extends PluginModel
      */
     public function getInstalledPlugins()
     {
-        return ecjia_config::getAddonConfig('cron_plugins', true);
+        return (new CronPluginStorage())->getPlugins();
     }
     
     /**

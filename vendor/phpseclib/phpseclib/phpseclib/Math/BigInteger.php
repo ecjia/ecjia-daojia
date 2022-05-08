@@ -45,7 +45,10 @@
  * @author    Jim Wigginton <terrafrost@php.net>
  * @copyright 2006 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+<<<<<<< HEAD
  * @link      http://pear.php.net/package/Math_BigInteger
+=======
+>>>>>>> v2-test
  */
 
 namespace phpseclib\Math;
@@ -244,7 +247,11 @@ class BigInteger
      * ?>
      * </code>
      *
+<<<<<<< HEAD
      * @param $x base-10 number or base-$base number if $base set.
+=======
+     * @param int|string|resource $x base-10 number or base-$base number if $base set.
+>>>>>>> v2-test
      * @param int $base
      * @return \phpseclib\Math\BigInteger
      * @access public
@@ -446,6 +453,12 @@ class BigInteger
                 // (?<=^|-)0*: find any 0's that are preceded by the start of the string or by a - (ie. octals)
                 // [^-0-9].*: find any non-numeric characters and then any characters that follow that
                 $x = preg_replace('#(?<!^)(?:-).*|(?<=^|-)0*|[^-0-9].*#', '', $x);
+<<<<<<< HEAD
+=======
+                if (!strlen($x) || $x == '-') {
+                    $x = '0';
+                }
+>>>>>>> v2-test
 
                 switch (MATH_BIGINTEGER_MODE) {
                     case self::MODE_GMP:
@@ -543,7 +556,11 @@ class BigInteger
                 $bytes = chr(0);
             }
 
+<<<<<<< HEAD
             if (ord($bytes[0]) & 0x80) {
+=======
+            if ($this->precision <= 0 && (ord($bytes[0]) & 0x80)) {
+>>>>>>> v2-test
                 $bytes = chr(0) . $bytes;
             }
 
@@ -705,6 +722,10 @@ class BigInteger
         }
 
         $temp = $this->copy();
+<<<<<<< HEAD
+=======
+        $temp->bitmask = false;
+>>>>>>> v2-test
         $temp->is_negative = false;
 
         $divisor = new static();
@@ -841,7 +862,11 @@ class BigInteger
             $opts[] = 'OpenSSL';
         }
         if (!empty($opts)) {
+<<<<<<< HEAD
             $engine.= ' (' . implode($opts, ', ') . ')';
+=======
+            $engine.= ' (' . implode('.', $opts) . ')';
+>>>>>>> v2-test
         }
         return array(
             'value' => '0x' . $this->toHex(true),
@@ -1559,7 +1584,13 @@ class BigInteger
             $temp_value = array($quotient_value[$q_index]);
             $temp = $temp->multiply($y);
             $temp_value = &$temp->value;
+<<<<<<< HEAD
             $temp_value = array_merge($adjust, $temp_value);
+=======
+            if (count($temp_value)) {
+                $temp_value = array_merge($adjust, $temp_value);
+            }
+>>>>>>> v2-test
 
             $x = $x->subtract($temp);
 
@@ -1989,7 +2020,11 @@ class BigInteger
      *
      * @see self::_slidingWindow()
      * @access private
+<<<<<<< HEAD
      * @param \phpseclib\Math\BigInteger
+=======
+     * @param \phpseclib\Math\BigInteger $n
+>>>>>>> v2-test
      * @return \phpseclib\Math\BigInteger
      */
     function _mod2($n)
@@ -2683,7 +2718,11 @@ class BigInteger
      * Note how the same comparison operator is used.  If you want to test for equality, use $x->equals($y).
      *
      * @param \phpseclib\Math\BigInteger $y
+<<<<<<< HEAD
      * @return int < 0 if $this is less than $y; > 0 if $this is greater than $y, and 0 if they are equal.
+=======
+     * @return int that is < 0 if $this is less than $y; > 0 if $this is greater than $y, and 0 if they are equal.
+>>>>>>> v2-test
      * @access public
      * @see self::equals()
      * @internal Could return $this->subtract($x), but that's not as fast as what we do do.
@@ -2692,7 +2731,18 @@ class BigInteger
     {
         switch (MATH_BIGINTEGER_MODE) {
             case self::MODE_GMP:
+<<<<<<< HEAD
                 return gmp_cmp($this->value, $y->value);
+=======
+                $r = gmp_cmp($this->value, $y->value);
+                if ($r < -1) {
+                    $r = -1;
+                }
+                if ($r > 1) {
+                    $r = 1;
+                }
+                return $r;
+>>>>>>> v2-test
             case self::MODE_BCMATH:
                 return bccomp($this->value, $y->value, 0);
         }
@@ -3078,7 +3128,11 @@ class BigInteger
      *
      * Byte length is equal to $length. Uses \phpseclib\Crypt\Random if it's loaded and mt_rand if it's not.
      *
+<<<<<<< HEAD
      * @param int $length
+=======
+     * @param int $size
+>>>>>>> v2-test
      * @return \phpseclib\Math\BigInteger
      * @access private
      */
@@ -3545,7 +3599,11 @@ class BigInteger
      *
      * Removes leading zeros and truncates (if necessary) to maintain the appropriate precision
      *
+<<<<<<< HEAD
      * @param \phpseclib\Math\BigInteger
+=======
+     * @param \phpseclib\Math\BigInteger $result
+>>>>>>> v2-test
      * @return \phpseclib\Math\BigInteger
      * @see self::_trim()
      * @access private
@@ -3558,7 +3616,18 @@ class BigInteger
         switch (MATH_BIGINTEGER_MODE) {
             case self::MODE_GMP:
                 if ($this->bitmask !== false) {
+<<<<<<< HEAD
                     $result->value = gmp_and($result->value, $result->bitmask->value);
+=======
+                    $flip = gmp_cmp($result->value, gmp_init(0)) < 0;
+                    if ($flip) {
+                        $result->value = gmp_neg($result->value);
+                    }
+                    $result->value = gmp_and($result->value, $result->bitmask->value);
+                    if ($flip) {
+                        $result->value = gmp_neg($result->value);
+                    }
+>>>>>>> v2-test
                 }
 
                 return $result;
@@ -3573,6 +3642,10 @@ class BigInteger
         $value = &$result->value;
 
         if (!count($value)) {
+<<<<<<< HEAD
+=======
+            $result->is_negative = false;
+>>>>>>> v2-test
             return $result;
         }
 
@@ -3614,8 +3687,13 @@ class BigInteger
     /**
      * Array Repeat
      *
+<<<<<<< HEAD
      * @param $input Array
      * @param $multiplier mixed
+=======
+     * @param array $input
+     * @param mixed $multiplier
+>>>>>>> v2-test
      * @return array
      * @access private
      */
@@ -3629,8 +3707,13 @@ class BigInteger
      *
      * Shifts binary strings $shift bits, essentially multiplying by 2**$shift.
      *
+<<<<<<< HEAD
      * @param $x String
      * @param $shift Integer
+=======
+     * @param string $x (by reference)
+     * @param int $shift
+>>>>>>> v2-test
      * @return string
      * @access private
      */
@@ -3658,8 +3741,13 @@ class BigInteger
      *
      * Shifts binary strings $shift bits, essentially dividing by 2**$shift and returning the remainder.
      *
+<<<<<<< HEAD
      * @param $x String
      * @param $shift Integer
+=======
+     * @param string $x (by referenc)
+     * @param int $shift
+>>>>>>> v2-test
      * @return string
      * @access private
      */

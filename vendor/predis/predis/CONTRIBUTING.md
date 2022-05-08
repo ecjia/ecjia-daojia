@@ -1,6 +1,10 @@
 ## Filing bug reports ##
 
+<<<<<<< HEAD
 Bugs or feature requests can be posted on the [GitHub issues](http://github.com/nrk/predis/issues)
+=======
+Bugs or feature requests can be posted on the [GitHub issues](http://github.com/predis/predis/issues)
+>>>>>>> v2-test
 section of the project.
 
 When reporting bugs, in addition to the obvious description of your issue you __must__ always provide

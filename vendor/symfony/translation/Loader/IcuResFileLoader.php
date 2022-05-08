@@ -11,10 +11,17 @@
 
 namespace Symfony\Component\Translation\Loader;
 
+<<<<<<< HEAD
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\Component\Config\Resource\DirectoryResource;
+=======
+use Symfony\Component\Config\Resource\DirectoryResource;
+use Symfony\Component\Translation\Exception\InvalidResourceException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\Translation\MessageCatalogue;
+>>>>>>> v2-test
 
 /**
  * IcuResFileLoader loads translations from a resource bundle.
@@ -26,7 +33,11 @@ class IcuResFileLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function load($resource, $locale, $domain = 'messages')
+=======
+    public function load($resource, string $locale, string $domain = 'messages')
+>>>>>>> v2-test
     {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
@@ -39,12 +50,19 @@ class IcuResFileLoader implements LoaderInterface
         try {
             $rb = new \ResourceBundle($locale, $resource);
         } catch (\Exception $e) {
+<<<<<<< HEAD
             // HHVM compatibility: constructor throws on invalid resource
+=======
+>>>>>>> v2-test
             $rb = null;
         }
 
         if (!$rb) {
+<<<<<<< HEAD
             throw new InvalidResourceException(sprintf('Cannot load resource "%s"', $resource));
+=======
+            throw new InvalidResourceException(sprintf('Cannot load resource "%s".', $resource));
+>>>>>>> v2-test
         } elseif (intl_is_failure($rb->getErrorCode())) {
             throw new InvalidResourceException($rb->getErrorMessage(), $rb->getErrorCode());
         }
@@ -53,7 +71,11 @@ class IcuResFileLoader implements LoaderInterface
         $catalogue = new MessageCatalogue($locale);
         $catalogue->add($messages, $domain);
 
+<<<<<<< HEAD
         if (class_exists('Symfony\Component\Config\Resource\DirectoryResource')) {
+=======
+        if (class_exists(DirectoryResource::class)) {
+>>>>>>> v2-test
             $catalogue->addResource(new DirectoryResource($resource));
         }
 
@@ -70,6 +92,7 @@ class IcuResFileLoader implements LoaderInterface
      *
      * This function takes an array by reference and will modify it
      *
+<<<<<<< HEAD
      * @param \ResourceBundle $rb       the ResourceBundle that will be flattened
      * @param array           $messages used internally for recursive calls
      * @param string          $path     current path being parsed, used internally for recursive calls
@@ -77,6 +100,15 @@ class IcuResFileLoader implements LoaderInterface
      * @return array the flattened ResourceBundle
      */
     protected function flatten(\ResourceBundle $rb, array &$messages = array(), $path = null)
+=======
+     * @param \ResourceBundle $rb       The ResourceBundle that will be flattened
+     * @param array           $messages Used internally for recursive calls
+     * @param string          $path     Current path being parsed, used internally for recursive calls
+     *
+     * @return array the flattened ResourceBundle
+     */
+    protected function flatten(\ResourceBundle $rb, array &$messages = [], string $path = null)
+>>>>>>> v2-test
     {
         foreach ($rb as $key => $value) {
             $nodePath = $path ? $path.'.'.$key : $key;

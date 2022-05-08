@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the Carbon package.
  *
  * (c) Brian Nesbitt <brian@nesbot.com>
@@ -7,23 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-/**
- * Translation messages.  See http://symfony.com/doc/current/book/translation.html
- * for possible formats.
+
+/*
+ * Authors:
+ * - xuri
+ * - sycuato
+ * - bokideckonja
+ * - Luo Ning
+ * - William Yang (williamyang233)
  */
-/**
- * Extracted from https://github.com/jenssegers/laravel-date/blob/master/src/lang/zh/date.php
- */
-return array(
-    'year'      => ':count年',
-    'month'     => ':count月',
-    'week'      => ':count周',
-    'day'       => ':count天',
-    'hour'      => ':count小时',
-    'minute'    => ':count分钟',
-    'second'    => ':count秒',
-    'ago'       => ':time前',
-    'from_now'  => ':time距现在',
-    'after'     => ':time后',
-    'before'    => ':time前'
-);
+return array_merge(require __DIR__.'/zh_Hans.php', [
+    'formats' => [
+        'LT' => 'HH:mm',
+        'LTS' => 'HH:mm:ss',
+        'L' => 'YYYY/MM/DD',
+        'LL' => 'YYYY年M月D日',
+        'LLL' => 'YYYY年M月D日 A h点mm分',
+        'LLLL' => 'YYYY年M月D日dddd A h点mm分',
+    ],
+]);

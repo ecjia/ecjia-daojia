@@ -18,6 +18,7 @@ namespace Symfony\Component\CssSelector\Node;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class AttributeNode extends AbstractNode
 {
@@ -54,6 +55,20 @@ class AttributeNode extends AbstractNode
      * @param string        $value
      */
     public function __construct(NodeInterface $selector, $namespace, $attribute, $operator, $value)
+=======
+ *
+ * @internal
+ */
+class AttributeNode extends AbstractNode
+{
+    private $selector;
+    private $namespace;
+    private $attribute;
+    private $operator;
+    private $value;
+
+    public function __construct(NodeInterface $selector, ?string $namespace, string $attribute, string $operator, ?string $value)
+>>>>>>> v2-test
     {
         $this->selector = $selector;
         $this->namespace = $namespace;
@@ -62,42 +77,62 @@ class AttributeNode extends AbstractNode
         $this->value = $value;
     }
 
+<<<<<<< HEAD
     /**
      * @return NodeInterface
      */
     public function getSelector()
+=======
+    public function getSelector(): NodeInterface
+>>>>>>> v2-test
     {
         return $this->selector;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getNamespace()
+=======
+    public function getNamespace(): ?string
+>>>>>>> v2-test
     {
         return $this->namespace;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getAttribute()
+=======
+    public function getAttribute(): string
+>>>>>>> v2-test
     {
         return $this->attribute;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getOperator()
+=======
+    public function getOperator(): string
+>>>>>>> v2-test
     {
         return $this->operator;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getValue()
+=======
+    public function getValue(): ?string
+>>>>>>> v2-test
     {
         return $this->value;
     }
@@ -105,7 +140,11 @@ class AttributeNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getSpecificity()
+=======
+    public function getSpecificity(): Specificity
+>>>>>>> v2-test
     {
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
     }
@@ -113,7 +152,11 @@ class AttributeNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> v2-test
     {
         $attribute = $this->namespace ? $this->namespace.'|'.$this->attribute : $this->attribute;
 

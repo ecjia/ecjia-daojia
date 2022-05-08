@@ -1,0 +1,17 @@
+{
+    "name": "ecjia/app-cron",
+    "description": "The ECJia App Cron package.",
+    "type": "royalcms-app",
+    "license": "MIT",
+    "homepage": "https://github.com/ecjia",
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/cron": "^5.0"
+    }
+}

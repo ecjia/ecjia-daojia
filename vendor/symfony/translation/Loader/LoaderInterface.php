@@ -11,9 +11,15 @@
 
 namespace Symfony\Component\Translation\Loader;
 
+<<<<<<< HEAD
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
+=======
+use Symfony\Component\Translation\Exception\InvalidResourceException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\Translation\MessageCatalogue;
+>>>>>>> v2-test
 
 /**
  * LoaderInterface is the interface implemented by all translation loaders.
@@ -34,5 +40,9 @@ interface LoaderInterface
      * @throws NotFoundResourceException when the resource cannot be found
      * @throws InvalidResourceException  when the resource cannot be loaded
      */
+<<<<<<< HEAD
     public function load($resource, $locale, $domain = 'messages');
+=======
+    public function load($resource, string $locale, string $domain = 'messages');
+>>>>>>> v2-test
 }

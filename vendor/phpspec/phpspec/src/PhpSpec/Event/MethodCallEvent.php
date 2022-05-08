@@ -14,12 +14,21 @@
 namespace PhpSpec\Event;
 
 use PhpSpec\Loader\Node\ExampleNode;
+<<<<<<< HEAD
 use Symfony\Component\EventDispatcher\Event;
+=======
+use PhpSpec\Loader\Node\SpecificationNode;
+use PhpSpec\Loader\Suite;
+>>>>>>> v2-test
 
 /**
  * Class MethodCallEvent holds information about method call events
  */
+<<<<<<< HEAD
 class MethodCallEvent extends Event implements EventInterface
+=======
+class MethodCallEvent extends BaseEvent implements PhpSpecEvent
+>>>>>>> v2-test
 {
     /**
      * @var ExampleNode
@@ -65,23 +74,39 @@ class MethodCallEvent extends Event implements EventInterface
     /**
      * @return ExampleNode
      */
+<<<<<<< HEAD
     public function getExample()
+=======
+    public function getExample(): ExampleNode
+>>>>>>> v2-test
     {
         return $this->example;
     }
 
     /**
+<<<<<<< HEAD
      * @return \PhpSpec\Loader\Node\SpecificationNode
      */
     public function getSpecification()
+=======
+     * @return SpecificationNode
+     */
+    public function getSpecification(): SpecificationNode
+>>>>>>> v2-test
     {
         return $this->example->getSpecification();
     }
 
     /**
+<<<<<<< HEAD
      * @return \PhpSpec\Loader\Suite
      */
     public function getSuite()
+=======
+     * @return Suite
+     */
+    public function getSuite(): Suite
+>>>>>>> v2-test
     {
         return $this->example->getSpecification()->getSuite();
     }
@@ -97,7 +122,11 @@ class MethodCallEvent extends Event implements EventInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getMethod()
+=======
+    public function getMethod(): string
+>>>>>>> v2-test
     {
         return $this->method;
     }
@@ -105,7 +134,11 @@ class MethodCallEvent extends Event implements EventInterface
     /**
      * @return array
      */
+<<<<<<< HEAD
     public function getArguments()
+=======
+    public function getArguments(): array
+>>>>>>> v2-test
     {
         return $this->arguments;
     }

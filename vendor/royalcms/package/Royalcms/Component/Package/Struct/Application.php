@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Package\Struct;
+=======
+<?php
+
+namespace Royalcms\Component\Package\Struct;
+>>>>>>> v2-test
 
 class Application {
     

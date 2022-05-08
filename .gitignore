@@ -1,0 +1,4 @@
+.idea
+content/storages/logs
+content/storages/framework
+.env

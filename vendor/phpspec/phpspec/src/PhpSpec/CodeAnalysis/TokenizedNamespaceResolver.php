@@ -30,7 +30,11 @@ final class TokenizedNamespaceResolver implements NamespaceResolver
     /**
      * @param string $code
      */
+<<<<<<< HEAD
     public function analyse($code)
+=======
+    public function analyse(string $code): void
+>>>>>>> v2-test
     {
         $this->state = self::STATE_DEFAULT;
         $this->currentUse = null;
@@ -47,7 +51,11 @@ final class TokenizedNamespaceResolver implements NamespaceResolver
                         $this->currentNamespace = trim($this->currentNamespace);
                         $this->state = self::STATE_DEFAULT;
                     }
+<<<<<<< HEAD
                     elseif (is_array($token)) {
+=======
+                    elseif (\is_array($token)) {
+>>>>>>> v2-test
                         $this->currentNamespace .= $token[1];
                     }
                     break;
@@ -59,7 +67,11 @@ final class TokenizedNamespaceResolver implements NamespaceResolver
                     elseif (',' == $token) {
                         $this->storeCurrentUse();
                     }
+<<<<<<< HEAD
                     elseif (is_array($token)) {
+=======
+                    elseif (\is_array($token)) {
+>>>>>>> v2-test
                         $this->currentUse = $this->currentUseGroup . trim($token[1]);
                     }
                     break;
@@ -76,17 +88,29 @@ final class TokenizedNamespaceResolver implements NamespaceResolver
                     elseif (',' == $token) {
                         $this->storeCurrentUse();
                     }
+<<<<<<< HEAD
                     elseif (is_array($token)) {
+=======
+                    elseif (\is_array($token)) {
+>>>>>>> v2-test
                         $this->currentUse .= $token[1];
                     }
                     break;
                 default:
+<<<<<<< HEAD
                     if (is_array($token) && T_NAMESPACE == $token[0]) {
+=======
+                    if (\is_array($token) && T_NAMESPACE == $token[0]) {
+>>>>>>> v2-test
                         $this->state = self::STATE_READING_NAMESPACE;
                         $this->currentNamespace = '';
                         $this->uses = array();
                     }
+<<<<<<< HEAD
                     elseif (is_array($token) && T_USE == $token[0]) {
+=======
+                    elseif (\is_array($token) && T_USE == $token[0]) {
+>>>>>>> v2-test
                         $this->state = self::STATE_READING_USE;
                         $this->currentUse = '';
                     }
@@ -95,12 +119,16 @@ final class TokenizedNamespaceResolver implements NamespaceResolver
         }
     }
 
+<<<<<<< HEAD
     /**
      * @param string $typeAlias
      *
      * @return string
      */
     public function resolve($typeAlias)
+=======
+    public function resolve(string $typeAlias): string
+>>>>>>> v2-test
     {
         if (strpos($typeAlias, '\\') === 0) {
             return substr($typeAlias, 1);

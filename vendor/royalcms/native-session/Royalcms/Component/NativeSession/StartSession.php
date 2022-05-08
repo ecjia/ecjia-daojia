@@ -7,9 +7,16 @@ use SessionHandlerInterface;
 use Royalcms\Component\DateTime\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 use RC_Hook;
+<<<<<<< HEAD
 use Royalcms\Component\Session\SessionInterface;
 
 class StartSession {
+=======
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+class StartSession
+{
+>>>>>>> v2-test
     
     /**
      * The session manager.
@@ -44,8 +51,12 @@ class StartSession {
         // If a session driver has been configured, we will need to start the session here
         // so that the data is ready for an application. Note that the Laravel sessions
         // do not make use of PHP "native" sessions in any way since they are crappy.
+<<<<<<< HEAD
         if ($this->sessionConfigured())
         {
+=======
+        if ($this->sessionConfigured()) {
+>>>>>>> v2-test
             $this->session = $session = $this->startSession($request);
         
             $request->setSession($session);
@@ -58,8 +69,12 @@ class StartSession {
         // Again, if the session has been configured we will need to close out the session
         // so that the attributes may be persisted to some storage medium. We will also
         // add the session identifier cookie to the application response headers now.
+<<<<<<< HEAD
         if ($this->sessionConfigured())
         {
+=======
+        if ($this->sessionConfigured()) {
+>>>>>>> v2-test
             $this->closeSession($this->session);
         }
     }
@@ -70,6 +85,12 @@ class StartSession {
      */
     protected function setNativeSessionHandler(SessionHandlerInterface $handler) 
     {
+<<<<<<< HEAD
+=======
+        // 强制session的存储驱动使用php的serialize函数
+        ini_set('session.serialize_handler', 'php_serialize');
+
+>>>>>>> v2-test
         session_set_save_handler($handler, true);
         
         session_register_shutdown();
@@ -97,7 +118,11 @@ class StartSession {
     /**
      * Close the session handling for the request.
      *
+<<<<<<< HEAD
      * @param  \Royalcms\Component\Session\SessionInterface  $session
+=======
+     * @param  \Symfony\Component\HttpFoundation\Session\SessionInterface  $session
+>>>>>>> v2-test
      * @return void
      */
     protected function closeSession(SessionInterface $session)
@@ -160,8 +185,12 @@ class StartSession {
     {
         $s = $session;
     
+<<<<<<< HEAD
         if ($this->sessionIsPersistent($c = $this->manager->getSessionConfig()))
         {
+=======
+        if ($this->sessionIsPersistent($c = $this->manager->getSessionConfig())) {
+>>>>>>> v2-test
             $secure = array_get($c, 'secure', false);
             $httponly = array_get($c, 'httponly', false);
             
@@ -230,6 +259,7 @@ class StartSession {
     /**
      * Get the session implementation from the manager.
      *
+<<<<<<< HEAD
      * @return \Royalcms\Component\Session\SessionInterface
      */
     public function getSession(Request $request)
@@ -250,6 +280,24 @@ class StartSession {
         }
         else 
         {
+=======
+     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
+    public function getSession(Request $request)
+    {
+        $session = $this->manager->driver();
+        $royalcms_session_id = RC_Hook::apply_filters('royalcms_session_id', null);
+        if (RC_Hook::has_filter('royalcms_session_id') && !empty($royalcms_session_id)) {
+            $sessionId = $royalcms_session_id;
+        }
+        elseif ($request->exists($session->getName())) {
+            $sessionId = $request->input($session->getName());
+        }
+        elseif ($request->cookies->has($session->getName())) {
+            $sessionId = $request->cookies->get($session->getName());
+        }
+        else {
+>>>>>>> v2-test
             $sessionId = null;
         }
 

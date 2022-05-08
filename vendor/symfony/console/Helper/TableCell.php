@@ -19,6 +19,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 class TableCell
 {
     private $value;
+<<<<<<< HEAD
     private $options = array(
         'rowspan' => 1,
         'colspan' => 1,
@@ -34,6 +35,16 @@ class TableCell
             $value = (string) $value;
         }
 
+=======
+    private $options = [
+        'rowspan' => 1,
+        'colspan' => 1,
+        'style' => null,
+    ];
+
+    public function __construct(string $value = '', array $options = [])
+    {
+>>>>>>> v2-test
         $this->value = $value;
 
         // check option names
@@ -41,6 +52,13 @@ class TableCell
             throw new InvalidArgumentException(sprintf('The TableCell does not support the following options: \'%s\'.', implode('\', \'', $diff)));
         }
 
+<<<<<<< HEAD
+=======
+        if (isset($options['style']) && !$options['style'] instanceof TableCellStyle) {
+            throw new InvalidArgumentException('The style option must be an instance of "TableCellStyle".');
+        }
+
+>>>>>>> v2-test
         $this->options = array_merge($this->options, $options);
     }
 
@@ -73,4 +91,12 @@ class TableCell
     {
         return (int) $this->options['rowspan'];
     }
+<<<<<<< HEAD
+=======
+
+    public function getStyle(): ?TableCellStyle
+    {
+        return $this->options['style'];
+    }
+>>>>>>> v2-test
 }

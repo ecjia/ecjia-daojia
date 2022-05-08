@@ -8,7 +8,11 @@ class Raven_Breadcrumbs_MonologHandler extends AbstractProcessingHandler
     /**
      * Translates Monolog log levels to Raven log levels.
      */
+<<<<<<< HEAD
     private $logLevels = array(
+=======
+    protected $logLevels = array(
+>>>>>>> v2-test
         Logger::DEBUG     => Raven_Client::DEBUG,
         Logger::INFO      => Raven_Client::INFO,
         Logger::NOTICE    => Raven_Client::INFO,
@@ -19,7 +23,11 @@ class Raven_Breadcrumbs_MonologHandler extends AbstractProcessingHandler
         Logger::EMERGENCY => Raven_Client::FATAL,
     );
 
+<<<<<<< HEAD
     private $excMatch = '/^exception \'([^\']+)\' with message \'(.+)\' in .+$/s';
+=======
+    protected $excMatch = '/^exception \'([^\']+)\' with message \'(.+)\' in .+$/s';
+>>>>>>> v2-test
 
     /**
      * @var Raven_Client the client object that sends the message to the server
@@ -29,7 +37,11 @@ class Raven_Breadcrumbs_MonologHandler extends AbstractProcessingHandler
     /**
      * @param Raven_Client $ravenClient
      * @param int          $level       The minimum logging level at which this handler will be triggered
+<<<<<<< HEAD
      * @param Boolean      $bubble      Whether the messages that are handled can bubble up the stack or not
+=======
+     * @param bool         $bubble      Whether the messages that are handled can bubble up the stack or not
+>>>>>>> v2-test
      */
     public function __construct(Raven_Client $ravenClient, $level = Logger::DEBUG, $bubble = true)
     {
@@ -38,6 +50,7 @@ class Raven_Breadcrumbs_MonologHandler extends AbstractProcessingHandler
         $this->ravenClient = $ravenClient;
     }
 
+<<<<<<< HEAD
     protected function parseException($message)
     {
         if (!preg_match($this->excMatch, $message, $matches)) {
@@ -45,6 +58,19 @@ class Raven_Breadcrumbs_MonologHandler extends AbstractProcessingHandler
         }
 
         return array($matches[1], $matches[2]);
+=======
+    /**
+     * @param string $message
+     * @return array|null
+     */
+    protected function parseException($message)
+    {
+        if (preg_match($this->excMatch, $message, $matches)) {
+            return array($matches[1], $matches[2]);
+        }
+
+        return null;
+>>>>>>> v2-test
     }
 
     /**
@@ -57,7 +83,14 @@ class Raven_Breadcrumbs_MonologHandler extends AbstractProcessingHandler
             return;
         }
 
+<<<<<<< HEAD
         if (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Exception) {
+=======
+        if (isset($record['context']['exception']) && ($record['context']['exception'] instanceof \Exception || (PHP_VERSION_ID >= 70000 && $record['context']['exception'] instanceof \Throwable))) {
+            /**
+             * @var \Exception|\Throwable $exc
+             */
+>>>>>>> v2-test
             $exc = $record['context']['exception'];
             $crumb = array(
                 'type' => 'error',
@@ -85,6 +118,10 @@ class Raven_Breadcrumbs_MonologHandler extends AbstractProcessingHandler
                     'level' => $this->logLevels[$record['level']],
                     'category' => $record['channel'],
                     'message' => $record['message'],
+<<<<<<< HEAD
+=======
+                    'data' => $record['context'],
+>>>>>>> v2-test
                 );
             }
         }

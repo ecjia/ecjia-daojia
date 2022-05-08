@@ -22,14 +22,20 @@ class Swift_SendmailTransport extends Swift_Transport_SendmailTransport
      */
     public function __construct($command = '/usr/sbin/sendmail -bs')
     {
+<<<<<<< HEAD
         call_user_func_array(
             array($this, 'Swift_Transport_SendmailTransport::__construct'),
+=======
+        \call_user_func_array(
+            [$this, 'Swift_Transport_SendmailTransport::__construct'],
+>>>>>>> v2-test
             Swift_DependencyContainer::getInstance()
                 ->createDependenciesFor('transport.sendmail')
             );
 
         $this->setCommand($command);
     }
+<<<<<<< HEAD
 
     /**
      * Create a new SendmailTransport instance.
@@ -42,4 +48,6 @@ class Swift_SendmailTransport extends Swift_Transport_SendmailTransport
     {
         return new self($command);
     }
+=======
+>>>>>>> v2-test
 }

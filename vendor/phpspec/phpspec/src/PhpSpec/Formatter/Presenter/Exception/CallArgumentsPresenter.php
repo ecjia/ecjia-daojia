@@ -37,7 +37,11 @@ class CallArgumentsPresenter
      * @param UnexpectedCallException $exception
      * @return string
      */
+<<<<<<< HEAD
     public function presentDifference(UnexpectedCallException $exception)
+=======
+    public function presentDifference(UnexpectedCallException $exception): string
+>>>>>>> v2-test
     {
         $actualArguments = $exception->getArguments();
         $methodProphecies = $exception->getObjectProphecy()->getMethodProphecies($exception->getMethodName());
@@ -47,7 +51,11 @@ class CallArgumentsPresenter
         }
 
         $presentedMethodProphecy = $this->findFirstUnexpectedArgumentsCallProphecy($methodProphecies, $exception);
+<<<<<<< HEAD
         if (is_null($presentedMethodProphecy)) {
+=======
+        if (\is_null($presentedMethodProphecy)) {
+>>>>>>> v2-test
             return '';
         }
 
@@ -66,21 +74,35 @@ class CallArgumentsPresenter
      * @param MethodProphecy[] $methodProphecies
      * @return bool
      */
+<<<<<<< HEAD
     private function noMethodPropheciesForUnexpectedCall(array $methodProphecies)
     {
         return count($methodProphecies) === 0;
+=======
+    private function noMethodPropheciesForUnexpectedCall(array $methodProphecies): bool
+    {
+        return \count($methodProphecies) === 0;
+>>>>>>> v2-test
     }
 
     /**
      * @param MethodProphecy[] $methodProphecies
      * @param UnexpectedCallException $exception
      *
+<<<<<<< HEAD
      * @return MethodProphecy
+=======
+     * @return MethodProphecy|null
+>>>>>>> v2-test
      */
     private function findFirstUnexpectedArgumentsCallProphecy(
         array $methodProphecies,
         UnexpectedCallException $exception
+<<<<<<< HEAD
     ) {
+=======
+    ){
+>>>>>>> v2-test
         $objectProphecy = $exception->getObjectProphecy();
 
         foreach ($methodProphecies as $methodProphecy) {
@@ -89,12 +111,21 @@ class CallArgumentsPresenter
                 $methodProphecy->getArgumentsWildcard()
             );
 
+<<<<<<< HEAD
             if (count($calls)) {
+=======
+            if (\count($calls)) {
+>>>>>>> v2-test
                 continue;
             }
 
             return $methodProphecy;
         }
+<<<<<<< HEAD
+=======
+
+        return null;
+>>>>>>> v2-test
     }
 
     /**
@@ -103,9 +134,15 @@ class CallArgumentsPresenter
      *
      * @return bool
      */
+<<<<<<< HEAD
     private function parametersCountMismatch(array $expectedTokens, array $actualArguments)
     {
         return count($expectedTokens) !== count($actualArguments);
+=======
+    private function parametersCountMismatch(array $expectedTokens, array $actualArguments): bool
+    {
+        return \count($expectedTokens) !== \count($actualArguments);
+>>>>>>> v2-test
     }
 
     /**
@@ -113,7 +150,11 @@ class CallArgumentsPresenter
      *
      * @return array
      */
+<<<<<<< HEAD
     private function convertArgumentTokensToDiffableValues(array $tokens)
+=======
+    private function convertArgumentTokensToDiffableValues(array $tokens): array
+>>>>>>> v2-test
     {
         $values = array();
         foreach ($tokens as $token) {
@@ -133,13 +174,22 @@ class CallArgumentsPresenter
      *
      * @return string
      */
+<<<<<<< HEAD
     private function generateArgumentsDifferenceText(array $actualArguments, array $expectedArguments)
+=======
+    private function generateArgumentsDifferenceText(array $actualArguments, array $expectedArguments): string
+>>>>>>> v2-test
     {
         $text = '';
         foreach($actualArguments as $i => $actualArgument) {
             $expectedArgument = $expectedArguments[$i];
+<<<<<<< HEAD
             $actualArgument = is_null($actualArgument) ? 'null' : $actualArgument;
             $expectedArgument = is_null($expectedArgument) ? 'null' : $expectedArgument;
+=======
+            $actualArgument = \is_null($actualArgument) ? 'null' : $actualArgument;
+            $expectedArgument = \is_null($expectedArgument) ? 'null' : $expectedArgument;
+>>>>>>> v2-test
 
             $text .= $this->differ->compare($expectedArgument, $actualArgument);
         }

@@ -51,8 +51,10 @@ return [
     /**
      * 自定义后台权限类
      */
-    //'admin_user_purview'            => '\Ecjia\System\Admins\Users\AdminUserAllotPurview',
+    'admin_user_purview'            => '\Ecjia\System\Admins\Users\AdminUserMetaAllotPurview',
 
+    // database 连接池名称
+    'database_connection'           => 'ecjia',
     
 ];
 

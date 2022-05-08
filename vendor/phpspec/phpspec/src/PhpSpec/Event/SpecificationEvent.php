@@ -13,13 +13,21 @@
 
 namespace PhpSpec\Event;
 
+<<<<<<< HEAD
 use Symfony\Component\EventDispatcher\Event;
+=======
+use PhpSpec\Loader\Suite;
+>>>>>>> v2-test
 use PhpSpec\Loader\Node\SpecificationNode;
 
 /**
  * Class SpecificationEvent holds information about the specification event
  */
+<<<<<<< HEAD
 class SpecificationEvent extends Event implements EventInterface
+=======
+class SpecificationEvent extends BaseEvent implements PhpSpecEvent
+>>>>>>> v2-test
 {
     /**
      * @var SpecificationNode
@@ -41,7 +49,11 @@ class SpecificationEvent extends Event implements EventInterface
      * @param float             $time
      * @param integer           $result
      */
+<<<<<<< HEAD
     public function __construct(SpecificationNode $specification, $time = null, $result = null)
+=======
+    public function __construct(SpecificationNode $specification, float $time = 0.0, int $result = 0)
+>>>>>>> v2-test
     {
         $this->specification = $specification;
         $this->time          = $time;
@@ -51,7 +63,11 @@ class SpecificationEvent extends Event implements EventInterface
     /**
      * @return SpecificationNode
      */
+<<<<<<< HEAD
     public function getSpecification()
+=======
+    public function getSpecification(): SpecificationNode
+>>>>>>> v2-test
     {
         return $this->specification;
     }
@@ -59,15 +75,25 @@ class SpecificationEvent extends Event implements EventInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getTitle()
+=======
+    public function getTitle(): string
+>>>>>>> v2-test
     {
         return $this->specification->getTitle();
     }
 
     /**
+<<<<<<< HEAD
      * @return \PhpSpec\Loader\Suite
      */
     public function getSuite()
+=======
+     * @return Suite
+     */
+    public function getSuite(): Suite
+>>>>>>> v2-test
     {
         return $this->specification->getSuite();
     }
@@ -75,7 +101,11 @@ class SpecificationEvent extends Event implements EventInterface
     /**
      * @return float
      */
+<<<<<<< HEAD
     public function getTime()
+=======
+    public function getTime(): float
+>>>>>>> v2-test
     {
         return $this->time;
     }
@@ -83,7 +113,11 @@ class SpecificationEvent extends Event implements EventInterface
     /**
      * @return integer
      */
+<<<<<<< HEAD
     public function getResult()
+=======
+    public function getResult(): int
+>>>>>>> v2-test
     {
         return $this->result;
     }

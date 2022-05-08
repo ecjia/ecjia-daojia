@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\Bundle;
 
+<<<<<<< HEAD
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Container;
@@ -32,19 +33,48 @@ abstract class Bundle extends ContainerAware implements BundleInterface
 
     /**
      * Boots the Bundle.
+=======
+use Symfony\Component\Console\Application;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+
+/**
+ * An implementation of BundleInterface that adds a few conventions for DependencyInjection extensions.
+ *
+ * @author Fabien Potencier <fabien@symfony.com>
+ */
+abstract class Bundle implements BundleInterface
+{
+    use ContainerAwareTrait;
+
+    protected $name;
+    protected $extension;
+    protected $path;
+    private $namespace;
+
+    /**
+     * {@inheritdoc}
+>>>>>>> v2-test
      */
     public function boot()
     {
     }
 
     /**
+<<<<<<< HEAD
      * Shutdowns the Bundle.
+=======
+     * {@inheritdoc}
+>>>>>>> v2-test
      */
     public function shutdown()
     {
     }
 
     /**
+<<<<<<< HEAD
      * Builds the bundle.
      *
      * It is only ever called once when the cache is empty.
@@ -53,6 +83,12 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      * other extensions, ...
      *
      * @param ContainerBuilder $container A ContainerBuilder instance
+=======
+     * {@inheritdoc}
+     *
+     * This method can be overridden to register compilation passes,
+     * other extensions, ...
+>>>>>>> v2-test
      */
     public function build(ContainerBuilder $container)
     {
@@ -68,22 +104,36 @@ abstract class Bundle extends ContainerAware implements BundleInterface
     public function getContainerExtension()
     {
         if (null === $this->extension) {
+<<<<<<< HEAD
             $class = $this->getContainerExtensionClass();
             if (class_exists($class)) {
                 $extension = new $class();
 
                 if (!$extension instanceof ExtensionInterface) {
                     throw new \LogicException(sprintf('Extension %s must implement Symfony\Component\DependencyInjection\Extension\ExtensionInterface.', $class));
+=======
+            $extension = $this->createContainerExtension();
+
+            if (null !== $extension) {
+                if (!$extension instanceof ExtensionInterface) {
+                    throw new \LogicException(sprintf('Extension "%s" must implement Symfony\Component\DependencyInjection\Extension\ExtensionInterface.', get_debug_type($extension)));
+>>>>>>> v2-test
                 }
 
                 // check naming convention
                 $basename = preg_replace('/Bundle$/', '', $this->getName());
                 $expectedAlias = Container::underscore($basename);
+<<<<<<< HEAD
                 if ($expectedAlias != $extension->getAlias()) {
                     throw new \LogicException(sprintf(
                         'Users will expect the alias of the default extension of a bundle to be the underscored version of the bundle name ("%s"). You can override "Bundle::getContainerExtension()" if you want to use "%s" or another alias.',
                         $expectedAlias, $extension->getAlias()
                     ));
+=======
+
+                if ($expectedAlias != $extension->getAlias()) {
+                    throw new \LogicException(sprintf('Users will expect the alias of the default extension of a bundle to be the underscored version of the bundle name ("%s"). You can override "Bundle::getContainerExtension()" if you want to use "%s" or another alias.', $expectedAlias, $extension->getAlias()));
+>>>>>>> v2-test
                 }
 
                 $this->extension = $extension;
@@ -92,6 +142,7 @@ abstract class Bundle extends ContainerAware implements BundleInterface
             }
         }
 
+<<<<<<< HEAD
         if ($this->extension) {
             return $this->extension;
         }
@@ -113,18 +164,42 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      * Gets the Bundle directory path.
      *
      * @return string The Bundle absolute path
+=======
+        return $this->extension ?: null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNamespace()
+    {
+        if (null === $this->namespace) {
+            $this->parseClassName();
+        }
+
+        return $this->namespace;
+    }
+
+    /**
+     * {@inheritdoc}
+>>>>>>> v2-test
      */
     public function getPath()
     {
         if (null === $this->path) {
             $reflected = new \ReflectionObject($this);
+<<<<<<< HEAD
             $this->path = dirname($reflected->getFileName());
+=======
+            $this->path = \dirname($reflected->getFileName());
+>>>>>>> v2-test
         }
 
         return $this->path;
     }
 
     /**
+<<<<<<< HEAD
      * Returns the bundle parent name.
      *
      * @return string The Bundle parent name it overrides or null if no parent
@@ -191,6 +266,21 @@ abstract class Bundle extends ContainerAware implements BundleInterface
                 $application->add($r->newInstance());
             }
         }
+=======
+     * Returns the bundle name (the class short name).
+     */
+    final public function getName(): string
+    {
+        if (null === $this->name) {
+            $this->parseClassName();
+        }
+
+        return $this->name;
+    }
+
+    public function registerCommands(Application $application)
+    {
+>>>>>>> v2-test
     }
 
     /**
@@ -204,4 +294,26 @@ abstract class Bundle extends ContainerAware implements BundleInterface
 
         return $this->getNamespace().'\\DependencyInjection\\'.$basename.'Extension';
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Creates the bundle's container extension.
+     *
+     * @return ExtensionInterface|null
+     */
+    protected function createContainerExtension()
+    {
+        return class_exists($class = $this->getContainerExtensionClass()) ? new $class() : null;
+    }
+
+    private function parseClassName()
+    {
+        $pos = strrpos(static::class, '\\');
+        $this->namespace = false === $pos ? '' : substr(static::class, 0, $pos);
+        if (null === $this->name) {
+            $this->name = false === $pos ? static::class : substr(static::class, $pos + 1);
+        }
+    }
+>>>>>>> v2-test
 }

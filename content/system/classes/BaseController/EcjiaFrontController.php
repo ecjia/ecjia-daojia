@@ -84,10 +84,6 @@ abstract class EcjiaFrontController extends SmartyController
 		
 		self::$controller = static::$controller;
 		self::$view_object = static::$view_object;
-	
-		if (defined('DEBUG_MODE') == false) {
-			define('DEBUG_MODE', 0);
-		}
 
 		/* 商店关闭了，输出关闭的消息 */
 		if (ecjia::config('shop_closed') == 1) {
@@ -234,11 +230,25 @@ abstract class EcjiaFrontController extends SmartyController
         });
 
 		$apps = ecjia_app::installed_app_floders();
-		if (is_array($apps)) {
-			foreach ($apps as $app) {
-				RC_Loader::load_app_class('hooks.front_' . $app, $app, false);
-			}
-		}
+
+        collect($apps)->map(function ($app) {
+            //loading hooks
+            RC_Loader::load_app_class('hooks.front_' . $app, $app, false);
+
+            try {
+                //loading subscriber
+                $bundle = royalcms('app')->driver($app);
+                $class = $bundle->getNamespace() . '\Subscribers\FrontHookSubscriber';
+                if (class_exists($class)) {
+                    royalcms('Royalcms\Component\Hook\Dispatcher')->subscribe($class);
+                }
+            }
+            catch (\InvalidArgumentException $e) {
+                ecjia_log_error($e->getMessage());
+            }
+
+        });
+
 	}
 
 	protected function load_default_script_style()

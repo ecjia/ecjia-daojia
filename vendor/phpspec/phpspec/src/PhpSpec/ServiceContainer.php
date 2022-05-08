@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 /*
  * This file is part of PhpSpec, A php toolset to drive emergent
  * design by specification.
@@ -15,10 +16,15 @@ namespace PhpSpec;
 
 use InvalidArgumentException;
 
+=======
+namespace PhpSpec;
+
+>>>>>>> v2-test
 /**
  * The Service Container is a lightweight container based on Pimple to handle
  * object creation of PhpSpec services.
  */
+<<<<<<< HEAD
 class ServiceContainer
 {
     /**
@@ -51,11 +57,23 @@ class ServiceContainer
     {
         $this->parameters[$id] = $value;
     }
+=======
+interface ServiceContainer
+{
+    /**
+     * Sets a param in the container
+     *
+     * @param string $id
+     * @param mixed $value
+     */
+    public function setParam(string $id, $value): void;
+>>>>>>> v2-test
 
     /**
      * Gets a param from the container or a default value.
      *
      * @param string $id
+<<<<<<< HEAD
      * @param mixed  $default
      *
      * @return mixed
@@ -123,6 +141,36 @@ class ServiceContainer
             return $instance;
         });
     }
+=======
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getParam(string $id, $default = null);
+
+    /**
+     * Sets a object to be used as a service
+     *
+     * @param string $id
+     * @param object $service
+     * @param array  $tags
+     *
+     * @throws \InvalidArgumentException if service is not an object
+     */
+    public function set(string $id, $service, array $tags = []): void;
+
+    /**
+     * Sets a factory for the service creation. The same service will
+     * be returned every time
+     *
+     * @param string   $id
+     * @param callable $definition
+     * @param array    $tags
+     *
+     * @throws \InvalidArgumentException if service is not a callable
+     */
+    public function define(string $id, callable $definition, array $tags = []): void;
+>>>>>>> v2-test
 
     /**
      * Retrieves a service from the container
@@ -133,6 +181,7 @@ class ServiceContainer
      *
      * @throws \InvalidArgumentException if service is not defined
      */
+<<<<<<< HEAD
     public function get($id)
     {
         if (!array_key_exists($id, $this->services)) {
@@ -176,6 +225,17 @@ class ServiceContainer
 
         return $services;
     }
+=======
+    public function get(string $id);
+
+    /**
+     * Determines whether a service is defined
+     *
+     * @param string $id
+     * @return bool
+     */
+    public function has(string $id): bool;
+>>>>>>> v2-test
 
     /**
      * Removes a service from the container
@@ -184,6 +244,7 @@ class ServiceContainer
      *
      * @throws \InvalidArgumentException if service is not defined
      */
+<<<<<<< HEAD
     public function remove($id)
     {
         if (!array_key_exists($id, $this->services)) {
@@ -245,4 +306,16 @@ class ServiceContainer
 
         return array($prefix, $sid);
     }
+=======
+    public function remove(string $id): void;
+
+    /**
+     * Finds all services tagged with a particular string
+     *
+     * @param string $tag
+     *
+     * @return array
+     */
+    public function getByTag(string $tag): array;
+>>>>>>> v2-test
 }

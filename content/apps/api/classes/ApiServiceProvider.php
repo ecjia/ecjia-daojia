@@ -46,20 +46,77 @@
 //
 namespace Ecjia\App\Api;
 
+use Ecjia\App\Api\Events\ApiRemoteRequestEvent;
+use Ecjia\App\Api\Listeners\MobileDeviceRecordListener;
+use Ecjia\App\Api\Listeners\StatsApiListener;
+use Ecjia\App\Api\Transformers\AddressTransformer;
+use Ecjia\App\Api\Transformers\CategoryTransformer;
+use Ecjia\App\Api\Transformers\ConfigTransformer;
+use Ecjia\App\Api\Transformers\GoodsTransformer;
+use Ecjia\App\Api\Transformers\PhotoTransformer;
+use Ecjia\App\Api\Transformers\SignupFieldsTransformer;
+use Ecjia\App\Api\Transformers\SimpleGoodsTransformer;
+use Ecjia\App\Api\Transformers\SimpleOrderTransformer;
+use Ecjia\Component\ApiTransformer\ApiTransformerServiceProvider;
+use Ecjia\Component\ApiTransformer\Facades\ApiTransformer;
+use RC_Event;
+use RC_Service;
 use Royalcms\Component\App\AppParentServiceProvider;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+class ApiServiceProvider extends AppParentServiceProvider
 {
-    
+
     public function boot()
     {
         $this->package('ecjia/app-api');
+
+        $this->bootEvent();
+
+        $this->loadTransformers();
     }
-    
+
     public function register()
     {
+        //注册Api Transformer
+        $this->royalcms->register(ApiTransformerServiceProvider::class);
 
         $this->loadAlias();
+
+        $this->registerAppService();
+    }
+
+    protected function registerAppService()
+    {
+        $allow_display_sites = [
+            'api',
+            'storeapi',
+            'adminapi',
+            'cashierapi',
+        ];
+
+        if (in_array($this->royalcms->currentSite(), $allow_display_sites)) {
+            RC_Service::addService('admin_purview', 'api', 'Ecjia\App\Api\Services\AdminPurviewService');
+            RC_Service::addService('admin_menu', 'api', 'Ecjia\App\Api\Services\AdminMenuService');
+        }
+    }
+
+    protected function bootEvent()
+    {
+        RC_Event::listen(ApiRemoteRequestEvent::class, MobileDeviceRecordListener::class);
+        RC_Event::listen(ApiRemoteRequestEvent::class, StatsApiListener::class);
+    }
+
+
+    protected function loadTransformers()
+    {
+        ApiTransformer::registerTransformer('PHOTO', new PhotoTransformer());
+        ApiTransformer::registerTransformer('SIMPLEGOODS', new SimpleGoodsTransformer());
+        ApiTransformer::registerTransformer('ADDRESS', new AddressTransformer());
+        ApiTransformer::registerTransformer('SIGNUPFIELDS', new SignupFieldsTransformer());
+        ApiTransformer::registerTransformer('CONFIG', new ConfigTransformer());
+        ApiTransformer::registerTransformer('CATEGORY', new CategoryTransformer());
+        ApiTransformer::registerTransformer('SIMPLEORDER', new SimpleOrderTransformer());
+        ApiTransformer::registerTransformer('GOODS', new GoodsTransformer());
     }
 
 
@@ -68,17 +125,27 @@ class ApiServiceProvider extends  AppParentServiceProvider
      */
     protected function loadAlias()
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+
+        foreach (self::aliases() as $class => $alias) {
+            $loader->alias($class, $alias);
+        }
     }
-    
-    
+
+    /**
+     * Load the alias = One less install step for the user
+     */
+    public static function aliases()
+    {
+        return [
+            'ecjia_api'         => 'Ecjia\App\Api\BaseControllers\EcjiaApi',
+            'api_front'         => 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController',
+            'api_admin'         => 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController',
+            'api_merchant'      => 'Ecjia\App\Api\BaseControllers\EcjiaApiMerchantController',
+            'ecjia_api_manager' => 'Ecjia\App\Api\LocalRequest\ApiManager',
+            'ecjia_api_const'   => 'Ecjia\App\Api\LocalRequest\ApiConst',
+            'api_interface'     => 'Ecjia\Component\ApiServer\Contracts\ApiHandler'
+        ];
+    }
+
 }

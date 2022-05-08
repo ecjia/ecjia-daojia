@@ -2,7 +2,7 @@
 
 namespace Faker\Provider\fr_CH;
 
-class Company extends \Faker\Provider\Company
+class Company extends \Faker\Provider\fr_FR\Company
 {
     protected static $formats = array(
         '{{lastName}} {{companySuffix}}',
@@ -11,5 +11,5 @@ class Company extends \Faker\Provider\Company
         '{{lastName}}',
     );
 
-    protected static $companySuffix = array('AG', 'Sàrl');
+    protected static $companySuffix = array('AG', 'Sàrl', 'SA', 'GmbH');
 }

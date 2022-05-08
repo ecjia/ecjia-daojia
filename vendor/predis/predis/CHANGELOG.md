@@ -1,3 +1,192 @@
+<<<<<<< HEAD
+=======
+v1.1.6 (2020-09-11)
+================================================================================
+
+- __FIX__: reverted support for sentinels authentication implemented in v1.1.5
+as it was bugged (see ISSUE #658), sorry for the trouble. This is now postponed
+as it requires a more thorough investigation.
+
+
+v1.1.5 (2020-09-10)
+================================================================================
+
+- __FIX__:~~authentication for sentinels is now supported, previously it was not
+possible to specify a `password` for sentinels as its value was stripped during
+initialization because sentinels did not support authentication until Redis 5.
+**Please note** that with the current implementation each sentinel must have
+its own `password` parameter set in the parameters list despite this password is
+the same for all sentinels (read how `requirepass` works on the Redis docs). In
+this case you should avoid using the global `parameters` client option used to
+set default parameters for every connection created by Predis as this would end
+up using the same password even when connecting to actual Redis nodes.~~
+
+- __FIX__: the username is now correctly retrieved from the userinfo fragment of
+the URI when using the "redis" scheme and a "username:password" pair is present.
+Values retrieved from the userinfo fragment always override the ones specified
+in `username` and `password` if those fields are present in the query string.
+
+- __FIX__: `Predis\Connection\WebdisConnection` was unable to connect to Webdis
+when using an IPv4 address in the URL and this is probably due to some change in
+cURL internals since the last time we tested it.
+
+- __FIX__: an exception is thrown whe passing `FALSE` or any value evaluating to
+`FALSE` to the `replication` client option. This was supposed to be unsupported,
+in fact it actually breaks client initialization and raises a PHP warning. Now
+the user is alerted with an `InvalidArgumentException` and a proper message.
+(PR #381).
+
+
+v1.1.4 (2020-08-31)
+================================================================================
+
+- Improved @method annotations for methods responding to Redis commands defined
+  by `Predis\ClientInterface` and `Predis\ClientContextInterface`. (PR #456 and
+  PR #497, other fixes applied after further analysys).
+
+- __FIX__: the client can now handle ACL authentication when connecting to Redis
+  6.x simply by passing both `username` and `password` to connection parameters.
+  See [the Redis docs](https://redis.io/topics/acl) for details on this topic.
+
+- __FIX__: NULL or zero-length string values passed to `password` and `database`
+  in the connection parameters list do not trigger spurious `AUTH` and `SELECT`
+  commands anymore when connecting to Redis (ISSUE #436).
+
+- __FIX__: initializing an iteration over a client instance when it is connected
+  to a standalone Redis server will not throw an exception anymore, instead it
+  will return an iterator that will run for just one loop returning a new client
+  instance using the underlying single-node connection (ISSUE #552, PR #556).
+
+- __FIX__: `Predis\Cluster\Distributor\HashRingaddNodeToRing()` was calculating
+  the hash required for distribution by using `crc32()` directly instead of the
+  method `Predis\Cluster\Hash\HashGeneratorInterface::hash()` implemented by the
+  class itself. This bug fix does not have any impact on existing clusters that
+  use client-side sharding based on this distributor simply because it does not
+  take any external hash generators so distribution is not going to be affected.
+
+- __FIX__: `SORT` now always trigger a switch to the master node in replication
+  configurations instead of just when the `STORE` modifier is specified, this is
+  because `SORT` is always considered to be a write operation and actually fails
+  with a `-READONLY` error response when executed against a replica node. (ISSUE
+  #554).
+
+
+v1.1.3 (2020-08-18)
+================================================================================
+
+- Ensure compatibility with PHP 8.
+
+- Moved repository from `github.com/nrk/predis` to `github.com/predis/predis`.
+
+- __FIX__: Moved `cweagans/composer-patches` dependency to `require-dev`.
+
+- __FIX__: Include PHPUnit `.patch` files in exports.
+
+
+v1.1.2 (2020-08-11)
+================================================================================
+
+- __FIX__: pure CRC16 implementation failed to calculate the correct hash when
+  the input value passed to the `hash()` method is an integer (PR #450).
+
+- __FIX__: make PHP iterator abstractions for `ZSCAN` and `HSCAN` working with
+  PHP 7.2 due to a breaking change, namely the removal of `each()` (PR #448).
+
+
+v1.1.1 (2016-06-16)
+================================================================================
+
+- __FIX__: `password` and `database` from the global `parameters` client option
+  were still being applied to sentinels connections making them fail (sentinels
+  do not understand the `AUTH` and `SELECT` commands) (PR #346).
+
+- __FIX__: when a sentinel instance reports no sentinel for a service, invoking
+  `connect()` on the redis-sentinel connection backend should fall back to the
+  master connection instead of failing (ISSUE #342).
+
+- __FIX__: the two connection backends based on ext-phpiredis has some kind of
+  issues with the GC and the internal use of closures as reader callbacks that
+  prevented connections going out of scope from being properly collected and the
+  underlying stream or socket resources from being closed and freed. This should
+  not have had any actual effect in real-world scenarios due to the lifecycle of
+  PHP scripts, but we fixed it anyway (ISSUE #345).
+
+
+v1.1.0 (2016-06-02)
+================================================================================
+
+- The default server profile for the client now targets Redis 3.2.
+
+- Responses to the following commands are not casted into booleans anymore, the
+  original integer value is returned: `SETNX`, `MSETNX`, `SMOVE`, `SISMEMBER`,
+  `HSET`, `HSETNX`, `HEXISTS`, `PFADD`, `EXISTS`, `MOVE`, `PERSIST`, `EXPIRE`,
+  `EXPIREAT`, `RENAMENX`. This change does not have a significant impact unless
+  when using strict comparisons (=== and !==) the returned value.
+
+- Non-boolean string values passed to the `persistent` connection parameter can
+  be used to create different persistent connections. Note that this feature was
+  already present in Predis but required both `persistent` and `path` to be set
+  as illustrated by [#139](https://github.com/nrk/predis/pull/139). This change
+  is needed to prevent confusion with how `path` is used to select a database
+  when using the `redis` scheme.
+
+- The client throws exceptions when Redis returns any kind of error response to
+  initialization commands (the ones being automatically sent when a connection
+  is established, such as `SELECT` and `AUTH` when database and password are set
+  in connection parameters) regardless of the value of the exception option.
+
+- Using `unix:///path/to/socket` in URI strings to specify a UNIX domain socket
+  file is now deprecated in favor of the format `unix:/path/to/socket` (note the
+  lack of the double slash after the scheme) and will not be supported starting
+  with the next major release.
+
+- Implemented full support for redis-sentinel.
+
+- Implemented the ability to specify default connection parameters for aggregate
+  connections with the new `parameters` client option. These parameters augment
+  the usual user-supplied connection parameters (but do not take the precedence
+  over them) when creating new connections and they are mostly useful when the
+  client is using aggregate connections such as redis-cluster and redis-sentinel
+  as these backends can create new connections on the fly based on responses and
+  redirections from Redis.
+
+- Redis servers protected by SSL-encrypted connections can be accessed by using
+  the `tls` or `rediss` scheme in connection parameters along with SSL-specific
+  options in the `ssl` parameter (see http://php.net/manual/context.ssl.php).
+
+- `Predis\Client` implements `IteratorAggregate` making it possible to iterate
+  over traversable aggregate connections and get a new client instance for each
+  Redis node.
+
+- Iterating over an instance of `Predis\Connection\Aggregate\RedisCluster` will
+  return all the connections mapped in the slots map instead of just the ones in
+  the pool. This change makes it possible, when the slots map is retrieved from
+  Redis, to iterate over all of the master nodes in the cluster. When the use of
+  `CLUSTER SLOTS` is disabled via the `useClusterSlots()` method, the iteration
+  returns only the connections with slots ranges associated in their parameters
+  or the ones initialized by `-MOVED` responses in order to make the behaviour
+  of the iteration consistent between the two modes of operation.
+
+- Various improvements to `Predis\Connection\Aggregate\MasterSlaveReplication`
+  (the "basic" replication backend, not the new one based on redis-sentinel):
+
+  - When the client is not able to send a read-only command to a slave because
+    the current connection fails or the slave is resyncing (`-LOADING` response
+    returned by Redis), the backend discards the failed connection and performs
+    a new attempt on the next slave. When no other slave is available the master
+    server is used for read-only commands as last resort.
+
+  - It is possible to discover the current replication configuration on the fly
+    by invoking the `discover()` method which internally relies on the output of
+    the command `INFO REPLICATION` executed against the master server or one of
+    the slaves. The backend can also be configured to do this automatically when
+    it fails to reach one of the servers.
+
+  - Implemented the `switchToMaster()` and `switchToSlave()` methods to make it
+    easier to force a switch to the master server or a random slave when needed.
+
+
+>>>>>>> v2-test
 v1.0.4 (2016-05-30)
 ================================================================================
 

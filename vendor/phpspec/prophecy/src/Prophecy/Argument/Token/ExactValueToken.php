@@ -59,7 +59,13 @@ class ExactValueToken implements TokenInterface
             try {
                 $comparator->assertEquals($argument, $this->value);
                 return 10;
+<<<<<<< HEAD
             } catch (ComparisonFailure $failure) {}
+=======
+            } catch (ComparisonFailure $failure) {
+            	return false;
+			}
+>>>>>>> v2-test
         }
 
         // If either one is an object it should be castable to a string

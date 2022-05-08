@@ -54,7 +54,10 @@
 namespace Ecjia\App\Api\Transformers;
 
 
-class PhotoTransformer extends Transformer
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
+
+class PhotoTransformer extends Transformer implements TransformerInterface
 {
 
 
@@ -64,12 +67,13 @@ class PhotoTransformer extends Transformer
     }
 
 
-    private function getImage($img) {
+    private function getImage($img)
+    {
         if (substr($img, 0, 4) == 'http') {
             return $img;
         }
 
-        return \RC_Upload::upload_url() .'/'.ltrim($img, '/');
+        return \RC_Upload::upload_url() . '/' . ltrim($img, '/');
     }
 
 }

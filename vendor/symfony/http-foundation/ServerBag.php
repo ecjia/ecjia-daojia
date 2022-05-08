@@ -27,6 +27,7 @@ class ServerBag extends ParameterBag
      */
     public function getHeaders()
     {
+<<<<<<< HEAD
         $headers = array();
         $contentHeaders = array('CONTENT_LENGTH' => true, 'CONTENT_MD5' => true, 'CONTENT_TYPE' => true);
         foreach ($this->parameters as $key => $value) {
@@ -35,17 +36,29 @@ class ServerBag extends ParameterBag
             }
             // CONTENT_* are not prefixed with HTTP_
             elseif (isset($contentHeaders[$key])) {
+=======
+        $headers = [];
+        foreach ($this->parameters as $key => $value) {
+            if (0 === strpos($key, 'HTTP_')) {
+                $headers[substr($key, 5)] = $value;
+            } elseif (\in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true)) {
+>>>>>>> v2-test
                 $headers[$key] = $value;
             }
         }
 
         if (isset($this->parameters['PHP_AUTH_USER'])) {
             $headers['PHP_AUTH_USER'] = $this->parameters['PHP_AUTH_USER'];
+<<<<<<< HEAD
             $headers['PHP_AUTH_PW'] = isset($this->parameters['PHP_AUTH_PW']) ? $this->parameters['PHP_AUTH_PW'] : '';
+=======
+            $headers['PHP_AUTH_PW'] = $this->parameters['PHP_AUTH_PW'] ?? '';
+>>>>>>> v2-test
         } else {
             /*
              * php-cgi under Apache does not pass HTTP Basic user/pass to PHP by default
              * For this workaround to work, add these lines to your .htaccess file:
+<<<<<<< HEAD
              * RewriteCond %{HTTP:Authorization} ^(.+)$
              * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
              *
@@ -53,6 +66,15 @@ class ServerBag extends ParameterBag
              * RewriteEngine On
              * RewriteCond %{HTTP:Authorization} ^(.+)$
              * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+=======
+             * RewriteCond %{HTTP:Authorization} .+
+             * RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+             *
+             * A sample .htaccess file:
+             * RewriteEngine On
+             * RewriteCond %{HTTP:Authorization} .+
+             * RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+>>>>>>> v2-test
              * RewriteCond %{REQUEST_FILENAME} !-f
              * RewriteRule ^(.*)$ app.php [QSA,L]
              */
@@ -68,8 +90,13 @@ class ServerBag extends ParameterBag
                 if (0 === stripos($authorizationHeader, 'basic ')) {
                     // Decode AUTHORIZATION header into PHP_AUTH_USER and PHP_AUTH_PW when authorization header is basic
                     $exploded = explode(':', base64_decode(substr($authorizationHeader, 6)), 2);
+<<<<<<< HEAD
                     if (count($exploded) == 2) {
                         list($headers['PHP_AUTH_USER'], $headers['PHP_AUTH_PW']) = $exploded;
+=======
+                    if (2 == \count($exploded)) {
+                        [$headers['PHP_AUTH_USER'], $headers['PHP_AUTH_PW']] = $exploded;
+>>>>>>> v2-test
                     }
                 } elseif (empty($this->parameters['PHP_AUTH_DIGEST']) && (0 === stripos($authorizationHeader, 'digest '))) {
                     // In some circumstances PHP_AUTH_DIGEST needs to be set
@@ -79,7 +106,11 @@ class ServerBag extends ParameterBag
                     /*
                      * XXX: Since there is no PHP_AUTH_BEARER in PHP predefined variables,
                      *      I'll just set $headers['AUTHORIZATION'] here.
+<<<<<<< HEAD
                      *      http://php.net/manual/en/reserved.variables.server.php
+=======
+                     *      https://php.net/reserved.variables.server
+>>>>>>> v2-test
                      */
                     $headers['AUTHORIZATION'] = $authorizationHeader;
                 }

@@ -18,6 +18,17 @@ least to some degree).
 Yes. Obviously persistent connections actually work only when using PHP configured as a persistent
 process reused by the web server (see [PHP-FPM](http://php-fpm.org)).
 
+<<<<<<< HEAD
+=======
+### Does Predis support SSL-encrypted connections? ###
+
+Yes. Encrypted connections are mostly useful when connecting to Redis instances exposed by various
+cloud hosting providers without the need to configure an SSL proxy, but you should also take into
+account the general performances degradation especially during the connect() operation when the TLS
+handshake must be performed to secure the connection. Persistent SSL-encrypted connections may help
+in that respect, but they are supported only when running on PHP >= 7.0.0.
+
+>>>>>>> v2-test
 ### Does Predis support transparent (de)serialization of values? ###
 
 No and it will not ever do that by default. The reason behind this decision is that serialization is
@@ -25,7 +36,11 @@ usually something that developers prefer to customize depending on their needs a
 generalized when using Redis because of the many possible access patterns for your data. This does
 not mean that it is impossible to have such a feature since you can leverage the extensibility of
 this library to define your own serialization-aware commands. You can find more details about how to
+<<<<<<< HEAD
 do that [on this issue](http://github.com/nrk/predis/issues/29#issuecomment-1202624).
+=======
+do that [on this issue](http://github.com/predis/predis/issues/29#issuecomment-1202624).
+>>>>>>> v2-test
 
 ### How can I force Predis to connect to Redis before sending any command? ###
 

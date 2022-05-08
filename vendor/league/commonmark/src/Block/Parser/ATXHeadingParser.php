@@ -19,15 +19,9 @@ use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
 use League\CommonMark\Util\RegexHelper;
 
-class ATXHeadingParser extends AbstractBlockParser
+final class ATXHeadingParser implements BlockParserInterface
 {
-    /**
-     * @param ContextInterface $context
-     * @param Cursor           $cursor
-     *
-     * @return bool
-     */
-    public function parse(ContextInterface $context, Cursor $cursor)
+    public function parse(ContextInterface $context, Cursor $cursor): bool
     {
         if ($cursor->isIndented()) {
             return false;
@@ -40,12 +34,14 @@ class ATXHeadingParser extends AbstractBlockParser
 
         $cursor->advanceToNextNonSpaceOrTab();
 
-        $cursor->advanceBy(strlen($match[0]));
+        $cursor->advanceBy(\strlen($match[0]));
 
-        $level = strlen(trim($match[0]));
+        $level = \strlen(\trim($match[0]));
         $str = $cursor->getRemainder();
-        $str = preg_replace('/^[ \t]*#+[ \t]*$/', '', $str);
-        $str = preg_replace('/[ \t]+#+[ \t]*$/', '', $str);
+        /** @var string $str */
+        $str = \preg_replace('/^[ \t]*#+[ \t]*$/', '', $str);
+        /** @var string $str */
+        $str = \preg_replace('/[ \t]+#+[ \t]*$/', '', $str);
 
         $context->addBlock(new Heading($level, $str));
         $context->setBlocksParsed(true);

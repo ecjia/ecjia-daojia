@@ -54,12 +54,25 @@ return array(
     'directory'   => 'logviewer',
     'name'        => __('日志查看', 'logviewer'),
     'description' => __('无需在再一级一级找到日志文件打开进行查看了，该应用把所有的日志文件分类详细的排列出来，方便用户查看。', 'logviewer'),
-    'author' 	  => 'ECJIA TEAM', 				/* 作者 */
-    'website' 	  => 'http://www.ecjia.com', 	/* 网址 */
-    'version' 	  => '1.30.0', 					/* 版本号 */
+    'author'      => 'ECJIA TEAM',                /* 作者 */
+    'website'     => 'http://www.ecjia.com',    /* 网址 */
+    'version'     => '2.0.0',                    /* 版本号 */
     'copyright'   => 'ECJIA Copyright 2016 ~ 2019.',
     'namespace'   => 'Ecjia\App\Logviewer',
     'provider'    => 'LogviewerServiceProvider',
+    'autoload'    => array(
+        'psr-4' => array(
+            "Ecjia\\App\\Logviewer\\" => "classes/"
+        )
+    ),
+    'discover'    => array(
+        'providers' => array(
+            "Ecjia\\App\\Logviewer\\LogviewerServiceProvider"
+        ),
+        'aliases'   => [
+
+        ]
+    ),
 );
 
 // end

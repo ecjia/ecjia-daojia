@@ -11,7 +11,10 @@ Feature: Developer uses scalar matcher
     namespace spec\Matchers\ScalarExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class CarSpec extends ObjectBehavior
     {

@@ -11,6 +11,11 @@
 
 namespace Symfony\Component\EventDispatcher;
 
+<<<<<<< HEAD
+=======
+use Symfony\Contracts\EventDispatcher\Event;
+
+>>>>>>> v2-test
 /**
  * Event encapsulation class.
  *
@@ -20,6 +25,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
 {
+<<<<<<< HEAD
     /**
      * Event subject.
      *
@@ -32,15 +38,25 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @var array
      */
+=======
+    protected $subject;
+>>>>>>> v2-test
     protected $arguments;
 
     /**
      * Encapsulate an event with $subject and $args.
      *
+<<<<<<< HEAD
      * @param mixed $subject   The subject of the event, usually an object
      * @param array $arguments Arguments to store in the event
      */
     public function __construct($subject = null, array $arguments = array())
+=======
+     * @param mixed $subject   The subject of the event, usually an object or a callable
+     * @param array $arguments Arguments to store in the event
+     */
+    public function __construct($subject = null, array $arguments = [])
+>>>>>>> v2-test
     {
         $this->subject = $subject;
         $this->arguments = $arguments;
@@ -49,7 +65,11 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     /**
      * Getter for subject property.
      *
+<<<<<<< HEAD
      * @return mixed $subject The observer subject
+=======
+     * @return mixed The observer subject
+>>>>>>> v2-test
      */
     public function getSubject()
     {
@@ -59,6 +79,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     /**
      * Get argument by key.
      *
+<<<<<<< HEAD
      * @param string $key Key
      *
      * @return mixed Contents of array key
@@ -66,6 +87,13 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      * @throws \InvalidArgumentException If key is not found.
      */
     public function getArgument($key)
+=======
+     * @return mixed Contents of array key
+     *
+     * @throws \InvalidArgumentException if key is not found
+     */
+    public function getArgument(string $key)
+>>>>>>> v2-test
     {
         if ($this->hasArgument($key)) {
             return $this->arguments[$key];
@@ -77,12 +105,20 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     /**
      * Add argument to event.
      *
+<<<<<<< HEAD
      * @param string $key   Argument name
      * @param mixed  $value Value
      *
      * @return GenericEvent
      */
     public function setArgument($key, $value)
+=======
+     * @param mixed $value Value
+     *
+     * @return $this
+     */
+    public function setArgument(string $key, $value)
+>>>>>>> v2-test
     {
         $this->arguments[$key] = $value;
 
@@ -102,11 +138,17 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     /**
      * Set args property.
      *
+<<<<<<< HEAD
      * @param array $args Arguments
      *
      * @return GenericEvent
      */
     public function setArguments(array $args = array())
+=======
+     * @return $this
+     */
+    public function setArguments(array $args = [])
+>>>>>>> v2-test
     {
         $this->arguments = $args;
 
@@ -116,6 +158,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     /**
      * Has argument.
      *
+<<<<<<< HEAD
      * @param string $key Key of arguments array
      *
      * @return bool
@@ -123,6 +166,13 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     public function hasArgument($key)
     {
         return array_key_exists($key, $this->arguments);
+=======
+     * @return bool
+     */
+    public function hasArgument(string $key)
+    {
+        return \array_key_exists($key, $this->arguments);
+>>>>>>> v2-test
     }
 
     /**
@@ -132,7 +182,11 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return mixed
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException If key does not exist in $this->args.
+=======
+     * @throws \InvalidArgumentException if key does not exist in $this->args
+>>>>>>> v2-test
      */
     public function offsetGet($key)
     {

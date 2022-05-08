@@ -3,9 +3,13 @@
 namespace spec\PhpSpec\Loader\Transformer;
 
 use PhpSpec\CodeAnalysis\TypeHintRewriter;
+<<<<<<< HEAD
 use PhpSpec\Loader\Transformer\TypeHintIndex;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+=======
+use PhpSpec\ObjectBehavior;
+>>>>>>> v2-test
 
 class TypeHintRewriterSpec extends ObjectBehavior
 {

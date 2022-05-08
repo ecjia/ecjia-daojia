@@ -1,0 +1,25 @@
+{
+  "name": "ecjia/bootstrap",
+  "type": "royalcms-system",
+  "description": "The ECJia Bootstrap package.",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "royalwang",
+      "email": "hxroyal@gmail.com"
+    }
+  ],
+  "require": {
+    
+  },
+  "autoload": {
+    "psr-4": {}
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.x-dev"
+    }
+  }
+  
+}

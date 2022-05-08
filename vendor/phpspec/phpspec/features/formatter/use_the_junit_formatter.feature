@@ -11,7 +11,10 @@ Feature: Use the JUnit formatter
       namespace spec\Formatter\SpecExample;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -41,7 +44,11 @@ Feature: Use the JUnit formatter
           // skipped
           function it_does_some_incompatible_things()
           {
+<<<<<<< HEAD
               throw new \PhpSpec\Exception\Example\SkippingException();
+=======
+              throw new \PhpSpec\Exception\Example\SkippingException('skipped');
+>>>>>>> v2-test
           }
       }
 

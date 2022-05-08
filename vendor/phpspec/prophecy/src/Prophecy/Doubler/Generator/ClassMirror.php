@@ -11,11 +11,23 @@
 
 namespace Prophecy\Doubler\Generator;
 
+<<<<<<< HEAD
+=======
+use Prophecy\Doubler\Generator\Node\ArgumentTypeNode;
+use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
+>>>>>>> v2-test
 use Prophecy\Exception\InvalidArgumentException;
 use Prophecy\Exception\Doubler\ClassMirrorException;
 use ReflectionClass;
 use ReflectionMethod;
+<<<<<<< HEAD
 use ReflectionParameter;
+=======
+use ReflectionNamedType;
+use ReflectionParameter;
+use ReflectionType;
+use ReflectionUnionType;
+>>>>>>> v2-test
 
 /**
  * Class mirror.
@@ -38,14 +50,23 @@ class ClassMirror
     /**
      * Reflects provided arguments into class node.
      *
+<<<<<<< HEAD
      * @param ReflectionClass   $class
+=======
+     * @param ReflectionClass|null $class
+>>>>>>> v2-test
      * @param ReflectionClass[] $interfaces
      *
      * @return Node\ClassNode
      *
+<<<<<<< HEAD
      * @throws \Prophecy\Exception\InvalidArgumentException
      */
     public function reflect(ReflectionClass $class = null, array $interfaces)
+=======
+     */
+    public function reflect(?ReflectionClass $class, array $interfaces)
+>>>>>>> v2-test
     {
         $node = new Node\ClassNode;
 
@@ -143,6 +164,7 @@ class ClassMirror
             $node->setReturnsReference();
         }
 
+<<<<<<< HEAD
         if (version_compare(PHP_VERSION, '7.0', '>=') && true === $method->hasReturnType()) {
             $returnType = (string) $method->getReturnType();
             $returnTypeLower = strtolower($returnType);
@@ -155,6 +177,11 @@ class ClassMirror
             }
 
             $node->setReturnType($returnType);
+=======
+        if ($method->hasReturnType()) {
+            $returnTypes = $this->getTypeHints($method->getReturnType(), $method->getDeclaringClass(), $method->getReturnType()->allowsNull());
+            $node->setReturnTypeNode(new ReturnTypeNode(...$returnTypes));
+>>>>>>> v2-test
         }
 
         if (is_array($params = $method->getParameters()) && count($params)) {
@@ -171,9 +198,17 @@ class ClassMirror
         $name = $parameter->getName() == '...' ? '__dot_dot_dot__' : $parameter->getName();
         $node = new Node\ArgumentNode($name);
 
+<<<<<<< HEAD
         $node->setTypeHint($this->getTypeHint($parameter));
 
         if ($this->isVariadic($parameter)) {
+=======
+        $typeHints = $this->getTypeHints($parameter->getType(), $parameter->getDeclaringClass(), $parameter->allowsNull());
+
+        $node->setTypeNode(new ArgumentTypeNode(...$typeHints));
+
+        if ($parameter->isVariadic()) {
+>>>>>>> v2-test
             $node->setAsVariadic();
         }
 
@@ -185,12 +220,20 @@ class ClassMirror
             $node->setAsPassedByReference();
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> v2-test
         $methodNode->addArgument($node);
     }
 
     private function hasDefaultValue(ReflectionParameter $parameter)
     {
+<<<<<<< HEAD
         if ($this->isVariadic($parameter)) {
+=======
+        if ($parameter->isVariadic()) {
+>>>>>>> v2-test
             return false;
         }
 
@@ -198,7 +241,11 @@ class ClassMirror
             return true;
         }
 
+<<<<<<< HEAD
         return $parameter->isOptional() || $this->isNullable($parameter);
+=======
+        return $parameter->isOptional() || ($parameter->allowsNull() && $parameter->getType());
+>>>>>>> v2-test
     }
 
     private function getDefaultValue(ReflectionParameter $parameter)
@@ -210,6 +257,7 @@ class ClassMirror
         return $parameter->getDefaultValue();
     }
 
+<<<<<<< HEAD
     private function getTypeHint(ReflectionParameter $parameter)
     {
         if (null !== $className = $this->getParameterClassName($parameter)) {
@@ -250,5 +298,38 @@ class ClassMirror
 
             return isset($matches[1]) ? $matches[1] : null;
         }
+=======
+    private function getTypeHints(?ReflectionType $type, ?ReflectionClass $class, bool $allowsNull) : array
+    {
+        $types = [];
+
+        if ($type instanceof ReflectionNamedType) {
+            $types = [$type->getName()];
+
+        }
+        elseif ($type instanceof ReflectionUnionType) {
+            $types = $type->getTypes();
+        }
+
+        $types = array_map(
+            function(string $type) use ($class) {
+                if ($type === 'self') {
+                    return $class->getName();
+                }
+                if ($type === 'parent') {
+                    return $class->getParentClass()->getName();
+                }
+
+                return $type;
+            },
+            $types
+        );
+
+        if ($types && $types != ['mixed'] && $allowsNull) {
+            $types[] = 'null';
+        }
+
+        return $types;
+>>>>>>> v2-test
     }
 }

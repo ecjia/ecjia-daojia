@@ -16,10 +16,17 @@
 class Swift_Events_EventObject implements Swift_Events_Event
 {
     /** The source of this Event */
+<<<<<<< HEAD
     private $_source;
 
     /** The state of this Event (should it bubble up the stack?) */
     private $_bubbleCancelled = false;
+=======
+    private $source;
+
+    /** The state of this Event (should it bubble up the stack?) */
+    private $bubbleCancelled = false;
+>>>>>>> v2-test
 
     /**
      * Create a new EventObject originating at $source.
@@ -28,7 +35,11 @@ class Swift_Events_EventObject implements Swift_Events_Event
      */
     public function __construct($source)
     {
+<<<<<<< HEAD
         $this->_source = $source;
+=======
+        $this->source = $source;
+>>>>>>> v2-test
     }
 
     /**
@@ -38,17 +49,28 @@ class Swift_Events_EventObject implements Swift_Events_Event
      */
     public function getSource()
     {
+<<<<<<< HEAD
         return $this->_source;
+=======
+        return $this->source;
+>>>>>>> v2-test
     }
 
     /**
      * Prevent this Event from bubbling any further up the stack.
+<<<<<<< HEAD
      *
      * @param bool $cancel, optional
      */
     public function cancelBubble($cancel = true)
     {
         $this->_bubbleCancelled = $cancel;
+=======
+     */
+    public function cancelBubble($cancel = true)
+    {
+        $this->bubbleCancelled = $cancel;
+>>>>>>> v2-test
     }
 
     /**
@@ -58,6 +80,10 @@ class Swift_Events_EventObject implements Swift_Events_Event
      */
     public function bubbleCancelled()
     {
+<<<<<<< HEAD
         return $this->_bubbleCancelled;
+=======
+        return $this->bubbleCancelled;
+>>>>>>> v2-test
     }
 }

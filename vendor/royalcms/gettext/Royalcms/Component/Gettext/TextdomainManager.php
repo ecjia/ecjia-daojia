@@ -50,9 +50,13 @@ class TextdomainManager
      */
     public function loadDefaultTextdomain()
     {
+<<<<<<< HEAD
         $locale = $this->locale->getLocale();
          
         $this->loadTextdomain('default', \RC_Uri::admin_path() . "languages/$locale/system.mo");
+=======
+        $this->loadSystemTextdomain();
+>>>>>>> v2-test
     }
     
     /**
@@ -355,6 +359,92 @@ class TextdomainManager
         $mofile = $this->royalcms->langPath() . '/plugins/' . $domain . '-' . $locale . '.mo';
         return $this->loadTextdomain($domain, $mofile);
     }
+<<<<<<< HEAD
+=======
+
+
+    /**
+     * Load a system's translated strings.
+     *
+     * If the path is not given then it will be the root of the app directory.
+     *
+     * The .mo file should be named based on the text domain with a dash, and then the locale exactly.
+     *
+     * @since 5.2.0
+     */
+    public function loadSystemTextdomain()
+    {
+        $locale = $this->locale->getLocale();
+        $domain = 'system';
+
+        /**
+         * Filter a plugin's locale.
+         *
+         * @since 3.2.0
+         *
+         * @param string $locale The plugin's current locale.
+         * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+         */
+        $locale = RC_Hook::apply_filters('system_locale', $locale, $domain);
+
+        $path = rtrim($this->royalcms->systemPath(), '/');
+
+        // Load the textdomain according to the app first
+        $mofile = "languages/{$locale}/{$domain}.mo";
+        $loaded = $this->loadTextdomain($domain, $path . '/' . $mofile);
+        if ($loaded) {
+            return $loaded;
+        }
+
+        // Otherwise, load from the languages directory
+        $mofile = $this->royalcms->langPath() . '/system/' . $domain . '-' . $locale . '.mo';
+
+        return $this->loadTextdomain('default', $mofile);
+    }
+
+    /**
+     * Load a system's translated strings.
+     *
+     * If the path is not given then it will be the root of the app directory.
+     *
+     * The .mo file should be named based on the text domain with a dash, and then the locale exactly.
+     *
+     * @since 3.2.0
+     *
+     * @param string $domain            Unique identifier for retrieving translated strings
+     * @param string $vendor_rel_path      Optional. Relative path to SITE_APP_PATH where the .mo file resides.
+     */
+    public function loadVendorTextdomain($domain, $vendor_rel_path = false)
+    {
+        $locale = $this->locale->getLocale();
+        /**
+         * Filter a plugin's locale.
+         *
+         * @since 3.2.0
+         *
+         * @param string $locale The plugin's current locale.
+         * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+         */
+        $locale = RC_Hook::apply_filters('vendor_locale', $locale, $domain);
+
+        if (false !== $vendor_rel_path) {
+            $path = $this->royalcms->vendorPath() . trim($vendor_rel_path, '/');
+        } else {
+            $path = rtrim($this->royalcms->vendorPath(), '/');
+        }
+
+        // Load the textdomain according to the app first
+        $mofile = "{$domain}/languages/{$locale}/{$domain}.mo";
+        $loaded = $this->loadTextdomain($domain, $path . '/' . $mofile);
+        if ($loaded) {
+            return $loaded;
+        }
+
+        // Otherwise, load from the languages directory
+        $mofile = $this->royalcms->langPath() . '/vendor/' . $domain . '-' . $locale . '.mo';
+        return $this->loadTextdomain($domain, $mofile);
+    }
+>>>>>>> v2-test
     
     
     /**

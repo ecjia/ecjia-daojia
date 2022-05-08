@@ -30,7 +30,11 @@ class ScriptServiceProvider extends ServiceProvider
 	 */
 	protected function registerScripts()
 	{
+<<<<<<< HEAD
 	    $this->royalcms->bindShared('script', function($royalcms)
+=======
+	    $this->royalcms->singleton('script', function($royalcms)
+>>>>>>> v2-test
 	    {
 	        return new HandleScripts();
 	    });
@@ -43,7 +47,11 @@ class ScriptServiceProvider extends ServiceProvider
 	 */
 	protected function registerStyles()
 	{
+<<<<<<< HEAD
 	    $this->royalcms->bindShared('style', function($royalcms)
+=======
+	    $this->royalcms->singleton('style', function($royalcms)
+>>>>>>> v2-test
 	    {
 	        return new HandleStyles();
 	    });
@@ -54,12 +62,18 @@ class ScriptServiceProvider extends ServiceProvider
 	 */
 	protected function loadAlias()
 	{
+<<<<<<< HEAD
 	    $this->royalcms->booting(function()
 	    {
 	        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
 	        $loader->alias('RC_Script', 'Royalcms\Component\Script\Script');
 	        $loader->alias('RC_Style', 'Royalcms\Component\Script\Style');
 	    });
+=======
+        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+        $loader->alias('RC_Script', 'Royalcms\Component\Script\Facades\Script');
+        $loader->alias('RC_Style', 'Royalcms\Component\Script\Facades\Style');
+>>>>>>> v2-test
 	}
 
     /**

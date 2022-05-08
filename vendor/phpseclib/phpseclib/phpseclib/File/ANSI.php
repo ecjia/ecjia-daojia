@@ -203,8 +203,12 @@ class ANSI
     /**
      * Set the number of lines that should be logged past the terminal height
      *
+<<<<<<< HEAD
      * @param int $x
      * @param int $y
+=======
+     * @param int $history
+>>>>>>> v2-test
      * @access public
      */
     function setHistory($history)
@@ -272,7 +276,11 @@ class ANSI
                     case "\x1B[K": // Clear screen from cursor right
                         $this->screen[$this->y] = substr($this->screen[$this->y], 0, $this->x);
 
+<<<<<<< HEAD
                         array_splice($this->attrs[$this->y], $this->x + 1, $this->max_x - $this->x, array_fill($this->x, $this->max_x - $this->x - 1, $this->base_attr_cell));
+=======
+                        array_splice($this->attrs[$this->y], $this->x + 1, $this->max_x - $this->x, array_fill($this->x, $this->max_x - ($this->x - 1), $this->base_attr_cell));
+>>>>>>> v2-test
                         break;
                     case "\x1B[2K": // Clear entire line
                         $this->screen[$this->y] = str_repeat(' ', $this->x);
@@ -316,6 +324,7 @@ class ANSI
                                 $mods = explode(';', $match[1]);
                                 foreach ($mods as $mod) {
                                     switch ($mod) {
+<<<<<<< HEAD
                                         case 0: // Turn off character attributes
                                             $attr_cell = clone $this->base_attr_cell;
                                             break;
@@ -329,6 +338,22 @@ class ANSI
                                             $attr_cell->blink = true;
                                             break;
                                         case 7: // Turn reverse video on
+=======
+                                        case '':
+                                        case '0': // Turn off character attributes
+                                            $attr_cell = clone $this->base_attr_cell;
+                                            break;
+                                        case '1': // Turn bold mode on
+                                            $attr_cell->bold = true;
+                                            break;
+                                        case '4': // Turn underline mode on
+                                            $attr_cell->underline = true;
+                                            break;
+                                        case '5': // Turn blinking mode on
+                                            $attr_cell->blink = true;
+                                            break;
+                                        case '7': // Turn reverse video on
+>>>>>>> v2-test
                                             $attr_cell->reverse = !$attr_cell->reverse;
                                             $temp = $attr_cell->background;
                                             $attr_cell->background = $attr_cell->foreground;
@@ -341,6 +366,7 @@ class ANSI
                                             $back = &$attr_cell->{ $attr_cell->reverse ? 'foreground' : 'background' };
                                             switch ($mod) {
                                                 // @codingStandardsIgnoreStart
+<<<<<<< HEAD
                                                 case 30: $front = 'black'; break;
                                                 case 31: $front = 'red'; break;
                                                 case 32: $front = 'green'; break;
@@ -358,6 +384,25 @@ class ANSI
                                                 case 45: $back = 'magenta'; break;
                                                 case 46: $back = 'cyan'; break;
                                                 case 47: $back = 'white'; break;
+=======
+                                                case '30': $front = 'black'; break;
+                                                case '31': $front = 'red'; break;
+                                                case '32': $front = 'green'; break;
+                                                case '33': $front = 'yellow'; break;
+                                                case '34': $front = 'blue'; break;
+                                                case '35': $front = 'magenta'; break;
+                                                case '36': $front = 'cyan'; break;
+                                                case '37': $front = 'white'; break;
+
+                                                case '40': $back = 'black'; break;
+                                                case '41': $back = 'red'; break;
+                                                case '42': $back = 'green'; break;
+                                                case '43': $back = 'yellow'; break;
+                                                case '44': $back = 'blue'; break;
+                                                case '45': $back = 'magenta'; break;
+                                                case '46': $back = 'cyan'; break;
+                                                case '47': $back = 'white'; break;
+>>>>>>> v2-test
                                                 // @codingStandardsIgnoreEnd
 
                                                 default:

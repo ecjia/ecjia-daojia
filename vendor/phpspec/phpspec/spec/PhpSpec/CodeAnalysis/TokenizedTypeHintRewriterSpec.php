@@ -2,7 +2,12 @@
 
 namespace spec\PhpSpec\CodeAnalysis;
 
+<<<<<<< HEAD
 use PhpSpec\CodeAnalysis\DisallowedScalarTypehintException;
+=======
+use PhpSpec\CodeAnalysis\DisallowedNonObjectTypehintException;
+use PhpSpec\CodeAnalysis\DisallowedUnionTypehintException;
+>>>>>>> v2-test
 use PhpSpec\CodeAnalysis\NamespaceResolver;
 use PhpSpec\Loader\Transformer\TypeHintIndex;
 use PhpSpec\ObjectBehavior;
@@ -13,10 +18,23 @@ class TokenizedTypeHintRewriterSpec extends ObjectBehavior
     function let(TypeHintIndex $typeHintIndex, NamespaceResolver $namespaceResolver)
     {
         $this->beConstructedWith($typeHintIndex, $namespaceResolver);
+<<<<<<< HEAD
     }
 
     function it_is_a_typehint_rewriter()
     {
+=======
+        $namespaceResolver->resolve(Argument::cetera())->willReturn('someClass');
+        $namespaceResolver->analyse(Argument::any())->shouldBeCalled();
+    }
+
+    function it_is_a_typehint_rewriter(TypeHintIndex $typeHintIndex, NamespaceResolver $namespaceResolver)
+    {
+        $this->beConstructedWith($typeHintIndex, $namespaceResolver);
+        $namespaceResolver->resolve(Argument::cetera())->willReturn('someClass');
+        $namespaceResolver->analyse(Argument::any())->shouldNotBeCalled();
+
+>>>>>>> v2-test
         $this->shouldHaveType('PhpSpec\CodeAnalysis\TypeHintRewriter');
     }
 
@@ -128,6 +146,34 @@ class TokenizedTypeHintRewriterSpec extends ObjectBehavior
         ');
     }
 
+<<<<<<< HEAD
+=======
+    function it_removes_union_type_hints()
+    {
+        $this->rewrite('
+        <?php
+
+        class FooSpec
+        {
+            public function bar(Bar $bar, Baz $baz)
+            {
+            }
+        }
+
+        ')->shouldReturn('
+        <?php
+
+        class FooSpec
+        {
+            public function bar( $bar,  $baz)
+            {
+            }
+        }
+
+        ');
+    }
+
+>>>>>>> v2-test
     function it_indexes_typehints_that_are_removed(TypeHintIndex $typeHintIndex, NamespaceResolver $namespaceResolver)
     {
         $namespaceResolver->analyse(Argument::any())->shouldBeCalled();
@@ -156,7 +202,11 @@ class TokenizedTypeHintRewriterSpec extends ObjectBehavior
         TypeHintIndex $typeHintIndex,
         NamespaceResolver $namespaceResolver
     ) {
+<<<<<<< HEAD
         $e = new DisallowedScalarTypehintException();
+=======
+        $e = new DisallowedNonObjectTypehintException();
+>>>>>>> v2-test
         $namespaceResolver->analyse(Argument::any())->shouldBeCalled();
 
         $namespaceResolver->resolve('FooSpec')->willReturn('FooSpec');
@@ -249,4 +299,91 @@ class TokenizedTypeHintRewriterSpec extends ObjectBehavior
 
         ');
     }
+<<<<<<< HEAD
+=======
+
+    function it_removes_union_types()
+    {
+        if (PHP_VERSION_ID < 8000) {
+            return;
+        }
+
+        $this->rewrite('
+        <?php
+
+        class FooSpec
+        {
+            public function bar(Bar|Baz $bar)
+            {
+            }
+        }
+
+        ')->shouldReturn('
+        <?php
+
+        class FooSpec
+        {
+            public function bar( $bar)
+            {
+            }
+        }
+
+        ');
+    }
+
+    function it_removes_union_types_with_whitespace()
+    {
+        if (PHP_VERSION_ID < 8000) {
+            return;
+        }
+
+        $this->rewrite('
+        <?php
+
+        class FooSpec
+        {
+            public function bar(Bar | Baz $bar)
+            {
+            }
+        }
+
+        ')->shouldReturn('
+        <?php
+
+        class FooSpec
+        {
+            public function bar(   $bar)
+            {
+            }
+        }
+
+        ');
+    }
+
+    function it_indexes_union_types(TypeHintIndex $typeHintIndex)
+    {
+        if (PHP_VERSION_ID < 8000) {
+            return;
+        }
+
+        $this->rewrite('
+        <?php
+
+        class FooSpec
+        {
+            public function bar(Bar | Baz $bar)
+            {
+            }
+        }
+
+        ');
+
+        $typeHintIndex->addInvalid(
+            'someClass',
+            'bar',
+            '$bar',
+            Argument::type(DisallowedUnionTypehintException::class)
+        )->shouldHaveBeenCalled();
+    }
+>>>>>>> v2-test
 }

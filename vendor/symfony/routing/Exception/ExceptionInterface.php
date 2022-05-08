@@ -16,6 +16,10 @@ namespace Symfony\Component\Routing\Exception;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
+<<<<<<< HEAD
 interface ExceptionInterface
+=======
+interface ExceptionInterface extends \Throwable
+>>>>>>> v2-test
 {
 }

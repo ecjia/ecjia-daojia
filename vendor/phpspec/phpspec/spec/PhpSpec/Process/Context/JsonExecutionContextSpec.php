@@ -3,7 +3,10 @@
 namespace spec\PhpSpec\Process\Context;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 class JsonExecutionContextSpec extends ObjectBehavior
 {
@@ -14,7 +17,11 @@ class JsonExecutionContextSpec extends ObjectBehavior
 
     function it_is_an_execution_context()
     {
+<<<<<<< HEAD
         $this->shouldHaveType('PhpSpec\Process\Context\ExecutionContextInterface');
+=======
+        $this->shouldHaveType('PhpSpec\Process\Context\ExecutionContext');
+>>>>>>> v2-test
     }
 
     function it_contains_no_generated_classes_when_created()

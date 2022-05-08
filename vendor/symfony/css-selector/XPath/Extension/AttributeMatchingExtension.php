@@ -21,12 +21,18 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class AttributeMatchingExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getAttributeMatchingTranslators()
     {
         return array(
@@ -49,10 +55,28 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateExists(XPathExpr $xpath, $attribute, $value)
+=======
+    public function getAttributeMatchingTranslators(): array
+    {
+        return [
+            'exists' => [$this, 'translateExists'],
+            '=' => [$this, 'translateEquals'],
+            '~=' => [$this, 'translateIncludes'],
+            '|=' => [$this, 'translateDashMatch'],
+            '^=' => [$this, 'translatePrefixMatch'],
+            '$=' => [$this, 'translateSuffixMatch'],
+            '*=' => [$this, 'translateSubstringMatch'],
+            '!=' => [$this, 'translateDifferent'],
+        ];
+    }
+
+    public function translateExists(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition($attribute);
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      * @param string    $attribute
@@ -61,10 +85,14 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateEquals(XPathExpr $xpath, $attribute, $value)
+=======
+    public function translateEquals(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition(sprintf('%s = %s', $attribute, Translator::getXpathLiteral($value)));
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      * @param string    $attribute
@@ -73,6 +101,9 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateIncludes(XPathExpr $xpath, $attribute, $value)
+=======
+    public function translateIncludes(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition($value ? sprintf(
             '%1$s and contains(concat(\' \', normalize-space(%1$s), \' \'), %2$s)',
@@ -81,6 +112,7 @@ class AttributeMatchingExtension extends AbstractExtension
         ) : '0');
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      * @param string    $attribute
@@ -89,6 +121,9 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateDashMatch(XPathExpr $xpath, $attribute, $value)
+=======
+    public function translateDashMatch(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition(sprintf(
             '%1$s and (%1$s = %2$s or starts-with(%1$s, %3$s))',
@@ -98,6 +133,7 @@ class AttributeMatchingExtension extends AbstractExtension
         ));
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      * @param string    $attribute
@@ -106,6 +142,9 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translatePrefixMatch(XPathExpr $xpath, $attribute, $value)
+=======
+    public function translatePrefixMatch(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition($value ? sprintf(
             '%1$s and starts-with(%1$s, %2$s)',
@@ -114,6 +153,7 @@ class AttributeMatchingExtension extends AbstractExtension
         ) : '0');
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      * @param string    $attribute
@@ -122,15 +162,23 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateSuffixMatch(XPathExpr $xpath, $attribute, $value)
+=======
+    public function translateSuffixMatch(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition($value ? sprintf(
             '%1$s and substring(%1$s, string-length(%1$s)-%2$s) = %3$s',
             $attribute,
+<<<<<<< HEAD
             strlen($value) - 1,
+=======
+            \strlen($value) - 1,
+>>>>>>> v2-test
             Translator::getXpathLiteral($value)
         ) : '0');
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      * @param string    $attribute
@@ -139,6 +187,9 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateSubstringMatch(XPathExpr $xpath, $attribute, $value)
+=======
+    public function translateSubstringMatch(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition($value ? sprintf(
             '%1$s and contains(%1$s, %2$s)',
@@ -147,6 +198,7 @@ class AttributeMatchingExtension extends AbstractExtension
         ) : '0');
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr $xpath
      * @param string    $attribute
@@ -155,6 +207,9 @@ class AttributeMatchingExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateDifferent(XPathExpr $xpath, $attribute, $value)
+=======
+    public function translateDifferent(XPathExpr $xpath, string $attribute, ?string $value): XPathExpr
+>>>>>>> v2-test
     {
         return $xpath->addCondition(sprintf(
             $value ? 'not(%1$s) or %1$s != %2$s' : '%s != %s',
@@ -166,7 +221,11 @@ class AttributeMatchingExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getName()
+=======
+    public function getName(): string
+>>>>>>> v2-test
     {
         return 'attribute-matching';
     }

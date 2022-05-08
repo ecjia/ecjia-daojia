@@ -71,7 +71,7 @@
                 if (url) {
                     ecjia.pjax($(this).find('option:selected').val());
                 } else {
-                    smoke.alert(js_lang.url_error);
+                    smoke.alert(js_lang_template.url_error);
                 }
             })
         },

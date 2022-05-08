@@ -2,8 +2,13 @@ VarDumper Component
 ===================
 
 The VarDumper component provides mechanisms for walking through any arbitrary
+<<<<<<< HEAD
 PHP variable. Built on top, it provides a better `dump()` function that you
 can use instead of `var_dump`.
+=======
+PHP variable. It provides a better `dump()` function that you can use instead
+of `var_dump`.
+>>>>>>> v2-test
 
 Resources
 ---------

@@ -18,9 +18,8 @@ use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Heading;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
-use League\CommonMark\Util\Xml;
 
-class HeadingRenderer implements BlockRendererInterface
+final class HeadingRenderer implements BlockRendererInterface
 {
     /**
      * @param Heading                  $block
@@ -29,18 +28,15 @@ class HeadingRenderer implements BlockRendererInterface
      *
      * @return HtmlElement
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
+    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, bool $inTightList = false)
     {
         if (!($block instanceof Heading)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
+            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
         }
 
         $tag = 'h' . $block->getLevel();
 
-        $attrs = [];
-        foreach ($block->getData('attributes', []) as $key => $value) {
-            $attrs[$key] = Xml::escape($value, true);
-        }
+        $attrs = $block->getData('attributes', []);
 
         return new HtmlElement($tag, $attrs, $htmlRenderer->renderInlines($block->children()));
     }

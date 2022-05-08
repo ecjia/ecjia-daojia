@@ -15,6 +15,14 @@ return array(
     */
     
     'providers' => array(
-        100 => 'Royalcms\Component\NativeSession\NativeSessionServiceProvider',
+
+        100 => 'Royalcms\Component\Hashing\HashServiceProvider',
+
+
+
+        120 => 'Royalcms\Component\Repository\RepositoryServiceProvider',
+
+
+
     ),
 );

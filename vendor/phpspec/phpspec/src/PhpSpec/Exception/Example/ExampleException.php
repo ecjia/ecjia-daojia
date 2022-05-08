@@ -18,6 +18,10 @@ use PhpSpec\Exception\Exception;
 /**
  * Class ExampleException holds information about example exceptions
  */
+<<<<<<< HEAD
 class ExampleException extends Exception
+=======
+abstract class ExampleException extends Exception
+>>>>>>> v2-test
 {
 }

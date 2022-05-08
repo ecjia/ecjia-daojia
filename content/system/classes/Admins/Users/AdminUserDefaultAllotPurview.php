@@ -24,13 +24,13 @@ class AdminUserDefaultAllotPurview implements UserAllotPurview
     
     public function save($value)
     {
-        return RC_DB::table('admin_user')->where('user_id', $this->userid)->update(['action_list' => $value]);
+        return RC_DB::connection(config('ecjia.database_connection', 'default'))->table('admin_user')->where('user_id', $this->userid)->update(['action_list' => $value]);
     }
     
     
     public function get()
     {
-        return RC_DB::table('admin_user')->where('user_id', $this->userid)->value('action_list');
+        return RC_DB::connection(config('ecjia.database_connection', 'default'))->table('admin_user')->where('user_id', $this->userid)->pluck('action_list')->toArray();
     }
     
 }

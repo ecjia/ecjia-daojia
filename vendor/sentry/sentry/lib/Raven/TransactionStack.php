@@ -34,7 +34,15 @@ class Raven_TransactionStack
         $this->stack[] = $context;
     }
 
+<<<<<<< HEAD
     public function pop($context=null)
+=======
+    /** @noinspection PhpInconsistentReturnPointsInspection
+     * @param string|null $context
+     * @return mixed
+     */
+    public function pop($context = null)
+>>>>>>> v2-test
     {
         if (!$context) {
             return array_pop($this->stack);
@@ -44,5 +52,11 @@ class Raven_TransactionStack
                 return $context;
             }
         }
+<<<<<<< HEAD
     }
+=======
+        // @codeCoverageIgnoreStart
+    }
+    // @codeCoverageIgnoreEnd
+>>>>>>> v2-test
 }

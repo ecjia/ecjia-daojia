@@ -49,10 +49,37 @@ namespace Ecjia\App\Sms\Models;
 
 use Royalcms\Component\Database\Eloquent\Model;
 
+/**
+ * Class SmsEventModel
+ * @package Ecjia\App\Sms\Models
+ *
+ * @method \Royalcms\Component\Database\Eloquent\Builder sms()
+ */
 class SmsEventModel extends Model
 {
     protected $table = 'notification_events';
-    
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'event_code',
+        'status',
+        'channel_type'
+    ];
+
+    /**
+     * AttributeModel constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->connection = config('ecjia.database_connection', 'default');
+
+        parent::__construct($attributes);
+    }
     
     /**
      * 限制查询只包括短信模板。

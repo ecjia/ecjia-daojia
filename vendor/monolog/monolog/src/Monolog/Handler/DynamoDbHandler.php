@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the Monolog package.
@@ -11,8 +11,10 @@
 
 namespace Monolog\Handler;
 
-use Aws\Common\Aws;
+use Aws\Sdk;
 use Aws\DynamoDb\DynamoDbClient;
+use Monolog\Formatter\FormatterInterface;
+use Aws\DynamoDb\Marshaler;
 use Monolog\Formatter\ScalarFormatter;
 use Monolog\Logger;
 
@@ -24,7 +26,7 @@ use Monolog\Logger;
  */
 class DynamoDbHandler extends AbstractProcessingHandler
 {
-    const DATE_FORMAT = 'Y-m-d\TH:i:s.uO';
+    public const DATE_FORMAT = 'Y-m-d\TH:i:s.uO';
 
     /**
      * @var DynamoDbClient
@@ -37,15 +39,26 @@ class DynamoDbHandler extends AbstractProcessingHandler
     protected $table;
 
     /**
-     * @param DynamoDbClient $client
-     * @param string         $table
-     * @param int            $level
-     * @param bool           $bubble
+     * @var int
      */
-    public function __construct(DynamoDbClient $client, $table, $level = Logger::DEBUG, $bubble = true)
+    protected $version;
+
+    /**
+     * @var Marshaler
+     */
+    protected $marshaler;
+
+    /**
+     * @param int|string $level
+     */
+    public function __construct(DynamoDbClient $client, string $table, $level = Logger::DEBUG, bool $bubble = true)
     {
-        if (!defined('Aws\Common\Aws::VERSION') || version_compare('3.0', Aws::VERSION, '<=')) {
-            throw new \RuntimeException('The DynamoDbHandler is only known to work with the AWS SDK 2.x releases');
+        /** @phpstan-ignore-next-line */
+        if (defined('Aws\Sdk::VERSION') && version_compare(Sdk::VERSION, '3.0', '>=')) {
+            $this->version = 3;
+            $this->marshaler = new Marshaler;
+        } else {
+            $this->version = 2;
         }
 
         $this->client = $client;
@@ -57,22 +70,23 @@ class DynamoDbHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         $filtered = $this->filterEmptyFields($record['formatted']);
-        $formatted = $this->client->formatAttributes($filtered);
+        if ($this->version === 3) {
+            $formatted = $this->marshaler->marshalItem($filtered);
+        } else {
+            /** @phpstan-ignore-next-line */
+            $formatted = $this->client->formatAttributes($filtered);
+        }
 
-        $this->client->putItem(array(
+        $this->client->putItem([
             'TableName' => $this->table,
             'Item' => $formatted,
-        ));
+        ]);
     }
 
-    /**
-     * @param  array $record
-     * @return array
-     */
-    protected function filterEmptyFields(array $record)
+    protected function filterEmptyFields(array $record): array
     {
         return array_filter($record, function ($value) {
             return !empty($value) || false === $value || 0 === $value;
@@ -82,7 +96,7 @@ class DynamoDbHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultFormatter()
+    protected function getDefaultFormatter(): FormatterInterface
     {
         return new ScalarFormatter(self::DATE_FORMAT);
     }

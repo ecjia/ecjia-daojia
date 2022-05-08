@@ -1,12 +1,21 @@
 <?php
+<<<<<<< HEAD
+=======
+
+declare(strict_types=1);
+
+>>>>>>> v2-test
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
+<<<<<<< HEAD
  * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
+=======
+>>>>>>> v2-test
  * @link      http://phpdoc.org
  */
 
@@ -20,6 +29,7 @@ use phpDocumentor\Reflection\Type;
  * A Compound Type is not so much a special keyword or object reference but is a series of Types that are separated
  * using an OR operator (`|`). This combination of types signifies that whatever is associated with this compound type
  * may contain a value with any of the given types.
+<<<<<<< HEAD
  */
 final class Compound implements Type
 {
@@ -78,5 +88,20 @@ final class Compound implements Type
     public function __toString()
     {
         return implode('|', $this->types);
+=======
+ *
+ * @psalm-immutable
+ */
+final class Compound extends AggregatedType
+{
+    /**
+     * Initializes a compound type (i.e. `string|int`) and tests if the provided types all implement the Type interface.
+     *
+     * @param array<Type> $types
+     */
+    public function __construct(array $types)
+    {
+        parent::__construct($types, '|');
+>>>>>>> v2-test
     }
 }

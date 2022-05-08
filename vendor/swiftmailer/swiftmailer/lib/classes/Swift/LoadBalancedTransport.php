@@ -20,16 +20,24 @@ class Swift_LoadBalancedTransport extends Swift_Transport_LoadBalancedTransport
      *
      * @param array $transports
      */
+<<<<<<< HEAD
     public function __construct($transports = array())
     {
         call_user_func_array(
             array($this, 'Swift_Transport_LoadBalancedTransport::__construct'),
+=======
+    public function __construct($transports = [])
+    {
+        \call_user_func_array(
+            [$this, 'Swift_Transport_LoadBalancedTransport::__construct'],
+>>>>>>> v2-test
             Swift_DependencyContainer::getInstance()
                 ->createDependenciesFor('transport.loadbalanced')
             );
 
         $this->setTransports($transports);
     }
+<<<<<<< HEAD
 
     /**
      * Create a new LoadBalancedTransport instance.
@@ -42,4 +50,6 @@ class Swift_LoadBalancedTransport extends Swift_Transport_LoadBalancedTransport
     {
         return new self($transports);
     }
+=======
+>>>>>>> v2-test
 }

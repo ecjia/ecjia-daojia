@@ -1,6 +1,95 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
+=======
+5.2.0
+-----
+
+ * Added `SingleCommandApplication::setAutoExit()` to allow testing via `CommandTester`
+ * added support for multiline responses to questions through `Question::setMultiline()`
+   and `Question::isMultiline()`
+ * Added `SignalRegistry` class to stack signals handlers
+ * Added support for signals:
+    * Added `Application::getSignalRegistry()` and `Application::setSignalsToDispatchEvent()` methods
+    * Added `SignalableCommandInterface` interface
+ * Added `TableCellStyle` class to customize table cell
+ * Removed `php ` prefix invocation from help messages.
+
+5.1.0
+-----
+
+ * `Command::setHidden()` is final since Symfony 5.1
+ * Add `SingleCommandApplication`
+ * Add `Cursor` class
+
+5.0.0
+-----
+
+ * removed support for finding hidden commands using an abbreviation, use the full name instead
+ * removed `TableStyle::setCrossingChar()` method in favor of `TableStyle::setDefaultCrossingChar()`
+ * removed `TableStyle::setHorizontalBorderChar()` method in favor of `TableStyle::setDefaultCrossingChars()`
+ * removed `TableStyle::getHorizontalBorderChar()` method in favor of `TableStyle::getBorderChars()`
+ * removed `TableStyle::setVerticalBorderChar()` method in favor of `TableStyle::setVerticalBorderChars()`
+ * removed `TableStyle::getVerticalBorderChar()` method in favor of `TableStyle::getBorderChars()`
+ * removed support for returning `null` from `Command::execute()`, return `0` instead
+ * `ProcessHelper::run()` accepts only `array|Symfony\Component\Process\Process` for its `command` argument
+ * `Application::setDispatcher` accepts only `Symfony\Contracts\EventDispatcher\EventDispatcherInterface`
+   for its `dispatcher` argument
+ * renamed `Application::renderException()` and `Application::doRenderException()`
+   to `renderThrowable()` and `doRenderThrowable()` respectively.
+
+4.4.0
+-----
+
+ * deprecated finding hidden commands using an abbreviation, use the full name instead
+ * added `Question::setTrimmable` default to true to allow the answer to be trimmed
+ * added method `minSecondsBetweenRedraws()` and `maxSecondsBetweenRedraws()` on `ProgressBar`
+ * `Application` implements `ResetInterface`
+ * marked all dispatched event classes as `@final`
+ * added support for displaying table horizontally
+ * deprecated returning `null` from `Command::execute()`, return `0` instead
+ * Deprecated the `Application::renderException()` and `Application::doRenderException()` methods,
+   use `renderThrowable()` and `doRenderThrowable()` instead.
+ * added support for the `NO_COLOR` env var (https://no-color.org/)
+
+4.3.0
+-----
+
+ * added support for hyperlinks
+ * added `ProgressBar::iterate()` method that simplify updating the progress bar when iterating
+ * added `Question::setAutocompleterCallback()` to provide a callback function
+   that dynamically generates suggestions as the user types
+
+4.2.0
+-----
+
+ * allowed passing commands as `[$process, 'ENV_VAR' => 'value']` to
+   `ProcessHelper::run()` to pass environment variables
+ * deprecated passing a command as a string to `ProcessHelper::run()`,
+   pass it the command as an array of its arguments instead
+ * made the `ProcessHelper` class final
+ * added `WrappableOutputFormatterInterface::formatAndWrap()` (implemented in `OutputFormatter`)
+ * added `capture_stderr_separately` option to `CommandTester::execute()`
+
+4.1.0
+-----
+
+ * added option to run suggested command if command is not found and only 1 alternative is available
+ * added option to modify console output and print multiple modifiable sections
+ * added support for iterable messages in output `write` and `writeln` methods
+
+4.0.0
+-----
+
+ * `OutputFormatter` throws an exception when unknown options are used
+ * removed `QuestionHelper::setInputStream()/getInputStream()`
+ * removed `Application::getTerminalWidth()/getTerminalHeight()` and
+   `Application::setTerminalDimensions()/getTerminalDimensions()`
+ * removed `ConsoleExceptionEvent`
+ * removed `ConsoleEvents::EXCEPTION`
+
+>>>>>>> v2-test
 3.4.0
 -----
 
@@ -16,6 +105,7 @@ CHANGELOG
 3.3.0
 -----
 
+<<<<<<< HEAD
 * added `ExceptionListener`
 * added `AddConsoleCommandPass` (originally in FrameworkBundle)
 * [BC BREAK] `Input::getOption()` no longer returns the default value for options
@@ -25,20 +115,42 @@ CHANGELOG
 * added ability to handle `CommandNotFoundException` through the 
  `console.error` event
 * deprecated default validation in `SymfonyQuestionHelper::ask`
+=======
+ * added `ExceptionListener`
+ * added `AddConsoleCommandPass` (originally in FrameworkBundle)
+ * [BC BREAK] `Input::getOption()` no longer returns the default value for options
+   with value optional explicitly passed empty
+ * added console.error event to catch exceptions thrown by other listeners
+ * deprecated console.exception event in favor of console.error
+ * added ability to handle `CommandNotFoundException` through the
+   `console.error` event
+ * deprecated default validation in `SymfonyQuestionHelper::ask`
+>>>>>>> v2-test
 
 3.2.0
 ------
 
+<<<<<<< HEAD
 * added `setInputs()` method to CommandTester for ease testing of commands expecting inputs
 * added `setStream()` and `getStream()` methods to Input (implement StreamableInputInterface)
 * added StreamableInputInterface
 * added LockableTrait
+=======
+ * added `setInputs()` method to CommandTester for ease testing of commands expecting inputs
+ * added `setStream()` and `getStream()` methods to Input (implement StreamableInputInterface)
+ * added StreamableInputInterface
+ * added LockableTrait
+>>>>>>> v2-test
 
 3.1.0
 -----
 
  * added truncate method to FormatterHelper
+<<<<<<< HEAD
  * added setColumnWidth(s) method to Table 
+=======
+ * added setColumnWidth(s) method to Table
+>>>>>>> v2-test
 
 2.8.3
 -----

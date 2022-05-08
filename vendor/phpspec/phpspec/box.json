@@ -1,5 +1,8 @@
 {
+<<<<<<< HEAD
     "chmod": "0755",
+=======
+>>>>>>> v2-test
     "directories": [
         "src"
     ],
@@ -9,6 +12,7 @@
     "finder": [
         {
             "name": "*.php",
+<<<<<<< HEAD
             "exclude": ["Tests"],
             "in": "vendor"
         }
@@ -16,4 +20,11 @@
     "main": "bin/phpspec",
     "output": "phpspec.phar",
     "stub": true
+=======
+            "exclude": ["spec", "Tests", "tests"],
+            "in": "vendor"
+        }
+    ],
+    "output": "phpspec.phar"
+>>>>>>> v2-test
 }

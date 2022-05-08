@@ -1,3 +1,64 @@
+### 3.1.0 (2017-06-11)
+* Add $language support to slugify
+* Add bg specific transliteration
+* ЬЪ/ьъ handling is now language-specific
+
+### 3.0.1 (2017-04-12)
+* Don't replace @ in toAscii
+* Use normal replacement for @ in slugify, e.g. user@home => user-home
+
+### 3.0.0 (2017-03-08)
+
+* Breaking change: added $language parameter to toAscii, before
+  $removeUnsupported
+* Breaking change: dropped PHP 5.3 support
+* Breaking change: any StaticStringy methods that previously returned instances
+  of Stringy now return strings
+
+### 2.4.0 (2017-03-02)
+
+* Add startsWithAny
+* Add endsWithAny
+* Add stripWhitespace
+* Fix error handling for unsupported encodings
+* Change private methods to protected for extending class
+* Fix safeTruncate for strings without spaces
+* Additional char support in toAscii, e.g. full width chars and wide
+  non-breaking space
+
+### 2.3.2 (2016-05-02)
+
+* Improve support without mbstring
+
+### 2.3.1 (2016-03-21)
+
+* Always use root namespace for mbstring functions
+
+### 2.3.0 (2016-03-19)
+
+* Add Persian characters in Stringy::charsArray()
+* Use symfony/polyfill-mbstring to avoid dependency on ext-mbstring
+
+### 2.2.0 (2015-12-20)
+
+* isJSON now returns false for empty strings
+* Update for German umlaut transformation
+* Use reflection to generate method list for StaticStringy
+* Added isBase64 method
+* Improved toAscii char coverage
+
+### 2.1.0 (2015-09-02)
+
+* Added simplified StaticStringy class
+* str in Stringy::create and constructor is now optional
+
+### 2.0.0 (2015-07-29)
+
+ * Removed StaticStringy class
+ * Added append, prepend, toBoolean, repeat, between, slice, split, and lines
+ * camelize/upperCamelize now strip leading dashes and underscores
+ * titleize converts to lowercase, thus no longer preserving acronyms
+
 ### 1.10.0 (2015-07-22)
 
  * Added trimLeft, trimRight

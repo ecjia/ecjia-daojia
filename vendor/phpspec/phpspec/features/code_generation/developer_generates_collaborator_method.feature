@@ -11,7 +11,10 @@ Feature: Developer generates a collaborator's method
       namespace spec\CodeGeneration\CollaboratorMethodExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorMethodExample1\Parser;
 
       class MarkdownSpec extends ObjectBehavior
@@ -53,6 +56,7 @@ Feature: Developer generates a collaborator's method
                                                                      [Y/n]
       """
 
+<<<<<<< HEAD
 
   Scenario: Being prompted to generate a collaborator method based on docblocks
     Given the spec file "spec/CodeGeneration/CollaboratorMethodExample2/MarkdownSpec.php" contains:
@@ -106,6 +110,8 @@ Feature: Developer generates a collaborator's method
                                                                      [Y/n]
       """
 
+=======
+>>>>>>> v2-test
   Scenario: Asking for the method signature to be generated
     Given the spec file "spec/CodeGeneration/CollaboratorMethodExample3/MarkdownSpec.php" contains:
       """
@@ -114,7 +120,10 @@ Feature: Developer generates a collaborator's method
       namespace spec\CodeGeneration\CollaboratorMethodExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorMethodExample3\Parser;
 
       class MarkdownSpec extends ObjectBehavior
@@ -171,7 +180,10 @@ Feature: Developer generates a collaborator's method
       namespace spec\CodeGeneration\CollaboratorMethodExample4;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorMethodExample4\Parser;
 
       class MarkdownSpec extends ObjectBehavior
@@ -228,7 +240,10 @@ Feature: Developer generates a collaborator's method
       namespace spec\CodeGeneration\CollaboratorMethodExample5;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorMethodExample5\Parser;
 
       class MarkdownSpec extends ObjectBehavior
@@ -265,7 +280,11 @@ Feature: Developer generates a collaborator's method
     When I run phpspec and answer "n" when asked if I want to generate the code
     Then I should not be prompted for code generation
 
+<<<<<<< HEAD
   Scenario: Being warned when a collaborator method is a restricted word
+=======
+  Scenario: Collaborator method is generated when it's called by the class under test
+>>>>>>> v2-test
     Given the spec file "spec/CodeGeneration/CollaboratorMethodExample6/MarkdownSpec.php" contains:
       """
       <?php
@@ -273,14 +292,22 @@ Feature: Developer generates a collaborator's method
       namespace spec\CodeGeneration\CollaboratorMethodExample6;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
       use CodeGeneration\CollaboratorMethodExample1\Parser;
+=======
+      use CodeGeneration\CollaboratorMethodExample6\Parser;
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
           function it_interacts_with_a_collaborator(Parser $parser)
           {
+<<<<<<< HEAD
               $parser->throw()->willReturn(true);
+=======
+              $this->foo($parser);
+>>>>>>> v2-test
           }
       }
 
@@ -293,6 +320,13 @@ Feature: Developer generates a collaborator's method
 
       class Markdown
       {
+<<<<<<< HEAD
+=======
+          public function foo(Parser $parser)
+          {
+              $parser->parse();
+          }
+>>>>>>> v2-test
       }
 
       """
@@ -307,5 +341,22 @@ Feature: Developer generates a collaborator's method
       }
 
       """
+<<<<<<< HEAD
     When I run phpspec and answer "n" when asked if I want to generate the code
     Then I should see "I cannot generate the method 'throw' for you"
+=======
+    When I run phpspec and answer "y" when asked if I want to generate the code
+    Then the interface in "src/CodeGeneration/CollaboratorMethodExample6/Parser.php" should contain:
+      """
+      <?php
+
+      namespace CodeGeneration\CollaboratorMethodExample6;
+
+      interface Parser
+      {
+
+          public function parse();
+      }
+
+      """
+>>>>>>> v2-test

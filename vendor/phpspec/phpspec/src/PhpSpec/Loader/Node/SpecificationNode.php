@@ -14,7 +14,11 @@
 namespace PhpSpec\Loader\Node;
 
 use PhpSpec\Loader\Suite;
+<<<<<<< HEAD
 use PhpSpec\Locator\ResourceInterface;
+=======
+use PhpSpec\Locator\Resource;
+>>>>>>> v2-test
 use ReflectionClass;
 
 class SpecificationNode implements \Countable
@@ -28,7 +32,11 @@ class SpecificationNode implements \Countable
      */
     private $class;
     /**
+<<<<<<< HEAD
      * @var ResourceInterface
+=======
+     * @var Resource
+>>>>>>> v2-test
      */
     private $resource;
     /**
@@ -43,9 +51,15 @@ class SpecificationNode implements \Countable
     /**
      * @param string            $title
      * @param ReflectionClass   $class
+<<<<<<< HEAD
      * @param ResourceInterface $resource
      */
     public function __construct($title, ReflectionClass $class, ResourceInterface $resource)
+=======
+     * @param Resource $resource
+     */
+    public function __construct(string $title, ReflectionClass $class, Resource $resource)
+>>>>>>> v2-test
     {
         $this->title    = $title;
         $this->class    = $class;
@@ -55,7 +69,11 @@ class SpecificationNode implements \Countable
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getTitle()
+=======
+    public function getTitle(): string
+>>>>>>> v2-test
     {
         return $this->title;
     }
@@ -63,15 +81,25 @@ class SpecificationNode implements \Countable
     /**
      * @return ReflectionClass
      */
+<<<<<<< HEAD
     public function getClassReflection()
+=======
+    public function getClassReflection(): ReflectionClass
+>>>>>>> v2-test
     {
         return $this->class;
     }
 
     /**
+<<<<<<< HEAD
      * @return ResourceInterface
      */
     public function getResource()
+=======
+     * @return Resource
+     */
+    public function getResource(): Resource
+>>>>>>> v2-test
     {
         return $this->resource;
     }
@@ -79,7 +107,11 @@ class SpecificationNode implements \Countable
     /**
      * @param ExampleNode $example
      */
+<<<<<<< HEAD
     public function addExample(ExampleNode $example)
+=======
+    public function addExample(ExampleNode $example): void
+>>>>>>> v2-test
     {
         $this->examples[] = $example;
         $example->setSpecification($this);
@@ -88,7 +120,11 @@ class SpecificationNode implements \Countable
     /**
      * @return ExampleNode[]
      */
+<<<<<<< HEAD
     public function getExamples()
+=======
+    public function getExamples(): array
+>>>>>>> v2-test
     {
         return $this->examples;
     }
@@ -112,8 +148,14 @@ class SpecificationNode implements \Countable
     /**
      * @return int
      */
+<<<<<<< HEAD
     public function count()
     {
         return count($this->examples);
+=======
+    public function count(): int
+    {
+        return \count($this->examples);
+>>>>>>> v2-test
     }
 }

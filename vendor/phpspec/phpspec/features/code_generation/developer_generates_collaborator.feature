@@ -11,7 +11,10 @@ Feature: Developer generates a collaborator
       namespace spec\CodeGeneration\CollaboratorExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorExample1\Parser;
 
       class MarkdownSpec extends ObjectBehavior
@@ -50,7 +53,10 @@ Feature: Developer generates a collaborator
       namespace spec\CodeGeneration\CollaboratorExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorExample2\Parser;
 
       class MarkdownSpec extends ObjectBehavior
@@ -94,7 +100,10 @@ Feature: Developer generates a collaborator
       namespace spec\CodeGeneration\CollaboratorExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {

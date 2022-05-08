@@ -28,7 +28,11 @@ class Exception extends \Exception
     /**
      * @return ReflectionFunctionAbstract
      */
+<<<<<<< HEAD
     public function getCause()
+=======
+    public function getCause(): ReflectionFunctionAbstract
+>>>>>>> v2-test
     {
         return $this->cause;
     }
@@ -36,7 +40,11 @@ class Exception extends \Exception
     /**
      * @param ReflectionFunctionAbstract $cause
      */
+<<<<<<< HEAD
     public function setCause(ReflectionFunctionAbstract $cause)
+=======
+    public function setCause(ReflectionFunctionAbstract $cause): void
+>>>>>>> v2-test
     {
         $this->cause = $cause;
     }

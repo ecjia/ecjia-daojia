@@ -20,6 +20,7 @@ use Symfony\Component\CssSelector\Parser\Token;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class FunctionNode extends AbstractNode
 {
@@ -44,24 +45,47 @@ class FunctionNode extends AbstractNode
      * @param Token[]       $arguments
      */
     public function __construct(NodeInterface $selector, $name, array $arguments = array())
+=======
+ *
+ * @internal
+ */
+class FunctionNode extends AbstractNode
+{
+    private $selector;
+    private $name;
+    private $arguments;
+
+    /**
+     * @param Token[] $arguments
+     */
+    public function __construct(NodeInterface $selector, string $name, array $arguments = [])
+>>>>>>> v2-test
     {
         $this->selector = $selector;
         $this->name = strtolower($name);
         $this->arguments = $arguments;
     }
 
+<<<<<<< HEAD
     /**
      * @return NodeInterface
      */
     public function getSelector()
+=======
+    public function getSelector(): NodeInterface
+>>>>>>> v2-test
     {
         return $this->selector;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getName()
+=======
+    public function getName(): string
+>>>>>>> v2-test
     {
         return $this->name;
     }
@@ -69,7 +93,11 @@ class FunctionNode extends AbstractNode
     /**
      * @return Token[]
      */
+<<<<<<< HEAD
     public function getArguments()
+=======
+    public function getArguments(): array
+>>>>>>> v2-test
     {
         return $this->arguments;
     }
@@ -77,7 +105,11 @@ class FunctionNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getSpecificity()
+=======
+    public function getSpecificity(): Specificity
+>>>>>>> v2-test
     {
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
     }
@@ -85,7 +117,11 @@ class FunctionNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> v2-test
     {
         $arguments = implode(', ', array_map(function (Token $token) {
             return "'".$token->getValue()."'";

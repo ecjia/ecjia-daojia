@@ -1,0 +1,160 @@
+# Copyright (C) 2019 Ecjia App upgrade
+# This file is distributed under the same license as the Ecjia App upgrade package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App upgrade 1.28.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-04 13:35+0800\n"
+"PO-Revision-Date: 2019-04-09 10:32+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: classes/Controllers/IndexController.php:138
+msgid "没有找到可用的升级程序。"
+msgstr "沒有找到可用的升級程序。"
+
+#: classes/Controllers/IndexController.php:170
+msgid "无"
+msgstr "無"
+
+#: classes/Controllers/IndexController.php:179
+msgid "版本号错误"
+msgstr "版本號錯誤"
+
+#: classes/Controllers/IndexController.php:220
+msgid "恭喜您，升级成功！"
+msgstr "恭喜您，升級成功！"
+
+#: classes/Controllers/IndexController.php:221
+msgid "当前版本已是最新版本。"
+msgstr "當前版本已是最新版本。"
+
+#: classes/Controllers/IndexController.php:255
+msgid "请先删除升级锁定文件 %s，方可继续升级。"
+msgstr "請先刪除升級鎖定文件 %s，方可繼續升級。"
+
+#: classes/hooks/admin_upgrade.class.php:87
+msgid ""
+"您当前已经覆盖了最新版的v%s程序，建议您立即升级数据库结构，升级前做好备份，"
+"前往<a href=\"%s\">升级中心</a>。"
+msgstr ""
+"您當前已經覆蓋了最新版的v%s程序，建議您立即升級數據庫結構，升級前做好備份，"
+"前往<a href=\"%s\">升级中心</a>。"
+
+#: configs/jslang.php:57
+msgid "更新内容"
+msgstr "更新內容"
+
+#: configs/jslang.php:58
+msgid "当前版本已是最新版"
+msgstr "當前版本已是最新版"
+
+#: configs/jslang.php:59
+msgid "安装完成"
+msgstr "安裝完成"
+
+#: configs/jslang.php:60
+msgid "正在升级至"
+msgstr "正在升級至"
+
+#: configs/jslang.php:61
+msgid "安装进程已中止"
+msgstr "安裝進程已中止"
+
+#: configs/jslang.php:62
+msgid "成功"
+msgstr "成功"
+
+#: configs/jslang.php:63
+msgid "失败"
+msgstr "失敗"
+
+#: configs/jslang.php:64
+msgid "提示："
+msgstr "提示："
+
+#: configs/jslang.php:66
+msgid "确定"
+msgstr "確定"
+
+#: configs/jslang.php:67
+msgid "取消"
+msgstr "取消"
+
+#: configs/package.php:52
+msgid "升级器"
+msgstr "升級器"
+
+#: configs/package.php:53
+msgid "用来升级ECJIA项目的升级器"
+msgstr "用來升級ECJIA項目的升級器"
+
+#: content/apps/upgrade/templates/front/finish.dwt.php:16
+msgid ""
+"<a target=\"_blank\" href=\"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia"
+"%E5%88%B0%E5%AE%B6\">前往ECJIA WIKI，查看帮助文档，使您快速上手。</a>"
+msgstr ""
+"<a target=\"_blank\" href=\"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia"
+"%E5%88%B0%E5%AE%B6\">前往ECJIA WIKI，查看幫助文檔，使您快速上手。</a>"
+
+#: content/apps/upgrade/templates/front/finish.dwt.php:20
+msgid "您可以将下面链接保存到您的收藏夹哦"
+msgstr "您可以將下面鏈接保存到您的收藏夾哦"
+
+#: content/apps/upgrade/templates/front/finish.dwt.php:22
+msgid "点击这里进入ECJIA到家首页"
+msgstr "點擊這裡進入ECJIA到家首頁"
+
+#: content/apps/upgrade/templates/front/finish.dwt.php:23
+msgid "点击这里进入ECJIA到家H5端"
+msgstr "點擊這裡進入ECJIA到家H5端"
+
+#: content/apps/upgrade/templates/front/finish.dwt.php:24
+msgid "点击这里进入ECJIA到家平台后台"
+msgstr "點擊這裡進入ECJIA到家平台後台"
+
+#: content/apps/upgrade/templates/front/finish.dwt.php:25
+msgid "点击这里进入ECJIA到家商家后台"
+msgstr "點擊這裡進入ECJIA到家商家後台"
+
+#: content/apps/upgrade/templates/front/finish.dwt.php:28
+msgid "各种体验，希望您能尽情享用ECJIA到家带来的乐趣！"
+msgstr "各種體驗，希望您能盡情享用ECJIA到家帶來的樂趣！"
+
+#: content/apps/upgrade/templates/front/library/footer.lbi.php:5
+msgid "版权所有 © %1 %2，并保留所有权利。"
+msgstr "版權所有 © %1 %2，並保留所有權利。"
+
+#: content/apps/upgrade/templates/front/library/header.lbi.php:4
+msgid "升级说明"
+msgstr "升級說明"
+
+#: content/apps/upgrade/templates/front/library/header.lbi.php:5
+msgid "开始升级"
+msgstr "開始升級"
+
+#: content/apps/upgrade/templates/front/library/header.lbi.php:6
+msgid "升级成功"
+msgstr "升級成功"
+
+#: content/apps/upgrade/templates/front/intro.dwt.php:54
+msgid "下一步：开始升级"
+msgstr "下一步：開始升級"
+
+#: content/apps/upgrade/templates/front/intro.dwt.php:59
+msgid "正在升级"
+msgstr "正在升級"
+
+#: content/apps/upgrade/templates/front/intro.dwt.php:70
+msgid "返回升级说明"
+msgstr "返回升級說明"
+
+#: content/apps/upgrade/templates/front/ecjia_upgrade.dwt.php:7
+msgid "ECJIA到家升级程序"
+msgstr "ECJIA到家升級程序"

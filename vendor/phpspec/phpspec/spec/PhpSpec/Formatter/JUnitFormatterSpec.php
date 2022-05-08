@@ -3,9 +3,14 @@
 namespace spec\PhpSpec\Formatter;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\IO\IOInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\IO\IO;
+>>>>>>> v2-test
 use PhpSpec\Listener\StatisticsCollector;
 use PhpSpec\Event\SpecificationEvent;
 use PhpSpec\Event\ExampleEvent;
@@ -16,8 +21,13 @@ use PhpSpec\Exception\Example\SkippingException;
 class JUnitFormatterSpec extends ObjectBehavior
 {
     function let(
+<<<<<<< HEAD
         PresenterInterface $presenter,
         IOInterface $io,
+=======
+        Presenter $presenter,
+        IO $io,
+>>>>>>> v2-test
         StatisticsCollector $stats
     ) {
         $this->beConstructedWith($presenter, $io, $stats);

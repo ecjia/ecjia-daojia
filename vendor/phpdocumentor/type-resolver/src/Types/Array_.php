@@ -1,25 +1,38 @@
 <?php
+<<<<<<< HEAD
+=======
+
+declare(strict_types=1);
+
+>>>>>>> v2-test
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
+<<<<<<< HEAD
  * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
+=======
+>>>>>>> v2-test
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Types;
 
+<<<<<<< HEAD
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
 
+=======
+>>>>>>> v2-test
 /**
  * Represents an array type as described in the PSR-5, the PHPDoc Standard.
  *
  * An array can be represented in two forms:
  *
+<<<<<<< HEAD
  * 1. Untyped (`array`), where the key and value type is unknown and hence classified as 'Mixed'.
  * 2. Types (`string[]`), where the value type is provided by preceding an opening and closing square bracket with a
  *    type name.
@@ -84,4 +97,14 @@ final class Array_ implements Type
 
         return $this->valueType . '[]';
     }
+=======
+ * 1. Untyped (`array`), where the key and value type is unknown and hence classified as 'Mixed_'.
+ * 2. Types (`string[]`), where the value type is provided by preceding an opening and closing square bracket with a
+ *    type name.
+ *
+ * @psalm-immutable
+ */
+final class Array_ extends AbstractList
+{
+>>>>>>> v2-test
 }

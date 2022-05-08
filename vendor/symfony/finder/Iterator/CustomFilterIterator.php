@@ -19,6 +19,7 @@ namespace Symfony\Component\Finder\Iterator;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 class CustomFilterIterator extends FilterIterator
 {
     private $filters = array();
@@ -26,6 +27,13 @@ class CustomFilterIterator extends FilterIterator
     /**
      * Constructor.
      *
+=======
+class CustomFilterIterator extends \FilterIterator
+{
+    private $filters = [];
+
+    /**
+>>>>>>> v2-test
      * @param \Iterator  $iterator The Iterator to filter
      * @param callable[] $filters  An array of PHP callbacks
      *
@@ -34,7 +42,11 @@ class CustomFilterIterator extends FilterIterator
     public function __construct(\Iterator $iterator, array $filters)
     {
         foreach ($filters as $filter) {
+<<<<<<< HEAD
             if (!is_callable($filter)) {
+=======
+            if (!\is_callable($filter)) {
+>>>>>>> v2-test
                 throw new \InvalidArgumentException('Invalid PHP callback.');
             }
         }
@@ -53,7 +65,11 @@ class CustomFilterIterator extends FilterIterator
         $fileinfo = $this->current();
 
         foreach ($this->filters as $filter) {
+<<<<<<< HEAD
             if (false === call_user_func($filter, $fileinfo)) {
+=======
+            if (false === $filter($fileinfo)) {
+>>>>>>> v2-test
                 return false;
             }
         }

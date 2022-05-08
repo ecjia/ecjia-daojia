@@ -26,12 +26,18 @@ use Symfony\Component\CssSelector\Parser\ParserInterface;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class EmptyStringParser implements ParserInterface
 {
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function parse($source)
     {
         // Matches an empty string
@@ -40,5 +46,15 @@ class EmptyStringParser implements ParserInterface
         }
 
         return array();
+=======
+    public function parse(string $source): array
+    {
+        // Matches an empty string
+        if ('' == $source) {
+            return [new SelectorNode(new ElementNode(null, '*'))];
+        }
+
+        return [];
+>>>>>>> v2-test
     }
 }

@@ -11,7 +11,10 @@ Feature: Developer uses throw matcher
     namespace spec\Matchers\ThrowExample1;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class EmployeeSpec extends ObjectBehavior
     {
@@ -50,7 +53,10 @@ Feature: Developer uses throw matcher
     namespace spec\Matchers\ThrowExample2;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class EmployeeSpec extends ObjectBehavior
     {
@@ -90,7 +96,10 @@ Feature: Developer uses throw matcher
     namespace spec\Matchers\ThrowExample3;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class EmployeeSpec extends ObjectBehavior
     {
@@ -130,7 +139,10 @@ Feature: Developer uses throw matcher
     namespace spec\Runner\ThrowExample4;
 
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class MarkdownSpec extends ObjectBehavior
     {
@@ -173,7 +185,10 @@ Feature: Developer uses throw matcher
       namespace spec\Runner\ThrowExample5;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
       class MarkdownSpec extends ObjectBehavior
       {
@@ -213,3 +228,46 @@ Feature: Developer uses throw matcher
       """
     When I run phpspec
     Then the suite should pass
+<<<<<<< HEAD
+=======
+
+  Scenario: Throw matcher supports Error
+    Given the spec file "spec/Runner/ThrowExample6/CalculatorSpec.php" contains:
+      """
+      <?php
+
+      namespace spec\Runner\ThrowExample6;
+
+      use PhpSpec\ObjectBehavior;
+
+      class CalculatorSpec extends ObjectBehavior
+      {
+          function it_throws_error_during_division_by_zero()
+          {
+              $this->shouldThrow(new \DivisionByZeroError())->duringDivide(10, 0);
+          }
+      }
+
+      """
+    And the class file "src/Runner/ThrowExample6/Calculator.php" contains:
+      """
+      <?php
+
+      namespace Runner\ThrowExample6;
+
+      class Calculator
+      {
+          public function divide(int $dividend, int $divider): float
+          {
+              if ($divider === 0) {
+                  throw new \DivisionByZeroError();
+              }
+
+              return $dividend / $divider;
+          }
+      }
+
+      """
+    When I run phpspec
+    Then the suite should pass
+>>>>>>> v2-test

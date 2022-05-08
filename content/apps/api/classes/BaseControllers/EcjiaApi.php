@@ -47,20 +47,21 @@
 /**
  * ecjia api控制器父类
  */
+
 namespace Ecjia\App\Api\BaseControllers;
 
-use Ecjia\App\Api\Transformers\Transformer;
+use Ecjia\App\Api\BaseControllers\Middleware\TransformErrorToResponseMiddleware;
+use Ecjia\App\Api\Events\ApiLocalRequestEvent;
+use Ecjia\App\Api\Events\ApiRemoteRequestEvent;
+use Ecjia\Component\ApiServer\Responses\ApiError;
+use Ecjia\Component\ApiServer\Responses\ApiResponse;
+use Ecjia\Component\ApiTransformer\Facades\ApiTransformer;
 use Ecjia\System\BaseController\EcjiaController;
-use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
-use RC_Config;
 use RC_Hook;
-use RC_Session;
-use ecjia_view;
 use ecjia_app;
 use RC_Loader;
-use RC_Api;
 
-abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoader
+abstract class EcjiaApi extends EcjiaController
 {
     /**
      * @var array
@@ -82,35 +83,69 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
      */
     protected $api_version = null;
 
+    /**
+     * @var null
+     */
     protected $api_driver = null;
 
-	public function __construct()
+    public function __construct()
     {
-		parent::__construct();
-		
-		self::$controller = static::$controller;
-		self::$view_object = static::$view_object;
-		
-		if (defined('DEBUG_MODE') == false) {
-		    define('DEBUG_MODE', 0);
-		}
-		
-		if (isset($_SERVER['PHP_SELF'])) {
-		    $_SERVER['PHP_SELF'] = htmlspecialchars($_SERVER['PHP_SELF']);
-		}
-		
-		if (RC_Config::get('system.debug')) {
-		    error_reporting(E_ALL);
-		} else {
-		    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-		}
+        parent::__construct();
 
-		$this->visitorSession();
+        self::$controller  = static::$controller;
+        self::$view_object = static::$view_object;
 
-		$this->apiRequestProcess();
-		
-		RC_Hook::do_action('ecjia_api_finish_launching');
-	}
+        $this->visitorSession();
+
+        $this->apiRequestProcess();
+
+        $middlewares = [
+            TransformErrorToResponseMiddleware::class, //转换ecjia_error类错误到响应
+        ];
+        $this->middleware($middlewares);
+
+        RC_Hook::do_action('ecjia_api_finish_launching');
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestData(): array
+    {
+        return $this->requestData;
+    }
+
+    /**
+     * @return null
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDevice(): array
+    {
+        return $this->device;
+    }
+
+    /**
+     * @return null
+     */
+    public function getApiVersion()
+    {
+        return $this->api_version;
+    }
+
+    /**
+     * @return null
+     */
+    public function getApiDriver()
+    {
+        return $this->api_driver;
+    }
 
     protected function registerServiceProvider()
     {
@@ -122,61 +157,38 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
     /**
      * 游客状态也需要设置一下session值
      */
-	protected function visitorSession()
+    protected function visitorSession()
     {
-        if (empty($_SESSION['user_id'])) {
-            $_SESSION['user_id']     = 0;
-            $_SESSION['user_name']   = '';
-            $_SESSION['email']       = '';
-            $_SESSION['user_rank']   = 0;
-            $_SESSION['discount']    = 1.00;
-            if (!isset($_SESSION['login_fail'])) {
-                $_SESSION['login_fail'] = 0;
-            }
-        }
+        //
     }
 
     /**
-     * @return ecjia_view
+     * 创建模板视图
      */
-	public function create_view()
-	{
-	    if ($this->api_driver == 'local') {
-            return null;
-        }
-
-        return new ecjia_view($this);
-	}
+    public function create_view()
+    {
+        //不实现
+    }
 
     /**
      * 加载hook文件
      */
-	protected function load_hooks() 
-	{
-	    $apps = ecjia_app::installed_app_floders();
-	    if (is_array($apps)) {
-	        foreach ($apps as $app) {
-	            RC_Loader::load_app_class('hooks.api_' . $app, $app, false);
-	        }
-	    }
-	}
-	
-	/**
-	 * 获得模板目录
-	 * @return string
-	 */
-	public function get_template_dir()
+    protected function load_hooks()
     {
-	    //不需要实现
-	}
-	
-	/**
-	 * 获得模板文件
-	*/
-	public function get_template_file($file)
-    {
-        //不需要实现
-	}
+        $apps = ecjia_app::installed_app_floders();
+
+        collect($apps)->map(function ($app) {
+            //loading hooks
+            RC_Loader::load_app_class('hooks.api_' . $app, $app, false);
+
+            //loading subscriber
+            $bundle = royalcms('app')->driver($app);
+            $class = $bundle->getNamespace() . '\Subscribers\ApiHookSubscriber';
+            if (class_exists($class)) {
+                royalcms('Royalcms\Component\Hook\Dispatcher')->subscribe($class);
+            }
+        });
+    }
 
     /**
      * ==================================================
@@ -184,28 +196,29 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
 
     protected function apiRequestProcess()
     {
-        $request = royalcms('request');
 
-        $json = $request->input('json');
+        $json     = $this->request->input('json');
         $jsonData = json_decode($json, true);
         if (empty($jsonData)) {
             $jsonData = [];
         }
 
-        $this->requestData = array_merge($request->input(), $jsonData);
+        $this->requestData = array_merge($this->request->input(), $jsonData);
 
         $this->token = $this->requestData('token') ? $this->requestData('token') : $this->requestData('session.sid');
 
-        $this->device['client'] = $request->header('device-client');
-        $this->device['code']	= $request->header('device-code');
-        $this->device['udid']	= $request->header('device-udid');
-        $this->device['sn']	    = $request->header('device-sn');
-        $this->api_version		= $request->header('api-version');
-        $this->api_driver		= $request->header('api-driver');
+        $this->device['client'] = $this->request->header('device-client');
+        $this->device['code']   = $this->request->header('device-code');
+        $this->device['udid']   = $this->request->header('device-udid');
+        $this->device['sn']     = $this->request->header('device-sn');
+        $this->api_version      = $this->request->header('api-version');
+        $this->api_driver       = $this->request->header('api-driver');
 
-        if ($this->api_driver != 'local') {
-            RC_Api::api('stats', 'statsapi', array('api_name' => $request->input('url'), 'device' => $this->device));
-            RC_Api::api('mobile', 'device_record', array('device' => $this->device));
+        if ($this->api_driver == 'local') {
+            event(new ApiLocalRequestEvent($this));
+        }
+        else {
+            event(new ApiRemoteRequestEvent($this));
         }
 
     }
@@ -216,7 +229,7 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
      * @param $name
      * @return mixed
      */
-	public function requestDevice($name, $default = null)
+    public function requestDevice($name, $default = null)
     {
         return array_get($this->device, $name, $default);
     }
@@ -278,12 +291,13 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
     }
 
 
-    public function getValueByDefault($value, $default) {
+    public function getValueByDefault($value, $default)
+    {
         if (!is_array($value)) {
             $whiteList = array();
             if (is_array($default)) {
                 $whiteList = $default;
-                $default = isset($default[0]) ? $default[0] : $default;
+                $default   = isset($default[0]) ? $default[0] : $default;
             } elseif ($value == '') {
                 return $default;
             }
@@ -307,7 +321,7 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
 
         } else {
             foreach ($value as $key => $val) {
-                $t = isset($default[$key]) ? $default[$key] : '';
+                $t           = isset($default[$key]) ? $default[$key] : '';
                 $value[$key] = $this->getValueByDefault($value[$key], $t);
             }
             if (is_array($default)) {
@@ -321,12 +335,34 @@ abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoad
 
     public static function transformerData($type, $data)
     {
-        return Transformer::transformerData($type, $data);
+        return ApiTransformer::transformerData($type, $data);
     }
 
+    /**
+     * 拦截API错误请求，转换为API统一响应
+     * @return ApiResponse
+     */
+    public function handleRequest()
+    {
+        try {
+            $response = $this->handle();
+            if (is_ecjia_error($response)) {
+                return new ApiResponse(new ApiError($response));
+            }
+            return new ApiResponse($response);
+        } catch (\Exception $exception) {
+            return new ApiResponse(new ApiError(get_class($exception), $exception->getMessage()));
+        } catch (\Error $exception) {
+            return new ApiResponse(new ApiError(get_class($exception), $exception->getMessage()));
+        }
+    }
 
+    /**
+     * API业务处理
+     * @return mixed
+     */
+    abstract public function handle();
 
-	
 }
 
 // end

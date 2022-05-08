@@ -62,7 +62,12 @@ class Url implements UriInterface
         $url->user = isset($parts['user']) ? $parts['user'] : '';
         $url->password = isset($parts['pass']) ? $parts['pass'] : null;
         $url->path = isset($parts['path']) ? $parts['path'] : '/';
+<<<<<<< HEAD
         $url->pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+=======
+//        $url->pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+        $url->pathinfo = isset($parts['path_info']) ? $_SERVER['path_info'] : '';
+>>>>>>> v2-test
         $url->query = QueryParameterBag::fromString(isset($parts['query']) ? $parts['query'] : '');
         $url->fragment = isset($parts['fragment']) ? $parts['fragment'] : '';
 
@@ -388,10 +393,19 @@ class Url implements UriInterface
             $url .= $this->getAuthority();
         }
 
+<<<<<<< HEAD
         $url .= rtrim($this->getPath(), '/');
 
         if ($this->getPathinfo() !== '') {
             $url .= rtrim($this->getPathinfo(), '/');
+=======
+//        $url .= rtrim($this->getPath(), '/');
+        $url .= $this->getPath();
+
+        if ($this->getPathinfo() !== '') {
+//            $url .= rtrim($this->getPathinfo(), '/');
+            $url .= $this->getPathinfo();
+>>>>>>> v2-test
         }
 
         if ($this->getQuery() !== '') {

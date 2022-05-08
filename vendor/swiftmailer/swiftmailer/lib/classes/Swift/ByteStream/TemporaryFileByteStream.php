@@ -17,7 +17,11 @@ class Swift_ByteStream_TemporaryFileByteStream extends Swift_ByteStream_FileByte
     {
         $filePath = tempnam(sys_get_temp_dir(), 'FileByteStream');
 
+<<<<<<< HEAD
         if ($filePath === false) {
+=======
+        if (false === $filePath) {
+>>>>>>> v2-test
             throw new Swift_IoException('Failed to retrieve temporary file name.');
         }
 
@@ -26,7 +30,11 @@ class Swift_ByteStream_TemporaryFileByteStream extends Swift_ByteStream_FileByte
 
     public function getContent()
     {
+<<<<<<< HEAD
         if (($content = file_get_contents($this->getPath())) === false) {
+=======
+        if (false === ($content = file_get_contents($this->getPath()))) {
+>>>>>>> v2-test
             throw new Swift_IoException('Failed to get temporary file content.');
         }
 
@@ -39,4 +47,17 @@ class Swift_ByteStream_TemporaryFileByteStream extends Swift_ByteStream_FileByte
             @unlink($this->getPath());
         }
     }
+<<<<<<< HEAD
+=======
+
+    public function __sleep()
+    {
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+    }
+
+    public function __wakeup()
+    {
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
+    }
+>>>>>>> v2-test
 }

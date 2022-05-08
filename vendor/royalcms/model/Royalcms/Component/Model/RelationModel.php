@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Model;
+=======
+<?php
+
+namespace Royalcms\Component\Model;
+>>>>>>> v2-test
 
 /**
  * 关联模型
@@ -7,7 +13,11 @@
  * @subpackage driver
  */
 
+<<<<<<< HEAD
 class Relation extends Model
+=======
+class RelationModel extends Model
+>>>>>>> v2-test
 {
 
     /**

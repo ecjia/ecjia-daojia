@@ -27,8 +27,11 @@ interface StoreInterface
     /**
      * Locates a cached Response for the Request provided.
      *
+<<<<<<< HEAD
      * @param Request $request A Request instance
      *
+=======
+>>>>>>> v2-test
      * @return Response|null A Response instance, or null if no cache entry was found
      */
     public function lookup(Request $request);
@@ -39,25 +42,34 @@ interface StoreInterface
      * Existing entries are read and any that match the response are removed. This
      * method calls write with the new list of cache entries.
      *
+<<<<<<< HEAD
      * @param Request  $request  A Request instance
      * @param Response $response A Response instance
      *
+=======
+>>>>>>> v2-test
      * @return string The key under which the response is stored
      */
     public function write(Request $request, Response $response);
 
     /**
      * Invalidates all cache entries that match the request.
+<<<<<<< HEAD
      *
      * @param Request $request A Request instance
+=======
+>>>>>>> v2-test
      */
     public function invalidate(Request $request);
 
     /**
      * Locks the cache for a given Request.
      *
+<<<<<<< HEAD
      * @param Request $request A Request instance
      *
+=======
+>>>>>>> v2-test
      * @return bool|string true if the lock is acquired, the path to the current lock otherwise
      */
     public function lock(Request $request);
@@ -65,8 +77,11 @@ interface StoreInterface
     /**
      * Releases the lock for the given Request.
      *
+<<<<<<< HEAD
      * @param Request $request A Request instance
      *
+=======
+>>>>>>> v2-test
      * @return bool False if the lock file does not exist or cannot be unlocked, true otherwise
      */
     public function unlock(Request $request);
@@ -74,8 +89,11 @@ interface StoreInterface
     /**
      * Returns whether or not a lock exists.
      *
+<<<<<<< HEAD
      * @param Request $request A Request instance
      *
+=======
+>>>>>>> v2-test
      * @return bool true if lock exists, false otherwise
      */
     public function isLocked(Request $request);
@@ -83,11 +101,17 @@ interface StoreInterface
     /**
      * Purges data for the given URL.
      *
+<<<<<<< HEAD
      * @param string $url A URL
      *
      * @return bool true if the URL exists and has been purged, false otherwise
      */
     public function purge($url);
+=======
+     * @return bool true if the URL exists and has been purged, false otherwise
+     */
+    public function purge(string $url);
+>>>>>>> v2-test
 
     /**
      * Cleanups storage.

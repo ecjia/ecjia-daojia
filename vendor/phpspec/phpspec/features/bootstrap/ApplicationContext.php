@@ -6,6 +6,10 @@ use Fake\Prompter;
 use Fake\ReRunner;
 use PhpSpec\Console\Application;
 use PhpSpec\Loader\StreamWrapper;
+<<<<<<< HEAD
+=======
+use Symfony\Component\Console\Output\OutputInterface;
+>>>>>>> v2-test
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
@@ -49,11 +53,25 @@ class ApplicationContext implements Context
 
         $this->application = new Application('2.1-dev');
         $this->application->setAutoExit(false);
+<<<<<<< HEAD
+=======
+        $this->setFixedTerminalDimensions();
+>>>>>>> v2-test
 
         $this->tester = new ApplicationTester($this->application);
 
         $this->setupReRunner();
         $this->setupPrompter();
+<<<<<<< HEAD
+=======
+        $this->resetShellVerbosity();
+    }
+
+    private function setFixedTerminalDimensions()
+    {
+        putenv('COLUMNS=130');
+        putenv('LINES=30');
+>>>>>>> v2-test
     }
 
     private function setupPrompter()
@@ -69,6 +87,15 @@ class ApplicationContext implements Context
         $this->application->getContainer()->set('process.rerunner.platformspecific', $this->reRunner);
     }
 
+<<<<<<< HEAD
+=======
+    private function resetShellVerbosity()
+    {
+        putenv('SHELL_INTERACTIVE=1');
+        putenv(sprintf('SHELL_VERBOSITY=%d', OutputInterface::VERBOSITY_NORMAL));
+    }
+
+>>>>>>> v2-test
     /**
      * @Given I have started describing the :class class
      * @Given I start describing the :class class
@@ -119,6 +146,7 @@ class ApplicationContext implements Context
      */
     public function iRunPhpspecAndAnswerWhenAskedIfIWantToGenerateTheCode($answer, $option=null)
     {
+<<<<<<< HEAD
         $arguments = array (
             'command' => 'run'
         );
@@ -134,13 +162,41 @@ class ApplicationContext implements Context
      * @When I run phpspec and answer :answer to both questions
      */
     public function iRunPhpspecAndAnswerToBothQuestions($answer)
+=======
+        $this->runPhpSpecAndAnswerQuestions($answer, 1, $option);
+    }
+
+    /**
+     * @When I run phpspec and answer :answer to (the) :amount questions
+     */
+    public function iRunPhpspecAndAnswerToBothQuestions($amount, $answer)
+    {
+        $this->runPhpSpecAndAnswerQuestions($answer, ($amount === 'both' ? 2 : 3));
+    }
+
+    /**
+     * @param string  $answer
+     * @param integer $times
+     * @param string  $option
+     */
+    private function runPhpSpecAndAnswerQuestions($answer, $times, $option = null)
+>>>>>>> v2-test
     {
         $arguments = array (
             'command' => 'run'
         );
 
+<<<<<<< HEAD
         $this->prompter->setAnswer($answer=='y');
         $this->prompter->setAnswer($answer=='y');
+=======
+        $this->addOptionToArguments($option, $arguments);
+
+        $i = 0;
+        while ($i++ < $times) {
+            $this->prompter->setAnswer($answer=='y');
+        }
+>>>>>>> v2-test
 
         $this->lastExitCode = $this->tester->run($arguments, array('interactive' => true));
     }
@@ -180,6 +236,27 @@ class ApplicationContext implements Context
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @Then I should see the error that :methodCall was not expected on :class
+     */
+    public function iShouldSeeTheErrorThatWasNotExpectedOn($methodCall, $class)
+    {
+        $this->checkApplicationOutput((string)$methodCall);
+        $this->checkApplicationOutput((string)$this->normalize($class));
+
+        $output = $this->tester->getDisplay();
+
+        $containsOldProphecyMessage = strpos($output, 'was not expected') !== false;
+        $containsNewProphecyMessage = strpos($output, 'Unexpected method call') !== false;
+
+        if (!$containsOldProphecyMessage && !$containsNewProphecyMessage) {
+            throw new \Exception('Was expecting error message about an unexpected method call');
+        }
+    }
+
+    /**
+>>>>>>> v2-test
      * @Then I should not be prompted for code generation
      */
     public function iShouldNotBePromptedForCodeGeneration()
@@ -300,6 +377,21 @@ class ApplicationContext implements Context
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @Given there is a PSR-:namespaceType namespace :namespace configured for the :source folder
+     */
+    public function thereIsAPsrNamespaceConfiguredForTheFolder($namespaceType, $namespace, $source)
+    {
+        if (!is_dir(__DIR__ . '/src')) {
+            mkdir(__DIR__ . '/src');
+        }
+        require_once __DIR__ .'/autoloader/fake_autoload.php';
+    }
+
+
+    /**
+>>>>>>> v2-test
      * @When I run phpspec with the :config (custom) config and answer :answer when asked if I want to generate the code
      */
     public function iRunPhpspecWithConfigAndAnswerIfIWantToGenerateTheCode($config, $answer)
@@ -357,7 +449,74 @@ class ApplicationContext implements Context
     private function normalize($string)
     {
         $string = preg_replace('/\([0-9]+ms\)/', '', $string);
+<<<<<<< HEAD
 
         return $string;
     }
+=======
+        $string = str_replace("\r", '', $string);
+        $string = preg_replace('#(Double\\\\.+?\\\\P)\d+#u', '$1', $string);
+        $string = preg_replace('/\(\s+("[^"]*")\s+\)/', '($1)', $string);
+
+        return $string;
+    }
+
+    /**
+     * @Then I should not be prompted for more questions
+     */
+    public function iShouldNotBePromptedForMoreQuestions()
+    {
+        if ($this->prompter->hasUnansweredQuestions()) {
+            throw new \Exception(
+                'Not all questions were answered. This might lead into further code generation not reflected in the scenario.'
+            );
+        }
+    }
+
+    /**
+     * @Then I should an error about invalid class name :className to generate spec for
+     */
+    public function iShouldAnErrorAboutImpossibleSpecGenerationForClass($className)
+    {
+        $this->checkApplicationOutput("I cannot generate spec for '$className' because class");
+        $this->checkApplicationOutput('name contains reserved keyword');
+    }
+
+    /**
+     * @Then The output should contain:
+     */
+    public function outputShouldContain(PyStringNode $expectedOutputPart)
+    {
+        $this->checkApplicationOutput("$expectedOutputPart");
+    }
+
+    /**
+     * @Then Output should not be shown
+     */
+    public function outputShouldNotBeShown()
+    {
+        $outputLen = strlen($this->normalize($this->tester->getDisplay(true)));
+        if ($outputLen) {
+            throw new \Exception(
+                'Output was shown when not expected.'
+            );
+        }
+    }
+
+    /**
+     * @Then The output should not contain:
+     */
+    public function outputShouldNotContain(PyStringNode $expectedOutputPart)
+    {
+        $expected = $this->normalize($expectedOutputPart);
+        $actual = $this->normalize($this->tester->getDisplay(true));
+        if (strpos($actual, $expected) !== false) {
+            throw new \Exception(sprintf(
+                "Application output did contain not expected '%s'. Actual output:\n'%s'" ,
+                $expected,
+                $this->tester->getDisplay()
+            ));
+        }
+    }
+>>>>>>> v2-test
 }

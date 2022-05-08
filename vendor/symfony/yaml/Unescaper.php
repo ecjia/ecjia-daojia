@@ -26,7 +26,11 @@ class Unescaper
     /**
      * Regex fragment that matches an escaped character in a double quoted string.
      */
+<<<<<<< HEAD
     const REGEX_ESCAPED_CHARACTER = '\\\\(x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}|.)';
+=======
+    public const REGEX_ESCAPED_CHARACTER = '\\\\(x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}|.)';
+>>>>>>> v2-test
 
     /**
      * Unescapes a single quoted string.
@@ -35,7 +39,11 @@ class Unescaper
      *
      * @return string The unescaped string
      */
+<<<<<<< HEAD
     public function unescapeSingleQuotedString($value)
+=======
+    public function unescapeSingleQuotedString(string $value): string
+>>>>>>> v2-test
     {
         return str_replace('\'\'', '\'', $value);
     }
@@ -47,7 +55,11 @@ class Unescaper
      *
      * @return string The unescaped string
      */
+<<<<<<< HEAD
     public function unescapeDoubleQuotedString($value)
+=======
+    public function unescapeDoubleQuotedString(string $value): string
+>>>>>>> v2-test
     {
         $callback = function ($match) {
             return $this->unescapeCharacter($match[0]);
@@ -64,7 +76,11 @@ class Unescaper
      *
      * @return string The unescaped character
      */
+<<<<<<< HEAD
     private function unescapeCharacter($value)
+=======
+    private function unescapeCharacter(string $value): string
+>>>>>>> v2-test
     {
         switch ($value[1]) {
             case '0':
@@ -120,6 +136,7 @@ class Unescaper
 
     /**
      * Get the UTF-8 character for the given code point.
+<<<<<<< HEAD
      *
      * @param int $c The unicode code point
      *
@@ -138,5 +155,21 @@ class Unescaper
         }
 
         return chr(0xF0 | $c >> 18).chr(0x80 | $c >> 12 & 0x3F).chr(0x80 | $c >> 6 & 0x3F).chr(0x80 | $c & 0x3F);
+=======
+     */
+    private static function utf8chr(int $c): string
+    {
+        if (0x80 > $c %= 0x200000) {
+            return \chr($c);
+        }
+        if (0x800 > $c) {
+            return \chr(0xC0 | $c >> 6).\chr(0x80 | $c & 0x3F);
+        }
+        if (0x10000 > $c) {
+            return \chr(0xE0 | $c >> 12).\chr(0x80 | $c >> 6 & 0x3F).\chr(0x80 | $c & 0x3F);
+        }
+
+        return \chr(0xF0 | $c >> 18).\chr(0x80 | $c >> 12 & 0x3F).\chr(0x80 | $c >> 6 & 0x3F).\chr(0x80 | $c & 0x3F);
+>>>>>>> v2-test
     }
 }

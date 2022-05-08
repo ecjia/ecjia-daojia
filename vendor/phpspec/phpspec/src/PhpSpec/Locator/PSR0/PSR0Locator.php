@@ -13,12 +13,21 @@
 
 namespace PhpSpec\Locator\PSR0;
 
+<<<<<<< HEAD
 use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\Locator\ResourceLocatorInterface;
 use PhpSpec\Util\Filesystem;
 use InvalidArgumentException;
 
 class PSR0Locator implements ResourceLocatorInterface
+=======
+use PhpSpec\Locator\ResourceLocator;
+use PhpSpec\Locator\SrcPathLocator;
+use PhpSpec\Util\Filesystem;
+use InvalidArgumentException;
+
+class PSR0Locator implements ResourceLocator, SrcPathLocator
+>>>>>>> v2-test
 {
     /**
      * @var string
@@ -55,10 +64,15 @@ class PSR0Locator implements ResourceLocatorInterface
     private $psr4Prefix;
 
     /**
+<<<<<<< HEAD
+=======
+     * @param Filesystem $filesystem
+>>>>>>> v2-test
      * @param string     $srcNamespace
      * @param string     $specNamespacePrefix
      * @param string     $srcPath
      * @param string     $specPath
+<<<<<<< HEAD
      * @param Filesystem $filesystem
      * @param string     $psr4Prefix
      */
@@ -71,18 +85,39 @@ class PSR0Locator implements ResourceLocatorInterface
         $psr4Prefix = null
     ) {
         $this->filesystem = $filesystem ?: new Filesystem();
+=======
+     * @param string     $psr4Prefix
+     */
+    public function __construct(
+        Filesystem $filesystem,
+        string $srcNamespace = '',
+        string $specNamespacePrefix = 'spec',
+        string $srcPath = 'src',
+        string $specPath = '.',
+        string $psr4Prefix = null
+    ) {
+        $this->filesystem = $filesystem;
+>>>>>>> v2-test
         $sepr = DIRECTORY_SEPARATOR;
 
         $this->srcPath       = rtrim(realpath($srcPath), '/\\').$sepr;
         $this->specPath      = rtrim(realpath($specPath), '/\\').$sepr;
         $this->srcNamespace  = ltrim(trim($srcNamespace, ' \\').'\\', '\\');
         $this->psr4Prefix    = (null === $psr4Prefix) ? null : ltrim(trim($psr4Prefix, ' \\').'\\', '\\');
+<<<<<<< HEAD
         if (null !== $this->psr4Prefix  && substr($this->srcNamespace, 0, strlen($psr4Prefix)) !== $psr4Prefix) {
+=======
+        if (null !== $this->psr4Prefix  && substr($this->srcNamespace, 0, \strlen($this->psr4Prefix)) !== $this->psr4Prefix) {
+>>>>>>> v2-test
             throw new InvalidArgumentException('PSR4 prefix doesn\'t match given class namespace.'.PHP_EOL);
         }
         $srcNamespacePath = null === $this->psr4Prefix ?
             $this->srcNamespace :
+<<<<<<< HEAD
             substr($this->srcNamespace, strlen($this->psr4Prefix));
+=======
+            substr($this->srcNamespace, \strlen($this->psr4Prefix));
+>>>>>>> v2-test
         $this->specNamespace = $specNamespacePrefix ?
             trim($specNamespacePrefix, ' \\').'\\'.$this->srcNamespace :
             $this->srcNamespace;
@@ -111,7 +146,11 @@ class PSR0Locator implements ResourceLocatorInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getFullSrcPath()
+=======
+    public function getFullSrcPath(): string
+>>>>>>> v2-test
     {
         return $this->fullSrcPath;
     }
@@ -119,7 +158,11 @@ class PSR0Locator implements ResourceLocatorInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getFullSpecPath()
+=======
+    public function getFullSpecPath(): string
+>>>>>>> v2-test
     {
         return $this->fullSpecPath;
     }
@@ -127,7 +170,11 @@ class PSR0Locator implements ResourceLocatorInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSrcNamespace()
+=======
+    public function getSrcNamespace(): string
+>>>>>>> v2-test
     {
         return $this->srcNamespace;
     }
@@ -135,15 +182,25 @@ class PSR0Locator implements ResourceLocatorInterface
     /**
      * @return string
      */
+<<<<<<< HEAD
     public function getSpecNamespace()
+=======
+    public function getSpecNamespace(): string
+>>>>>>> v2-test
     {
         return $this->specNamespace;
     }
 
     /**
+<<<<<<< HEAD
      * @return ResourceInterface[]
      */
     public function getAllResources()
+=======
+     * @return Resource[]
+     */
+    public function getAllResources(): array
+>>>>>>> v2-test
     {
         return $this->findSpecResources($this->fullSpecPath);
     }
@@ -153,7 +210,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function supportsQuery($query)
+=======
+    public function supportsQuery(string $query): bool
+>>>>>>> v2-test
     {
         $path = $this->getQueryPath($query);
 
@@ -169,7 +230,11 @@ class PSR0Locator implements ResourceLocatorInterface
     /**
      * @return boolean
      */
+<<<<<<< HEAD
     public function isPSR4()
+=======
+    public function isPSR4(): bool
+>>>>>>> v2-test
     {
         return $this->psr4Prefix !== null;
     }
@@ -177,9 +242,15 @@ class PSR0Locator implements ResourceLocatorInterface
     /**
      * @param string $query
      *
+<<<<<<< HEAD
      * @return ResourceInterface[]
      */
     public function findResources($query)
+=======
+     * @return Resource[]
+     */
+    public function findResources(string $query)
+>>>>>>> v2-test
     {
         $path = $this->getQueryPath($query);
 
@@ -192,14 +263,22 @@ class PSR0Locator implements ResourceLocatorInterface
         }
 
         if ($path && 0 === strpos($path, $this->fullSrcPath)) {
+<<<<<<< HEAD
             $path = $this->fullSpecPath.substr($path, strlen($this->fullSrcPath));
+=======
+            $path = $this->fullSpecPath.substr($path, \strlen($this->fullSrcPath));
+>>>>>>> v2-test
             $path = preg_replace('/\.php/', 'Spec.php', $path);
 
             return $this->findSpecResources($path);
         }
 
         if ($path && 0 === strpos($path, $this->srcPath)) {
+<<<<<<< HEAD
             $path = $this->fullSpecPath.substr($path, strlen($this->srcPath));
+=======
+            $path = $this->fullSpecPath.substr($path, \strlen($this->srcPath));
+>>>>>>> v2-test
             $path = preg_replace('/\.php/', 'Spec.php', $path);
 
             return $this->findSpecResources($path);
@@ -213,7 +292,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function supportsClass($classname)
+=======
+    public function supportsClass(string $classname): bool
+>>>>>>> v2-test
     {
         $classname = str_replace('/', '\\', $classname);
 
@@ -228,7 +311,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return null|PSR0Resource
      */
+<<<<<<< HEAD
     public function createResource($classname)
+=======
+    public function createResource(string $classname)
+>>>>>>> v2-test
     {
         $classname = ltrim($classname, '\\');
         $this->validatePsr0Classname($classname);
@@ -236,13 +323,21 @@ class PSR0Locator implements ResourceLocatorInterface
         $classname = str_replace('/', '\\', $classname);
 
         if (0 === strpos($classname, $this->specNamespace)) {
+<<<<<<< HEAD
             $relative = substr($classname, strlen($this->specNamespace));
+=======
+            $relative = substr($classname, \strlen($this->specNamespace));
+>>>>>>> v2-test
 
             return new PSR0Resource(explode('\\', $relative), $this);
         }
 
         if ('' === $this->srcNamespace || 0 === strpos($classname, $this->srcNamespace)) {
+<<<<<<< HEAD
             $relative = substr($classname, strlen($this->srcNamespace));
+=======
+            $relative = substr($classname, \strlen($this->srcNamespace));
+>>>>>>> v2-test
 
             return new PSR0Resource(explode('\\', $relative), $this);
         }
@@ -253,7 +348,11 @@ class PSR0Locator implements ResourceLocatorInterface
     /**
      * @return int
      */
+<<<<<<< HEAD
     public function getPriority()
+=======
+    public function getPriority(): int
+>>>>>>> v2-test
     {
         return 0;
     }
@@ -263,7 +362,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return PSR0Resource[]
      */
+<<<<<<< HEAD
     protected function findSpecResources($path)
+=======
+    protected function findSpecResources(string $path)
+>>>>>>> v2-test
     {
         if (!$this->filesystem->pathExists($path)) {
             return array();
@@ -292,12 +395,21 @@ class PSR0Locator implements ResourceLocatorInterface
         $namespace = '';
         $content   = $this->filesystem->getFileContents($path);
         $tokens    = token_get_all($content);
+<<<<<<< HEAD
         $count     = count($tokens);
+=======
+        $count     = \count($tokens);
+>>>>>>> v2-test
 
         for ($i = 0; $i < $count; $i++) {
             if ($tokens[$i][0] === T_NAMESPACE) {
                 for ($j = $i + 1; $j < $count; $j++) {
+<<<<<<< HEAD
                     if ($tokens[$j][0] === T_STRING) {
+=======
+                    if ($tokens[$j][0] === T_STRING
+                        || \PHP_VERSION_ID >= 80000 && ($tokens[$j][0] === T_NAME_FULLY_QUALIFIED || $tokens[$j][0] === T_NAME_QUALIFIED)) {
+>>>>>>> v2-test
                         $namespace .= $tokens[$j][1].'\\';
                     } elseif ($tokens[$j] === '{' || $tokens[$j] === ';') {
                         break;
@@ -323,7 +435,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return PSR0Resource
      */
+<<<<<<< HEAD
     private function createResourceFromSpecFile($path)
+=======
+    private function createResourceFromSpecFile(string $path): PSR0Resource
+>>>>>>> v2-test
     {
         $classname = $this->findSpecClassname($path);
 
@@ -342,7 +458,11 @@ class PSR0Locator implements ResourceLocatorInterface
             ));
         }
 
+<<<<<<< HEAD
         $classname = substr($classname, strlen($specNamespace));
+=======
+        $classname = substr($classname, \strlen($specNamespace));
+>>>>>>> v2-test
 
         // cut "Spec" from the end
         $classname = preg_replace('/Spec$/', '', $classname);
@@ -356,9 +476,15 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @throws InvalidArgumentException
      */
+<<<<<<< HEAD
     private function validatePsr0Classname($classname)
     {
         $pattern = '/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[\/\\\\]?)*[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+=======
+    private function validatePsr0Classname(string $classname)
+    {
+        $pattern = '/\A([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[\/\\\\]?)*[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\z/';
+>>>>>>> v2-test
 
         if (!preg_match($pattern, $classname)) {
             throw new InvalidArgumentException(
@@ -374,7 +500,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return string
      */
+<<<<<<< HEAD
     private function getQueryPath($query)
+=======
+    private function getQueryPath(string $query): string
+>>>>>>> v2-test
     {
         $sepr = DIRECTORY_SEPARATOR;
         $replacedQuery = str_replace(array('\\', '/'), $sepr, $query);
@@ -382,7 +512,11 @@ class PSR0Locator implements ResourceLocatorInterface
         if ($this->queryContainsQualifiedClassName($query)) {
             $namespacedQuery = null === $this->psr4Prefix ?
                 $replacedQuery :
+<<<<<<< HEAD
                 substr($replacedQuery, strlen($this->srcNamespace));
+=======
+                substr($replacedQuery, \strlen($this->srcNamespace));
+>>>>>>> v2-test
 
             $path = $this->fullSpecPath . $namespacedQuery . 'Spec.php';
 
@@ -399,7 +533,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return bool
      */
+<<<<<<< HEAD
     private function queryContainsQualifiedClassName($query)
+=======
+    private function queryContainsQualifiedClassName(string $query): bool
+>>>>>>> v2-test
     {
         return $this->queryContainsBlackslashes($query) && !$this->isWindowsPath($query);
     }
@@ -409,7 +547,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return bool
      */
+<<<<<<< HEAD
     private function queryContainsBlackslashes($query)
+=======
+    private function queryContainsBlackslashes(string $query): bool
+>>>>>>> v2-test
     {
         return false !== strpos($query, '\\');
     }
@@ -419,7 +561,11 @@ class PSR0Locator implements ResourceLocatorInterface
      *
      * @return bool
      */
+<<<<<<< HEAD
     private function isWindowsPath($query)
+=======
+    private function isWindowsPath(string $query): bool
+>>>>>>> v2-test
     {
         return preg_match('/^\w:/', $query);
     }

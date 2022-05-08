@@ -13,6 +13,7 @@
 
 namespace PhpSpec\Matcher;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 
@@ -20,13 +21,28 @@ class ArrayContainMatcher extends BasicMatcher
 {
     /**
      * @var PresenterInterface
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\Exception\Example\FailureException;
+
+final class ArrayContainMatcher extends BasicMatcher
+{
+    /**
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
 
     /**
+<<<<<<< HEAD
      * @param PresenterInterface $presenter
      */
     public function __construct(PresenterInterface $presenter)
+=======
+     * @param Presenter $presenter
+     */
+    public function __construct(Presenter $presenter)
+>>>>>>> v2-test
     {
         $this->presenter = $presenter;
     }
@@ -38,11 +54,19 @@ class ArrayContainMatcher extends BasicMatcher
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function supports($name, $subject, array $arguments)
     {
         return 'contain' === $name
             && 1 == count($arguments)
             && is_array($subject)
+=======
+    public function supports(string $name, $subject, array $arguments): bool
+    {
+        return 'contain' === $name
+            && 1 == \count($arguments)
+            && \is_array($subject)
+>>>>>>> v2-test
         ;
     }
 
@@ -52,9 +76,15 @@ class ArrayContainMatcher extends BasicMatcher
      *
      * @return bool
      */
+<<<<<<< HEAD
     protected function matches($subject, array $arguments)
     {
         return in_array($arguments[0], $subject, true);
+=======
+    protected function matches($subject, array $arguments): bool
+    {
+        return \in_array($arguments[0], $subject, true);
+>>>>>>> v2-test
     }
 
     /**
@@ -64,7 +94,11 @@ class ArrayContainMatcher extends BasicMatcher
      *
      * @return FailureException
      */
+<<<<<<< HEAD
     protected function getFailureException($name, $subject, array $arguments)
+=======
+    protected function getFailureException(string $name, $subject, array $arguments): FailureException
+>>>>>>> v2-test
     {
         return new FailureException(sprintf(
             'Expected %s to contain %s, but it does not.',
@@ -80,7 +114,11 @@ class ArrayContainMatcher extends BasicMatcher
      *
      * @return FailureException
      */
+<<<<<<< HEAD
     protected function getNegativeFailureException($name, $subject, array $arguments)
+=======
+    protected function getNegativeFailureException(string $name, $subject, array $arguments): FailureException
+>>>>>>> v2-test
     {
         return new FailureException(sprintf(
             'Expected %s not to contain %s, but it does.',

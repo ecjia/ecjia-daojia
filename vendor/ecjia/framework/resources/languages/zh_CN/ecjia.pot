@@ -1,0 +1,1861 @@
+# Copyright (C) 2020 Ecjia Framework
+# This file is distributed under the same license as the Ecjia Framework package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia Framework 2.4.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2020-06-30 10:29:31+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:60
+msgid "添加"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:61
+msgid "编辑"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:62
+msgid "启用"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:63
+msgid "停用"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:64
+msgid "删除"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:65
+msgid "安装"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:66
+msgid "卸载"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:67
+#: src/Ecjia/Component/Menu/MenuGroup/SettingMenuGroup.php:24
+msgid "设置"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:68
+msgid "回收"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:69
+msgid "还原"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:70
+msgid "合并"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:71
+msgid "批量删除"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:72
+msgid "批量回收"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:73
+msgid "批量还原"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:74
+msgid "批量上传"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:75
+msgid "批量编辑"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogAction.php:76
+msgid "批量停用"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:61
+msgid "权限管理"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:62
+msgid "操作日志"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:63
+msgid "管理员留言"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:64
+msgid "地区"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:65
+msgid "商店设置"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:68
+msgid "会员账号"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:69
+msgid "配送方式"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:70
+msgid "配送区域"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:71
+msgid "配送区域中的地区"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:73
+msgid "商品"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:74
+msgid "品牌管理"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:75
+msgid "商品分类"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:76
+msgid "商品包装"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:77
+msgid "商品贺卡"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:78
+msgid "属性"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:79
+msgid "商品类型"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:82
+msgid "文章分类"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:83
+msgid "文章"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:84
+msgid "网店帮助文章"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:85
+msgid "网店帮助分类"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:86
+msgid "网店信息文章"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:89
+msgid "会员等级"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:90
+msgid "夺宝奇兵"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:91
+msgid "红包类型"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:92
+msgid "用户红包"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:93
+msgid "在线调查"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:94
+msgid "友情链接"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:95
+msgid "支付方式"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:97
+msgid "订单"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:98
+msgid "办事处"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:99
+msgid "拍卖活动"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:100
+msgid "优惠活动"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:101
+msgid "批发活动"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:102
+msgid "留言反馈"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:103
+msgid "用户评论"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:104
+msgid "广告位置"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:105
+msgid "广告"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:106
+msgid "团购商品"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:107
+msgid "缺货登记管理"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:108
+msgid "标签管理"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:109
+msgid "前台语言项"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:110
+msgid "会员余额"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:111
+msgid "会员留言"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:112
+msgid "FCK文件"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:113
+msgid "数据库备份"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:114
+msgid "超值礼包"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:115
+msgid "积分可兑换的商品"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:116
+msgid "供货商管理"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:117
+msgid "会员注册项"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:119
+msgid "授权证书"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:120
+msgid "信任机构"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:121
+#: src/Ecjia/Component/FileHash/Menu.php:105
+#: src/Ecjia/Component/Menu/MenuGroup/AppsMenuGroup.php:24
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1135
+msgid "应用"
+msgstr ""
+
+#: src/Ecjia/Component/AdminLog/AdminLogObject.php:122
+#: src/Ecjia/Component/FileHash/Menu.php:138
+msgid "插件"
+msgstr ""
+
+#: src/Ecjia/Component/ApiClient/Requests/Actions/LocalAction.php:76
+msgid "api call error:%s"
+msgstr ""
+
+#: src/Ecjia/Component/ApiClient/Requests/Actions/RemoteAction.php:93
+msgid "Const [serverHost] url not defined."
+msgstr ""
+
+#: src/Ecjia/Component/ApiServer/Responses/ApiManager.php:79
+msgid "NO ACCESS"
+msgstr ""
+
+#: src/Ecjia/Component/ApiServer/Responses/ApiManager.php:84
+#: src/Ecjia/Component/ApiServer/Responses/ApiManager.php:92
+#: src/Ecjia/Component/ApiServer/Route/ApiControllerParser.php:98
+#: src/Ecjia/Component/ApiServer/Route/ApiModuleParser.php:102
+#: src/Ecjia/Component/ApiServer/Route/ApiNamespaceParser.php:84
+msgid "Api Error:%s does not exist."
+msgstr ""
+
+#: src/Ecjia/Component/App/Facades/AppManager.php:287
+msgid "Invalid application path."
+msgstr ""
+
+#: src/Ecjia/Component/App/Facades/AppManager.php:291
+msgid "Application file does not exist."
+msgstr ""
+
+#: src/Ecjia/Component/App/Facades/AppManager.php:295
+msgid "Application Package info does not exist."
+msgstr ""
+
+#: src/Ecjia/Component/App/Facades/AppManager.php:402
+#: src/Ecjia/Component/Plugin/Facades/PluginManager.php:197
+msgid "The plugin generated unexpected output."
+msgstr ""
+
+#: src/Ecjia/Component/App/Facades/AppManager.php:406
+msgid "应用已经安装，请勿重复安装。"
+msgstr ""
+
+#: src/Ecjia/Component/App/Facades/AppManager.php:433
+msgid "应用未安装！"
+msgstr ""
+
+#: src/Ecjia/Component/AppClient/Client/ApplicationClientOption.php:105
+msgid "当前设置未激活，请去设备管理中激活设备！"
+msgstr ""
+
+#: src/Ecjia/Component/AppClient/Config/ApplicationConfig.php:124
+msgid "统一设置"
+msgstr ""
+
+#: src/Ecjia/Component/AppClient/Config/ApplicationConfigFactory.php:116
+msgid "Application Option key %s is not supported."
+msgstr ""
+
+#: src/Ecjia/Component/AppClient/Config/ApplicationConfigOptions.php:89
+msgid "应用配置"
+msgstr ""
+
+#: src/Ecjia/Component/AppClient/Platform/ApplicationPlatformFactory.php:174
+msgid "Application platform  %s is not supported."
+msgstr ""
+
+#: src/Ecjia/Component/AppClient/Platform/ApplicationPlatformFactory.php:266
+msgid "Application client  %s is not supported."
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/CacheFactory.php:119
+#: src/Ecjia/Component/ComponentFactory/ComponentFactory.php:135
+#: src/Ecjia/Component/Config/Component/ComponentFactory.php:120
+msgid "Component %s is not supported."
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/AdminTemplateCache.php:82
+msgid "后台模板缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/AdminTemplateCache.php:83
+msgid "模板缓存是后台模板文件的缓存文件。若后台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/ApplicationCache.php:28
+msgid "应用加载缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/ApplicationCache.php:29
+msgid "应用加载缓存是查找应用目录缓存后分析出来的结果，若要在新应用增加或变化后立即看到变化，则需要更新应用加载缓存后才可以查看最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/FrontTemplateCache.php:81
+msgid "前台模板缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/FrontTemplateCache.php:82
+msgid "模板缓存是前台模板文件的缓存文件。若前台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/ServiceProviderCache.php:28
+msgid "框架组件缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/ServiceProviderCache.php:29
+msgid "框架组件加载缓存是查找框架内使用的ServiceProvider缓存后分析出来的结果，若更新了Composer.json，则需要更新框架组件缓存重新加载才可以查看最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemAppCache.php:79
+msgid "应用数据缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemAppCache.php:80
+msgid "应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，则需要更新应用数据缓存后才可以查看最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemQueryCache.php:79
+msgid "查询缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemQueryCache.php:80
+msgid "查询缓存是数据库查询结构的缓存文件。若数据库内容有变动，则需要更新查询缓存才可以看到最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemTableStructCache.php:79
+msgid "数据表结构缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemTableStructCache.php:80
+msgid "数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据库表结构缓存才可以查看最新数据。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemUserDataCache.php:78
+msgid "用户数据缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/SystemUserDataCache.php:79
+msgid "用户数据缓存是用户登录后的一些相关数据缓存。若要在更新文件及功能后立即看到变化，则需要更新用户数据缓存后才可以查看最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/TemplateCache.php:79
+msgid "模板缓存"
+msgstr ""
+
+#: src/Ecjia/Component/CleanCache/Components/TemplateCache.php:80
+msgid "模板缓存是模板的数据缓存文件。若模板显示的数据有变动，则需要更新模板缓存后才可以查看最新效果。"
+msgstr ""
+
+#: src/Ecjia/Component/EcjiaCloud/EcjiaCloud.php:259
+msgid "服务器返回信息错误！"
+msgstr ""
+
+#: src/Ecjia/Component/EcjiaOpen/EcjiaOpen.php:85
+msgid "Url Scheme不是ecjiaopen。"
+msgstr ""
+
+#: src/Ecjia/Component/EcjiaOpen/EcjiaOpen.php:127
+msgid "Call to undefined opentype %s"
+msgstr ""
+
+#: src/Ecjia/Component/EcjiaOpen/EcjiaOpen.php:158
+msgid "Call to undefined method %s"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/FormatterResult.php:73
+msgid "被修改"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/FormatterResult.php:74
+msgid "被删除"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/FormatterResult.php:75
+msgid "未知"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/FormatterResult.php:104
+msgid "<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>被修改</span>"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/FormatterResult.php:109
+#: src/Ecjia/Component/FileHash/FormatterResult.php:119
+msgid "<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>未知</span>"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/FormatterResult.php:115
+msgid "<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>被删除</span>"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/FormatterResult.php:121
+msgid "<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>正确</span>"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/Menu.php:173
+msgid "主题"
+msgstr ""
+
+#: src/Ecjia/Component/FileHash/Menu.php:209
+msgid "站点"
+msgstr ""
+
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaAppPOT.php:76
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaFrameworkPOT.php:46
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaPluginPOT.php:103
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaSystemPOT.php:48
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaThemePOT.php:77
+msgid "提取%sPHP中语言包成功"
+msgstr ""
+
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaAppPOT.php:121
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaSystemPOT.php:88
+#: src/Ecjia/Component/Gettext/Console/MakeEcjiaThemePOT.php:146
+msgid "提取%s模板语言包成功"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/DNSCheck.php:45
+msgid "DNS解析"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/DNSCheck.php:46
+#: src/Ecjia/Component/HealthCheck/Checkers/TimezoneCheck.php:21
+msgid "建议设置正确"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/DirectoryPermissionCheck.php:26
+#: src/Ecjia/Component/HealthCheck/Checkers/DirectoryPermissionCheck.php:44
+msgid "可写"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/DirectoryPermissionCheck.php:29
+msgid "不可写"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/DirectoryPermissionCheck.php:74
+msgid "目录"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionCurlCheck.php:31
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionFileinfoCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionMysqliCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionOpensslCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionPdoMysqlCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionSocketCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionZlibCheck.php:24
+msgid "开启"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionCurlCheck.php:31
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionFileinfoCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionGDCheck.php:46
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionMysqliCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionOpensslCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionPdoMysqlCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionSocketCheck.php:30
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionZlibCheck.php:24
+msgid "关闭"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionCurlCheck.php:34
+msgid "CURL扩展"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionCurlCheck.php:35
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionFileinfoCheck.php:34
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionGDCheck.php:50
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionOpensslCheck.php:34
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionSocketCheck.php:34
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionZlibCheck.php:28
+msgid "必须开启"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionFileinfoCheck.php:33
+msgid "Fileinfo扩展"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionGDCheck.php:34
+msgid "支持（%s）"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionGDCheck.php:49
+msgid "GD扩展"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionMysqliCheck.php:33
+msgid "MySQLi扩展"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionMysqliCheck.php:34
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionPdoMysqlCheck.php:34
+msgid "必须开启，请使用MySQL5.5以上版本"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionOpensslCheck.php:33
+msgid "OpenSSL扩展"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionPdoMysqlCheck.php:33
+msgid "PDO扩展"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionSocketCheck.php:33
+msgid "Socket支持"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/ExtensionZlibCheck.php:27
+msgid "ZLIB扩展"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/PHPOSCheck.php:35
+msgid "服务器操作系统"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/PHPOSCheck.php:36
+msgid "Windows_NT/Linux/Freebsd/Darwin"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/PHPVersionCheck.php:34
+msgid "PHP版本"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/PHPVersionCheck.php:35
+msgid "%s及以上"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/SafeModeCheck.php:26
+msgid "否"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/SafeModeCheck.php:26
+msgid "是"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/SafeModeCheck.php:29
+msgid "安全模式"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/SafeModeCheck.php:30
+msgid "否，建议关闭"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/TimezoneCheck.php:14
+msgid "无需设置"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/TimezoneCheck.php:20
+msgid "时区检查"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/UploadMaxFilesizeCheck.php:35
+msgid "文件上传大小"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/UploadMaxFilesizeCheck.php:36
+msgid "2M及以上"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/WebPathCheck.php:24
+msgid "抱歉，当前程序运行在 %s 目录下，ECJia到家程序必须运行在网站根目录下/，请您更换目录后再重新运行安装程序。"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/WebServerCheck.php:37
+msgid "WEB服务器"
+msgstr ""
+
+#: src/Ecjia/Component/HealthCheck/Checkers/WebServerCheck.php:38
+msgid "推荐Apache/Nginx/IIS"
+msgstr ""
+
+#: src/Ecjia/Component/Menu/MenuGroup/ServiceMenuGroup.php:24
+msgid "服务"
+msgstr ""
+
+#: src/Ecjia/Component/Menu/MenuGroup/ShortcutMenuGroup.php:24
+msgid "快捷导航"
+msgstr ""
+
+#: src/Ecjia/Component/Menu/MenuGroup/SkinMenuGroup.php:24
+msgid "外观"
+msgstr ""
+
+#: src/Ecjia/Component/Menu/MenuGroup/SystemMenuGroup.php:24
+msgid "控制面板"
+msgstr ""
+
+#: src/Ecjia/Component/Menu/MenuGroup/ToolsMenuGroup.php:24
+msgid "工具"
+msgstr ""
+
+#: src/Ecjia/Component/Metadata/Facades/Metadata.php:94
+msgid "ecjia meta app no exists"
+msgstr ""
+
+#: src/Ecjia/Component/Metadata/Facades/Metadata.php:98
+msgid "ecjia meta group no exists"
+msgstr ""
+
+#: src/Ecjia/Component/Option/Facades/Option.php:203
+msgid "%s is a protected WP option and may not be modified"
+msgstr ""
+
+#: src/Ecjia/Component/Option/Facades/Option.php:633
+msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
+msgstr ""
+
+#: src/Ecjia/Component/Option/Facades/Option.php:736
+msgid "The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL."
+msgstr ""
+
+#: src/Ecjia/Component/Option/Facades/Option.php:749
+msgid "The Site address you entered did not appear to be a valid URL. Please enter a valid URL."
+msgstr ""
+
+#: src/Ecjia/Component/Option/Facades/Option.php:804
+msgid "The timezone you have entered is not valid. Please select a valid timezone."
+msgstr ""
+
+#: src/Ecjia/Component/Plugin/Facades/PluginManager.php:76
+msgid "Invalid plugin path."
+msgstr ""
+
+#: src/Ecjia/Component/Plugin/Facades/PluginManager.php:78
+msgid "Plugin file does not exist."
+msgstr ""
+
+#: src/Ecjia/Component/Plugin/Facades/PluginManager.php:82
+msgid "The plugin does not have a valid header."
+msgstr ""
+
+#: src/Ecjia/Component/Plugin/PluginManager.php:111
+msgid "Driver [%s] not found class file."
+msgstr ""
+
+#: src/Ecjia/Component/Plugin/PluginManager.php:129
+msgid "Driver [%s] not extended AbstractPlugin class."
+msgstr ""
+
+#: src/Ecjia/Component/Purview/EcjiaPurview.php:103
+msgid "系统"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:778
+msgid "Contextual Help Tab"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:876
+msgid "帮助"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:879
+msgid "选项"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:951
+msgid "Enable accessibility mode"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:951
+msgid "Disable accessibility mode"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1001
+msgid "Screen Options Tab"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1004
+msgid "显示下列项目"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1024
+msgctxt "Welcome panel"
+msgid "Welcome"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1046
+msgid "Comments"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1081
+msgid "Screen Layout"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1083
+msgid "Number of Columns:"
+msgstr ""
+
+#: src/Ecjia/Component/Screen/EcjiaScreen.php:1293
+msgid "Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead."
+msgstr ""
+
+#: src/Ecjia/Component/ShowMessage/Options/ShowMessageOption.php:46
+msgid "操作成功"
+msgstr ""
+
+#: src/Ecjia/Component/ShowMessage/Options/ShowMessageOption.php:50
+#: src/Ecjia/Component/ShowMessage/resources/message_template.php:12
+#: src/Ecjia/Component/ShowMessage/resources/message_template.php:54
+msgid "操作提示"
+msgstr ""
+
+#: src/Ecjia/Component/ShowMessage/Options/ShowMessageOption.php:54
+msgid "操作警告"
+msgstr ""
+
+#: src/Ecjia/Component/ShowMessage/Options/ShowMessageOption.php:58
+msgid "操作错误"
+msgstr ""
+
+#: src/Ecjia/Component/ShowMessage/resources/message_template.php:57
+msgid "返回"
+msgstr ""
+
+#: src/Ecjia/Component/ShowMessage/resources/message_template.php:58
+msgid "返回首页"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaForm.php:113
+msgid "Save Changes"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:156
+msgid "前%s页"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:166
+msgid "后%s页"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:193
+msgid "第%s-%s%s"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:202
+msgid "[共%s页] [%条记录]"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:211
+msgid "总计 "
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:212
+msgid "条记录，分为"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:213
+msgid "页当前第"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:214
+msgid "页，每页"
+msgstr ""
+
+#: src/Ecjia/Component/Support/EcjiaPage.php:215
+msgid " 页"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Background/Background.php:50
+#: src/Ecjia/Component/ThemeFramework/Fields/Background/Background.php:51
+#: src/Ecjia/Component/ThemeFramework/Fields/Upload/Upload.php:37
+#: src/Ecjia/Component/ThemeFramework/Fields/Upload/Upload.php:38
+msgid "Upload"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Background/Background.php:52
+#: src/Ecjia/Component/ThemeFramework/Fields/Upload/Upload.php:39
+msgid "Use Image"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Backup/Backup.php:27
+msgid "Import a Backup"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Backup/Backup.php:28
+msgid "copy-paste your backup string here"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Backup/Backup.php:33
+msgid "Export and Download Backup"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Backup/Backup.php:34
+msgid "or"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Backup/Backup.php:35
+msgid "Reset All Options"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Backup/Backup.php:36
+msgid "Please be sure for reset all of framework options."
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Gallery/Gallery.php:32
+msgid "Add Gallery"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Gallery/Gallery.php:33
+msgid "Edit Gallery"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Gallery/Gallery.php:34
+msgid "Clear"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Group/Group.php:33
+msgid "Adding"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Group/Group.php:55
+#: src/Ecjia/Component/ThemeFramework/Fields/Group/Group.php:87
+msgid "Remove"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Icon/Icon.php:29
+#: src/Ecjia/Component/ThemeFramework/Support/Actions.php:63
+msgid "Add Icon"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Icon/Icon.php:30
+msgid "Remove Icon"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Image/Image.php:31
+msgid "Add Image"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Sorter/Sorter.php:33
+msgid "Enabled Modules"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Sorter/Sorter.php:34
+msgid "Disabled Modules"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Switcher/Switcher.php:29
+msgid "on"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Switcher/Switcher.php:29
+msgid "off"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Textarea/Textarea.php:36
+msgid "Add Shortcode"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Typography/Typography.php:86
+msgid "Web Safe Fonts"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Typography/Typography.php:92
+msgid "Google Fonts"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Fields/Typography/Typography.php:120
+#: src/Ecjia/Component/ThemeFramework/Support/Actions.php:40
+msgid "Error! Can not load json file."
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/AdminPanel.php:367
+msgid "Success. Imported backup options."
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/AdminPanel.php:372
+msgid "Default options restored."
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/AdminPanel.php:391
+msgid "Default options restored for only this section."
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/Options.php:206
+msgid "CONFIG"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/Options.php:212
+#: src/Ecjia/Component/ThemeFramework/Foundation/Options.php:232
+msgid "USAGE"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/Options.php:218
+msgid "VALUE"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/Options.php:236
+msgid "ID"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Foundation/Options.php:311
+msgid "You are editing language: ( <strong>%s</strong> )"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/OptionField.php:80
+msgid "This field class is not available!"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Support/Actions.php:64
+msgid "Search a Icon..."
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Support/Actions.php:65
+msgid "Loading..."
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Support/Validate.php:21
+msgid "Please write a valid email address!"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Support/Validate.php:39
+msgid "Please write a numeric data!"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeFramework/Support/Validate.php:55
+msgid "Fatal Error! This field is required!"
+msgstr ""
+
+#: src/Ecjia/Component/ThemeOption/ThemeOption.php:240
+msgid "%s is a protected ECJia Theme option and may not be modified"
+msgstr ""
+
+#. translators: %s: misc
+#. translators: %s: privacy
+#. translators: %s: misc
+#. translators: %s: privacy
+#. translators: %s: misc
+#. translators: %s: privacy
+#. translators: %s: misc
+#. translators: %s: privacy
+
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:106
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:116
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:152
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:162
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:263
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:273
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:324
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:334
+msgid "The \"%s\" options group has been removed. Use another settings group."
+msgstr ""
+
+#. translators: 1: $sanitize_callback, 2: register_setting()
+
+#: src/Ecjia/Component/ThemeOption/ThemeSetting.php:176
+msgid "%1$s is deprecated. The callback from %2$s is used instead."
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:67
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:67
+msgid "You need to set alias or upload file for customizedcast!"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:75
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:66
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:74
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:66
+msgid "appkey should not be NULL!"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:77
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:68
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:76
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:68
+msgid "timestamp should not be NULL!"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:79
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:70
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:78
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:70
+msgid "content should be a string!"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:103
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:94
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:102
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:94
+#: src/Ecjia/Component/Umeng/Notification/UmengNotification.php:165
+msgid "Curl error number:%s , Curl error details:%s \n"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:105
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:96
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:104
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:96
+#: src/Ecjia/Component/Umeng/Notification/UmengNotification.php:168
+msgid "http code:%s details:%s \n"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidCustomizedcast.php:108
+#: src/Ecjia/Component/Umeng/Notification/Android/AndroidFilecast.php:99
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSCustomizedcast.php:107
+#: src/Ecjia/Component/Umeng/Notification/IOS/IOSFilecast.php:99
+msgid "Failed to upload file, details:%s \n"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/AndroidNotification.php:106
+#: src/Ecjia/Component/Umeng/Notification/AndroidNotification.php:141
+#: src/Ecjia/Component/Umeng/Notification/IOSNotification.php:85
+#: src/Ecjia/Component/Umeng/Notification/IOSNotification.php:106
+msgid "key should be a string!"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/UmengNotification.php:120
+msgid "Please set your app master secret for generating the signature!"
+msgstr ""
+
+#: src/Ecjia/Component/Umeng/Notification/UmengNotification.php:129
+msgid "%s is NULL!"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:293
+msgid "Updating to WordPress %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:294
+msgid "WordPress %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:300
+msgid "Updating theme: %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:306
+msgid "Updating plugin: %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:310
+msgid "Translations for %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:311
+#: src/Ecjia/Component/Upgrade/Skin/LanguagePackUpgraderSkin.php:37
+msgid "Updating translations for %1$s (%2$s)&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:324
+#: src/Ecjia/Component/Upgrade/Upgrader.php:57
+msgid "Could not access filesystem."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:330
+msgid "Installation Failed"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:332
+msgid "WordPress updated successfully"
+msgstr ""
+
+#. translators: 1: Site name, 2: WordPress version number.
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:614
+msgid "[%1$s] Your site has updated to WordPress %2$s"
+msgstr ""
+
+#. translators: 1: Site name, 2: WordPress version number.
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:620
+msgid "[%1$s] WordPress %2$s is available. Please update!"
+msgstr ""
+
+#. translators: 1: Site name.
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:625
+msgid "[%1$s] URGENT: Your site may be down due to a failed update"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:640
+msgid "Howdy! Your site at %1$s has been updated automatically to WordPress %2$s."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:643
+msgid "No further action is needed on your part."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:647
+msgid "For more on version %s, see the About WordPress screen:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:651
+msgid "WordPress %s is also now available."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:652
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:669
+msgid "Updating is easy and only takes a few moments:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:660
+msgid "Please update your site at %1$s to WordPress %2$s."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:667
+msgid "We tried but were unable to update your site automatically."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:675
+msgid "Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:677
+msgid "Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:679
+msgid "This means your site may be offline or broken. Don't panic; this can be fixed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:681
+msgid "Please check out your site now. It's possible that everything is working. If it says you need to update, you should do so:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:689
+msgid "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:692
+msgid "If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:693
+msgid "https://wordpress.org/support/"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:698
+msgid "Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:702
+msgid "If you reach out to us, we'll also ensure you'll never have this problem again."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:707
+msgid "You also have some plugins or themes with updates available. Update them now:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:711
+msgid "The WordPress Team"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:715
+msgid "Your site was running version %s."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:716
+msgid "We have some data that describes the error your site encountered."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:717
+msgid "Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:731
+msgid "Error code: %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:789
+msgid "WordPress site: %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:795
+msgid "SUCCESS: WordPress was successfully updated to %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:797
+msgid "FAILED: WordPress failed to update to %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:810
+msgid "The following plugins were successfully updated:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:811
+msgid "The following themes were successfully updated:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:812
+msgid "The following translations were successfully updated:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:817
+msgid "SUCCESS: %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:823
+msgid "The following plugins failed to update:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:824
+msgid "The following themes failed to update:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:825
+msgid "The following translations failed to update:"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:831
+msgid "FAILED: %s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:841
+msgid ""
+"\n"
+"BETA TESTING?\n"
+"=============\n"
+"    \n"
+"This debugging email is sent when you are using a development version of WordPress.\n"
+"    \n"
+"If you think these failures might be due to a bug in WordPress, could you report it?\n"
+" * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta\n"
+" * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/\n"
+"    \n"
+"Thanks! -- The WordPress Team"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:853
+msgid "[%s] There were failures during background updates"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:855
+msgid "[%s] Background updates have finished"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:858
+msgid "UPDATE LOG"
+msgstr ""
+
+#. translators: 1: Error code, 2: Error message.
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:882
+msgid "Rollback Error: [%1$s] %2$s"
+msgstr ""
+
+#. translators: 1: Error code, 2: Error message.
+
+#: src/Ecjia/Component/Upgrade/AutomaticUpdater.php:885
+msgid "Error: [%1$s] %2$s"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/FileUploadUpgrader.php:21
+#: src/Ecjia/Component/Upgrade/FileUploadUpgrader.php:55
+msgid "Please select a file"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:19
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:38
+#: src/Ecjia/Component/Upgrade/Skin/PluginUpgraderSkin.php:50
+msgid "Go to plugins page"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:38
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:61
+#: src/Ecjia/Component/Upgrade/Skin/PluginUpgraderSkin.php:50
+msgid "Return to Plugins page"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:39
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:39
+#: src/Ecjia/Component/Upgrade/Skin/LanguagePackUpgraderSkin.php:56
+msgid "Go to WordPress Updates page"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:39
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:39
+#: src/Ecjia/Component/Upgrade/Skin/LanguagePackUpgraderSkin.php:56
+msgid "Return to WordPress Updates"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:19
+msgid "Updating Theme %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:38
+msgid "Go to themes page"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:38
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:77
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:71
+msgid "Return to Themes page"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/BulkUpgraderSkin.php:29
+msgid "The update process is starting. This process may take a while on some hosts, so please be patient."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/BulkUpgraderSkin.php:30
+msgid "An error occurred while updating %1$s: <strong>%2$s</strong>"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/BulkUpgraderSkin.php:31
+msgid "The update of %1$s failed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/BulkUpgraderSkin.php:32
+msgid "%1$s updated successfully."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/BulkUpgraderSkin.php:32
+msgid "Show Details"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/BulkUpgraderSkin.php:32
+msgid "Hide Details"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/BulkUpgraderSkin.php:33
+msgid "All updates have been completed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/LanguagePackUpgraderSkin.php:22
+msgid "Update Translations"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:33
+msgid "Successfully installed the plugin <strong>%s %s</strong>."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:47
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:49
+#: src/Ecjia/Component/Upgrade/Skin/PluginUpgraderSkin.php:49
+msgid "Activate this plugin"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:47
+msgid "Activate Plugin &amp; Run Importer"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:49
+#: src/Ecjia/Component/Upgrade/Skin/PluginUpgraderSkin.php:49
+msgid "Activate Plugin"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:52
+msgid "Activate this plugin for all sites in this network"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:52
+msgid "Network Activate"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:57
+msgid "Return to Importers"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginInstallerSkin.php:59
+msgid "Return to Plugin Installer"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/PluginUpgraderSkin.php:27
+msgid "Update Plugin"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:67
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:68
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:62
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:63
+msgid "Preview &#8220;%s&#8221;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:67
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:62
+msgid "Preview"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:68
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:63
+msgid "Live Preview"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:69
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:64
+msgid "Activate &#8220;%s&#8221;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:69
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:64
+msgid "Activate"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:72
+msgid "Enable this theme for all sites in this network"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:72
+msgid "Network Enable"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:75
+msgid "Return to Theme Installer"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeInstallerSkin.php:77
+msgid "Themes page"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:26
+msgid "Update Theme"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:60
+msgid "Customize &#8220;%s&#8221;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Skin/ThemeUpgraderSkin.php:60
+msgid "Customize"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:21
+msgid "WordPress is at the latest version."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:22
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:43
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:23
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:25
+msgid "Update package not available."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:23
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:24
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:26
+msgid "Downloading update from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:24
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:45
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:25
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:27
+msgid "Unpacking the update&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:25
+msgid "Could not copy files."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:26
+msgid "Could not copy files. You may have run out of disk space."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:27
+msgid "Attempting to roll back to previous version."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:28
+msgid "Due to an error during updating, WordPress has rolled back to your previous version."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/CoreUpgrader.php:98
+msgid "The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:41
+msgid "Some of your translations need updating. Sit tight for a few more seconds while we update them as well."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:42
+msgid "The translation is up to date."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:44
+msgid "Downloading translation from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:46
+msgid "Translation update failed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:47
+msgid "Translation updated successfully."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/LanguagePackUpgrader.php:182
+msgid "The language pack is missing either the <code>.po</code> or <code>.mo</code> files."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:22
+msgid "The plugin is at the latest version."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:26
+msgid "Removing the old version of the plugin&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:27
+msgid "Could not remove the old plugin."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:28
+msgid "Plugin update failed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:29
+msgid "Plugin updated successfully."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:34
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:39
+msgid "Install package not available."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:35
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:40
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:36
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:41
+msgid "Unpacking the package&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:37
+msgid "Installing the plugin&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:38
+msgid "The plugin contains no files."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:39
+msgid "Plugin install failed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:40
+msgid "Plugin installed successfully."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/PluginUpgrader.php:268
+msgid "No valid plugins were found."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:24
+msgid "The theme is at the latest version."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:28
+msgid "Removing the old version of the theme&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:29
+msgid "Could not remove the old theme."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:30
+msgid "Theme update failed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:31
+msgid "Theme updated successfully."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:42
+msgid "Installing the theme&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:43
+msgid "The theme contains no files."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:44
+msgid "Theme install failed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:45
+msgid "Theme installed successfully."
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:47
+msgid "Successfully installed the theme <strong>%1$s %2$s</strong>."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:48
+msgid "This theme requires a parent theme. Checking if it is installed&#8230;"
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:50
+msgid "Preparing to install <strong>%1$s %2$s</strong>&#8230;"
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:52
+msgid "The parent theme, <strong>%1$s %2$s</strong>, is currently installed."
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:54
+msgid "Successfully installed the parent theme, <strong>%1$s %2$s</strong>."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:55
+msgid "<strong>The parent theme could not be found.</strong> You will need to install the parent theme, <strong>%s</strong>, before you can use this child theme."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:356
+msgid "The theme is missing the <code>style.css</code> stylesheet."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:361
+msgid "The <code>style.css</code> stylesheet doesn't contain a valid theme header."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader/ThemeUpgrader.php:365
+msgid "The theme is missing the <code>index.php</code> file."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:56
+msgid "Invalid Data provided."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:58
+msgid "Filesystem error."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:59
+msgid "Unable to locate WordPress Root directory."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:60
+msgid "Unable to locate WordPress Content directory (wp-content)."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:61
+msgid "Unable to locate WordPress Plugin directory."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:62
+msgid "Unable to locate WordPress Theme directory."
+msgstr ""
+
+#. translators: %s: directory name
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:64
+msgid "Unable to locate needed folder (%s)."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:66
+msgid "Download failed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:67
+msgid "Installing the latest version&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:68
+msgid "The package contains no files."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:69
+msgid "Destination folder already exists."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:70
+msgid "Could not create directory."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:71
+msgid "The package could not be installed."
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:73
+msgid "Enabling Maintenance mode&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Upgrade/Upgrader.php:74
+msgid "Disabling Maintenance mode&#8230;"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Facades/Widget.php:283
+msgctxt "widget"
+msgid "Edit"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Facades/Widget.php:284
+msgctxt "widget"
+msgid "Add"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Facades/Widget.php:298
+msgid "There are no options for this widget."
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Facades/Widget.php:310
+msgid "Delete"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Facades/Widget.php:311
+msgid "Close"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Facades/Widget.php:314
+msgid "Save"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/AdPositionWidget.php:59
+msgid "添加广告位"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/AdPositionWidget.php:60
+msgid "广告位"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/AdPositionWidget.php:103
+#: src/Ecjia/Component/Widget/Widgets/BrandGoodsWidget.php:103
+#: src/Ecjia/Component/Widget/Widgets/CatArticlesWidget.php:103
+#: src/Ecjia/Component/Widget/Widgets/CatGoodsWidget.php:103
+#: src/Ecjia/Component/Widget/Widgets/NavMenuWidget.php:103
+msgid "Title:"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/AdPositionWidget.php:107
+#: src/Ecjia/Component/Widget/Widgets/BrandGoodsWidget.php:107
+#: src/Ecjia/Component/Widget/Widgets/CatArticlesWidget.php:107
+#: src/Ecjia/Component/Widget/Widgets/CatGoodsWidget.php:107
+#: src/Ecjia/Component/Widget/Widgets/NavMenuWidget.php:107
+msgid "Select Menu:"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/AdPositionWidget.php:109
+#: src/Ecjia/Component/Widget/Widgets/BrandGoodsWidget.php:109
+#: src/Ecjia/Component/Widget/Widgets/CatArticlesWidget.php:109
+#: src/Ecjia/Component/Widget/Widgets/CatGoodsWidget.php:109
+#: src/Ecjia/Component/Widget/Widgets/NavMenuWidget.php:109
+msgid "&mdash; Select &mdash;"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/BrandGoodsWidget.php:59
+msgid "添加品牌商品"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/BrandGoodsWidget.php:60
+msgid "品牌的商品"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/CatArticlesWidget.php:59
+msgid "添加分类文章"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/CatArticlesWidget.php:60
+msgid "文章列表"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/CatGoodsWidget.php:59
+msgid "添加分类商品"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/CatGoodsWidget.php:60
+msgid "分类下的商品"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/NavMenuWidget.php:59
+msgid "添加自定义菜单"
+msgstr ""
+
+#: src/Ecjia/Component/Widget/Widgets/NavMenuWidget.php:60
+msgid "自定义菜单"
+msgstr ""

@@ -35,6 +35,7 @@ class Raven_Stacktrace
          */
         $result = array();
         for ($i = 0; $i < count($frames); $i++) {
+<<<<<<< HEAD
             $frame = isset($frames[$i]) ? $frames[$i] : null;
             $nextframe = isset($frames[$i + 1]) ? $frames[$i + 1] : null;
 
@@ -49,6 +50,36 @@ class Raven_Stacktrace
                 $context['prefix'] = '';
                 $context['suffix'] = '';
                 $context['filename'] = $filename = '[Anonymous function]';
+=======
+            $frame = isset($frames[$i]) ? $frames[$i] : array();
+            $nextframe = isset($frames[$i + 1]) ? $frames[$i + 1] : array();
+
+            if (!array_key_exists('file', $frame)) {
+                $context = array();
+
+                if (!empty($frame['class'])) {
+                    $context['line'] = sprintf('%s%s%s', $frame['class'], $frame['type'], $frame['function']);
+
+                    try {
+                        $reflect = new ReflectionClass($frame['class']);
+                        $context['filename'] = $filename = $reflect->getFileName();
+                    } catch (ReflectionException $e) {
+                        // Forget it if we run into errors, it's not worth it.
+                    }
+                } elseif (!empty($frame['function'])) {
+                    $context['line'] = sprintf('%s(anonymous)', $frame['function']);
+                } else {
+                    $context['line'] = sprintf('(anonymous)');
+                }
+
+                if (empty($context['filename'])) {
+                    $context['filename'] = $filename = '[Anonymous function]';
+                }
+
+                $abs_path = '';
+                $context['prefix'] = '';
+                $context['suffix'] = '';
+>>>>>>> v2-test
                 $context['lineno'] = 0;
             } else {
                 $context = self::read_source_file($frame['file'], $frame['line']);
@@ -79,10 +110,22 @@ class Raven_Stacktrace
 
             // detect in_app based on app path
             if ($app_path) {
+<<<<<<< HEAD
                 $in_app = (bool)(substr($abs_path, 0, strlen($app_path)) === $app_path);
                 if ($in_app && $excluded_app_paths) {
                     foreach ($excluded_app_paths as $path) {
                         if (substr($abs_path, 0, strlen($path)) === $path) {
+=======
+                $norm_abs_path = @realpath($abs_path) ?: $abs_path;
+                if (!$abs_path) {
+                    $in_app = false;
+                } else {
+                    $in_app = (bool)(substr($norm_abs_path, 0, strlen($app_path)) === $app_path);
+                }
+                if ($in_app && $excluded_app_paths) {
+                    foreach ($excluded_app_paths as $path) {
+                        if (substr($norm_abs_path, 0, strlen($path)) === $path) {
+>>>>>>> v2-test
                             $in_app = false;
                             break;
                         }
@@ -98,7 +141,11 @@ class Raven_Stacktrace
                 foreach ($vars as $key => $value) {
                     $value = $reprSerializer->serialize($value);
                     if (is_string($value) || is_numeric($value)) {
+<<<<<<< HEAD
                         $cleanVars[(string)$key] = substr($value, 0, $frame_var_limit);
+=======
+                        $cleanVars[(string)$key] = Raven_Compat::substr($value, 0, $frame_var_limit);
+>>>>>>> v2-test
                     } else {
                         $cleanVars[(string)$key] = $value;
                     }
@@ -121,10 +168,14 @@ class Raven_Stacktrace
         $i = 1;
         $args = array();
         foreach ($frame['args'] as $arg) {
+<<<<<<< HEAD
             if (is_string($arg) || is_numeric($arg)) {
                 $arg = substr($arg, 0, $frame_arg_limit);
             }
             $args['param'.$i] = $arg;
+=======
+            $args['param'.$i] = self::serialize_argument($arg, $frame_arg_limit);
+>>>>>>> v2-test
             $i++;
         }
         return $args;
@@ -156,7 +207,13 @@ class Raven_Stacktrace
                 return array();
             } else {
                 // Sanitize the file path
+<<<<<<< HEAD
                 return array('param1' => $frame['args'][0]);
+=======
+                return array(
+                    'param1' => self::serialize_argument($frame['args'][0], $frame_arg_limit),
+                );
+>>>>>>> v2-test
             }
         }
         try {
@@ -168,8 +225,15 @@ class Raven_Stacktrace
                 } else {
                     $reflection = new ReflectionMethod($frame['class'], '__call');
                 }
+<<<<<<< HEAD
             } else {
                 $reflection = new ReflectionFunction($frame['function']);
+=======
+            } elseif (function_exists($frame['function'])) {
+                $reflection = new ReflectionFunction($frame['function']);
+            } else {
+                return self::get_default_context($frame, $frame_arg_limit);
+>>>>>>> v2-test
             }
         } catch (ReflectionException $e) {
             return self::get_default_context($frame, $frame_arg_limit);
@@ -179,6 +243,7 @@ class Raven_Stacktrace
 
         $args = array();
         foreach ($frame['args'] as $i => $arg) {
+<<<<<<< HEAD
             if (isset($params[$i])) {
                 // Assign the argument by the parameter name
                 if (is_array($arg)) {
@@ -188,6 +253,11 @@ class Raven_Stacktrace
                         }
                     }
                 }
+=======
+            $arg = self::serialize_argument($arg, $frame_arg_limit);
+            if (isset($params[$i])) {
+                // Assign the argument by the parameter name
+>>>>>>> v2-test
                 $args[$params[$i]->name] = $arg;
             } else {
                 $args['param'.$i] = $arg;
@@ -197,6 +267,28 @@ class Raven_Stacktrace
         return $args;
     }
 
+<<<<<<< HEAD
+=======
+    private static function serialize_argument($arg, $frame_arg_limit)
+    {
+        if (is_array($arg)) {
+            $_arg = array();
+            foreach ($arg as $key => $value) {
+                if (is_string($value) || is_numeric($value)) {
+                    $_arg[$key] = Raven_Compat::substr($value, 0, $frame_arg_limit);
+                } else {
+                    $_arg[$key] = $value;
+                }
+            }
+            return $_arg;
+        } elseif (is_string($arg) || is_numeric($arg)) {
+            return Raven_Compat::substr($arg, 0, $frame_arg_limit);
+        } else {
+            return $arg;
+        }
+    }
+
+>>>>>>> v2-test
     private static function strip_prefixes($filename, $prefixes)
     {
         if ($prefixes === null) {
@@ -227,7 +319,11 @@ class Raven_Stacktrace
         // Code which is eval'ed have a modified filename.. Extract the
         // correct filename + linenumber from the string.
         $matches = array();
+<<<<<<< HEAD
         $matched = preg_match("/^(.*?)\((\d+)\) : eval\(\)'d code$/",
+=======
+        $matched = preg_match("/^(.*?)\\((\\d+)\\) : eval\\(\\)'d code$/",
+>>>>>>> v2-test
             $filename, $matches);
         if ($matched) {
             $frame['filename'] = $filename = $matches[1];
@@ -238,12 +334,23 @@ class Raven_Stacktrace
         // "</path/to/filename>(<lineno>) : runtime-created function"
         // Extract the correct filename + linenumber from the string.
         $matches = array();
+<<<<<<< HEAD
         $matched = preg_match("/^(.*?)\((\d+)\) : runtime-created function$/",
+=======
+        $matched = preg_match("/^(.*?)\\((\\d+)\\) : runtime-created function$/",
+>>>>>>> v2-test
             $filename, $matches);
         if ($matched) {
             $frame['filename'] = $filename = $matches[1];
             $frame['lineno'] = $lineno = $matches[2];
         }
+<<<<<<< HEAD
+=======
+        
+        if (!file_exists($filename)) {
+            return $frame;
+        }
+>>>>>>> v2-test
 
         try {
             $file = new SplFileObject($filename);

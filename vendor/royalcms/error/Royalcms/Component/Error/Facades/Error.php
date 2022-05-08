@@ -36,7 +36,11 @@ class Error extends Facade
 	 * @param string|int $code Error code
 	 * @param string $message Error message
 	 * @param mixed $data Optional. Error data.
+<<<<<<< HEAD
 	 * @return RC_Error (\Royalcms\Component\Error\Error)
+=======
+	 * @return \RC_Error (\Royalcms\Component\Error\Error)
+>>>>>>> v2-test
 	 */
 	public static function make($code = '', $message = '', $data = '')
 	{

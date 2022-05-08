@@ -31,7 +31,11 @@ class ClosureLoader extends Loader
      *
      * @return RouteCollection A RouteCollection instance
      */
+<<<<<<< HEAD
     public function load($closure, $type = null)
+=======
+    public function load($closure, string $type = null)
+>>>>>>> v2-test
     {
         return $closure();
     }
@@ -39,7 +43,11 @@ class ClosureLoader extends Loader
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function supports($resource, $type = null)
+=======
+    public function supports($resource, string $type = null)
+>>>>>>> v2-test
     {
         return $resource instanceof \Closure && (!$type || 'closure' === $type);
     }

@@ -18,6 +18,7 @@ namespace Symfony\Component\CssSelector\XPath;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class XPathExpr
 {
@@ -43,6 +44,18 @@ class XPathExpr
      * @param bool   $starPrefix
      */
     public function __construct($path = '', $element = '*', $condition = '', $starPrefix = false)
+=======
+ *
+ * @internal
+ */
+class XPathExpr
+{
+    private $path;
+    private $element;
+    private $condition;
+
+    public function __construct(string $path = '', string $element = '*', string $condition = '', bool $starPrefix = false)
+>>>>>>> v2-test
     {
         $this->path = $path;
         $this->element = $element;
@@ -53,14 +66,19 @@ class XPathExpr
         }
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getElement()
+=======
+    public function getElement(): string
+>>>>>>> v2-test
     {
         return $this->element;
     }
 
+<<<<<<< HEAD
     /**
      * @param $condition
      *
@@ -69,22 +87,35 @@ class XPathExpr
     public function addCondition($condition)
     {
         $this->condition = $this->condition ? sprintf('%s and (%s)', $this->condition, $condition) : $condition;
+=======
+    public function addCondition(string $condition): self
+    {
+        $this->condition = $this->condition ? sprintf('(%s) and (%s)', $this->condition, $condition) : $condition;
+>>>>>>> v2-test
 
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function getCondition()
+=======
+    public function getCondition(): string
+>>>>>>> v2-test
     {
         return $this->condition;
     }
 
+<<<<<<< HEAD
     /**
      * @return XPathExpr
      */
     public function addNameTest()
+=======
+    public function addNameTest(): self
+>>>>>>> v2-test
     {
         if ('*' !== $this->element) {
             $this->addCondition('name() = '.Translator::getXpathLiteral($this->element));
@@ -94,10 +125,14 @@ class XPathExpr
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @return XPathExpr
      */
     public function addStarPrefix()
+=======
+    public function addStarPrefix(): self
+>>>>>>> v2-test
     {
         $this->path .= '*/';
 
@@ -107,12 +142,18 @@ class XPathExpr
     /**
      * Joins another XPathExpr with a combiner.
      *
+<<<<<<< HEAD
      * @param string    $combiner
      * @param XPathExpr $expr
      *
      * @return XPathExpr
      */
     public function join($combiner, XPathExpr $expr)
+=======
+     * @return $this
+     */
+    public function join(string $combiner, self $expr): self
+>>>>>>> v2-test
     {
         $path = $this->__toString().$combiner;
 
@@ -127,10 +168,14 @@ class XPathExpr
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @return string
      */
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> v2-test
     {
         $path = $this->path.$this->element;
         $condition = null === $this->condition || '' === $this->condition ? '' : '['.$this->condition.']';

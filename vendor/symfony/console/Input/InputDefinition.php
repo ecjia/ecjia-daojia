@@ -19,10 +19,17 @@ use Symfony\Component\Console\Exception\LogicException;
  *
  * Usage:
  *
+<<<<<<< HEAD
  *     $definition = new InputDefinition(array(
  *       new InputArgument('name', InputArgument::REQUIRED),
  *       new InputOption('foo', 'f', InputOption::VALUE_REQUIRED),
  *     ));
+=======
+ *     $definition = new InputDefinition([
+ *         new InputArgument('name', InputArgument::REQUIRED),
+ *         new InputOption('foo', 'f', InputOption::VALUE_REQUIRED),
+ *     ]);
+>>>>>>> v2-test
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -38,7 +45,11 @@ class InputDefinition
     /**
      * @param array $definition An array of InputArgument and InputOption instance
      */
+<<<<<<< HEAD
     public function __construct(array $definition = array())
+=======
+    public function __construct(array $definition = [])
+>>>>>>> v2-test
     {
         $this->setDefinition($definition);
     }
@@ -48,8 +59,13 @@ class InputDefinition
      */
     public function setDefinition(array $definition)
     {
+<<<<<<< HEAD
         $arguments = array();
         $options = array();
+=======
+        $arguments = [];
+        $options = [];
+>>>>>>> v2-test
         foreach ($definition as $item) {
             if ($item instanceof InputOption) {
                 $options[] = $item;
@@ -67,9 +83,15 @@ class InputDefinition
      *
      * @param InputArgument[] $arguments An array of InputArgument objects
      */
+<<<<<<< HEAD
     public function setArguments($arguments = array())
     {
         $this->arguments = array();
+=======
+    public function setArguments(array $arguments = [])
+    {
+        $this->arguments = [];
+>>>>>>> v2-test
         $this->requiredCount = 0;
         $this->hasOptional = false;
         $this->hasAnArrayArgument = false;
@@ -81,7 +103,11 @@ class InputDefinition
      *
      * @param InputArgument[] $arguments An array of InputArgument objects
      */
+<<<<<<< HEAD
     public function addArguments($arguments = array())
+=======
+    public function addArguments(?array $arguments = [])
+>>>>>>> v2-test
     {
         if (null !== $arguments) {
             foreach ($arguments as $argument) {
@@ -171,7 +197,11 @@ class InputDefinition
      */
     public function getArgumentCount()
     {
+<<<<<<< HEAD
         return $this->hasAnArrayArgument ? PHP_INT_MAX : \count($this->arguments);
+=======
+        return $this->hasAnArrayArgument ? \PHP_INT_MAX : \count($this->arguments);
+>>>>>>> v2-test
     }
 
     /**
@@ -191,7 +221,11 @@ class InputDefinition
      */
     public function getArgumentDefaults()
     {
+<<<<<<< HEAD
         $values = array();
+=======
+        $values = [];
+>>>>>>> v2-test
         foreach ($this->arguments as $argument) {
             $values[$argument->getName()] = $argument->getDefault();
         }
@@ -204,10 +238,17 @@ class InputDefinition
      *
      * @param InputOption[] $options An array of InputOption objects
      */
+<<<<<<< HEAD
     public function setOptions($options = array())
     {
         $this->options = array();
         $this->shortcuts = array();
+=======
+    public function setOptions(array $options = [])
+    {
+        $this->options = [];
+        $this->shortcuts = [];
+>>>>>>> v2-test
         $this->addOptions($options);
     }
 
@@ -216,7 +257,11 @@ class InputDefinition
      *
      * @param InputOption[] $options An array of InputOption objects
      */
+<<<<<<< HEAD
     public function addOptions($options = array())
+=======
+    public function addOptions(array $options = [])
+>>>>>>> v2-test
     {
         foreach ($options as $option) {
             $this->addOption($option);
@@ -251,13 +296,20 @@ class InputDefinition
     /**
      * Returns an InputOption by name.
      *
+<<<<<<< HEAD
      * @param string $name The InputOption name
      *
+=======
+>>>>>>> v2-test
      * @return InputOption A InputOption object
      *
      * @throws InvalidArgumentException When option given doesn't exist
      */
+<<<<<<< HEAD
     public function getOption($name)
+=======
+    public function getOption(string $name)
+>>>>>>> v2-test
     {
         if (!$this->hasOption($name)) {
             throw new InvalidArgumentException(sprintf('The "--%s" option does not exist.', $name));
@@ -272,11 +324,17 @@ class InputDefinition
      * This method can't be used to check if the user included the option when
      * executing the command (use getOption() instead).
      *
+<<<<<<< HEAD
      * @param string $name The InputOption name
      *
      * @return bool true if the InputOption object exists, false otherwise
      */
     public function hasOption($name)
+=======
+     * @return bool true if the InputOption object exists, false otherwise
+     */
+    public function hasOption(string $name)
+>>>>>>> v2-test
     {
         return isset($this->options[$name]);
     }
@@ -294,11 +352,17 @@ class InputDefinition
     /**
      * Returns true if an InputOption object exists by shortcut.
      *
+<<<<<<< HEAD
      * @param string $name The InputOption shortcut
      *
      * @return bool true if the InputOption object exists, false otherwise
      */
     public function hasShortcut($name)
+=======
+     * @return bool true if the InputOption object exists, false otherwise
+     */
+    public function hasShortcut(string $name)
+>>>>>>> v2-test
     {
         return isset($this->shortcuts[$name]);
     }
@@ -306,11 +370,17 @@ class InputDefinition
     /**
      * Gets an InputOption by shortcut.
      *
+<<<<<<< HEAD
      * @param string $shortcut The Shortcut name
      *
      * @return InputOption An InputOption object
      */
     public function getOptionForShortcut($shortcut)
+=======
+     * @return InputOption An InputOption object
+     */
+    public function getOptionForShortcut(string $shortcut)
+>>>>>>> v2-test
     {
         return $this->getOption($this->shortcutToName($shortcut));
     }
@@ -322,7 +392,11 @@ class InputDefinition
      */
     public function getOptionDefaults()
     {
+<<<<<<< HEAD
         $values = array();
+=======
+        $values = [];
+>>>>>>> v2-test
         foreach ($this->options as $option) {
             $values[$option->getName()] = $option->getDefault();
         }
@@ -333,6 +407,7 @@ class InputDefinition
     /**
      * Returns the InputOption name given a shortcut.
      *
+<<<<<<< HEAD
      * @param string $shortcut The shortcut
      *
      * @return string The InputOption name
@@ -340,6 +415,13 @@ class InputDefinition
      * @throws InvalidArgumentException When option given does not exist
      */
     private function shortcutToName($shortcut)
+=======
+     * @throws InvalidArgumentException When option given does not exist
+     *
+     * @internal
+     */
+    public function shortcutToName(string $shortcut): string
+>>>>>>> v2-test
     {
         if (!isset($this->shortcuts[$shortcut])) {
             throw new InvalidArgumentException(sprintf('The "-%s" option does not exist.', $shortcut));
@@ -351,6 +433,7 @@ class InputDefinition
     /**
      * Gets the synopsis.
      *
+<<<<<<< HEAD
      * @param bool $short Whether to return the short version (with options folded) or not
      *
      * @return string The synopsis
@@ -358,6 +441,13 @@ class InputDefinition
     public function getSynopsis($short = false)
     {
         $elements = array();
+=======
+     * @return string The synopsis
+     */
+    public function getSynopsis(bool $short = false)
+    {
+        $elements = [];
+>>>>>>> v2-test
 
         if ($short && $this->getOptions()) {
             $elements[] = '[options]';
@@ -382,6 +472,7 @@ class InputDefinition
             $elements[] = '[--]';
         }
 
+<<<<<<< HEAD
         foreach ($this->getArguments() as $argument) {
             $element = '<'.$argument->getName().'>';
             if (!$argument->isRequired()) {
@@ -390,13 +481,30 @@ class InputDefinition
                 $element = $element.' ('.$element.')';
             }
 
+=======
+        $tail = '';
+        foreach ($this->getArguments() as $argument) {
+            $element = '<'.$argument->getName().'>';
+>>>>>>> v2-test
             if ($argument->isArray()) {
                 $element .= '...';
+            }
+
+<<<<<<< HEAD
+            $elements[] = $element;
+        }
+
+        return implode(' ', $elements);
+=======
+            if (!$argument->isRequired()) {
+                $element = '['.$element;
+                $tail .= ']';
             }
 
             $elements[] = $element;
         }
 
-        return implode(' ', $elements);
+        return implode(' ', $elements).$tail;
+>>>>>>> v2-test
     }
 }

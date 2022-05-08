@@ -20,7 +20,7 @@ use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Code;
 use League\CommonMark\Util\Xml;
 
-class CodeRenderer implements InlineRendererInterface
+final class CodeRenderer implements InlineRendererInterface
 {
     /**
      * @param Code                     $inline
@@ -31,13 +31,10 @@ class CodeRenderer implements InlineRendererInterface
     public function render(AbstractInline $inline, ElementRendererInterface $htmlRenderer)
     {
         if (!($inline instanceof Code)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . get_class($inline));
+            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
-        $attrs = [];
-        foreach ($inline->getData('attributes', []) as $key => $value) {
-            $attrs[$key] = Xml::escape($value, true);
-        }
+        $attrs = $inline->getData('attributes', []);
 
         return new HtmlElement('code', $attrs, Xml::escape($inline->getContent()));
     }

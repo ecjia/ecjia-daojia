@@ -21,17 +21,17 @@
 		<form id="form-privilege" class="form-horizontal" name="editForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{t domain="sms"}名称：{/t}</label>
+					<label class="control-label">{t domain="sms"}名称{/t}</label>
 					<div class="controls">
 						<input class="w350" name="channel_name" type="text" value="{$channel.channel_name|escape}" size="40" />
-						<span class="input-must">*</span>
+						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{t domain="sms"}描述：{/t}</label>
+					<label class="control-label">{t domain="sms"}描述{/t}</label>
 					<div class="controls">
 						<textarea class="w350" name="channel_desc" cols="10" rows="6">{$channel.channel_desc|escape}</textarea>
-						<span class="input-must">*</span>
+						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				<!-- {foreach from=$channel.channel_config item=config key=key} -->

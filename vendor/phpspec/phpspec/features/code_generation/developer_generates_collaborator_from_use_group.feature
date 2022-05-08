@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 @php:~7.0
+=======
+>>>>>>> v2-test
 Feature: Developer generates a collaborator
   As a Developer
   I want to automate creating collaborators
@@ -12,7 +15,10 @@ Feature: Developer generates a collaborator
       namespace spec\CodeGeneration\CollaboratorExample1;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorExample1\{Tokenizer, Parser};
 
       class Markdown1Spec extends ObjectBehavior
@@ -51,7 +57,10 @@ Feature: Developer generates a collaborator
       namespace spec\CodeGeneration\CollaboratorExample2;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorExample2\{Tokenizer, Parser};
 
       class Markdown1Spec extends ObjectBehavior
@@ -95,7 +104,10 @@ Feature: Developer generates a collaborator
       namespace spec\CodeGeneration\CollaboratorExample3;
 
       use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
       use Prophecy\Argument;
+=======
+>>>>>>> v2-test
       use CodeGeneration\CollaboratorExample3\{Tokenizer, Parser};
 
       class Markdown1Spec extends ObjectBehavior

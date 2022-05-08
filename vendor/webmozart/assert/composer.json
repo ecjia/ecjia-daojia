@@ -1,7 +1,15 @@
 {
     "name": "webmozart/assert",
     "description": "Assertions to validate method input/output with nice error messages.",
+<<<<<<< HEAD
     "keywords": ["assert", "check", "validate"],
+=======
+    "keywords": [
+        "assert",
+        "check",
+        "validate"
+    ],
+>>>>>>> v2-test
     "license": "MIT",
     "authors": [
         {
@@ -10,11 +18,23 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": "^5.3.3|^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.6",
         "sebastian/version": "^1.0.1"
+=======
+        "php": "^5.3.3 || ^7.0 || ^8.0",
+        "symfony/polyfill-ctype": "^1.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.36 || ^7.5.13"
+    },
+    "conflict": {
+        "vimeo/psalm": "<3.9.1",
+        "phpstan/phpstan": "<0.12.20"
+>>>>>>> v2-test
     },
     "autoload": {
         "psr-4": {
@@ -23,12 +43,17 @@
     },
     "autoload-dev": {
         "psr-4": {
+<<<<<<< HEAD
             "Webmozart\\Assert\\Tests\\": "tests/"
         }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.2-dev"
+=======
+            "Webmozart\\Assert\\Tests\\": "tests/",
+            "Webmozart\\Assert\\Bin\\": "bin/src"
+>>>>>>> v2-test
         }
     }
 }

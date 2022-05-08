@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+trigger_error('The "bin/commonmark" command has been deprecated since league/commonmark 1.4', E_USER_DEPRECATED);
+
 requireAutoloader();
 
 ini_set('display_errors', 'stderr');
@@ -15,11 +17,14 @@ $options_raw = getopt('', array(
 ));
 foreach ($options_raw as $option => $value) {
     switch ($option) {
+        case 'safe':
+            $options['html_input'] = 'strip';
+            $options['allow_unsafe_links'] = false;
+            break;
         case 'use-asterisk':
         case 'use-underscore':
         case 'enable-strong':
         case 'enable-em':
-        case 'safe':
             if ($value !== true && $value !== false) {
                 fail("Invalid value '$value' for option '$option'");
             }

@@ -18,8 +18,10 @@ class Text extends AbstractStringContainer
 {
     /**
      * @param string $character
+     *
+     * @return void
      */
-    public function append($character)
+    public function append(string $character)
     {
         $this->content .= $character;
     }

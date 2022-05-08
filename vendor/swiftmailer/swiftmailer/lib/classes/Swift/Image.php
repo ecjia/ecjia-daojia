@@ -30,6 +30,7 @@ class Swift_Image extends Swift_EmbeddedFile
     }
 
     /**
+<<<<<<< HEAD
      * Create a new Image.
      *
      * @param string|Swift_OutputByteStream $data
@@ -44,10 +45,13 @@ class Swift_Image extends Swift_EmbeddedFile
     }
 
     /**
+=======
+>>>>>>> v2-test
      * Create a new Image from a filesystem path.
      *
      * @param string $path
      *
+<<<<<<< HEAD
      * @return Swift_Image
      */
     public static function fromPath($path)
@@ -57,5 +61,12 @@ class Swift_Image extends Swift_EmbeddedFile
             );
 
         return $image;
+=======
+     * @return self
+     */
+    public static function fromPath($path)
+    {
+        return (new self())->setFile(new Swift_ByteStream_FileByteStream($path));
+>>>>>>> v2-test
     }
 }

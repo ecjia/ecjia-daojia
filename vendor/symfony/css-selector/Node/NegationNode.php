@@ -18,6 +18,7 @@ namespace Symfony\Component\CssSelector\Node;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class NegationNode extends AbstractNode
 {
@@ -35,24 +36,42 @@ class NegationNode extends AbstractNode
      * @param NodeInterface $selector
      * @param NodeInterface $subSelector
      */
+=======
+ *
+ * @internal
+ */
+class NegationNode extends AbstractNode
+{
+    private $selector;
+    private $subSelector;
+
+>>>>>>> v2-test
     public function __construct(NodeInterface $selector, NodeInterface $subSelector)
     {
         $this->selector = $selector;
         $this->subSelector = $subSelector;
     }
 
+<<<<<<< HEAD
     /**
      * @return NodeInterface
      */
     public function getSelector()
+=======
+    public function getSelector(): NodeInterface
+>>>>>>> v2-test
     {
         return $this->selector;
     }
 
+<<<<<<< HEAD
     /**
      * @return NodeInterface
      */
     public function getSubSelector()
+=======
+    public function getSubSelector(): NodeInterface
+>>>>>>> v2-test
     {
         return $this->subSelector;
     }
@@ -60,7 +79,11 @@ class NegationNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getSpecificity()
+=======
+    public function getSpecificity(): Specificity
+>>>>>>> v2-test
     {
         return $this->selector->getSpecificity()->plus($this->subSelector->getSpecificity());
     }
@@ -68,7 +91,11 @@ class NegationNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function __toString()
+=======
+    public function __toString(): string
+>>>>>>> v2-test
     {
         return sprintf('%s[%s:not(%s)]', $this->getNodeName(), $this->selector, $this->subSelector);
     }

@@ -1,18 +1,18 @@
-# Copyright (C) 2019 Ecjia App logviewer
+# Copyright (C) 2020 Ecjia App logviewer
 # This file is distributed under the same license as the Ecjia App logviewer package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App logviewer 1.30.0\n"
+"Project-Id-Version: Ecjia App logviewer 2.18.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-12 04:02:27+00:00\n"
+"POT-Creation-Date: 2020-06-24 08:18:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
-#: admin.php:81 admin.php:89 admin.php:90
+#: admin.php:81 admin.php:96 admin.php:97
 #: apis/logviewer_tool_menu_api.class.php:54 configs/package.php:55
 msgid "日志查看"
 msgstr ""
@@ -63,30 +63,30 @@ msgid ""
 "排列出来，方便用户查看。"
 msgstr ""
 
-#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:47
+#: /content/apps/logviewer/templates/admin/logviewer_list.dwt.php:47
 msgid "未选择日志文件"
 msgstr ""
 
-#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:55
+#: /content/apps/logviewer/templates/admin/logviewer_list.dwt.php:55
 msgid "日期"
 msgstr ""
 
-#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:56
+#: /content/apps/logviewer/templates/admin/logviewer_list.dwt.php:56
 msgid "等级"
 msgstr ""
 
-#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:57
+#: /content/apps/logviewer/templates/admin/logviewer_list.dwt.php:57
 msgid "内容"
 msgstr ""
 
-#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:88
+#: /content/apps/logviewer/templates/admin/logviewer_list.dwt.php:88
 msgid "日志文件"
 msgstr ""
 
-#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:92
+#: /content/apps/logviewer/templates/admin/logviewer_list.dwt.php:92
 msgid "筛选搜索到的日志文件"
 msgstr ""
 
-#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:103
+#: /content/apps/logviewer/templates/admin/logviewer_list.dwt.php:103
 msgid "暂无日志"
 msgstr ""

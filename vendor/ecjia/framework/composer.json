@@ -1,0 +1,31 @@
+{
+    "name": "ecjia/framework",
+    "description": "The ecjia framework package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://ecjia.com",
+    "support": {
+        "issues": "https://github.com/ecjia/framework/issues",
+        "source": "https://github.com/ecjia/framework"
+    },
+    "authors": [
+        {
+            "name": "王正东",
+            "email": "wangzhengdong@ecmoban.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ecjia\\Component\\": "src/Ecjia/Component"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

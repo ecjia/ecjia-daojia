@@ -19,16 +19,25 @@ namespace Symfony\Component\HttpFoundation;
 class RequestMatcher implements RequestMatcherInterface
 {
     /**
+<<<<<<< HEAD
      * @var string
+=======
+     * @var string|null
+>>>>>>> v2-test
      */
     private $path;
 
     /**
+<<<<<<< HEAD
      * @var string
+=======
+     * @var string|null
+>>>>>>> v2-test
      */
     private $host;
 
     /**
+<<<<<<< HEAD
      * @var array
      */
     private $methods = array();
@@ -37,15 +46,35 @@ class RequestMatcher implements RequestMatcherInterface
      * @var string
      */
     private $ips = array();
-
-    /**
-     * @var array
+=======
+     * @var int|null
      */
-    private $attributes = array();
+    private $port;
 
     /**
      * @var string[]
      */
+    private $methods = [];
+
+    /**
+     * @var string[]
+     */
+    private $ips = [];
+>>>>>>> v2-test
+
+    /**
+     * @var array
+     */
+<<<<<<< HEAD
+    private $attributes = array();
+=======
+    private $attributes = [];
+>>>>>>> v2-test
+
+    /**
+     * @var string[]
+     */
+<<<<<<< HEAD
     private $schemes = array();
 
     /**
@@ -57,12 +86,26 @@ class RequestMatcher implements RequestMatcherInterface
      * @param string|string[]|null $schemes
      */
     public function __construct($path = null, $host = null, $methods = null, $ips = null, array $attributes = array(), $schemes = null)
+=======
+    private $schemes = [];
+
+    /**
+     * @param string|string[]|null $methods
+     * @param string|string[]|null $ips
+     * @param string|string[]|null $schemes
+     */
+    public function __construct(string $path = null, string $host = null, $methods = null, $ips = null, array $attributes = [], $schemes = null, int $port = null)
+>>>>>>> v2-test
     {
         $this->matchPath($path);
         $this->matchHost($host);
         $this->matchMethod($methods);
         $this->matchIps($ips);
         $this->matchScheme($schemes);
+<<<<<<< HEAD
+=======
+        $this->matchPort($port);
+>>>>>>> v2-test
 
         foreach ($attributes as $k => $v) {
             $this->matchAttribute($k, $v);
@@ -76,25 +119,50 @@ class RequestMatcher implements RequestMatcherInterface
      */
     public function matchScheme($scheme)
     {
+<<<<<<< HEAD
         $this->schemes = array_map('strtolower', (array) $scheme);
+=======
+        $this->schemes = null !== $scheme ? array_map('strtolower', (array) $scheme) : [];
+>>>>>>> v2-test
     }
 
     /**
      * Adds a check for the URL host name.
+<<<<<<< HEAD
      *
      * @param string $regexp A Regexp
      */
     public function matchHost($regexp)
+=======
+     */
+    public function matchHost(?string $regexp)
+>>>>>>> v2-test
     {
         $this->host = $regexp;
     }
 
     /**
+<<<<<<< HEAD
      * Adds a check for the URL path info.
      *
      * @param string $regexp A Regexp
      */
     public function matchPath($regexp)
+=======
+     * Adds a check for the the URL port.
+     *
+     * @param int|null $port The port number to connect to
+     */
+    public function matchPort(?int $port)
+    {
+        $this->port = $port;
+    }
+
+    /**
+     * Adds a check for the URL path info.
+     */
+    public function matchPath(?string $regexp)
+>>>>>>> v2-test
     {
         $this->path = $regexp;
     }
@@ -104,7 +172,11 @@ class RequestMatcher implements RequestMatcherInterface
      *
      * @param string $ip A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
      */
+<<<<<<< HEAD
     public function matchIp($ip)
+=======
+    public function matchIp(string $ip)
+>>>>>>> v2-test
     {
         $this->matchIps($ip);
     }
@@ -112,30 +184,55 @@ class RequestMatcher implements RequestMatcherInterface
     /**
      * Adds a check for the client IP.
      *
+<<<<<<< HEAD
      * @param string|string[] $ips A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
      */
     public function matchIps($ips)
     {
         $this->ips = (array) $ips;
+=======
+     * @param string|string[]|null $ips A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
+     */
+    public function matchIps($ips)
+    {
+        $ips = null !== $ips ? (array) $ips : [];
+
+        $this->ips = array_reduce($ips, static function (array $ips, string $ip) {
+            return array_merge($ips, preg_split('/\s*,\s*/', $ip));
+        }, []);
+>>>>>>> v2-test
     }
 
     /**
      * Adds a check for the HTTP method.
      *
+<<<<<<< HEAD
      * @param string|string[] $method An HTTP method or an array of HTTP methods
      */
     public function matchMethod($method)
     {
         $this->methods = array_map('strtoupper', (array) $method);
+=======
+     * @param string|string[]|null $method An HTTP method or an array of HTTP methods
+     */
+    public function matchMethod($method)
+    {
+        $this->methods = null !== $method ? array_map('strtoupper', (array) $method) : [];
+>>>>>>> v2-test
     }
 
     /**
      * Adds a check for request attribute.
+<<<<<<< HEAD
      *
      * @param string $key    The request attribute name
      * @param string $regexp A Regexp
      */
     public function matchAttribute($key, $regexp)
+=======
+     */
+    public function matchAttribute(string $key, string $regexp)
+>>>>>>> v2-test
     {
         $this->attributes[$key] = $regexp;
     }
@@ -145,11 +242,19 @@ class RequestMatcher implements RequestMatcherInterface
      */
     public function matches(Request $request)
     {
+<<<<<<< HEAD
         if ($this->schemes && !in_array($request->getScheme(), $this->schemes)) {
             return false;
         }
 
         if ($this->methods && !in_array($request->getMethod(), $this->methods)) {
+=======
+        if ($this->schemes && !\in_array($request->getScheme(), $this->schemes, true)) {
+            return false;
+        }
+
+        if ($this->methods && !\in_array($request->getMethod(), $this->methods, true)) {
+>>>>>>> v2-test
             return false;
         }
 
@@ -167,12 +272,23 @@ class RequestMatcher implements RequestMatcherInterface
             return false;
         }
 
+<<<<<<< HEAD
+=======
+        if (null !== $this->port && 0 < $this->port && $request->getPort() !== $this->port) {
+            return false;
+        }
+
+>>>>>>> v2-test
         if (IpUtils::checkIp($request->getClientIp(), $this->ips)) {
             return true;
         }
 
         // Note to future implementors: add additional checks above the
         // foreach above or else your check might not be run!
+<<<<<<< HEAD
         return count($this->ips) === 0;
+=======
+        return 0 === \count($this->ips);
+>>>>>>> v2-test
     }
 }

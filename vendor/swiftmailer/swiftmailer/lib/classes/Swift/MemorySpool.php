@@ -15,7 +15,11 @@
  */
 class Swift_MemorySpool implements Swift_Spool
 {
+<<<<<<< HEAD
     protected $messages = array();
+=======
+    protected $messages = [];
+>>>>>>> v2-test
     private $flushRetries = 3;
 
     /**
@@ -53,11 +57,19 @@ class Swift_MemorySpool implements Swift_Spool
     /**
      * Stores a message in the queue.
      *
+<<<<<<< HEAD
      * @param Swift_Mime_Message $message The message to store
      *
      * @return bool Whether the operation has succeeded
      */
     public function queueMessage(Swift_Mime_Message $message)
+=======
+     * @param Swift_Mime_SimpleMessage $message The message to store
+     *
+     * @return bool Whether the operation has succeeded
+     */
+    public function queueMessage(Swift_Mime_SimpleMessage $message)
+>>>>>>> v2-test
     {
         //clone the message to make sure it is not changed while in the queue
         $this->messages[] = clone $message;

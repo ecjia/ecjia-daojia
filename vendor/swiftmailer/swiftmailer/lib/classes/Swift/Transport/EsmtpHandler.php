@@ -18,7 +18,11 @@ interface Swift_Transport_EsmtpHandler
     /**
      * Get the name of the ESMTP extension this handles.
      *
+<<<<<<< HEAD
      * @return bool
+=======
+     * @return string
+>>>>>>> v2-test
      */
     public function getHandledKeyword();
 
@@ -59,7 +63,11 @@ interface Swift_Transport_EsmtpHandler
      * @param string[]                  $failedRecipients to collect failures
      * @param bool                      $stop             to be set true  by-reference if the command is now sent
      */
+<<<<<<< HEAD
     public function onCommand(Swift_Transport_SmtpAgent $agent, $command, $codes = array(), &$failedRecipients = null, &$stop = false);
+=======
+    public function onCommand(Swift_Transport_SmtpAgent $agent, $command, $codes = [], &$failedRecipients = null, &$stop = false);
+>>>>>>> v2-test
 
     /**
      * Returns +1, -1 or 0 according to the rules for usort().

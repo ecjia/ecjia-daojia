@@ -31,6 +31,7 @@ class PinyinServiceProvider extends ServiceProvider
      */
     public function register()
     {
+<<<<<<< HEAD
         $this->royalcms['pinyin'] = $this->royalcms->share(
             function ($royalcms) {
                 return new Pinyin;
@@ -50,6 +51,11 @@ class PinyinServiceProvider extends ServiceProvider
         {
             $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
             $loader->alias('RC_Pinyin', 'Royalcms\Component\Pinyin\Facades\Pinyin');
+=======
+        $this->royalcms->singleton('pinyin', function ($royalcms)
+        {
+            return new Pinyin;
+>>>>>>> v2-test
         });
     }
 

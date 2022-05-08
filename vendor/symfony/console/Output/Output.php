@@ -37,7 +37,11 @@ abstract class Output implements OutputInterface
      * @param bool                          $decorated Whether to decorate messages
      * @param OutputFormatterInterface|null $formatter Output formatter instance (null to use default OutputFormatter)
      */
+<<<<<<< HEAD
     public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = false, OutputFormatterInterface $formatter = null)
+=======
+    public function __construct(?int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatterInterface $formatter = null)
+>>>>>>> v2-test
     {
         $this->verbosity = null === $verbosity ? self::VERBOSITY_NORMAL : $verbosity;
         $this->formatter = $formatter ?: new OutputFormatter();
@@ -63,7 +67,11 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setDecorated($decorated)
+=======
+    public function setDecorated(bool $decorated)
+>>>>>>> v2-test
     {
         $this->formatter->setDecorated($decorated);
     }
@@ -79,9 +87,15 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setVerbosity($level)
     {
         $this->verbosity = (int) $level;
+=======
+    public function setVerbosity(int $level)
+    {
+        $this->verbosity = $level;
+>>>>>>> v2-test
     }
 
     /**
@@ -127,7 +141,11 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function writeln($messages, $options = self::OUTPUT_NORMAL)
+=======
+    public function writeln($messages, int $options = self::OUTPUT_NORMAL)
+>>>>>>> v2-test
     {
         $this->write($messages, true, $options);
     }
@@ -135,9 +153,17 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function write($messages, $newline = false, $options = self::OUTPUT_NORMAL)
     {
         $messages = (array) $messages;
+=======
+    public function write($messages, bool $newline = false, int $options = self::OUTPUT_NORMAL)
+    {
+        if (!is_iterable($messages)) {
+            $messages = [$messages];
+        }
+>>>>>>> v2-test
 
         $types = self::OUTPUT_NORMAL | self::OUTPUT_RAW | self::OUTPUT_PLAIN;
         $type = $types & $options ?: self::OUTPUT_NORMAL;
@@ -167,9 +193,14 @@ abstract class Output implements OutputInterface
 
     /**
      * Writes a message to the output.
+<<<<<<< HEAD
      *
      * @param string $message A message to write to the output
      * @param bool   $newline Whether to add a newline or not
      */
     abstract protected function doWrite($message, $newline);
+=======
+     */
+    abstract protected function doWrite(string $message, bool $newline);
+>>>>>>> v2-test
 }

@@ -1,0 +1,39 @@
+{
+    "name": "royalcms/agent",
+    "description": "The Royalcms Agent package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Agent\\": "Royalcms/Component/Agent"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.x-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Agent\\AgentServiceProvider"
+            ],
+            "aliases": {
+                "RC_Agent": "Royalcms\\Component\\Agent\\Facades\\Agent"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

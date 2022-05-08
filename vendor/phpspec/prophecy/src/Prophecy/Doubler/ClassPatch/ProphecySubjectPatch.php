@@ -11,9 +11,17 @@
 
 namespace Prophecy\Doubler\ClassPatch;
 
+<<<<<<< HEAD
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 use Prophecy\Doubler\Generator\Node\ArgumentNode;
+=======
+use Prophecy\Doubler\Generator\Node\ArgumentTypeNode;
+use Prophecy\Doubler\Generator\Node\ClassNode;
+use Prophecy\Doubler\Generator\Node\MethodNode;
+use Prophecy\Doubler\Generator\Node\ArgumentNode;
+use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
+>>>>>>> v2-test
 
 /**
  * Add Prophecy functionality to the double.
@@ -43,26 +51,58 @@ class ProphecySubjectPatch implements ClassPatchInterface
     public function apply(ClassNode $node)
     {
         $node->addInterface('Prophecy\Prophecy\ProphecySubjectInterface');
+<<<<<<< HEAD
         $node->addProperty('objectProphecy', 'private');
+=======
+        $node->addProperty('objectProphecyClosure', 'private');
+>>>>>>> v2-test
 
         foreach ($node->getMethods() as $name => $method) {
             if ('__construct' === strtolower($name)) {
                 continue;
             }
 
+<<<<<<< HEAD
             $method->setCode(
                 'return $this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());'
             );
+=======
+            if ($method->getReturnTypeNode()->isVoid()) {
+                $method->setCode(
+                    '$this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());'
+                );
+            } else {
+                $method->setCode(
+                    'return $this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());'
+                );
+            }
+>>>>>>> v2-test
         }
 
         $prophecySetter = new MethodNode('setProphecy');
         $prophecyArgument = new ArgumentNode('prophecy');
+<<<<<<< HEAD
         $prophecyArgument->setTypeHint('Prophecy\Prophecy\ProphecyInterface');
         $prophecySetter->addArgument($prophecyArgument);
         $prophecySetter->setCode('$this->objectProphecy = $prophecy;');
 
         $prophecyGetter = new MethodNode('getProphecy');
         $prophecyGetter->setCode('return $this->objectProphecy;');
+=======
+        $prophecyArgument->setTypeNode(new ArgumentTypeNode('Prophecy\Prophecy\ProphecyInterface'));
+        $prophecySetter->addArgument($prophecyArgument);
+        $prophecySetter->setCode(<<<PHP
+if (null === \$this->objectProphecyClosure) {
+    \$this->objectProphecyClosure = static function () use (\$prophecy) {
+        return \$prophecy;
+    };
+}
+PHP
+    );
+
+        $prophecyGetter = new MethodNode('getProphecy');
+        $prophecyGetter->setCode('return \call_user_func($this->objectProphecyClosure);');
+>>>>>>> v2-test
 
         if ($node->hasMethod('__call')) {
             $__call = $node->getMethod('__call');
@@ -71,19 +111,32 @@ class ProphecySubjectPatch implements ClassPatchInterface
             $__call->addArgument(new ArgumentNode('name'));
             $__call->addArgument(new ArgumentNode('arguments'));
 
+<<<<<<< HEAD
             $node->addMethod($__call);
+=======
+            $node->addMethod($__call, true);
+>>>>>>> v2-test
         }
 
         $__call->setCode(<<<PHP
 throw new \Prophecy\Exception\Doubler\MethodNotFoundException(
     sprintf('Method `%s::%s()` not found.', get_class(\$this), func_get_arg(0)),
+<<<<<<< HEAD
     \$this->getProphecy(), func_get_arg(0)
+=======
+    get_class(\$this), func_get_arg(0)
+>>>>>>> v2-test
 );
 PHP
         );
 
+<<<<<<< HEAD
         $node->addMethod($prophecySetter);
         $node->addMethod($prophecyGetter);
+=======
+        $node->addMethod($prophecySetter, true);
+        $node->addMethod($prophecyGetter, true);
+>>>>>>> v2-test
     }
 
     /**

@@ -14,7 +14,11 @@
 namespace PhpSpec\Formatter\Html;
 
 use PhpSpec\Event\ExampleEvent;
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface as Presenter;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 use PhpSpec\Formatter\Template as TemplateInterface;
 
 class ReportFailedItem
@@ -32,7 +36,11 @@ class ReportFailedItem
      */
     private static $failingExamplesCount = 1;
     /**
+<<<<<<< HEAD
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
+=======
+     * @var Presenter
+>>>>>>> v2-test
      */
     private $presenter;
 
@@ -51,7 +59,11 @@ class ReportFailedItem
     /**
      * @param int $index
      */
+<<<<<<< HEAD
     public function write($index)
+=======
+    public function write(int $index): void
+>>>>>>> v2-test
     {
         $code = $this->presenter->presentException($this->event->getException(), true);
         $this->template->render(
@@ -70,7 +82,11 @@ class ReportFailedItem
     /**
      * @return string
      */
+<<<<<<< HEAD
     private function formatBacktrace()
+=======
+    private function formatBacktrace() : string
+>>>>>>> v2-test
     {
         $backtrace = '';
         foreach ($this->event->getBacktrace() as $step) {

@@ -3,13 +3,21 @@
 namespace spec\PhpSpec\Process\ReRunner;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use PhpSpec\Process\Context\ExecutionContextInterface;
 use Prophecy\Argument;
+=======
+use PhpSpec\Process\Context\ExecutionContext;
+>>>>>>> v2-test
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class PcntlReRunnerSpec extends ObjectBehavior
 {
+<<<<<<< HEAD
     function let(PhpExecutableFinder $executableFinder, ExecutionContextInterface $executionContext)
+=======
+    function let(PhpExecutableFinder $executableFinder, ExecutionContext $executionContext)
+>>>>>>> v2-test
     {
         $this->beConstructedThrough('withExecutionContext', array($executableFinder, $executionContext));
     }

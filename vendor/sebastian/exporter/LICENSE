@@ -1,6 +1,10 @@
 Exporter
 
+<<<<<<< HEAD
 Copyright (c) 2002-2015, Sebastian Bergmann <sebastian@phpunit.de>.
+=======
+Copyright (c) 2002-2020, Sebastian Bergmann <sebastian@phpunit.de>.
+>>>>>>> v2-test
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

@@ -41,6 +41,7 @@ class FilecontentFilterIterator extends MultiplePcreFilterIterator
             return false;
         }
 
+<<<<<<< HEAD
         // should at least not match one rule to exclude
         foreach ($this->noMatchRegexps as $regex) {
             if (preg_match($regex, $content)) {
@@ -60,6 +61,9 @@ class FilecontentFilterIterator extends MultiplePcreFilterIterator
         }
 
         return $match;
+=======
+        return $this->isAccepted($content);
+>>>>>>> v2-test
     }
 
     /**
@@ -69,7 +73,11 @@ class FilecontentFilterIterator extends MultiplePcreFilterIterator
      *
      * @return string regexp corresponding to a given string or regexp
      */
+<<<<<<< HEAD
     protected function toRegex($str)
+=======
+    protected function toRegex(string $str)
+>>>>>>> v2-test
     {
         return $this->isRegex($str) ? $str : '/'.preg_quote($str, '/').'/';
     }

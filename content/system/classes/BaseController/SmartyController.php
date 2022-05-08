@@ -4,7 +4,7 @@
 namespace Ecjia\System\BaseController;
 
 use ecjia;
-use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
+use Ecjia\Component\Contracts\EcjiaTemplateFileLoader;
 use ecjia_app;
 use Ecjia_ThemeManager;
 use ecjia_view;
@@ -19,34 +19,9 @@ use Smarty;
 abstract class SmartyController extends EcjiaController implements EcjiaTemplateFileLoader
 {
 
-    /**
-     * 模板视图对象静态属性
-     *
-     * @var \ecjia_view
-     */
-//    public static $view_object;
-
-    /**
-     * 控制器对象静态属性
-     * @var \ecjia_front
-     */
-//    public static $controller;
-
-
     public function __construct()
     {
         parent::__construct();
-
-//        self::$controller = static::$controller;
-//        self::$view_object = static::$view_object;
-
-
-        if (config('system.debug')) {
-            error_reporting(E_ALL);
-        } else {
-            error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-        }
-
 
         RC_Hook::do_action('ecjia_smarty_finish_launching');
     }

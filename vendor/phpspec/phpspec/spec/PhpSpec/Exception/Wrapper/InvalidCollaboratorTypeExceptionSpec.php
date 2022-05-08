@@ -3,12 +3,19 @@
 namespace spec\PhpSpec\Exception\Wrapper;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 class InvalidCollaboratorTypeExceptionSpec extends ObjectBehavior
 {
     function let(\ReflectionParameter $parameter, \ReflectionFunctionAbstract $function)
     {
+<<<<<<< HEAD
+=======
+        $function->getName()->willReturn('bar');
+>>>>>>> v2-test
         $this->beConstructedWith($parameter, $function);
     }
 

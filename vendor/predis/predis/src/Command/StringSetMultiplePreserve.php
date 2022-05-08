@@ -25,6 +25,7 @@ class StringSetMultiplePreserve extends StringSetMultiple
     {
         return 'MSETNX';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class StringSetMultiplePreserve extends StringSetMultiple
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

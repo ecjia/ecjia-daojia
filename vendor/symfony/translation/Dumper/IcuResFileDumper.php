@@ -28,13 +28,22 @@ class IcuResFileDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function format(MessageCatalogue $messages, $domain = 'messages')
+=======
+    public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = [])
+>>>>>>> v2-test
     {
         $data = $indexes = $resources = '';
 
         foreach ($messages->all($domain) as $source => $target) {
+<<<<<<< HEAD
             $indexes .= pack('v', strlen($data) + 28);
             $data    .= $source."\0";
+=======
+            $indexes .= pack('v', \strlen($data) + 28);
+            $data .= $source."\0";
+>>>>>>> v2-test
         }
 
         $data .= $this->writePadding($data);
@@ -44,7 +53,11 @@ class IcuResFileDumper extends FileDumper
         foreach ($messages->all($domain) as $source => $target) {
             $resources .= pack('V', $this->getPosition($data));
 
+<<<<<<< HEAD
             $data .= pack('V', strlen($target))
+=======
+            $data .= pack('V', \strlen($target))
+>>>>>>> v2-test
                 .mb_convert_encoding($target."\0", 'UTF-16LE', 'UTF-8')
                 .$this->writePadding($data)
                   ;
@@ -52,7 +65,11 @@ class IcuResFileDumper extends FileDumper
 
         $resOffset = $this->getPosition($data);
 
+<<<<<<< HEAD
         $data .= pack('v', count($messages))
+=======
+        $data .= pack('v', \count($messages->all($domain)))
+>>>>>>> v2-test
             .$indexes
             .$this->writePadding($data)
             .$resources
@@ -63,11 +80,19 @@ class IcuResFileDumper extends FileDumper
         $root = pack('V7',
             $resOffset + (2 << 28), // Resource Offset + Resource Type
             6,                      // Index length
+<<<<<<< HEAD
             $keyTop,                // Index keys top
             $bundleTop,             // Index resources top
             $bundleTop,             // Index bundle top
             count($messages),       // Index max table length
             0                       // Index attributes
+=======
+            $keyTop,                        // Index keys top
+            $bundleTop,                     // Index resources top
+            $bundleTop,                     // Index bundle top
+            \count($messages->all($domain)), // Index max table length
+            0                               // Index attributes
+>>>>>>> v2-test
         );
 
         $header = pack('vC2v4C12@32',
@@ -82,6 +107,7 @@ class IcuResFileDumper extends FileDumper
         return $header.$root.$data;
     }
 
+<<<<<<< HEAD
     private function writePadding($data)
     {
         $padding = strlen($data) % 4;
@@ -94,6 +120,18 @@ class IcuResFileDumper extends FileDumper
     private function getPosition($data)
     {
         return (strlen($data) + 28) / 4;
+=======
+    private function writePadding(string $data): ?string
+    {
+        $padding = \strlen($data) % 4;
+
+        return $padding ? str_repeat("\xAA", 4 - $padding) : null;
+    }
+
+    private function getPosition(string $data)
+    {
+        return (\strlen($data) + 28) / 4;
+>>>>>>> v2-test
     }
 
     /**

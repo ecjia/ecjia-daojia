@@ -25,12 +25,18 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
+=======
+ *
+ * @internal
+>>>>>>> v2-test
  */
 class FunctionExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getFunctionTranslators()
     {
         return array(
@@ -59,6 +65,29 @@ class FunctionExtension extends AbstractExtension
             list($a, $b) = Parser::parseSeries($function->getArguments());
         } catch (SyntaxErrorException $e) {
             throw new ExpressionErrorException(sprintf('Invalid series: %s', implode(', ', $function->getArguments())), 0, $e);
+=======
+    public function getFunctionTranslators(): array
+    {
+        return [
+            'nth-child' => [$this, 'translateNthChild'],
+            'nth-last-child' => [$this, 'translateNthLastChild'],
+            'nth-of-type' => [$this, 'translateNthOfType'],
+            'nth-last-of-type' => [$this, 'translateNthLastOfType'],
+            'contains' => [$this, 'translateContains'],
+            'lang' => [$this, 'translateLang'],
+        ];
+    }
+
+    /**
+     * @throws ExpressionErrorException
+     */
+    public function translateNthChild(XPathExpr $xpath, FunctionNode $function, bool $last = false, bool $addNameTest = true): XPathExpr
+    {
+        try {
+            [$a, $b] = Parser::parseSeries($function->getArguments());
+        } catch (SyntaxErrorException $e) {
+            throw new ExpressionErrorException(sprintf('Invalid series: "%s".', implode('", "', $function->getArguments())), 0, $e);
+>>>>>>> v2-test
         }
 
         $xpath->addStarPrefix();
@@ -91,7 +120,11 @@ class FunctionExtension extends AbstractExtension
             $expr .= ' - '.$b;
         }
 
+<<<<<<< HEAD
         $conditions = array(sprintf('%s %s 0', $expr, $sign));
+=======
+        $conditions = [sprintf('%s %s 0', $expr, $sign)];
+>>>>>>> v2-test
 
         if (1 !== $a && -1 !== $a) {
             $conditions[] = sprintf('(%s) mod %d = 0', $expr, $a);
@@ -108,6 +141,7 @@ class FunctionExtension extends AbstractExtension
         // -1n+6 means elements 6 and previous
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr    $xpath
      * @param FunctionNode $function
@@ -115,10 +149,14 @@ class FunctionExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateNthLastChild(XPathExpr $xpath, FunctionNode $function)
+=======
+    public function translateNthLastChild(XPathExpr $xpath, FunctionNode $function): XPathExpr
+>>>>>>> v2-test
     {
         return $this->translateNthChild($xpath, $function, true);
     }
 
+<<<<<<< HEAD
     /**
      * @param XPathExpr    $xpath
      * @param FunctionNode $function
@@ -126,11 +164,15 @@ class FunctionExtension extends AbstractExtension
      * @return XPathExpr
      */
     public function translateNthOfType(XPathExpr $xpath, FunctionNode $function)
+=======
+    public function translateNthOfType(XPathExpr $xpath, FunctionNode $function): XPathExpr
+>>>>>>> v2-test
     {
         return $this->translateNthChild($xpath, $function, false, false);
     }
 
     /**
+<<<<<<< HEAD
      * @param XPathExpr    $xpath
      * @param FunctionNode $function
      *
@@ -139,6 +181,11 @@ class FunctionExtension extends AbstractExtension
      * @throws ExpressionErrorException
      */
     public function translateNthLastOfType(XPathExpr $xpath, FunctionNode $function)
+=======
+     * @throws ExpressionErrorException
+     */
+    public function translateNthLastOfType(XPathExpr $xpath, FunctionNode $function): XPathExpr
+>>>>>>> v2-test
     {
         if ('*' === $xpath->getElement()) {
             throw new ExpressionErrorException('"*:nth-of-type()" is not implemented.');
@@ -148,6 +195,7 @@ class FunctionExtension extends AbstractExtension
     }
 
     /**
+<<<<<<< HEAD
      * @param XPathExpr    $xpath
      * @param FunctionNode $function
      *
@@ -156,14 +204,23 @@ class FunctionExtension extends AbstractExtension
      * @throws ExpressionErrorException
      */
     public function translateContains(XPathExpr $xpath, FunctionNode $function)
+=======
+     * @throws ExpressionErrorException
+     */
+    public function translateContains(XPathExpr $xpath, FunctionNode $function): XPathExpr
+>>>>>>> v2-test
     {
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
+<<<<<<< HEAD
                 throw new ExpressionErrorException(
                     'Expected a single string or identifier for :contains(), got '
                     .implode(', ', $arguments)
                 );
+=======
+                throw new ExpressionErrorException('Expected a single string or identifier for :contains(), got '.implode(', ', $arguments));
+>>>>>>> v2-test
             }
         }
 
@@ -174,6 +231,7 @@ class FunctionExtension extends AbstractExtension
     }
 
     /**
+<<<<<<< HEAD
      * @param XPathExpr    $xpath
      * @param FunctionNode $function
      *
@@ -182,14 +240,23 @@ class FunctionExtension extends AbstractExtension
      * @throws ExpressionErrorException
      */
     public function translateLang(XPathExpr $xpath, FunctionNode $function)
+=======
+     * @throws ExpressionErrorException
+     */
+    public function translateLang(XPathExpr $xpath, FunctionNode $function): XPathExpr
+>>>>>>> v2-test
     {
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
+<<<<<<< HEAD
                 throw new ExpressionErrorException(
                     'Expected a single string or identifier for :lang(), got '
                     .implode(', ', $arguments)
                 );
+=======
+                throw new ExpressionErrorException('Expected a single string or identifier for :lang(), got '.implode(', ', $arguments));
+>>>>>>> v2-test
             }
         }
 
@@ -202,7 +269,11 @@ class FunctionExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getName()
+=======
+    public function getName(): string
+>>>>>>> v2-test
     {
         return 'function';
     }

@@ -2,9 +2,14 @@
 
 namespace spec\PhpSpec\Loader\Transformer;
 
+<<<<<<< HEAD
 use PhpSpec\CodeAnalysis\DisallowedScalarTypehintException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+=======
+use PhpSpec\CodeAnalysis\DisallowedNonObjectTypehintException;
+use PhpSpec\ObjectBehavior;
+>>>>>>> v2-test
 
 class InMemoryTypeHintIndexSpec extends ObjectBehavior
 {
@@ -34,7 +39,11 @@ class InMemoryTypeHintIndexSpec extends ObjectBehavior
 
     function it_throws_invalid_argument_exceptions()
     {
+<<<<<<< HEAD
         $e = new DisallowedScalarTypehintException();
+=======
+        $e = new DisallowedNonObjectTypehintException();
+>>>>>>> v2-test
 
         $this->addInvalid('Foo', 'boz', '$bar', $e);
 

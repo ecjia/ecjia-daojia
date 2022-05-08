@@ -25,6 +25,7 @@ class KeyRenamePreserve extends KeyRename
     {
         return 'RENAMENX';
     }
+<<<<<<< HEAD
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,6 @@ class KeyRenamePreserve extends KeyRename
     {
         return (bool) $data;
     }
+=======
+>>>>>>> v2-test
 }

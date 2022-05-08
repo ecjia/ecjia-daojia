@@ -13,8 +13,13 @@ namespace Symfony\Component\CssSelector\Parser\Handler;
 
 use Symfony\Component\CssSelector\Parser\Reader;
 use Symfony\Component\CssSelector\Parser\Token;
+<<<<<<< HEAD
 use Symfony\Component\CssSelector\Parser\TokenStream;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
+=======
+use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
+use Symfony\Component\CssSelector\Parser\TokenStream;
+>>>>>>> v2-test
 
 /**
  * CSS selector comment handler.
@@ -23,6 +28,7 @@ use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+<<<<<<< HEAD
  */
 class NumberHandler implements HandlerInterface
 {
@@ -34,6 +40,15 @@ class NumberHandler implements HandlerInterface
     /**
      * @param TokenizerPatterns $patterns
      */
+=======
+ *
+ * @internal
+ */
+class NumberHandler implements HandlerInterface
+{
+    private $patterns;
+
+>>>>>>> v2-test
     public function __construct(TokenizerPatterns $patterns)
     {
         $this->patterns = $patterns;
@@ -42,7 +57,11 @@ class NumberHandler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function handle(Reader $reader, TokenStream $stream)
+=======
+    public function handle(Reader $reader, TokenStream $stream): bool
+>>>>>>> v2-test
     {
         $match = $reader->findPattern($this->patterns->getNumberPattern());
 
@@ -51,7 +70,11 @@ class NumberHandler implements HandlerInterface
         }
 
         $stream->push(new Token(Token::TYPE_NUMBER, $match[0], $reader->getPosition()));
+<<<<<<< HEAD
         $reader->moveForward(strlen($match[0]));
+=======
+        $reader->moveForward(\strlen($match[0]));
+>>>>>>> v2-test
 
         return true;
     }

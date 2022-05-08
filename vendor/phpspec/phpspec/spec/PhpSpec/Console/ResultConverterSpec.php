@@ -3,7 +3,10 @@
 namespace spec\PhpSpec\Console;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 use PhpSpec\Event\ExampleEvent;
 
 class ResultConverterSpec extends ObjectBehavior

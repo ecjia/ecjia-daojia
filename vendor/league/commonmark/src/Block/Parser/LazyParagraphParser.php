@@ -17,15 +17,9 @@ namespace League\CommonMark\Block\Parser;
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
 
-class LazyParagraphParser extends AbstractBlockParser
+final class LazyParagraphParser implements BlockParserInterface
 {
-    /**
-     * @param ContextInterface $context
-     * @param Cursor           $cursor
-     *
-     * @return bool
-     */
-    public function parse(ContextInterface $context, Cursor $cursor)
+    public function parse(ContextInterface $context, Cursor $cursor): bool
     {
         if (!$cursor->isIndented()) {
             return false;

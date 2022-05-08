@@ -67,7 +67,7 @@ class MailTeplates
      * @return array
      */
     public static function MailTemplatesInfo($id) {
-        return RC_DB::table('mail_templates')->where('template_id', $id)->first();
+        return RC_DB::connection(config('ecjia.database_connection', 'default'))->table('mail_templates')->where('template_id', $id)->first();
     }
 
     /**
@@ -77,10 +77,10 @@ class MailTeplates
      * @return array
      */
     public static function MailTemplatesSelect($where, $field='*') {
-        return RC_DB::table('mail_templates')
+        return RC_DB::connection(config('ecjia.database_connection', 'default'))->table('mail_templates')
             ->where('type', $where)
             ->select($field)
-            ->get();
+            ->get()->toArray();
     }
     
     /**
@@ -91,7 +91,7 @@ class MailTeplates
      * @return  array
      */
     public static function LoadTemplate($tpl) {
-        return RC_DB::table('mail_templates')
+        return RC_DB::connection(config('ecjia.database_connection', 'default'))->table('mail_templates')
             ->where('template_code', $tpl)
             ->select('template_subject', 'template_content', 'is_html')
             ->first();
@@ -105,7 +105,7 @@ class MailTeplates
      * @param   array  $data
      */
     public static function MailTemplatesUpdate($where, $data) {
-        return RC_DB::table('mail_templates')
+        return RC_DB::connection(config('ecjia.database_connection', 'default'))->table('mail_templates')
             ->where('template_code', $where)
             ->update($data);
     }

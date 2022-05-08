@@ -5,16 +5,27 @@ namespace spec\PhpSpec\Runner;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+<<<<<<< HEAD
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+>>>>>>> v2-test
 
 use ReflectionFunction;
 use ReflectionParameter;
 
 class CollaboratorManagerSpec extends ObjectBehavior
 {
+<<<<<<< HEAD
     function let(PresenterInterface $presenter)
     {
         $this->beConstructedWith($presenter);
+=======
+    function let(Presenter $presenter)
+    {
+        $this->beConstructedWith($presenter);
+        $presenter->presentString(Argument::cetera())->willReturn('someString');
+>>>>>>> v2-test
     }
 
     function it_stores_collaborators_by_name($collaborator)

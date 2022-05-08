@@ -3,6 +3,7 @@
 namespace spec\PhpSpec\Listener;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
 
 use PhpSpec\Event\ExampleEvent;
@@ -11,6 +12,15 @@ use PhpSpec\Console\IO;
 class StopOnFailureListenerSpec extends ObjectBehavior
 {
     function let(IO $io)
+=======
+
+use PhpSpec\Event\ExampleEvent;
+use PhpSpec\Console\ConsoleIO;
+
+class StopOnFailureListenerSpec extends ObjectBehavior
+{
+    function let(ConsoleIO $io)
+>>>>>>> v2-test
     {
         $io->isStopOnFailureEnabled()->willReturn(false);
         $this->beConstructedWith($io);

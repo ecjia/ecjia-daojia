@@ -5,7 +5,10 @@ namespace spec\PhpSpec\Formatter\Presenter\Exception;
 use PhpSpec\Formatter\Presenter\Value\ExceptionTypePresenter;
 use PhpSpec\Formatter\Presenter\Value\ValuePresenter;
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 class SimpleExceptionElementPresenterSpec extends ObjectBehavior
 {

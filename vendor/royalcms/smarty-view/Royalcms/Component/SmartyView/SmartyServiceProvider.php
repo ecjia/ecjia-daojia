@@ -92,7 +92,11 @@ class SmartyServiceProvider extends ServiceProvider
      */
     public function registerViewFinder()
     {
+<<<<<<< HEAD
         $this->royalcms->bindShared('view.finder', function($royalcms)
+=======
+        $this->royalcms->singleton('view.finder', function($royalcms)
+>>>>>>> v2-test
         {
             $path = $royalcms['config']['smarty-view::smarty.template_path'];
     
@@ -107,8 +111,11 @@ class SmartyServiceProvider extends ServiceProvider
      */
     public function registerFactory()
     {
+<<<<<<< HEAD
         require_once $this->royalcms['path.vendor'] . '/smarty/smarty/Smarty.class.php';
 
+=======
+>>>>>>> v2-test
         $this->royalcms->singleton('view', function ($royalcms) {
             $factory = new SmartyFactory(
                 $royalcms['view.engine.resolver'],

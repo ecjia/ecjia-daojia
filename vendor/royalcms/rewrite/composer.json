@@ -1,0 +1,40 @@
+{
+    "name": "royalcms/rewrite",
+    "description": "The Royalcms rewrite package.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/variable": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Rewrite\\": "Royalcms/Component/Rewrite"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Rewrite\\RewriteServiceProvider"
+            ],
+            "aliases": {
+                "RC_Rewrite": "Royalcms\\Component\\Rewrite\\Facades\\Rewrite"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}

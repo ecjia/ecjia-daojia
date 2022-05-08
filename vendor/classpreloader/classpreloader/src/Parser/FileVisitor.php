@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Class Preloader.
  *
@@ -12,7 +14,7 @@
 
 namespace ClassPreloader\Parser;
 
-use ClassPreloader\Exceptions\FileConstantException;
+use ClassPreloader\Exception\FileConstantException;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\MagicConst\File as FileNode;
 use PhpParser\Node\Scalar\String_ as StringNode;
@@ -38,7 +40,7 @@ class FileVisitor extends AbstractNodeVisitor
      *
      * @return void
      */
-    public function __construct($skip = false)
+    public function __construct(bool $skip = false)
     {
         $this->skip = $skip;
     }
@@ -48,7 +50,7 @@ class FileVisitor extends AbstractNodeVisitor
      *
      * @param \PhpParser\Node $node
      *
-     * @throws \ClassPreloader\Exceptions\FileConstantException
+     * @throws \ClassPreloader\Exception\FileConstantException
      *
      * @return \PhpParser\Node\Scalar\String_|null
      */
@@ -61,5 +63,7 @@ class FileVisitor extends AbstractNodeVisitor
 
             return new StringNode($this->getFilename());
         }
+
+        return null;
     }
 }

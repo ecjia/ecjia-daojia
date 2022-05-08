@@ -22,7 +22,11 @@ class Differ
         $this->engines = $engines;
     }
 
+<<<<<<< HEAD
     public function addEngine(EngineInterface $engine)
+=======
+    public function addEngine(DifferEngine $engine): void
+>>>>>>> v2-test
     {
         $this->engines[] = $engine;
     }

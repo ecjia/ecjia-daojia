@@ -12,6 +12,10 @@
 namespace Prophecy\Call;
 
 use Exception;
+<<<<<<< HEAD
+=======
+use Prophecy\Argument\ArgumentsWildcard;
+>>>>>>> v2-test
 
 /**
  * Call object.
@@ -26,6 +30,10 @@ class Call
     private $exception;
     private $file;
     private $line;
+<<<<<<< HEAD
+=======
+    private $scores;
+>>>>>>> v2-test
 
     /**
      * Initializes call.
@@ -44,6 +52,10 @@ class Call
         $this->arguments   = $arguments;
         $this->returnValue = $returnValue;
         $this->exception   = $exception;
+<<<<<<< HEAD
+=======
+        $this->scores      = new \SplObjectStorage();
+>>>>>>> v2-test
 
         if ($file) {
             $this->file = $file;
@@ -124,4 +136,39 @@ class Call
 
         return sprintf('%s:%d', $this->file, $this->line);
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Adds the wildcard match score for the provided wildcard.
+     *
+     * @param ArgumentsWildcard $wildcard
+     * @param false|int $score
+     *
+     * @return $this
+     */
+    public function addScore(ArgumentsWildcard $wildcard, $score)
+    {
+        $this->scores[$wildcard] = $score;
+
+        return $this;
+    }
+
+    /**
+     * Returns wildcard match score for the provided wildcard. The score is
+     * calculated if not already done.
+     *
+     * @param ArgumentsWildcard $wildcard
+     *
+     * @return false|int False OR integer score (higher - better)
+     */
+    public function getScore(ArgumentsWildcard $wildcard)
+    {
+        if (isset($this->scores[$wildcard])) {
+            return $this->scores[$wildcard];
+        }
+
+        return $this->scores[$wildcard] = $wildcard->scoreArguments($this->getArguments());
+    }
+>>>>>>> v2-test
 }

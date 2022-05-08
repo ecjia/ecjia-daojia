@@ -3,7 +3,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.admin.sms_config.init();
+	ecjia.admin.sms_config_edit.init();
 </script>
 <!-- {/block} -->
 
@@ -19,7 +19,7 @@
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">{t domain="sms"}平台通知电话：{/t}</label>
+					<label class="control-label">{t domain="sms"}平台通知电话{/t}</label>
 					<div class="controls">
 						<input type='text' name='sms_shop_mobile' value="{$config_mobile}" size='20' /> 
 					</div>

@@ -20,10 +20,13 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 interface DataDumperInterface
 {
+<<<<<<< HEAD
     /**
      * Dumps a Data object.
      *
      * @param Data $data A Data object
      */
+=======
+>>>>>>> v2-test
     public function dump(Data $data);
 }

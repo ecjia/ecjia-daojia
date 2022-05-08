@@ -6,6 +6,22 @@
  */
 class Raven_Context
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @var array
+     */
+    public $tags;
+    /**
+     * @var array
+     */
+    public $extra;
+    /**
+     * @var array|null
+     */
+    public $user;
+
+>>>>>>> v2-test
     public function __construct()
     {
         $this->clear();

@@ -49,6 +49,16 @@ class ConnectionFactoryOption implements OptionInterface
      */
     public function getDefault(OptionsInterface $options)
     {
+<<<<<<< HEAD
         return new Factory();
+=======
+        $factory = new Factory();
+
+        if ($options->defined('parameters')) {
+            $factory->setDefaultParameters($options->parameters);
+        }
+
+        return $factory;
+>>>>>>> v2-test
     }
 }

@@ -74,6 +74,17 @@ class AdminLogModel extends Model
 	public $timestamps = false;
 
     /**
+     * AttributeModel constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+//        $this->connection = config('ecjia.database_connection', 'default');
+
+        parent::__construct($attributes);
+    }
+
+    /**
      * 一对多（反向）
      */
     public function admin_user_model()

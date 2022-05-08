@@ -87,6 +87,7 @@ class PhpiredisStreamConnection extends StreamConnection
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     protected function tcpStreamInitializer(ParametersInterface $parameters)
     {
         $uri = "tcp://[{$parameters->host}]:{$parameters->port}";
@@ -103,6 +104,36 @@ class PhpiredisStreamConnection extends StreamConnection
         }
 
         $resource = @stream_socket_client($uri, $errno, $errstr, (float) $parameters->timeout, $flags);
+=======
+    protected function assertParameters(ParametersInterface $parameters)
+    {
+        switch ($parameters->scheme) {
+            case 'tcp':
+            case 'redis':
+            case 'unix':
+                break;
+
+            case 'tls':
+            case 'rediss':
+                throw new \InvalidArgumentException('SSL encryption is not supported by this connection backend.');
+
+            default:
+                throw new \InvalidArgumentException("Invalid scheme: '$parameters->scheme'.");
+        }
+
+        return $parameters;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createStreamSocket(ParametersInterface $parameters, $address, $flags, $context = null)
+    {
+        $socket = null;
+        $timeout = (isset($parameters->timeout) ? (float) $parameters->timeout : 5.0);
+
+        $resource = @stream_socket_client($address, $errno, $errstr, $timeout, $flags);
+>>>>>>> v2-test
 
         if (!$resource) {
             $this->onConnectionError(trim($errstr), $errno);
@@ -162,9 +193,21 @@ class PhpiredisStreamConnection extends StreamConnection
      */
     protected function getStatusHandler()
     {
+<<<<<<< HEAD
         return function ($payload) {
             return StatusResponse::get($payload);
         };
+=======
+        static $statusHandler;
+
+        if (!$statusHandler) {
+            $statusHandler = function ($payload) {
+                return StatusResponse::get($payload);
+            };
+        }
+
+        return $statusHandler;
+>>>>>>> v2-test
     }
 
     /**
@@ -174,9 +217,21 @@ class PhpiredisStreamConnection extends StreamConnection
      */
     protected function getErrorHandler()
     {
+<<<<<<< HEAD
         return function ($errorMessage) {
             return new ErrorResponse($errorMessage);
         };
+=======
+        static $errorHandler;
+
+        if (!$errorHandler) {
+            $errorHandler = function ($errorMessage) {
+                return new ErrorResponse($errorMessage);
+            };
+        }
+
+        return $errorHandler;
+>>>>>>> v2-test
     }
 
     /**

@@ -13,8 +13,13 @@
 
 namespace PhpSpec\Formatter;
 
+<<<<<<< HEAD
 use PhpSpec\IO\IOInterface as IO;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
+=======
+use PhpSpec\Formatter\Presenter\Presenter;
+use PhpSpec\IO\IO;
+>>>>>>> v2-test
 use PhpSpec\Listener\StatisticsCollector;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
@@ -25,7 +30,11 @@ use PhpSpec\Event\SpecificationEvent;
  *
  * @author Gildas Quemener <gildas.quemener@gmail.com>
  */
+<<<<<<< HEAD
 class JUnitFormatter extends BasicFormatter
+=======
+final class JUnitFormatter extends BasicFormatter
+>>>>>>> v2-test
 {
     /** @var array */
     protected $testCaseNodes = array();
@@ -52,7 +61,11 @@ class JUnitFormatter extends BasicFormatter
         ExampleEvent::SKIPPED => 'skipped',
     );
 
+<<<<<<< HEAD
     public function __construct(PresenterInterface $presenter, IO $io, StatisticsCollector $stats)
+=======
+    public function __construct(Presenter $presenter, IO $io, StatisticsCollector $stats)
+>>>>>>> v2-test
     {
         parent::__construct($presenter, $io, $stats);
 
@@ -64,7 +77,11 @@ class JUnitFormatter extends BasicFormatter
      *
      * @param array $testCaseNodes
      */
+<<<<<<< HEAD
     public function setTestCaseNodes(array $testCaseNodes)
+=======
+    public function setTestCaseNodes(array $testCaseNodes): void
+>>>>>>> v2-test
     {
         $this->testCaseNodes = $testCaseNodes;
     }
@@ -74,7 +91,11 @@ class JUnitFormatter extends BasicFormatter
      *
      * @return array
      */
+<<<<<<< HEAD
     public function getTestCaseNodes()
+=======
+    public function getTestCaseNodes(): array
+>>>>>>> v2-test
     {
         return $this->testCaseNodes;
     }
@@ -94,7 +115,11 @@ class JUnitFormatter extends BasicFormatter
      *
      * @return array
      */
+<<<<<<< HEAD
     public function getTestSuiteNodes()
+=======
+    public function getTestSuiteNodes(): array
+>>>>>>> v2-test
     {
         return $this->testSuiteNodes;
     }
@@ -114,7 +139,11 @@ class JUnitFormatter extends BasicFormatter
      *
      * @return array
      */
+<<<<<<< HEAD
     public function getExampleStatusCounts()
+=======
+    public function getExampleStatusCounts(): array
+>>>>>>> v2-test
     {
         return $this->exampleStatusCounts;
     }
@@ -134,7 +163,11 @@ class JUnitFormatter extends BasicFormatter
 
         $this->exampleStatusCounts[$event->getResult()]++;
 
+<<<<<<< HEAD
         if (in_array($event->getResult(), array(ExampleEvent::BROKEN, ExampleEvent::FAILED))) {
+=======
+        if (\in_array($event->getResult(), array(ExampleEvent::BROKEN, ExampleEvent::FAILED))) {
+>>>>>>> v2-test
             $exception = $event->getException();
             $testCaseNode .= sprintf(
                 '>'."\n".
@@ -146,7 +179,11 @@ class JUnitFormatter extends BasicFormatter
                 '</system-err>'."\n".
                 '</testcase>',
                 $this->resultTags[$event->getResult()],
+<<<<<<< HEAD
                 get_class($exception),
+=======
+                \get_class($exception),
+>>>>>>> v2-test
                 htmlspecialchars($exception->getMessage()),
                 $exception->getTraceAsString()
             );
@@ -175,7 +212,11 @@ class JUnitFormatter extends BasicFormatter
             '</testsuite>',
             $event->getTitle(),
             $event->getTime(),
+<<<<<<< HEAD
             count($this->testCaseNodes),
+=======
+            \count($this->testCaseNodes),
+>>>>>>> v2-test
             $this->exampleStatusCounts[ExampleEvent::FAILED],
             $this->exampleStatusCounts[ExampleEvent::BROKEN],
             $this->exampleStatusCounts[ExampleEvent::PENDING] + $this->exampleStatusCounts[ExampleEvent::SKIPPED],
@@ -199,18 +240,31 @@ class JUnitFormatter extends BasicFormatter
             '</testsuites>',
             $event->getTime(),
             $stats->getEventsCount(),
+<<<<<<< HEAD
             count($stats->getFailedEvents()),
             count($stats->getBrokenEvents()),
             implode("\n", $this->testSuiteNodes)
         );
 
         $this->getIo()->write($output);
+=======
+            \count($stats->getFailedEvents()),
+            \count($stats->getBrokenEvents()),
+            implode("\n", $this->testSuiteNodes)
+        );
+
+        $this->getIO()->write($output);
+>>>>>>> v2-test
     }
 
     /**
      * Initialize test case nodes and example status counts
      */
+<<<<<<< HEAD
     protected function initTestCaseNodes()
+=======
+    protected function initTestCaseNodes(): void
+>>>>>>> v2-test
     {
         $this->testCaseNodes       = array();
         $this->exampleStatusCounts = array(

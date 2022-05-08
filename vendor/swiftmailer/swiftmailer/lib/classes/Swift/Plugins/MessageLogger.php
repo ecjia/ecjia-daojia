@@ -16,19 +16,31 @@
 class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
 {
     /**
+<<<<<<< HEAD
      * @var array
+=======
+     * @var Swift_Mime_SimpleMessage[]
+>>>>>>> v2-test
      */
     private $messages;
 
     public function __construct()
     {
+<<<<<<< HEAD
         $this->messages = array();
+=======
+        $this->messages = [];
+>>>>>>> v2-test
     }
 
     /**
      * Get the message list.
      *
+<<<<<<< HEAD
      * @return array
+=======
+     * @return Swift_Mime_SimpleMessage[]
+>>>>>>> v2-test
      */
     public function getMessages()
     {
@@ -42,7 +54,11 @@ class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
      */
     public function countMessages()
     {
+<<<<<<< HEAD
         return count($this->messages);
+=======
+        return \count($this->messages);
+>>>>>>> v2-test
     }
 
     /**
@@ -50,13 +66,20 @@ class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
      */
     public function clear()
     {
+<<<<<<< HEAD
         $this->messages = array();
+=======
+        $this->messages = [];
+>>>>>>> v2-test
     }
 
     /**
      * Invoked immediately before the Message is sent.
+<<<<<<< HEAD
      *
      * @param Swift_Events_SendEvent $evt
+=======
+>>>>>>> v2-test
      */
     public function beforeSendPerformed(Swift_Events_SendEvent $evt)
     {
@@ -65,8 +88,11 @@ class Swift_Plugins_MessageLogger implements Swift_Events_SendListener
 
     /**
      * Invoked immediately after the Message is sent.
+<<<<<<< HEAD
      *
      * @param Swift_Events_SendEvent $evt
+=======
+>>>>>>> v2-test
      */
     public function sendPerformed(Swift_Events_SendEvent $evt)
     {

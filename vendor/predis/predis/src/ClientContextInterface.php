@@ -16,7 +16,11 @@ use Predis\Command\CommandInterface;
 /**
  * Interface defining a client-side context such as a pipeline or transaction.
  *
+<<<<<<< HEAD
  * @method $this del(array $keys)
+=======
+ * @method $this del(array|string $keys)
+>>>>>>> v2-test
  * @method $this dump($key)
  * @method $this exists($key)
  * @method $this expire($key, $seconds)
@@ -38,7 +42,12 @@ use Predis\Command\CommandInterface;
  * @method $this append($key, $value)
  * @method $this bitcount($key, $start = null, $end = null)
  * @method $this bitop($operation, $destkey, $key)
+<<<<<<< HEAD
  * @method $this bitfield($key, ...)
+=======
+ * @method $this bitfield($key, $subcommand, ...$subcommandArg)
+ * @method $this bitpos($key, $bit, $start = null, $end = null)
+>>>>>>> v2-test
  * @method $this decr($key)
  * @method $this decrby($key, $decrement)
  * @method $this get($key)
@@ -73,15 +82,24 @@ use Predis\Command\CommandInterface;
  * @method $this hsetnx($key, $field, $value)
  * @method $this hvals($key)
  * @method $this hstrlen($key, $field)
+<<<<<<< HEAD
  * @method $this blpop(array $keys, $timeout)
  * @method $this brpop(array $keys, $timeout)
+=======
+ * @method $this blpop(array|string $keys, $timeout)
+ * @method $this brpop(array|string $keys, $timeout)
+>>>>>>> v2-test
  * @method $this brpoplpush($source, $destination, $timeout)
  * @method $this lindex($key, $index)
  * @method $this linsert($key, $whence, $pivot, $value)
  * @method $this llen($key)
  * @method $this lpop($key)
  * @method $this lpush($key, array $values)
+<<<<<<< HEAD
  * @method $this lpushx($key, $value)
+=======
+ * @method $this lpushx($key, array $values)
+>>>>>>> v2-test
  * @method $this lrange($key, $start, $stop)
  * @method $this lrem($key, $count, $value)
  * @method $this lset($key, $index, $value)
@@ -89,6 +107,7 @@ use Predis\Command\CommandInterface;
  * @method $this rpop($key)
  * @method $this rpoplpush($source, $destination)
  * @method $this rpush($key, array $values)
+<<<<<<< HEAD
  * @method $this rpushx($key, $value)
  * @method $this sadd($key, array $members)
  * @method $this scard($key)
@@ -96,6 +115,15 @@ use Predis\Command\CommandInterface;
  * @method $this sdiffstore($destination, array $keys)
  * @method $this sinter(array $keys)
  * @method $this sinterstore($destination, array $keys)
+=======
+ * @method $this rpushx($key, array $values)
+ * @method $this sadd($key, array $members)
+ * @method $this scard($key)
+ * @method $this sdiff(array|string $keys)
+ * @method $this sdiffstore($destination, array|string $keys)
+ * @method $this sinter(array|string $keys)
+ * @method $this sinterstore($destination, array|string $keys)
+>>>>>>> v2-test
  * @method $this sismember($key, $member)
  * @method $this smembers($key)
  * @method $this smove($source, $destination, $member)
@@ -103,13 +131,22 @@ use Predis\Command\CommandInterface;
  * @method $this srandmember($key, $count = null)
  * @method $this srem($key, $member)
  * @method $this sscan($key, $cursor, array $options = null)
+<<<<<<< HEAD
  * @method $this sunion(array $keys)
  * @method $this sunionstore($destination, array $keys)
+=======
+ * @method $this sunion(array|string $keys)
+ * @method $this sunionstore($destination, array|string $keys)
+>>>>>>> v2-test
  * @method $this zadd($key, array $membersAndScoresDictionary)
  * @method $this zcard($key)
  * @method $this zcount($key, $min, $max)
  * @method $this zincrby($key, $increment, $member)
+<<<<<<< HEAD
  * @method $this zinterstore($destination, array $keys, array $options = null)
+=======
+ * @method $this zinterstore($destination, array|string $keys, array $options = null)
+>>>>>>> v2-test
  * @method $this zrange($key, $start, $stop, array $options = null)
  * @method $this zrangebyscore($key, $min, $max, array $options = null)
  * @method $this zrank($key, $member)
@@ -117,9 +154,15 @@ use Predis\Command\CommandInterface;
  * @method $this zremrangebyrank($key, $start, $stop)
  * @method $this zremrangebyscore($key, $min, $max)
  * @method $this zrevrange($key, $start, $stop, array $options = null)
+<<<<<<< HEAD
  * @method $this zrevrangebyscore($key, $min, $max, array $options = null)
  * @method $this zrevrank($key, $member)
  * @method $this zunionstore($destination, array $keys, array $options = null)
+=======
+ * @method $this zrevrangebyscore($key, $max, $min, array $options = null)
+ * @method $this zrevrank($key, $member)
+ * @method $this zunionstore($destination, array|string $keys, array $options = null)
+>>>>>>> v2-test
  * @method $this zscore($key, $member)
  * @method $this zscan($key, $cursor, array $options = null)
  * @method $this zrangebylex($key, $start, $stop, array $options = null)
@@ -127,8 +170,13 @@ use Predis\Command\CommandInterface;
  * @method $this zremrangebylex($key, $min, $max)
  * @method $this zlexcount($key, $min, $max)
  * @method $this pfadd($key, array $elements)
+<<<<<<< HEAD
  * @method $this pfmerge($destinationKey, array $sourceKeys)
  * @method $this pfcount(array $keys)
+=======
+ * @method $this pfmerge($destinationKey, array|string $sourceKeys)
+ * @method $this pfcount(array|string $keys)
+>>>>>>> v2-test
  * @method $this pubsub($subcommand, $argument)
  * @method $this publish($channel, $message)
  * @method $this discard()

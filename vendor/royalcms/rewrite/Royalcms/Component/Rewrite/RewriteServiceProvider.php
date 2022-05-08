@@ -11,7 +11,11 @@ class RewriteServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+<<<<<<< HEAD
 		$this->royalcms->bindShared('rewrite', function($royalcms)
+=======
+		$this->royalcms->singleton('rewrite', function($royalcms)
+>>>>>>> v2-test
 		{
 			return new RewriteQuery();
 		});
@@ -46,6 +50,10 @@ class RewriteServiceProvider extends ServiceProvider {
             $dir . "/RewriteQuery.php",
             $dir . "/Rewrite.php",
             $dir . "/MatchesMapRegex.php",
+<<<<<<< HEAD
+=======
+            $dir . "/EndpointMaskEnum.php",
+>>>>>>> v2-test
             $dir . "/RewriteServiceProvider.php",
         ];
     }

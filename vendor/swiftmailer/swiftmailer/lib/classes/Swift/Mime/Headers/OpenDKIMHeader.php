@@ -12,6 +12,11 @@
  * An OpenDKIM Specific Header using only raw header datas without encoding.
  *
  * @author De Cock Xavier <xdecock@gmail.com>
+<<<<<<< HEAD
+=======
+ *
+ * @deprecated since SwiftMailer 6.1.0; use Swift_Signers_DKIMSigner instead.
+>>>>>>> v2-test
  */
 class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
 {
@@ -20,13 +25,18 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      *
      * @var string
      */
+<<<<<<< HEAD
     private $_value;
+=======
+    private $value;
+>>>>>>> v2-test
 
     /**
      * The name of this Header.
      *
      * @var string
      */
+<<<<<<< HEAD
     private $_fieldName;
 
     /**
@@ -39,6 +49,16 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
     public function __construct($name)
     {
         $this->_fieldName = $name;
+=======
+    private $fieldName;
+
+    /**
+     * @param string $name
+     */
+    public function __construct($name)
+    {
+        $this->fieldName = $name;
+>>>>>>> v2-test
     }
 
     /**
@@ -85,7 +105,11 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      */
     public function getValue()
     {
+<<<<<<< HEAD
         return $this->_value;
+=======
+        return $this->value;
+>>>>>>> v2-test
     }
 
     /**
@@ -95,7 +119,11 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      */
     public function setValue($value)
     {
+<<<<<<< HEAD
         $this->_value = $value;
+=======
+        $this->value = $value;
+>>>>>>> v2-test
     }
 
     /**
@@ -105,7 +133,11 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      */
     public function getFieldBody()
     {
+<<<<<<< HEAD
         return $this->_value;
+=======
+        return $this->value;
+>>>>>>> v2-test
     }
 
     /**
@@ -115,7 +147,11 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      */
     public function toString()
     {
+<<<<<<< HEAD
         return $this->_fieldName.': '.$this->_value;
+=======
+        return $this->fieldName.': '.$this->value."\r\n";
+>>>>>>> v2-test
     }
 
     /**
@@ -125,7 +161,11 @@ class Swift_Mime_Headers_OpenDKIMHeader implements Swift_Mime_Header
      */
     public function getFieldName()
     {
+<<<<<<< HEAD
         return $this->_fieldName;
+=======
+        return $this->fieldName;
+>>>>>>> v2-test
     }
 
     /**

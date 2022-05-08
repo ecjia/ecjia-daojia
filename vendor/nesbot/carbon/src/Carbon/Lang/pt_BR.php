@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the Carbon package.
  *
  * (c) Brian Nesbitt <brian@nesbot.com>
@@ -7,20 +8,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-/**
- * Translation messages.  See http://symfony.com/doc/current/book/translation.html
- * for possible formats.
+
+/*
+ * Authors:
+ * - Cassiano Montanari
+ * - Eduardo Dalla Vecchia
+ * - David Rodrigues
+ * - Matt Pope
+ * - François B
+ * - Prodis
+ * - Marlon Maxwel
+ * - JD Isaacks
+ * - Raphael Amorim
+ * - Rafael Raupp
+ * - felipeleite1
+ * - swalker
+ * - Lucas Macedo
+ * - Paulo Freitas
+ * - Sebastian Thierer
  */
-return array(
-    'year'      => '1 ano|:count anos',
-    'month'     => '1 mês|:count meses',
-    'week'      => '1 semana|:count semanas',
-    'day'       => '1 dia|:count dias',
-    'hour'      => '1 hora|:count horas',
-    'minute'    => '1 minuto|:count minutos',
-    'second'    => '1 segundo|:count segundos',
-    'ago'       => 'há :time',
-    'from_now'  => 'dentro de :time',
-    'after'     => 'após :time',
-    'before'    => ':time atrás',
-);
+return array_replace_recursive(require __DIR__.'/pt.php', [
+    'period_recurrences' => 'uma|:count vez',
+    'period_interval' => 'toda :interval',
+    'formats' => [
+        'LLL' => 'D [de] MMMM [de] YYYY [às] HH:mm',
+        'LLLL' => 'dddd, D [de] MMMM [de] YYYY [às] HH:mm',
+    ],
+    'first_day_of_week' => 0,
+    'day_of_first_week_of_year' => 1,
+]);

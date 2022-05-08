@@ -43,6 +43,7 @@ class ArgvInput extends Input
     private $tokens;
     private $parsed;
 
+<<<<<<< HEAD
     /**
      * @param array|null           $argv       An array of parameters from the CLI (in the argv format)
      * @param InputDefinition|null $definition A InputDefinition instance
@@ -52,6 +53,11 @@ class ArgvInput extends Input
         if (null === $argv) {
             $argv = $_SERVER['argv'];
         }
+=======
+    public function __construct(array $argv = null, InputDefinition $definition = null)
+    {
+        $argv = $argv ?? $_SERVER['argv'] ?? [];
+>>>>>>> v2-test
 
         // strip the application name
         array_shift($argv);
@@ -90,10 +96,15 @@ class ArgvInput extends Input
 
     /**
      * Parses a short option.
+<<<<<<< HEAD
      *
      * @param string $token The current token
      */
     private function parseShortOption($token)
+=======
+     */
+    private function parseShortOption(string $token)
+>>>>>>> v2-test
     {
         $name = substr($token, 1);
 
@@ -112,16 +123,27 @@ class ArgvInput extends Input
     /**
      * Parses a short option set.
      *
+<<<<<<< HEAD
      * @param string $name The current token
      *
      * @throws RuntimeException When option given doesn't exist
      */
     private function parseShortOptionSet($name)
+=======
+     * @throws RuntimeException When option given doesn't exist
+     */
+    private function parseShortOptionSet(string $name)
+>>>>>>> v2-test
     {
         $len = \strlen($name);
         for ($i = 0; $i < $len; ++$i) {
             if (!$this->definition->hasShortcut($name[$i])) {
+<<<<<<< HEAD
                 throw new RuntimeException(sprintf('The "-%s" option does not exist.', $name[$i]));
+=======
+                $encoding = mb_detect_encoding($name, null, true);
+                throw new RuntimeException(sprintf('The "-%s" option does not exist.', false === $encoding ? $name[$i] : mb_substr($name, $i, 1, $encoding)));
+>>>>>>> v2-test
             }
 
             $option = $this->definition->getOptionForShortcut($name[$i]);
@@ -137,20 +159,28 @@ class ArgvInput extends Input
 
     /**
      * Parses a long option.
+<<<<<<< HEAD
      *
      * @param string $token The current token
      */
     private function parseLongOption($token)
+=======
+     */
+    private function parseLongOption(string $token)
+>>>>>>> v2-test
     {
         $name = substr($token, 2);
 
         if (false !== $pos = strpos($name, '=')) {
             if (0 === \strlen($value = substr($name, $pos + 1))) {
+<<<<<<< HEAD
                 // if no value after "=" then substr() returns "" since php7 only, false before
                 // see http://php.net/manual/fr/migration70.incompatible.php#119151
                 if (\PHP_VERSION_ID < 70000 && false === $value) {
                     $value = '';
                 }
+=======
+>>>>>>> v2-test
                 array_unshift($this->parsed, $value);
             }
             $this->addLongOption(substr($name, 0, $pos), $value);
@@ -162,18 +192,28 @@ class ArgvInput extends Input
     /**
      * Parses an argument.
      *
+<<<<<<< HEAD
      * @param string $token The current token
      *
      * @throws RuntimeException When too many arguments are given
      */
     private function parseArgument($token)
+=======
+     * @throws RuntimeException When too many arguments are given
+     */
+    private function parseArgument(string $token)
+>>>>>>> v2-test
     {
         $c = \count($this->arguments);
 
         // if input is expecting another argument, add it
         if ($this->definition->hasArgument($c)) {
             $arg = $this->definition->getArgument($c);
+<<<<<<< HEAD
             $this->arguments[$arg->getName()] = $arg->isArray() ? array($token) : $token;
+=======
+            $this->arguments[$arg->getName()] = $arg->isArray() ? [$token] : $token;
+>>>>>>> v2-test
 
         // if last argument isArray(), append token to last argument
         } elseif ($this->definition->hasArgument($c - 1) && $this->definition->getArgument($c - 1)->isArray()) {
@@ -183,23 +223,51 @@ class ArgvInput extends Input
         // unexpected argument
         } else {
             $all = $this->definition->getArguments();
+<<<<<<< HEAD
             if (\count($all)) {
                 throw new RuntimeException(sprintf('Too many arguments, expected arguments "%s".', implode('" "', array_keys($all))));
             }
 
             throw new RuntimeException(sprintf('No arguments expected, got "%s".', $token));
+=======
+            $symfonyCommandName = null;
+            if (($inputArgument = $all[$key = array_key_first($all)] ?? null) && 'command' === $inputArgument->getName()) {
+                $symfonyCommandName = $this->arguments['command'] ?? null;
+                unset($all[$key]);
+            }
+
+            if (\count($all)) {
+                if ($symfonyCommandName) {
+                    $message = sprintf('Too many arguments to "%s" command, expected arguments "%s".', $symfonyCommandName, implode('" "', array_keys($all)));
+                } else {
+                    $message = sprintf('Too many arguments, expected arguments "%s".', implode('" "', array_keys($all)));
+                }
+            } elseif ($symfonyCommandName) {
+                $message = sprintf('No arguments expected for "%s" command, got "%s".', $symfonyCommandName, $token);
+            } else {
+                $message = sprintf('No arguments expected, got "%s".', $token);
+            }
+
+            throw new RuntimeException($message);
+>>>>>>> v2-test
         }
     }
 
     /**
      * Adds a short option value.
      *
+<<<<<<< HEAD
      * @param string $shortcut The short option key
      * @param mixed  $value    The value for the option
      *
      * @throws RuntimeException When option given doesn't exist
      */
     private function addShortOption($shortcut, $value)
+=======
+     * @throws RuntimeException When option given doesn't exist
+     */
+    private function addShortOption(string $shortcut, $value)
+>>>>>>> v2-test
     {
         if (!$this->definition->hasShortcut($shortcut)) {
             throw new RuntimeException(sprintf('The "-%s" option does not exist.', $shortcut));
@@ -211,12 +279,18 @@ class ArgvInput extends Input
     /**
      * Adds a long option value.
      *
+<<<<<<< HEAD
      * @param string $name  The long option key
      * @param mixed  $value The value for the option
      *
      * @throws RuntimeException When option given doesn't exist
      */
     private function addLongOption($name, $value)
+=======
+     * @throws RuntimeException When option given doesn't exist
+     */
+    private function addLongOption(string $name, $value)
+>>>>>>> v2-test
     {
         if (!$this->definition->hasOption($name)) {
             throw new RuntimeException(sprintf('The "--%s" option does not exist.', $name));
@@ -228,11 +302,19 @@ class ArgvInput extends Input
             throw new RuntimeException(sprintf('The "--%s" option does not accept a value.', $name));
         }
 
+<<<<<<< HEAD
         if (\in_array($value, array('', null), true) && $option->acceptValue() && \count($this->parsed)) {
             // if option accepts an optional or mandatory argument
             // let's see if there is one provided
             $next = array_shift($this->parsed);
             if ((isset($next[0]) && '-' !== $next[0]) || \in_array($next, array('', null), true)) {
+=======
+        if (\in_array($value, ['', null], true) && $option->acceptValue() && \count($this->parsed)) {
+            // if option accepts an optional or mandatory argument
+            // let's see if there is one provided
+            $next = array_shift($this->parsed);
+            if ((isset($next[0]) && '-' !== $next[0]) || \in_array($next, ['', null], true)) {
+>>>>>>> v2-test
                 $value = $next;
             } else {
                 array_unshift($this->parsed, $next);
@@ -261,19 +343,52 @@ class ArgvInput extends Input
      */
     public function getFirstArgument()
     {
+<<<<<<< HEAD
         foreach ($this->tokens as $token) {
             if ($token && '-' === $token[0]) {
+=======
+        $isOption = false;
+        foreach ($this->tokens as $i => $token) {
+            if ($token && '-' === $token[0]) {
+                if (false !== strpos($token, '=') || !isset($this->tokens[$i + 1])) {
+                    continue;
+                }
+
+                // If it's a long option, consider that everything after "--" is the option name.
+                // Otherwise, use the last char (if it's a short option set, only the last one can take a value with space separator)
+                $name = '-' === $token[1] ? substr($token, 2) : substr($token, -1);
+                if (!isset($this->options[$name]) && !$this->definition->hasShortcut($name)) {
+                    // noop
+                } elseif ((isset($this->options[$name]) || isset($this->options[$name = $this->definition->shortcutToName($name)])) && $this->tokens[$i + 1] === $this->options[$name]) {
+                    $isOption = true;
+                }
+
+                continue;
+            }
+
+            if ($isOption) {
+                $isOption = false;
+>>>>>>> v2-test
                 continue;
             }
 
             return $token;
         }
+<<<<<<< HEAD
+=======
+
+        return null;
+>>>>>>> v2-test
     }
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function hasParameterOption($values, $onlyParams = false)
+=======
+    public function hasParameterOption($values, bool $onlyParams = false)
+>>>>>>> v2-test
     {
         $values = (array) $values;
 
@@ -298,7 +413,11 @@ class ArgvInput extends Input
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getParameterOption($values, $default = false, $onlyParams = false)
+=======
+    public function getParameterOption($values, $default = false, bool $onlyParams = false)
+>>>>>>> v2-test
     {
         $values = (array) $values;
         $tokens = $this->tokens;

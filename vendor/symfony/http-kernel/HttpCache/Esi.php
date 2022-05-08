@@ -13,7 +13,10 @@ namespace Symfony\Component\HttpKernel\HttpCache;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+<<<<<<< HEAD
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+=======
+>>>>>>> v2-test
 
 /**
  * Esi implements the ESI capabilities to Request and Response instances.
@@ -26,6 +29,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 class Esi implements SurrogateInterface
 {
     private $contentTypes;
@@ -45,12 +49,17 @@ class Esi implements SurrogateInterface
         $this->contentTypes = $contentTypes;
     }
 
+=======
+class Esi extends AbstractSurrogate
+{
+>>>>>>> v2-test
     public function getName()
     {
         return 'esi';
     }
 
     /**
+<<<<<<< HEAD
      * Returns a new cache strategy instance.
      *
      * @return ResponseCacheStrategyInterface A ResponseCacheStrategyInterface instance
@@ -125,6 +134,9 @@ class Esi implements SurrogateInterface
      * This method only adds an ESI HTTP header if the Response has some ESI tags.
      *
      * @param Response $response A Response instance
+=======
+     * {@inheritdoc}
+>>>>>>> v2-test
      */
     public function addSurrogateControl(Response $response)
     {
@@ -134,6 +146,7 @@ class Esi implements SurrogateInterface
     }
 
     /**
+<<<<<<< HEAD
      * Checks that the Response needs to be parsed for ESI tags.
      *
      * @param Response $response A Response instance
@@ -176,6 +189,11 @@ class Esi implements SurrogateInterface
      * @return string
      */
     public function renderIncludeTag($uri, $alt = null, $ignoreErrors = true, $comment = '')
+=======
+     * {@inheritdoc}
+     */
+    public function renderIncludeTag(string $uri, string $alt = null, bool $ignoreErrors = true, string $comment = '')
+>>>>>>> v2-test
     {
         $html = sprintf('<esi:include src="%s"%s%s />',
             $uri,
@@ -191,12 +209,16 @@ class Esi implements SurrogateInterface
     }
 
     /**
+<<<<<<< HEAD
      * Replaces a Response ESI tags with the included resource content.
      *
      * @param Request  $request  A Request instance
      * @param Response $response A Response instance
      *
      * @return Response
+=======
+     * {@inheritdoc}
+>>>>>>> v2-test
      */
     public function process(Request $request, Response $response)
     {
@@ -206,7 +228,11 @@ class Esi implements SurrogateInterface
         }
 
         $parts = explode(';', $type);
+<<<<<<< HEAD
         if (!in_array($parts[0], $this->contentTypes)) {
+=======
+        if (!\in_array($parts[0], $this->contentTypes)) {
+>>>>>>> v2-test
             return $response;
         }
 
@@ -215,13 +241,22 @@ class Esi implements SurrogateInterface
         $content = preg_replace('#<esi\:remove>.*?</esi\:remove>#s', '', $content);
         $content = preg_replace('#<esi\:comment[^>]+>#s', '', $content);
 
+<<<<<<< HEAD
         $chunks = preg_split('#<esi\:include\s+(.*?)\s*(?:/|</esi\:include)>#', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+=======
+        $chunks = preg_split('#<esi\:include\s+(.*?)\s*(?:/|</esi\:include)>#', $content, -1, \PREG_SPLIT_DELIM_CAPTURE);
+>>>>>>> v2-test
         $chunks[0] = str_replace($this->phpEscapeMap[0], $this->phpEscapeMap[1], $chunks[0]);
 
         $i = 1;
         while (isset($chunks[$i])) {
+<<<<<<< HEAD
             $options = array();
             preg_match_all('/(src|onerror|alt)="([^"]*?)"/', $chunks[$i], $matches, PREG_SET_ORDER);
+=======
+            $options = [];
+            preg_match_all('/(src|onerror|alt)="([^"]*?)"/', $chunks[$i], $matches, \PREG_SET_ORDER);
+>>>>>>> v2-test
             foreach ($matches as $set) {
                 $options[$set[1]] = $set[2];
             }
@@ -232,7 +267,11 @@ class Esi implements SurrogateInterface
 
             $chunks[$i] = sprintf('<?php echo $this->surrogate->handle($this, %s, %s, %s) ?>'."\n",
                 var_export($options['src'], true),
+<<<<<<< HEAD
                 var_export(isset($options['alt']) ? $options['alt'] : '', true),
+=======
+                var_export($options['alt'] ?? '', true),
+>>>>>>> v2-test
                 isset($options['onerror']) && 'continue' === $options['onerror'] ? 'true' : 'false'
             );
             ++$i;
@@ -245,6 +284,7 @@ class Esi implements SurrogateInterface
         $response->headers->set('X-Body-Eval', 'ESI');
 
         // remove ESI/1.0 from the Surrogate-Control header
+<<<<<<< HEAD
         if ($response->headers->has('Surrogate-Control')) {
             $value = $response->headers->get('Surrogate-Control');
             if ('content="ESI/1.0"' == $value) {
@@ -291,5 +331,10 @@ class Esi implements SurrogateInterface
                 throw $e;
             }
         }
+=======
+        $this->removeFromControl($response);
+
+        return $response;
+>>>>>>> v2-test
     }
 }

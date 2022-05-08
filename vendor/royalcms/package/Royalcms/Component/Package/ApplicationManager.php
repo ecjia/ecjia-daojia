@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Package;
+=======
+<?php
+
+namespace Royalcms\Component\Package;
+>>>>>>> v2-test
 
 use RC_Hook;
 

@@ -13,6 +13,7 @@
 
 namespace PhpSpec\Formatter\Presenter\Differ;
 
+<<<<<<< HEAD
 class StringEngine implements EngineInterface
 {
     public function supports($expected, $actual)
@@ -21,6 +22,16 @@ class StringEngine implements EngineInterface
     }
 
     public function compare($expected, $actual)
+=======
+class StringEngine implements DifferEngine
+{
+    public function supports($expected, $actual): bool
+    {
+        return \is_string($expected) && \is_string($actual);
+    }
+
+    public function compare($expected, $actual): string
+>>>>>>> v2-test
     {
         $expected = explode("\n", (string) $expected);
         $actual   = explode("\n", (string) $actual);

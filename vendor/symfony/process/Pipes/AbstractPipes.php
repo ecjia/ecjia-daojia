@@ -11,6 +11,11 @@
 
 namespace Symfony\Component\Process\Pipes;
 
+<<<<<<< HEAD
+=======
+use Symfony\Component\Process\Exception\InvalidArgumentException;
+
+>>>>>>> v2-test
 /**
  * @author Romain Neutron <imprec@gmail.com>
  *
@@ -18,6 +23,7 @@ namespace Symfony\Component\Process\Pipes;
  */
 abstract class AbstractPipes implements PipesInterface
 {
+<<<<<<< HEAD
     /** @var array */
     public $pipes = array();
 
@@ -33,6 +39,23 @@ abstract class AbstractPipes implements PipesInterface
         if (is_resource($input)) {
             $this->input = $input;
         } elseif (is_string($input)) {
+=======
+    public $pipes = [];
+
+    private $inputBuffer = '';
+    private $input;
+    private $blocked = true;
+    private $lastError;
+
+    /**
+     * @param resource|string|int|float|bool|\Iterator|null $input
+     */
+    public function __construct($input)
+    {
+        if (\is_resource($input) || $input instanceof \Iterator) {
+            $this->input = $input;
+        } elseif (\is_string($input)) {
+>>>>>>> v2-test
             $this->inputBuffer = $input;
         } else {
             $this->inputBuffer = (string) $input;
@@ -47,11 +70,16 @@ abstract class AbstractPipes implements PipesInterface
         foreach ($this->pipes as $pipe) {
             fclose($pipe);
         }
+<<<<<<< HEAD
         $this->pipes = array();
+=======
+        $this->pipes = [];
+>>>>>>> v2-test
     }
 
     /**
      * Returns true if a system call has been interrupted.
+<<<<<<< HEAD
      *
      * @return bool
      */
@@ -61,6 +89,16 @@ abstract class AbstractPipes implements PipesInterface
 
         // stream_select returns false when the `select` system call is interrupted by an incoming signal
         return isset($lastError['message']) && false !== stripos($lastError['message'], 'interrupted system call');
+=======
+     */
+    protected function hasSystemCallBeenInterrupted(): bool
+    {
+        $lastError = $this->lastError;
+        $this->lastError = null;
+
+        // stream_select returns false when the `select` system call is interrupted by an incoming signal
+        return null !== $lastError && false !== stripos($lastError, 'interrupted system call');
+>>>>>>> v2-test
     }
 
     /**
@@ -75,7 +113,11 @@ abstract class AbstractPipes implements PipesInterface
         foreach ($this->pipes as $pipe) {
             stream_set_blocking($pipe, 0);
         }
+<<<<<<< HEAD
         if (null !== $this->input) {
+=======
+        if (\is_resource($this->input)) {
+>>>>>>> v2-test
             stream_set_blocking($this->input, 0);
         }
 
@@ -84,6 +126,7 @@ abstract class AbstractPipes implements PipesInterface
 
     /**
      * Writes input to stdin.
+<<<<<<< HEAD
      */
     protected function write()
     {
@@ -97,6 +140,44 @@ abstract class AbstractPipes implements PipesInterface
         // let's have a look if something changed in streams
         if (false === $n = @stream_select($r, $w, $e, 0, 0)) {
             return;
+=======
+     *
+     * @throws InvalidArgumentException When an input iterator yields a non supported value
+     */
+    protected function write(): ?array
+    {
+        if (!isset($this->pipes[0])) {
+            return null;
+        }
+        $input = $this->input;
+
+        if ($input instanceof \Iterator) {
+            if (!$input->valid()) {
+                $input = null;
+            } elseif (\is_resource($input = $input->current())) {
+                stream_set_blocking($input, 0);
+            } elseif (!isset($this->inputBuffer[0])) {
+                if (!\is_string($input)) {
+                    if (!is_scalar($input)) {
+                        throw new InvalidArgumentException(sprintf('"%s" yielded a value of type "%s", but only scalars and stream resources are supported.', get_debug_type($this->input), get_debug_type($input)));
+                    }
+                    $input = (string) $input;
+                }
+                $this->inputBuffer = $input;
+                $this->input->next();
+                $input = null;
+            } else {
+                $input = null;
+            }
+        }
+
+        $r = $e = [];
+        $w = [$this->pipes[0]];
+
+        // let's have a look if something changed in streams
+        if (false === @stream_select($r, $w, $e, 0, 0)) {
+            return null;
+>>>>>>> v2-test
         }
 
         foreach ($w as $stdin) {
@@ -104,7 +185,11 @@ abstract class AbstractPipes implements PipesInterface
                 $written = fwrite($stdin, $this->inputBuffer);
                 $this->inputBuffer = substr($this->inputBuffer, $written);
                 if (isset($this->inputBuffer[0])) {
+<<<<<<< HEAD
                     return array($this->pipes[0]);
+=======
+                    return [$this->pipes[0]];
+>>>>>>> v2-test
                 }
             }
 
@@ -119,6 +204,7 @@ abstract class AbstractPipes implements PipesInterface
                     if (isset($data[0])) {
                         $this->inputBuffer = $data;
 
+<<<<<<< HEAD
                         return array($this->pipes[0]);
                     }
                 }
@@ -126,16 +212,47 @@ abstract class AbstractPipes implements PipesInterface
                     // no more data to read on input resource
                     // use an empty buffer in the next reads
                     $this->input = null;
+=======
+                        return [$this->pipes[0]];
+                    }
+                }
+                if (feof($input)) {
+                    if ($this->input instanceof \Iterator) {
+                        $this->input->next();
+                    } else {
+                        $this->input = null;
+                    }
+>>>>>>> v2-test
                 }
             }
         }
 
         // no input to read on resource, buffer is empty
+<<<<<<< HEAD
         if (null === $this->input && !isset($this->inputBuffer[0])) {
             fclose($this->pipes[0]);
             unset($this->pipes[0]);
         } elseif (!$w) {
             return array($this->pipes[0]);
         }
+=======
+        if (!isset($this->inputBuffer[0]) && !($this->input instanceof \Iterator ? $this->input->valid() : $this->input)) {
+            $this->input = null;
+            fclose($this->pipes[0]);
+            unset($this->pipes[0]);
+        } elseif (!$w) {
+            return [$this->pipes[0]];
+        }
+
+        return null;
+    }
+
+    /**
+     * @internal
+     */
+    public function handleError($type, $msg)
+    {
+        $this->lastError = $msg;
+>>>>>>> v2-test
     }
 }

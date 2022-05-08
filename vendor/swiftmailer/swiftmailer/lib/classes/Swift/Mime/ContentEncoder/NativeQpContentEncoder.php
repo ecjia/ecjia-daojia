@@ -16,16 +16,28 @@
 class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_ContentEncoder
 {
     /**
+<<<<<<< HEAD
      * @var null|string
+=======
+     * @var string|null
+>>>>>>> v2-test
      */
     private $charset;
 
     /**
+<<<<<<< HEAD
      * @param null|string $charset
      */
     public function __construct($charset = null)
     {
         $this->charset = $charset ? $charset : 'utf-8';
+=======
+     * @param string|null $charset
+     */
+    public function __construct($charset = null)
+    {
+        $this->charset = $charset ?: 'utf-8';
+>>>>>>> v2-test
     }
 
     /**
@@ -50,9 +62,14 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      */
     public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0)
     {
+<<<<<<< HEAD
         if ($this->charset !== 'utf-8') {
             throw new RuntimeException(
                 sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
+=======
+        if ('utf-8' !== $this->charset) {
+            throw new RuntimeException(sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
+>>>>>>> v2-test
         }
 
         $string = '';
@@ -87,12 +104,20 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      */
     public function encodeString($string, $firstLineOffset = 0, $maxLineLength = 0)
     {
+<<<<<<< HEAD
         if ($this->charset !== 'utf-8') {
             throw new RuntimeException(
                 sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
         }
 
         return $this->_standardize(quoted_printable_encode($string));
+=======
+        if ('utf-8' !== $this->charset) {
+            throw new RuntimeException(sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
+        }
+
+        return $this->standardize(quoted_printable_encode($string));
+>>>>>>> v2-test
     }
 
     /**
@@ -102,14 +127,24 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      *
      * @return string
      */
+<<<<<<< HEAD
     protected function _standardize($string)
+=======
+    protected function standardize($string)
+>>>>>>> v2-test
     {
         // transform CR or LF to CRLF
         $string = preg_replace('~=0D(?!=0A)|(?<!=0D)=0A~', '=0D=0A', $string);
         // transform =0D=0A to CRLF
+<<<<<<< HEAD
         $string = str_replace(array("\t=0D=0A", ' =0D=0A', '=0D=0A'), array("=09\r\n", "=20\r\n", "\r\n"), $string);
 
         switch ($end = ord(substr($string, -1))) {
+=======
+        $string = str_replace(["\t=0D=0A", ' =0D=0A', '=0D=0A'], ["=09\r\n", "=20\r\n", "\r\n"], $string);
+
+        switch (\ord(substr($string, -1))) {
+>>>>>>> v2-test
             case 0x09:
                 $string = substr_replace($string, '=09', -1);
                 break;

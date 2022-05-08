@@ -28,18 +28,20 @@ $royalcms = new Royalcms\Component\Foundation\Royalcms(
 
 $royalcms->singleton(
 	'Royalcms\Component\Contracts\Http\Kernel',
-	'Ecjia\System\Http\Kernel'
+	'Ecjia\Kernel\Http\Kernel'
 );
 
 $royalcms->singleton(
 	'Royalcms\Component\Contracts\Console\Kernel',
-	'Ecjia\System\Console\Kernel'
+	'Ecjia\Kernel\Console\Kernel'
 );
 
 $royalcms->singleton(
 	'Royalcms\Component\Contracts\Debug\ExceptionHandler',
-	'Ecjia\System\Exceptions\Handler'
+	'Ecjia\Kernel\Exceptions\Handler'
 );
+
+$royalcms->useStoragePathForOptimizations(true);
 
 /*
 |--------------------------------------------------------------------------

@@ -54,7 +54,10 @@
 namespace Ecjia\App\Api\Transformers;
 
 
-class CategoryTransformer extends Transformer
+use Ecjia\Component\ApiTransformer\Contracts\TransformerInterface;
+use Ecjia\Component\ApiTransformer\Transformer;
+
+class CategoryTransformer extends Transformer implements TransformerInterface
 {
 
 
@@ -62,11 +65,11 @@ class CategoryTransformer extends Transformer
     {
 
         $outData = array(
-            "id"        => 12,
-            "name"      => "分类名称",
-            "children"  => array(
-                'id'    =>  13,
-                'name'  => 'ssss'
+            "id"       => 12,
+            "name"     => __('分类名称', 'api'),
+            "children" => array(
+                'id'   => 13,
+                'name' => 'ssss'
             )
         );
 

@@ -16,45 +16,26 @@ namespace League\CommonMark\Block\Element;
 
 use League\CommonMark\Cursor;
 
+/**
+ * @method children() AbstractBlock[]
+ */
 class BlockQuote extends AbstractBlock
 {
-    /**
-     * Returns true if this block can contain the given block as a child node
-     *
-     * @param AbstractBlock $block
-     *
-     * @return bool
-     */
-    public function canContain(AbstractBlock $block)
+    public function canContain(AbstractBlock $block): bool
     {
         return true;
     }
 
-    /**
-     * Returns true if block type can accept lines of text
-     *
-     * @return bool
-     */
-    public function acceptsLines()
+    public function isCode(): bool
     {
         return false;
     }
 
-    /**
-     * Whether this is a code block
-     *
-     * @return bool
-     */
-    public function isCode()
-    {
-        return false;
-    }
-
-    public function matchesNextLine(Cursor $cursor)
+    public function matchesNextLine(Cursor $cursor): bool
     {
         if (!$cursor->isIndented() && $cursor->getNextNonSpaceCharacter() === '>') {
             $cursor->advanceToNextNonSpaceOrTab();
-            $cursor->advance();
+            $cursor->advanceBy(1);
             $cursor->advanceBySpaceOrTab();
 
             return true;
@@ -63,13 +44,7 @@ class BlockQuote extends AbstractBlock
         return false;
     }
 
-    /**
-     * @param Cursor $cursor
-     * @param int    $currentLineNumber
-     *
-     * @return bool
-     */
-    public function shouldLastLineBeBlank(Cursor $cursor, $currentLineNumber)
+    public function shouldLastLineBeBlank(Cursor $cursor, int $currentLineNumber): bool
     {
         return false;
     }

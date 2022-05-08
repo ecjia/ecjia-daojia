@@ -13,10 +13,13 @@ namespace Symfony\Component\Console\Tester;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
+<<<<<<< HEAD
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
+=======
+>>>>>>> v2-test
 
 /**
  * Eases the testing of console applications.
@@ -30,6 +33,7 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class ApplicationTester
 {
+<<<<<<< HEAD
     private $application;
     private $input;
     private $statusCode;
@@ -38,6 +42,13 @@ class ApplicationTester
      */
     private $output;
     private $captureStreamsIndependently = false;
+=======
+    use TesterTrait;
+
+    private $application;
+    private $input;
+    private $statusCode;
+>>>>>>> v2-test
 
     public function __construct(Application $application)
     {
@@ -54,18 +65,25 @@ class ApplicationTester
      *  * verbosity:                 Sets the output verbosity flag
      *  * capture_stderr_separately: Make output of stdOut and stdErr separately available
      *
+<<<<<<< HEAD
      * @param array $input   An array of arguments and options
      * @param array $options An array of options
      *
      * @return int The command exit code
      */
     public function run(array $input, $options = array())
+=======
+     * @return int The command exit code
+     */
+    public function run(array $input, array $options = [])
+>>>>>>> v2-test
     {
         $this->input = new ArrayInput($input);
         if (isset($options['interactive'])) {
             $this->input->setInteractive($options['interactive']);
         }
 
+<<<<<<< HEAD
         $this->captureStreamsIndependently = array_key_exists('capture_stderr_separately', $options) && $options['capture_stderr_separately'];
         if (!$this->captureStreamsIndependently) {
             $this->output = new StreamOutput(fopen('php://memory', 'w', false));
@@ -172,5 +190,14 @@ class ApplicationTester
     public function getStatusCode()
     {
         return $this->statusCode;
+=======
+        if ($this->inputs) {
+            $this->input->setStream(self::createStream($this->inputs));
+        }
+
+        $this->initOutput($options);
+
+        return $this->statusCode = $this->application->run($this->input, $this->output);
+>>>>>>> v2-test
     }
 }

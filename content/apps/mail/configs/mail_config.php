@@ -65,12 +65,5 @@ return array(
         1 	=> __('高', 'mail'),
     ),
 
-
-    'type' => array(
-        'name' 		=> __('邮件类型', 'mail'),
-        'magazine' 	=> __('杂志订阅', 'mail'),
-        'template' 	=> __('关注订阅', 'mail'),
-    ),
-
 );
 //end

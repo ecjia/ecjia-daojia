@@ -46,109 +46,87 @@
 //
 namespace Ecjia\App\Cron;
 
-use RC_Time;
-use RC_Logger;
-use ecjia_error;
 use ecjia_config;
-use Exception;
-use InvalidArgumentException;
+use Artisan;
+use RC_Validator;
+use RC_Request;
 
 class CronRun
 {
-    private $plugin;
-    
-    public function __construct() {
-        $this->plugin = new CronPlugin();
-    }
-    
-    
-    public function addCronJobs() {
-        $list = $this->plugin->getEnableList();
-        collect($list)->each(function ($item) {
-            try {
-                if ($item['cron_expression']) {
-                    \RC_Cron::add($item['cron_code'], $item['cron_expression'], function() use ($item) {
-                        return $this->runBy($item['cron_code']);
-                    });
-                }
-            } catch (InvalidArgumentException $e) {
-                $this->writeErrorLog($e);
-            }
-        });
-    }
-    
+
     /**
-     * 保存错误日志
-     * @param $error \ecjia_error
+     * @throws CronException
      */
-    protected function writeErrorLog(Exception $exception) {
-        $message = $exception->getMessage();
-        if ( ! empty($message)) {
-            RC_Logger::getLogger('cron')->error($message);
-        }
-    }
-    
-    /**
-     * 运行计划指定任务
-     */
-    public function runBy($cron_code) {
-        $handler = $this->plugin->channel($cron_code);
-        if (is_ecjia_error($handler)) {
-            return $handler->get_error_message();
-        }
-        
-        return $handler->runHandle();
-    }
-    
-    public function run()
+    public static function run()
     {
-        $this->checkMethod();
-        
+        self::checkMethod();
+
         // Get security key from config
-        $cronkeyConfig = ecjia_config::get('cron_secret_key', \RC_Config::get('cron::config.cronKey'));
-        
+        $cronkeyConfig = ecjia_config::get('cron_secret_key', config('cron::config.cronKey'));
         // If no security key is set in the config, this route is disabled
         if (empty($cronkeyConfig)) {
-            RC_Logger::getLogger('cron')->error('Cron route call with no configured security key');
-            \Artisan::abort(404);
+            ecjia_log_error('Cron route call with no configured security key.', [], 'cron');
+            throw new CronException('Cron route call with no configured security key.');
         }
-        
+
         // Get security key from request
-        $cronkeyRequest = \RC_Request::get('key');
+        $cronkeyRequest = RC_Request::get('key');
         // Create validator for security key
-        $validator = \RC_Validator::make(
+        $validator = RC_Validator::make(
             array('cronkey' => $cronkeyRequest),
             array('cronkey' => 'required|alpha_num')
-            );
-        
+        );
+
         if ($validator->passes()) {
             if ($cronkeyConfig === $cronkeyRequest) {
-                \Artisan::call('cron:run', array());
+                Artisan::call('cron:run', array());
             } else {
                 // Configured security key is not equals the sent security key
-                RC_Logger::getLogger('cron')->error('Cron route call with wrong security key');
-                \Royalcms::abort(404);
+                ecjia_log_error('Cron route call with wrong security key.', [], 'cron');
+                throw new CronException('Cron route call with wrong security key.');
             }
         } else {
             // Validation not passed
-            RC_Logger::getLogger('cron')->error('Cron route call with missing or no alphanumeric security key');
-            \Royalcms::abort(404);
+            ecjia_log_error('Cron route call with missing or no alphanumeric security key.', [], 'cron');
+            throw new CronException('Cron route call with missing or no alphanumeric security key.');
         }
     }
-    
+
+
+    /**
+     * 运行计划指定任务
+     * @param $cron_code
+     * @return string
+     */
+    public static function runBy($cron_code)
+    {
+        $plugin = new CronPlugin();
+        /**
+         * @var CronAbstract $handler
+         */
+        $handler = $plugin->channel($cron_code);
+        if (is_ecjia_error($handler)) {
+            return $handler->get_error_message();
+        }
+
+        return $handler->runHandle();
+    }
+
     /**
      * 检查计划任务运行的模式，是否开启Web请求模式
      */
-    public function checkMethod() {
-        if (! ecjia_config::get('cron_method')) {
-            \Royalcms::abort(400, 'Illegal request');
+    public static function checkMethod()
+    {
+        if (!ecjia_config::get('cron_method')) {
+            return new CronException('禁止访问，未开启WEB调用计划任务功能！！！');
         }
     }
-    
+
     /**
      * 生成用于保护内置Cron运行路由的密钥
      */
-    public function keygen() {
+    public static function keygen()
+    {
         return rc_random(32, 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789');
     }
 }

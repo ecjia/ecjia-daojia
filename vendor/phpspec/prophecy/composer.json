@@ -18,6 +18,7 @@
     ],
 
     "require": {
+<<<<<<< HEAD
         "php":                               "^5.3|^7.0",
         "phpdocumentor/reflection-docblock": "^2.0|^3.0.2",
         "sebastian/comparator":              "^1.1",
@@ -32,12 +33,39 @@
     "autoload": {
         "psr-0": {
             "Prophecy\\": "src/"
+=======
+        "php":                               "^7.2 || ~8.0, <8.1",
+        "phpdocumentor/reflection-docblock": "^5.2",
+        "sebastian/comparator":              "^3.0 || ^4.0",
+        "doctrine/instantiator":             "^1.2",
+        "sebastian/recursion-context":       "^3.0 || ^4.0"
+    },
+
+    "require-dev": {
+        "phpspec/phpspec": "^6.0",
+        "phpunit/phpunit": "^8.0 || ^9.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Prophecy\\": "src/Prophecy"
+        }
+    },
+
+    "autoload-dev": {
+        "psr-4": {
+            "Fixtures\\Prophecy\\": "fixtures"
+>>>>>>> v2-test
         }
     },
 
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-master": "1.6.x-dev"
+=======
+            "dev-master": "1.11.x-dev"
+>>>>>>> v2-test
         }
     }
 }

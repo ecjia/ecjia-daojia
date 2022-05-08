@@ -8,7 +8,10 @@ use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Loader\Node\SpecificationNode;
 use PhpSpec\Loader\Suite;
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 class StatisticsCollectorSpec extends ObjectBehavior
 {

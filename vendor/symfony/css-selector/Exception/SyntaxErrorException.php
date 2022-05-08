@@ -24,39 +24,61 @@ use Symfony\Component\CssSelector\Parser\Token;
 class SyntaxErrorException extends ParseException
 {
     /**
+<<<<<<< HEAD
      * @param string $expectedValue
      * @param Token  $foundToken
      *
      * @return SyntaxErrorException
      */
     public static function unexpectedToken($expectedValue, Token $foundToken)
+=======
+     * @return self
+     */
+    public static function unexpectedToken(string $expectedValue, Token $foundToken)
+>>>>>>> v2-test
     {
         return new self(sprintf('Expected %s, but %s found.', $expectedValue, $foundToken));
     }
 
     /**
+<<<<<<< HEAD
      * @param string $pseudoElement
      * @param string $unexpectedLocation
      *
      * @return SyntaxErrorException
      */
     public static function pseudoElementFound($pseudoElement, $unexpectedLocation)
+=======
+     * @return self
+     */
+    public static function pseudoElementFound(string $pseudoElement, string $unexpectedLocation)
+>>>>>>> v2-test
     {
         return new self(sprintf('Unexpected pseudo-element "::%s" found %s.', $pseudoElement, $unexpectedLocation));
     }
 
     /**
+<<<<<<< HEAD
      * @param int $position
      *
      * @return SyntaxErrorException
      */
     public static function unclosedString($position)
+=======
+     * @return self
+     */
+    public static function unclosedString(int $position)
+>>>>>>> v2-test
     {
         return new self(sprintf('Unclosed/invalid string at %s.', $position));
     }
 
     /**
+<<<<<<< HEAD
      * @return SyntaxErrorException
+=======
+     * @return self
+>>>>>>> v2-test
      */
     public static function nestedNot()
     {
@@ -64,7 +86,11 @@ class SyntaxErrorException extends ParseException
     }
 
     /**
+<<<<<<< HEAD
      * @return SyntaxErrorException
+=======
+     * @return self
+>>>>>>> v2-test
      */
     public static function stringAsFunctionArgument()
     {

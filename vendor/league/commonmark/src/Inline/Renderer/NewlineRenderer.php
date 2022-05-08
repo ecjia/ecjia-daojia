@@ -19,7 +19,7 @@ use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Newline;
 
-class NewlineRenderer implements InlineRendererInterface
+final class NewlineRenderer implements InlineRendererInterface
 {
     /**
      * @param Newline                  $inline
@@ -30,7 +30,7 @@ class NewlineRenderer implements InlineRendererInterface
     public function render(AbstractInline $inline, ElementRendererInterface $htmlRenderer)
     {
         if (!($inline instanceof Newline)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . get_class($inline));
+            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
         if ($inline->getType() === Newline::HARDBREAK) {

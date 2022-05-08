@@ -23,22 +23,38 @@ class CommonMarkConverter extends Converter
      * The currently-installed version.
      *
      * This might be a typical `x.y.z` version, or `x.y-dev`.
+     *
+     * @deprecated in 1.5.0 and will be removed from 2.0.0.
+     *   Use \Composer\InstalledVersions provided by composer-runtime-api instead.
      */
-    const VERSION = '0.17.5';
+    public const VERSION = '1.5.7';
+
+    /** @var EnvironmentInterface */
+    protected $environment;
 
     /**
      * Create a new commonmark converter instance.
      *
-     * @param array            $config
-     * @param Environment|null $environment
+     * @param array<string, mixed>      $config
+     * @param EnvironmentInterface|null $environment
      */
-    public function __construct(array $config = [], Environment $environment = null)
+    public function __construct(array $config = [], EnvironmentInterface $environment = null)
     {
         if ($environment === null) {
             $environment = Environment::createCommonMarkEnvironment();
         }
 
-        $environment->mergeConfig($config);
+        if ($environment instanceof ConfigurableEnvironmentInterface) {
+            $environment->mergeConfig($config);
+        }
+
+        $this->environment = $environment;
+
         parent::__construct(new DocParser($environment), new HtmlRenderer($environment));
+    }
+
+    public function getEnvironment(): EnvironmentInterface
+    {
+        return $this->environment;
     }
 }

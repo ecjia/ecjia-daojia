@@ -25,9 +25,15 @@ class ResultConverter
      *
      * @param mixed $result
      *
+<<<<<<< HEAD
      * @return 0|1
      */
     public function convert($result)
+=======
+     * @return int
+     */
+    public function convert($result): int
+>>>>>>> v2-test
     {
         switch ($result) {
             case ExampleEvent::PASSED:

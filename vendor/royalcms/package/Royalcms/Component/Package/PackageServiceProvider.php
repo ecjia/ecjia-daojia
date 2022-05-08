@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php namespace Royalcms\Component\Package;
 
 use Royalcms\Component\Support\ServiceProvider;
@@ -11,6 +12,18 @@ class PackageServiceProvider extends ServiceProvider {
      */
     protected $defer = true;
     
+=======
+<?php
+
+namespace Royalcms\Component\Package;
+
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Royalcms\Component\Support\ServiceProvider;
+
+class PackageServiceProvider extends ServiceProvider implements DeferrableProvider
+{
+
+>>>>>>> v2-test
     /**
      * Register the service provider.
      *
@@ -18,12 +31,20 @@ class PackageServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+<<<<<<< HEAD
         $this->royalcms->bindShared('package', function($royalcms)
         {
             return new PackageManager($royalcms);
         });
     }
     
+=======
+        $this->royalcms->singleton('package', function ($royalcms) {
+            return new PackageManager($royalcms);
+        });
+    }
+
+>>>>>>> v2-test
     /**
      * Get the services provided by the provider.
      *
@@ -44,6 +65,7 @@ class PackageServiceProvider extends ServiceProvider {
         $dir = static::guessPackageClassPath('royalcms/package');
 
         return [
+<<<<<<< HEAD
             $dir . "/PackageServiceProvider.php",
             $dir . "/PackageManager.php",
             $dir . "/FileLoader.php",
@@ -53,6 +75,18 @@ class PackageServiceProvider extends ServiceProvider {
             $dir . "/PackageInterface.php",
             $dir . "/ApplicationPackage.php",
             $dir . "/Facades/Package.php",
+=======
+            $dir . "/Contracts/LoaderInterface.php",
+            $dir . "/Contracts/PackageInterface.php",
+            $dir . "/PackageServiceProvider.php",
+            $dir . "/PackageManager.php",
+            $dir . "/FileLoader.php",
+            $dir . "/SystemPackage.php",
+            $dir . "/Package.php",
+            $dir . "/ApplicationPackage.php",
+            $dir . "/Facades/Package.php",
+            $dir . "/Facades/Loader.php",
+>>>>>>> v2-test
         ];
     }
 }

@@ -3,7 +3,10 @@
 namespace spec\PhpSpec\CodeGenerator;
 
 use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
 use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
 use PhpSpec\Util\Filesystem;
 
@@ -91,8 +94,14 @@ class TemplateRendererSpec extends ObjectBehavior
         ))->shouldReturn('Template #2. From tpl spec.');
     }
 
+<<<<<<< HEAD
     function it_returns_null_if_template_is_not_found_in_any_registered_locations()
     {
         $this->render('some_file')->shouldReturn(null);
+=======
+    function it_returns_empty_string_if_template_is_not_found_in_any_registered_locations()
+    {
+        $this->render('some_file')->shouldReturn('');
+>>>>>>> v2-test
     }
 }

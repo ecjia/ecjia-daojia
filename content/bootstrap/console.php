@@ -3,8 +3,8 @@
 /**
  * Determine the minimum version of PHP
  */
-if (version_compare(PHP_VERSION, '5.5.9', '<')) {
-    echo 'Current PHP Version: ' . PHP_VERSION . ', Required Version: 5.5.9';
+if (version_compare(PHP_VERSION, '7.2.0', '<')) {
+    echo 'Current PHP Version: ' . PHP_VERSION . ', Required Version: 7.2.0';
     exit(1);
 }
 

@@ -27,10 +27,17 @@
 				</div>
 				
 				<div class="control-group formSep">
+					<label class="control-label">{t domain="sms"}手机区号：{/t}</label>
+					<div class="controls">
+						<input type="text" name="area_code" id="area_code" value="" class="span2" pro/>
+					</div>
+				</div>
+				
+				<div class="control-group formSep">
 					<label class="control-label">{t domain="sms"}手机号码：{/t}</label>
 					<div class="controls">
 						<input type="text" name="mobile" id="mobile" value="" class="span6" pro/>
-						<span class="input-must">*</span>
+						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				
@@ -44,7 +51,7 @@
 						<label class="control-label">{$val}：</label>
 						<div class="controls">
 							<input type="text" name="data[{$val}]" class="span6" />
-							<span class="input-must">*</span>
+							<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 						</div>
 					</div>
 				<!-- {/foreach} -->

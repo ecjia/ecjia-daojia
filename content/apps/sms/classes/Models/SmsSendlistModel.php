@@ -80,8 +80,17 @@ class SmsSendlistModel extends Model
      * @var bool
      */
     public $timestamps = false;
-    
-    
+
+    /**
+     * AttributeModel constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->connection = config('ecjia.database_connection', 'default');
+
+        parent::__construct($attributes);
+    }
     
     
 }

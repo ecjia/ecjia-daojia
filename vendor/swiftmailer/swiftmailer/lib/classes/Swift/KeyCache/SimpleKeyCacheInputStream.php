@@ -16,6 +16,7 @@
 class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCacheInputStream
 {
     /** The KeyCache being written to */
+<<<<<<< HEAD
     private $_keyCache;
 
     /** The nsKey of the KeyCache being written to */
@@ -35,16 +36,42 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     public function setKeyCache(Swift_KeyCache $keyCache)
     {
         $this->_keyCache = $keyCache;
+=======
+    private $keyCache;
+
+    /** The nsKey of the KeyCache being written to */
+    private $nsKey;
+
+    /** The itemKey of the KeyCache being written to */
+    private $itemKey;
+
+    /** A stream to write through on each write() */
+    private $writeThrough = null;
+
+    /**
+     * Set the KeyCache to wrap.
+     */
+    public function setKeyCache(Swift_KeyCache $keyCache)
+    {
+        $this->keyCache = $keyCache;
+>>>>>>> v2-test
     }
 
     /**
      * Specify a stream to write through for each write().
+<<<<<<< HEAD
      *
      * @param Swift_InputByteStream $is
      */
     public function setWriteThroughStream(Swift_InputByteStream $is)
     {
         $this->_writeThrough = $is;
+=======
+     */
+    public function setWriteThroughStream(Swift_InputByteStream $is)
+    {
+        $this->writeThrough = $is;
+>>>>>>> v2-test
     }
 
     /**
@@ -55,14 +82,24 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
      */
     public function write($bytes, Swift_InputByteStream $is = null)
     {
+<<<<<<< HEAD
         $this->_keyCache->setString(
             $this->_nsKey, $this->_itemKey, $bytes, Swift_KeyCache::MODE_APPEND
+=======
+        $this->keyCache->setString(
+            $this->nsKey, $this->itemKey, $bytes, Swift_KeyCache::MODE_APPEND
+>>>>>>> v2-test
             );
         if (isset($is)) {
             $is->write($bytes);
         }
+<<<<<<< HEAD
         if (isset($this->_writeThrough)) {
             $this->_writeThrough->write($bytes);
+=======
+        if (isset($this->writeThrough)) {
+            $this->writeThrough->write($bytes);
+>>>>>>> v2-test
         }
     }
 
@@ -93,7 +130,11 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
      */
     public function flushBuffers()
     {
+<<<<<<< HEAD
         $this->_keyCache->clearKey($this->_nsKey, $this->_itemKey);
+=======
+        $this->keyCache->clearKey($this->nsKey, $this->itemKey);
+>>>>>>> v2-test
     }
 
     /**
@@ -103,7 +144,11 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
      */
     public function setNsKey($nsKey)
     {
+<<<<<<< HEAD
         $this->_nsKey = $nsKey;
+=======
+        $this->nsKey = $nsKey;
+>>>>>>> v2-test
     }
 
     /**
@@ -113,7 +158,11 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
      */
     public function setItemKey($itemKey)
     {
+<<<<<<< HEAD
         $this->_itemKey = $itemKey;
+=======
+        $this->itemKey = $itemKey;
+>>>>>>> v2-test
     }
 
     /**
@@ -122,6 +171,10 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
      */
     public function __clone()
     {
+<<<<<<< HEAD
         $this->_writeThrough = null;
+=======
+        $this->writeThrough = null;
+>>>>>>> v2-test
     }
 }

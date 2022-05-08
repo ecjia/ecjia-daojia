@@ -16,8 +16,12 @@ class AgentServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+<<<<<<< HEAD
         $this->royalcms['agent'] = $this->royalcms->share(function ($royalcms)
         {
+=======
+        $this->royalcms->singleton('agent', function ($royalcms) {
+>>>>>>> v2-test
             return new Agent($royalcms['request']->server->all());
         });
         
@@ -30,8 +34,12 @@ class AgentServiceProvider extends ServiceProvider {
      */
     protected function loadAlias()
     {
+<<<<<<< HEAD
         $this->royalcms->booting(function()
         {
+=======
+        $this->royalcms->booting(function() {
+>>>>>>> v2-test
             $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
             $loader->alias('RC_Agent', 'Royalcms\Component\Agent\Facades\Agent');
         });

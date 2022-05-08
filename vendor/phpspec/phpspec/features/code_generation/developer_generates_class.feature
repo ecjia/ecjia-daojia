@@ -3,7 +3,11 @@ Feature: Developer generates a class
   I want to automate creating classes
   In order to avoid repetitive tasks and interruptions in development flow
 
+<<<<<<< HEAD
   @smoke @php:~5.4||~7.0
+=======
+  @smoke
+>>>>>>> v2-test
   Scenario: Generating a class
     Given I have started describing the "CodeGeneration/ClassExample1/Markdown" class
     When I run phpspec and answer "y" when asked if I want to generate the code
@@ -19,6 +23,36 @@ Feature: Developer generates a class
 
       """
 
+<<<<<<< HEAD
+=======
+  @issue1008
+  Scenario: Generating a class with a custom template
+    Given I have started describing the "CodeGeneration/CustomExample/Markdown" class
+    And I have a custom "class" template that contains:
+      """
+      <?php
+
+      /* Custom class template */%namespace_block%
+
+      final class %name%
+      {
+      }
+      """
+    When I run phpspec and answer "y" when asked if I want to generate the code
+    Then a new class should be generated in the "src/CodeGeneration/CustomExample/Markdown.php":
+      """
+      <?php
+
+      /* Custom class template */
+
+      namespace CodeGeneration\CustomExample;
+
+      final class Markdown
+      {
+      }
+      """
+
+>>>>>>> v2-test
   @issue269
   Scenario: Generating a class with psr4 prefix
     Given the config file contains:
@@ -84,7 +118,10 @@ Feature: Developer generates a class
     use CodeGeneration\MethodExample2\UserRepository;
     use CodeGeneration\MethodExample2\User;
     use PhpSpec\ObjectBehavior;
+<<<<<<< HEAD
     use Prophecy\Argument;
+=======
+>>>>>>> v2-test
 
     class ForgotPasswordSpec extends ObjectBehavior
     {
@@ -132,7 +169,11 @@ Feature: Developer generates a class
 
     """
 
+<<<<<<< HEAD
   @isolated @php:~5.4||~7.0
+=======
+  @isolated
+>>>>>>> v2-test
   Scenario: Generating a class outside of autoloadable paths gives a warning
     Given I have started describing the "CodeGeneration/ClassExample2/Markdown" class
     But I have not configured an autoloader

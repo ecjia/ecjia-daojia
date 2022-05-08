@@ -35,6 +35,7 @@ namespace Symfony\Component\Finder\Comparator;
 class NumberComparator extends Comparator
 {
     /**
+<<<<<<< HEAD
      * Constructor.
      *
      * @param string $test A comparison string
@@ -42,6 +43,13 @@ class NumberComparator extends Comparator
      * @throws \InvalidArgumentException If the test is not understood
      */
     public function __construct($test)
+=======
+     * @param string|int $test A comparison string or an integer
+     *
+     * @throws \InvalidArgumentException If the test is not understood
+     */
+    public function __construct(?string $test)
+>>>>>>> v2-test
     {
         if (!preg_match('#^\s*(==|!=|[<>]=?)?\s*([0-9\.]+)\s*([kmg]i?)?\s*$#i', $test, $matches)) {
             throw new \InvalidArgumentException(sprintf('Don\'t understand "%s" as a number test.', $test));
@@ -76,6 +84,10 @@ class NumberComparator extends Comparator
         }
 
         $this->setTarget($target);
+<<<<<<< HEAD
         $this->setOperator(isset($matches[1]) ? $matches[1] : '==');
+=======
+        $this->setOperator($matches[1] ?? '==');
+>>>>>>> v2-test
     }
 }

@@ -39,11 +39,19 @@ class ErrorException extends ExampleException
      * @param string $file    error file
      * @param string $line    error line
      */
+<<<<<<< HEAD
     public function __construct($level, $message, $file, $line)
     {
         parent::__construct(sprintf(
             '%s: %s in %s line %d',
             isset($this->levels[$level]) ? $this->levels[$level] : $level,
+=======
+    public function __construct(string $level, string $message, string $file, string $line)
+    {
+        parent::__construct(sprintf(
+            '%s: %s in %s line %d',
+            $this->levels[$level] ?? $level,
+>>>>>>> v2-test
             $message,
             $file,
             $line

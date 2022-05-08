@@ -2,9 +2,13 @@
 
 namespace spec\PhpSpec\Message;
 
+<<<<<<< HEAD
 use PhpSpec\Message\CurrentExampleTracker;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+=======
+use PhpSpec\ObjectBehavior;
+>>>>>>> v2-test
 
 class CurrentExampleTrackerSpec extends ObjectBehavior
 {

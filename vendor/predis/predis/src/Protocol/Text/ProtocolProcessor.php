@@ -90,7 +90,12 @@ class ProtocolProcessor implements ProtocolProcessorInterface
                 return $multibulk;
 
             case ':':
+<<<<<<< HEAD
                 return (int) $payload;
+=======
+                $integer = (int) $payload;
+                return $integer == $payload ? $integer : $payload;
+>>>>>>> v2-test
 
             case '-':
                 return new ErrorResponse($payload);
